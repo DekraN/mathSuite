@@ -1,8 +1,8 @@
 MathSuite
 //-----------------------------------------------------------------------------------------------------------------//
 AUTHOR: Marco Chiarelli aka DekraN aka Wesker013 (FB)								   ||
-CURRENT VERSION: v5.50												   ||
-LAST UPDATE: 18:00 16/08/2014											   ||
+CURRENT VERSION: v5.55  											   ||
+LAST UPDATE: 18:00 20/08/2014											   ||
 CONTACT ME at: marco_chiarelli@yahoo.it										   ||
 or at marcochiarelli.nextgenlab@gmail.com									   ||
 //-----------------------------------------------------------------------------------------------------------------//
