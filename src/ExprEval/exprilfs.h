@@ -232,7 +232,7 @@ case EXPR_NODEFUNC_STABFACT:
             (*val) = access(curLayout)->stabilizer_factor;
     break;
     }
-  
+
 /* msrn */
 case EXPR_NODEFUNC_MINSRNUMBER:
     {
@@ -322,7 +322,7 @@ case EXPR_NODEFUNC_MMIFACT:
             (*val) = access(curLayout)->max_memoizable_indeces[FUNCTION_FATTORIALE];
     break;
     }
-    
+
 /* mmi_esfact */
 case EXPR_NODEFUNC_MMIEVENSFACT:
     {
@@ -3708,6 +3708,23 @@ case EXPR_NODEFUNC_SFACT:
         {
         EXPR_RESET_ERR();
         *val = sfact(d1); // setting ERROR condition
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* strlng */
+case EXPR_NODEFUNC_STIRLING:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, 0, &d1);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        *val = stirling(d1); // setting ERROR condition
         EXPR_CHECK_ERR();
         }
     else
