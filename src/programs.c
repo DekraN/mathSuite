@@ -1388,6 +1388,20 @@ static const struct operations default_operazioni[MAX_OPERATIONS] =
         binary_function
     },
     {
+    	"Stirling's Approximation",
+    	"(b == 0 -> Shows Only that number, 1 -> Shows all the succession till it reaches Result)",
+        {
+            IDENTIFIER_STIRLING,
+            IDENTIFIER_ALIAS_STIRLING,
+            IDENTIFIER_ALIAS2_STIRLING,
+            IDENTIFIER_ALIAS3_STIRLING
+            
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_BOOL,
+        binary_function
+	},
+    {
         "Fibonacci Succession",
         "(b == 0 -> Shows Only that number, 1 -> Shows all the succession till it reaches Result)",
         {
@@ -1870,7 +1884,7 @@ __MSSHELL_WRAPPER_ __MSNATIVE_ void _MS__private __system __export operationsGro
         }
         while(rep_check && getch() != access(exit_char));
     }
-
+    
     CLEARBUFFER();
     PRINTL();
 
