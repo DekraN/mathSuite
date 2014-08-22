@@ -50,7 +50,7 @@
 
 
 #define DEFAULT_RANDOM_SEED (unsigned)time(NULL)
-
+ 
 #define DEFAULT_COLOR COLOR_SMARTWHITE
 
 #define DEFAULT_PRECISION 2
