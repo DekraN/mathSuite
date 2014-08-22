@@ -98,7 +98,7 @@ static const struct operations default_operazioni[MAX_OPERATIONS] =
         {
             OPERATOR_SOTTRAZIONEBINARIA,
             IDENTIFIER_SOTTRAZIONEBINARIA
-        },
+        }, 
         DOMAIN_INT,
         DOMAIN_INT,
         binary_function
