@@ -115,7 +115,7 @@
 
 /*
 Cambia il tipo predefinito di elementi delle matrici.
-ATTENZIONE: Ammessi tutti i tipi purché siano formattabili tramite conversion format,
+ATTENZIONE: Ammessi tutti i tipi purchÃ© siano formattabili tramite conversion format,
 ma le modifiche laddove le variabili del suddetto tipo vengano coinvolte in formattazioni
 per funzioni INPUT o OUTPUT, sono assolutamente richieste per il corretto funzionamento
 del programma e devono essere fatte manualmente agendo in maniera diretta
@@ -134,8 +134,6 @@ sullo script in questione
 
 #define DEFAULT_COLORS_PATH ".\\colors.INI"
 
-// #undef MIN_VAL
-// #undef MAX_VAL
 
 #define MIN_PRECISION 0
 #define MAX_PRECISION DBL_DIG
@@ -732,6 +730,7 @@ sullo script in questione
 #define OPERATOR_FIBONACCI "\""
 #define IDENTIFIER_FATTORIALE "fact"
 #define IDENTIFIER_SEMIFATTORIALE "sfact"
+#define IDENTIFIER_STIRLING "stlrng"
 #define IDENTIFIER_FIBONACCI "fibo"
 #define IDENTIFIER_ALIAS_FATTORIALE "fct"
 #define IDENTIFIER_ALIAS2_FATTORIALE "fattoriale"
@@ -739,6 +738,9 @@ sullo script in questione
 #define IDENTIFIER_ALIAS_SEMIFATTORIALE "sfct" // "!"
 #define IDENTIFIER_ALIAS2_SEMIFATTORIALE "semifatt" // "!"
 #define IDENTIFIER_ALIAS3_SEMIFATTORIALE "semifact" // "!"
+#define IDENTIFIER_ALIAS_STIRLING "stirling"
+#define IDENTIFIER_ALIAS2_STIRLING "strl"
+#define IDENTIFIER_ALIAS3_STIRLING "strlng"
 #define IDENTIFIER_ALIAS_FIBONACCI "fib"
 #define IDENTIFIER_ALIAS2_FIBONACCI "fibonacci"
 #define IDENTIFIER_PERMUTATION "perm"
