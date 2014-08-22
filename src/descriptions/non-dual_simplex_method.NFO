@@ -1,0 +1,9 @@
+You can solve a simple Non-Dual-Simplex-Method-Requiring PL problems
+with non-negative variables simply by inserting a Matrix containing
+Constraints Coefficients, and let the last raw contains the
+Functions Coefficients indeed, followed/// by an unique 0 element
+to align Matrix Dimension. Successively you have to inform the program about the
+Constraints Types, simply by inserting a n-dimensional Vector
+(following Program Instructions is relatively simple), whose i'th element has to be 0
+if the i'th constraint is in the type of '<=' condition.
+It has to be an integer different from 0 otherwise.

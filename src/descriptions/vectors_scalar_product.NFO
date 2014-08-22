@@ -1,0 +1,2 @@
+Program performs scalar product between two vectors that could be
+thought as a normal matrixes product between [1xn]*[nx1] ones

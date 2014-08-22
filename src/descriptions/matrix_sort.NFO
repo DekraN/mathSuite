@@ -1,0 +1,5 @@
+Program orders a given [n X m] matrix that could be inserted by user
+or also random generated. The default order used is the ascending one.
+BubbleSort former algorythm has been replaced in this version with the
+more efficient and powerful Quicksort one, that has a computational
+complexity of O(n*log(n)) order in any case

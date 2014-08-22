@@ -1,0 +1,141 @@
+# depslib dependency file v1.0
+1408203972 source:c:\users\marco\documents\experiments\mathsuitewip\suite2\adv_calc.c
+	"dutils.h"
+
+1408304150 c:\users\marco\documents\experiments\mathsuitewip\suite2\dutils.h
+	<stdio.h>
+	<stdlib.h>
+	<stdarg.h>
+	<math.h>
+	<time.h>
+	<string.h>
+	<ctype.h>
+	<limits.h>
+	<float.h>
+	<errno.h>
+	<conio.h>
+	<setjmp.h>
+	<windows.h>
+	<errors.h>
+	<signal.h>
+	"defaults.h"
+	"ExprEval\exprincl.h"
+	<unistd.h>
+
+1408294355 c:\users\marco\documents\experiments\mathsuitewip\suite2\defaults.h
+
+1375282541 c:\users\marco\documents\experiments\mathsuitewip\suite2\expreval\exprincl.h
+	<mem.h>
+	<memory.h>
+	<malloc.h>
+	<string.h>
+	<ctype.h>
+	<stdlib.h>
+	<math.h>
+	<time.h>
+
+1408202418 source:c:\users\marco\documents\experiments\mathsuitewip\suite2\algebra.c
+	"dutils.h"
+
+1408198315 source:c:\users\marco\documents\experiments\mathsuitewip\suite2\cols_manager.c
+	"dutils.h"
+
+1408198315 source:c:\users\marco\documents\experiments\mathsuitewip\suite2\envs_manager.c
+	"dutils.h"
+
+1156456196 source:c:\users\marco\documents\experiments\mathsuitewip\suite2\expreval\expreval.c
+	"exprincl.h"
+	"exprpriv.h"
+	<errno.h>
+	"exprilfs.h"
+
+1407863852 c:\users\marco\documents\experiments\mathsuitewip\suite2\expreval\exprpriv.h
+	<stddef.h>
+	"expreval.h"
+	"exprconf.h"
+
+1394563558 c:\users\marco\documents\experiments\mathsuitewip\suite2\expreval\expreval.h
+	"../dutils.h"
+
+1156456196 c:\users\marco\documents\experiments\mathsuitewip\suite2\expreval\exprconf.h
+
+1408201702 c:\users\marco\documents\experiments\mathsuitewip\suite2\expreval\exprilfs.h
+	"exprilfs.h"
+
+1156456196 source:c:\users\marco\documents\experiments\mathsuitewip\suite2\expreval\exprfunc.c
+	"exprincl.h"
+	"exprpriv.h"
+	"exprmem.h"
+
+1156456196 c:\users\marco\documents\experiments\mathsuitewip\suite2\expreval\exprmem.h
+	"exprpriv.h"
+
+1408201782 source:c:\users\marco\documents\experiments\mathsuitewip\suite2\expreval\exprinit.c
+	"exprincl.h"
+	"exprpriv.h"
+	"..\defaults.h"
+
+1156456196 source:c:\users\marco\documents\experiments\mathsuitewip\suite2\expreval\exprmem.c
+	"exprincl.h"
+	"exprmem.h"
+
+1370479328 source:c:\users\marco\documents\experiments\mathsuitewip\suite2\expreval\exprobj.c
+	"exprincl.h"
+	"exprpriv.h"
+	"exprmem.h"
+
+1156456196 source:c:\users\marco\documents\experiments\mathsuitewip\suite2\expreval\exprpars.c
+	"exprincl.h"
+	"exprpriv.h"
+	"exprmem.h"
+
+1156456196 source:c:\users\marco\documents\experiments\mathsuitewip\suite2\expreval\exprutil.c
+	"exprincl.h"
+	"exprpriv.h"
+
+1156456196 source:c:\users\marco\documents\experiments\mathsuitewip\suite2\expreval\exprval.c
+	"exprincl.h"
+	"exprpriv.h"
+	"exprmem.h"
+
+1408304138 source:c:\users\marco\documents\experiments\mathsuitewip\suite2\ext_math.c
+	"dutils.h"
+
+1408291710 source:c:\users\marco\documents\experiments\mathsuitewip\suite2\geometry.c
+	"dutils.h"
+
+1408198315 source:c:\users\marco\documents\experiments\mathsuitewip\suite2\layouts_manager.c
+	"dutils.h"
+
+1408201515 source:c:\users\marco\documents\experiments\mathsuitewip\suite2\lists_manager.c
+	"dutils.h"
+
+1408198315 source:c:\users\marco\documents\experiments\mathsuitewip\suite2\logs_manager.c
+	"dutils.h"
+
+1408218876 source:c:\users\marco\documents\experiments\mathsuitewip\suite2\main.c
+	"dutils.h"
+
+1408198315 source:c:\users\marco\documents\experiments\mathsuitewip\suite2\mat_manager.c
+	"dutils.h"
+
+1408198315 source:c:\users\marco\documents\experiments\mathsuitewip\suite2\mhss_manager.c
+	"dutils.h"
+
+1408198315 source:c:\users\marco\documents\experiments\mathsuitewip\suite2\msinfs_manager.c
+	"dutils.h"
+
+1408201756 source:c:\users\marco\documents\experiments\mathsuitewip\suite2\programs.c
+	"dutils.h"
+	"bcilfs.h"
+
+1408201825 c:\users\marco\documents\experiments\mathsuitewip\suite2\bcilfs.h
+
+1408201889 source:c:\users\marco\documents\experiments\mathsuitewip\suite2\settings.c
+	"dutils.h"
+
+1378070194 source:c:\users\marco\documents\experiments\mathsuitewip\suite2\suite2.rc
+
+1408198315 source:c:\users\marco\documents\experiments\mathsuitewip\suite2\syslog_manager.c
+	"dutils.h"
+

@@ -1,0 +1,5 @@
+Program offers to you a simple set of Colors Settings Management
+Operations, such as the loading of an .INI file containing
+related informations on every color type used in the program or
+creating a new .INI one starting from the existant Colors Settings
+currently loaded in the program

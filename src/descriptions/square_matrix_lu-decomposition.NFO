@@ -1,0 +1,4 @@
+Program perform a LU-Decomposition of a given square matrix, in which L
+is a new Lower-Triangular Matrix and U is a new Upper-Triangular Matrix
+If all goes ok, must be PA = LU, where P is a particular
+permutation matrix

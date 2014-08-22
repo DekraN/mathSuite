@@ -1,0 +1,3 @@
+Program will create a new .msinf startup file, by writing on its
+the filenames of all the items loaded till the moment of subprogram
+execution

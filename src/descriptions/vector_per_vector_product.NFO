@@ -1,0 +1,2 @@
+Program performs product between an [n X 1] column vector and a
+[1 x m] raw vector. The result is an [n X m] matrix
