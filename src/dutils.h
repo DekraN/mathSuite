@@ -63,7 +63,7 @@ extern "C" {
 #define _MS__private
 
 #define PROG__NAME "mathSuite"
-#define PROG__VERSION "5.70"
+#define PROG__VERSION "5.60"
 #define PROG__AUTHOR "Marco Chiarelli"
 #define PROG__LASTUPDATEDATE "23/08/2014"
 
@@ -660,10 +660,10 @@ enum
 // DEFINIZIONE MACRO SOTTO-PROGRAMMI
 //
 
-// Valore di inizializzazione del metadato modalit‡
-// della variabile strutturata suite, definita pi˘ sotto
+// Valore di inizializzazione del metadato modalit√†
+// della variabile strutturata suite, definita pi√π sotto
 #define PROGRAM_BUSY -1
-// o pi˘ semplicemente indica che l'utente Ë in fase di scelta del subprogram.
+// o pi√π semplicemente indica che l'utente √® in fase di scelta del subprogram.
 
 
 // Enumerazione ID Sotto-Programmi
@@ -1029,7 +1029,7 @@ enum
 
 
 // VALORE DI INIZIALIZZAZIONE CARATTERE DI USCITA DAL PROGRAMMA
-#define INITIALIZING_EXIT_CHAR '£'
+#define INITIALIZING_EXIT_CHAR '¬£'
 #define INITIALIZING_DEFAULT_COLOR COLOR_WHITE
 
 #define MAIN_COLOR DEFAULT_COLOR
@@ -1408,7 +1408,7 @@ enum
 
 
 /*
-Dedicati alla modalit‡ di funzionamento
+Dedicati alla modalit√† di funzionamento
 della funzione matrixToVector, per decidere
 in che senso deve essere svolta
 0 -> Normale, 1 -> Viceversa
@@ -1418,7 +1418,7 @@ in che senso deve essere svolta
 #define VECTOR_TO_MATRIX true
 
 /*
-Dedicati alla modalit‡ di stampa della matrice
+Dedicati alla modalit√† di stampa della matrice
 dell'omonima funzione. Come suggeriscono le
 stesse macro, passando 0 si stampa una matrice
 di valori in virgola mobile, altrimenti di interi.
