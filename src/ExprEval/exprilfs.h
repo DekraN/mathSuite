@@ -3970,6 +3970,158 @@ case EXPR_NODEFUNC_MEDIA:
 
     break;
     }
+    
+/* var */
+case EXPR_NODEFUNC_VARIANCE:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, 0, &d1);
+
+    if(!err)
+        {
+        ityp args[nodes->data.function.nodecount];
+        args[0] = d1;
+        for(pos = 0; ++pos < nodes->data.function.nodecount; )
+            {
+            err = exprEvalNode(obj, nodes->data.function.nodes, pos, &d2);
+            if(!err)
+                args[pos] = d2;
+            else
+                return err;
+            }
+        *val = math_variance(nodes->data.function.nodecount, args);
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* cov */
+case EXPR_NODEFUNC_COVARIANCE:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, 0, &d1);
+
+    if(!err)
+        {
+        if(nodes->data.function.nodecount%2)
+        	return(err = EXPR_ERROR_SYNTAX);
+        const register dim_typ dim = nodes->data.function.nodecount<<1;
+        ityp args[MAX_DIMENSIONS][dim];
+        args[FIRST_VECTOR][0] = d1;
+        for(pos = 0; ++pos < dim; )
+            {
+            err = exprEvalNode(obj, nodes->data.function.nodes, pos, &d2);
+            if(!err)
+                args[FIRST_VECTOR][pos] = d2;
+            else
+                return err;
+            }
+        args[SECOND_VECTOR][0] = d1;
+        for( ; ++pos < nodes->data.function.nodecount; )
+            {
+            err = exprEvalNode(obj, nodes->data.function.nodes, pos, &d2);
+            if(!err)
+                args[SECOND_VECTOR][pos-dim] = d2;
+            else
+                return err;
+            }
+        *val = math_covariance(dim, args[FIRST_VECTOR], args[SECOND_VECTOR]);
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* stddev */
+case EXPR_NODEFUNC_STDDEV:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, 0, &d1);
+
+    if(!err)
+        {
+        ityp args[nodes->data.function.nodecount];
+        args[0] = d1;
+        for(pos = 0; ++pos < nodes->data.function.nodecount; )
+            {
+            err = exprEvalNode(obj, nodes->data.function.nodes, pos, &d2);
+            if(!err)
+                args[pos] = d2;
+            else
+                return err;
+            }
+        *val = math_stddev(nodes->data.function.nodecount, args);
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* outlier */
+case EXPR_NODEFUNC_OUTLIER:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, 0, &d1);
+
+    if(!err)
+        {
+        const register dim_typ dim = nodes->data.function.nodecount-1;
+        ityp args[dim];
+        const ityp outlier_idx = d1;
+        if(dim <= outlier_idx)
+        	return(err = EXPR_ERROR_SYNTAX);
+        for(pos = 0; ++pos < nodes->data.function.nodecount; )
+            {
+            err = exprEvalNode(obj, nodes->data.function.nodes, pos, &d2);
+            if(!err)
+                args[pos-1] = d2;
+            else
+                return err;
+            }
+        *val = math_outlier(dim, outlier_idx , args);
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* outlier2 */
+case EXPR_NODEFUNC_OUTLIER2:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, 0, &d1);
+
+    if(!err)
+        {
+        const register dim_typ dim = nodes->data.function.nodecount-MAX_DIMENSIONS;
+        ityp args[dim];
+        const ityp outlier_idx = d1;
+        if(dim <= outlier_idx)
+        	return(err = EXPR_ERROR_SYNTAX);
+        if(!(err = exprEvalNode(obj, nodes->data.function.nodes, 1, &d2)))
+    		{
+
+	       	const ityp outlier_constant = d2;
+	        ityp d3 = 0.00;
+	        for(pos = 1; ++pos < nodes->data.function.nodecount; )
+	            {
+	            err = exprEvalNode(obj, nodes->data.function.nodes, pos, &d3);
+	            if(!err)
+	                args[pos-MAX_DIMENSIONS] = d3;
+	            else
+	                return err;
+	            }
+	        *val = math_outlier2(dim, outlier_idx, outlier_constant, args);
+	    	}
+	    else
+	    	return err;
+        }
+    else
+        return err;
+
+    break;
+    }
+
 
 /* geomedia */
 case EXPR_NODEFUNC_GEOMEDIA:
@@ -4077,6 +4229,31 @@ case EXPR_NODEFUNC_CVAL:
 
     break;
     }
+    
+/* q1 */
+case EXPR_NODEFUNC_FIRSTQUARTILE:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, 0, &d1);
+
+    if(!err)
+        {
+        ityp args[nodes->data.function.nodecount];
+        args[0] = d1;
+        for(pos = 0; ++pos < nodes->data.function.nodecount; )
+            {
+            err = exprEvalNode(obj, nodes->data.function.nodes, pos, &d2);
+            if(!err)
+                args[pos] = d2;
+            else
+                return err;
+            }
+        *val = math_first_quartile(nodes->data.function.nodecount, args);
+        }
+    else
+        return err;
+
+    break;
+    }
 
 /* mediana */
 case EXPR_NODEFUNC_MEDIANA:
@@ -4102,278 +4279,25 @@ case EXPR_NODEFUNC_MEDIANA:
 
     break;
     }
-
-/* celfah */
-case EXPR_NODEFUNC_CELSIUSFAHRENHEIT:
+    
+/* q3 */
+case EXPR_NODEFUNC_THIRDQUARTILE:
     {
     err = exprEvalNode(obj, nodes->data.function.nodes, 0, &d1);
 
     if(!err)
         {
-        err = exprEvalNode(obj, nodes->data.function.nodes, 0, &d2);
-        if(!err)
+        ityp args[nodes->data.function.nodecount];
+        args[0] = d1;
+        for(pos = 0; ++pos < nodes->data.function.nodecount; )
             {
-            EXPR_RESET_ERR();
-            *val = cel_fah(d1, (bool)d2);
-            EXPR_CHECK_ERR();
-            }
+            err = exprEvalNode(obj, nodes->data.function.nodes, pos, &d2);
+            if(!err)
+                args[pos] = d2;
             else
                 return err;
-        }
-    else
-        return err;
-
-    break;
-    }
-
-/* celkel */
-case EXPR_NODEFUNC_CELSIUSKELVIN:
-    {
-    err = exprEvalNode(obj, nodes->data.function.nodes, 0, &d1);
-
-    if(!err)
-        {
-        err = exprEvalNode(obj, nodes->data.function.nodes, 0, &d2);
-        if(!err)
-            {
-            EXPR_RESET_ERR();
-            *val = cel_kel(d1, (bool)d2);
-            EXPR_CHECK_ERR();
             }
-            else
-                return err;
-        }
-    else
-        return err;
-
-    break;
-    }
-
-/* celrank */
-case EXPR_NODEFUNC_CELSIUSRANKINE:
-    {
-    err = exprEvalNode(obj, nodes->data.function.nodes, 0, &d1);
-
-    if(!err)
-        {
-        err = exprEvalNode(obj, nodes->data.function.nodes, 0, &d2);
-        if(!err)
-            {
-            EXPR_RESET_ERR();
-            *val = cel_fah(d1, (bool)d2);
-            EXPR_CHECK_ERR();
-            }
-            else
-                return err;
-        }
-    else
-        return err;
-
-    break;
-    }
-
-/* celrea */
-case EXPR_NODEFUNC_CELSIUSREAUMUR:
-    {
-    err = exprEvalNode(obj, nodes->data.function.nodes, 0, &d1);
-
-    if(!err)
-        {
-        err = exprEvalNode(obj, nodes->data.function.nodes, 0, &d2);
-        if(!err)
-            {
-            EXPR_RESET_ERR();
-            *val = cel_rea(d1, (bool)d2);
-            EXPR_CHECK_ERR();
-            }
-            else
-                return err;
-        }
-    else
-        return err;
-
-    break;
-    }
-
-/* celnew */
-case EXPR_NODEFUNC_CELSIUSNEWTON:
-    {
-    err = exprEvalNode(obj, nodes->data.function.nodes, 0, &d1);
-
-    if(!err)
-        {
-        err = exprEvalNode(obj, nodes->data.function.nodes, 0, &d2);
-        if(!err)
-            {
-            EXPR_RESET_ERR();
-            *val = cel_new(d1, (bool)d2);
-            EXPR_CHECK_ERR();
-            }
-            else
-                return err;
-        }
-    else
-        return err;
-
-    break;
-    }
-
-/* celdel */
-case EXPR_NODEFUNC_CELSIUSDELISLE:
-    {
-    err = exprEvalNode(obj, nodes->data.function.nodes, 0, &d1);
-
-    if(!err)
-        {
-        err = exprEvalNode(obj, nodes->data.function.nodes, 0, &d2);
-        if(!err)
-            {
-            EXPR_RESET_ERR();
-            *val = cel_del(d1, (bool)d2);
-            EXPR_CHECK_ERR();
-            }
-            else
-                return err;
-        }
-    else
-        return err;
-
-    break;
-    }
-
-/* celrom */
-case EXPR_NODEFUNC_CELSIUSROMER:
-    {
-    err = exprEvalNode(obj, nodes->data.function.nodes, 0, &d1);
-
-    if(!err)
-        {
-        err = exprEvalNode(obj, nodes->data.function.nodes, 0, &d2);
-        if(!err)
-            {
-            EXPR_RESET_ERR();
-            *val = cel_rom(d1, (bool)d2);
-            EXPR_CHECK_ERR();
-            }
-            else
-                return err;
-        }
-    else
-        return err;
-
-    break;
-    }
-
-/* fahkel */
-case EXPR_NODEFUNC_FAHRENHEITKELVIN:
-    {
-    err = exprEvalNode(obj, nodes->data.function.nodes, 0, &d1);
-
-    if(!err)
-        {
-        err = exprEvalNode(obj, nodes->data.function.nodes, 0, &d2);
-        if(!err)
-            {
-            EXPR_RESET_ERR();
-            *val = fah_kel(d1, (bool)d2);
-            EXPR_CHECK_ERR();
-            }
-            else
-                return err;
-        }
-    else
-        return err;
-
-    break;
-    }
-
-/* fahrank */
-case EXPR_NODEFUNC_FAHRENHEITRANKINE:
-    {
-    err = exprEvalNode(obj, nodes->data.function.nodes, 0, &d1);
-
-    if(!err)
-        {
-        err = exprEvalNode(obj, nodes->data.function.nodes, 0, &d2);
-        if(!err)
-            {
-            EXPR_RESET_ERR();
-            *val = fah_rank(d1, (bool)d2);
-            EXPR_CHECK_ERR();
-            }
-            else
-                return err;
-        }
-    else
-        return err;
-
-    break;
-    }
-
-/* fahrea */
-case EXPR_NODEFUNC_FAHRENHEITREAUMUR:
-    {
-    err = exprEvalNode(obj, nodes->data.function.nodes, 0, &d1);
-
-    if(!err)
-        {
-        err = exprEvalNode(obj, nodes->data.function.nodes, 0, &d2);
-        if(!err)
-            {
-            EXPR_RESET_ERR();
-            *val = cel_rea(d1, (bool)d2);
-            EXPR_CHECK_ERR();
-            }
-            else
-                return err;
-        }
-    else
-        return err;
-
-    break;
-    }
-
-/* rearom */
-case EXPR_NODEFUNC_REAUMURRANKINE:
-    {
-    err = exprEvalNode(obj, nodes->data.function.nodes, 0, &d1);
-
-    if(!err)
-        {
-        err = exprEvalNode(obj, nodes->data.function.nodes, 0, &d2);
-        if(!err)
-            {
-            EXPR_RESET_ERR();
-            *val = rea_rank(d1, (bool)d2);
-            EXPR_CHECK_ERR();
-            }
-            else
-                return err;
-        }
-    else
-        return err;
-
-    break;
-    }
-
-//
-
-/* speed */
-case EXPR_NODEFUNC_SPEED:
-    {
-    err = exprEvalNode(obj, nodes->data.function.nodes, 0, &d1);
-
-    if(!err)
-        {
-        err = exprEvalNode(obj, nodes->data.function.nodes, 0, &d2);
-        if(!err)
-            {
-            EXPR_RESET_ERR();
-            *val = speed(d1, (bool)d2);
-            EXPR_CHECK_ERR();
-            }
-            else
-                return err;
+        *val = math_third_quartile(nodes->data.function.nodecount, args);
         }
     else
         return err;

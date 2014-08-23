@@ -1,5 +1,5 @@
 // dutils.h
-// 20/08/2014 Marco Chiarelli aka DekraN
+// 23/08/2014 Marco Chiarelli aka DekraN
 /*
 WARNING!!! This program is intended to be included
 exclusively by main.c, geometry.c, programs.c, algebra.c and settings.c project files of my suite program!
@@ -63,9 +63,9 @@ extern "C" {
 #define _MS__private
 
 #define PROG__NAME "mathSuite"
-#define PROG__VERSION "5.55"
+#define PROG__VERSION "5.70"
 #define PROG__AUTHOR "Marco Chiarelli"
-#define PROG__LASTUPDATEDATE "20/08/2014"
+#define PROG__LASTUPDATEDATE "23/08/2014"
 
 
 // INITIALIZING EXPREVAL DEFAULT CONSTANTS
@@ -319,6 +319,9 @@ enum
 //
 
 #define MAX_DSVD_ITERATIONS DEFAULT_MAX_DSVD_ITERATIONS
+
+
+#define OUTLIER_CONSTANT DEFAULT_OUTLIER_CONSTANT
 
 #define MIDDLE_ELEMENT false
 #define INITIAL_ELEMENT true
@@ -657,10 +660,10 @@ enum
 // DEFINIZIONE MACRO SOTTO-PROGRAMMI
 //
 
-// Valore di inizializzazione del metadato modalit√†
-// della variabile strutturata suite, definita pi√π sotto
+// Valore di inizializzazione del metadato modalit‡
+// della variabile strutturata suite, definita pi˘ sotto
 #define PROGRAM_BUSY -1
-// o pi√π semplicemente indica che l'utente √® in fase di scelta del subprogram.
+// o pi˘ semplicemente indica che l'utente Ë in fase di scelta del subprogram.
 
 
 // Enumerazione ID Sotto-Programmi
@@ -1026,7 +1029,7 @@ enum
 
 
 // VALORE DI INIZIALIZZAZIONE CARATTERE DI USCITA DAL PROGRAMMA
-#define INITIALIZING_EXIT_CHAR '¬£'
+#define INITIALIZING_EXIT_CHAR '£'
 #define INITIALIZING_DEFAULT_COLOR COLOR_WHITE
 
 #define MAIN_COLOR DEFAULT_COLOR
@@ -1146,23 +1149,16 @@ enum
     BASECALC_SOMMATORIA,
     BASECALC_PRODUTTORIA,
     BASECALC_MEDIA,
+    BASECALC_VARIANZA,
+    BASECALC_STDDEV,
+    BASECALC_OUTLIER,
     BASECALC_MEDIAGEOMETRICA,
     BASECALC_MEDIAARMONICA,
     BASECALC_MEDIAPOTENZA,
     BASECALC_VALORECENTRALE,
+    BASECALC_PRIMOQUARTILE,
     BASECALC_MEDIANA,
-    BASECALC_CELSIUSFAHRENHEIT,
-    BASECALC_CELSIUSKELVIN,
-    BASECALC_CELSIUSRANKINE,
-    BASECALC_CELSIUSREAUMUR,
-    BASECALC_CELSIUSNEWTON,
-    BASECALC_CELSIUSDELISLE,
-    BASECALC_CELSIUSROMER,
-    BASECALC_FAHRENHEITKELVIN,
-    BASECALC_FAHRENHEITRANKINE,
-    BASECALC_FAHRENHEITREAUMUR,
-    BASECALC_REAUMURRANKINE,
-    BASECALC_SPEED,
+    BASECALC_TERZOQUARTILE,
     BASECALC_SOMMAPRIMINNUMERI,
     BASECALC_RADICEQUADRATA,
     BASECALC_RADICECUBICA,
@@ -1412,7 +1408,7 @@ enum
 
 
 /*
-Dedicati alla modalit√† di funzionamento
+Dedicati alla modalit‡ di funzionamento
 della funzione matrixToVector, per decidere
 in che senso deve essere svolta
 0 -> Normale, 1 -> Viceversa
@@ -1422,7 +1418,7 @@ in che senso deve essere svolta
 #define VECTOR_TO_MATRIX true
 
 /*
-Dedicati alla modalit√† di stampa della matrice
+Dedicati alla modalit‡ di stampa della matrice
 dell'omonima funzione. Come suggeriscono le
 stesse macro, passando 0 si stampa una matrice
 di valori in virgola mobile, altrimenti di interi.
@@ -1497,6 +1493,9 @@ enum
 #define MAX_DIMENSIONS 2
 #define MAX_ABSTRACT_DIMENSIONS 3
 
+#define SUMMATION_SUM false
+#define SUMMATION_SUB true
+
 
 // used for CURVEs FITTING or INTERPOLATIONS SubPrograms...
 //
@@ -1507,10 +1506,20 @@ enum
 #define FIRST_NUMBER XRAW
 #define SECOND_NUMBER YRAW
 
+#define FIRST_VECTOR XRAW
+#define SECOND_VECTOR YRAW
+
+#define FIRST_QUARTILE XRAW
+#define THIRD_QUARTILE YRAW
+
+#define FIRST_QUARTILE_CONSTANT 0.25
+#define SECOND_QUARTILE_CONSTANT 0.50
+#define THIRD_QUARTILE_CONSTANT 0.75
+
 // COMPLEX Numbers MACROS...
 //
-#define REAL_PART 0
-#define IMAG_PART 1
+#define REAL_PART XRAW
+#define IMAG_PART YRAW
 //
 #define MAX_COMPLEX_UNITS MAX_DIMENSIONS
 
@@ -2062,11 +2071,18 @@ __MSNATIVE_ ityp __export fnnsum(register ityp);
 __MSNATIVE_ ityp __export summation(uint64_t dim, bool, ityp [static dim]);
 __MSNATIVE_ ityp __export productory(uint64_t dim, bool, ityp [static dim]);
 __MSNATIVE_ ityp __export math_media(uint64_t dim, ityp[static dim]);
+__MSNATIVE_ ityp __export math_variance(uint64_t dim, ityp [static dim]);
+__MSNATIVE_ ityp __export math_covariance(uint64_t dim, ityp [static dim], ityp [static dim]);
+__MSNATIVE_ ityp __export math_stddev(uint64_t dim, ityp [static dim]);
+__MSNATIVE_ bool __export math_outlier(uint64_t dim, uint64_t, ityp [static dim]);
+__MSNATIVE_ bool __export math_outlier2(uint64_t dim, uint64_t, float, ityp vector[static dim]);
 __MSNATIVE_ ityp __export math_geomedia(uint64_t dim, ityp[static dim]);
 __MSNATIVE_ ityp __export math_armedia(uint64_t dim, ityp [static dim]);
 __MSNATIVE_ ityp __export math_powmedia(uint64_t dim, uint64_t, ityp [static dim]);
 __MSNATIVE_ ityp __export math_scale(uint64_t dim, ityp [static dim]);
+__MSNATIVE_ ityp __export math_first_quartile(uint64_t dim, ityp [static dim]);
 __MSNATIVE_ ityp __export math_mediana(uint64_t dim, ityp [static dim]);
+__MSNATIVE_ ityp __export math_third_quartile(uint64_t dim, ityp [static dim]);
 __MSUTIL_ int64_t __system __export changeBase(register int, sel_typ, sel_typ);
 __MSUTIL_ uint64_t __export math_MCD(register uint64_t, register uint64_t);
 __MSUTIL_ uint64_t __export math_mcm(register uint64_t, register uint64_t);
@@ -2080,18 +2096,6 @@ __MSNATIVE_ ityp __export log10c(register ityp);
 __MSNATIVE_ ityp __export log2c(register ityp);
 __MSNATIVE_ ityp __export log1pc(register ityp);
 __MSUTIL_ ityp __export rootnX(register ityp, register ityp);
-__MSNATIVE_ ityp __export cel_fah(register ityp, bool);
-__MSNATIVE_ ityp __export cel_kel(register ityp, bool);
-__MSNATIVE_ ityp __export cel_rank(register ityp, bool);
-__MSNATIVE_ ityp __export cel_rea(register ityp, bool);
-__MSNATIVE_ ityp __export cel_new(register ityp, bool);
-__MSNATIVE_ ityp __export cel_del(register ityp, bool);
-__MSNATIVE_ ityp __export cel_rom(register ityp, bool);
-__MSNATIVE_ ityp __export fah_kel(register ityp, bool);
-__MSNATIVE_ ityp __export fah_rank(register ityp, bool);
-__MSNATIVE_ ityp __export fah_rea(register ityp, bool);
-__MSNATIVE_ ityp __export rea_rank(register ityp, bool);
-__MSNATIVE_ ityp __export speed(register ityp, bool);
 __MSNATIVE_ ityp __export deg(register ityp);
 __MSNATIVE_ ityp __export rad(register ityp);
 __MSNATIVE_ ityp __export csc(register ityp);

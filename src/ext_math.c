@@ -1,6 +1,6 @@
 // ext_math.h
 // as External Math Library
-// 20/08/2014 Marco Chiarelli aka DekraN
+// 23/08/2014 Marco Chiarelli aka DekraN
 /*
 WARNING!!! This program is intended to be included
 exclusively by main.c, geometry.c, programs.c, algebra.c and settings.c project files of my suite program!
@@ -1779,9 +1779,9 @@ __MSNATIVE_ inline ityp __system __export N_prime_Number(register ityp n)
 __MSNATIVE_ inline ityp __export fibnc(register ityp n)
 {
     ityp i, c;
-
-    for(c=i=0.00; i<n; ++i)
-        c *= fibo(i);
+        
+	for(c=i=0.00; i<n; ++i)
+		c *= fibo(i);
 
     return c;
 }
@@ -2051,6 +2051,7 @@ __MSNATIVE_ inline ityp __export gasum(register uint64_t a, register uint64_t ex
 {
     ityp c = 0.00;
 
+	#pragma omp parallel for
     for(uint64_t i=0; i<a; ++i)
         c += (1/(mpow2(i+1, exponent)));
 
@@ -2069,6 +2070,7 @@ __MSNATIVE_ inline ityp __export fsum(register ityp a)
     ityp c = 0.00;
     const uint64_t num = (uint64_t) a;
 
+	#pragma omp parallel for
     for(uint64_t i=0; i<num; ++i)
         c += fibo(i);
 
@@ -2081,6 +2083,7 @@ __MSNATIVE_ inline ityp __export fasum(register ityp a)
     ityp c = 0.00;
     const uint64_t num = (uint64_t) a;
 
+	#pragma omp parallel for
     for(uint64_t i=0; i<num; ++i)
         c += fact(i);
 
@@ -2093,6 +2096,7 @@ __MSNATIVE_ inline ityp __export sfasum(register ityp a)
     ityp c = 0.00;
     const uint64_t num = (uint64_t) a;
 
+	#pragma omp parallel for
     for(uint64_t i=0; i<num; ++i)
         c += sfact(i);
 
@@ -2103,7 +2107,7 @@ __MSNATIVE_ inline ityp __export sfasum(register ityp a)
 __MSNATIVE_ inline ityp __export fnnsum(register ityp a)
 {
     const uint64_t num = (uint64_t) a;
-    return ((num*(num+1))/2);
+    return ((num*(num+1))*0.5);
 }
 
 
@@ -2111,9 +2115,11 @@ __MSNATIVE_ inline ityp __export fnnsum(register ityp a)
 __MSNATIVE_ inline ityp __export summation(uint64_t dim, bool mode, ityp vector[static dim])
 {
     ityp res = 0.00;
+    const register sel_typ mode_binder = 1-(mode<<1);
 
+	#pragma omp parallel for
     for(uint64_t i=0; i<dim; ++i)
-        res += (vector[i])*(mode?(-1):(1));
+        res += (vector[i])*mode_binder;
 
     return res;
 }
@@ -2122,16 +2128,73 @@ __MSNATIVE_ inline ityp __export summation(uint64_t dim, bool mode, ityp vector[
 __MSNATIVE_ inline ityp __export productory(uint64_t dim, bool mode, ityp vector[static dim])
 {
     ityp res = 0.00;
+    const register sel_typ mode_binder = 1-(mode<<1);
 
+	#pragma omp parallel for
     for(uint64_t i=0; i<dim; ++i)
-        res *= pow(vector[i], (mode?(-1):(1)));
+        res *= pow(vector[i], mode_binder);
 
     return res;
 }
 
 __MSNATIVE_ inline ityp __export math_media(uint64_t dim, ityp vector[static dim])
 {
-    return (summation(dim, false, vector)/dim);
+    return (summation(dim, SUMMATION_SUM, vector)/dim);
+}
+
+__MSNATIVE_ inline ityp __export math_variance(uint64_t dim, ityp vector[static dim])
+{
+	const register ityp media = math_media(dim, vector);
+	ityp register res = 0.00;
+	
+	#pragma omp parallel for
+	for(uint64_t i=0; i<dim; ++i)
+		res += exp2(vector[i] - media);
+		
+	return res/dim;
+}
+
+__MSNATIVE_ inline ityp __export math_covariance(uint64_t dim, ityp vector1[static dim], ityp vector2[static dim])
+{
+	const register ityp media[MAX_DIMENSIONS] =
+	{
+		math_media(dim, vector1),
+		math_media(dim, vector2)
+	};
+	
+	ityp register res = 0.00;
+	
+	#pragma omp parallel for
+	for(uint64_t i=0; i<dim; ++i)
+		res += (vector1[i]-media[FIRST_NUMBER])*(vector2[i]-media[SECOND_NUMBER]);
+		
+	return res/dim;
+}
+
+__MSNATIVE_ inline ityp __export math_stddev(uint64_t dim, ityp vector[static dim])
+{
+	const register ityp media = math_media(dim, vector);
+	ityp register res = 0.00;
+	
+	#pragma omp parallel for
+	for(uint64_t i=0; i<dim; ++i)
+		res += exp2(vector[i] - media);
+		
+	return sqrt(res/dim);
+}
+
+__MSNATIVE_ inline bool __export math_outlier(uint64_t dim, uint64_t outlier_idx, ityp vector[static dim])
+{
+	return math_outlier2(dim, outlier_idx, OUTLIER_CONSTANT, vector);
+}
+
+__MSNATIVE_ bool __export math_outlier2(uint64_t dim, uint64_t outlier_idx, float outlier_constant, ityp vector[static dim])
+{
+	qsort(vector, dim, sizeof(ityp), cmpfunc);
+	const register ityp Q1 = ((dim%2) ? vector[(uint64_t)((dim-3)*FIRST_QUARTILE_CONSTANT)] : ((vector[(uint64_t)((dim-4)*FIRST_QUARTILE_CONSTANT)]+vector[(uint64_t)(dim*FIRST_QUARTILE_CONSTANT)])*0.5));
+	const register ityp Q3 = ((dim%2) ? vector[(uint64_t)(((dim+1)*THIRD_QUARTILE_CONSTANT)-1)] : ((vector[(uint64_t)((dim*THIRD_QUARTILE_CONSTANT)-1)]+vector[(uint64_t)(dim*THIRD_QUARTILE_CONSTANT)])*0.5));
+	const register ityp deviation = (Q3-Q1)*outlier_constant;
+	return(vector[outlier_idx] < Q1-deviation || vector[outlier_idx] > Q3+deviation);
 }
 
 __MSNATIVE_ inline ityp __export math_geomedia(uint64_t dim, ityp vector[static dim])
@@ -2145,7 +2208,7 @@ __MSNATIVE_ inline ityp __export math_armedia(uint64_t dim, ityp vector[static d
     for(uint64_t i=0; i<dim; ++i)
         vector[i] = (1/vector[i]);
 
-    return (dim/(summation(dim, false, vector)));
+    return (dim/(summation(dim, SUMMATION_SUM, vector)));
 
 }
 
@@ -2155,24 +2218,30 @@ __MSNATIVE_ inline ityp __export math_powmedia(uint64_t dim, uint64_t power, ity
     for(uint64_t i=0; i<dim; ++i)
         vector[i] = mpow2(vector[i], power);
 
-    return (pow(summation(dim, false, vector), (1/power)));
+    return (pow(summation(dim, SUMMATION_SUM, vector), (1/power)));
 }
 
 __MSNATIVE_ inline ityp __export math_scale(uint64_t dim, ityp vector[static dim])
 {
-    return ((MIN(dim, vector)+MAX(dim, vector))/2.00);
+    return ((MIN(dim, vector)+MAX(dim, vector))*0.5);
+}
+
+__MSNATIVE_ inline ityp __export math_first_quartile(uint64_t dim, ityp vector[static dim])
+{
+    qsort(vector, dim, sizeof(ityp), cmpfunc);
+    return ((dim%2) ? vector[(uint64_t)((dim-3)*FIRST_QUARTILE_CONSTANT)] : ((vector[(uint64_t)((dim-4)*FIRST_QUARTILE_CONSTANT)]+vector[(uint64_t)(dim*FIRST_QUARTILE_CONSTANT)])*0.5));
 }
 
 __MSNATIVE_ inline ityp __export math_mediana(uint64_t dim, ityp vector[static dim])
 {
     qsort(vector, dim, sizeof(ityp), cmpfunc);
-    /// QuickSort(vector, 0, dim-1, false);
-    const int dim2[MAX_DIMENSIONS] =
-    {
-        dim*0.5,
-        (dim+1)*0.5
-    };
-    return ((dim%2) ? ((vector[dim2[0]]+vector[dim2[1]])*0.5) : vector[dim2[0]]);
+    return ((dim%2) ? vector[(uint64_t)((dim-1)*SECOND_QUARTILE_CONSTANT)] : ((vector[(uint64_t)((dim-2)*SECOND_QUARTILE_CONSTANT)]+vector[(uint64_t)(dim*SECOND_QUARTILE_CONSTANT)])*0.5));
+}
+
+__MSNATIVE_ inline ityp __export math_third_quartile(uint64_t dim, ityp vector[static dim])
+{
+    qsort(vector, dim, sizeof(ityp), cmpfunc);
+    return ((dim%2) ? vector[(uint64_t)(((dim+1)*THIRD_QUARTILE_CONSTANT)-1)] : ((vector[(uint64_t)((dim*THIRD_QUARTILE_CONSTANT)-1)]+vector[(uint64_t)(dim*THIRD_QUARTILE_CONSTANT)])*0.5));
 }
 
 __MSUTIL_ inline int64_t _MS__private __export powi(register int64_t x, register int64_t y) // calculates x^y
@@ -2274,84 +2343,6 @@ __MSNATIVE_ inline ityp __export log1pc(register ityp n)
 __MSUTIL_ inline ityp __export rootnX(register ityp n, register ityp X)
 {
     return(pow(X, 1/n));
-}
-
-// TEMPERATURE GRADES CONVERSIONS Functions DEFINITIONS
-// if mode is TRUE then the CONVERSION is DIRECT, elsewhere it is INDIRECT
-
-// Celsius to Fahrehneit
-__MSNATIVE_ inline ityp __export cel_fah(register ityp grad, bool mode)
-{
-    return mode ? (1.80 * grad) + 32.00 : (0.5555555556 * (grad - 32.00));
-}
-
-// Celsius to Kelvin
-__MSNATIVE_ inline ityp __export cel_kel(register ityp grad, bool mode)
-{
-    return grad + 273.15*(1.00-(MAX_DIMENSIONS*mode));
-}
-
-// Celsius to Rankine
-__MSNATIVE_ inline ityp __export cel_rank(register ityp grad, bool mode)
-{
-    return mode ? ((grad * 1.80) + 32.00 + 459.67) : ((grad - 32.00 - 459.67)/1.80);
-}
-
-// Celsius to Réaumur
-__MSNATIVE_ inline ityp __export cel_rea(register ityp grad, bool mode)
-{
-    return (mode ? (grad * 0.80) : (grad * 1.25));
-}
-
-// Celsius to Newton
-__MSNATIVE_ inline ityp __export cel_new(register ityp grad, bool mode)
-{
-    return (mode ? (grad * (33/100)) : (grad * (100/33)));
-}
-
-// Celsius to Delisle
-__MSNATIVE_ inline ityp __export cel_del(register ityp grad, bool mode)
-{
-    return (mode ? ((100 - grad) * 1.50) : (100 - grad * 1.50));
-}
-
-// Celsius to Rømer
-__MSNATIVE_ inline ityp __export cel_rom(register ityp grad, bool mode)
-{
-    return (mode ?  (grad * 0.52500 + 7.50) : ((grad - 7.50) * 1.9047619047619047619047619047619));
-}
-
-// Fahrenheit to Kelvin
-__MSNATIVE_ inline ityp __export fah_kel(register ityp grad, bool mode)
-{
-    return (mode ?  ((grad + 459.67) / 1.80) : (grad * 1.80 - 459.67));
-}
-
-// Fahrenheit to Rankine
-__MSNATIVE_ inline ityp __export fah_rank(register ityp grad, bool mode)
-{
-    return (grad + (459.67*(-1+MAX_DIMENSIONS*mode)));
-}
-
-// Fahrenheit to Réaumur
-__MSNATIVE_ inline ityp __export fah_rea(register ityp grad, bool mode)
-{
-    return (mode ? ((grad - 32) / 2.25) :  (grad * 2.25 + 32));
-}
-
-// Réaumur to Rankine
-__MSNATIVE_ inline ityp __export rea_rank(register ityp grad, bool mode)
-{
-     return (mode ? (grad * 2.25 + 491.67) : ((grad - 491.67)/2.25));
-}
-//
-
-
-// It converts "INTERNATIONAL EUROPEAN" (m/s) speed measures system
-// into (km/h) measures system
-__MSNATIVE_ inline ityp __export speed(register ityp value, bool mode)
-{
-    return (value * (mpow2(3.60, 1.00-(MAX_DIMENSIONS*mode))));
 }
 
 

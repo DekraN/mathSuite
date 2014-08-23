@@ -50,7 +50,7 @@
 
 
 #define DEFAULT_RANDOM_SEED (unsigned)time(NULL)
- 
+
 #define DEFAULT_COLOR COLOR_SMARTWHITE
 
 #define DEFAULT_PRECISION 2
@@ -74,6 +74,7 @@
 #define DEFAULT_MAX_EVEN_SFATTORIALE_MEMOIZABLE_INDEX DEFAULT_MAX_SFATTORIALE_MEMOIZABLE_INDEX
 #define DEFAULT_MAX_ODD_SFATTORIALE_MEMOIZABLE_INDEX DEFAULT_MAX_EVEN_SFATTORIALE_MEMOIZABLE_INDEX-1
 
+#define DEFAULT_OUTLIER_CONSTANT 1.5
 
 #define DEFAULT_MIN_STIRLINGREQUIRES_NUMBER DEFAULT_MAX_FATTORIALE_MEMOIZABLE_INDEX
 
@@ -115,7 +116,7 @@
 
 /*
 Cambia il tipo predefinito di elementi delle matrici.
-ATTENZIONE: Ammessi tutti i tipi purchÃ© siano formattabili tramite conversion format,
+ATTENZIONE: Ammessi tutti i tipi purché siano formattabili tramite conversion format,
 ma le modifiche laddove le variabili del suddetto tipo vengano coinvolte in formattazioni
 per funzioni INPUT o OUTPUT, sono assolutamente richieste per il corretto funzionamento
 del programma e devono essere fatte manualmente agendo in maniera diretta
@@ -161,6 +162,7 @@ sullo script in questione
 
 #define ALLOW_PRECEDIT
 #define ALLOW_STABFACTEDIT
+#define ALLOW_OUTLIERCONSTEDIT
 #define ALLOW_MINSRNUMBEREDIT
 #define ALLOW_ALGEBRAEDIT
 #define ALLOW_BOOLVARSEDIT
@@ -705,23 +707,34 @@ sullo script in questione
 #define IDENTIFIER_SOMMATORIA "sum"
 #define IDENTIFIER_PRODUTTORIA "product"
 #define IDENTIFIER_MEDIA "media"
+#define IDENTIFIER_ALIAS_MEDIA "expectation"
+#define IDENTIFIER_ALIAS2_MEDIA "expvalue"
+#define IDENTIFIER_ALIAS3_MEDIA "expval"
+#define IDENTIFIER_VARIANCE "var"
+#define IDENTIFIER_ALIAS_VARIANCE "variance"
+#define IDENTIFIER_COVARIANCE "cov"
+#define IDENTIFIER_ALIAS_COVARIANCE "covariance"
+#define IDENTIFIER_ALIAS2_COVARIANCE "covar"
+#define IDENTIFIER_STDDEV "stddev"
+#define IDENTIFIER_ALIAS_STDDEV "devstd"
+#define IDENTIFIER_ALIAS2_STDDEV "sqrtvar"
+#define IDENTIFIER_OUTLIER "outlier"
+#define IDENTIFIER_ALIAS_OUTLIER "otlr"
+#define IDENTIFIER_ALIAS2_OUTLIER "outl"
+#define IDENTIFIER_OUTLIER2 "otlr2"
 #define IDENTIFIER_MEDIAGEOMETRICA "geomedia"
 #define IDENTIFIER_MEDIAARMONICA "armedia"
 #define IDENTIFIER_MEDIAPOTENZA "powmedia"
 #define IDENTIFIER_VALORECENTRALE "cval"
+#define IDENTIFIER_FIRSTQUARTILE "q1"
+#define IDENTIFIER_ALIAS_FIRSTQUARTILE "fq"
+#define IDENTIFIER_ALIAS2_FIRSTQUARTILE "fqrt"
 #define IDENTIFIER_MEDIANA "mediana"
-#define IDENTIFIER_CELSIUSFAHRENHEIT "celfah"
-#define IDENTIFIER_CELSIUSKELVIN "celkel"
-#define IDENTIFIER_CELSIUSRANKINE "celrank"
-#define IDENTIFIER_CELSIUSREAUMUR "celrea"
-#define IDENTIFIER_CELSIUSNEWTON "celnew"
-#define IDENTIFIER_CELSIUSDELISLE "celdel"
-#define IDENTIFIER_CELSIUSROMER "celrom"
-#define IDENTIFIER_FAHRENHEITKELVIN "fahkel"
-#define IDENTIFIER_FAHRENHEITRANKINE "fahrank"
-#define IDENTIFIER_FAHRENHEITREAUMUR "fahrea"
-#define IDENTIFIER_REAUMURRANKINE "rearank"
-#define IDENTIFIER_SPEED "speed"
+#define IDENTIFIER_ALIAS_MEDIANA "q2"
+#define IDENTIFIER_ALIAS2_MEDIANA "sq"
+#define IDENTIFIER_THIRDQUARTILE "q3"
+#define IDENTIFIER_ALIAS_THIRDQUARTILE "tq"
+#define IDENTIFIER_ALIAS2_THIRDQUARTILE "tqrt"
 #define IDENTIFIER_SOMMAPRIMINNUMERI "fnnsum"
 #define IDENTIFIER_RADICEQUADRATA "sqrt"
 #define IDENTIFIER_RADICECUBICA "cbrt"

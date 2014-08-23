@@ -1,4 +1,4 @@
-// programs.c 20/08/2014 Marco Chiarelli aka DekraN
+// programs.c 23/08/2014 Marco Chiarelli aka DekraN
 /*
 WARNING!!! This program is intended to be used, so linked at the compilation,
 exclusively with main.c of my suite program! I do not assume any responsibilities
@@ -98,7 +98,7 @@ static const struct operations default_operazioni[MAX_OPERATIONS] =
         {
             OPERATOR_SOTTRAZIONEBINARIA,
             IDENTIFIER_SOTTRAZIONEBINARIA
-        }, 
+        },
         DOMAIN_INT,
         DOMAIN_INT,
         binary_function
@@ -1131,7 +1131,7 @@ static const struct operations default_operazioni[MAX_OPERATIONS] =
     },
     {
         "Summation",
-        "(a != 0 -> Increasing Sum, 0 -> Reset Sum)",
+        "(a != 0 -> Increase Sum, 0 -> Reset Sum)",
         {
             IDENTIFIER_SOMMATORIA
         },
@@ -1141,7 +1141,7 @@ static const struct operations default_operazioni[MAX_OPERATIONS] =
     },
     {
         "Productory",
-        "(a != 0 -> Increasing Sum, 0 -> Reset Sum)",
+        "(a != 0 -> Increase Sum, 0 -> Reset Sum)",
         {
             IDENTIFIER_PRODUTTORIA
         },
@@ -1151,13 +1151,51 @@ static const struct operations default_operazioni[MAX_OPERATIONS] =
     },
     {
         "Media",
-        "(b == 1 -> Increasing Media, 0 -> Stop Media)",
+        "(b == 1 -> Enter another Element, 0 -> Stop Entering)",
         {
-            IDENTIFIER_MEDIA
+            IDENTIFIER_MEDIA,
+            IDENTIFIER_ALIAS_MEDIA,
+            IDENTIFIER_ALIAS2_MEDIA,
+            IDENTIFIER_ALIAS3_MEDIA
         },
         DOMAIN_DEFAULT,
         DOMAIN_BOOL,
         binary_function
+    },
+    {
+    	"Variance",
+    	"(b == 1 -> Enter another Element, 0 -> Stop Entering)",
+    	{
+    		IDENTIFIER_VARIANCE,
+    		IDENTIFIER_ALIAS_VARIANCE
+    	},
+    	DOMAIN_DEFAULT,
+    	DOMAIN_BOOL,
+    	binary_function
+    },
+    {
+    	"Standard Deviation",
+    	"(b == 1 -> Enter another Element, 0 -> Stop Entering)",
+    	{
+    		IDENTIFIER_STDDEV,
+    		IDENTIFIER_ALIAS_STDDEV,
+    		IDENTIFIER_ALIAS2_STDDEV
+    	},
+    	DOMAIN_DEFAULT,
+    	DOMAIN_BOOL,
+    	binary_function
+    },
+    {
+    	"Outlier Test",
+    	"(b = Outlier Index, Enter different value to Stop Entering)",
+    	{
+    		IDENTIFIER_OUTLIER,
+    		IDENTIFIER_ALIAS_OUTLIER,
+    		IDENTIFIER_ALIAS2_OUTLIER
+    	},
+    	DOMAIN_DEFAULT,
+    	DOMAIN_LLONG,
+    	binary_function
     },
     {
         "Geometric Media",
@@ -1200,134 +1238,40 @@ static const struct operations default_operazioni[MAX_OPERATIONS] =
         unary_function
     },
     {
+    	"First Quartile",
+    	"(a != 0 -> Enter another Element, 0 -> Stop Entering)",
+    	{
+    		IDENTIFIER_FIRSTQUARTILE,
+    		IDENTIFIER_ALIAS_FIRSTQUARTILE,
+    		IDENTIFIER_ALIAS2_FIRSTQUARTILE
+    	},
+    	DOMAIN_DEFAULT,
+    	DOMAIN_BOOL,
+    	unary_function
+    },
+    {
         "Median",
-        "(a != 0 -> Increasing Media, 0 -> Stop Media)",
+        "(a != 0 -> Entering another Element, 0 -> Stop Entering)",
         {
-            IDENTIFIER_MEDIANA
+            IDENTIFIER_MEDIANA,
+            IDENTIFIER_ALIAS_MEDIANA,
+            IDENTIFIER_ALIAS2_MEDIANA
         },
         DOMAIN_DEFAULT,
         DOMAIN_NULL,
         unary_function
     },
     {
-        "Celsius - Fahrenheit",
-        "(b == 0 -> Direct Conversion, 1 -> Indirect Conversion)",
-        {
-            IDENTIFIER_CELSIUSFAHRENHEIT
-        },
-        DOMAIN_DEFAULT,
-        DOMAIN_BOOL,
-        binary_function
-    },
-    {
-        "Celsius - Kelvin",
-        "(b == 0 -> Direct Conversion, 1 -> Indirect Conversion)",
-        {
-            IDENTIFIER_CELSIUSKELVIN
-        },
-        DOMAIN_DEFAULT,
-        DOMAIN_BOOL,
-        binary_function
-    },
-    {
-        "Celsius - Rankine",
-        "(b == 0 -> Direct Conversion, 1 -> Indirect Conversion)",
-        {
-            IDENTIFIER_CELSIUSRANKINE
-        },
-        DOMAIN_DEFAULT,
-        DOMAIN_BOOL,
-        binary_function
-    },
-    {
-        "Celsius - Reaumur",
-        "(b == 0 -> Direct Conversion, 1 -> Indirect Conversion)",
-        {
-            IDENTIFIER_CELSIUSREAUMUR
-        },
-        DOMAIN_DEFAULT,
-        DOMAIN_BOOL,
-        binary_function
-    },
-    {
-        "Celsius - Newton",
-        "(b == 0 -> Direct Conversion, 1 -> Indirect Conversion)",
-        {
-            IDENTIFIER_CELSIUSNEWTON
-        },
-        DOMAIN_DEFAULT,
-        DOMAIN_BOOL,
-        binary_function
-    },
-    {
-        "Celsius - Delisle",
-        "(b == 0 -> Direct Conversion, 1 -> Indirect Conversion)",
-        {
-            IDENTIFIER_CELSIUSDELISLE
-        },
-        DOMAIN_DEFAULT,
-        DOMAIN_BOOL,
-        binary_function
-    },
-    {
-        "Celsius - Romer",
-        "(b == 0 -> Direct Conversion, 1 -> Indirect Conversion)",
-        {
-            IDENTIFIER_CELSIUSROMER
-        },
-        DOMAIN_DEFAULT,
-        DOMAIN_BOOL,
-        binary_function
-    },
-    {
-        "Fahrenheit - Kelvin",
-        "(b == 0 -> Direct Conversion, 1 -> Indirect Conversion)",
-        {
-            IDENTIFIER_FAHRENHEITKELVIN
-        },
-        DOMAIN_DEFAULT,
-        DOMAIN_BOOL,
-        binary_function
-    },
-    {
-        "Fahrenheit - Rankine",
-        "(b == 0 -> Direct Conversion, 1 -> Indirect Conversion)",
-        {
-            IDENTIFIER_FAHRENHEITRANKINE
-        },
-        DOMAIN_DEFAULT,
-        DOMAIN_BOOL,
-        binary_function
-    },
-    {
-        "Fahrenheit - Reaumur",
-        "(b == 0 -> Direct Conversion, 1 -> Indirect Conversion)",
-        {
-            IDENTIFIER_FAHRENHEITREAUMUR
-        },
-        DOMAIN_DEFAULT,
-        DOMAIN_BOOL,
-        binary_function
-    },
-    {
-        "Reaumur - Rankine",
-        "(b == 0 -> Direct Conversion, 1 -> Indirect Conversion)",
-        {
-            IDENTIFIER_REAUMURRANKINE
-        },
-        DOMAIN_DEFAULT,
-        DOMAIN_BOOL,
-        binary_function
-    },
-    {
-        "Speed Unit Conversion",
-        "(b == 0 -> Direct Conversion, 1 -> Indirect Conversion)",
-        {
-            IDENTIFIER_SPEED
-        },
-        DOMAIN_DEFAULT,
-        DOMAIN_BOOL,
-        binary_function
+    	"Third Quartile",
+    	"(a != 0 -> Enter another Element, 0 -> Stop Entering)",
+    	{
+    		IDENTIFIER_THIRDQUARTILE,
+    		IDENTIFIER_ALIAS_THIRDQUARTILE,
+    		IDENTIFIER_ALIAS2_THIRDQUARTILE
+    	},
+    	DOMAIN_DEFAULT,
+    	DOMAIN_NULL,
+    	unary_function
     },
     {
         "First N Number Sum",

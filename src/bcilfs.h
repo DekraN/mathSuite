@@ -1336,6 +1336,132 @@ case BASECALC_MEDIA:
     break;
 }
 
+case BASECALC_VARIANZA:
+{
+    static ityp *vector = NULL;
+    static uint64_t accumulate = 0;
+
+    if(b)
+    {
+
+        #if WINOS
+            SetExitButtonState(DISABLED);
+        #endif // WINOS
+
+        if(!(accumulate))
+            vector = malloc(sizeof(ityp)*(lazy_exec ? 1 : access(curLayout)->stabilizer_factor));
+        else if(lazy_exec)
+            vector = realloc(vector, sizeof(ityp)*(accumulate+1));
+        else if(!((accumulate+1) % access(curLayout)->stabilizer_factor))
+            vector = realloc(vector, sizeof(ityp)*(accumulate+access(curLayout)->stabilizer_factor));
+
+        errMem(vector, VSPACE);
+        vector[accumulate++] = a;
+        viewInsertedValue;
+    }
+
+    c = math_variance(accumulate, vector);
+    free(vector);
+    vector = NULL;
+    accumulate = 0;
+
+    #if WINOS
+        SetExitButtonState(ENABLED);
+    #endif // WINOS
+
+    break;
+}
+
+case BASECALC_STDDEV:
+{
+    static ityp *vector = NULL;
+    static uint64_t accumulate = 0;
+
+    if(b)
+    {
+
+        #if WINOS
+            SetExitButtonState(DISABLED);
+        #endif // WINOS
+
+        if(!(accumulate))
+            vector = malloc(sizeof(ityp)*(lazy_exec ? 1 : access(curLayout)->stabilizer_factor));
+        else if(lazy_exec)
+            vector = realloc(vector, sizeof(ityp)*(accumulate+1));
+        else if(!((accumulate+1) % access(curLayout)->stabilizer_factor))
+            vector = realloc(vector, sizeof(ityp)*(accumulate+access(curLayout)->stabilizer_factor));
+
+        errMem(vector, VSPACE);
+        vector[accumulate++] = a;
+        viewInsertedValue;
+    }
+
+    c = math_stddev(accumulate, vector);
+    free(vector);
+    vector = NULL;
+    accumulate = 0;
+
+    #if WINOS
+        SetExitButtonState(ENABLED);
+    #endif // WINOS
+
+    break;
+}
+
+case BASECALC_OUTLIER:
+{
+    static ityp *vector = NULL;
+    static uint64_t accumulate = 0;
+    static int64_t outlier_idx = -1;
+
+    if(b == outlier_idx || !accumulate)
+    {
+
+        #if WINOS
+            SetExitButtonState(DISABLED);
+        #endif // WINOS
+        
+        if(!accumulate)
+        	outlier_idx = b;
+
+        if(!(accumulate))
+            vector = malloc(sizeof(ityp)*(lazy_exec ? 1 : access(curLayout)->stabilizer_factor));
+        else if(lazy_exec)
+            vector = realloc(vector, sizeof(ityp)*(accumulate+1));
+        else if(!((accumulate+1) % access(curLayout)->stabilizer_factor))
+            vector = realloc(vector, sizeof(ityp)*(accumulate+access(curLayout)->stabilizer_factor));
+
+        errMem(vector, VSPACE);
+        
+        vector[accumulate++] = a;
+        viewInsertedValue;
+    }
+    
+    if(accumulate <= outlier_idx)
+    {
+    	printErr(33, "You haven't entered at least %llu elements!", outlier_idx);
+    	return;
+    }
+        
+    PRINT2N();
+    printf2(COLOR_USER, OUTPUT_CONVERSION_FORMAT, vector[outlier_idx]);
+    printf2(COLOR_USER, " is%s an OUTLIER for the Entered Vector.", math_outlier(accumulate, outlier_idx, vector) ? NULL_CHAR : "n't");
+    PRINTN();
+    
+    free(vector);
+    vector = NULL;
+
+    outlier_idx = -1,
+    accumulate = 0;
+
+    #if WINOS
+        SetExitButtonState(ENABLED);
+    #endif // WINOS
+
+    return;
+}
+
+
 case BASECALC_MEDIAGEOMETRICA:
 {
     static ityp media = 0;
@@ -1426,18 +1552,9 @@ case BASECALC_VALORECENTRALE:
         viewInsertedValue;
     }
 
-
-
-    ityp vector2[accumulate];
-    uint64_t i;
-    for(i=0; i<accumulate; ++i)
-        vector2[i] = vector[i];
-
+    c = math_scale(accumulate, vector);
     free(vector);
     vector = NULL;
-
-
-    c = math_scale(accumulate, vector2);
     accumulate = 0;
 
     #if WINOS
@@ -1445,6 +1562,44 @@ case BASECALC_VALORECENTRALE:
     #endif // WINOS
 
     break;
+}
+
+case BASECALC_PRIMOQUARTILE:
+{
+
+    static ityp *vector;
+    static uint64_t accumulate = 0;
+
+    if(a)
+    {
+
+        #if WINOS
+            SetExitButtonState(DISABLED);
+        #endif // WINOS
+
+        if(!(accumulate))
+            vector = malloc(sizeof(ityp)*(lazy_exec ? 1 : access(curLayout)->stabilizer_factor));
+        else if(lazy_exec)
+            vector = realloc(vector, sizeof(ityp)*(accumulate+1));
+        else if(!((accumulate+1) % access(curLayout)->stabilizer_factor))
+            vector = realloc(vector, sizeof(ityp)*(accumulate+access(curLayout)->stabilizer_factor));
+
+        errMem(vector, VSPACE);
+        vector[accumulate++] = a;
+        viewInsertedValue;
+    }
+
+    c = math_first_quartile(accumulate, vector);
+    accumulate = 0;
+    free(vector);
+    vector = NULL;
+
+    #if WINOS
+        SetExitButtonState(ENABLED);
+    #endif // WINOS
+
+    break;
+
 }
 
 case BASECALC_MEDIANA:
@@ -1485,53 +1640,43 @@ case BASECALC_MEDIANA:
 
 }
 
-case BASECALC_CELSIUSFAHRENHEIT:
-    c = cel_fah(a, (bool)b);
+case BASECALC_TERZOQUARTILE:
+{
+
+    static ityp *vector;
+    static uint64_t accumulate = 0;
+
+    if(a)
+    {
+
+        #if WINOS
+            SetExitButtonState(DISABLED);
+        #endif // WINOS
+
+        if(!(accumulate))
+            vector = malloc(sizeof(ityp)*(lazy_exec ? 1 : access(curLayout)->stabilizer_factor));
+        else if(lazy_exec)
+            vector = realloc(vector, sizeof(ityp)*(accumulate+1));
+        else if(!((accumulate+1) % access(curLayout)->stabilizer_factor))
+            vector = realloc(vector, sizeof(ityp)*(accumulate+access(curLayout)->stabilizer_factor));
+
+        errMem(vector, VSPACE);
+        vector[accumulate++] = a;
+        viewInsertedValue;
+    }
+
+    c = math_third_quartile(accumulate, vector);
+    accumulate = 0;
+    free(vector);
+    vector = NULL;
+
+    #if WINOS
+        SetExitButtonState(ENABLED);
+    #endif // WINOS
+
     break;
 
-case BASECALC_CELSIUSKELVIN:
-    c = cel_kel(a, (bool)b);
-    break;
-
-case BASECALC_CELSIUSRANKINE:
-    c = cel_rank(a, (bool)b);
-    break;
-
-case BASECALC_CELSIUSREAUMUR:
-    c = cel_rea(a, (bool)b);
-    break;
-
-case BASECALC_CELSIUSNEWTON:
-    c = cel_new(a, (bool)b);
-    break;
-
-case BASECALC_CELSIUSDELISLE:
-    c = cel_del(a, (bool)b);
-    break;
-
-case BASECALC_CELSIUSROMER:
-    c = cel_rom(a, (bool)b);
-    break;
-
-case BASECALC_FAHRENHEITKELVIN:
-    c = fah_kel(a, (bool)b);
-    break;
-
-case BASECALC_FAHRENHEITRANKINE:
-    c = fah_rank(a, (bool)b);
-    break;
-
-case BASECALC_FAHRENHEITREAUMUR:
-    c = fah_rea(a, (bool)b);
-    break;
-
-case BASECALC_REAUMURRANKINE:
-    c = rea_rank(a, (bool)b);
-    break;
-
-case BASECALC_SPEED:
-    c = speed(a, (bool)b);
-    break;
+}
 
 case BASECALC_SOMMAPRIMINNUMERI:
     if(a < 0)
@@ -1816,4 +1961,3 @@ case BASECALC_INFORMAZIONI:
     printOpersIdentifiers();
     return;
 }
-

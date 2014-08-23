@@ -1,8 +1,8 @@
 MathSuite
 //-----------------------------------------------------------------------------------------------------------------//
 AUTHOR: Marco Chiarelli aka DekraN aka Wesker013 (FB)								   ||
-CURRENT VERSION: v5.55  											   ||
-LAST UPDATE: 18:00 20/08/2014											   ||
+CURRENT VERSION: v5.60  											   ||
+LAST UPDATE: 18:00 23/08/2014											   ||
 CONTACT ME at: marco_chiarelli@yahoo.it										   ||
 or at marcochiarelli.nextgenlab@gmail.com									   ||
 //-----------------------------------------------------------------------------------------------------------------//
@@ -372,6 +372,15 @@ or at marcochiarelli.nextgenlab@gmail.com									   ||
 /// containing toupper(getch()) in its body, with the more powerful and secure selectListItem(...) function. 	  ///
 /// This change has been applied to: "Change Algebra", "Empty Memoizers Buffers" and "Empty Buffers" subPrograms. ///
 ///                                         Code totally Optimized.                                               ///
+///                                     CHANGELOG v5.60 (23/08/2014)                                              ///
+///   Fixed some minor bugs and Code totally optimized. Introduced some statistic functions, such as: Variance,   ///
+/// Covariance, Standard Deviation, Outlier Test, First Quartile, Third Quartile, respectively with these 	  ///
+/// identifiers: var, cov, stddev, otlr, otlr2, q1, q3. Fixed a bug in the Mediana Function, which wasn't 	  ///
+///doing correctly its job, because an inverted test of a compact boolean expression. Parallelized some code areas///
+///	Optimized some iterations structures in the Base Calculator, precisely in the Statistic V.A.R.		  ///
+/// (Vector-Accumulating-Requires) Functions, like media, etc... Removed all the Temperature Conversions Functions///
+/// and also the Speed Conversion Function, because even If they're pretty smart and useful function, they're also///
+///					too specific for a Math Related program.				  ///
 ///    This is not a Final Built or Official Release, but (UPDATE) probably this could be the last release I write///
 ///              in C. A future release could be directly mathSMART Mobile Math Environment.                      ///
 ///                     You can contact me at: marco_chiarelli@yahoo.it or on the secundary mail:                 ///
