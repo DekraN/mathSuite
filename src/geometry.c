@@ -1,8 +1,8 @@
-// geometry.c 20/08/2014 Marco Chiarelli aka DekraN
+// geometry.c 29/08/2014 Marco Chiarelli aka DekraN
 /*
 WARNING!!! This program is intended to be used, so linked at the compilation,
 exclusively with main.c of my suite program! I do not assume any responsibilities
-about the use with any other code-scripts.
+about the use with any other code-scripts.xm
 */
 
 #include "dutils.h" // DA RENDERE VISIBILE SIA AL COMPILATORE CHE AL LINKER
@@ -38,6 +38,25 @@ __MSNATIVE_ void strundsc(const char *string, char name[])
     strcpy(name, fname);
     free(fname);
     return;
+}
+
+__MSNATIVE_ void strboolize(const char *string, char name[])
+{
+	char str[INFO_STRING] = NULL_CHAR;
+	strcpy(str, string);
+	char *fname = strtok(str, BLANK_STRING);
+	fname[0] = tolower(fname[0]);
+	// strcpy(name, fname);
+	dim_typ i=0;
+	do
+	{
+		if(i++)
+			fname[0] = toupper(fname[0]);
+		strcat(name, fname);
+	}
+	while((fname=strtok(NULL,BLANK_STRING)));
+	fname = NULL;
+	return;
 }
 
 __MSNATIVE_ inline void strfnm(const char *string, char file_name[static MAX_PATH_LENGTH])
@@ -925,11 +944,11 @@ __MSNATIVE_ void __system fprintf2(FILE *fp, const char *format, ...)
     char str[MAX_BUFSIZ];
     vsprintf(str, format, ap);
 
-    #if WINOS
-        const bool cond = fp == stdout;
-        if(cond)
-            SetColor(COLOR_USER);
-    #endif
+	#if WINOS
+	    const bool cond = fp == stdout;
+	    if(cond)
+	        SetColor(COLOR_USER);
+	#endif
 
     fprintf(fp, str);
 
@@ -960,9 +979,9 @@ __MSNATIVE_ void __system printf2(const sel_typ col, const char *format, ...)
     static sel_typ col_cache = MAX_COLORS;
     const bool cond = getItemsListNo(LOGS) != STARTING_LOGSNO;
 
-    #if WINOS
-        SetColor(col);
-    #endif
+	#if WINOS
+   		SetColor(col);	
+   	#endif
     vsprintf(str, format, ap);
     if(col != col_cache)
         prependTimeToString(str, cond);
@@ -1434,9 +1453,9 @@ __MSSHELL_WRAPPER_ __MSNATIVE_ const sprog * const __system searchProgram(const 
         if(!strcmp(cmdname, cols_manager[i].cmdname))
             return &cols_manager[i];
 
-    for(i=0; i<MAX_MSINFSMANAGER_PROGS; ++i)
-        if(!strcmp(cmdname, msinfs_manager[i].cmdname))
-            return &msinfs_manager[i];
+    for(i=0; i<MAX_LFSMANAGER_PROGS; ++i)
+        if(!strcmp(cmdname, lfs_manager[i].cmdname))
+            return &lfs_manager[i];
 
     return NULL;
 
@@ -1475,7 +1494,7 @@ __MSNATIVE_ void __system prepareToExit(void)
 	flushAllMemoizersBuffers();
 	
     #if WINOS
-        _backupColINI();
+        _backupColFile();
     #endif
 
     if(isSett(BOOLS_ITEMSAUTOSAVING))
@@ -1496,10 +1515,10 @@ __MSNATIVE_ inline void __system safeExit(const volatile int exval)
 
 __MSNATIVE_ void __system _handleCmdLine(const register sel_typ argc, char ** argv)
 {
-    // catch _MHSS_CMD exception
-    if(!strcmp(argv[0], _MHSS_CMD))
+    // catch _MSS_CMD exception
+    if(!strcmp(argv[0], _MSS_CMD))
     {
-        access(mhss) = true;
+        access(mss) = true;
         printf2(COLOR_USER, "\nScripting Mode has been enabled.\n\n");
         return;
     }
@@ -1556,11 +1575,11 @@ __MSNATIVE_ bool __system _execScriptFiles(const char path[static MAX_PATH_LENGT
             if(str[len] == '\n')
                 str[len] = '\0';
 
-            if(access(mhss))
+            if(access(mss))
             {
-                char mhss_apnt[MAX_FILE_LINES+SIGN_STRING];
-                sprintf(mhss_apnt, CMD_BASECALC" %s", str);
-                strcpy(str, mhss_apnt);
+                char mss_apnt[MAX_FILE_LINES+SIGN_STRING];
+                sprintf(mss_apnt, CMD_BASECALC" %s", str);
+                strcpy(str, mss_apnt);
             }
 
             if(!str[0])
@@ -1580,7 +1599,7 @@ __MSNATIVE_ bool __system _execScriptFiles(const char path[static MAX_PATH_LENGT
     return false;
 }
 
-__MSNATIVE_ bool __system _msinfLoader(const char path[static MAX_PATH_LENGTH])
+__MSNATIVE_ bool __system _lfLoader(const char path[static MAX_PATH_LENGTH])
 {
     FILE *fp = NULL;
 
@@ -1597,7 +1616,7 @@ __MSNATIVE_ bool __system _msinfLoader(const char path[static MAX_PATH_LENGTH])
                 str[len] = '\0';
 
             if((mode = checkItemTypeByExtension(strrchr(str, '.')+1)) != MAX_LISTS)
-                listInsertProc(str, mode);
+				listInsertProc(str, mode);
         }
 
         fclose(fp);
@@ -1607,7 +1626,7 @@ __MSNATIVE_ bool __system _msinfLoader(const char path[static MAX_PATH_LENGTH])
     return false;
 }
 
-__MSNATIVE_ bool __system _msinfCreate(const char path[static MAX_PATH_LENGTH])
+__MSNATIVE_ bool __system _lfCreate(const char path[static MAX_PATH_LENGTH])
 {
     FILE *fp;
 
@@ -1629,50 +1648,300 @@ __MSNATIVE_ bool __system _msinfCreate(const char path[static MAX_PATH_LENGTH])
     return true;
 }
 
+__MSUTIL_ static inline void ftoa(char *string, const float value, const fsel_typ prec)
+{
+	sprintf(string, "%.*f", prec, value);
+	return;
+}
+#ifdef XMLCALL
+
+	__MSUTIL_ XMLCALL inline xmlDoc * __system __export xmlInit(const char file_name[static XML_FILENAMES_LENGTH], xmlXPathContext ** xpathCtx)
+	{
+		xmlInitParser();
+		LIBXML_TEST_VERSION;
+		xmlDoc * doc = xmlParseFile( file_name );
+		(*xpathCtx) = xmlXPathNewContext( doc );
+		return doc;
+	}
+	
+	__MSUTIL_ XMLCALL inline void __system __export xmlExit(const char file_name[static XML_FILENAMES_LENGTH], xmlDoc ** doc, xmlXPathObject ** xpathObj, xmlXPathContext ** xpathCtx)
+	{
+		xmlSaveFileEnc(file_name, (*doc), XML_ENCODING);
+		xmlFreeDoc((*doc));
+    	xmlCleanupParser();
+    	(*doc) = (xmlDoc*) NULL;
+    	(*xpathObj) = (xmlXPathObject*) NULL;
+    	(*xpathCtx) = (xmlXPathContext*) NULL;
+    	return;
+	}
+	
+	__MSUTIL_ XMLCALL inline void __system __export xmlWriteInt(xmlXPathObject ** xpathObj, xmlXPathContext * xpathCtx, const char * nodeAddress, const int value)
+	{
+		(*xpathObj) = xmlXPathEvalExpression( BAD_CAST nodeAddress, xpathCtx );
+		xmlNode * node = (*xpathObj)->nodesetval->nodeTab[0];
+		char tmp[SIGN_STRING] = NULL_CHAR;
+		itoa(value, tmp, sizeof(tmp));
+		xmlNodeSetContent(node, BAD_CAST tmp);
+		xmlXPathFreeObject((*xpathObj));
+		return;
+	}
+	
+	__MSUTIL_ XMLCALL inline void __system __export xmlWriteBool(xmlXPathObject ** xpathObj, xmlXPathContext * xpathCtx, const char * nodeAddress, const bool value)
+	{
+		(*xpathObj) = xmlXPathEvalExpression( BAD_CAST nodeAddress, xpathCtx );
+		xmlNode * node = (*xpathObj)->nodesetval->nodeTab[0];
+		xmlNodeSetContent(node, BAD_CAST suite_c.bools_identifiers[value]);
+		xmlXPathFreeObject((*xpathObj));
+		return;
+	}
+	
+	__MSUTIL_ XMLCALL inline void __system __export xmlWriteFloat(xmlXPathObject ** xpathObj, xmlXPathContext * xpathCtx, const char * nodeAddress, const float value)
+	{
+		(*xpathObj) = xmlXPathEvalExpression( BAD_CAST nodeAddress, xpathCtx );
+		xmlNode * node = (*xpathObj)->nodesetval->nodeTab[0];
+		char tmp[SIGN_STRING] = NULL_CHAR;
+		ftoa(tmp, value, DEFAULT_PRECISION);
+		xmlNodeSetContent(node, BAD_CAST tmp);
+		xmlXPathFreeObject((*xpathObj));
+		return;
+	}
+	
+	__MSUTIL_ XMLCALL inline void __system __export xmlWriteString(xmlXPathObject ** xpathObj, xmlXPathContext * xpathCtx, const char * nodeAddress, const char string[static MAX_XML_FIELDSTRINGS])
+	{
+		(*xpathObj) = xmlXPathEvalExpression( BAD_CAST nodeAddress, xpathCtx );
+		xmlNode * node = (*xpathObj)->nodesetval->nodeTab[0];
+		xmlNodeSetContent(node, BAD_CAST string);
+		xmlXPathFreeObject((*xpathObj));
+		return;
+	}
+	
+	__MSUTIL_ XMLCALL inline int __system __export xmlGetInt(xmlXPathObject ** xpathObj, xmlXPathContext * xpathCtx, const char * nodeAddress)
+	{
+		(*xpathObj) = xmlXPathEvalExpression( BAD_CAST nodeAddress, xpathCtx );
+		xmlNode * node = (*xpathObj)->nodesetval->nodeTab[0];
+		xmlXPathFreeObject((*xpathObj));
+		return atoi(xmlNodeGetContent(node));
+	}
+	
+	__MSUTIL_ XMLCALL inline bool __system __export xmlGetBool(xmlXPathObject ** xpathObj, xmlXPathContext * xpathCtx, const char * nodeAddress)
+	{
+		(*xpathObj) = xmlXPathEvalExpression( BAD_CAST nodeAddress, xpathCtx );
+		xmlNode * node = (*xpathObj)->nodesetval->nodeTab[0];
+		xmlXPathFreeObject((*xpathObj));
+		return strcmp(xmlNodeGetContent(node), suite_c.bools_identifiers[false]);
+	}
+	
+	__MSUTIL_ XMLCALL inline float __system __export xmlGetFloat(xmlXPathObject ** xpathObj, xmlXPathContext * xpathCtx, const char * nodeAddress)
+	{
+		(*xpathObj) = xmlXPathEvalExpression( BAD_CAST nodeAddress, xpathCtx );
+		xmlNode * node = (*xpathObj)->nodesetval->nodeTab[0];
+		xmlXPathFreeObject((*xpathObj));
+		return atof(xmlNodeGetContent(node));
+	}
+	
+	__MSUTIL_ XMLCALL inline void __system __export xmlGetString(xmlXPathObject ** xpathObj, xmlXPathContext * xpathCtx, const char * nodeAddress, char string[static MAX_XML_FIELDSTRINGS])
+	{
+		(*xpathObj) = xmlXPathEvalExpression( BAD_CAST nodeAddress, xpathCtx );
+		xmlNode * node = (*xpathObj)->nodesetval->nodeTab[0];
+		strcpy(string, xmlNodeGetContent(node));
+		xmlXPathFreeObject((*xpathObj));
+		return;
+	}
+	
+	__MSNATIVE_ XMLCALL void __system getProgramSettings(dim_typ which_layout)
+	{
+		dim_typ i;
+	    nodelist * const tmp = listNo(which_layout, LAYOUTS);
+	    layoutObj * const cur_layout = (layoutObj *)(tmp->data);
+	    
+	    xmlXPathContext * xpathCtx = (xmlXPathContext*) NULL;
+		xmlXPathObject * xpathObj = (xmlXPathObject*) NULL;
+		xmlDoc * doc = xmlInit(tmp->path, &xpathCtx);
+		char ex_char[MAX_XML_FIELDSTRINGS];
+		sprintf(ex_char, "%c", cur_layout->exit_char);
+		xmlWriteString(&xpathObj, xpathCtx, "/settings/generalSettings/exitChar", ex_char);
+		
+		xmlWriteInt(&xpathObj, xpathCtx, "/settings/generalSettings/programPrecision", cur_layout->precision);
+		xmlWriteInt(&xpathObj, xpathCtx, "/settings/generalSettings/stabilizerFactor", cur_layout->stabilizer_factor);
+		xmlWriteInt(&xpathObj, xpathCtx, "/settings/generalSettings/minStirlingRequiresNumber", cur_layout->min_stirlingrequires_number);
+		xmlWriteInt(&xpathObj, xpathCtx, "/settings/generalSettings/algebra", cur_layout->algebra);
+		xmlWriteFloat(&xpathObj, xpathCtx, "/settings/generalSettings/outlierConstant", cur_layout->outlier_constant);
+	
+		xmlWriteInt(&xpathObj, xpathCtx, "/settings/matricesOptions/maxRaws", cur_layout->matrix_max_raws);
+		xmlWriteInt(&xpathObj, xpathCtx, "/settings/matricesOptions/maxColumns", cur_layout->matrix_max_columns);
+		xmlWriteInt(&xpathObj, xpathCtx, "/settings/matricesOptions/maxDSVDIterations", cur_layout->max_dsvd_iterations);
+		xmlWriteInt(&xpathObj, xpathCtx, "/settings/matricesOptions/maxSimplexIterations", cur_layout->max_simplex_iterations);
+	
+	
+		#pragma omp parallel for num_threads(MAX_MEMOIZABLE_FUNCTIONS)
+		for(i=0; i<MAX_MEMOIZABLE_FUNCTIONS; ++i)
+		{
+			char str[2*INFO_STRING] = NULL_CHAR;
+			char strboolized[INFO_STRING] = NULL_CHAR;
+			strboolize(suite_c.memoizers_names[i], strboolized);
+			strboolized[0] = toupper(strboolized[0]);
+			sprintf(str, "/settings/memoizerOptions/max%sMemoizableIndex", strboolized);
+			xmlWriteInt(&xpathObj, xpathCtx, str, cur_layout->max_memoizable_indeces[i]);
+		}
+		
+		xmlWriteInt(&xpathObj, xpathCtx, "/settings/baseConversions/minBase", cur_layout->basecalc_minbase);
+		xmlWriteInt(&xpathObj, xpathCtx, "/settings/baseConversions/maxBase", cur_layout->basecalc_maxbase);
+		xmlWriteInt(&xpathObj, xpathCtx, "/settings/baseConversions/maxChangebaseBinaryConvnum", cur_layout->max_changebase_binary_convnum);
+	
+		xmlWriteInt(&xpathObj, xpathCtx, "/settings/newtonDifferenceTables/minDimension", cur_layout->min_newton_difftables_dim);
+		xmlWriteInt(&xpathObj, xpathCtx, "/settings/newtonDifferenceTables/maxDimension", cur_layout->max_newton_difftables_dim);
+	
+	    xmlWriteInt(&xpathObj, xpathCtx, "/settings/romanNumbers/minProcessableNumber", cur_layout->min_roman_number);
+	    xmlWriteInt(&xpathObj, xpathCtx, "/settings/romanNumbers/maxProcessableNumber", cur_layout->max_roman_number);
+	    
+	    xmlWriteInt(&xpathObj, xpathCtx, "/settings/pascalsTriangle/minRaws", cur_layout->pascal_triangle_min_raws);
+	    xmlWriteInt(&xpathObj, xpathCtx, "/settings/pascalsTriangle/maxRaws", cur_layout->pascal_triangle_max_raws);
+	    
+	    /// write some stuffs...
+	
+		#pragma omp parallel for
+	    for(i=0; i<MAX_BOOL_SETTINGS; ++i)
+	    {   
+	    	char name[4*MIN_STRING] = NULL_CHAR;
+			char strboolized[2*MIN_STRING] = NULL_CHAR;
+			strboolize(suite_c.bools_names[i], strboolized);
+	    	sprintf(name, "/settings/booleanKeys/%s", strboolized);
+	        xmlWriteBool(&xpathObj, xpathCtx, name, (cur_layout->bools & suite_c.bools[i].bmask) == suite_c.bools[i].bmask);
+	    }
+	    
+	    xmlExit(tmp->path, &doc, &xpathObj, &xpathCtx);
+	    return;
+	}
+	
+	__MSNATIVE_ XMLCALL void __system resetProgramSettings(layoutObj * const tmp, const char path[static MAX_PATH_LENGTH])
+	{
+		dim_typ i;
+		xmlXPathContext * xpathCtx = (xmlXPathContext*) NULL;
+	    xmlXPathObject * xpathObj = (xmlXPathObject*) NULL;
+	    xmlDoc * doc = xmlInit(path, &xpathCtx);
+	
+		char ex_char[1];
+		xmlGetString(&xpathObj, xpathCtx, "/settings/generalSettings/exitChar", ex_char);
+		tmp->exit_char = ex_char[0];
+		tmp->precision = xmlGetInt(&xpathObj, xpathCtx, "/settings/generalSettings/programPrecision");
+		tmp->stabilizer_factor = xmlGetInt(&xpathObj, xpathCtx, "/settings/generalSettings/stabilizerFactor");
+		tmp->min_stirlingrequires_number = xmlGetInt(&xpathObj, xpathCtx, "/settings/generalSettings/minStirlingRequiresNumber");
+		tmp->algebra = xmlGetInt(&xpathObj, xpathCtx, "/settings/generalSettings/algebra");
+		tmp->outlier_constant = xmlGetFloat(&xpathObj, xpathCtx, "/settings/generalSettings/outlierConstant");
+			
+		tmp->matrix_max_raws = xmlGetInt(&xpathObj, xpathCtx, "/settings/matricesOptions/maxRaws");
+		tmp->matrix_max_columns = xmlGetInt(&xpathObj, xpathCtx, "/settings/matricesOptions/maxColumns");
+		tmp->max_dsvd_iterations = xmlGetInt(&xpathObj, xpathCtx, "/settings/matricesOptions/maxDSVDIterations");
+		tmp->max_simplex_iterations = xmlGetInt(&xpathObj, xpathCtx, "/settings/matricesOptions/maxSimplexIterations");
+	
+		
+		#pragma omp parallel for num_threads(MAX_MEMOIZABLE_FUNCTIONS)
+		for(i=0; i<MAX_MEMOIZABLE_FUNCTIONS; ++i)
+		{
+			char str[2*INFO_STRING] = NULL_CHAR;
+			char strboolized[INFO_STRING] = NULL_CHAR;
+			strboolize(suite_c.memoizers_names[i], strboolized);
+			strboolized[0] = toupper(strboolized[0]);
+			sprintf(str, "/settings/memoizerOptions/max%sMemoizableIndex", strboolized);
+			tmp->max_memoizable_indeces[i] = xmlGetInt(&xpathObj, xpathCtx, str);
+		}
+	
+	
+		tmp->basecalc_minbase = xmlGetInt(&xpathObj, xpathCtx, "/settings/baseConversions/minBase");
+		tmp->basecalc_maxbase = xmlGetInt(&xpathObj, xpathCtx, "/settings/baseConversions/maxBase");
+		tmp->max_changebase_binary_convnum = xmlGetInt(&xpathObj, xpathCtx, "/settings/baseConversions/maxChangebaseBinaryConvnum");
+		
+		tmp->min_newton_difftables_dim = xmlGetInt(&xpathObj, xpathCtx, "/settings/newtonDifferenceTables/minDimension");
+		tmp->max_newton_difftables_dim = xmlGetInt(&xpathObj, xpathCtx, "/settings/newtonDifferenceTables/maxDimension");
+		
+		tmp->min_roman_number = xmlGetInt(&xpathObj, xpathCtx, "/settings/romanNumbers/minProcessableNumber");
+		tmp->max_roman_number = xmlGetInt(&xpathObj, xpathCtx, "/settings/romanNumbers/maxProcessableNumber");
+		
+		tmp->pascal_triangle_min_raws = xmlGetInt(&xpathObj, xpathCtx, "/settings/pascalsTriangle/minRaws");
+		tmp->pascal_triangle_max_raws = xmlGetInt(&xpathObj, xpathCtx, "/settings/pascalsTriangle/maxRaws");
+		
+		/// printf("\n\nMAX PASCALTRIANGLE RAWS: %hu\n\n", tmp->pascal_triangle_max_raws);
+	
+	    volatile bool tmp_bool = false;
+		
+		#pragma omp parallel for
+	    for(i=0; i<MAX_BOOL_SETTINGS; ++i)
+	    {
+			char name[4*MIN_STRING] = NULL_CHAR;
+			char strboolized[2*MIN_STRING] = NULL_CHAR;
+	        strboolize(suite_c.bools_names[i], strboolized);
+	        sprintf(name, "/settings/booleanKeys/%s", strboolized);
+	        tmp_bool = xmlGetBool(&xpathObj, xpathCtx, name);
+	        if(tmp_bool)
+	            tmp->bools |= suite_c.bools[i].bmask;
+	    }
+	    
+	    xmlExit(path, &doc, &xpathObj, &xpathCtx);
+	
+	    return;
+	}
+	
+	
+#endif
+
+
 #if WINOS
 
-    __MSUTIL_ __WINCALL void __system __export SetColor(const sel_typ ForgC)
-    {
-        const HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
-        CONSOLE_SCREEN_BUFFER_INFO csbi;
-
-        if(GetConsoleScreenBufferInfo(hStdOut, &csbi))
-            SetConsoleTextAttribute(hStdOut, (csbi.wAttributes & 0xF0) + (ForgC & 0x0F));
-
-        return;
-    }
+	#ifdef XMLCALL
+		__MSNATIVE_ XMLCALL void __system _colFileLoader(const char path[static MAX_PATH_LENGTH])
+	    {
+	        static bool once_executed = false;
+	
+	        if(once_executed)
+			{
+				if(isSett(BOOLS_ITEMSAUTOSAVING))
+	            	_backupColFile();
+			}
+			else
+	        	once_executed = true;
+	        
+	        xmlXPathContext * xpathCtx = (xmlXPathContext*) NULL;
+	        xmlXPathObject * xpathObj = (xmlXPathObject*) NULL;
+	        xmlDoc * doc = xmlInit(access(colors_path), &xpathCtx);
+			        
+	        COLOR_DEFAULT = xmlGetInt(&xpathObj, xpathCtx, "/colors/defaultColor");
+	        COLOR_ERROR = xmlGetInt(&xpathObj, xpathCtx, "/colors/errorsColor");
+	        COLOR_CREDITS = xmlGetInt(&xpathObj, xpathCtx, "/colors/creditsColor");
+	        COLOR_USER = xmlGetInt(&xpathObj, xpathCtx, "/colors/userColor");
+	        COLOR_SYSTEM = xmlGetInt(&xpathObj, xpathCtx, "/colors/systemColor");
+	        COLOR_AUTHOR = xmlGetInt(&xpathObj, xpathCtx, "/colors/authorColor");
+	        
+			xmlExit(access(colors_path), &doc, &xpathObj, &xpathCtx);
+	        return;
+	    }
+	    
+	    __MSNATIVE_ XMLCALL void __system _backupColFile(void)
+		{
+			xmlXPathContext * xpathCtx = (xmlXPathContext*) NULL;
+			xmlXPathObject * xpathObj = (xmlXPathObject*) NULL;
+			xmlDoc * doc = xmlInit(access(colors_path), &xpathCtx);
+			
+			xmlWriteInt(&xpathObj, xpathCtx, "/colors/defaultColor", COLOR_DEFAULT);
+			xmlWriteInt(&xpathObj, xpathCtx, "/colors/errorsColor", COLOR_ERROR);
+			xmlWriteInt(&xpathObj, xpathCtx, "/colors/creditsColor", COLOR_CREDITS);
+			xmlWriteInt(&xpathObj, xpathCtx, "/colors/userColor", COLOR_USER);
+			xmlWriteInt(&xpathObj, xpathCtx, "/colors/systemColor", COLOR_SYSTEM);
+			xmlWriteInt(&xpathObj, xpathCtx, "/colors/authorColor", COLOR_AUTHOR);
+			
+			xmlExit(access(colors_path), &doc, &xpathObj, &xpathCtx);
+		    return;
+		}
+	#endif
     
     __MSUTIL_ __WINCALL inline BOOL WINAPI __system __export SetExitButtonState(const bool state)
 	{
 		return DeleteMenu(GetSystemMenu(GetConsoleWindowNT(),state),6,MF_BYPOSITION);
 	}
-
-
-    __MSUTIL_ __WINCALL inline BOOL WINAPI __system __export WritePrivateProfileInt(LPCSTR section, LPCSTR key, INT val, LPCSTR path)
-    {
-        char str[SIGN_STRING] = NULL_CHAR;
-        itoa(val, str, sizeof(str));
-        return WritePrivateProfileString(section, key, str, path);
-    }
-
+	
     __MSUTIL_ inline const char * const __system __export getFilename(const char path[static MAX_PATH_LENGTH])
     {
         const char * const stkr = strrchr(path, '\\');
         return stkr ? stkr+1 : path;
-    }
-
-    __MSUTIL_ __WINCALL inline void __system updInfo(void)
-    {
-
-        char title[MAXX_STRING];
-
-        sprintf(title, PROG__NAME" - [ %s ] - [ %s ] - [ %s ] - (%s) - [ %s ]", getItemsListNo(ENVS) ? getFilename(listNo(access(lists)[ENVS].cur_item, ENVS)->path) : NULL_CHAR, getItemsListNo(MATRICES) ? getFilename(listNo(access(lists)[MATRICES].cur_item, MATRICES)->path) : NULL_CHAR,
-                        getItemsListNo(LOGS) ? getFilename(listNo(access(lists)[LOGS].cur_item, LOGS)->path) : NULL_CHAR, access(sysLogPath), getItemsListNo(LAYOUTS) ? getFilename(listNo(access(lists)[LAYOUTS].cur_item, LAYOUTS)->path) : NULL_CHAR);
-
-        if(!SetConsoleTitle(title))
-            printErr(22, "SetConsoleTitle failed with error: %lu", GetLastError());
-
-        return;
     }
 
     __MSUTIL_ __WINCALL HWND WINAPI __system __export GetConsoleWindowNT()
@@ -1735,90 +2004,42 @@ __MSNATIVE_ bool __system _msinfCreate(const char path[static MAX_PATH_LENGTH])
 
         return result;
     }
-
-    __MSNATIVE_ __WINCALL void __system _backupColINI(void)
-    {
-        WritePrivateProfileInt("colors", "default_color", access(colors)[MEMBER_DEFAULTCOLOR], access(colors_path));
-        WritePrivateProfileInt("colors", "errors_color", COLOR_ERROR, access(colors_path));
-        WritePrivateProfileInt("colors", "credits_color", COLOR_CREDITS, access(colors_path));
-        WritePrivateProfileInt("colors", "user_color", COLOR_USER, access(colors_path));
-        WritePrivateProfileInt("colors", "system_color", COLOR_SYSTEM, access(colors_path));
-        WritePrivateProfileInt("colors", "author_color", access(colors)[MEMBER_COLORAUTHOR], access(colors_path));
-        return;
-    }
-
-    __MSNATIVE_ __WINCALL void __system _colINILoader(const char path[static MAX_PATH_LENGTH])
-    {
-        static bool once_executed = false;
-
-        if(once_executed && isSett(BOOLS_ITEMSAUTOSAVING))
-            _backupColINI();
-
-        once_executed = true;
-
-        COLOR_DEFAULT = GetPrivateProfileInt("colors", "default_color", MAIN_COLOR, access(colors_path));
-        COLOR_ERROR = GetPrivateProfileInt("colors", "errors_color", _COLOR_ERROR, access(colors_path));
-        COLOR_CREDITS = GetPrivateProfileInt("colors", "credits_color", _COLOR_CREDITS, access(colors_path));
-        COLOR_USER = GetPrivateProfileInt("colors", "user_color", _COLOR_USER, access(colors_path));
-        COLOR_SYSTEM = GetPrivateProfileInt("colors", "system_color", _COLOR_SYSTEM, access(colors_path));
-        COLOR_AUTHOR = GetPrivateProfileInt("colors", "author_color", _COLOR_AUTHOR, access(colors_path));
-        return;
-    }
-
-    __MSNATIVE_ __WINCALL void __system getProgramSettings(dim_typ which_layout)
-    {
-
-		dim_typ i;
-        nodelist * const tmp = listNo(which_layout, LAYOUTS);
-        layoutObj * const cur_layout = (layoutObj *)(tmp->data);
-
-        WritePrivateProfileInt("general settings", "program_precision", cur_layout->precision, tmp->path);
-        WritePrivateProfileInt("general settings", "stabilizer_factor", cur_layout->stabilizer_factor, tmp->path);
-        WritePrivateProfileInt("general settings", "min_stirlingrequires_number", cur_layout->min_stirlingrequires_number, tmp->path);
-        WritePrivateProfileInt("general settings", "algebra", cur_layout->algebra, tmp->path);
-
-
-        WritePrivateProfileInt("matrices options", "max_raws", cur_layout->matrix_max_raws, tmp->path);
-        WritePrivateProfileInt("matrices options", "max_columns", cur_layout->matrix_max_columns, tmp->path);
-        WritePrivateProfileInt("matrices options", "max_dsvd_iterations", cur_layout->max_dsvd_iterations, tmp->path);
-        WritePrivateProfileInt("matrices options", "max_simplex_iterations", cur_layout->max_simplex_iterations, tmp->path);
-
-		#pragma omp parallel for num_threads(MAX_MEMOIZABLE_FUNCTIONS)
-		for(i=0; i<MAX_MEMOIZABLE_FUNCTIONS; ++i)
-		{
-			char str[INFO_STRING] = NULL_CHAR;
-			char strundscored[MINMIN_STRING] = NULL_CHAR;
-			strundsc(suite_c.memoizers_names[i], strundscored);
-			sprintf(str, "max_%s_memoizable_index", strundscored);
-			WritePrivateProfileInt("memoizer options", str, cur_layout->max_memoizable_indeces[i], tmp->path);
-		}
-
-
-        WritePrivateProfileInt("base conversions", "min_base", cur_layout->basecalc_minbase, tmp->path);
-        WritePrivateProfileInt("base conversions", "max_base", cur_layout->basecalc_maxbase, tmp->path);
-        WritePrivateProfileInt("base conversions", "max_changebase_binary_convnum" ,cur_layout->max_changebase_binary_convnum, tmp->path);
-
-        WritePrivateProfileInt("newton difference tables", "min_dimension", cur_layout->min_newton_difftables_dim, tmp->path);
-        WritePrivateProfileInt("newton difference tables", "max_dimension", cur_layout->max_newton_difftables_dim, tmp->path);
-
-        WritePrivateProfileInt("roman numbers", "min_processable_number", cur_layout->min_roman_number, tmp->path);
-        WritePrivateProfileInt("roman numbers", "max_processable_number", cur_layout->max_roman_number, tmp->path);
-
-        WritePrivateProfileInt("pascals triangle", "min_raws", cur_layout->pascal_triangle_min_raws, tmp->path);
-        WritePrivateProfileInt("pascals triangle", "max_raws", cur_layout->pascal_triangle_max_raws, tmp->path);
-
-        /// write some stuffs...
-
-        char name[2*MIN_STRING];
-        for(i=0; i<MAX_BOOL_SETTINGS; ++i)
-        {
-            strundsc(suite_c.bools_names[i], name);
-            WritePrivateProfileInt("boolean keys", name, (cur_layout->bools & suite_c.bools[i].bmask) == suite_c.bools[i].bmask, tmp->path);
-        }
-
-        return;
-    }
+    
 #endif
+
+__MSUTIL_ inline void __system updInfo(void)
+{
+
+    char title[MAXX_STRING];
+
+    sprintf(title, PROG__NAME" - [ %s ] - [ %s ] - [ %s ] - (%s) - [ %s ]", getItemsListNo(ENVS) ? getFilename(listNo(access(lists)[ENVS].cur_item, ENVS)->path) : NULL_CHAR, getItemsListNo(MATRICES) ? getFilename(listNo(access(lists)[MATRICES].cur_item, MATRICES)->path) : NULL_CHAR,
+                    getItemsListNo(LOGS) ? getFilename(listNo(access(lists)[LOGS].cur_item, LOGS)->path) : NULL_CHAR, access(sysLogPath), getItemsListNo(LAYOUTS) ? getFilename(listNo(access(lists)[LAYOUTS].cur_item, LAYOUTS)->path) : NULL_CHAR);
+
+	#if WINOS
+	    if(!SetConsoleTitle(title))
+	        printErr(22, "SetConsoleTitle failed with error: %lu", GetLastError());
+	#else
+		printf("%c]0;%s%c", '\033', title, '\007');
+	#endif
+
+    return;
+}
+
+__MSUTIL_ void __system __export SetColor(const sel_typ ForgC)
+{
+	#if WINOS
+	    const HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
+	    CONSOLE_SCREEN_BUFFER_INFO csbi;
+	
+	    if(GetConsoleScreenBufferInfo(hStdOut, &csbi))
+	        SetConsoleTextAttribute(hStdOut, (csbi.wAttributes & 0xF0) + (ForgC & 0x0F));
+	#endif
+	
+	// Linux Part WIP
+	// actually this results in a NOP
+
+    return;
+}
 
 __MSUTIL_ inline bool __export min_cmpfunc(const register ityp a, const register ityp b)
 {
@@ -2041,10 +2262,12 @@ __MSNATIVE_ void __system viewProgramSettings(dim_typ which_layout)
 
     PRINTL();
 
+	sprint("- Exit CHAR: %c;\n", cur_layout->exit_char);
     sprint("- PROGRAM PRECISION: %hu;\n", cur_layout->precision);
     sprint("- STABILIZER FACTOR: %hu;\n", cur_layout->stabilizer_factor);
     sprint("- Min Stirling-Requires NUMBER: %hu;\n", cur_layout->min_stirlingrequires_number);
     sprint("- ALGEBRA: %s;\n", suite_c.algebra_elements_names[cur_layout->algebra]);
+    sprint("- Outlier Constant: %.*f;\n", DEFAULT_PRECISION, cur_layout->outlier_constant);
 
     sprint("- Matrices MAX RAWS: %hu;\n", cur_layout->matrix_max_raws);
     sprint("- Matrices MAX COLUMNS: %hu;\n", cur_layout->matrix_max_columns);
@@ -2059,12 +2282,6 @@ __MSNATIVE_ void __system viewProgramSettings(dim_typ which_layout)
 		toupper_s(str);
 		sprint("- Max %s Memoizable Index: %hu;\n", str, cur_layout->max_memoizable_indeces[i]);
 	}
-	
-	/*
-    sprint("- Max FIBONACCI Memoizable Index: %hu;\n", cur_layout->max_fibonacci_memoizable_index);
-    sprint("- Max FACTORIAL Memoizable Index: %hu;\n", cur_layout->max_fattoriale_memoizable_index);
-    sprint("- Max SFACTORIAL Memoziable Index: %hu;\n", cur_layout->max_sfattoriale_memoizable_index);
-    */
 
     sprint("- MIN Processable BASE %hu;\n", cur_layout->basecalc_minbase);
     sprint("- MAX Processable BASE: %hu;\n", cur_layout->basecalc_maxbase);
@@ -2091,99 +2308,6 @@ __MSNATIVE_ void __system viewProgramSettings(dim_typ which_layout)
     return;
 }
 
-__MSNATIVE_ void __system resetProgramSettings(layoutObj * const tmp, const char path[static MAX_PATH_LENGTH])
-{
-
-
-    #if WINOS
-        tmp->precision = GetPrivateProfileInt("general settings", "program_precision", DEFAULT_PRECISION, path);
-        tmp->stabilizer_factor = GetPrivateProfileInt("general settings", "stabilizer_factor", DEFAULT_STABILIZER_FACTOR, path);
-        tmp->min_stirlingrequires_number = GetPrivateProfileInt("general settings", "min_stirlingrequires_number", MIN_STIRLINGREQUIRES_NUMBER, path);
-        tmp->algebra = GetPrivateProfileInt("general settings", "algebra", DEFAULT_ALGEBRA, path);
-
-        tmp->matrix_max_raws = GetPrivateProfileInt("matrices options", "max_raws", MAX_RIGHE, path);
-        tmp->matrix_max_columns = GetPrivateProfileInt("matrices options", "max_columns", MAX_COLONNE, path);
-        tmp->max_dsvd_iterations = GetPrivateProfileInt("matrices options", "max_dsvd_iterations", MAX_DSVD_ITERATIONS, path);
-        tmp->max_simplex_iterations = GetPrivateProfileInt("matrices options", "max_simplex_iterations", MAX_SIMPLEXMETHOD_ITERATIONS, path);
-
-        tmp->max_memoizable_indeces[FUNCTION_FIBONACCI] = GetPrivateProfileInt("memoizer options", "max_fibonacci_memoizable_index", MAX_FIBONACCI_MEMOIZABLE_INDEX, path);
-        tmp->max_memoizable_indeces[FUNCTION_FATTORIALE] = GetPrivateProfileInt("memoizer options", "max_factorial_memoizable_index", MAX_FATTORIALE_MEMOIZABLE_INDEX, path);
-        tmp->max_memoizable_indeces[FUNCTION_EVEN_SFATTORIALE] = GetPrivateProfileInt("memoizer options", "max_even_semifactorial_memoizable_index", MAX_EVEN_SFATTORIALE_MEMOIZABLE_INDEX, path);
-	    tmp->max_memoizable_indeces[FUNCTION_ODD_SFATTORIALE] = GetPrivateProfileInt("memoizer options", "max_odd_semifactorial_memoizable_index", MAX_ODD_SFATTORIALE_MEMOIZABLE_INDEX, path);
-
-	   
-	    tmp->basecalc_minbase = GetPrivateProfileInt("base conversions", "min_base", BASECALC_CAMBIAMENTODIBASE_MINBASE, path);
-        tmp->basecalc_maxbase = GetPrivateProfileInt("base conversions", "max_base", BASECALC_CAMBIAMENTODIBASE_MAXBASE, path);
-        tmp->max_changebase_binary_convnum = GetPrivateProfileInt("base conversions", "max_changebase_binary_convnum", MAX_MINBASE_CONVERTIBLE_NUM, path);
-
-        tmp->min_newton_difftables_dim = GetPrivateProfileInt("newton difference tables", "min_dimension", MIN_NEWTON_DIFFTABLES_DIM, path);
-        tmp->max_newton_difftables_dim = GetPrivateProfileInt("newton difference tables", "max_dimension", MAX_NEWTON_DIFFTABLES_DIM, path);
-
-        tmp->min_roman_number = GetPrivateProfileInt("roman_numbers", "min_processable_number", MIN_PROCESSABLE_ROMAN_NUMBER, path);
-        tmp->max_roman_number = GetPrivateProfileInt("roman numbers", "max_processable_number", MAX_PROCESSABLE_ROMAN_NUMBER, path);
-
-        tmp->pascal_triangle_min_raws = GetPrivateProfileInt("pascals triangle", "min_raws", MIN_PASCALTRIANGLE_RAWS, path);
-        tmp->pascal_triangle_max_raws = GetPrivateProfileInt("pascals triangle", "max_raws", MAX_PASCALTRIANGLE_RAWS, path);
-    #else
-        tmp->precision = DEFAULT_PRECISION;
-        tmp->stabilizer_factor = DEFAULT_STABILIZER_FACTOR;
-        tmp->min_stirlingrequires_number = MIN_STIRLINGREQUIRES_NUMBER;
-        tmp->algebra = DEFAULT_ALGEBRA;
-
-        tmp->matrix_max_raws = MAX_RIGHE;
-        tmp->matrix_max_columns = MAX_COLONNE;
-        tmp->max_dsvd_iterations = MAX_DSVD_ITERATIONS;
-        tmp->max_simplex_iterations = MAX_SIMPLEXMETHOD_ITERATIONS;
-
-		
-        tmp->max_memoizable_indeces[FUNCTION_FIBONACCI] = MAX_FIBONACCI_MEMOIZABLE_INDEX;
-        tmp->max_memoizable_indeces[FUNCTION_FATTORIALE] = MAX_FATTORIALE_MEMOIZABLE_INDEX;
-    	tmp->max_memoizable_indeces[FUNCTION_EVEN_SFATTORIALE] = MAX_EVEN_SFATTORIALE_MEMOIZABLE_INDEX;
-    	tmp->max_memoizable_indeces[FUNCTION_ODD_SFATTORIALE] = MAX_ODD_SFATTORIALE_MEMOIZABLE_INDEX;
-
-
-
-        tmp->basecalc_minbase = BASECALC_CAMBIAMENTODIBASE_MINBASE;
-        tmp->basecalc_maxbase = BASECALC_CAMBIAMENTODIBASE_MAXBASE;
-        tmp->max_changebase_binary_convnum = MAX_MINBASE_CONVERTIBLE_NUM;
-
-        tmp->min_newton_difftables_dim = MIN_NEWTON_DIFFTABLES_DIM;
-        tmp->max_newton_difftables_dim = MAX_NEWTON_DIFFTABLES_DIM,
-
-        tmp->min_roman_number = MIN_PROCESSABLE_ROMAN_NUMBER;
-        tmp->max_roman_number = MAX_PROCESSABLE_ROMAN_NUMBER;
-
-        tmp->pascal_triangle_min_raws = MIN_PASCALTRIANGLE_RAWS;
-        tmp->pascal_triangle_max_raws = MAX_PASCALTRIANGLE_RAWS;
-    #endif
-
-    dim_typ i;
-
-
-    #if WINOS
-        char name[2*INFO_STRING] = NULL_CHAR;
-    #endif
-
-    volatile bool tmp_bool = false;
-
-	#pragma omp parallel for
-    for(i=0; i<MAX_BOOL_SETTINGS; ++i)
-    {
-
-        #if WINOS
-            strundsc(suite_c.bools_names[i], name);
-            tmp_bool = GetPrivateProfileInt("boolean keys", name, suite_c.bools[i].default_val, path);
-        #else
-            tmp_bool = suite_c.bools[i].default_val;
-        #endif
-
-        if(tmp_bool)
-            tmp->bools |= suite_c.bools[i].bmask;
-    }
-
-    return;
-}
-
 __MSNATIVE_ void __system setProgramSettings(dim_typ which_layout)
 {
     nodelist * item_data = listNo(which_layout, LAYOUTS);
@@ -2204,9 +2328,9 @@ __MSNATIVE_ inline bool __system __export catchPause()
     if(access(sigresult))
     {
         printf("\nPress any key to continue Program Action.\n");
-        printf("or %c to stop Execution.\n", access(exit_char));
+        printf("or %c to stop Execution.\n", access(curLayout)->exit_char);
         access(sigresult) = false;
-        if(getch() == access(exit_char)) return true;
+        if(getch() == access(curLayout)->exit_char) return true;
     }
 
     return false;

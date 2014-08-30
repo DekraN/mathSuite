@@ -1,4 +1,4 @@
-// msinfs_manager.c 20/08/2014 Marco Chiarelli aka DekraN
+// lfs_manager.c 23/08/2014 Marco Chiarelli aka DekraN
 /*
 WARNING!!! This program is intended to be used, so linked at the compilation,
 exclusively with main.c of my suite program! I do not assume any responsibilities
@@ -6,44 +6,44 @@ about the use with any other code-scripts.
 */
 
 #include "dutils.h"
-#ifdef ALLOW_MSINFSMANAGER
+#ifdef ALLOW_LFSMANAGER
 
-__MSSHELL_WRAPPER_ __WINCALL static void _MS__private __system msinfLoader(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ __WINCALL static void _MS__private __system msinfCreate(const register sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ __WINCALL static void _MS__private __system lfLoader(const register sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ __WINCALL static void _MS__private __system lfCreate(const register sel_typ argc, char ** argv);
 
-sprog msinfs_manager[MAX_MSINFSMANAGER_PROGS] =
+sprog lfs_manager[MAX_LFSMANAGER_PROGS] =
 {
-    [MSINFS_LOADER] =
+    [LFS_LOADER] =
     {
         "Load Startup File ("DEFAULT_PATHLIST_FILE_EXTENSION")",
-        CMD_MSINFLOADER,
-        USAGE_MSINFLOADER,
-        msinfLoader,
+        CMD_lfLoader,
+        USAGE_lfLoader,
+        lfLoader,
         AUTOMATIC,
         CHILD
     },
-    [MSINFS_CREATE] =
+    [LFS_CREATE] =
     {
         "Create new Startup File ("DEFAULT_PATHLIST_FILE_EXTENSION")",
-        CMD_MSINFCREATE,
-        USAGE_MSINFCREATE,
-        msinfCreate,
+        CMD_LF_CREATE,
+        USAGE_LFCREATE,
+        lfCreate,
         AUTOMATIC,
         CHILD
     }
 };
 
-__MSSHELL_WRAPPER_ __WINCALL static void _MS__private __system msinfLoader(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ __WINCALL static void _MS__private __system lfLoader(const register sel_typ argc, char ** argv)
 {
     char path[MAX_PATH_LENGTH];
     #if WINOS
         if(isnSett(BOOLS_ITEMSSELECTBYPATH))
         {
-            const bool wHandler = windowsFileHandler(path,  "MathSuite Informations (*."DEFAULT_PATHLIST_FILE_EXTENSION")\0*."DEFAULT_PATHLIST_FILE_EXTENSION"\0Text Document (*.txt)\0*.txt\0Generic DAT Files (*.DAT)\0*.DAT\0All Files (*.*)\0*.*\0",
+            const bool wHandler = windowsFileHandler(path,  "MathSuite Informations (*."DEFAULT_PATHLIST_FILE_EXTENSION")\0*."DEFAULT_PATHLIST_FILE_EXTENSION"\0Text Document (*.txt)\0*.txt\0All Files (*.*)\0*.*\0",
                                     DEFAULT_PATHLIST_FILE_EXTENSION, true);
             if(wHandler)
             {
-                if(_msinfLoader(path))
+                if(_lfLoader(path))
                     sprint("%s\nFile has been correctly loaded.\n\n", path);
                 else
                     printErr(2, "An error during:\n%s\nFile opening process might have occurred", path);
@@ -83,7 +83,7 @@ __MSSHELL_WRAPPER_ __WINCALL static void _MS__private __system msinfLoader(const
                 // mustcreatefile = true;
                 }
             }
-            if(_msinfLoader(path))
+            if(_lfLoader(path))
                 sprint("%s\nFile has been correctly loaded.\n\n", path);
             else
                 printErr(2, "An error during:\n%s\nFile opening process might have occurred", path);
@@ -92,17 +92,17 @@ __MSSHELL_WRAPPER_ __WINCALL static void _MS__private __system msinfLoader(const
     return;
 }
 
-__MSSHELL_WRAPPER_ __WINCALL static void _MS__private __system msinfCreate(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ __WINCALL static void _MS__private __system lfCreate(const register sel_typ argc, char ** argv)
 {
     char path[MAX_PATH_LENGTH];
     #if WINOS
         if(isnSett(BOOLS_ITEMSSELECTBYPATH))
         {
-            const bool wHandler = windowsFileHandler(path,  "MathSuite Informations (*."DEFAULT_PATHLIST_FILE_EXTENSION")\0*."DEFAULT_PATHLIST_FILE_EXTENSION"\0Text Document (*.txt)\0*.txt\0Generic DAT Files (*.DAT)\0*.DAT\0All Files (*.*)\0*.*\0",
+            const bool wHandler = windowsFileHandler(path,  "MathSuite Informations (*."DEFAULT_PATHLIST_FILE_EXTENSION")\0*."DEFAULT_PATHLIST_FILE_EXTENSION"\0Text Document (*.txt)\0*.txt\0All Files (*.*)\0*.*\0",
                                     DEFAULT_PATHLIST_FILE_EXTENSION, false);
             if(wHandler)
             {
-                if(_msinfCreate(path))
+                if(_lfCreate(path))
                     sprint("%s\nFile has been correctly loaded.\n\n", path);
                 else
                     printErr(9, "An error during:\n%s\nFile opening process might have occurred", path);
@@ -142,7 +142,7 @@ __MSSHELL_WRAPPER_ __WINCALL static void _MS__private __system msinfCreate(const
                 // mustcreatefile = true;
                 }
             }
-            if(_msinfCreate(path))
+            if(_lfCreate(path))
                 sprint("%s\nFile has been correctly saved.\n\n", path);
             else
                 printErr(9, "An error during:\n%s\nFile opening process might have occurred.\n\n", path);
@@ -150,4 +150,4 @@ __MSSHELL_WRAPPER_ __WINCALL static void _MS__private __system msinfCreate(const
     return;
 }
 
-#endif // ALLOW_MSINFSMANAGER
+#endif // ALLOW_LFSMANAGER

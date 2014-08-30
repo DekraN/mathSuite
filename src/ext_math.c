@@ -38,11 +38,11 @@ const struct ext_math_type ext_math =
             true
         },
         {
-            0,
-            UCHAR_MAX
+        	0,
+        	UCHAR_MAX
         },
         {
-            SCHAR_MAX,
+            SCHAR_MIN,
             SCHAR_MAX
         },
         {
@@ -60,10 +60,6 @@ const struct ext_math_type ext_math =
         {
             LLONG_MIN,
             LLONG_MAX
-        },
-        {
-            0,
-            ULLONG_MAX
         },
         {
             0,
@@ -2185,7 +2181,7 @@ __MSNATIVE_ inline ityp __export math_stddev(uint64_t dim, ityp vector[static di
 
 __MSNATIVE_ inline bool __export math_outlier(uint64_t dim, uint64_t outlier_idx, ityp vector[static dim])
 {
-	return math_outlier2(dim, outlier_idx, OUTLIER_CONSTANT, vector);
+	return math_outlier2(dim, outlier_idx, access(curLayout)->outlier_constant, vector);
 }
 
 __MSNATIVE_ bool __export math_outlier2(uint64_t dim, uint64_t outlier_idx, float outlier_constant, ityp vector[static dim])
@@ -2199,7 +2195,7 @@ __MSNATIVE_ bool __export math_outlier2(uint64_t dim, uint64_t outlier_idx, floa
 
 __MSNATIVE_ inline ityp __export math_geomedia(uint64_t dim, ityp vector[static dim])
 {
-    return (pow(productory(dim, false, vector), (1/dim)));
+    return (pow(productory(dim, PRODUCTORY_MUL, vector), (1/dim)));
 }
 
 __MSNATIVE_ inline ityp __export math_armedia(uint64_t dim, ityp vector[static dim])

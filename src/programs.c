@@ -298,6 +298,19 @@ static const struct operations default_operazioni[MAX_OPERATIONS] =
         unary_function
     },
     {
+		"Change Exit Char",
+		NULL_CHAR,
+		{
+			IDENTIFIER_EXITCHAR,
+			IDENTIFIER_ALIAS_EXITCHAR,
+			IDENTIFIER_ALIAS2_EXITCHAR,
+			IDENTIFIER_ALIAS3_EXITCHAR
+		},
+		DOMAIN_SCHAR,
+		DOMAIN_NULL,
+		unary_function
+	},
+    {
         "Change Stabilizer Factor",
         NULL_CHAR,
         {
@@ -332,6 +345,18 @@ static const struct operations default_operazioni[MAX_OPERATIONS] =
         DOMAIN_USHRT,
         DOMAIN_NULL,
         unary_function
+    },
+    {
+    	"Change Outlier Constant",
+    	NULL_CHAR,
+    	{
+    		IDENTIFIER_OUTLIERCONST,
+    		IDENTIFIER_ALIAS_OUTLIERCONST,
+    		IDENTIFIER_ALIAS2_OUTLIERCONST
+    	},
+    	DOMAIN_FLT,
+    	DOMAIN_NULL,
+    	unary_function
     },
     {
         "Change Random Seed",
@@ -1198,6 +1223,19 @@ static const struct operations default_operazioni[MAX_OPERATIONS] =
     	binary_function
     },
     {
+    	"Map",
+    	NULL_CHAR,
+    	{
+    		IDENTIFIER_MAP,
+    		IDENTIFIER_ALIAS_MAP,
+    		IDENTIFIER_ALIAS2_MAP,
+    		IDENTIFIER_ALIAS3_MAP,
+    	},
+    	DOMAIN_DEFAULT,
+		DOMAIN_UCHAR,
+		binary_function    	
+    },
+    {
         "Geometric Media",
         "(a != 0 -> Increasing Media, 0 -> Stop Media)",
         {
@@ -1616,11 +1654,11 @@ __MSSHELL_WRAPPER_ void __apnt calcolatoreAvanzato(const register sel_typ argc, 
     return ;
 }
 
-__MSSHELL_WRAPPER_ void __apnt mhssManager(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ void __apnt mssManager(const register sel_typ argc, char ** argv)
 {
-    operationsGroupMenu(MAX_MHSSMANAGER_PROGS, mhss_manager,
-                        main_menu[MAIN_MHSSMANAGER].name,
-                        #if MAX_MHSSMANAGER_PROGS > MAX_CASEINSENSITIVE_CHARS_ALPHABET
+    operationsGroupMenu(MAX_MSSMANAGER_PROGS, mss_manager,
+                        main_menu[MAIN_MSSMANAGER].name,
+                        #if MAX_MSSMANAGER_PROGS > MAX_CASEINSENSITIVE_CHARS_ALPHABET
                             BY_NUMBERS
                         #else
                             BY_CHARS
@@ -1822,11 +1860,11 @@ __MSSHELL_WRAPPER_ __MSNATIVE_ void _MS__private __system __export operationsGro
             if((rep_check = (!prog_chosen.isFather) && isSett(BOOLS_PROGREPEATCHECK) && (!prog_chosen.automatic)))
             {
                 PRINTL();
-                printf2(COLOR_CREDITS, "Press any key to repeat\nor press %c to go Back to Main Menu.\n", access(exit_char));
+                printf2(COLOR_CREDITS, "Press any key to repeat\nor press %c to go Back to Main Menu.\n", access(curLayout)->exit_char);
             }
             CLEARBUFFER();
         }
-        while(rep_check && getch() != access(exit_char));
+        while(rep_check && getch() != access(curLayout)->exit_char);
     }
     
     CLEARBUFFER();
@@ -1869,6 +1907,20 @@ __MSSHELL_WRAPPER_ void __apnt changeProgramSettings(const register sel_typ argc
 
 __MSSHELL_WRAPPER_ __MSNATIVE_ void __system progInfo(sel_typ skip)
 {
+	PRINTL();
+	
+	printf2(60, "\n||||\\\\            ////||||      ||||============||||\n");
+	printf2(60, "\n|||| \\\\          //// |||| 	||||============||||\n");
+	printf2(60, "\n||||  \\\\        ////  ||||      ||||			      \n");
+	printf2(60, "\n||||   \\\\      ////   ||||      ||||			      \n");
+	printf2(60, "\n||||    \\\\||||////    ||||      ||||============|||| \n");
+	printf2(60, "\n||||                  ||||                      ||||\n");
+    printf2(60, "\n||||                  ||||                      ||||\n");
+	printf2(60, "\n||||                  ||||      ||||============||||\n");
+	printf2(60, "\n||||                  ||||      ||||============||||\n");
+	
+	PRINTL();
+	
     if(skip)
     {
         FILE *fp = NULL;
@@ -1877,6 +1929,7 @@ __MSSHELL_WRAPPER_ __MSNATIVE_ void __system progInfo(sel_typ skip)
             printErr(2, "Unable to open File containing\nProgram Description");
         else
         {
+        	
             printf2(COLOR_CREDITS, "\t          "PROG__NAME" V"PROG__VERSION" by ");
             printf2(access(colors)[MEMBER_COLORAUTHOR], PROG__AUTHOR);
             printf2(COLOR_CREDITS, ".\n\n\t   //________________________________________________________\\\\\
@@ -2158,11 +2211,9 @@ __MSSHELL_WRAPPER_ __MSNATIVE_ void __system setDefaults()
 
     if(once_executed)
         resetProgramSettings(access(curLayout), listNo(access(lists)[LAYOUTS].cur_item, LAYOUTS)->path);
-
-    once_executed = true;
-
-    access(exit_char) = EXIT_CHAR;
-
+    else
+    	once_executed = true;
+    	
     randomize;
     access(random_seed) = starting_random_seed;
 

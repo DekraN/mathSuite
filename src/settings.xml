@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!-- settings.xml for mathSuite v5.70 -->
+<!-- Settings Configuration File -->
+<settings>
+
+    <generalSettings>
+        <exitChar>C</exitChar>
+        <programPrecision>2</programPrecision>
+	<stabilizerFactor>10</stabilizerFactor>
+	<minStirlingRequiresNumber>30</minStirlingRequiresNumber>
+	<!-- select 0 for real, 1 for complex, 2 for quaternions, 3 for octonions or 4 for sedenions -->
+	<algebra>0</algebra>
+	<outlierConstant>1.50</outlierConstant>
+    </generalSettings>
+
+    <matricesOptions>
+        <maxRaws>100</maxRaws>
+	<maxColumns>100</maxColumns>
+	<maxDSVDIterations>30000</maxDSVDIterations>
+	<maxSimplexIterations>500</maxSimplexIterations>
+    </matricesOptions>
+
+    <memoizerOptions>
+        <maxFibonacciMemoizableIndex>25</maxFibonacciMemoizableIndex>
+	<maxFactorialMemoizableIndex>40</maxFactorialMemoizableIndex>
+	<maxEvenSemiFactorialMemoizableIndex>80</maxEvenSemiFactorialMemoizableIndex>
+	<maxOddSemiFactorialMemoizableIndex>79</maxOddSemiFactorialMemoizableIndex>
+    </memoizerOptions>
+
+    <baseConversions>
+        <minBase>2</minBase>
+	<maxBase>10</maxBase>
+	<maxChangebaseBinaryConvnum>262000</maxChangebaseBinaryConvnum>
+    </baseConversions>
+
+    <newtonDifferenceTables>
+        <minDimension>1</minDimension>
+	<maxDimension>15</maxDimension>
+    </newtonDifferenceTables>
+
+    <romanNumbers>
+	<minProcessableNumber>1</minProcessableNumber>
+	<maxProcessableNumber>3000</maxProcessableNumber>
+    </romanNumbers>
+
+    <pascalsTriangle>
+	<minRaws>1</minRaws>
+	<maxRaws>50</maxRaws>
+    </pascalsTriangle>
+
+    <booleanKeys>
+	<showProgramsDescriptions>false</showProgramsDescriptions>
+	<setItemAsCurrentAtCreation>true</setItemAsCurrentAtCreation>
+	<itemsSelectionByPath>false</itemsSelectionByPath>
+	<listsItemsAutosaving>true</listsItemsAutosaving>
+	<!-- SLSC is a Windows only feature -->
+	<systemLogSecurityCheck>false</systemLogSecurityCheck>
+        <systemINPUTParser>true</systemINPUTParser>
+	<baseCalculatorParser>true</baseCalculatorParser>
+	<advancedCalculatorParser>true</advancedCalculatorParser>
+	<matricesItemsInsertingParser>true</matricesItemsInsertingParser>
+	<resetConstsListAndFunctionsList>false</resetConstsListAndFunctionsList>
+	<saveLastResults>true</saveLastResults>
+	<showVarlistAfterOperations>true</showVarlistAfterOperations>
+	<showAverageTimeAfterOperations>false</showAverageTimeAfterOperations>
+	<showAverageTimeAfterProgramsExecutions>false</showAverageTimeAfterProgramsExecutions>
+	<showDateAndTimeInTextline>false</showDateAndTimeInTextline>
+	<domainsChecks>true</domainsChecks>
+	<matricesCharsInsert>false</matricesCharsInsert>
+	<matricesAutomaticInserting>true</matricesAutomaticInserting>
+	<lazyExecution>true</lazyExecution>
+	<inverseOperations>false</inverseOperations>
+	<inverseOperationsAutomaticDeactivator>true</inverseOperationsAutomaticDeactivator>
+	<degreesEnteringOnTrigonometricOperations>false</degreesEnteringOnTrigonometricOperations>
+	<requestProgramsRepetitions>true</requestProgramsRepetitions>
+	<extensiveMultiThreading>false</extensiveMultiThreading>
+    </booleanKeys>
+
+</settings>

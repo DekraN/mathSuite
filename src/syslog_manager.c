@@ -1,4 +1,4 @@
-// syslog_manager.c 20/08/2014 Marco Chiarelli aka DekraN
+// syslog_manager.c 23/08/2014 Marco Chiarelli aka DekraN
 /*
 WARNING!!! This program is intended to be used, so linked at the compilation,
 exclusively with main.c of my suite program! I do not assume any responsibilities
@@ -136,7 +136,7 @@ __MSSHELL_WRAPPER_ static void _MS__private __system createLog(const register se
     if(isnSett(BOOLS_ITEMSSELECTBYPATH))
     {
         if(!windowsFileHandler(name,
-                                "File Log (*."DEFAULT_SYSLOG_FILE_EXTENSION")\0*."DEFAULT_SYSLOG_FILE_EXTENSION"\0Documento di testo (*.txt)\0*.txt\0File DAT Generici (*.DAT)\0*.DAT\0Tutti i Files (*.*)\0*.*\0",
+                                "File Log (*."DEFAULT_SYSLOG_FILE_EXTENSION")\0*."DEFAULT_SYSLOG_FILE_EXTENSION"\0Documento di testo (*.txt)\0*.txt\0Tutti i Files (*.*)\0*.*\0",
                                 DEFAULT_SYSLOG_FILE_EXTENSION, assert))
         // else
         {
@@ -184,7 +184,7 @@ __MSSHELL_WRAPPER_ static void _MS__private __system createLog(const register se
 
     static bool once_executed = false;
 
-    if(once_executed == false)
+    if(!once_executed)
     {
         access(sysLog) = malloc(sizeof(logObj));
         errMem(access(sysLog), VSPACE);

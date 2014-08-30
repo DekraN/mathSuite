@@ -1,4 +1,4 @@
-// adv_calc.c 20/08/2014 Marco Chiarelli aka DekraN
+// adv_calc.c 29/08/2014 Marco Chiarelli aka DekraN
 /*
 WARNING!!! This program is intended to be used, so linked at the compilation,
 exclusively with main.c of my suite program! I do not assume any responsibilities
@@ -99,8 +99,8 @@ sprog adv_calc[MAX_ADVCALC_PROGS] =
     [ADVCALC_FUNCTIONINTEGRATION] =
     {
         "Function Integration",
-        CMD_FUNCINTEGRATION,
-        USAGE_FUNCINTEGRATION,
+        CMD_FID,
+        USAGE_FID,
         funcIntegration,
         BY_USER,
         CHILD
@@ -450,10 +450,10 @@ __MSSHELL_WRAPPER_ static void _MS__private simplexMethod(const register sel_typ
     {
         printf2(COLOR_CREDITS, "\nSelect Simplex Method's Problem Type:\n");
         printf2(COLOR_CREDITS, "- A for min Problem,\n- B for max Problem;\n");
-        printf2(COLOR_CREDITS, "- %c to go Back...\n\n", access(exit_char));
+        printf2(COLOR_CREDITS, "- %c to go Back...\n\n", access(curLayout)->exit_char);
 
-        do if((mode = toupper(getch())) == access(exit_char)) return;
-        while(mode < 'A' && mode > access(exit_char));
+        do if((mode = toupper(getch())) == access(curLayout)->exit_char) return;
+        while(mode < 'A' && mode > access(curLayout)->exit_char);
 
         mode -= 'A';
     }
@@ -906,10 +906,10 @@ __MSSHELL_WRAPPER_ static void _MS__private funcIntegration(const register sel_t
     dim_typ funcID;
     dim_typ j;
 
-    funcID = selectListItem(MAX_FUNCSINTEGRATION, MAX_FUNCSINTEGRATION > MAX_CASEINSENSITIVE_CHARS_ALPHABET,
+    funcID = selectListItem(MAX_FIDS, MAX_FIDS > MAX_CASEINSENSITIVE_CHARS_ALPHABET,
                             "Select desired Function you want to Integrate", ext_math.funcnames);
 
-    if(funcID == MAX_FUNCSINTEGRATION) return;
+    if(funcID == MAX_FIDS) return;
 
     ityp tmp;
 

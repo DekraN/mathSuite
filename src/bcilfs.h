@@ -254,6 +254,21 @@ case BASECALC_UBITCOUNTER:
 case BASECALC_VERSION:
     c = strtod(PROG__VERSION, NULL);
     break;
+    
+case BASECALC_EXITCHAR:
+	if(a)
+	{
+		if(a < 0 || a == 'A' || a == 'B')
+		{
+			printErr(33, "Invalid inserted Exit Char");
+			return;
+		}
+		c = a;
+		access(curLayout)->exit_char = a;
+	}
+	else
+		c = access(curLayout)->exit_char;
+	break;
 
 case BASECALC_PREC:
 
@@ -315,6 +330,22 @@ case BASECALC_ALGEBRA:
     else
         c = access(curLayout)->algebra;
     break;
+    
+case BASECALC_OUTLIERCONST:
+	if(a)
+    {
+    if(a < MIN_OUTLIER_CONSTANT || a > MAX_OUTLIER_CONSTANT)
+        {
+            printErr(33, "Invalid Inserted Outlier Constant.\nMust be a non-negative float between %.*f and %.*f", DEFAULT_PRECISION, MIN_OUTLIER_CONSTANT, DEFAULT_PRECISION, MAX_OUTLIER_CONSTANT);
+            return;
+        }
+        c = a;
+        access(curLayout)->outlier_constant = a;
+    }
+    else
+        c = access(curLayout)->outlier_constant;
+    break;
+	
 
 case BASECALC_RSEED:
 
@@ -1452,6 +1483,84 @@ case BASECALC_OUTLIER:
     vector = NULL;
 
     outlier_idx = -1,
+    accumulate = 0;
+
+    #if WINOS
+        SetExitButtonState(ENABLED);
+    #endif // WINOS
+
+    return;
+}
+
+case BASECALC_MAP:
+{
+    static ityp *vector = NULL;
+    static uint64_t accumulate = 0;
+    static dim_typ funcID = MAX_FIDS;
+
+    if(b == funcID || !accumulate)
+    {
+
+        #if WINOS
+            SetExitButtonState(DISABLED);
+        #endif // WINOS
+        
+        if(!accumulate && (b != (funcID = (dim_typ)b) || funcID < FID_SIN || funcID > LAST_FID))
+        {
+        	printErr(33, "You've entered an Invalid Function ID. Must be an integer between %hu and %hu", FID_SIN, LAST_FID);
+        	return;
+        }
+        
+
+        if(!(accumulate))
+            vector = malloc(sizeof(ityp)*(lazy_exec ? 1 : access(curLayout)->stabilizer_factor));
+        else if(lazy_exec)
+            vector = realloc(vector, sizeof(ityp)*(accumulate+1));
+        else if(!((accumulate+1) % access(curLayout)->stabilizer_factor))
+            vector = realloc(vector, sizeof(ityp)*(accumulate+access(curLayout)->stabilizer_factor));
+
+        errMem(vector, VSPACE);
+        
+        vector[accumulate++] = a;
+        viewInsertedValue;
+    }
+        
+    PRINT2N();
+    SHOWPAUSEMESSAGE();
+    PRINTL();
+    printf2(COLOR_USER, "The inserted Vector: \n");
+	PRINTL();
+	
+	uint64_t i;
+	
+    ityp (* const map_func)(ityp) = ext_math.functions[funcID];
+	for(i=0; i<accumulate; ++i)
+	{
+		printf2(COLOR_USER, "- %llu: ", i);
+		printf2(COLOR_USER, OUTPUT_CONVERSION_FORMAT, vector[i]);
+		printf2(COLOR_USER, ";\n");
+		vector[i] = map_func(vector[i]);
+		if(catchPause()) return;
+	}
+	
+	PRINTL();
+	printf2(COLOR_USER, "mapped with the %s function results in:\n", ext_math.funcnames[funcID]);
+	PRINT2N();
+    SHOWPAUSEMESSAGE();
+	PRINTL();
+	
+	for(i=0; i<accumulate; ++i)
+	{
+		printf2(COLOR_USER, "- %llu: ", i);
+		printf2(COLOR_USER, OUTPUT_CONVERSION_FORMAT, vector[i]);
+		printf2(COLOR_USER, ";\n");
+		if(catchPause()) return;
+	}
+	
+    free(vector);
+    vector = NULL;
+
+	funcID = MAX_FIDS;
     accumulate = 0;
 
     #if WINOS

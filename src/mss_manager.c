@@ -1,4 +1,4 @@
-// mhss_manager.c 20/08/2014 Marco Chiarelli aka DekraN
+// mss_manager.c 23/08/2014 Marco Chiarelli aka DekraN
 /*
 WARNING!!! This program is intended to be used, so linked at the compilation,
 exclusively with main.c of my suite program! I do not assume any responsibilities
@@ -6,15 +6,15 @@ about the use with any other code-scripts.
 */
 
 #include "dutils.h"
-#ifdef ALLOW_MHSSMANAGER
+#ifdef ALLOW_MSSMANAGER
 
 __MSSHELL_WRAPPER_ static void _MS__private __system handleCmdLine(const register sel_typ argc, char ** argv);
 __MSSHELL_WRAPPER_ static void _MS__private __system execScriptFiles(const register sel_typ argc, char ** argv);
 __MSSHELL_WRAPPER_ static void _MS__private __system showUsage(const register sel_typ argc, char ** argv);
 
-sprog mhss_manager[MAX_MHSSMANAGER_PROGS] =
+sprog mss_manager[MAX_MSSMANAGER_PROGS] =
 {
-    [MHSSMANAGER_COMMANDLINE] =
+    [MSSMANAGER_COMMANDLINE] =
     {
         "CmdLine Prompt Interpreter",
         CMD_CMDLINE,
@@ -23,16 +23,16 @@ sprog mhss_manager[MAX_MHSSMANAGER_PROGS] =
         BY_USER, /// AUTOMATIC
         CHILD
     },
-    [MHSSMANAGER_EXECSCRIPTFILES] =
+    [MSSMANAGER_EXECSCRIPTFILES] =
     {
         "Execute Scriptfile ("DEFAULT_SCRIPTFILES_EXTENSION")",
-        CMD_EXECSFILES,
-        USAGE_EXECSFILES,
+        CMD_EXECMSSFILES,
+        USAGE_EXECMSSFILES,
         execScriptFiles,
         AUTOMATIC,
         CHILD
     },
-    [MHSSMANAGER_SHOWUSAGES] =
+    [MSSMANAGER_SHOWUSAGES] =
     {
         "CmdLine Informations",
         CMD_SHOWUSAGES,
@@ -72,7 +72,7 @@ __MSSHELL_WRAPPER_ __WINCALL static void _MS__private __system execScriptFiles(c
     #if WINOS
         if(isnSett(BOOLS_ITEMSSELECTBYPATH))
         {
-            const bool wHandler = windowsFileHandler(path,  "MathSuite ScriptFiles (*."DEFAULT_SCRIPTFILES_EXTENSION")\0*."DEFAULT_SCRIPTFILES_EXTENSION"\0Experimental MS ScriptFiles (*."OLD_SCRIPTFILES_EXTENSION")\0*."OLD_SCRIPTFILES_EXTENSION"\0Text Documents (*.txt)\0*.txt\0Generic DAT Files (*.DAT)\0*.DAT\0All Files (*.*)\0*.*\0",
+            const bool wHandler = windowsFileHandler(path,  "MathSuite ScriptFiles (*."DEFAULT_SCRIPTFILES_EXTENSION")\0*."DEFAULT_SCRIPTFILES_EXTENSION"\0Text Documents (*.txt)\0*.txt\0All Files (*.*)\0*.*\0",
                                     DEFAULT_SCRIPTFILES_EXTENSION, true);
             if(wHandler)
             {
@@ -202,9 +202,9 @@ __MSSHELL_WRAPPER_ static void _MS__private __system showUsage(const register se
         if(catchPause()) return;
     }
 
-    for(i=0; i<MAX_MSINFSMANAGER_PROGS; ++i)
+    for(i=0; i<MAX_LFSMANAGER_PROGS; ++i)
     {
-        _showUsage(&msinfs_manager[i]);
+        _showUsage(&lfs_manager[i]);
         if(catchPause()) return;
     }
 

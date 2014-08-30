@@ -1,4 +1,4 @@
-// algebra.c 20/08/2014 Marco Chiarelli aka DekraN
+// algebra.c 29/08/2014 Marco Chiarelli aka DekraN
 /*
 WARNING!!! This program is intended to be used, so linked at the compilation,
 exclusively with main.c of my suite program! I do not assume any responsibilities
@@ -302,12 +302,12 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixSort(const register sel_typ ar
 
             printf2(COLOR_CREDITS, "\nSelect Matrix Filling Mode.\n");
             printf2(COLOR_CREDITS, "A for User Matrix Inserting, B for Random Matrix Generation;\n");
-            printf2(COLOR_CREDITS, "- %c to go Back..\n\n", access(exit_char));
+            printf2(COLOR_CREDITS, "- %c to go Back..\n\n", access(curLayout)->exit_char);
 
             PRINTL();
 
-            do if((tmp = toupper(getch())) == access(exit_char)) return;
-            while(tmp < 'A' && tmp > access(exit_char));
+            do if((tmp = toupper(getch())) == access(curLayout)->exit_char) return;
+            while(tmp < 'A' && tmp > access(curLayout)->exit_char);
 
             if(tmp == 'A')
             {

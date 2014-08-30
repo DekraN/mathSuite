@@ -44,6 +44,8 @@ renewed the program code by improving a lot of his C tricks and tips.
 For example, the upper-triangular Matrixes conversion, which was useful to
 enhance some functions like det(...), sgeqsolver ExprEval inline command, etc...
 
+Greatly thanks to Daniel Veillard for his fabulous XML Parser, LIBXML2.
+
 Thanks to Francesco Palma for reporting me some bugs.
 
 ...and finally, but not less important, massive thanks to my Informatic

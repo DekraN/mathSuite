@@ -47,9 +47,9 @@ case EXPR_NODEFUNC_EXIT:
     break;
     }
 
-/* mhss */
-case EXPR_NODEFUNC_MHSS:
-    access(mhss) = false;
+/* mss */
+case EXPR_NODEFUNC_MSS:
+    access(mss) = false;
     printf2(COLOR_USER, "\nScripting Mode has been correctly disabled.\n\n");
     break;
 
@@ -195,6 +195,24 @@ case EXPR_NODEFUNC_VERSION:
     *val = strtod(PROG__VERSION, NULL);
     break;
     }
+    
+/* ec */
+case EXPR_NODEFUNC_EXITCHAR:
+    {
+    if(nodes->data.function.nodecount)
+        {
+        err = exprEvalNode(obj, nodes->data.function.nodes, 0, val);
+        if(!err)
+            {
+            if((*val) == 'A' || (*val) == 'B')
+                return err;
+            access(curLayout)->exit_char = (*val);
+            }
+        }
+        else
+            (*val) = access(curLayout)->exit_char;
+    break;
+    }
 
 /* prec */
 case EXPR_NODEFUNC_PREC:
@@ -251,7 +269,7 @@ case EXPR_NODEFUNC_MINSRNUMBER:
     break;
     }
 
- /* alg */
+/* alg */
 case EXPR_NODEFUNC_ALGEBRA:
     {
     if(nodes->data.function.nodecount)
@@ -266,6 +284,24 @@ case EXPR_NODEFUNC_ALGEBRA:
         }
         else
             (*val) = access(curLayout)->algebra;
+    break;
+    }
+    
+/* oc */
+case EXPR_NODEFUNC_OUTLIERCONST:
+    {
+    if(nodes->data.function.nodecount)
+        {
+        err = exprEvalNode(obj, nodes->data.function.nodes, 0, val);
+        if(!err)
+            {
+            if((*val) < MIN_OUTLIER_CONSTANT || (*val) > MAX_OUTLIER_CONSTANT)
+                return err;
+            access(curLayout)->outlier_constant = (*val);
+            }
+        }
+        else
+            (*val) = access(curLayout)->outlier_constant;
     break;
     }
 
@@ -4115,6 +4151,24 @@ case EXPR_NODEFUNC_OUTLIER2:
 	    	}
 	    else
 	    	return err;
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* map */
+case EXPR_NODEFUNC_MAP:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, 0, &d1);
+	dim_typ funcID;
+    if(!err)
+        {
+            err = exprEvalNode(obj, nodes->data.function.nodes, pos, &d2);
+            if(err || (!err && d2 != (funcID = (dim_typ)d2) || funcID < FID_SIN || funcID > LAST_FID))
+                return(err = EXPR_ERROR_SYNTAX);
+     	   *val = ext_math.functions[funcID](d1);
         }
     else
         return err;

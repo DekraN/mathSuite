@@ -1,7 +1,7 @@
-MathSuite
+mathSuite
 //-----------------------------------------------------------------------------------------------------------------//
 AUTHOR: Marco Chiarelli aka DekraN aka Wesker013 (FB)								   ||
-CURRENT VERSION: v5.60  											   ||
+CURRENT VERSION: v5.70												   ||
 LAST UPDATE: 18:00 23/08/2014											   ||
 CONTACT ME at: marco_chiarelli@yahoo.it										   ||
 or at marcochiarelli.nextgenlab@gmail.com									   ||
@@ -381,6 +381,22 @@ or at marcochiarelli.nextgenlab@gmail.com									   ||
 /// (Vector-Accumulating-Requires) Functions, like media, etc... Removed all the Temperature Conversions Functions///
 /// and also the Speed Conversion Function, because even If they're pretty smart and useful function, they're also///
 ///					too specific for a Math Related program.				  ///
+///                                     CHANGELOG v5.70 (29/08/2014)                                              ///
+/// Discarded the .INI system for gathering informations about Program Settings and Colors Settings, and replaced ///
+/// with the XML metalanguage for the same purpose. The Layouts System works exactly as the previous versions.    ///
+/// Renamed all the extensions of the program: .msvl to .vlf (it stands for Variables List File), .msmat to .mf   ///
+///   (Matrices Files), .mhss to .mss (MathSuite Scripts), .msinf to .lf (List Files).				  ///
+/// Now the presence of autorun.lf startup File isn't requested anymore, because even If the program is not be    ///
+///    able to load at least a Layout File, then It will create a default settings.xml or colors.xml file. 	  ///
+/// Now it is possible to save the Exit Char and the Outlier Constant into a Layout File. Added the following	  ///
+/// commands: ec, oc, map; respectively the first one changes Exit Char, the second will do the same for the      ///
+/// Outlier Constant and the third command, if Base Calculator Parser is enabled then It will apply a function to ///
+/// an inserted value. The function is identified by a constant inserted by the user, named FID; if Basecalc	  ///
+/// Parser is enabled otherwise, then it will apply to the function to a vector. This vector is inserted by       ///
+/// following the V.A.R. functions standard method (by accumulating a vector into stack and then free it when you ///
+/// have inserted all the elements). When you're done, then you have to insert a different value of the FID in    ///
+/// order to stop Vector Accumulating Process. Otherwise you have to insert the same initial value of FID to      ///
+/// continue. Fixed some minor bugs and Code highly optimized and stabilized the program run-time execution.	  ///
 ///    This is not a Final Built or Official Release, but (UPDATE) probably this could be the last release I write///
 ///              in C. A future release could be directly mathSMART Mobile Math Environment.                      ///
 ///                     You can contact me at: marco_chiarelli@yahoo.it or on the secundary mail:                 ///
@@ -418,7 +434,9 @@ or at marcochiarelli.nextgenlab@gmail.com									   ||
 ///    Bibek Subedi for his website: http://www.programming-techniques.com/ which put in front of my eyes a new   ///
 /// world of C programming. I also recently renewed the program code by improving a lot of his C tricks and tips. ///
 /// For example, the upper-triangular Matrixes conversion, which was useful to enhance some functions like det(), ///
-///      sgeqsolver ExprEval inline command, etc. ...and finally, but not less important, massive thanks to my    ///
+///      				sgeqsolver ExprEval inline command, etc.	  			  ///
+///	  		Greatly thanks to Daniel Veillard for his fabulous XML Parser, LIBXML2.			  ///
+/// 		Thanks to Francesco Palma for reporting me some bugs, and finally, massive thanks to my		  ///
 /// Informatic Fundaments Teacher, Mario Alessandro Bochicchio, which gave me a lot of C advices and some general ///
 ///            tricks and tips, that enlarged my professional informatic horizonts. That's all...                 ///
 /*!________________________________________________________________________________________________________________*/

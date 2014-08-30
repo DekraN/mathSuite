@@ -38,6 +38,24 @@ I do not assume any responsibilities about the use with any other code-scripts.
 // #include "ext_math.h"
 #include "defaults.h"
 #include "ExprEval\exprincl.h"
+
+#define XMLCALL
+
+#ifdef XMLCALL
+	#include "libxml/encoding.h"
+	#include "libxml/xmlwriter.h"
+	#include "libxml/xpath.h"
+	
+	#define XML_ENCODING "UTF-8"
+	
+	#define SETTINGS_FILENAME "./settings.xml"
+	
+	#define STRING_FALSE "false"
+	#define STRING_TRUE "true"
+	
+	#define XML_FILENAMES_LENGTH MINMIN_STRING
+	#define MAX_XML_FIELDSTRINGS SIGN_STRING
+#endif
 // #include "ExprEval/expreval.h"
 
 // #include "ExprEval/expreval.h"
@@ -63,9 +81,9 @@ extern "C" {
 #define _MS__private
 
 #define PROG__NAME "mathSuite"
-#define PROG__VERSION "5.60"
+#define PROG__VERSION "5.70"
 #define PROG__AUTHOR "Marco Chiarelli"
-#define PROG__LASTUPDATEDATE "23/08/2014"
+#define PROG__LASTUPDATEDATE "29/08/2014"
 
 
 // INITIALIZING EXPREVAL DEFAULT CONSTANTS
@@ -94,9 +112,11 @@ extern "C" {
 #define MAX(a,b) MINMAX(a,b,MAX_MODE,NULL)
 
 
-#define INI_NAME "./config.INI"
+/// #define INI_NAME "./settings.xml"
 
 /// #define WINOS true /// ((defined(WIN32)) || (defined(WINDOWS)))
+
+#define XML_NAME "./settings.xml"
 
 #if WINOS
     #define MAX_PATH_LENGTH MAX_PATH
@@ -323,13 +343,18 @@ enum
 
 #define OUTLIER_CONSTANT DEFAULT_OUTLIER_CONSTANT
 
+#define MIN_OUTLIER_CONSTANT DEFAULT_MIN_OUTLIER_CONSTANT
+#define MAX_OUTLIER_CONSTANT DEFAULT_MAX_OUTLIER_CONSTANT
+
 #define MIDDLE_ELEMENT false
 #define INITIAL_ELEMENT true
 
 #define BY_START false
 #define BY_GLOBALVAL true
 
-#define SetDefaultColor() SetColor(COLOR_DEFAULT)
+#if WINOS
+	#define SetDefaultColor() SetColor(COLOR_DEFAULT)
+#endif
 
 #define ROMAN_NUMBER_STRING 2*MIN_STRING
 
@@ -551,11 +576,11 @@ enum
 #define COLOR_SMARTWHITE 39
 #define COLOR_LIGHTBLUE 43
 
-#define _COLOR_ERROR COLOR_SMARTRED
-#define _COLOR_CREDITS COLOR_LIGHTBLUE // COLOR_CRYSTAL // COLOR_SMARTBLUE
-#define _COLOR_USER COLOR_LUMGREEN
-#define _COLOR_SYSTEM COLOR_SMARTYELLOW
-#define _COLOR_AUTHOR COLOR_SMARTPURPLE
+#define _COLOR_ERROR 60 // COLOR_SMARTRED
+#define _COLOR_CREDITS 57 // COLOR_LIGHTBLUE // COLOR_CRYSTAL // COLOR_SMARTBLUE
+#define _COLOR_USER 58 // COLOR_LUMGREEN
+#define _COLOR_SYSTEM 60 // COLOR_SMARTYELLOW
+#define _COLOR_AUTHOR 54 // COLOR_SMARTPURPLE
 
 enum
 {
@@ -586,15 +611,15 @@ enum
     va_start(ap,x);                                                              \
     char str[MAX_BUFSIZ+INFO_STRING];                                            \
     const bool cond = access(sysLog) != INIT_LOGOBJ;                             \
-    SetColor(y);                                                                 \
+	SetColor(y);                                                             	 \
     vsprintf(str, x, ap);                                                        \
-    prependTimeToString(str, cond);                                               \
-    printf(str);                                                  \
+    prependTimeToString(str, cond);                                              \
+    printf(str);                                                  				 \
     SetDefaultColor();                                                           \
     if(cond)                                                                     \
         logCheck(access(sysLog), str, access(sysLogPath));                       \
     va_end(ap);                                                                  \
-}
+}																				 \
 
 #define PRINTSPACE() printf(" ");
 #define PRINTT() printf("\t");
@@ -618,8 +643,8 @@ enum
 #define BY_CHARS true
 
 #define EXIT_CMD "exit"
-#define _MHSS_CMD DEFAULT_SCRIPTFILES_EXTENSION"_init"
-#define MHSS_CMD DEFAULT_SCRIPTFILES_EXTENSION"_exit"
+#define _MSS_CMD DEFAULT_SCRIPTFILES_EXTENSION"_init"
+#define MSS_CMD DEFAULT_SCRIPTFILES_EXTENSION"_exit"
 
 #define INITIALIZING_RANDOM_SEED 0 // Invalid value for Random Seed.
 // Used just to initializate the program random seed value.
@@ -660,10 +685,10 @@ enum
 // DEFINIZIONE MACRO SOTTO-PROGRAMMI
 //
 
-// Valore di inizializzazione del metadato modalit√†
-// della variabile strutturata suite, definita pi√π sotto
+// Valore di inizializzazione del metadato modalit‡
+// della variabile strutturata suite, definita pi˘ sotto
 #define PROGRAM_BUSY -1
-// o pi√π semplicemente indica che l'utente √® in fase di scelta del subprogram.
+// o pi˘ semplicemente indica che l'utente Ë in fase di scelta del subprogram.
 
 
 // Enumerazione ID Sotto-Programmi
@@ -676,9 +701,9 @@ enum
     MAIN_BASECALCULATOR = 0,
     MAIN_ADVANCEDCALCULATOR,
     MAIN_ALGEBRAOPERATIONS,
-    #ifdef ALLOW_MHSSMANAGER
-        MAIN_MHSSMANAGER,
-    #endif // ALLOW_MHSSMANAGER
+    #ifdef ALLOW_MSSMANAGER
+        MAIN_MSSMANAGER,
+    #endif // ALLOW_MSSMANAGER
     MAIN_CHANGESETTINGS
 };
 
@@ -695,14 +720,14 @@ enum
 
 enum
 {
-    MHSSMANAGER_COMMANDLINE = 0,
-    MHSSMANAGER_EXECSCRIPTFILES,
-    MHSSMANAGER_SHOWUSAGES,
+    MSSMANAGER_COMMANDLINE = 0,
+    MSSMANAGER_EXECSCRIPTFILES,
+    MSSMANAGER_SHOWUSAGES,
 };
 
 #define MAX_ARGS 5
-#define LAST_MHSSMANAGER_PROG MHSSMANAGER_SHOWUSAGES
-#define MAX_MHSSMANAGER_PROGS LAST_MHSSMANAGER_PROG+1
+#define LAST_MSSMANAGER_PROG MSSMANAGER_SHOWUSAGES
+#define MAX_MSSMANAGER_PROGS LAST_MSSMANAGER_PROG+1
 
 enum
 {
@@ -762,7 +787,7 @@ enum
 IMPORTANTE!!! Lasciare sempre per ultimo l'enumerazione
 SETTINGS_SETDEFAULTS, violando tale regola si potrebbe interferire
 con il sistema pre-compiling di freezing di alcune impostazioni
-dal CONFIG.INI
+dal settings.xml
 */
 //
 enum
@@ -776,17 +801,15 @@ enum
     #ifdef ALLOW_SYSLOGMANAGER
         SETTINGS_SYSLOGMANAGER,
     #endif
-    #if WINOS
-        #ifdef ALLOW_LAYOUTSMANAGER
-        SETTINGS_LAYOUTSMANAGER,
-        #endif
-        #ifdef ALLOW_COLSMANAGER
-        SETTINGS_COLORSMANAGER,
-        #endif
+    #ifdef ALLOW_LAYOUTSMANAGER
+    SETTINGS_LAYOUTSMANAGER,
     #endif
-    #ifdef ALLOW_MSINFSMANAGER
-        SETTINGS_MSINFSMANAGER,
-    #endif // ALLOW_MSINFSMANAGER
+    #ifdef ALLOW_COLSMANAGER
+    SETTINGS_COLORSMANAGER,
+    #endif
+    #ifdef ALLOW_LFSMANAGER
+        SETTINGS_LFSMANAGER,
+    #endif // ALLOW_LFSMANAGER
     #ifdef ALLOW_PRECEDIT
         SETTINGS_CHANGEPRECISION,
     #endif
@@ -798,6 +821,9 @@ enum
     #endif
     #ifdef ALLOW_ALGEBRAEDIT
         SETTINGS_CHANGEALGEBRA,
+    #endif
+    #ifdef ALLOW_OUTLIERCONSTEDIT
+    	SETTINGS_CHANGEOUTLIERCONST,
     #endif
     #ifdef ALLOW_EXITCHAREDIT
         SETTINGS_CHANGEEXITCHAR,
@@ -1008,12 +1034,12 @@ enum
 
 enum
 {
-    MSINFS_LOADER = 0,
-    MSINFS_CREATE
+    LFS_LOADER = 0,
+    LFS_CREATE
 };
 
-#define LAST_MSINFSMANAGER_PROG MSINFS_CREATE
-#define MAX_MSINFSMANAGER_PROGS LAST_MSINFSMANAGER_PROG+1
+#define LAST_LFSMANAGER_PROG LFS_CREATE
+#define MAX_LFSMANAGER_PROGS LAST_LFSMANAGER_PROG+1
 
 #define MAX_CASEINSENSITIVE_CHARS_ALPHABET 26
 
@@ -1029,7 +1055,7 @@ enum
 
 
 // VALORE DI INIZIALIZZAZIONE CARATTERE DI USCITA DAL PROGRAMMA
-#define INITIALIZING_EXIT_CHAR '¬£'
+#define INITIALIZING_EXIT_CHAR '£'
 #define INITIALIZING_DEFAULT_COLOR COLOR_WHITE
 
 #define MAIN_COLOR DEFAULT_COLOR
@@ -1066,10 +1092,12 @@ enum
     BASECALC_BITCOUNTER,
     BASECALC_UBITCOUNTER,
     BASECALC_VERSION,
+    BASECALC_EXITCHAR,
     BASECALC_PREC,
     BASECALC_SFACT,
     BASECALC_MINSRNUMBER,
     BASECALC_ALGEBRA,
+    BASECALC_OUTLIERCONST,
     BASECALC_RSEED,
     BASECALC_MMIFIBO,
     BASECALC_MMIFACT,
@@ -1152,6 +1180,7 @@ enum
     BASECALC_VARIANZA,
     BASECALC_STDDEV,
     BASECALC_OUTLIER,
+    BASECALC_MAP,
     BASECALC_MEDIAGEOMETRICA,
     BASECALC_MEDIAARMONICA,
     BASECALC_MEDIAPOTENZA,
@@ -1191,160 +1220,160 @@ enum
 
 enum
 {
-    FUNCINTEGRATION_SIN = 0,
-    FUNCINTEGRATION_COS,
-    FUNCINTEGRATION_SINH,
-    FUNCINTEGRATION_COSH,
-    FUNCINTEGRATION_SEC,
-    FUNCINTEGRATION_SECH,
-    FUNCINTEGRATION_CSC,
-    FUNCINTEGRATION_CSCH,
-    FUNCINTEGRATION_ASIN,
-    FUNCINTEGRATION_ASINH,
-    FUNCINTEGRATION_ACOS,
-    FUNCINTEGRATION_ACOSH,
-    FUNCINTEGRATION_ASEC,
-    FUNCINTEGRATION_ASECH,
-    FUNCINTEGRATION_ACSC,
-    FUNCINTEGRATION_ACSCH,
-    FUNCINTEGRATION_TAN,
-    FUNCINTEGRATION_TANH,
-    FUNCINTEGRATION_ATAN,
-    FUNCINTEGRATION_ATANH,
-    FUNCINTEGRATION_COT,
-    FUNCINTEGRATION_COTH,
-    FUNCINTEGRATION_ACOT,
-    FUNCINTEGRATION_ACOTH,
-    FUNCINTEGRATION_HSIN,
-    FUNCINTEGRATION_HSINH,
-    FUNCINTEGRATION_QSIN,
-    FUNCINTEGRATION_QSINH,
-    FUNCINTEGRATION_HCOS,
-    FUNCINTEGRATION_HCOSH,
-    FUNCINTEGRATION_QCOS,
-    FUNCINTEGRATION_QCOSH,
-    FUNCINTEGRATION_HSEC,
-    FUNCINTEGRATION_HSECH,
-    FUNCINTEGRATION_QSEC,
-    FUNCINTEGRATION_QSECH,
-    FUNCINTEGRATION_HCSC,
-    FUNCINTEGRATION_HCSCH,
-    FUNCINTEGRATION_QCSC,
-    FUNCINTEGRATION_QCSCH,
-    FUNCINTEGRATION_HTAN,
-    FUNCINTEGRATION_HTANH,
-    FUNCINTEGRATION_QTAN,
-    FUNCINTEGRATION_QTANH,
-    FUNCINTEGRATION_HCOT,
-    FUNCINTEGRATION_HCOTH,
-    FUNCINTEGRATION_QCOT,
-    FUNCINTEGRATION_QCOTH,
-    FUNCINTEGRATION_VSIN,
-    FUNCINTEGRATION_VSINH,
-    FUNCINTEGRATION_CVSIN,
-    FUNCINTEGRATION_CVSINH,
-    FUNCINTEGRATION_VCOS,
-    FUNCINTEGRATION_VCOSH,
-    FUNCINTEGRATION_CVCOS,
-    FUNCINTEGRATION_CVCOSH,
-    FUNCINTEGRATION_HVSIN,
-    FUNCINTEGRATION_HVSINH,
-    FUNCINTEGRATION_HCVSIN,
-    FUNCINTEGRATION_HCVSINH,
-    FUNCINTEGRATION_QVSIN,
-    FUNCINTEGRATION_QVSINH,
-    FUNCINTEGRATION_QCVSIN,
-    FUNCINTEGRATION_QCVSINH,
-    FUNCINTEGRATION_HVCOS,
-    FUNCINTEGRATION_HVCOSH,
-    FUNCINTEGRATION_HCVCOS,
-    FUNCINTEGRATION_HCVCOSH,
-    FUNCINTEGRATION_QVCOS,
-    FUNCINTEGRATION_QVCOSH,
-    FUNCINTEGRATION_QCVCOS,
-    FUNCINTEGRATION_QCVCOSH,
-    FUNCINTEGRATION_ESEC,
-    FUNCINTEGRATION_ESECH,
-    FUNCINTEGRATION_ECSC,
-    FUNCINTEGRATION_ECSCH,
-    FUNCINTEGRATION_HESEC,
-    FUNCINTEGRATION_HESECH,
-    FUNCINTEGRATION_HECSC,
-    FUNCINTEGRATION_HECSCH,
-    FUNCINTEGRATION_QESEC,
-    FUNCINTEGRATION_QESECH,
-    FUNCINTEGRATION_QECSC,
-    FUNCINTEGRATION_QECSCH,
-    FUNCINTEGRATION_SINC,
-    FUNCINTEGRATION_SINCH,
-    FUNCINTEGRATION_HSINC,
-    FUNCINTEGRATION_HSINCH,
-    FUNCINTEGRATION_QSINC,
-    FUNCINTEGRATION_QSINCH,
-    FUNCINTEGRATION_COSC,
-    FUNCINTEGRATION_COSCH,
-    FUNCINTEGRATION_HCOSC,
-    FUNCINTEGRATION_HCOSCH,
-    FUNCINTEGRATION_QCOSC,
-    FUNCINTEGRATION_QCOSCH,
-    FUNCINTEGRATION_SECC,
-    FUNCINTEGRATION_SECCH,
-    FUNCINTEGRATION_HSECC,
-    FUNCINTEGRATION_HSECCH,
-    FUNCINTEGRATION_QSECC,
-    FUNCINTEGRATION_QSECCH,
-    FUNCINTEGRATION_CSCC,
-    FUNCINTEGRATION_CSCCH,
-    FUNCINTEGRATION_HCSCC,
-    FUNCINTEGRATION_HCSCCH,
-    FUNCINTEGRATION_QCSCC,
-    FUNCINTEGRATION_QCSCCH,
-    FUNCINTEGRATION_TANC,
-    FUNCINTEGRATION_TANCH,
-    FUNCINTEGRATION_HTANC,
-    FUNCINTEGRATION_HTANCH,
-    FUNCINTEGRATION_QTANC,
-    FUNCINTEGRATION_QTANCH,
-    FUNCINTEGRATION_COTC,
-    FUNCINTEGRATION_COTCH,
-    FUNCINTEGRATION_HCOTC,
-    FUNCINTEGRATION_HCOTCH,
-    FUNCINTEGRATION_QCOTC,
-    FUNCINTEGRATION_QCOTCH,
-    FUNCINTEGRATION_LOG,
-    FUNCINTEGRATION_LOG10,
-    FUNCINTEGRATION_LOG2,
-    FUNCINTEGRATION_LOGC,
-    FUNCINTEGRATION_LOG10C,
-    FUNCINTEGRATION_LOG2C,
-    FUNCINTEGRATION_LOG1P,
-    FUNCINTEGRATION_LOG1PC,
-    FUNCINTEGRATION_EXP,
-    FUNCINTEGRATION_EXPC,
-    FUNCINTEGRATION_EXP10,
-    FUNCINTEGRATION_EXP10C,
-    FUNCINTEGRATION_EXP2,
-    FUNCINTEGRATION_EXP2C,
-    FUNCINTEGRATION_ASUM,
-    FUNCINTEGRATION_FIBO,
-    FUNCINTEGRATION_FACT,
-    FUNCINTEGRATION_SFACT,
-    FUNCINTEGRATION_NPNUM,
-    FUNCINTEGRATION_PRIMR,
-    FUNCINTEGRATION_FPNSUM,
-    FUNCINTEGRATION_FIBNC,
-    FUNCINTEGRATION_FSUM,
-    FUNCINTEGRATION_FASUM,
-    FUNCINTEGRATION_SFASUM,
-    FUNCINTEGRATION_FNNSUM,
-    FUNCINTEGRATION_FLOOR,
-    FUNCINTEGRATION_CEIL,
-    FUNCINTEGRATION_DEG,
-    FUNCINTEGRATION_RAD
+    FID_SIN = 0,
+    FID_COS,
+    FID_SINH,
+    FID_COSH,
+    FID_SEC,
+    FID_SECH,
+    FID_CSC,
+    FID_CSCH,
+    FID_ASIN,
+    FID_ASINH,
+    FID_ACOS,
+    FID_ACOSH,
+    FID_ASEC,
+    FID_ASECH,
+    FID_ACSC,
+    FID_ACSCH,
+    FID_TAN,
+    FID_TANH,
+    FID_ATAN,
+    FID_ATANH,
+    FID_COT,
+    FID_COTH,
+    FID_ACOT,
+    FID_ACOTH,
+    FID_HSIN,
+    FID_HSINH,
+    FID_QSIN,
+    FID_QSINH,
+    FID_HCOS,
+    FID_HCOSH,
+    FID_QCOS,
+    FID_QCOSH,
+    FID_HSEC,
+    FID_HSECH,
+    FID_QSEC,
+    FID_QSECH,
+    FID_HCSC,
+    FID_HCSCH,
+    FID_QCSC,
+    FID_QCSCH,
+    FID_HTAN,
+    FID_HTANH,
+    FID_QTAN,
+    FID_QTANH,
+    FID_HCOT,
+    FID_HCOTH,
+    FID_QCOT,
+    FID_QCOTH,
+    FID_VSIN,
+    FID_VSINH,
+    FID_CVSIN,
+    FID_CVSINH,
+    FID_VCOS,
+    FID_VCOSH,
+    FID_CVCOS,
+    FID_CVCOSH,
+    FID_HVSIN,
+    FID_HVSINH,
+    FID_HCVSIN,
+    FID_HCVSINH,
+    FID_QVSIN,
+    FID_QVSINH,
+    FID_QCVSIN,
+    FID_QCVSINH,
+    FID_HVCOS,
+    FID_HVCOSH,
+    FID_HCVCOS,
+    FID_HCVCOSH,
+    FID_QVCOS,
+    FID_QVCOSH,
+    FID_QCVCOS,
+    FID_QCVCOSH,
+    FID_ESEC,
+    FID_ESECH,
+    FID_ECSC,
+    FID_ECSCH,
+    FID_HESEC,
+    FID_HESECH,
+    FID_HECSC,
+    FID_HECSCH,
+    FID_QESEC,
+    FID_QESECH,
+    FID_QECSC,
+    FID_QECSCH,
+    FID_SINC,
+    FID_SINCH,
+    FID_HSINC,
+    FID_HSINCH,
+    FID_QSINC,
+    FID_QSINCH,
+    FID_COSC,
+    FID_COSCH,
+    FID_HCOSC,
+    FID_HCOSCH,
+    FID_QCOSC,
+    FID_QCOSCH,
+    FID_SECC,
+    FID_SECCH,
+    FID_HSECC,
+    FID_HSECCH,
+    FID_QSECC,
+    FID_QSECCH,
+    FID_CSCC,
+    FID_CSCCH,
+    FID_HCSCC,
+    FID_HCSCCH,
+    FID_QCSCC,
+    FID_QCSCCH,
+    FID_TANC,
+    FID_TANCH,
+    FID_HTANC,
+    FID_HTANCH,
+    FID_QTANC,
+    FID_QTANCH,
+    FID_COTC,
+    FID_COTCH,
+    FID_HCOTC,
+    FID_HCOTCH,
+    FID_QCOTC,
+    FID_QCOTCH,
+    FID_LOG,
+    FID_LOG10,
+    FID_LOG2,
+    FID_LOGC,
+    FID_LOG10C,
+    FID_LOG2C,
+    FID_LOG1P,
+    FID_LOG1PC,
+    FID_EXP,
+    FID_EXPC,
+    FID_EXP10,
+    FID_EXP10C,
+    FID_EXP2,
+    FID_EXP2C,
+    FID_ASUM,
+    FID_FIBO,
+    FID_FACT,
+    FID_SFACT,
+    FID_NPNUM,
+    FID_PRIMR,
+    FID_FPNSUM,
+    FID_FIBNC,
+    FID_FSUM,
+    FID_FASUM,
+    FID_SFASUM,
+    FID_FNNSUM,
+    FID_FLOOR,
+    FID_CEIL,
+    FID_DEG,
+    FID_RAD
 };
 
-#define LAST_FUNCINTEGRATION FUNCINTEGRATION_RAD
-#define MAX_FUNCSINTEGRATION LAST_FUNCINTEGRATION+1
+#define LAST_FID FID_RAD
+#define MAX_FIDS LAST_FID+1
 
 
 // MACRO PER FAR VEDERE O MENO LA DESCRIZIONE
@@ -1408,7 +1437,7 @@ enum
 
 
 /*
-Dedicati alla modalit√† di funzionamento
+Dedicati alla modalit‡ di funzionamento
 della funzione matrixToVector, per decidere
 in che senso deve essere svolta
 0 -> Normale, 1 -> Viceversa
@@ -1418,7 +1447,7 @@ in che senso deve essere svolta
 #define VECTOR_TO_MATRIX true
 
 /*
-Dedicati alla modalit√† di stampa della matrice
+Dedicati alla modalit‡ di stampa della matrice
 dell'omonima funzione. Come suggeriscono le
 stesse macro, passando 0 si stampa una matrice
 di valori in virgola mobile, altrimenti di interi.
@@ -1495,6 +1524,9 @@ enum
 
 #define SUMMATION_SUM false
 #define SUMMATION_SUB true
+
+#define PRODUCTORY_MUL false
+#define PRODUCTORY_DIV true
 
 
 // used for CURVEs FITTING or INTERPOLATIONS SubPrograms...
@@ -1685,9 +1717,11 @@ typedef struct
 
 typedef struct
 {
+	char exit_char;
     fsel_typ precision: DIM_BITFIELD;
     fsel_typ stabilizer_factor: DIM_BITFIELD;
     fsel_typ algebra: DIM_BITFIELD;
+    float outlier_constant;
     dim_typ matrix_max_raws;
     dim_typ matrix_max_columns;
     dim_typ max_dsvd_iterations;
@@ -1749,7 +1783,6 @@ enum
     DOMAIN_USHRT,
     DOMAIN_ULONG,
     DOMAIN_ULLONG,
-    DOMAIN_FLOAT,
     DOMAIN_FLT,
     DOMAIN_DBL,
     DOMAIN_LDBL
@@ -1770,8 +1803,8 @@ typedef struct
 struct ext_math_type
 {
     const TypeRange types_range[MAX_TYPES];
-    const char funcnames[MAX_FUNCSINTEGRATION][MIN_STRING];
-    ityp (* const functions[MAX_FUNCSINTEGRATION])(ityp);
+    const char funcnames[MAX_FIDS][MIN_STRING];
+    ityp (* const functions[MAX_FIDS])(ityp);
     const char days_week_names[MAX_DAYSWEEK][DAYSWEEK_LENGTH];
     const char months_names[MAX_MONTHS][MONTHS_LENGTH];
     const sel_typ getdaynum_map[GETDAYNAME_MAP_LENGTH];
@@ -1783,12 +1816,16 @@ struct ext_math_type
 struct prog_constants
 {
     char listsnames[MAX_LISTS][SIGN_STRING];
+    #ifdef XMLCALL
+    	const char bools_identifiers[MAX_DIMENSIONS][SIGN_STRING];
+    #endif
     const char bools_names[MAX_BOOL_SETTINGS][INFO_STRING];
     struct
     {
         const unsigned bmask;
         const bool default_val;
     } const bools[MAX_BOOL_SETTINGS];
+    const dim_typ max_memoizable_indices[MAX_MEMOIZABLE_FUNCTIONS];
 	const char memoizers_names[_MAX_MEMOIZABLE_FUNCTIONS][INFO_STRING];
     const char algebra_elements_names[_MAX_ALGEBRA][INFO_STRING];
     const char algebra_imaginary_units_names[_MAX_ALGEBRA][MAX_SEDENIONS_UNITS][SIGN_STRING];
@@ -1820,13 +1857,12 @@ struct program
     } lists[MAX_LISTS];
     exprFuncList *func_list;
     exprValList *const_list;
-    char exit_char;
     char colors_path[MAX_PATH_LENGTH];
     fsel_typ random_seed;
     sel_typ colors[MAX_COLOR_TYPES];
     volatile sel_typ mode;
     volatile sel_typ exitHandle;
-    volatile bool mhss: BOOL_BITFIELD;
+    volatile bool mss: BOOL_BITFIELD;
     volatile bool sigresult: BOOL_BITFIELD;
 };
 
@@ -1855,9 +1891,9 @@ extern sprog main_menu[MAX_PROGRAMMI],
                     adv_calc[MAX_ADVCALC_PROGS],
                     alg_operations[MAX_ALGEBRA_OPERATIONS];
 
-#ifdef ALLOW_MHSSMANAGER
-    extern sprog mhss_manager[MAX_MHSSMANAGER_PROGS];
-#endif // ALLOW_MHSSMANAGER
+#ifdef ALLOW_MSSMANAGER
+    extern sprog mss_manager[MAX_MSSMANAGER_PROGS];
+#endif // ALLOW_MSSMANAGER
 
 #ifndef FREEZE_SETTINGSMANAGER
     extern sprog change_settings[MAX_SETTINGS];
@@ -1879,17 +1915,16 @@ extern sprog main_menu[MAX_PROGRAMMI],
     extern sprog syslog_manager[MAX_SYSLOGMANAGER_PROGS];
 #endif
 
-#if WINOS
 #ifdef ALLOW_LAYOUTSMANAGER
     extern sprog layouts_manager[MAX_LAYOUTSMANAGER_PROGS];
 #endif
+
 #ifdef ALLOW_COLSMANAGER
     extern sprog cols_manager[MAX_COLSMANAGER_PROGS];
 #endif
-#endif
 
-#ifdef ALLOW_MSINFSMANAGER
-    extern sprog msinfs_manager[MAX_MSINFSMANAGER_PROGS];
+#ifdef ALLOW_LFSMANAGER
+    extern sprog lfs_manager[MAX_LFSMANAGER_PROGS];
 #endif
 
 extern const struct ext_math_type ext_math;
@@ -1901,6 +1936,7 @@ extern const struct prog_constants suite_c;
 __MSUTIL_ void toupper_s(char *);
 __MSUTIL_ void tolower_s(char *);
 __MSNATIVE_ void strundsc(const char *, char []);
+__MSNATIVE_ void strboolize(const char *, char []);
 __MSNATIVE_ void strfnm(const char *, char [static MAX_PATH_LENGTH]);
 __MSUTIL_ int __export countbits(long);
 __MSUTIL_ int __export ucountbits(unsigned long);
@@ -1950,21 +1986,35 @@ __MSNATIVE_ void __system prepareToExit(void);
 __MSNATIVE_ void __system safeExit(const volatile int);
 __MSNATIVE_ void __system _handleCmdLine(const register sel_typ, char **);
 __MSNATIVE_ bool __system _execScriptFiles(const char [static MAX_PATH_LENGTH]);
-__MSNATIVE_ bool __system _msinfLoader(const char [static MAX_PATH_LENGTH]);
-__MSNATIVE_ bool __system _msinfCreate(const char [static MAX_PATH_LENGTH]);
+__MSNATIVE_ bool __system _lfLoader(const char [static MAX_PATH_LENGTH]);
+__MSNATIVE_ bool __system _lfCreate(const char [static MAX_PATH_LENGTH]);
+
+#ifdef XMLCALL
+	__MSUTIL_ XMLCALL xmlDoc * __system __export xmlInit(const char [static XML_FILENAMES_LENGTH], xmlXPathContext **);
+	__MSUTIL_ XMLCALL void __system __export xmlExit(const char [static XML_FILENAMES_LENGTH], xmlDoc **, xmlXPathObject **, xmlXPathContext **);
+	__MSUTIL_ XMLCALL void __system __export xmlWriteInt(xmlXPathObject **, xmlXPathContext *, const char *, const int);
+	__MSUTIL_ XMLCALL void __system __export xmlWriteBool(xmlXPathObject **, xmlXPathContext *, const char *, const bool);
+	__MSUTIL_ XMLCALL void __system __export xmlWriteFloat(xmlXPathObject **, xmlXPathContext *, const char *, const float);
+	__MSUTIL_ XMLCALL void __system __export xmlWriteString(xmlXPathObject **, xmlXPathContext *, const char *, const char [static MAX_XML_FIELDSTRINGS]);
+	__MSUTIL_ XMLCALL int __system __export xmlGetInt(xmlXPathObject **, xmlXPathContext *, const char *);
+	__MSUTIL_ XMLCALL bool __system __export xmlGetBool(xmlXPathObject **, xmlXPathContext *, const char *);
+	__MSUTIL_ XMLCALL float __system __export xmlGetFloat(xmlXPathObject **, xmlXPathContext *, const char *);
+	__MSUTIL_ XMLCALL void __system __export xmlGetString(xmlXPathObject **, xmlXPathContext *, const char *, char [static MAX_XML_FIELDSTRINGS]);
+#endif
 
 #if WINOS
-    __MSUTIL_ __WINCALL void __system __export SetColor(const sel_typ);
     __MSUTIL_ __WINCALL BOOL WINAPI __system __export SetExitButtonState(const bool);
-    __MSUTIL_ __WINCALL BOOL WINAPI __system __export WritePrivateProfileInt(LPCSTR, LPCSTR, INT, LPCSTR);
     __MSUTIL_ const char * const __system __export getFilename(const char [static MAX_PATH_LENGTH]);
     __MSUTIL_ __WINCALL void __system updInfo(void);
     __MSUTIL_ __WINCALL HWND WINAPI __system __export GetConsoleWindowNT();
     __MSUTIL_ __WINCALL bool __system __export windowsFileHandler(char *, const char *, const char [static MAX_EXTENSION_LENGTH], bool);
-    __MSNATIVE_ __WINCALL void __system _backupColINI(void);
-    __MSNATIVE_ __WINCALL void __system _colINILoader(const char [static MAX_PATH_LENGTH]);
-    __MSNATIVE_ __WINCALL void __system getProgramSettings(dim_typ);
 #endif
+
+__MSUTIL_ void __system updInfo(void);
+__MSUTIL_ void __system __export SetColor(const sel_typ);
+__MSNATIVE_ XMLCALL void __system _backupColFile(void);
+__MSNATIVE_ XMLCALL void __system getProgramSettings(dim_typ);
+__MSNATIVE_ XMLCALL void __system _colFileLoader(const char [static MAX_PATH_LENGTH]);
 
 __MSNATIVE_ ityp __export MINMAX(const register dim_typ dim, const ityp [static dim], const bool, dim_typ *);
 __MSNATIVE_ bool __system __export isDomainForbidden(ityp, bool);
@@ -1980,7 +2030,7 @@ __MSNATIVE_ void __system __export _flushMemoizersBuffers(sel_typ);
 __MSNATIVE_ void __system __export flushAllMemoizersBuffers(void);
 __MSNATIVE_ dim_typ __system __export selectListItem(dim_typ dim, bool, const char *, const char [static dim][MIN_STRING]);
 __MSNATIVE_ void __system viewProgramSettings(dim_typ);
-__MSNATIVE_ void __system resetProgramSettings(layoutObj * const, const char [static MAX_PATH_LENGTH]);
+__MSNATIVE_ XMLCALL void __system resetProgramSettings(layoutObj * const, const char [static MAX_PATH_LENGTH]);
 __MSNATIVE_ void __system setProgramSettings(dim_typ);
 __MSNATIVE_ bool __system __export catchPause();
 __MSNATIVE_ void __system logPrint(logObj * const);
@@ -2004,7 +2054,7 @@ __MSSHELL_WRAPPER_ void __apnt changeProgramSettings(const register sel_typ argc
 __MSSHELL_WRAPPER_ void calcolatoreDiBase(const register sel_typ argc, char ** argv);
 __MSSHELL_WRAPPER_ void __apnt calcolatoreAvanzato(const register sel_typ argc, char ** argv);
 __MSSHELL_WRAPPER_ void __apnt algebraOperations(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ void __apnt mhssManager(const register sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ void __apnt mssManager(const register sel_typ argc, char ** argv);
 __MSSHELL_WRAPPER_ __MSNATIVE_ void _MS__private __system __export operationsGroupMenu(dim_typ dim, sprog [static dim], const char [static INFO_STRING], bool);
 __MSSHELL_WRAPPER_ __MSNATIVE_ void __system progInfo(sel_typ);
 __MSNATIVE_ bool _MS__private __system doesExistOperIdentifier(const char [static MAX_IDENTIFIER_LENGTH], sel_typ [static MAX_DIMENSIONS]);

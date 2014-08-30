@@ -1,4 +1,4 @@
-// layouts_manager.c 20/08/2014 Marco Chiarelli aka DekraN
+// layouts_manager.c 23/08/2014 Marco Chiarelli aka DekraN
 /*
 WARNING!!! This program is intended to be used, so linked at the compilation,
 exclusively with main.c of my suite program! I do not assume any responsibilities
@@ -6,7 +6,6 @@ about the use with any other code-scripts.
 */
 
 #include "dutils.h"
-#if WINOS
 #ifdef ALLOW_LAYOUTSMANAGER
 
 // FUNCTIONS DECLARATIONS
@@ -207,5 +206,4 @@ __MSSHELL_WRAPPER_ static inline void _MS__private __system __lmp_prog renLayout
     return;
 }
 
-#endif
 #endif

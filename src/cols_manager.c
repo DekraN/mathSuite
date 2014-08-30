@@ -1,4 +1,4 @@
-// cols_manager.c 20/08/2014 Marco Chiarelli aka DekraN
+// cols_manager.c 23/08/2014 Marco Chiarelli aka DekraN
 /*
 WARNING!!! This program is intended to be used, so linked at the compilation,
 exclusively with main.c of my suite program! I do not assume any responsibilities
@@ -6,12 +6,13 @@ about the use with any other code-scripts.
 */
 
 #include "dutils.h"
+
 #if WINOS
 #ifdef ALLOW_COLSMANAGER
 
 __MSSHELL_WRAPPER_ static void _MS__private __system changeColors(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ __WINCALL static void _MS__private __system colINILoader(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private __system backupColINI(const register sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ __WINCALL static void _MS__private __system colFileLoader(const register sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private __system backupColFile(const register sel_typ argc, char ** argv);
 
 sprog cols_manager[MAX_COLSMANAGER_PROGS] =
 {
@@ -29,7 +30,7 @@ sprog cols_manager[MAX_COLSMANAGER_PROGS] =
         "Load Colors Settings File ("DEFAULT_COLORS_FILE_EXTENSION")",
         CMD_COLORSFILESLOADER,
         USAGE_COLORSFILESLOADER,
-        colINILoader,
+        colFileLoader,
         AUTOMATIC,
         CHILD
     },
@@ -38,7 +39,7 @@ sprog cols_manager[MAX_COLSMANAGER_PROGS] =
         "Save Colors Settings File",
         CMD_BACKUPCOLORSFILES,
         USAGE_BACKUPCOLORSFILES,
-        backupColINI,
+        backupColFile,
         AUTOMATIC,
         CHILD
     }
@@ -106,16 +107,16 @@ __MSSHELL_WRAPPER_ static void _MS__private __system changeColors(const register
 
 }
 
-__MSSHELL_WRAPPER_ __WINCALL static void _MS__private __system colINILoader(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ __WINCALL static void _MS__private __system colFileLoader(const register sel_typ argc, char ** argv)
 {
     char path[MAX_PATH_LENGTH];
     if(isnSett(BOOLS_ITEMSSELECTBYPATH))
     {
-        const bool wHandler = windowsFileHandler(path,  "Settings Configuration (*."DEFAULT_COLORS_FILE_EXTENSION")\0*."DEFAULT_COLORS_FILE_EXTENSION"\0MathSuite Colors Settings (*."OLD_COLORS_FILE_EXTENSION")\0*."OLD_COLORS_FILE_EXTENSION"\0Text Documents (*.txt)\0*.txt\0Generic DAT Files (*.DAT)\0*.DAT\0All Files (*.*)\0*.*\0",
+        const bool wHandler = windowsFileHandler(path,  "Settings Configuration (*."DEFAULT_COLORS_FILE_EXTENSION")\0*."DEFAULT_COLORS_FILE_EXTENSION"\0Text Documents (*.txt)\0*.txt\0All Files (*.*)\0*.*\0",
                                 DEFAULT_COLORS_FILE_EXTENSION, true);
         if(wHandler)
         {
-            _colINILoader(path);
+            _colFileLoader(path);
             sprint("%s\nFile has been correctly loaded.\n\n", path);
         }
         else
@@ -136,7 +137,7 @@ __MSSHELL_WRAPPER_ __WINCALL static void _MS__private __system colINILoader(cons
         {
             bool assert;
 
-            printf2(COLOR_CREDITS, "Enter the Path of the INI File you wish to load.\n");
+            printf2(COLOR_CREDITS, "Enter the Path of the "DEFAULT_LAYOUT_FILE_EXTENSION" File you wish to load.\n");
             printf2(COLOR_CREDITS, "or insert %c to exit SubProgram.\n\n", SCANFEXIT_CHAR);
             PRINTL();
 
@@ -152,15 +153,15 @@ __MSSHELL_WRAPPER_ __WINCALL static void _MS__private __system colINILoader(cons
             // mustcreatefile = true;
             }
         }
-        _colINILoader(path);
+        _colFileLoader(path);
         sprint("%s\nFile has been correctly loaded.\n\n", path);
     }
     return;
 }
 
-__MSSHELL_WRAPPER_ static void _MS__private __system backupColINI(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static void _MS__private __system backupColFile(const register sel_typ argc, char ** argv)
 {
-    _backupColINI();
+    _backupColFile();
     printf2(COLOR_USER, "%s\nColors Settings File has been correctly saved.\n\n", access(colors_path));
     return;
 }

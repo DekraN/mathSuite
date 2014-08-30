@@ -1,4 +1,4 @@
-// lists_manager.c 20/08/2014 Marco Chiarelli aka DekraN
+// lists_manager.c 23/08/2014 Marco Chiarelli aka DekraN
 /*
 WARNING!!! This program is intended to be used, so linked at the compilation,
 exclusively with main.c of my suite program! I do not assume any responsibilities
@@ -18,7 +18,7 @@ __MSSHELL_WRAPPER_ __MSNATIVE_ static bool _MS__private __system listDeleteProc(
 
 __MSSHELL_WRAPPER_ __MSNATIVE_ static void _MS__private __system showCurItem(sel_typ mode)
 {
-    char str[MINMIN_STRING];
+    char str[MINMIN_STRING] = NULL_CHAR;
     strcpy(str, suite_c.listsnames[mode]);
     toupper_s(str);
     printf2(COLOR_CREDITS, "CURRENT %s:\n%s\n", str, listNo(access(lists)[mode].cur_item, mode)->path);
@@ -249,7 +249,7 @@ __MSNATIVE_ dim_typ __system __export itemSelect(sel_typ mode)
             strcpy(access_point, change_settings[SETTINGS_LOGSMANAGER].name);
             break;
         #endif
-        #if ((WINOS) && (defined ALLOW_LAYOUTSMANAGER))
+        #ifdef ALLOW_LAYOUTSMANAGER
         case LAYOUTS:
             strcpy(access_point, change_settings[SETTINGS_LAYOUTSMANAGER].name);
             break;
@@ -414,9 +414,7 @@ __MSNATIVE_ inline void __system __export passToItem(dim_typ which_item, sel_typ
 
     // freeExprEvalLists();
     access(lists)[mode].cur_item = which_item;
-    #if WINOS
-        updInfo();
-    #endif
+    updInfo();
 
 
     // suite.exprVars.curenv = which_env;
@@ -484,7 +482,7 @@ __MSNATIVE_ __WINCALL void __system __export createItem(const char *string, sel_
     const bool assert = (__pmode__ == ENVS_OPEN || __pmode__ == MATRICES_OPEN || __pmode__ == LOGS_OPEN);
     // bool mustcreatefile;
 
-    char iname[MINMIN_STRING];
+    char iname[MINMIN_STRING] = NULL_CHAR;
     strcpy(iname, suite_c.listsnames[mode]);
 
     // nodelist * item;
@@ -499,21 +497,21 @@ __MSNATIVE_ __WINCALL void __system __export createItem(const char *string, sel_
             case ENVS:
             {
                 wHandler = windowsFileHandler(name,
-                "MathSuite Vars Lists (*."DEFAULT_VARLIST_FILE_EXTENSION")\0*."DEFAULT_VARLIST_FILE_EXTENSION"\0Text Documents (*.txt)\0*.txt\0Settings Configuration (*.INI)\0*.INI\0Generic DAT Files (*.DAT)\0*.DAT\0All Files (*.*)\0*.*\0",
+                "MathSuite Vars Lists (*."DEFAULT_VARLIST_FILE_EXTENSION")\0*."DEFAULT_VARLIST_FILE_EXTENSION"\0Text Documents (*.txt)\0*.txt\0All Files (*.*)\0*.*\0",
                 DEFAULT_VARLIST_FILE_EXTENSION, assert);
                 break;
             }
             case MATRICES:
             {
                 wHandler = windowsFileHandler(name,
-                "MathSuite Matrices (*."DEFAULT_MATRIX_FILE_EXTENSION")\0*."DEFAULT_MATRIX_FILE_EXTENSION"\0Text Documents (*.txt)\0*.txt\0Generic DAT Files (*.DAT)\0*.DAT\0All Files (*.*)\0*.*\0",
+                "MathSuite Matrices (*."DEFAULT_MATRIX_FILE_EXTENSION")\0*."DEFAULT_MATRIX_FILE_EXTENSION"\0Text Documents (*.txt)\0*.txt\0All Files (*.*)\0*.*\0",
                 DEFAULT_MATRIX_FILE_EXTENSION, assert);
                 break;
             }
             case LOGS:
             {
                 wHandler = windowsFileHandler(name,
-                "File LOG (*."DEFAULT_LOG_FILE_EXTENSION")\0*."DEFAULT_LOG_FILE_EXTENSION"\0Text Documents (*.txt)\0*.txt\0Generic DAT Files (*.DAT)\0*.DAT\0All Files (*.*)\0*.*\0",
+                "File LOG (*."DEFAULT_LOG_FILE_EXTENSION")\0*."DEFAULT_LOG_FILE_EXTENSION"\0Text Documents (*.txt)\0*.txt\0All Files (*.*)\0*.*\0",
                 DEFAULT_LOG_FILE_EXTENSION, assert);
                 break;
             }
@@ -608,9 +606,8 @@ __MSNATIVE_ __WINCALL void __system __export createItem(const char *string, sel_
             saveItem(access(lists)[mode].cur_item, mode);
 
         access(lists)[mode].cur_item = which_item; // BOOLS_AUTOSETCURITEM IS HARDCODED IN THIS CASE.
-        #if WINOS
-            updInfo();
-        #endif
+        updInfo();
+
 
         // suite.exprVars.curenv = which_env;
         createItemData(which_item, mode);
