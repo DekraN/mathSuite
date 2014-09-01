@@ -188,15 +188,6 @@ sprog alg_operations[MAX_ALGEBRA_OPERATIONS] =
         BY_USER,
         CHILD
     },
-    [ALGEBRA_VECTORPERVECTOR] =
-    {
-        "Vector per Vector Product",
-        CMD_VECTORPERVECTOR,
-        USAGE_VECTORPERVECTOR,
-        matrixProduct,
-        BY_USER,
-        CHILD
-    },
     [ALGEBRA_SCALARPRODUCT] =
     {
         "Vectors Scalar Product",

@@ -1,7 +1,7 @@
 mathSuite
 //-----------------------------------------------------------------------------------------------------------------//
 AUTHOR: Marco Chiarelli aka DekraN aka Wesker013 (FB)								   ||
-CURRENT VERSION: v5.75 												   ||
+CURRENT VERSION: v5.75												   ||
 LAST UPDATE: 15:00 01/09/2014											   ||
 CONTACT ME at: marco_chiarelli@yahoo.it										   ||
 or at marcochiarelli.nextgenlab@gmail.com									   ||
@@ -397,6 +397,10 @@ or at marcochiarelli.nextgenlab@gmail.com									   ||
 /// have inserted all the elements). When you're done, then you have to insert a different value of the FID in    ///
 /// order to stop Vector Accumulating Process. Otherwise you have to insert the same initial value of FID to      ///
 /// continue. Fixed some minor bugs and Code highly optimized and stabilized the program run-time execution.	  ///
+///                                     CHANGELOG v5.75 (01/09/2014)                                              ///
+/// Added Permutations, Permutations with Repetitions, K-Permutations, K-Permutations with Repetitions and        ///
+/// Combinations with Repetitions, with the respective commands: "perm", "permrep", "kperm", "kpermrep", "combrep"///
+/// 			Removed "Vector per Vector" MACRO SubProgram, due to an undefined bug.			  ///
 ///    This is not a Final Built or Official Release, but (UPDATE) probably this could be the last release I write///
 ///              in C. A future release could be directly mathSMART Mobile Math Environment.                      ///
 ///                     You can contact me at: marco_chiarelli@yahoo.it or on the secundary mail:                 ///

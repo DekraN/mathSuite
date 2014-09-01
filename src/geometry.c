@@ -2891,7 +2891,6 @@ __MSNATIVE_ bool __system __export enterMatrix(ityp ***matrix, dim_typ *righe, d
 
     volatile char tmp;
     dim_typ start_col_index;
-    const bool assert = __pmode__ == ALGEBRA_VECTORPERVECTOR;
 
     tmp = 1;
     start_col_index = 0;
@@ -2914,7 +2913,7 @@ __MSNATIVE_ bool __system __export enterMatrix(ityp ***matrix, dim_typ *righe, d
 
         (*righe) = 1;
 
-        for(*colonne = 0; tmp && !(assert); ++ (*colonne))
+        for(*colonne = 0; tmp; ++ (*colonne))
         {
 
             if(tmp < -1)
@@ -2967,20 +2966,17 @@ __MSNATIVE_ bool __system __export enterMatrix(ityp ***matrix, dim_typ *righe, d
         }
 
         tmp = 1;
-        (*colonne) += 1 -(2*!(assert));
+        (*colonne) --;
 
-        if(!(assert))
-        {
-            (*matrix)[0] = realloc((*matrix)[0], sizeof(ityp)*(*colonne));
-           errMem((*matrix)[0], false);
-        }
+        (*matrix)[0] = realloc((*matrix)[0], sizeof(ityp)*(*colonne));
+        errMem((*matrix)[0], false);
 
 
-        for(*righe = !assert; (square ? *righe < *colonne : (tmp && __pmode__ != ALGEBRA_SCALARPRODUCT)); ++(*righe))
+        for(*righe = 1; (square ? *righe < *colonne : (tmp && __pmode__ != ALGEBRA_SCALARPRODUCT)); ++(*righe))
         {
 
             dim_typ i;
-            const dim_typ analog_raws = (*righe)+!(assert);
+            const dim_typ analog_raws = (*righe)+1;
 
             if(lazy_exec)
                 (*matrix) = realloc((*matrix), sizeof(ityp *)*analog_raws);
@@ -3088,7 +3084,7 @@ __MSNATIVE_ bool __system __export enterMatrix(ityp ***matrix, dim_typ *righe, d
 
         dim_typ i;
 
-        for(i=0; i<(*colonne) && !(assert); ++i)
+        for(i=0; i<(*colonne); ++i)
         {
             while((tmp = insertElement((*matrix), (dim_typ2){0, i}, square)) != 1 && tmp != -2 && !(char_insert))
                 if(getItemsListNo(MATRICES) != STARTING_MATNO && tmp == -1)
@@ -3123,7 +3119,7 @@ __MSNATIVE_ bool __system __export enterMatrix(ityp ***matrix, dim_typ *righe, d
         dim_typ j;
         volatile sel_typ back_tracking;
 
-        for(i = !(assert); i<(*righe) && __pmode__ != ALGEBRA_SCALARPRODUCT; ++i)
+        for(i = 1; i<(*righe) && __pmode__ != ALGEBRA_SCALARPRODUCT; ++i)
             for(j=start_col_index; j<(*colonne); ++j)
             {
                 while((tmp = insertElement((*matrix), (dim_typ2){i, j}, square)) != 1 && tmp != -2 && !(char_insert))
