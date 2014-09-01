@@ -1,6 +1,6 @@
 // ext_math.h
 // as External Math Library
-// 23/08/2014 Marco Chiarelli aka DekraN
+// 01/09/2014 Marco Chiarelli aka DekraN
 /*
 WARNING!!! This program is intended to be included
 exclusively by main.c, geometry.c, programs.c, algebra.c and settings.c project files of my suite program!
@@ -2019,21 +2019,34 @@ __MSNATIVE_ ityp __export sfact_odd(register ityp n)
     return res < ULLONG_MAX ? res : INVALIDRETURNVALUE_ODD_SFATTORIALE;
 }
 
-/*
-__MSUTIL_ inline ityp __export sfact(register ityp n)
+__MSUTIL_ inline ityp __export perm(register ityp n)
 {
-    return (n <= 1.00) ? 1.00 : n*sfact(n-2.00);
+	return fact(n);
 }
-*/
 
-__MSUTIL_ inline ityp __export perm(register ityp n, register ityp r)
+__MSUTIL_ inline ityp __export perm_rep(register ityp n, register uint64_t dim, ityp vector[static dim])
 {
-    return (fact(n)/(fact(n-r)));
+	 return (fact(n)/productory(dim, PRODUCTORY_MUL, vector));
+}
+
+__MSUTIL_ inline ityp __export kperm(register ityp n, register ityp k)
+{
+    return (fact(n)/(fact(n-k)));
+}
+
+__MSUTIL_ inline ityp __export kperm_rep(register ityp n, register ityp k)
+{
+	return pow(n, k);
 }
 
 __MSUTIL_ inline ityp __export comb(register ityp n, register ityp r)
 {
     return (fact(n)/(fact(n-r)*fact(r)));
+}
+
+__MSUTIL_ inline ityp __export comb_rep(register ityp n, register ityp r)
+{
+	return (fact(n+r-1))/(fact(n-1)); 
 }
 
 // Somma SUCCESSIONE GEOMETRICA

@@ -680,11 +680,24 @@ These functions are provided instead by Marco Chiarelli:
 |stirling(a)		  				    |     |   |    |    |
 |The Stirling's Approximation of a.			    |  1  | 1 |  0 |  0 |
 |___________________________________________________________|_____|___|____|____|
-|perm(n,r)		  				    |     |   |    |    |
-|Calculates permutations on n and r as repetitions.         |  2  | 2 |  0 |  0 |
+|perm(n)		  				    |     |   |    |    |
+|Calculates permutations of n.			            |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|permrep(n,...)		  				    |     |   |    |    |
+|Calculates permutations of n with repetitions         	    |  2  | 2 |  0 |  0 |
+|The ... refers to the numbers of Repetitions of the Items. |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|kperm(n,k)		  				    |     |   |    |    |
+|Calculates k-permutations of n.       			    |  2  | 2 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|kpermrep(n,k)		  				    |     |   |    |    |
+|Calculates k-permutations of n with repetitions 	    |  2  | 2 |  0 |  0 |
 |___________________________________________________________|_____|___|____|____|
 |comb(n,r)		  				    |     |   |    |    |
-|Calculates combinations on n and r as repetitions.         |  2  | 2 |  0 |  0 |
+|Calculates combinations of n on r.		            |  2  | 2 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|combrep(n,r)		  				    |     |   |    |    |
+|Calculates combinations of n on r with repetitions.        |  2  | 2 |  0 |  0 |
 |___________________________________________________________|_____|___|____|____|
 |gsum(a, n)	  					    |     |   |	   |    |
 |The Geometric Succession Sum, where a is the base          |  2  | 2 |  0 |  0 |

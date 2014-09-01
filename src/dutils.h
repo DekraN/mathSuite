@@ -1,5 +1,5 @@
 // dutils.h
-// 23/08/2014 Marco Chiarelli aka DekraN
+// 01/09/2014 Marco Chiarelli aka DekraN
 /*
 WARNING!!! This program is intended to be included
 exclusively by main.c, geometry.c, programs.c, algebra.c and settings.c project files of my suite program!
@@ -81,9 +81,9 @@ extern "C" {
 #define _MS__private
 
 #define PROG__NAME "mathSuite"
-#define PROG__VERSION "5.70"
+#define PROG__VERSION "5.75"
 #define PROG__AUTHOR "Marco Chiarelli"
-#define PROG__LASTUPDATEDATE "29/08/2014"
+#define PROG__LASTUPDATEDATE "01/09/2014"
 
 
 // INITIALIZING EXPREVAL DEFAULT CONSTANTS
@@ -1195,8 +1195,12 @@ enum
     BASECALC_SEMIFATTORIALE,
     BASECALC_STIRLING,
     BASECALC_FIBONACCI,
-    BASECALC_PERMUTATION,
-    BASECALC_COMBINATION,
+    BASECALC_PERMUTATIONS,
+    BASECALC_PERMUTATIONSREP,
+    BASECALC_KPERMUTATIONS,
+    BASECALC_KPERMUTATIONSREP,
+    BASECALC_COMBINATIONS,
+    BASECALC_COMBINATIONSREP,
     BASECALC_PASCALTRIANGLE,
     BASECALC_NUMERIROMANI,
     BASECALC_PRIMINNUMERIPRIMI,
@@ -1477,7 +1481,7 @@ associate al tipo int, ovvero normale Somma Algerica
 #define DATE_BITFIELD 5
 #define DOMAIN_BITFIELD 4
 #define BOOL_BITFIELD 1
-#define BITMASK_BITFIELD 23
+#define BITMASK_BITFIELD 24
 
 #define MAX_DAYSWEEK 7
 #define MAX_MONTH_DAYS 31
@@ -1742,10 +1746,7 @@ typedef struct
 
 typedef struct
 {
-    // exprFuncList *func_list;
-    // exprValList *const_list;
     exprValList *var_list;
-    // volatile jmp_buf jumper;
     EXPRTYPE *e_ANS;
     EXPRTYPE global_var;
 } exprType;
@@ -2109,8 +2110,12 @@ __MSNATIVE_ ityp __export fact(register ityp);
 __MSUTIL_ ityp __export sfact(register ityp);
 __MSNATIVE_ ityp __export sfact_even(register ityp);
 __MSNATIVE_ ityp __export sfact_odd(register ityp);
-__MSUTIL_ ityp __export perm(register ityp, register ityp);
+__MSUTIL_ ityp __export perm(register ityp);
+__MSUTIL_ ityp __export perm_rep(register ityp, register uint64_t dim, ityp [static dim]);
+__MSUTIL_ ityp __export kperm(register ityp, register ityp);
+__MSUTIL_ ityp __export kperm_rep(register ityp, register ityp);
 __MSUTIL_ ityp __export comb(register ityp, register ityp);
+__MSUTIL_ ityp __export comb_rep(register ityp, register ityp);
 __MSNATIVE_ ityp __export gsum(register ityp, register int64_t);
 __MSNATIVE_ ityp __export gasum(register uint64_t, register uint64_t);
 __MSNATIVE_ ityp __export asum(register ityp);

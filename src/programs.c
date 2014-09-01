@@ -1,4 +1,4 @@
-// programs.c 23/08/2014 Marco Chiarelli aka DekraN
+// programs.c 01/09/2014 Marco Chiarelli aka DekraN
 /*
 WARNING!!! This program is intended to be used, so linked at the compilation,
 exclusively with main.c of my suite program! I do not assume any responsibilities
@@ -1212,7 +1212,7 @@ static const struct operations default_operazioni[MAX_OPERATIONS] =
     },
     {
     	"Outlier Test",
-    	"(b = Outlier Index, Enter different value to Stop Entering)",
+    	"(b = Outlier Index, Enter different value from the 1st to Stop Entering)",
     	{
     		IDENTIFIER_OUTLIER,
     		IDENTIFIER_ALIAS_OUTLIER,
@@ -1224,7 +1224,7 @@ static const struct operations default_operazioni[MAX_OPERATIONS] =
     },
     {
     	"Map",
-    	NULL_CHAR,
+    	"(b = FID, Enter different value from the 1st to Stop Entering)",
     	{
     		IDENTIFIER_MAP,
     		IDENTIFIER_ALIAS_MAP,
@@ -1400,17 +1400,66 @@ static const struct operations default_operazioni[MAX_OPERATIONS] =
         "Permutations",
         NULL_CHAR,
         {
-            IDENTIFIER_PERMUTATION
+            IDENTIFIER_PERMUTATIONS
+        },
+        DOMAIN_ULLONG,
+        DOMAIN_NULL,
+        unary_function
+    },
+    {
+        "Permutations with Repetitions",
+    	"(Enter b as the i-th Item of the Repetition Vector. Enter 0 to Stop)",
+        {
+            IDENTIFIER_PERMUTATIONSREP,
+            IDENTIFIER_ALIAS_PERMUTATIONSREP,
+    		IDENTIFIER_ALIAS2_PERMUTATIONSREP,
+    		IDENTIFIER_ALIAS3_PERMUTATIONSREP
         },
         DOMAIN_ULLONG,
         DOMAIN_ULLONG,
         binary_function
     },
     {
+        "K-Permutations",
+        NULL_CHAR,
+        {
+            IDENTIFIER_KPERMUTATIONS
+        },
+        DOMAIN_ULLONG,
+        DOMAIN_ULLONG,
+        binary_function
+    },
+    {
+    	"K-Permutations with Repetitions",
+		NULL_CHAR,
+    	{
+    		IDENTIFIER_KPERMUTATIONSREP,
+    		IDENTIFIER_ALIAS_KPERMUTATIONSREP,
+    		IDENTIFIER_ALIAS2_KPERMUTATIONSREP,
+    		IDENTIFIER_ALIAS3_KPERMUTATIONSREP
+    	},
+    	DOMAIN_ULLONG,
+    	DOMAIN_ULLONG,
+    	binary_function
+    },
+    {
         "Combinations",
         NULL_CHAR,
         {
-            IDENTIFIER_COMBINATION
+            IDENTIFIER_COMBINATIONS
+        },
+        DOMAIN_ULLONG,
+        DOMAIN_ULLONG,
+        binary_function
+    },
+    {
+        "Combinations with Repetitions",
+        NULL_CHAR,
+        {
+            IDENTIFIER_COMBINATIONSREP,
+            IDENTIFIER_ALIAS_COMBINATIONSREP,
+            IDENTIFIER_ALIAS2_COMBINATIONSREP,
+            IDENTIFIER_ALIAS3_COMBINATIONSREP
         },
         DOMAIN_ULLONG,
         DOMAIN_ULLONG,
@@ -1907,19 +1956,6 @@ __MSSHELL_WRAPPER_ void __apnt changeProgramSettings(const register sel_typ argc
 
 __MSSHELL_WRAPPER_ __MSNATIVE_ void __system progInfo(sel_typ skip)
 {
-	PRINTL();
-	
-	printf2(60, "\n||||\\\\            ////||||      ||||============||||\n");
-	printf2(60, "\n|||| \\\\          //// |||| 	||||============||||\n");
-	printf2(60, "\n||||  \\\\        ////  ||||      ||||			      \n");
-	printf2(60, "\n||||   \\\\      ////   ||||      ||||			      \n");
-	printf2(60, "\n||||    \\\\||||////    ||||      ||||============|||| \n");
-	printf2(60, "\n||||                  ||||                      ||||\n");
-    printf2(60, "\n||||                  ||||                      ||||\n");
-	printf2(60, "\n||||                  ||||      ||||============||||\n");
-	printf2(60, "\n||||                  ||||      ||||============||||\n");
-	
-	PRINTL();
 	
     if(skip)
     {

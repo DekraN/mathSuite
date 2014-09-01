@@ -1,8 +1,8 @@
 /*!////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 //!////////////////////////////////////////////////////////////////////////////////////////////////////////////// ///
 /*!________________________________________________________________________________________________________________*/
-///                              mathSuite v5.70 --- by Marco Chiarelli aka DekraN aka Wesker013                  ///
-///        LAST UPDATE: 21:00 of 29/08/2014 by Myself. CHANGELOG v2.5: Fixed every imaginable bug and started     ///
+///                         mathSuite v5.75 --- by Marco Chiarelli aka DekraN aka Wesker013                  	  ///
+///        							LAST UPDATE: 15:00 of 01/09/2014 by Myself. 								  ///
 /// 	This program is protected by Creative Commons CC BY-SA 2.0 License. For more informations contact me. 	  ///
 ///                     You can contact me at: marco_chiarelli@yahoo.it or on the secundary mail:                 ///
 /// marcochiarelli.nextgenlab@gmail.com in order to report a bug or simply for sending me an advice that could be ///

@@ -3787,7 +3787,52 @@ case EXPR_NODEFUNC_FIBO:
     }
 
 /* perm */
-case EXPR_NODEFUNC_PERM:
+case EXPR_NODEFUNC_PERMS:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, 0, &d1);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        *val = perm(d1);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* permrep */
+case EXPR_NODEFUNC_PERMSREP:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, 0, &d1);
+
+    if(!err)
+        {
+        const register dim_typ dim = nodes->data.function.nodecount-1;
+        ityp args[dim];
+        for(pos = -1; ++pos < dim; )
+            {
+            err = exprEvalNode(obj, nodes->data.function.nodes, pos, &d2);
+            if(!err)
+                args[pos] = d2;
+            else
+                return err;
+            }
+        // Overheaded but it is necessary if Domain Check is enabled.
+        if(dcheck && summation(dim, SUMMATION_SUM, args) != d1)
+        	return(err = EXPR_ERROR_SYNTAX);
+        *val = perm_rep(d1, dim, args);
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* kperm */
+case EXPR_NODEFUNC_KPERMS:
     {
     err = exprEvalNode(obj, nodes->data.function.nodes, 0, &d1);
 
@@ -3797,7 +3842,27 @@ case EXPR_NODEFUNC_PERM:
     if(!err)
         {
         EXPR_RESET_ERR();
-        *val = perm(d1, d2);
+        *val = kperm(d1, d2);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* kpermrep */
+case EXPR_NODEFUNC_KPERMSREP:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, 0, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, 1, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        *val = kperm_rep(d1, d2);
         EXPR_CHECK_ERR();
         }
     else
@@ -3807,7 +3872,7 @@ case EXPR_NODEFUNC_PERM:
     }
 
 /* comb */
-case EXPR_NODEFUNC_COMB:
+case EXPR_NODEFUNC_COMBS:
     {
     err = exprEvalNode(obj, nodes->data.function.nodes, 0, &d1);
 
@@ -3818,6 +3883,26 @@ case EXPR_NODEFUNC_COMB:
         {
         EXPR_RESET_ERR();
         *val = comb(d1, d2);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* combrep */
+case EXPR_NODEFUNC_COMBSREP:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, 0, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, 1, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        *val = comb_rep(d1, d2);
         EXPR_CHECK_ERR();
         }
     else

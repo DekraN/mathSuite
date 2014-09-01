@@ -1,4 +1,4 @@
-// geometry.c 29/08/2014 Marco Chiarelli aka DekraN
+// geometry.c 01/09/2014 Marco Chiarelli aka DekraN
 /*
 WARNING!!! This program is intended to be used, so linked at the compilation,
 exclusively with main.c of my suite program! I do not assume any responsibilities
@@ -1500,7 +1500,7 @@ __MSNATIVE_ void __system prepareToExit(void)
     if(isSett(BOOLS_ITEMSAUTOSAVING))
         for(dim_typ i=0; i<MAX_LISTS; ++i)
             updAll(i);
-
+    
     printf2(COLOR_CREDITS, EXIT_MESSAGE);
     PRINTL();
     return;

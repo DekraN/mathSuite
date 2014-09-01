@@ -1,4 +1,4 @@
-// algebra.c 29/08/2014 Marco Chiarelli aka DekraN
+// algebra.c 01/09/2014 Marco Chiarelli aka DekraN
 /*
 WARNING!!! This program is intended to be used, so linked at the compilation,
 exclusively with main.c of my suite program! I do not assume any responsibilities
@@ -403,7 +403,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixNorm(const register sel_typ ar
     else if(!insertMatrix(matrix, dim[RAWS], dim[COLUMNS], true))
         return;
 
-    const ityp nrm = tmp ? norm(matrix, dim[RAWS], tmp-1) : norms(matrix, dim[RAWS]);
+    const register ityp nrm = tmp ? norm(matrix, dim[RAWS], tmp-1) : norms(matrix, dim[RAWS]);
 
     matrixFree(&matrix, dim[RAWS]);
 
@@ -440,7 +440,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixDet(const register sel_typ arg
         return;
 
     bool flag = false;
-    const ityp dt = det(matrix, dim[RAWS], &flag);
+    const register ityp dt = det(matrix, dim[RAWS], &flag);
 
     matrixFree(&matrix, dim[RAWS]);
 
@@ -476,7 +476,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixTrace(const register sel_typ a
     else if(!insertMatrix(matrix, dim[RAWS], dim[COLUMNS], true))
         return;
 
-    const ityp trc = trace(matrix, dim[RAWS]);
+    const register ityp trc = trace(matrix, dim[RAWS]);
 
     matrixFree(&matrix, dim[RAWS]);
 
@@ -506,7 +506,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixRank(const register sel_typ ar
     }
     else if(!insertMatrix(matrix, dim[RAWS], dim[COLUMNS], false))
         return;
-    const dim_typ rk = rank(matrix, dim);
+    const register dim_typ rk = rank(matrix, dim);
 
     matrixFree(&matrix, dim[RAWS]);
 
@@ -629,10 +629,10 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixInv(const register sel_typ arg
     // VISUALIZZAZIONE PARTICOLARE MATRICE
     for(i=0; i<dim[RAWS]; ++i)
     {
-        for(j = dim[RAWS]; j < 2*dim[RAWS]; ++j)
+        for(j = dim[RAWS]; j < dimraws_per2; ++j)
         {
             printf2(COLOR_USER, OUTPUT_CONVERSION_FORMAT, matrix[i][j]);
-            printf2(COLOR_USER, j == (2*dim[RAWS])-1 ? ";" : ",");
+            printf2(COLOR_USER, j == dimraws_per2-1 ? ";" : ",");
             PRINTSPACE();
         }
         PRINTN();

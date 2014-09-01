@@ -1335,17 +1335,28 @@ case BASECALC_SOMMASUCCESSIONESEMIFATTORIALE:
 
 case BASECALC_SOMMATORIA:
 {
-    static ityp sum = 0;
-    c = (sum += (b ? a*(INVERSE_OPS?(-1):(1)) : 0));
-    // c = sum = (sum+(a*(INVERSE_OPS ? (-1):(1)))) : 0);
+    static ityp sum = 0.00;
+    if(b)
+    	c = (sum += a*(INVERSE_OPS?(-1):(1)));
+    else
+    {
+    	c = sum;
+    	sum = 0.00;
+    }
     break;
 }
 
 
 case BASECALC_PRODUTTORIA:
 {
-    static ityp product = 1;
-    c = (product *= (b ? mpow2(a, (INVERSE_OPS?(-1):(1))) : 1));
+    static ityp product = 1.00;
+    if(b)
+    	c = (product *= mpow2(a, (INVERSE_OPS?(-1):(1))));
+    else
+    {
+    	c = product;
+    	product = 1.00;
+    }
     break;
 }
 
@@ -1943,13 +1954,52 @@ case BASECALC_FIBONACCI:
     break;
 
 }
-case BASECALC_PERMUTATION:
-    c = perm(a, b);
-    break;
 
-case BASECALC_COMBINATION:
+case BASECALC_PERMUTATIONS:
+    c = perm(a);
+    break;
+    
+case BASECALC_PERMUTATIONSREP:
+{
+	static ityp denominator = 1.00;
+	static ityp sum = 0.00;
+	static uint64_t accumulate = 0;
+
+    if(b)
+    {
+        denominator *= fact(b);
+        sum += b;
+        ++ accumulate;
+        viewInsertedValue;
+    }
+    
+    if(dcheck && sum != a)
+    {
+    	printErr(33, "You've inserted invalid multiplicities, because their sum isn't %.*f", access(curLayout)->precision, a);
+		denominator = 1.00;
+		sum = 0.00;
+		return;
+	}	
+    
+    c = a/denominator;
+    denominator = 1.00,
+    sum = accumulate = 0;
+
+    break;
+}
+    
+case BASECALC_KPERMUTATIONS:
+	c = kperm(a, b);
+    
+case BASECALC_KPERMUTATIONSREP:
+	c = kperm_rep(a, b);
+
+case BASECALC_COMBINATIONS:
     c = comb(a, b);
     break;
+    
+case BASECALC_COMBINATIONSREP:
+	c = comb_rep(a, b);
 
 case BASECALC_CAMBIAMENTODIBASE:
 
