@@ -3033,7 +3033,7 @@ __MSNATIVE_ sel_typ _MS__private __system __export _simplexMethod(ityp ***tablea
     }
 
     (*bfs)[RAWS] = realloc((*bfs)[RAWS], sizeof(ityp)*(vardims-1));
-    errMem(bfs, SIMPLEXMETHOD_ALLOC_ERROR);
+    errMem((*bfs), SIMPLEXMETHOD_ALLOC_ERROR);
 
 
     // INITIALIZING BFS PHASE....
