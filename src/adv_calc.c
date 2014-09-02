@@ -1253,6 +1253,7 @@ __MSSHELL_WRAPPER_ static void _MS__private parabolicCurveFitting(const register
             if(i!=j)
             {
                 const ityp ratio = matrix[j][i]/matrix[i][i];
+                #pragma omp parallel for num_threads(4)
                 for(k = 0; k < 4; ++k)
                     matrix[j][k] -= ratio * matrix[i][k];
             }
@@ -1261,6 +1262,7 @@ __MSSHELL_WRAPPER_ static void _MS__private parabolicCurveFitting(const register
 	for(i = 0; i < MAX_ABSTRACT_DIMENSIONS; ++i)
     {
         const ityp a = matrix[i][i];
+        #pragma omp parallel for num_threads(4)
 		for(j = 0; j < 4; ++j)
             matrix[i][j] /= a;
     }
@@ -1275,7 +1277,7 @@ __MSSHELL_WRAPPER_ static void _MS__private parabolicCurveFitting(const register
         printf2(COLOR_USER, ";\n");
     }
 
-    matrixFree(&matrix, 3);
+    matrixFree(&matrix, 4);
 
     #if WINOS
         SetExitButtonState(ENABLED);
