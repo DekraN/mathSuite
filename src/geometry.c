@@ -332,8 +332,7 @@ __MSNATIVE_ ityp trace(ityp **mat, dim_typ dimq)
 __MSSHELL_WRAPPER_ __MSNATIVE_ ityp carlucci(ityp **mat)
 {
  ityp det = 0.00;
- for(int i = 0; i <= CARLUCCI_DIM+1; ++i)
-  if(i < CARLUCCI_DIM)
+ for(int i = 0; i < CARLUCCI_DIM; ++i)
    det += i < CARLUCCI_DIM ? (pow(-1,i)*mat[CARLUCCI_DIM-2][i]*mat[CARLUCCI_DIM-1][(i+1)%CARLUCCI_DIM] + pow(-1,i+1)*mat[CARLUCCI_DIM-2][(i+1)%CARLUCCI_DIM]*mat[CARLUCCI_DIM-1][i])*(mat[0][(CARLUCCI_DIM-2+i)%CARLUCCI_DIM]*mat[1][(CARLUCCI_DIM-1+i)%CARLUCCI_DIM] - mat[0][(CARLUCCI_DIM-1+i)%CARLUCCI_DIM]*mat[1][(CARLUCCI_DIM-2+i)%CARLUCCI_DIM]) :
        (mat[CARLUCCI_DIM-2][i-CARLUCCI_DIM+2]*mat[CARLUCCI_DIM-1][i-CARLUCCI_DIM] - mat[CARLUCCI_DIM-2][i-CARLUCCI_DIM]*mat[CARLUCCI_DIM-1][i-CARLUCCI_DIM+2])*(mat[0][1-(i-CARLUCCI_DIM)]*mat[1][(CARLUCCI_DIM-1)-(i-CARLUCCI_DIM)] - mat[0][(CARLUCCI_DIM-1)-(i-CARLUCCI_DIM)]*mat[1][1-(i-CARLUCCI_DIM)]);
 
@@ -2837,11 +2836,11 @@ __MSNATIVE_ volatile char __system insertElement(ityp **matrix, const register d
             printf2(COLOR_USER, ".\n\n");
         }
 
-        if(!(matrix[dim[RAWS]][dim[COLUMNS]]) && dcheck && INVERSE_OPS && ((__pmode__ > 5 && __pmode__ < 11)||__pmode__ == ALGEBRA_SCALARDIVISIONMATRIX))
+        if(!(matrix[dim[RAWS]][dim[COLUMNS]]) && dcheck && INVERSE_OPS && ((__pmode__ >= ALGEBRA_MATRICESPRODUCT && __pmode__ <= ALGEBRA_SCALARPRODUCT)||__pmode__ == ALGEBRA_SCALARDIVISIONMATRIX))
            printErr(33, "You cannot enter a 0 because program is performing a Division somewhere");
 
     }
-    while((tmp != 1 && !(dim[RAWS]) && !(dim[COLUMNS])) || (!(matrix[dim[RAWS]][dim[COLUMNS]]) && dcheck && INVERSE_OPS && ((__pmode__ > 5 && __pmode__ < 11)
+    while((tmp != 1 && !(dim[RAWS]) && !(dim[COLUMNS])) || (!(matrix[dim[RAWS]][dim[COLUMNS]]) && dcheck && INVERSE_OPS && ((__pmode__ >= ALGEBRA_MATRICESPRODUCT && __pmode__ <= ALGEBRA_SCALARPRODUCT)
     ||__pmode__ == ALGEBRA_SCALARDIVISIONMATRIX))||isDomainForbidden(matrix[dim[RAWS]][dim[COLUMNS]], INPUT));
 
     CLEARBUFFER();

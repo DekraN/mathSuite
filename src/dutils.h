@@ -68,6 +68,7 @@ extern "C" {
 
 #define __MSSHELL_WRAPPER_
 #define __MSNATIVE_
+#define __MSSTOCK_
 #define __MSUTIL_
 
 
@@ -2074,17 +2075,17 @@ __MSNATIVE_ void __export _complexSum(ityp **, ityp [static MAX_DIMENSIONS]);
 __MSNATIVE_ void __export _complexProd(ityp **, ityp [static MAX_DIMENSIONS]);
 __MSNATIVE_ void __export _quaternionsSum(ityp **, ityp [static MAX_QUATERNIONS_UNITS]);
 __MSNATIVE_ void __export _quaternionsProduct(ityp **, ityp [static MAX_QUATERNIONS_UNITS]);
-__MSNATIVE_ void __export _octonionsEMTSum(ityp **, ityp [static MAX_OCTONIONS_UNITS]);
-__MSNATIVE_ void __export _octonionsMTSum(ityp **, ityp [static MAX_OCTONIONS_UNITS]);
+// __MSNATIVE_ void __export _octonionsEMTSum(ityp **, ityp [static MAX_OCTONIONS_UNITS]);
+// __MSNATIVE_ void __export _octonionsMTSum(ityp **, ityp [static MAX_OCTONIONS_UNITS]);
 __MSNATIVE_ void __export _octonionsSum(ityp **, ityp [static MAX_OCTONIONS_UNITS]);
-__MSNATIVE_ void __export _octonionsEMTProduct(ityp **, ityp [static MAX_OCTONIONS_UNITS]);
-__MSNATIVE_ void __export _octonionsMTProduct(ityp **, ityp [static MAX_OCTONIONS_UNITS]);
+// __MSNATIVE_ void __export _octonionsEMTProduct(ityp **, ityp [static MAX_OCTONIONS_UNITS]);
+// __MSNATIVE_ void __export _octonionsMTProduct(ityp **, ityp [static MAX_OCTONIONS_UNITS]);
 __MSNATIVE_ void __export _octonionsProduct(ityp **, ityp [static MAX_OCTONIONS_UNITS]);
-__MSNATIVE_ void __export _sedenionsEMTSum(ityp **, ityp [static MAX_SEDENIONS_UNITS]);
-__MSNATIVE_ void __export _sedenionsMTSum(ityp **, ityp [static MAX_SEDENIONS_UNITS]);
+// __MSNATIVE_ void __export _sedenionsEMTSum(ityp **, ityp [static MAX_SEDENIONS_UNITS]);
+// __MSNATIVE_ void __export _sedenionsMTSum(ityp **, ityp [static MAX_SEDENIONS_UNITS]);
 __MSNATIVE_ void __export _sedenionsSum(ityp **, ityp [static MAX_SEDENIONS_UNITS]);
-__MSNATIVE_ void __export _sedenionsEMTProduct(ityp **, ityp [static MAX_SEDENIONS_UNITS]);
-__MSNATIVE_ void __export _sedenionsMTProduct(ityp **, ityp [static MAX_SEDENIONS_UNITS]);
+// __MSNATIVE_ void __export _sedenionsEMTProduct(ityp **, ityp [static MAX_SEDENIONS_UNITS]);
+// __MSNATIVE_ void __export _sedenionsMTProduct(ityp **, ityp [static MAX_SEDENIONS_UNITS]);
 __MSNATIVE_ void __export _sedenionsProduct(ityp **, ityp [static MAX_SEDENIONS_UNITS]);
 __MSNATIVE_ bool __export _secondGradeEquationSolver(ityp *, ityp [static MAX_DIMENSIONS]);
 __MSUTIL_ const char * const __export getDayName(sel_typ);
@@ -2270,6 +2271,7 @@ __MSNATIVE_ ityp __system __export math_sub(register ityp, register ityp);
 __MSNATIVE_ ityp __system __export math_mul(register ityp, register ityp);
 __MSNATIVE_ ityp __system __export math_div(register ityp, register ityp);
 __MSNATIVE_ sel_typ _MS__private __system __export _simplexMethod(ityp ***, ityp ***, const register dim_typ dim [static MAX_DIMENSIONS], const bool [static dim[RAWS]-1], bool);
+/*
 __MSNATIVE_ _MS__private void __system __export _matrixOEMTSum(ityp ***, ityp ***, ityp ***, const register dim_typ, const register dim_typ);
 __MSNATIVE_ _MS__private void __system __export _matrixOEMTSum(ityp ***, ityp ***, ityp ***, const register dim_typ, const register dim_typ);
 __MSNATIVE_ _MS__private void __system __export _matrixSEMTSum(ityp ***, ityp ***, ityp ***, const register dim_typ, const register dim_typ);
@@ -2282,6 +2284,7 @@ __MSNATIVE_ _MS__private void __system __export _matrixKOEMTProduct(ityp ***, it
 __MSNATIVE_ _MS__private void __system __export _matrixKOMTProduct(ityp ***, ityp ***, ityp ***, const register dim_typ [static MAX_DIMENSIONS][MAX_DIMENSIONS], const register dim_typ, const register dim_typ, const register dim_typ, const register dim_typ);
 __MSNATIVE_ _MS__private void __system __export _matrixKSEMTProduct(ityp ***, ityp ***, ityp ***, const register dim_typ [static MAX_DIMENSIONS][MAX_DIMENSIONS], const register dim_typ, const register dim_typ, const register dim_typ, const register dim_typ);
 __MSNATIVE_ _MS__private void __system __export _matrixKSMTProduct(ityp ***, ityp ***, ityp ***, const register dim_typ [static MAX_DIMENSIONS][MAX_DIMENSIONS], const register dim_typ, const register dim_typ, const register dim_typ, const register dim_typ);
+*/
 __MSNATIVE_ void _MS__private __system __export _matrixSum(ityp ***, ityp ***, ityp ***, const register dim_typ [static MAX_DIMENSIONS]);
 __MSNATIVE_ void _MS__private __system __export _matrixCSum(ityp ***, ityp ***, ityp ***, const register dim_typ [static MAX_DIMENSIONS]);
 __MSNATIVE_ void _MS__private __system __export _matrixQSum(ityp ***, ityp ***, ityp ***, const register dim_typ [static MAX_DIMENSIONS]);
