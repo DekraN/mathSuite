@@ -3017,10 +3017,6 @@ __MSNATIVE_ sel_typ _MS__private __system __export _simplexMethod(ityp ***tablea
 
     const dim_typ vardims = dim[COLUMNS]+dim_minus1[RAWS];
 
-    printf("\nreached x1\n");
-
-    /// assert = false;
-
     for(i=0; i<dim[RAWS]; ++i)
     {
         (*tableau)[i] = realloc((*tableau)[i], sizeof(ityp)*vardims);
