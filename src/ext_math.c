@@ -4884,10 +4884,10 @@ __MSNATIVE_ inline void _MS__private __system __export _matrixKProduct(ityp **ma
 
 	#pragma omp parallel for
     for(i=0; i<dim[FIRST_MATRIX][RAWS]; ++i)
-	#pragma omp parallel for
-        for(j=0; j<dim[FIRST_MATRIX][COLUMNS]; ++j)
-        	#pragma omp parallel for
-            for(k=0; k<dim[SECOND_MATRIX][RAWS]; ++k)
+    	#pragma omp parallel for
+        for(k=0; k<dim[SECOND_MATRIX][RAWS]; ++k)
+			#pragma omp parallel for
+        	for(j=0; j<dim[FIRST_MATRIX][COLUMNS]; ++j)
             	#pragma omp parallel for
                 for(l=0; l<dim[SECOND_MATRIX][COLUMNS]; ++l)
                 	*((*matrix_product) + pdim*(k+(i*dim[SECOND_MATRIX][RAWS])) + l+(j*dim[SECOND_MATRIX][COLUMNS])) = mul_func(*((*matrix1) + dim[FIRST_MATRIX][COLUMNS]*i + j), *((*matrix2) + dim[SECOND_MATRIX][COLUMNS]*k + l));
@@ -4905,9 +4905,9 @@ __MSNATIVE_ void _MS__private __system __export _matrixKCProduct(ityp **matrix1,
 	#pragma omp parallel for
     for(i=0; i<dim[FIRST_MATRIX][RAWS]; ++i)
     	#pragma omp parallel for
-        for(j=0; j<dim[FIRST_MATRIX][COLUMNS]; ++j)
-        	#pragma omp parallel for
-            for(k=0; k<dim[SECOND_MATRIX][RAWS]; ++k)
+        	for(k=0; k<dim[SECOND_MATRIX][RAWS]; ++k)
+    		#pragma omp parallel for
+        	for(j=0; j<dim[FIRST_MATRIX][COLUMNS]; ++j)
             	#pragma omp parallel for
                 for(l=0; l<dim[SECOND_MATRIX][COLUMNS]; ++l)
                 	#pragma omp parallel num_threads(MAX_COMPLEX_UNITS)
@@ -4932,9 +4932,9 @@ __MSNATIVE_ void _MS__private __system __export _matrixKQProduct(ityp **matrix1,
 	#pragma omp parallel for
     for(i=0; i<dim[FIRST_MATRIX][RAWS]; ++i)
     	#pragma omp parallel for
-        for(j=0; j<dim[FIRST_MATRIX][COLUMNS]; ++j)
-        	#pragma omp parallel for
-            for(k=0; k<dim[SECOND_MATRIX][RAWS]; ++k)
+        for(k=0; k<dim[SECOND_MATRIX][RAWS]; ++k)
+    		#pragma omp parallel for
+        	for(j=0; j<dim[FIRST_MATRIX][COLUMNS]; ++j)
             	#pragma omp parallel for
                 for(l=0; l<dim[SECOND_MATRIX][COLUMNS]; ++l)
                 	#pragma omp parallel num_threads(MAX_QUATERNIONS_UNITS)
@@ -4975,9 +4975,9 @@ __MSNATIVE_ inline void _MS__private __system __export _matrixKOProduct(ityp **m
     #pragma omp parallel for
     for(i=0; i<dim[FIRST_MATRIX][RAWS]; ++i)
     	#pragma omp parallel for
-        for(j=0; j<dim[FIRST_MATRIX][COLUMNS]; ++j)
-        	#pragma omp parallel for
-            for(k=0; k<dim[SECOND_MATRIX][RAWS]; ++k)
+        for(k=0; k<dim[SECOND_MATRIX][RAWS]; ++k)
+    		#pragma omp parallel for
+       	 	for(j=0; j<dim[FIRST_MATRIX][COLUMNS]; ++j)
             	#pragma omp parallel for
                 for(l=0; l<dim[SECOND_MATRIX][COLUMNS]; ++l)
                 	omp_func(matrix1, matrix2, matrix_product, pdim*(k+(i*dim[SECOND_MATRIX][RAWS])) + l+(j*dim[SECOND_MATRIX][COLUMNS]), dim[FIRST_MATRIX][COLUMNS]*i + j, dim[SECOND_MATRIX][COLUMNS]*k + l);
@@ -4994,9 +4994,9 @@ __MSNATIVE_ inline void _MS__private __system __export _matrixKSProduct(ityp **m
 	#pragma omp parallel for
     for(i=0; i<dim[FIRST_MATRIX][RAWS]; ++i)
     	#pragma omp parallel for
-        for(j=0; j<dim[FIRST_MATRIX][COLUMNS]; ++j)
-        	#pragma omp parallel for
-            for(k=0; k<dim[SECOND_MATRIX][RAWS]; ++k)
+        for(k=0; k<dim[SECOND_MATRIX][RAWS]; ++k)
+    		#pragma omp parallel for
+        	for(j=0; j<dim[FIRST_MATRIX][COLUMNS]; ++j)
             	#pragma omp parallel for
                 for(l=0; l<dim[SECOND_MATRIX][COLUMNS]; ++l)
                 	omp_func(matrix1, matrix2, matrix_product, pdim*(k+(i*dim[SECOND_MATRIX][RAWS])) + l+(j*dim[SECOND_MATRIX][COLUMNS]), dim[FIRST_MATRIX][COLUMNS]*i + j, dim[SECOND_MATRIX][COLUMNS]*k + l);
