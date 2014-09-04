@@ -1,8 +1,8 @@
 mathSuite
 //-----------------------------------------------------------------------------------------------------------------//
 AUTHOR: Marco Chiarelli aka DekraN aka Wesker013 (FB)								   ||
-CURRENT VERSION: v5.75												   ||
-LAST UPDATE: 15:00 01/09/2014											   ||
+CURRENT VERSION: v6.00												   ||
+LAST UPDATE: 17:00 04/09/2014											   ||
 CONTACT ME at: marco_chiarelli@yahoo.it										   ||
 or at marcochiarelli.nextgenlab@gmail.com									   ||
 //-----------------------------------------------------------------------------------------------------------------//
@@ -401,6 +401,17 @@ or at marcochiarelli.nextgenlab@gmail.com									   ||
 /// Added Permutations, Permutations with Repetitions, K-Permutations, K-Permutations with Repetitions and        ///
 /// Combinations with Repetitions, with the respective commands: "perm", "permrep", "kperm", "kpermrep", "combrep"///
 /// 			Removed "Vector per Vector" MACRO SubProgram, due to an undefined bug.			  ///
+///                                     CHANGELOG v6.00 (01/09/2014)                                              ///
+/// Now the Matrix Base Type with double-reference pointer of double base-type has been changed to a single-ref   ///
+/// pointer. Now the maximum reference depth level present in my program is three (for the Tensors Sum feature).  ///
+/// Optimized program and deleted all metadata management system related to the previous method of allocating a   ///
+///  new chunk of memory every time that a matrix needed a new raw. Added the "restrict" qualifier type to the    ///
+/// single-reference M.B.T. (Matrix Base Type) in the first-level functions arguments. Fixed a bug into the       ///
+/// Complex and HyperComplex both Sum and Product subPrograms, that didn't allow to view correctly the Result of  ///
+/// the Operation due to an array field accessing problem. Now the S.E. (STABILIZER+INITIALIZER) System, known    ///
+/// also as M.S.D.M.A (mathSuite Dynamic Matrix Allocation) has been deprecated due to some problems occurred with///
+/// 	the introduction of the Single Reference M.B.T.. So, the Stabilizer System works only with vectors.       ///
+/// 				    Code Totally optimized and fixed also some minor bugs. 			  ///
 ///    This is not a Final Built or Official Release, but (UPDATE) probably this could be the last release I write///
 ///              in C. A future release could be directly mathSMART Mobile Math Environment.                      ///
 ///                     You can contact me at: marco_chiarelli@yahoo.it or on the secundary mail:                 ///
@@ -440,6 +451,9 @@ or at marcochiarelli.nextgenlab@gmail.com									   ||
 /// For example, the upper-triangular Matrixes conversion, which was useful to enhance some functions like det(), ///
 ///      				sgeqsolver ExprEval inline command, etc.	  			  ///
 ///	  		Greatly thanks to Daniel Veillard for his fabulous XML Parser, LIBXML2.			  ///
+///                 Greatly thanks to Daniel Veillard for his fabulous XML Parser, LIBXML2.                       ///
+///  Greatly thanks to vict85 of matematicamente.it Network, for having informed me about the benefits of using   ///
+///   generally a single reference for the Matrix Type, like LAPACK and the other Numeric Calculus Environments.  ///
 /// 		Thanks to Francesco Palma for reporting me some bugs, and finally, massive thanks to my		  ///
 /// Informatic Fundaments Teacher, Mario Alessandro Bochicchio, which gave me a lot of C advices and some general ///
 ///            tricks and tips, that enlarged my professional informatic horizonts. That's all...                 ///

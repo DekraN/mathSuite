@@ -1,6 +1,6 @@
 // ext_math.h
 // as External Math Library
-// 01/09/2014 Marco Chiarelli aka DekraN
+// 04/09/2014 Marco Chiarelli aka DekraN
 /*
 WARNING!!! This program is intended to be included
 exclusively by main.c, geometry.c, programs.c, algebra.c and settings.c project files of my suite program!
@@ -29,6 +29,28 @@ __MSUTIL_ void __export toBinary(int,char *);
 __MSUTIL_ int __export toDecimal(char *);
 __MSUTIL_ void __export rComplement(char *);
 __MSUTIL_ void __export binaryAdd(char *,char *,char *);
+
+__MSNATIVE_ __MSSTOCK _MS__private static void __system __export _matrixOEMTSum(ityp **, ityp **, ityp **, const register dim_typ);
+__MSNATIVE_ __MSSTOCK _MS__private static void __system __export _matrixOMTSum(ityp **, ityp **, ityp **, const register dim_typ);
+__MSNATIVE_ __MSSTOCK _MS__private static void __system __export _matrixSEMTSum(ityp **, ityp **, ityp **, const register dim_typ);
+__MSNATIVE_ __MSSTOCK _MS__private static void __system __export _matrixSMTSum(ityp **, ityp **, ityp **, const register dim_typ);
+__MSNATIVE_ __MSSTOCK _MS__private static void __system __export _matrixOEMTProduct(ityp **, ityp **, ityp **, const register dim_typ, const register dim_typ, const register dim_typ);
+__MSNATIVE_ __MSSTOCK _MS__private static void __system __export _matrixOMTProduct(ityp **, ityp **, ityp **, const register dim_typ, const register dim_typ, const register dim_typ);
+__MSNATIVE_ __MSSTOCK _MS__private static void __system __export _matrixSEMTProduct(ityp **, ityp **, ityp **, const register dim_typ, const register dim_typ, const register dim_typ);
+__MSNATIVE_ __MSSTOCK _MS__private static void __system __export _matrixSMTProduct(ityp **, ityp **, ityp **, const register dim_typ, const register dim_typ, const register dim_typ);
+__MSNATIVE_ __MSSTOCK _MS__private static void __system __export _matrixKOEMTProduct(ityp **, ityp **, ityp **, const register dim_typ, const register dim_typ, const register dim_typ);
+__MSNATIVE_ __MSSTOCK _MS__private static void __system __export _matrixKOMTProduct(ityp **, ityp **, ityp **, const register dim_typ, const register dim_typ, const register dim_typ);
+__MSNATIVE_ __MSSTOCK _MS__private static void __system __export _matrixKSEMTProduct(ityp **, ityp **, ityp **, const register dim_typ, const register dim_typ, const register dim_typ);
+__MSNATIVE_ __MSSTOCK _MS__private static void __system __export _matrixKSMTProduct(ityp **, ityp **, ityp **, const register dim_typ, const register dim_typ, const register dim_typ);
+
+__MSNATIVE_ __MSSTOCK _MS__private static void __export _octonionsEMTSum(ityp *restrict, ityp [static MAX_OCTONIONS_UNITS]);
+__MSNATIVE_ __MSSTOCK _MS__private static void __export _octonionsMTSum(ityp *restrict, ityp [static MAX_OCTONIONS_UNITS]);
+__MSNATIVE_ __MSSTOCK _MS__private static void __export _octonionsEMTProduct(ityp *restrict, ityp [static MAX_OCTONIONS_UNITS]);
+__MSNATIVE_ __MSSTOCK _MS__private static void __export _octonionsMTProduct(ityp *restrict, ityp [static MAX_OCTONIONS_UNITS]);
+__MSNATIVE_ __MSSTOCK _MS__private static void __export _sedenionsEMTSum(ityp *restrict, ityp [static MAX_SEDENIONS_UNITS]);
+__MSNATIVE_ __MSSTOCK _MS__private static void __export _sedenionsMTSum(ityp *restrict, ityp [static MAX_SEDENIONS_UNITS]);
+__MSNATIVE_ __MSSTOCK _MS__private static void __export _sedenionsEMTProduct(ityp *restrict, ityp [static MAX_SEDENIONS_UNITS]);
+__MSNATIVE_ __MSSTOCK _MS__private static void __export _sedenionsMTProduct(ityp *restrict, ityp [static MAX_SEDENIONS_UNITS]);
 
 const struct ext_math_type ext_math =
 {
@@ -687,898 +709,901 @@ Il suo COMPLEMENTO a DUE e': %s.\n", num, bin_num, c);
     return c;
 }
 
-__MSNATIVE_ inline void __export _complexSum(ityp **complex, ityp complexRes[static MAX_COMPLEX_UNITS])
+__MSNATIVE_ inline void __export _complexSum(ityp *restrict complex, ityp complexRes[static MAX_COMPLEX_UNITS])
 {
 	#pragma omp parallel num_threads(MAX_COMPLEX_UNITS)
 	{
-		complexRes[REAL_PART] = complex[FIRST_NUMBER][REAL_PART] + complex[SECOND_NUMBER][REAL_PART];
-    	complexRes[IMAG_PART] = complex[FIRST_NUMBER][IMAG_PART] + complex[SECOND_NUMBER][IMAG_PART];
+		complexRes[REAL_PART] = *(complex + REAL_PART) + *(complex + MAX_COMPLEX_UNITS + REAL_PART);
+    	complexRes[IMAG_PART] = *(complex + IMAG_PART) + *(complex + MAX_COMPLEX_UNITS + IMAG_PART);
 	}
     return;
 }
 
-__MSNATIVE_ inline void __export _complexProd(ityp **complex, ityp complexRes[static MAX_COMPLEX_UNITS])
+__MSNATIVE_ inline void __export _complexProd(ityp *restrict complex, ityp complexRes[static MAX_COMPLEX_UNITS])
 {
 	#pragma omp parallel num_threads(MAX_COMPLEX_UNITS)
 	{
-		complexRes[REAL_PART] =((complex[FIRST_NUMBER][REAL_PART]*complex[SECOND_NUMBER][REAL_PART])-(complex[FIRST_NUMBER][IMAG_PART]*complex[SECOND_NUMBER][IMAG_PART]));
-	    complexRes[IMAG_PART] =((complex[FIRST_NUMBER][REAL_PART]*complex[SECOND_NUMBER][IMAG_PART])+(complex[FIRST_NUMBER][IMAG_PART]*complex[SECOND_NUMBER][REAL_PART]));
+		complexRes[REAL_PART] =((*(complex + REAL_PART)*(*(complex + MAX_COMPLEX_UNITS + REAL_PART)))-(*(complex + IMAG_PART)*(*(complex + MAX_COMPLEX_UNITS + IMAG_PART))));
+	    complexRes[IMAG_PART] =((*(complex + REAL_PART)*(*(complex + MAX_COMPLEX_UNITS + IMAG_PART)))-(*(complex + IMAG_PART)*(*(complex + MAX_COMPLEX_UNITS + REAL_PART))));
 	}
     return;
 }
 
-__MSNATIVE_ inline void __export _quaternionsSum(ityp **quaternions, ityp quaternionsRes[static MAX_QUATERNIONS_UNITS])
+__MSNATIVE_ inline void __export _quaternionsSum(ityp *restrict quaternions, ityp quaternionsRes[static MAX_QUATERNIONS_UNITS])
 {
 	#pragma omp parallel num_threads(MAX_QUATERNIONS_UNITS)
 	{
-		quaternionsRes[QUATERNIONS_REALPART] = quaternions[FIRST_NUMBER][REAL_PART] + quaternions[SECOND_NUMBER][REAL_PART];
-	    quaternionsRes[QUATERNIONS_IPART] = quaternions[FIRST_NUMBER][QUATERNIONS_IPART] + quaternions[SECOND_NUMBER][QUATERNIONS_IPART];
-	    quaternionsRes[QUATERNIONS_JPART] = quaternions[FIRST_NUMBER][QUATERNIONS_JPART] + quaternions[SECOND_NUMBER][QUATERNIONS_JPART];
-	    quaternionsRes[QUATERNIONS_KPART] = quaternions[FIRST_NUMBER][QUATERNIONS_KPART] + quaternions[SECOND_NUMBER][QUATERNIONS_KPART];
+		quaternionsRes[QUATERNIONS_REALPART] = *(quaternions + QUATERNIONS_REALPART) + *(quaternions + MAX_QUATERNIONS_UNITS + QUATERNIONS_REALPART);
+	    quaternionsRes[QUATERNIONS_IPART] = *(quaternions + QUATERNIONS_IPART) + *(quaternions + MAX_QUATERNIONS_UNITS + QUATERNIONS_IPART);
+	    quaternionsRes[QUATERNIONS_JPART] = *(quaternions + QUATERNIONS_JPART) + *(quaternions + MAX_QUATERNIONS_UNITS + QUATERNIONS_JPART);
+	    quaternionsRes[QUATERNIONS_KPART] = *(quaternions + QUATERNIONS_KPART) + *(quaternions + MAX_QUATERNIONS_UNITS + QUATERNIONS_KPART);
 	}
     return;
 }
 
-__MSNATIVE_ inline void __export _quaternionsProduct(ityp **quaternions, ityp quaternionsRes[static MAX_QUATERNIONS_UNITS])
+__MSNATIVE_ inline void __export _quaternionsProduct(ityp *restrict quaternions, ityp quaternionsRes[static MAX_QUATERNIONS_UNITS])
 {
 	#pragma omp parallel num_threads(MAX_QUATERNIONS_UNITS)
 	{
-		quaternionsRes[QUATERNIONS_REALPART] = (quaternions[FIRST_NUMBER][QUATERNIONS_REALPART]*quaternions[SECOND_NUMBER][QUATERNIONS_REALPART]) -
-	                                            (quaternions[FIRST_NUMBER][QUATERNIONS_IPART]*quaternions[SECOND_NUMBER][QUATERNIONS_IPART]) -
-	                                            (quaternions[FIRST_NUMBER][QUATERNIONS_JPART]*quaternions[SECOND_NUMBER][QUATERNIONS_JPART]) -
-	                                            (quaternions[FIRST_NUMBER][QUATERNIONS_KPART]*quaternions[SECOND_NUMBER][QUATERNIONS_KPART]);
-	    quaternionsRes[QUATERNIONS_IPART] = (quaternions[FIRST_NUMBER][QUATERNIONS_REALPART]*quaternions[SECOND_NUMBER][QUATERNIONS_IPART]) +
-	                                        (quaternions[FIRST_NUMBER][QUATERNIONS_IPART]*quaternions[SECOND_NUMBER][QUATERNIONS_REALPART]) +
-	                                        (quaternions[FIRST_NUMBER][QUATERNIONS_JPART]*quaternions[SECOND_NUMBER][QUATERNIONS_KPART]) -
-	                                        (quaternions[FIRST_NUMBER][QUATERNIONS_KPART]*quaternions[SECOND_NUMBER][QUATERNIONS_JPART]);
-	    quaternionsRes[QUATERNIONS_JPART] = (quaternions[FIRST_NUMBER][QUATERNIONS_REALPART]*quaternions[SECOND_NUMBER][QUATERNIONS_JPART]) +
-	                                        (quaternions[FIRST_NUMBER][QUATERNIONS_JPART]*quaternions[SECOND_NUMBER][QUATERNIONS_REALPART]) +
-	                                        (quaternions[FIRST_NUMBER][QUATERNIONS_KPART]*quaternions[SECOND_NUMBER][QUATERNIONS_IPART]) -
-	                                        (quaternions[FIRST_NUMBER][QUATERNIONS_IPART]*quaternions[SECOND_NUMBER][QUATERNIONS_KPART]);
-	    quaternionsRes[QUATERNIONS_KPART] = (quaternions[FIRST_NUMBER][QUATERNIONS_REALPART]*quaternions[SECOND_NUMBER][QUATERNIONS_KPART]) +
-	                                        (quaternions[FIRST_NUMBER][QUATERNIONS_KPART]*quaternions[SECOND_NUMBER][QUATERNIONS_REALPART]) +
-	                                        (quaternions[FIRST_NUMBER][QUATERNIONS_IPART]*quaternions[SECOND_NUMBER][QUATERNIONS_JPART]) -
-	                                        (quaternions[FIRST_NUMBER][QUATERNIONS_JPART]*quaternions[SECOND_NUMBER][QUATERNIONS_IPART]);
+		
+		quaternionsRes[QUATERNIONS_REALPART] = *(quaternions + QUATERNIONS_REALPART) * *(quaternions + MAX_QUATERNIONS_UNITS + QUATERNIONS_REALPART) -
+											   *(quaternions + QUATERNIONS_IPART) * *(quaternions + MAX_QUATERNIONS_UNITS + QUATERNIONS_IPART) -
+											   *(quaternions + QUATERNIONS_JPART) * *(quaternions + MAX_QUATERNIONS_UNITS + QUATERNIONS_JPART) -
+											   *(quaternions + QUATERNIONS_KPART) * *(quaternions + MAX_QUATERNIONS_UNITS + QUATERNIONS_KPART);
+									
+		quaternionsRes[QUATERNIONS_IPART] = *(quaternions + QUATERNIONS_REALPART) * *(quaternions + MAX_QUATERNIONS_UNITS + QUATERNIONS_IPART) +
+											*(quaternions + QUATERNIONS_IPART) * *(quaternions + MAX_QUATERNIONS_UNITS + QUATERNIONS_REALPART) +
+											*(quaternions + QUATERNIONS_JPART) * *(quaternions + MAX_QUATERNIONS_UNITS + QUATERNIONS_KPART) -	
+											*(quaternions + QUATERNIONS_KPART) * *(quaternions + MAX_QUATERNIONS_UNITS + QUATERNIONS_JPART);
+											
+											
+		quaternionsRes[QUATERNIONS_JPART] = *(quaternions + QUATERNIONS_REALPART) * *(quaternions + MAX_QUATERNIONS_UNITS + QUATERNIONS_JPART) +
+											*(quaternions + QUATERNIONS_JPART) * *(quaternions + MAX_QUATERNIONS_UNITS + QUATERNIONS_REALPART) +
+											*(quaternions + QUATERNIONS_KPART) * *(quaternions + MAX_QUATERNIONS_UNITS + QUATERNIONS_IPART) -
+											*(quaternions + QUATERNIONS_IPART) * *(quaternions + MAX_QUATERNIONS_UNITS + QUATERNIONS_KPART);
+											
+		quaternionsRes[QUATERNIONS_KPART] = *(quaternions + QUATERNIONS_REALPART)* *(quaternions + MAX_QUATERNIONS_UNITS + QUATERNIONS_KPART) +
+											*(quaternions + QUATERNIONS_KPART)* *(quaternions + MAX_QUATERNIONS_UNITS + QUATERNIONS_REALPART) +
+											*(quaternions + QUATERNIONS_IPART)* *(quaternions + MAX_QUATERNIONS_UNITS + QUATERNIONS_JPART) -
+											*(quaternions + QUATERNIONS_JPART)* *(quaternions + MAX_QUATERNIONS_UNITS + QUATERNIONS_IPART);
 	}
 
     return;
 }
 
-__MSNATIVE_ void __export _octonionsEMTSum(ityp **octonions, ityp octonionsRes[static MAX_OCTONIONS_UNITS])
+__MSNATIVE_ __MSSTOCK _MS__private static void __export _octonionsEMTSum(ityp *restrict octonions, ityp octonionsRes[static MAX_OCTONIONS_UNITS])
 {
 	#pragma omp parallel num_threads(MAX_OCTONIONS_UNITS)
 	{
-		octonionsRes[OCTONIONS_REALPART] = octonions[FIRST_NUMBER][OCTONIONS_REALPART] + octonions[SECOND_NUMBER][OCTONIONS_REALPART];
-	    octonionsRes[OCTONIONS_E1PART] = octonions[FIRST_NUMBER][OCTONIONS_E1PART] + octonions[SECOND_NUMBER][OCTONIONS_E1PART];
-	    octonionsRes[OCTONIONS_E2PART] = octonions[FIRST_NUMBER][OCTONIONS_E2PART] + octonions[SECOND_NUMBER][OCTONIONS_E2PART];
-	    octonionsRes[OCTONIONS_E3PART] = octonions[FIRST_NUMBER][OCTONIONS_E3PART] + octonions[SECOND_NUMBER][OCTONIONS_E3PART];
-	    octonionsRes[OCTONIONS_E4PART] = octonions[FIRST_NUMBER][OCTONIONS_E4PART] + octonions[SECOND_NUMBER][OCTONIONS_E4PART];
-	    octonionsRes[OCTONIONS_E5PART] = octonions[FIRST_NUMBER][OCTONIONS_E5PART] + octonions[SECOND_NUMBER][OCTONIONS_E5PART];
-	    octonionsRes[OCTONIONS_E6PART] = octonions[FIRST_NUMBER][OCTONIONS_E6PART] + octonions[SECOND_NUMBER][OCTONIONS_E6PART];
-	    octonionsRes[OCTONIONS_E7PART] = octonions[FIRST_NUMBER][OCTONIONS_E7PART] + octonions[SECOND_NUMBER][OCTONIONS_E7PART];
+		octonionsRes[OCTONIONS_REALPART] = *(octonions + OCTONIONS_REALPART) + *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_REALPART);
+	    octonionsRes[OCTONIONS_E1PART] = *(octonions + OCTONIONS_E1PART) + *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E1PART);
+	    octonionsRes[OCTONIONS_E2PART] = *(octonions + OCTONIONS_E2PART) + *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E2PART);
+	    octonionsRes[OCTONIONS_E3PART] = *(octonions + OCTONIONS_E3PART) + *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E3PART);
+	    octonionsRes[OCTONIONS_E4PART] = *(octonions + OCTONIONS_E4PART) + *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E4PART);
+	    octonionsRes[OCTONIONS_E5PART] = *(octonions + OCTONIONS_E5PART) + *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E5PART);
+	    octonionsRes[OCTONIONS_E6PART] = *(octonions + OCTONIONS_E6PART) + *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E6PART);
+	    octonionsRes[OCTONIONS_E7PART] = *(octonions + OCTONIONS_E7PART) + *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E7PART);
 	}
 	return;
 }
 
-__MSNATIVE_ void __export _octonionsMTSum(ityp **octonions, ityp octonionsRes[static MAX_OCTONIONS_UNITS])
+__MSNATIVE_ __MSSTOCK _MS__private static void __export _octonionsMTSum(ityp *restrict octonions, ityp octonionsRes[static MAX_OCTONIONS_UNITS])
 {
 	#pragma omp parallel
 	{
-		octonionsRes[OCTONIONS_REALPART] = octonions[FIRST_NUMBER][OCTONIONS_REALPART] + octonions[SECOND_NUMBER][OCTONIONS_REALPART];
-	    octonionsRes[OCTONIONS_E1PART] = octonions[FIRST_NUMBER][OCTONIONS_E1PART] + octonions[SECOND_NUMBER][OCTONIONS_E1PART];
-	    octonionsRes[OCTONIONS_E2PART] = octonions[FIRST_NUMBER][OCTONIONS_E2PART] + octonions[SECOND_NUMBER][OCTONIONS_E2PART];
-	    octonionsRes[OCTONIONS_E3PART] = octonions[FIRST_NUMBER][OCTONIONS_E3PART] + octonions[SECOND_NUMBER][OCTONIONS_E3PART];
-	    octonionsRes[OCTONIONS_E4PART] = octonions[FIRST_NUMBER][OCTONIONS_E4PART] + octonions[SECOND_NUMBER][OCTONIONS_E4PART];
-	    octonionsRes[OCTONIONS_E5PART] = octonions[FIRST_NUMBER][OCTONIONS_E5PART] + octonions[SECOND_NUMBER][OCTONIONS_E5PART];
-	    octonionsRes[OCTONIONS_E6PART] = octonions[FIRST_NUMBER][OCTONIONS_E6PART] + octonions[SECOND_NUMBER][OCTONIONS_E6PART];
-	    octonionsRes[OCTONIONS_E7PART] = octonions[FIRST_NUMBER][OCTONIONS_E7PART] + octonions[SECOND_NUMBER][OCTONIONS_E7PART];
+		octonionsRes[OCTONIONS_REALPART] = *(octonions + OCTONIONS_REALPART) + *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_REALPART);
+	    octonionsRes[OCTONIONS_E1PART] = *(octonions + OCTONIONS_E1PART) + *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E1PART);
+	    octonionsRes[OCTONIONS_E2PART] = *(octonions + OCTONIONS_E2PART) + *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E2PART);
+	    octonionsRes[OCTONIONS_E3PART] = *(octonions + OCTONIONS_E3PART) + *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E3PART);
+	    octonionsRes[OCTONIONS_E4PART] = *(octonions + OCTONIONS_E4PART) + *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E4PART);
+	    octonionsRes[OCTONIONS_E5PART] = *(octonions + OCTONIONS_E5PART) + *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E5PART);
+	    octonionsRes[OCTONIONS_E6PART] = *(octonions + OCTONIONS_E6PART) + *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E6PART);
+	    octonionsRes[OCTONIONS_E7PART] = *(octonions + OCTONIONS_E7PART) + *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E7PART);
 	}
 	return;
 }
 
-__MSNATIVE_ inline void __export _octonionsSum(ityp **octonions, ityp octonionsRes[static MAX_OCTONIONS_UNITS])
+__MSNATIVE_ inline void __export _octonionsSum(ityp *restrict octonions, ityp octonionsRes[static MAX_OCTONIONS_UNITS])
 {
-	void (* const omp_func)(ityp **, ityp [static MAX_OCTONIONS_UNITS]) = isSett(BOOLS_EXTENSIVEMULTITHREADING) ? _octonionsEMTSum : _octonionsMTSum;
+	void (* const omp_func)(ityp *restrict, ityp [static MAX_OCTONIONS_UNITS]) = isSett(BOOLS_EXTENSIVEMULTITHREADING) ? _octonionsEMTSum : _octonionsMTSum;
 	omp_func(octonions, octonionsRes);
     return;
 }
 
-__MSNATIVE_ void __export _octonionsEMTProduct(ityp **octonions, ityp octonionsRes[static MAX_OCTONIONS_UNITS])
+__MSNATIVE_ __MSSTOCK _MS__private static void __export _octonionsEMTProduct(ityp *restrict octonions, ityp octonionsRes[static MAX_OCTONIONS_UNITS])
 {
 	#pragma omp parallel num_threads(MAX_OCTONIONS_UNITS)
 	{
-		octonionsRes[OCTONIONS_REALPART] = (octonions[FIRST_NUMBER][OCTONIONS_REALPART]*octonions[SECOND_NUMBER][OCTONIONS_REALPART]) -
-                                       (octonions[FIRST_NUMBER][OCTONIONS_E1PART]*octonions[SECOND_NUMBER][OCTONIONS_E1PART]) -
-                                       (octonions[FIRST_NUMBER][OCTONIONS_E2PART]*octonions[SECOND_NUMBER][OCTONIONS_E2PART]) -
-                                       (octonions[FIRST_NUMBER][OCTONIONS_E3PART]*octonions[SECOND_NUMBER][OCTONIONS_E3PART]) -
-                                       (octonions[FIRST_NUMBER][OCTONIONS_E4PART]*octonions[SECOND_NUMBER][OCTONIONS_E4PART]) -
-                                       (octonions[FIRST_NUMBER][OCTONIONS_E5PART]*octonions[SECOND_NUMBER][OCTONIONS_E5PART]) -
-                                       (octonions[FIRST_NUMBER][OCTONIONS_E6PART]*octonions[SECOND_NUMBER][OCTONIONS_E6PART]) -
-                                       (octonions[FIRST_NUMBER][OCTONIONS_E7PART]*octonions[SECOND_NUMBER][OCTONIONS_E7PART]);
+		octonionsRes[OCTONIONS_REALPART] = *(octonions + OCTONIONS_REALPART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_REALPART) -
+										   *(octonions + OCTONIONS_E1PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E1PART) -
+										   *(octonions + OCTONIONS_E2PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E2PART) -
+										   *(octonions + OCTONIONS_E3PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E3PART) -
+										   *(octonions + OCTONIONS_E4PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E4PART) -
+										   *(octonions + OCTONIONS_E5PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E5PART) -
+										   *(octonions + OCTONIONS_E6PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E6PART) -
+										   *(octonions + OCTONIONS_E7PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E7PART);
+										   
+		octonionsRes[OCTONIONS_E1PART] = *(octonions + OCTONIONS_REALPART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E1PART) +
+										   *(octonions + OCTONIONS_E1PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_REALPART) +
+										   *(octonions + OCTONIONS_E2PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E4PART) +
+										   *(octonions + OCTONIONS_E3PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E7PART) -
+										   *(octonions + OCTONIONS_E4PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E2PART) +
+										   *(octonions + OCTONIONS_E5PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E6PART) -
+										   *(octonions + OCTONIONS_E6PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E5PART) -
+										   *(octonions + OCTONIONS_E7PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E3PART);
+										   
+		octonionsRes[OCTONIONS_E2PART] = *(octonions + OCTONIONS_REALPART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E2PART) -
+										   *(octonions + OCTONIONS_E1PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E4PART) +
+										   *(octonions + OCTONIONS_E2PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_REALPART) +
+										   *(octonions + OCTONIONS_E3PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E5PART) -
+										   *(octonions + OCTONIONS_E4PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E1PART) -
+										   *(octonions + OCTONIONS_E5PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E3PART) +
+										   *(octonions + OCTONIONS_E6PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E7PART) -
+										   *(octonions + OCTONIONS_E7PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E6PART);
+										   
+		octonionsRes[OCTONIONS_E3PART] = *(octonions + OCTONIONS_REALPART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E3PART) -
+										   *(octonions + OCTONIONS_E1PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E7PART) -
+										   *(octonions + OCTONIONS_E2PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E5PART) +
+										   *(octonions + OCTONIONS_E3PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_REALPART) +
+										   *(octonions + OCTONIONS_E4PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E6PART) +
+										   *(octonions + OCTONIONS_E5PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E2PART) -
+										   *(octonions + OCTONIONS_E6PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E4PART) +
+										   *(octonions + OCTONIONS_E7PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E1PART);								   
 
-	    octonionsRes[OCTONIONS_E1PART] = (octonions[FIRST_NUMBER][OCTONIONS_REALPART]*octonions[SECOND_NUMBER][OCTONIONS_E1PART]) +
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E1PART]*octonions[SECOND_NUMBER][OCTONIONS_REALPART]) +
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E2PART]*octonions[SECOND_NUMBER][OCTONIONS_E4PART]) +
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E3PART]*octonions[SECOND_NUMBER][OCTONIONS_E7PART]) -
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E4PART]*octonions[SECOND_NUMBER][OCTONIONS_E2PART]) +
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E5PART]*octonions[SECOND_NUMBER][OCTONIONS_E6PART]) -
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E6PART]*octonions[SECOND_NUMBER][OCTONIONS_E5PART]) -
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E7PART]*octonions[SECOND_NUMBER][OCTONIONS_E3PART]);
+	    octonionsRes[OCTONIONS_E4PART] = *(octonions + OCTONIONS_REALPART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E4PART) +
+										   *(octonions + OCTONIONS_E1PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E2PART) -
+										   *(octonions + OCTONIONS_E2PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E1PART) -
+										   *(octonions + OCTONIONS_E3PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E6PART) +
+										   *(octonions + OCTONIONS_E4PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_REALPART) +
+										   *(octonions + OCTONIONS_E5PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E7PART) +
+										   *(octonions + OCTONIONS_E6PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E3PART) -
+										   *(octonions + OCTONIONS_E7PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E5PART);								   
 
 
-	    octonionsRes[OCTONIONS_E2PART] = (octonions[FIRST_NUMBER][OCTONIONS_REALPART]*octonions[SECOND_NUMBER][OCTONIONS_E2PART]) -
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E1PART]*octonions[SECOND_NUMBER][OCTONIONS_E4PART]) +
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E2PART]*octonions[SECOND_NUMBER][OCTONIONS_REALPART]) +
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E3PART]*octonions[SECOND_NUMBER][OCTONIONS_E5PART]) -
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E4PART]*octonions[SECOND_NUMBER][OCTONIONS_E1PART]) -
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E5PART]*octonions[SECOND_NUMBER][OCTONIONS_E3PART]) +
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E6PART]*octonions[SECOND_NUMBER][OCTONIONS_E7PART]) -
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E7PART]*octonions[SECOND_NUMBER][OCTONIONS_E6PART]);
+	    octonionsRes[OCTONIONS_E5PART] = *(octonions + OCTONIONS_REALPART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E5PART) -
+										   *(octonions + OCTONIONS_E1PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E6PART) +
+										   *(octonions + OCTONIONS_E2PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E3PART) -
+										   *(octonions + OCTONIONS_E3PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E2PART) -
+										   *(octonions + OCTONIONS_E4PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E7PART) +
+										   *(octonions + OCTONIONS_E5PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_REALPART) +
+										   *(octonions + OCTONIONS_E6PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E1PART) +
+										   *(octonions + OCTONIONS_E7PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E4PART);								   
 
-	    octonionsRes[OCTONIONS_E3PART] = (octonions[FIRST_NUMBER][OCTONIONS_REALPART]*octonions[SECOND_NUMBER][OCTONIONS_E3PART]) -
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E1PART]*octonions[SECOND_NUMBER][OCTONIONS_E7PART]) -
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E2PART]*octonions[SECOND_NUMBER][OCTONIONS_E5PART]) +
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E3PART]*octonions[SECOND_NUMBER][OCTONIONS_REALPART]) +
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E4PART]*octonions[SECOND_NUMBER][OCTONIONS_E6PART]) +
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E5PART]*octonions[SECOND_NUMBER][OCTONIONS_E2PART]) -
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E6PART]*octonions[SECOND_NUMBER][OCTONIONS_E4PART]) +
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E7PART]*octonions[SECOND_NUMBER][OCTONIONS_E1PART]);
 
-	    octonionsRes[OCTONIONS_E4PART] = (octonions[FIRST_NUMBER][OCTONIONS_REALPART]*octonions[SECOND_NUMBER][OCTONIONS_E4PART]) +
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E1PART]*octonions[SECOND_NUMBER][OCTONIONS_E2PART]) -
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E2PART]*octonions[SECOND_NUMBER][OCTONIONS_E1PART]) -
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E3PART]*octonions[SECOND_NUMBER][OCTONIONS_E6PART]) +
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E4PART]*octonions[SECOND_NUMBER][OCTONIONS_REALPART]) +
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E5PART]*octonions[SECOND_NUMBER][OCTONIONS_E7PART]) +
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E6PART]*octonions[SECOND_NUMBER][OCTONIONS_E3PART]) -
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E7PART]*octonions[SECOND_NUMBER][OCTONIONS_E5PART]);
+	    octonionsRes[OCTONIONS_E6PART] = *(octonions + OCTONIONS_REALPART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E6PART) +
+										   *(octonions + OCTONIONS_E1PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E5PART) -
+										   *(octonions + OCTONIONS_E2PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E7PART) +
+										   *(octonions + OCTONIONS_E3PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E4PART) -
+										   *(octonions + OCTONIONS_E4PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E3PART) -
+										   *(octonions + OCTONIONS_E5PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E1PART) +
+										   *(octonions + OCTONIONS_E6PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_REALPART) +
+										   *(octonions + OCTONIONS_E7PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E2PART);								   
 
-	    octonionsRes[OCTONIONS_E5PART] = (octonions[FIRST_NUMBER][OCTONIONS_REALPART]*octonions[SECOND_NUMBER][OCTONIONS_E5PART]) -
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E1PART]*octonions[SECOND_NUMBER][OCTONIONS_E6PART]) +
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E2PART]*octonions[SECOND_NUMBER][OCTONIONS_E3PART]) -
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E3PART]*octonions[SECOND_NUMBER][OCTONIONS_E2PART]) -
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E4PART]*octonions[SECOND_NUMBER][OCTONIONS_E7PART]) +
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E5PART]*octonions[SECOND_NUMBER][OCTONIONS_REALPART]) +
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E6PART]*octonions[SECOND_NUMBER][OCTONIONS_E1PART]) +
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E7PART]*octonions[SECOND_NUMBER][OCTONIONS_E4PART]);
 
-	    octonionsRes[OCTONIONS_E6PART] = (octonions[FIRST_NUMBER][OCTONIONS_REALPART]*octonions[SECOND_NUMBER][OCTONIONS_E6PART]) +
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E1PART]*octonions[SECOND_NUMBER][OCTONIONS_E5PART]) -
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E2PART]*octonions[SECOND_NUMBER][OCTONIONS_E7PART]) +
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E3PART]*octonions[SECOND_NUMBER][OCTONIONS_E4PART]) -
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E4PART]*octonions[SECOND_NUMBER][OCTONIONS_E3PART]) -
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E5PART]*octonions[SECOND_NUMBER][OCTONIONS_E1PART]) +
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E6PART]*octonions[SECOND_NUMBER][OCTONIONS_REALPART]) +
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E7PART]*octonions[SECOND_NUMBER][OCTONIONS_E2PART]);
-
-	    octonionsRes[OCTONIONS_E7PART] = (octonions[FIRST_NUMBER][OCTONIONS_REALPART]*octonions[SECOND_NUMBER][OCTONIONS_E7PART]) +
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E1PART]*octonions[SECOND_NUMBER][OCTONIONS_E3PART]) +
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E2PART]*octonions[SECOND_NUMBER][OCTONIONS_E6PART]) -
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E3PART]*octonions[SECOND_NUMBER][OCTONIONS_E1PART]) +
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E4PART]*octonions[SECOND_NUMBER][OCTONIONS_E5PART]) -
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E5PART]*octonions[SECOND_NUMBER][OCTONIONS_E4PART]) -
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E6PART]*octonions[SECOND_NUMBER][OCTONIONS_E2PART]) +
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E7PART]*octonions[SECOND_NUMBER][OCTONIONS_REALPART]);
+	    octonionsRes[OCTONIONS_E7PART] = *(octonions + OCTONIONS_REALPART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E7PART) +
+										   *(octonions + OCTONIONS_E1PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E3PART) +
+										   *(octonions + OCTONIONS_E2PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E6PART) -
+										   *(octonions + OCTONIONS_E3PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E1PART) +
+										   *(octonions + OCTONIONS_E4PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E5PART) -
+										   *(octonions + OCTONIONS_E5PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E4PART) -
+										   *(octonions + OCTONIONS_E6PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E2PART) +
+										   *(octonions + OCTONIONS_E7PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_REALPART);								   
 	}
 	return;
 }
 
-__MSNATIVE_ void __export _octonionsMTProduct(ityp **octonions, ityp octonionsRes[static MAX_OCTONIONS_UNITS])
+__MSNATIVE_ __MSSTOCK _MS__private static void __export _octonionsMTProduct(ityp *restrict octonions, ityp octonionsRes[static MAX_OCTONIONS_UNITS])
 {
 	#pragma omp parallel
 	{
-		octonionsRes[OCTONIONS_REALPART] = (octonions[FIRST_NUMBER][OCTONIONS_REALPART]*octonions[SECOND_NUMBER][OCTONIONS_REALPART]) -
-                                       (octonions[FIRST_NUMBER][OCTONIONS_E1PART]*octonions[SECOND_NUMBER][OCTONIONS_E1PART]) -
-                                       (octonions[FIRST_NUMBER][OCTONIONS_E2PART]*octonions[SECOND_NUMBER][OCTONIONS_E2PART]) -
-                                       (octonions[FIRST_NUMBER][OCTONIONS_E3PART]*octonions[SECOND_NUMBER][OCTONIONS_E3PART]) -
-                                       (octonions[FIRST_NUMBER][OCTONIONS_E4PART]*octonions[SECOND_NUMBER][OCTONIONS_E4PART]) -
-                                       (octonions[FIRST_NUMBER][OCTONIONS_E5PART]*octonions[SECOND_NUMBER][OCTONIONS_E5PART]) -
-                                       (octonions[FIRST_NUMBER][OCTONIONS_E6PART]*octonions[SECOND_NUMBER][OCTONIONS_E6PART]) -
-                                       (octonions[FIRST_NUMBER][OCTONIONS_E7PART]*octonions[SECOND_NUMBER][OCTONIONS_E7PART]);
+		octonionsRes[OCTONIONS_REALPART] = *(octonions + OCTONIONS_REALPART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_REALPART) -
+										   *(octonions + OCTONIONS_E1PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E1PART) -
+										   *(octonions + OCTONIONS_E2PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E2PART) -
+										   *(octonions + OCTONIONS_E3PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E3PART) -
+										   *(octonions + OCTONIONS_E4PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E4PART) -
+										   *(octonions + OCTONIONS_E5PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E5PART) -
+										   *(octonions + OCTONIONS_E6PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E6PART) -
+										   *(octonions + OCTONIONS_E7PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E7PART);
+										   
+		octonionsRes[OCTONIONS_E1PART] = *(octonions + OCTONIONS_REALPART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E1PART) +
+										   *(octonions + OCTONIONS_E1PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_REALPART) +
+										   *(octonions + OCTONIONS_E2PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E4PART) +
+										   *(octonions + OCTONIONS_E3PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E7PART) -
+										   *(octonions + OCTONIONS_E4PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E2PART) +
+										   *(octonions + OCTONIONS_E5PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E6PART) -
+										   *(octonions + OCTONIONS_E6PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E5PART) -
+										   *(octonions + OCTONIONS_E7PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E3PART);
+										   
+		octonionsRes[OCTONIONS_E2PART] = *(octonions + OCTONIONS_REALPART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E2PART) -
+										   *(octonions + OCTONIONS_E1PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E4PART) +
+										   *(octonions + OCTONIONS_E2PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_REALPART) +
+										   *(octonions + OCTONIONS_E3PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E5PART) -
+										   *(octonions + OCTONIONS_E4PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E1PART) -
+										   *(octonions + OCTONIONS_E5PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E3PART) +
+										   *(octonions + OCTONIONS_E6PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E7PART) -
+										   *(octonions + OCTONIONS_E7PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E6PART);
+										   
+		octonionsRes[OCTONIONS_E3PART] = *(octonions + OCTONIONS_REALPART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E3PART) -
+										   *(octonions + OCTONIONS_E1PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E7PART) -
+										   *(octonions + OCTONIONS_E2PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E5PART) +
+										   *(octonions + OCTONIONS_E3PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_REALPART) +
+										   *(octonions + OCTONIONS_E4PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E6PART) +
+										   *(octonions + OCTONIONS_E5PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E2PART) -
+										   *(octonions + OCTONIONS_E6PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E4PART) +
+										   *(octonions + OCTONIONS_E7PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E1PART);								   
 
-	    octonionsRes[OCTONIONS_E1PART] = (octonions[FIRST_NUMBER][OCTONIONS_REALPART]*octonions[SECOND_NUMBER][OCTONIONS_E1PART]) +
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E1PART]*octonions[SECOND_NUMBER][OCTONIONS_REALPART]) +
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E2PART]*octonions[SECOND_NUMBER][OCTONIONS_E4PART]) +
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E3PART]*octonions[SECOND_NUMBER][OCTONIONS_E7PART]) -
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E4PART]*octonions[SECOND_NUMBER][OCTONIONS_E2PART]) +
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E5PART]*octonions[SECOND_NUMBER][OCTONIONS_E6PART]) -
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E6PART]*octonions[SECOND_NUMBER][OCTONIONS_E5PART]) -
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E7PART]*octonions[SECOND_NUMBER][OCTONIONS_E3PART]);
+	    octonionsRes[OCTONIONS_E4PART] = *(octonions + OCTONIONS_REALPART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E4PART) +
+										   *(octonions + OCTONIONS_E1PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E2PART) -
+										   *(octonions + OCTONIONS_E2PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E1PART) -
+										   *(octonions + OCTONIONS_E3PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E6PART) +
+										   *(octonions + OCTONIONS_E4PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_REALPART) +
+										   *(octonions + OCTONIONS_E5PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E7PART) +
+										   *(octonions + OCTONIONS_E6PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E3PART) -
+										   *(octonions + OCTONIONS_E7PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E5PART);								   
 
 
-	    octonionsRes[OCTONIONS_E2PART] = (octonions[FIRST_NUMBER][OCTONIONS_REALPART]*octonions[SECOND_NUMBER][OCTONIONS_E2PART]) -
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E1PART]*octonions[SECOND_NUMBER][OCTONIONS_E4PART]) +
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E2PART]*octonions[SECOND_NUMBER][OCTONIONS_REALPART]) +
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E3PART]*octonions[SECOND_NUMBER][OCTONIONS_E5PART]) -
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E4PART]*octonions[SECOND_NUMBER][OCTONIONS_E1PART]) -
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E5PART]*octonions[SECOND_NUMBER][OCTONIONS_E3PART]) +
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E6PART]*octonions[SECOND_NUMBER][OCTONIONS_E7PART]) -
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E7PART]*octonions[SECOND_NUMBER][OCTONIONS_E6PART]);
+	    octonionsRes[OCTONIONS_E5PART] = *(octonions + OCTONIONS_REALPART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E5PART) -
+										   *(octonions + OCTONIONS_E1PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E6PART) +
+										   *(octonions + OCTONIONS_E2PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E3PART) -
+										   *(octonions + OCTONIONS_E3PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E2PART) -
+										   *(octonions + OCTONIONS_E4PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E7PART) +
+										   *(octonions + OCTONIONS_E5PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_REALPART) +
+										   *(octonions + OCTONIONS_E6PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E1PART) +
+										   *(octonions + OCTONIONS_E7PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E4PART);								   
 
-	    octonionsRes[OCTONIONS_E3PART] = (octonions[FIRST_NUMBER][OCTONIONS_REALPART]*octonions[SECOND_NUMBER][OCTONIONS_E3PART]) -
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E1PART]*octonions[SECOND_NUMBER][OCTONIONS_E7PART]) -
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E2PART]*octonions[SECOND_NUMBER][OCTONIONS_E5PART]) +
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E3PART]*octonions[SECOND_NUMBER][OCTONIONS_REALPART]) +
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E4PART]*octonions[SECOND_NUMBER][OCTONIONS_E6PART]) +
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E5PART]*octonions[SECOND_NUMBER][OCTONIONS_E2PART]) -
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E6PART]*octonions[SECOND_NUMBER][OCTONIONS_E4PART]) +
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E7PART]*octonions[SECOND_NUMBER][OCTONIONS_E1PART]);
 
-	    octonionsRes[OCTONIONS_E4PART] = (octonions[FIRST_NUMBER][OCTONIONS_REALPART]*octonions[SECOND_NUMBER][OCTONIONS_E4PART]) +
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E1PART]*octonions[SECOND_NUMBER][OCTONIONS_E2PART]) -
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E2PART]*octonions[SECOND_NUMBER][OCTONIONS_E1PART]) -
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E3PART]*octonions[SECOND_NUMBER][OCTONIONS_E6PART]) +
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E4PART]*octonions[SECOND_NUMBER][OCTONIONS_REALPART]) +
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E5PART]*octonions[SECOND_NUMBER][OCTONIONS_E7PART]) +
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E6PART]*octonions[SECOND_NUMBER][OCTONIONS_E3PART]) -
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E7PART]*octonions[SECOND_NUMBER][OCTONIONS_E5PART]);
+	    octonionsRes[OCTONIONS_E6PART] = *(octonions + OCTONIONS_REALPART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E6PART) +
+										   *(octonions + OCTONIONS_E1PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E5PART) -
+										   *(octonions + OCTONIONS_E2PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E7PART) +
+										   *(octonions + OCTONIONS_E3PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E4PART) -
+										   *(octonions + OCTONIONS_E4PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E3PART) -
+										   *(octonions + OCTONIONS_E5PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E1PART) +
+										   *(octonions + OCTONIONS_E6PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_REALPART) +
+										   *(octonions + OCTONIONS_E7PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E2PART);								   
 
-	    octonionsRes[OCTONIONS_E5PART] = (octonions[FIRST_NUMBER][OCTONIONS_REALPART]*octonions[SECOND_NUMBER][OCTONIONS_E5PART]) -
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E1PART]*octonions[SECOND_NUMBER][OCTONIONS_E6PART]) +
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E2PART]*octonions[SECOND_NUMBER][OCTONIONS_E3PART]) -
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E3PART]*octonions[SECOND_NUMBER][OCTONIONS_E2PART]) -
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E4PART]*octonions[SECOND_NUMBER][OCTONIONS_E7PART]) +
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E5PART]*octonions[SECOND_NUMBER][OCTONIONS_REALPART]) +
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E6PART]*octonions[SECOND_NUMBER][OCTONIONS_E1PART]) +
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E7PART]*octonions[SECOND_NUMBER][OCTONIONS_E4PART]);
 
-	    octonionsRes[OCTONIONS_E6PART] = (octonions[FIRST_NUMBER][OCTONIONS_REALPART]*octonions[SECOND_NUMBER][OCTONIONS_E6PART]) +
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E1PART]*octonions[SECOND_NUMBER][OCTONIONS_E5PART]) -
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E2PART]*octonions[SECOND_NUMBER][OCTONIONS_E7PART]) +
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E3PART]*octonions[SECOND_NUMBER][OCTONIONS_E4PART]) -
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E4PART]*octonions[SECOND_NUMBER][OCTONIONS_E3PART]) -
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E5PART]*octonions[SECOND_NUMBER][OCTONIONS_E1PART]) +
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E6PART]*octonions[SECOND_NUMBER][OCTONIONS_REALPART]) +
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E7PART]*octonions[SECOND_NUMBER][OCTONIONS_E2PART]);
-
-	    octonionsRes[OCTONIONS_E7PART] = (octonions[FIRST_NUMBER][OCTONIONS_REALPART]*octonions[SECOND_NUMBER][OCTONIONS_E7PART]) +
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E1PART]*octonions[SECOND_NUMBER][OCTONIONS_E3PART]) +
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E2PART]*octonions[SECOND_NUMBER][OCTONIONS_E6PART]) -
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E3PART]*octonions[SECOND_NUMBER][OCTONIONS_E1PART]) +
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E4PART]*octonions[SECOND_NUMBER][OCTONIONS_E5PART]) -
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E5PART]*octonions[SECOND_NUMBER][OCTONIONS_E4PART]) -
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E6PART]*octonions[SECOND_NUMBER][OCTONIONS_E2PART]) +
-	                                     (octonions[FIRST_NUMBER][OCTONIONS_E7PART]*octonions[SECOND_NUMBER][OCTONIONS_REALPART]);
+	    octonionsRes[OCTONIONS_E7PART] = *(octonions + OCTONIONS_REALPART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E7PART) +
+										   *(octonions + OCTONIONS_E1PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E3PART) +
+										   *(octonions + OCTONIONS_E2PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E6PART) -
+										   *(octonions + OCTONIONS_E3PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E1PART) +
+										   *(octonions + OCTONIONS_E4PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E5PART) -
+										   *(octonions + OCTONIONS_E5PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E4PART) -
+										   *(octonions + OCTONIONS_E6PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E2PART) +
+										   *(octonions + OCTONIONS_E7PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_REALPART);
 	}
 	return;
 }
 
-__MSNATIVE_ inline void __export _octonionsProduct(ityp **octonions, ityp octonionsRes[static MAX_OCTONIONS_UNITS])
+__MSNATIVE_ inline void __export _octonionsProduct(ityp *restrict octonions, ityp octonionsRes[static MAX_OCTONIONS_UNITS])
 {
-	void (* const omp_func)(ityp **, ityp [static MAX_OCTONIONS_UNITS]) = isSett(BOOLS_EXTENSIVEMULTITHREADING) ? _octonionsEMTProduct : _octonionsMTProduct;
+	void (* const omp_func)(ityp *restrict, ityp [static MAX_OCTONIONS_UNITS]) = isSett(BOOLS_EXTENSIVEMULTITHREADING) ? _octonionsEMTProduct : _octonionsMTProduct;
 	omp_func(octonions, octonionsRes);
     return;
 }
 
-__MSNATIVE_ void __export _sedenionsEMTSum(ityp **sedenions, ityp sedenionsRes[static MAX_SEDENIONS_UNITS])
+__MSNATIVE_ __MSSTOCK _MS__private static void __export _sedenionsEMTSum(ityp *sedenions, ityp sedenionsRes[static MAX_SEDENIONS_UNITS])
 {
 	#pragma omp parallel num_threads(MAX_SEDENIONS_UNITS)
 	{
-		sedenionsRes[SEDENIONS_REALPART] = sedenions[FIRST_NUMBER][SEDENIONS_REALPART] + sedenions[SECOND_NUMBER][SEDENIONS_REALPART];
-	    sedenionsRes[SEDENIONS_E1PART] = sedenions[FIRST_NUMBER][SEDENIONS_E1PART] + sedenions[SECOND_NUMBER][SEDENIONS_E1PART];
-	    sedenionsRes[SEDENIONS_E2PART] = sedenions[FIRST_NUMBER][SEDENIONS_E2PART] + sedenions[SECOND_NUMBER][SEDENIONS_E2PART];
-	    sedenionsRes[SEDENIONS_E3PART] = sedenions[FIRST_NUMBER][SEDENIONS_E3PART] + sedenions[SECOND_NUMBER][SEDENIONS_E3PART];
-	    sedenionsRes[SEDENIONS_E4PART] = sedenions[FIRST_NUMBER][SEDENIONS_E4PART] + sedenions[SECOND_NUMBER][SEDENIONS_E4PART];
-	    sedenionsRes[SEDENIONS_E5PART] = sedenions[FIRST_NUMBER][SEDENIONS_E5PART] + sedenions[SECOND_NUMBER][SEDENIONS_E5PART];
-	    sedenionsRes[SEDENIONS_E6PART] = sedenions[FIRST_NUMBER][SEDENIONS_E6PART] + sedenions[SECOND_NUMBER][SEDENIONS_E6PART];
-	    sedenionsRes[SEDENIONS_E7PART] = sedenions[FIRST_NUMBER][SEDENIONS_E7PART] + sedenions[SECOND_NUMBER][SEDENIONS_E7PART];
-	    sedenionsRes[SEDENIONS_E8PART] = sedenions[FIRST_NUMBER][SEDENIONS_E8PART] + sedenions[SECOND_NUMBER][SEDENIONS_E8PART];
-	    sedenionsRes[SEDENIONS_E9PART] = sedenions[FIRST_NUMBER][SEDENIONS_E9PART] + sedenions[SECOND_NUMBER][SEDENIONS_E9PART];
-	    sedenionsRes[SEDENIONS_E10PART] = sedenions[FIRST_NUMBER][SEDENIONS_E10PART] + sedenions[SECOND_NUMBER][SEDENIONS_E10PART];
-	    sedenionsRes[SEDENIONS_E11PART] = sedenions[FIRST_NUMBER][SEDENIONS_E11PART] + sedenions[SECOND_NUMBER][SEDENIONS_E11PART];
-	    sedenionsRes[SEDENIONS_E12PART] = sedenions[FIRST_NUMBER][SEDENIONS_E12PART] + sedenions[SECOND_NUMBER][SEDENIONS_E12PART];
-	    sedenionsRes[SEDENIONS_E13PART] = sedenions[FIRST_NUMBER][SEDENIONS_E13PART] + sedenions[SECOND_NUMBER][SEDENIONS_E13PART];
-	    sedenionsRes[SEDENIONS_E14PART] = sedenions[FIRST_NUMBER][SEDENIONS_E14PART] + sedenions[SECOND_NUMBER][SEDENIONS_E14PART];
-	    sedenionsRes[SEDENIONS_E15PART] = sedenions[FIRST_NUMBER][SEDENIONS_E15PART] + sedenions[SECOND_NUMBER][SEDENIONS_E15PART];
+		sedenionsRes[SEDENIONS_REALPART] = *(sedenions + SEDENIONS_REALPART) + *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART);
+	    sedenionsRes[SEDENIONS_E1PART] = *(sedenions + SEDENIONS_E1PART) + *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART);
+	    sedenionsRes[SEDENIONS_E2PART] = *(sedenions + SEDENIONS_E2PART) + *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART);
+	    sedenionsRes[SEDENIONS_E3PART] = *(sedenions + SEDENIONS_E3PART) + *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART);
+	    sedenionsRes[SEDENIONS_E4PART] = *(sedenions + SEDENIONS_E4PART) + *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART);
+	    sedenionsRes[SEDENIONS_E5PART] = *(sedenions + SEDENIONS_E5PART) + *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART);
+	    sedenionsRes[SEDENIONS_E6PART] = *(sedenions + SEDENIONS_E6PART) + *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART);
+	    sedenionsRes[SEDENIONS_E7PART] = *(sedenions + SEDENIONS_E7PART) + *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART);
+	    sedenionsRes[SEDENIONS_E8PART] = *(sedenions + SEDENIONS_E8PART) + *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART);
+	    sedenionsRes[SEDENIONS_E9PART] = *(sedenions + SEDENIONS_E9PART) + *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART);
+	    sedenionsRes[SEDENIONS_E10PART] = *(sedenions + SEDENIONS_E10PART) + *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART);
+	    sedenionsRes[SEDENIONS_E11PART] = *(sedenions + SEDENIONS_E11PART) + *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART);
+	    sedenionsRes[SEDENIONS_E12PART] = *(sedenions + SEDENIONS_E12PART) + *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART);
+	    sedenionsRes[SEDENIONS_E13PART] = *(sedenions + SEDENIONS_E13PART) + *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART);
+	    sedenionsRes[SEDENIONS_E14PART] = *(sedenions + SEDENIONS_E14PART) + *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART);
+	    sedenionsRes[SEDENIONS_E15PART] = *(sedenions + SEDENIONS_E15PART) + *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART);
 	}
 	return;
 }
 
-__MSNATIVE_ void __export _sedenionsMTSum(ityp **sedenions, ityp sedenionsRes[static MAX_SEDENIONS_UNITS])
+__MSNATIVE_ __MSSTOCK _MS__private static void __export _sedenionsMTSum(ityp *restrict sedenions, ityp sedenionsRes[static MAX_SEDENIONS_UNITS])
 {
 	#pragma omp parallel
 	{
-		sedenionsRes[SEDENIONS_REALPART] = sedenions[FIRST_NUMBER][SEDENIONS_REALPART] + sedenions[SECOND_NUMBER][SEDENIONS_REALPART];
-	    sedenionsRes[SEDENIONS_E1PART] = sedenions[FIRST_NUMBER][SEDENIONS_E1PART] + sedenions[SECOND_NUMBER][SEDENIONS_E1PART];
-	    sedenionsRes[SEDENIONS_E2PART] = sedenions[FIRST_NUMBER][SEDENIONS_E2PART] + sedenions[SECOND_NUMBER][SEDENIONS_E2PART];
-	    sedenionsRes[SEDENIONS_E3PART] = sedenions[FIRST_NUMBER][SEDENIONS_E3PART] + sedenions[SECOND_NUMBER][SEDENIONS_E3PART];
-	    sedenionsRes[SEDENIONS_E4PART] = sedenions[FIRST_NUMBER][SEDENIONS_E4PART] + sedenions[SECOND_NUMBER][SEDENIONS_E4PART];
-	    sedenionsRes[SEDENIONS_E5PART] = sedenions[FIRST_NUMBER][SEDENIONS_E5PART] + sedenions[SECOND_NUMBER][SEDENIONS_E5PART];
-	    sedenionsRes[SEDENIONS_E6PART] = sedenions[FIRST_NUMBER][SEDENIONS_E6PART] + sedenions[SECOND_NUMBER][SEDENIONS_E6PART];
-	    sedenionsRes[SEDENIONS_E7PART] = sedenions[FIRST_NUMBER][SEDENIONS_E7PART] + sedenions[SECOND_NUMBER][SEDENIONS_E7PART];
-	    sedenionsRes[SEDENIONS_E8PART] = sedenions[FIRST_NUMBER][SEDENIONS_E8PART] + sedenions[SECOND_NUMBER][SEDENIONS_E8PART];
-	    sedenionsRes[SEDENIONS_E9PART] = sedenions[FIRST_NUMBER][SEDENIONS_E9PART] + sedenions[SECOND_NUMBER][SEDENIONS_E9PART];
-	    sedenionsRes[SEDENIONS_E10PART] = sedenions[FIRST_NUMBER][SEDENIONS_E10PART] + sedenions[SECOND_NUMBER][SEDENIONS_E10PART];
-	    sedenionsRes[SEDENIONS_E11PART] = sedenions[FIRST_NUMBER][SEDENIONS_E11PART] + sedenions[SECOND_NUMBER][SEDENIONS_E11PART];
-	    sedenionsRes[SEDENIONS_E12PART] = sedenions[FIRST_NUMBER][SEDENIONS_E12PART] + sedenions[SECOND_NUMBER][SEDENIONS_E12PART];
-	    sedenionsRes[SEDENIONS_E13PART] = sedenions[FIRST_NUMBER][SEDENIONS_E13PART] + sedenions[SECOND_NUMBER][SEDENIONS_E13PART];
-	    sedenionsRes[SEDENIONS_E14PART] = sedenions[FIRST_NUMBER][SEDENIONS_E14PART] + sedenions[SECOND_NUMBER][SEDENIONS_E14PART];
-	    sedenionsRes[SEDENIONS_E15PART] = sedenions[FIRST_NUMBER][SEDENIONS_E15PART] + sedenions[SECOND_NUMBER][SEDENIONS_E15PART];
+		sedenionsRes[SEDENIONS_REALPART] = *(sedenions + SEDENIONS_REALPART) + *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART);
+	    sedenionsRes[SEDENIONS_E1PART] = *(sedenions + SEDENIONS_E1PART) + *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART);
+	    sedenionsRes[SEDENIONS_E2PART] = *(sedenions + SEDENIONS_E2PART) + *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART);
+	    sedenionsRes[SEDENIONS_E3PART] = *(sedenions + SEDENIONS_E3PART) + *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART);
+	    sedenionsRes[SEDENIONS_E4PART] = *(sedenions + SEDENIONS_E4PART) + *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART);
+	    sedenionsRes[SEDENIONS_E5PART] = *(sedenions + SEDENIONS_E5PART) + *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART);
+	    sedenionsRes[SEDENIONS_E6PART] = *(sedenions + SEDENIONS_E6PART) + *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART);
+	    sedenionsRes[SEDENIONS_E7PART] = *(sedenions + SEDENIONS_E7PART) + *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART);
+	    sedenionsRes[SEDENIONS_E8PART] = *(sedenions + SEDENIONS_E8PART) + *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART);
+	    sedenionsRes[SEDENIONS_E9PART] = *(sedenions + SEDENIONS_E9PART) + *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART);
+	    sedenionsRes[SEDENIONS_E10PART] = *(sedenions + SEDENIONS_E10PART) + *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART);
+	    sedenionsRes[SEDENIONS_E11PART] = *(sedenions + SEDENIONS_E11PART) + *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART);
+	    sedenionsRes[SEDENIONS_E12PART] = *(sedenions + SEDENIONS_E12PART) + *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART);
+	    sedenionsRes[SEDENIONS_E13PART] = *(sedenions + SEDENIONS_E13PART) + *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART);
+	    sedenionsRes[SEDENIONS_E14PART] = *(sedenions + SEDENIONS_E14PART) + *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART);
+	    sedenionsRes[SEDENIONS_E15PART] = *(sedenions + SEDENIONS_E15PART) + *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART);
 	}
 	return;
 }
 
-__MSNATIVE_ inline void __export _sedenionsSum(ityp **sedenions, ityp sedenionsRes[static MAX_SEDENIONS_UNITS])
+__MSNATIVE_ inline void __export _sedenionsSum(ityp *restrict sedenions, ityp sedenionsRes[static MAX_SEDENIONS_UNITS])
 {
-	void (* const omp_func)(ityp **, ityp [static MAX_SEDENIONS_UNITS]) = isSett(BOOLS_EXTENSIVEMULTITHREADING) ? _sedenionsEMTSum : _sedenionsMTSum;
+	void (* const omp_func)(ityp *restrict, ityp [static MAX_SEDENIONS_UNITS]) = isSett(BOOLS_EXTENSIVEMULTITHREADING) ? _sedenionsEMTSum : _sedenionsMTSum;
 	omp_func(sedenions, sedenionsRes);
     return;
 }
 
-__MSNATIVE_ void __export _sedenionsEMTProduct(ityp **sedenions, ityp sedenionsRes[static MAX_SEDENIONS_UNITS])
+__MSNATIVE_ __MSSTOCK _MS__private static void __export _sedenionsEMTProduct(ityp *sedenions, ityp sedenionsRes[static MAX_SEDENIONS_UNITS])
 {
 	#pragma omp parallel num_threads(MAX_SEDENIONS_UNITS)
 	{
-		sedenionsRes[SEDENIONS_REALPART] = (sedenions[FIRST_NUMBER][SEDENIONS_REALPART]*sedenions[SECOND_NUMBER][SEDENIONS_REALPART]) -
-                                       (sedenions[FIRST_NUMBER][SEDENIONS_E1PART]*sedenions[SECOND_NUMBER][SEDENIONS_E1PART]) -
-                                       (sedenions[FIRST_NUMBER][SEDENIONS_E2PART]*sedenions[SECOND_NUMBER][SEDENIONS_E2PART]) -
-                                       (sedenions[FIRST_NUMBER][SEDENIONS_E3PART]*sedenions[SECOND_NUMBER][SEDENIONS_E3PART]) -
-                                       (sedenions[FIRST_NUMBER][SEDENIONS_E4PART]*sedenions[SECOND_NUMBER][SEDENIONS_E4PART]) -
-                                       (sedenions[FIRST_NUMBER][SEDENIONS_E5PART]*sedenions[SECOND_NUMBER][SEDENIONS_E5PART]) -
-                                       (sedenions[FIRST_NUMBER][SEDENIONS_E6PART]*sedenions[SECOND_NUMBER][SEDENIONS_E6PART]) -
-                                       (sedenions[FIRST_NUMBER][SEDENIONS_E7PART]*sedenions[SECOND_NUMBER][SEDENIONS_E7PART]) -
-                                       (sedenions[FIRST_NUMBER][SEDENIONS_E8PART]*sedenions[SECOND_NUMBER][SEDENIONS_E8PART]) -
-                                       (sedenions[FIRST_NUMBER][SEDENIONS_E9PART]*sedenions[SECOND_NUMBER][SEDENIONS_E9PART]) -
-                                       (sedenions[FIRST_NUMBER][SEDENIONS_E10PART]*sedenions[SECOND_NUMBER][SEDENIONS_E10PART]) -
-                                       (sedenions[FIRST_NUMBER][SEDENIONS_E11PART]*sedenions[SECOND_NUMBER][SEDENIONS_E11PART]) -
-                                       (sedenions[FIRST_NUMBER][SEDENIONS_E12PART]*sedenions[SECOND_NUMBER][SEDENIONS_E12PART]) -
-                                       (sedenions[FIRST_NUMBER][SEDENIONS_E13PART]*sedenions[SECOND_NUMBER][SEDENIONS_E13PART]) -
-                                       (sedenions[FIRST_NUMBER][SEDENIONS_E14PART]*sedenions[SECOND_NUMBER][SEDENIONS_E14PART]) -
-                                       (sedenions[FIRST_NUMBER][SEDENIONS_E15PART]*sedenions[SECOND_NUMBER][SEDENIONS_E15PART]);
+		sedenionsRes[SEDENIONS_REALPART] = *(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART) -
+										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART) -
+										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART) -
+										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) -
+										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART) -
+										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART) -
+										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART) -
+										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART) -
+										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART) -
+										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART) -
+										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART) -
+										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART) -
+										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART) -
+										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART) -
+										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART) -
+										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART);
+										   
+		sedenionsRes[SEDENIONS_E1PART] = *(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART) +
+										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART) +
+										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) -
+										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART) +
+										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART) -
+										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART) -
+										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART) +
+										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART) +
+										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART) -
+										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART) -
+										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART) +
+										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART) -
+										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART) +
+										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART) +
+										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART) -
+										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART);							
 
-	    sedenionsRes[SEDENIONS_E1PART] = (sedenions[FIRST_NUMBER][SEDENIONS_REALPART]*sedenions[SECOND_NUMBER][SEDENIONS_E1PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E1PART]*sedenions[SECOND_NUMBER][SEDENIONS_REALPART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E2PART]*sedenions[SECOND_NUMBER][SEDENIONS_E3PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E3PART]*sedenions[SECOND_NUMBER][SEDENIONS_E2PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E4PART]*sedenions[SECOND_NUMBER][SEDENIONS_E5PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E5PART]*sedenions[SECOND_NUMBER][SEDENIONS_E4PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E6PART]*sedenions[SECOND_NUMBER][SEDENIONS_E7PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E7PART]*sedenions[SECOND_NUMBER][SEDENIONS_E6PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E8PART]*sedenions[SECOND_NUMBER][SEDENIONS_E9PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E9PART]*sedenions[SECOND_NUMBER][SEDENIONS_E8PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E10PART]*sedenions[SECOND_NUMBER][SEDENIONS_E11PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E11PART]*sedenions[SECOND_NUMBER][SEDENIONS_E10PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E12PART]*sedenions[SECOND_NUMBER][SEDENIONS_E13PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E13PART]*sedenions[SECOND_NUMBER][SEDENIONS_E12PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E14PART]*sedenions[SECOND_NUMBER][SEDENIONS_E15PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E15PART]*sedenions[SECOND_NUMBER][SEDENIONS_E14PART]);
+	    sedenionsRes[SEDENIONS_E2PART] = *(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART) -
+										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) +
+										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART) +
+										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART) +
+										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART) +
+										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART) -
+										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART) -
+										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART) +
+										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART) +
+										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART) -
+										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART) -
+										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART) -
+										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART) -
+										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART) +
+										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART) +
+										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART);	
 
-	    sedenionsRes[SEDENIONS_E2PART] = (sedenions[FIRST_NUMBER][SEDENIONS_REALPART]*sedenions[SECOND_NUMBER][SEDENIONS_E2PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E1PART]*sedenions[SECOND_NUMBER][SEDENIONS_E3PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E2PART]*sedenions[SECOND_NUMBER][SEDENIONS_REALPART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E3PART]*sedenions[SECOND_NUMBER][SEDENIONS_E1PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E4PART]*sedenions[SECOND_NUMBER][SEDENIONS_E6PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E5PART]*sedenions[SECOND_NUMBER][SEDENIONS_E7PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E6PART]*sedenions[SECOND_NUMBER][SEDENIONS_E4PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E7PART]*sedenions[SECOND_NUMBER][SEDENIONS_E5PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E8PART]*sedenions[SECOND_NUMBER][SEDENIONS_E10PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E9PART]*sedenions[SECOND_NUMBER][SEDENIONS_E11PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E10PART]*sedenions[SECOND_NUMBER][SEDENIONS_E8PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E11PART]*sedenions[SECOND_NUMBER][SEDENIONS_E9PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E12PART]*sedenions[SECOND_NUMBER][SEDENIONS_E14PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E13PART]*sedenions[SECOND_NUMBER][SEDENIONS_E15PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E14PART]*sedenions[SECOND_NUMBER][SEDENIONS_E12PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E15PART]*sedenions[SECOND_NUMBER][SEDENIONS_E13PART]);
+	    sedenionsRes[SEDENIONS_E3PART] = *(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) +
+										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART) -
+										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART) +
+										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART) +
+										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART) -
+										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART) +
+										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART) -
+										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART) +
+										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART) -
+										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART) +
+										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART) -
+										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART) -
+										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART) +
+										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART) -
+										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART) +
+										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART);	
 
-	    sedenionsRes[SEDENIONS_E3PART] = (sedenions[FIRST_NUMBER][SEDENIONS_REALPART]*sedenions[SECOND_NUMBER][SEDENIONS_E3PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E1PART]*sedenions[SECOND_NUMBER][SEDENIONS_E2PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E2PART]*sedenions[SECOND_NUMBER][SEDENIONS_E1PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E3PART]*sedenions[SECOND_NUMBER][SEDENIONS_REALPART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E4PART]*sedenions[SECOND_NUMBER][SEDENIONS_E7PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E5PART]*sedenions[SECOND_NUMBER][SEDENIONS_E6PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E6PART]*sedenions[SECOND_NUMBER][SEDENIONS_E5PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E7PART]*sedenions[SECOND_NUMBER][SEDENIONS_E4PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E8PART]*sedenions[SECOND_NUMBER][SEDENIONS_E11PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E9PART]*sedenions[SECOND_NUMBER][SEDENIONS_E10PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E10PART]*sedenions[SECOND_NUMBER][SEDENIONS_E9PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E11PART]*sedenions[SECOND_NUMBER][SEDENIONS_E8PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E12PART]*sedenions[SECOND_NUMBER][SEDENIONS_E15PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E13PART]*sedenions[SECOND_NUMBER][SEDENIONS_E14PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E14PART]*sedenions[SECOND_NUMBER][SEDENIONS_E13PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E15PART]*sedenions[SECOND_NUMBER][SEDENIONS_E12PART]);
+	    sedenionsRes[SEDENIONS_E4PART] = *(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART) -
+										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART) -
+										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART) -
+										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART) +
+										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART) +
+										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART) +
+										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART) +
+										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) +
+										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART) +
+										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART) +
+										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART) +
+										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART) -
+										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART) -
+										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART) -
+										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART) -
+										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART);	
 
-	    sedenionsRes[SEDENIONS_E4PART] = (sedenions[FIRST_NUMBER][SEDENIONS_REALPART]*sedenions[SECOND_NUMBER][SEDENIONS_E4PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E1PART]*sedenions[SECOND_NUMBER][SEDENIONS_E5PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E2PART]*sedenions[SECOND_NUMBER][SEDENIONS_E6PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E3PART]*sedenions[SECOND_NUMBER][SEDENIONS_E7PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E4PART]*sedenions[SECOND_NUMBER][SEDENIONS_REALPART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E5PART]*sedenions[SECOND_NUMBER][SEDENIONS_E1PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E6PART]*sedenions[SECOND_NUMBER][SEDENIONS_E2PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E7PART]*sedenions[SECOND_NUMBER][SEDENIONS_E3PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E8PART]*sedenions[SECOND_NUMBER][SEDENIONS_E12PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E9PART]*sedenions[SECOND_NUMBER][SEDENIONS_E13PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E10PART]*sedenions[SECOND_NUMBER][SEDENIONS_E14PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E11PART]*sedenions[SECOND_NUMBER][SEDENIONS_E15PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E12PART]*sedenions[SECOND_NUMBER][SEDENIONS_E8PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E13PART]*sedenions[SECOND_NUMBER][SEDENIONS_E9PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E14PART]*sedenions[SECOND_NUMBER][SEDENIONS_E10PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E15PART]*sedenions[SECOND_NUMBER][SEDENIONS_E11PART]);
+	    sedenionsRes[SEDENIONS_E5PART] = *(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART) +
+										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART) -
+										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART) +
+										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART) -
+										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART) +
+										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART) -
+										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) +
+										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART) +
+										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART) -
+										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART) +
+										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART) -
+										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART) +
+										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART) -
+										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART) +
+										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART) -
+										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART);	
 
-	    sedenionsRes[SEDENIONS_E5PART] = (sedenions[FIRST_NUMBER][SEDENIONS_REALPART]*sedenions[SECOND_NUMBER][SEDENIONS_E5PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E1PART]*sedenions[SECOND_NUMBER][SEDENIONS_E4PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E2PART]*sedenions[SECOND_NUMBER][SEDENIONS_E7PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E3PART]*sedenions[SECOND_NUMBER][SEDENIONS_E6PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E4PART]*sedenions[SECOND_NUMBER][SEDENIONS_E1PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E5PART]*sedenions[SECOND_NUMBER][SEDENIONS_REALPART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E6PART]*sedenions[SECOND_NUMBER][SEDENIONS_E3PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E7PART]*sedenions[SECOND_NUMBER][SEDENIONS_E2PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E8PART]*sedenions[SECOND_NUMBER][SEDENIONS_E13PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E9PART]*sedenions[SECOND_NUMBER][SEDENIONS_E12PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E10PART]*sedenions[SECOND_NUMBER][SEDENIONS_E15PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E11PART]*sedenions[SECOND_NUMBER][SEDENIONS_E14PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E12PART]*sedenions[SECOND_NUMBER][SEDENIONS_E9PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E13PART]*sedenions[SECOND_NUMBER][SEDENIONS_E8PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E14PART]*sedenions[SECOND_NUMBER][SEDENIONS_E11PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E15PART]*sedenions[SECOND_NUMBER][SEDENIONS_E10PART]);
+	    sedenionsRes[SEDENIONS_E6PART] = *(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART) +
+										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART) +
+										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART) -
+										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART) -
+										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART) +
+										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) +
+										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART) -
+										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART) +
+										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART) -
+										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART) -
+										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART) +
+										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART) +
+										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART) -
+										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART) -
+										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART) +
+										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART);	
 
-	    sedenionsRes[SEDENIONS_E6PART] = (sedenions[FIRST_NUMBER][SEDENIONS_REALPART]*sedenions[SECOND_NUMBER][SEDENIONS_E6PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E1PART]*sedenions[SECOND_NUMBER][SEDENIONS_E7PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E2PART]*sedenions[SECOND_NUMBER][SEDENIONS_E4PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E3PART]*sedenions[SECOND_NUMBER][SEDENIONS_E5PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E4PART]*sedenions[SECOND_NUMBER][SEDENIONS_E2PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E5PART]*sedenions[SECOND_NUMBER][SEDENIONS_E3PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E6PART]*sedenions[SECOND_NUMBER][SEDENIONS_REALPART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E7PART]*sedenions[SECOND_NUMBER][SEDENIONS_E1PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E8PART]*sedenions[SECOND_NUMBER][SEDENIONS_E14PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E9PART]*sedenions[SECOND_NUMBER][SEDENIONS_E15PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E10PART]*sedenions[SECOND_NUMBER][SEDENIONS_E12PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E11PART]*sedenions[SECOND_NUMBER][SEDENIONS_E13PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E12PART]*sedenions[SECOND_NUMBER][SEDENIONS_E10PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E13PART]*sedenions[SECOND_NUMBER][SEDENIONS_E11PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E14PART]*sedenions[SECOND_NUMBER][SEDENIONS_E8PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E15PART]*sedenions[SECOND_NUMBER][SEDENIONS_E9PART]);
+	    sedenionsRes[SEDENIONS_E7PART] = *(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART) -
+										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART) +
+										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART) +
+										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART) -
+										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) -
+										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART) +
+										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART) +
+										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART) +
+										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART) +
+										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART) -
+										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART) -
+										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART) +
+										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART) +
+										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART) -
+										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART) -
+										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART);
+										   
+		sedenionsRes[SEDENIONS_E8PART] = *(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART) -
+										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART) -
+										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART) -
+										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART) -
+										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART) -
+										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART) -
+										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART) -
+										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART) +
+										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART) +
+										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART) +
+										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART) +
+										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) +
+										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART) +
+										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART) +
+										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART) +
+										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART);	
 
+	    sedenionsRes[SEDENIONS_E9PART] = *(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART) +
+										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART) -
+										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART) +
+										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART) -
+										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART) +
+										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART) +
+										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART) -
+										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART) -
+										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART) +
+										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART) -
+										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) +
+										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART) -
+										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART) +
+										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART) +
+										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART) -
+										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART);	
 
+	    sedenionsRes[SEDENIONS_E10PART] = *(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART) +
+										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART) +
+										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART) -
+										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART) -
+										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART) -
+										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART) +
+										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART) +
+										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART) -
+										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART) +
+										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) +
+										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART) -
+										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART) -
+										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART) -
+										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART) +
+										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART) +
+										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART);	
 
-	    sedenionsRes[SEDENIONS_E7PART] = (sedenions[FIRST_NUMBER][SEDENIONS_REALPART]*sedenions[SECOND_NUMBER][SEDENIONS_E7PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E1PART]*sedenions[SECOND_NUMBER][SEDENIONS_E6PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E2PART]*sedenions[SECOND_NUMBER][SEDENIONS_E5PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E3PART]*sedenions[SECOND_NUMBER][SEDENIONS_E4PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E4PART]*sedenions[SECOND_NUMBER][SEDENIONS_E3PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E5PART]*sedenions[SECOND_NUMBER][SEDENIONS_E2PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E6PART]*sedenions[SECOND_NUMBER][SEDENIONS_E1PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E7PART]*sedenions[SECOND_NUMBER][SEDENIONS_REALPART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E8PART]*sedenions[SECOND_NUMBER][SEDENIONS_E15PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E9PART]*sedenions[SECOND_NUMBER][SEDENIONS_E14PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E10PART]*sedenions[SECOND_NUMBER][SEDENIONS_E13PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E11PART]*sedenions[SECOND_NUMBER][SEDENIONS_E12PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E12PART]*sedenions[SECOND_NUMBER][SEDENIONS_E11PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E13PART]*sedenions[SECOND_NUMBER][SEDENIONS_E10PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E14PART]*sedenions[SECOND_NUMBER][SEDENIONS_E9PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E15PART]*sedenions[SECOND_NUMBER][SEDENIONS_E8PART]);
+	    sedenionsRes[SEDENIONS_E11PART] = *(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART) -
+										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART) +
+										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART) +
+										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART) -
+										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART) +
+										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART) -
+										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART) +
+										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART) -
+										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) -
+										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART) +
+										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART) +
+										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART) -
+										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART) +
+										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART) -
+										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART) +
+										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART);	
 
+	    sedenionsRes[SEDENIONS_E12PART] = *(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART) +
+										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART) -
+										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART) +
+										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART) +
+										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART) -
+										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART) -
+										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART) -
+										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART) -
+										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART) +
+										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART) +
+										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART) +
+										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART) +
+										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART) -
+										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART) -
+										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART) -
+										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART);	
 
-	    sedenionsRes[SEDENIONS_E8PART] = (sedenions[FIRST_NUMBER][SEDENIONS_REALPART]*sedenions[SECOND_NUMBER][SEDENIONS_E8PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E1PART]*sedenions[SECOND_NUMBER][SEDENIONS_E9PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E2PART]*sedenions[SECOND_NUMBER][SEDENIONS_E10PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E3PART]*sedenions[SECOND_NUMBER][SEDENIONS_E11PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E4PART]*sedenions[SECOND_NUMBER][SEDENIONS_E12PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E5PART]*sedenions[SECOND_NUMBER][SEDENIONS_E13PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E6PART]*sedenions[SECOND_NUMBER][SEDENIONS_E14PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E7PART]*sedenions[SECOND_NUMBER][SEDENIONS_E15PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E8PART]*sedenions[SECOND_NUMBER][SEDENIONS_REALPART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E9PART]*sedenions[SECOND_NUMBER][SEDENIONS_E1PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E10PART]*sedenions[SECOND_NUMBER][SEDENIONS_E2PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E11PART]*sedenions[SECOND_NUMBER][SEDENIONS_E3PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E12PART]*sedenions[SECOND_NUMBER][SEDENIONS_E4PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E13PART]*sedenions[SECOND_NUMBER][SEDENIONS_E5PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E14PART]*sedenions[SECOND_NUMBER][SEDENIONS_E6PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E15PART]*sedenions[SECOND_NUMBER][SEDENIONS_E7PART]);
+	    sedenionsRes[SEDENIONS_E13PART] = *(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART) -
+										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART) +
+										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART) -
+										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART) +
+										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART) +
+										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART) +
+										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART) -
+										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART) -
+										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART) -
+										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART) +
+										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART) -
+										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART) +
+										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART) +
+										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART) +
+										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) -
+										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART);	
 
-	    sedenionsRes[SEDENIONS_E9PART] = (sedenions[FIRST_NUMBER][SEDENIONS_REALPART]*sedenions[SECOND_NUMBER][SEDENIONS_E9PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E1PART]*sedenions[SECOND_NUMBER][SEDENIONS_E8PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E2PART]*sedenions[SECOND_NUMBER][SEDENIONS_E11PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E3PART]*sedenions[SECOND_NUMBER][SEDENIONS_E10PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E4PART]*sedenions[SECOND_NUMBER][SEDENIONS_E13PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E5PART]*sedenions[SECOND_NUMBER][SEDENIONS_E12PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E6PART]*sedenions[SECOND_NUMBER][SEDENIONS_E15PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E7PART]*sedenions[SECOND_NUMBER][SEDENIONS_E14PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E8PART]*sedenions[SECOND_NUMBER][SEDENIONS_E1PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E9PART]*sedenions[SECOND_NUMBER][SEDENIONS_REALPART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E10PART]*sedenions[SECOND_NUMBER][SEDENIONS_E3PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E11PART]*sedenions[SECOND_NUMBER][SEDENIONS_E2PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E12PART]*sedenions[SECOND_NUMBER][SEDENIONS_E5PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E13PART]*sedenions[SECOND_NUMBER][SEDENIONS_E4PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E14PART]*sedenions[SECOND_NUMBER][SEDENIONS_E7PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E15PART]*sedenions[SECOND_NUMBER][SEDENIONS_E6PART]);
+	    sedenionsRes[SEDENIONS_E14PART] = *(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART) -
+										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART) -
+										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART) +
+										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART) +
+										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART) -
+										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART) +
+										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART) +
+										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART) -
+										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART) -
+										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART) -
+										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) +
+										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART) +
+										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART) -
+										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) +
+										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART) +
+										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART);	
 
-	    sedenionsRes[SEDENIONS_E10PART] = (sedenions[FIRST_NUMBER][SEDENIONS_REALPART]*sedenions[SECOND_NUMBER][SEDENIONS_E10PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E1PART]*sedenions[SECOND_NUMBER][SEDENIONS_E11PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E2PART]*sedenions[SECOND_NUMBER][SEDENIONS_E8PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E3PART]*sedenions[SECOND_NUMBER][SEDENIONS_E9PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E4PART]*sedenions[SECOND_NUMBER][SEDENIONS_E14PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E5PART]*sedenions[SECOND_NUMBER][SEDENIONS_E15PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E6PART]*sedenions[SECOND_NUMBER][SEDENIONS_E12PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E7PART]*sedenions[SECOND_NUMBER][SEDENIONS_E13PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E8PART]*sedenions[SECOND_NUMBER][SEDENIONS_E2PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E9PART]*sedenions[SECOND_NUMBER][SEDENIONS_E3PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E10PART]*sedenions[SECOND_NUMBER][SEDENIONS_REALPART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E11PART]*sedenions[SECOND_NUMBER][SEDENIONS_E1PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E12PART]*sedenions[SECOND_NUMBER][SEDENIONS_E6PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E13PART]*sedenions[SECOND_NUMBER][SEDENIONS_E7PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E14PART]*sedenions[SECOND_NUMBER][SEDENIONS_E4PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E15PART]*sedenions[SECOND_NUMBER][SEDENIONS_E5PART]);
-
-	    sedenionsRes[SEDENIONS_E11PART] = (sedenions[FIRST_NUMBER][SEDENIONS_REALPART]*sedenions[SECOND_NUMBER][SEDENIONS_E11PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E1PART]*sedenions[SECOND_NUMBER][SEDENIONS_E10PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E2PART]*sedenions[SECOND_NUMBER][SEDENIONS_E9PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E3PART]*sedenions[SECOND_NUMBER][SEDENIONS_E8PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E4PART]*sedenions[SECOND_NUMBER][SEDENIONS_E15PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E5PART]*sedenions[SECOND_NUMBER][SEDENIONS_E14PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E6PART]*sedenions[SECOND_NUMBER][SEDENIONS_E13PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E7PART]*sedenions[SECOND_NUMBER][SEDENIONS_E12PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E8PART]*sedenions[SECOND_NUMBER][SEDENIONS_E3PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E9PART]*sedenions[SECOND_NUMBER][SEDENIONS_E2PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E10PART]*sedenions[SECOND_NUMBER][SEDENIONS_E1PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E11PART]*sedenions[SECOND_NUMBER][SEDENIONS_REALPART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E12PART]*sedenions[SECOND_NUMBER][SEDENIONS_E7PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E13PART]*sedenions[SECOND_NUMBER][SEDENIONS_E6PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E14PART]*sedenions[SECOND_NUMBER][SEDENIONS_E5PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E15PART]*sedenions[SECOND_NUMBER][SEDENIONS_E4PART]);
-
-	    sedenionsRes[SEDENIONS_E12PART] = (sedenions[FIRST_NUMBER][SEDENIONS_REALPART]*sedenions[SECOND_NUMBER][SEDENIONS_E12PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E1PART]*sedenions[SECOND_NUMBER][SEDENIONS_E13PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E2PART]*sedenions[SECOND_NUMBER][SEDENIONS_E14PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E3PART]*sedenions[SECOND_NUMBER][SEDENIONS_E15PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E4PART]*sedenions[SECOND_NUMBER][SEDENIONS_E8PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E5PART]*sedenions[SECOND_NUMBER][SEDENIONS_E9PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E6PART]*sedenions[SECOND_NUMBER][SEDENIONS_E10PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E7PART]*sedenions[SECOND_NUMBER][SEDENIONS_E11PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E8PART]*sedenions[SECOND_NUMBER][SEDENIONS_E4PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E9PART]*sedenions[SECOND_NUMBER][SEDENIONS_E5PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E10PART]*sedenions[SECOND_NUMBER][SEDENIONS_E6PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E11PART]*sedenions[SECOND_NUMBER][SEDENIONS_E7PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E12PART]*sedenions[SECOND_NUMBER][SEDENIONS_REALPART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E13PART]*sedenions[SECOND_NUMBER][SEDENIONS_E1PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E14PART]*sedenions[SECOND_NUMBER][SEDENIONS_E2PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E15PART]*sedenions[SECOND_NUMBER][SEDENIONS_E3PART]);
-
-	    sedenionsRes[SEDENIONS_E13PART] = (sedenions[FIRST_NUMBER][SEDENIONS_REALPART]*sedenions[SECOND_NUMBER][SEDENIONS_E13PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E1PART]*sedenions[SECOND_NUMBER][SEDENIONS_E12PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E2PART]*sedenions[SECOND_NUMBER][SEDENIONS_E15PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E3PART]*sedenions[SECOND_NUMBER][SEDENIONS_E14PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E4PART]*sedenions[SECOND_NUMBER][SEDENIONS_E9PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E5PART]*sedenions[SECOND_NUMBER][SEDENIONS_E8PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E6PART]*sedenions[SECOND_NUMBER][SEDENIONS_E11PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E7PART]*sedenions[SECOND_NUMBER][SEDENIONS_E10PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E8PART]*sedenions[SECOND_NUMBER][SEDENIONS_E5PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E9PART]*sedenions[SECOND_NUMBER][SEDENIONS_E4PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E10PART]*sedenions[SECOND_NUMBER][SEDENIONS_E7PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E11PART]*sedenions[SECOND_NUMBER][SEDENIONS_E6PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E12PART]*sedenions[SECOND_NUMBER][SEDENIONS_E1PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E13PART]*sedenions[SECOND_NUMBER][SEDENIONS_REALPART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E14PART]*sedenions[SECOND_NUMBER][SEDENIONS_E3PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E15PART]*sedenions[SECOND_NUMBER][SEDENIONS_E2PART]);
-
-	    sedenionsRes[SEDENIONS_E14PART] = (sedenions[FIRST_NUMBER][SEDENIONS_REALPART]*sedenions[SECOND_NUMBER][SEDENIONS_E14PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E1PART]*sedenions[SECOND_NUMBER][SEDENIONS_E15PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E2PART]*sedenions[SECOND_NUMBER][SEDENIONS_E12PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E3PART]*sedenions[SECOND_NUMBER][SEDENIONS_E13PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E4PART]*sedenions[SECOND_NUMBER][SEDENIONS_E10PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E5PART]*sedenions[SECOND_NUMBER][SEDENIONS_E11PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E6PART]*sedenions[SECOND_NUMBER][SEDENIONS_E8PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E7PART]*sedenions[SECOND_NUMBER][SEDENIONS_E9PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E8PART]*sedenions[SECOND_NUMBER][SEDENIONS_E6PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E9PART]*sedenions[SECOND_NUMBER][SEDENIONS_E7PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E10PART]*sedenions[SECOND_NUMBER][SEDENIONS_E3PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E11PART]*sedenions[SECOND_NUMBER][SEDENIONS_E5PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E12PART]*sedenions[SECOND_NUMBER][SEDENIONS_E2PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E13PART]*sedenions[SECOND_NUMBER][SEDENIONS_E3PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E14PART]*sedenions[SECOND_NUMBER][SEDENIONS_REALPART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E15PART]*sedenions[SECOND_NUMBER][SEDENIONS_E1PART]);
-
-	    sedenionsRes[SEDENIONS_E15PART] = (sedenions[FIRST_NUMBER][SEDENIONS_REALPART]*sedenions[SECOND_NUMBER][SEDENIONS_E15PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E1PART]*sedenions[SECOND_NUMBER][SEDENIONS_E14PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E2PART]*sedenions[SECOND_NUMBER][SEDENIONS_E13PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E3PART]*sedenions[SECOND_NUMBER][SEDENIONS_E12PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E4PART]*sedenions[SECOND_NUMBER][SEDENIONS_E11PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E5PART]*sedenions[SECOND_NUMBER][SEDENIONS_E10PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E6PART]*sedenions[SECOND_NUMBER][SEDENIONS_E9PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E7PART]*sedenions[SECOND_NUMBER][SEDENIONS_E8PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E8PART]*sedenions[SECOND_NUMBER][SEDENIONS_E3PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E9PART]*sedenions[SECOND_NUMBER][SEDENIONS_E6PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E10PART]*sedenions[SECOND_NUMBER][SEDENIONS_E5PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E11PART]*sedenions[SECOND_NUMBER][SEDENIONS_E4PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E12PART]*sedenions[SECOND_NUMBER][SEDENIONS_E3PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E13PART]*sedenions[SECOND_NUMBER][SEDENIONS_E2PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E14PART]*sedenions[SECOND_NUMBER][SEDENIONS_E1PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E15PART]*sedenions[SECOND_NUMBER][SEDENIONS_REALPART]);
+	    sedenionsRes[SEDENIONS_E15PART] = *(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART) +
+										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART) -
+										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART) -
+										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART) +
+										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART) +
+										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART) +
+										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART) +
+										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART) -
+										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) +
+										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART) -
+										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART) -
+										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART) +
+										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) +
+										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART) -
+										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART) +
+										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART);	
 	}
 
 	return;
 }
 
-__MSNATIVE_ void __export _sedenionsMTProduct(ityp **sedenions, ityp sedenionsRes[static MAX_SEDENIONS_UNITS])
+__MSNATIVE_ __MSSTOCK _MS__private static void __export _sedenionsMTProduct(ityp *restrict sedenions, ityp sedenionsRes[static MAX_SEDENIONS_UNITS])
 {
 	#pragma omp parallel
 	{
-		sedenionsRes[SEDENIONS_REALPART] = (sedenions[FIRST_NUMBER][SEDENIONS_REALPART]*sedenions[SECOND_NUMBER][SEDENIONS_REALPART]) -
-                                       (sedenions[FIRST_NUMBER][SEDENIONS_E1PART]*sedenions[SECOND_NUMBER][SEDENIONS_E1PART]) -
-                                       (sedenions[FIRST_NUMBER][SEDENIONS_E2PART]*sedenions[SECOND_NUMBER][SEDENIONS_E2PART]) -
-                                       (sedenions[FIRST_NUMBER][SEDENIONS_E3PART]*sedenions[SECOND_NUMBER][SEDENIONS_E3PART]) -
-                                       (sedenions[FIRST_NUMBER][SEDENIONS_E4PART]*sedenions[SECOND_NUMBER][SEDENIONS_E4PART]) -
-                                       (sedenions[FIRST_NUMBER][SEDENIONS_E5PART]*sedenions[SECOND_NUMBER][SEDENIONS_E5PART]) -
-                                       (sedenions[FIRST_NUMBER][SEDENIONS_E6PART]*sedenions[SECOND_NUMBER][SEDENIONS_E6PART]) -
-                                       (sedenions[FIRST_NUMBER][SEDENIONS_E7PART]*sedenions[SECOND_NUMBER][SEDENIONS_E7PART]) -
-                                       (sedenions[FIRST_NUMBER][SEDENIONS_E8PART]*sedenions[SECOND_NUMBER][SEDENIONS_E8PART]) -
-                                       (sedenions[FIRST_NUMBER][SEDENIONS_E9PART]*sedenions[SECOND_NUMBER][SEDENIONS_E9PART]) -
-                                       (sedenions[FIRST_NUMBER][SEDENIONS_E10PART]*sedenions[SECOND_NUMBER][SEDENIONS_E10PART]) -
-                                       (sedenions[FIRST_NUMBER][SEDENIONS_E11PART]*sedenions[SECOND_NUMBER][SEDENIONS_E11PART]) -
-                                       (sedenions[FIRST_NUMBER][SEDENIONS_E12PART]*sedenions[SECOND_NUMBER][SEDENIONS_E12PART]) -
-                                       (sedenions[FIRST_NUMBER][SEDENIONS_E13PART]*sedenions[SECOND_NUMBER][SEDENIONS_E13PART]) -
-                                       (sedenions[FIRST_NUMBER][SEDENIONS_E14PART]*sedenions[SECOND_NUMBER][SEDENIONS_E14PART]) -
-                                       (sedenions[FIRST_NUMBER][SEDENIONS_E15PART]*sedenions[SECOND_NUMBER][SEDENIONS_E15PART]);
+		sedenionsRes[SEDENIONS_REALPART] = *(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART) -
+										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART) -
+										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART) -
+										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) -
+										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART) -
+										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART) -
+										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART) -
+										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART) -
+										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART) -
+										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART) -
+										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART) -
+										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART) -
+										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART) -
+										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART) -
+										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART) -
+										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART);
+										   
+		sedenionsRes[SEDENIONS_E1PART] = *(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART) +
+										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART) +
+										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) -
+										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART) +
+										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART) -
+										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART) -
+										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART) +
+										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART) +
+										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART) -
+										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART) -
+										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART) +
+										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART) -
+										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART) +
+										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART) +
+										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART) -
+										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART);							
 
-	    sedenionsRes[SEDENIONS_E1PART] = (sedenions[FIRST_NUMBER][SEDENIONS_REALPART]*sedenions[SECOND_NUMBER][SEDENIONS_E1PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E1PART]*sedenions[SECOND_NUMBER][SEDENIONS_REALPART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E2PART]*sedenions[SECOND_NUMBER][SEDENIONS_E3PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E3PART]*sedenions[SECOND_NUMBER][SEDENIONS_E2PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E4PART]*sedenions[SECOND_NUMBER][SEDENIONS_E5PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E5PART]*sedenions[SECOND_NUMBER][SEDENIONS_E4PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E6PART]*sedenions[SECOND_NUMBER][SEDENIONS_E7PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E7PART]*sedenions[SECOND_NUMBER][SEDENIONS_E6PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E8PART]*sedenions[SECOND_NUMBER][SEDENIONS_E9PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E9PART]*sedenions[SECOND_NUMBER][SEDENIONS_E8PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E10PART]*sedenions[SECOND_NUMBER][SEDENIONS_E11PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E11PART]*sedenions[SECOND_NUMBER][SEDENIONS_E10PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E12PART]*sedenions[SECOND_NUMBER][SEDENIONS_E13PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E13PART]*sedenions[SECOND_NUMBER][SEDENIONS_E12PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E14PART]*sedenions[SECOND_NUMBER][SEDENIONS_E15PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E15PART]*sedenions[SECOND_NUMBER][SEDENIONS_E14PART]);
+	    sedenionsRes[SEDENIONS_E2PART] = *(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART) -
+										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) +
+										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART) +
+										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART) +
+										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART) +
+										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART) -
+										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART) -
+										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART) +
+										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART) +
+										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART) -
+										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART) -
+										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART) -
+										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART) -
+										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART) +
+										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART) +
+										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART);	
 
-	    sedenionsRes[SEDENIONS_E2PART] = (sedenions[FIRST_NUMBER][SEDENIONS_REALPART]*sedenions[SECOND_NUMBER][SEDENIONS_E2PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E1PART]*sedenions[SECOND_NUMBER][SEDENIONS_E3PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E2PART]*sedenions[SECOND_NUMBER][SEDENIONS_REALPART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E3PART]*sedenions[SECOND_NUMBER][SEDENIONS_E1PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E4PART]*sedenions[SECOND_NUMBER][SEDENIONS_E6PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E5PART]*sedenions[SECOND_NUMBER][SEDENIONS_E7PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E6PART]*sedenions[SECOND_NUMBER][SEDENIONS_E4PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E7PART]*sedenions[SECOND_NUMBER][SEDENIONS_E5PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E8PART]*sedenions[SECOND_NUMBER][SEDENIONS_E10PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E9PART]*sedenions[SECOND_NUMBER][SEDENIONS_E11PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E10PART]*sedenions[SECOND_NUMBER][SEDENIONS_E8PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E11PART]*sedenions[SECOND_NUMBER][SEDENIONS_E9PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E12PART]*sedenions[SECOND_NUMBER][SEDENIONS_E14PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E13PART]*sedenions[SECOND_NUMBER][SEDENIONS_E15PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E14PART]*sedenions[SECOND_NUMBER][SEDENIONS_E12PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E15PART]*sedenions[SECOND_NUMBER][SEDENIONS_E13PART]);
+	    sedenionsRes[SEDENIONS_E3PART] = *(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) +
+										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART) -
+										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART) +
+										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART) +
+										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART) -
+										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART) +
+										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART) -
+										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART) +
+										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART) -
+										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART) +
+										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART) -
+										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART) -
+										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART) +
+										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART) -
+										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART) +
+										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART);	
 
-	    sedenionsRes[SEDENIONS_E3PART] = (sedenions[FIRST_NUMBER][SEDENIONS_REALPART]*sedenions[SECOND_NUMBER][SEDENIONS_E3PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E1PART]*sedenions[SECOND_NUMBER][SEDENIONS_E2PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E2PART]*sedenions[SECOND_NUMBER][SEDENIONS_E1PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E3PART]*sedenions[SECOND_NUMBER][SEDENIONS_REALPART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E4PART]*sedenions[SECOND_NUMBER][SEDENIONS_E7PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E5PART]*sedenions[SECOND_NUMBER][SEDENIONS_E6PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E6PART]*sedenions[SECOND_NUMBER][SEDENIONS_E5PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E7PART]*sedenions[SECOND_NUMBER][SEDENIONS_E4PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E8PART]*sedenions[SECOND_NUMBER][SEDENIONS_E11PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E9PART]*sedenions[SECOND_NUMBER][SEDENIONS_E10PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E10PART]*sedenions[SECOND_NUMBER][SEDENIONS_E9PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E11PART]*sedenions[SECOND_NUMBER][SEDENIONS_E8PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E12PART]*sedenions[SECOND_NUMBER][SEDENIONS_E15PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E13PART]*sedenions[SECOND_NUMBER][SEDENIONS_E14PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E14PART]*sedenions[SECOND_NUMBER][SEDENIONS_E13PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E15PART]*sedenions[SECOND_NUMBER][SEDENIONS_E12PART]);
+	    sedenionsRes[SEDENIONS_E4PART] = *(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART) -
+										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART) -
+										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART) -
+										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART) +
+										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART) +
+										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART) +
+										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART) +
+										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) +
+										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART) +
+										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART) +
+										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART) +
+										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART) -
+										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART) -
+										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART) -
+										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART) -
+										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART);	
 
-	    sedenionsRes[SEDENIONS_E4PART] = (sedenions[FIRST_NUMBER][SEDENIONS_REALPART]*sedenions[SECOND_NUMBER][SEDENIONS_E4PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E1PART]*sedenions[SECOND_NUMBER][SEDENIONS_E5PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E2PART]*sedenions[SECOND_NUMBER][SEDENIONS_E6PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E3PART]*sedenions[SECOND_NUMBER][SEDENIONS_E7PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E4PART]*sedenions[SECOND_NUMBER][SEDENIONS_REALPART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E5PART]*sedenions[SECOND_NUMBER][SEDENIONS_E1PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E6PART]*sedenions[SECOND_NUMBER][SEDENIONS_E2PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E7PART]*sedenions[SECOND_NUMBER][SEDENIONS_E3PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E8PART]*sedenions[SECOND_NUMBER][SEDENIONS_E12PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E9PART]*sedenions[SECOND_NUMBER][SEDENIONS_E13PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E10PART]*sedenions[SECOND_NUMBER][SEDENIONS_E14PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E11PART]*sedenions[SECOND_NUMBER][SEDENIONS_E15PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E12PART]*sedenions[SECOND_NUMBER][SEDENIONS_E8PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E13PART]*sedenions[SECOND_NUMBER][SEDENIONS_E9PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E14PART]*sedenions[SECOND_NUMBER][SEDENIONS_E10PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E15PART]*sedenions[SECOND_NUMBER][SEDENIONS_E11PART]);
+	    sedenionsRes[SEDENIONS_E5PART] = *(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART) +
+										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART) -
+										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART) +
+										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART) -
+										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART) +
+										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART) -
+										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) +
+										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART) +
+										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART) -
+										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART) +
+										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART) -
+										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART) +
+										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART) -
+										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART) +
+										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART) -
+										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART);	
 
-	    sedenionsRes[SEDENIONS_E5PART] = (sedenions[FIRST_NUMBER][SEDENIONS_REALPART]*sedenions[SECOND_NUMBER][SEDENIONS_E5PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E1PART]*sedenions[SECOND_NUMBER][SEDENIONS_E4PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E2PART]*sedenions[SECOND_NUMBER][SEDENIONS_E7PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E3PART]*sedenions[SECOND_NUMBER][SEDENIONS_E6PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E4PART]*sedenions[SECOND_NUMBER][SEDENIONS_E1PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E5PART]*sedenions[SECOND_NUMBER][SEDENIONS_REALPART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E6PART]*sedenions[SECOND_NUMBER][SEDENIONS_E3PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E7PART]*sedenions[SECOND_NUMBER][SEDENIONS_E2PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E8PART]*sedenions[SECOND_NUMBER][SEDENIONS_E13PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E9PART]*sedenions[SECOND_NUMBER][SEDENIONS_E12PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E10PART]*sedenions[SECOND_NUMBER][SEDENIONS_E15PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E11PART]*sedenions[SECOND_NUMBER][SEDENIONS_E14PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E12PART]*sedenions[SECOND_NUMBER][SEDENIONS_E9PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E13PART]*sedenions[SECOND_NUMBER][SEDENIONS_E8PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E14PART]*sedenions[SECOND_NUMBER][SEDENIONS_E11PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E15PART]*sedenions[SECOND_NUMBER][SEDENIONS_E10PART]);
+	    sedenionsRes[SEDENIONS_E6PART] = *(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART) +
+										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART) +
+										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART) -
+										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART) -
+										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART) +
+										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) +
+										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART) -
+										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART) +
+										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART) -
+										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART) -
+										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART) +
+										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART) +
+										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART) -
+										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART) -
+										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART) +
+										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART);	
 
-	    sedenionsRes[SEDENIONS_E6PART] = (sedenions[FIRST_NUMBER][SEDENIONS_REALPART]*sedenions[SECOND_NUMBER][SEDENIONS_E6PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E1PART]*sedenions[SECOND_NUMBER][SEDENIONS_E7PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E2PART]*sedenions[SECOND_NUMBER][SEDENIONS_E4PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E3PART]*sedenions[SECOND_NUMBER][SEDENIONS_E5PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E4PART]*sedenions[SECOND_NUMBER][SEDENIONS_E2PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E5PART]*sedenions[SECOND_NUMBER][SEDENIONS_E3PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E6PART]*sedenions[SECOND_NUMBER][SEDENIONS_REALPART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E7PART]*sedenions[SECOND_NUMBER][SEDENIONS_E1PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E8PART]*sedenions[SECOND_NUMBER][SEDENIONS_E14PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E9PART]*sedenions[SECOND_NUMBER][SEDENIONS_E15PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E10PART]*sedenions[SECOND_NUMBER][SEDENIONS_E12PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E11PART]*sedenions[SECOND_NUMBER][SEDENIONS_E13PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E12PART]*sedenions[SECOND_NUMBER][SEDENIONS_E10PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E13PART]*sedenions[SECOND_NUMBER][SEDENIONS_E11PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E14PART]*sedenions[SECOND_NUMBER][SEDENIONS_E8PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E15PART]*sedenions[SECOND_NUMBER][SEDENIONS_E9PART]);
+	    sedenionsRes[SEDENIONS_E7PART] = *(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART) -
+										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART) +
+										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART) +
+										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART) -
+										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) -
+										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART) +
+										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART) +
+										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART) +
+										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART) +
+										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART) -
+										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART) -
+										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART) +
+										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART) +
+										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART) -
+										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART) -
+										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART);	
 
+	    sedenionsRes[SEDENIONS_E8PART] = *(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART) -
+										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART) -
+										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART) -
+										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART) -
+										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART) -
+										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART) -
+										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART) -
+										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART) +
+										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART) +
+										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART) +
+										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART) +
+										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) +
+										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART) +
+										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART) +
+										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART) +
+										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART);
 
+	    sedenionsRes[SEDENIONS_E9PART] = *(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART) +
+										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART) -
+										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART) +
+										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART) -
+										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART) +
+										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART) +
+										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART) -
+										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART) -
+										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART) +
+										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART) -
+										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) +
+										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART) -
+										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART) +
+										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART) +
+										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART) -
+										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART);	
 
-	    sedenionsRes[SEDENIONS_E7PART] = (sedenions[FIRST_NUMBER][SEDENIONS_REALPART]*sedenions[SECOND_NUMBER][SEDENIONS_E7PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E1PART]*sedenions[SECOND_NUMBER][SEDENIONS_E6PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E2PART]*sedenions[SECOND_NUMBER][SEDENIONS_E5PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E3PART]*sedenions[SECOND_NUMBER][SEDENIONS_E4PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E4PART]*sedenions[SECOND_NUMBER][SEDENIONS_E3PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E5PART]*sedenions[SECOND_NUMBER][SEDENIONS_E2PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E6PART]*sedenions[SECOND_NUMBER][SEDENIONS_E1PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E7PART]*sedenions[SECOND_NUMBER][SEDENIONS_REALPART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E8PART]*sedenions[SECOND_NUMBER][SEDENIONS_E15PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E9PART]*sedenions[SECOND_NUMBER][SEDENIONS_E14PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E10PART]*sedenions[SECOND_NUMBER][SEDENIONS_E13PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E11PART]*sedenions[SECOND_NUMBER][SEDENIONS_E12PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E12PART]*sedenions[SECOND_NUMBER][SEDENIONS_E11PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E13PART]*sedenions[SECOND_NUMBER][SEDENIONS_E10PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E14PART]*sedenions[SECOND_NUMBER][SEDENIONS_E9PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E15PART]*sedenions[SECOND_NUMBER][SEDENIONS_E8PART]);
+	    sedenionsRes[SEDENIONS_E10PART] = *(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART) +
+										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART) +
+										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART) -
+										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART) -
+										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART) -
+										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART) +
+										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART) +
+										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART) -
+										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART) +
+										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) +
+										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART) -
+										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART) -
+										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART) -
+										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART) +
+										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART) +
+										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART);	
 
+	    sedenionsRes[SEDENIONS_E11PART] = *(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART) -
+										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART) +
+										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART) +
+										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART) -
+										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART) +
+										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART) -
+										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART) +
+										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART) -
+										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) -
+										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART) +
+										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART) +
+										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART) -
+										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART) +
+										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART) -
+										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART) +
+										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART);	
 
-	    sedenionsRes[SEDENIONS_E8PART] = (sedenions[FIRST_NUMBER][SEDENIONS_REALPART]*sedenions[SECOND_NUMBER][SEDENIONS_E8PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E1PART]*sedenions[SECOND_NUMBER][SEDENIONS_E9PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E2PART]*sedenions[SECOND_NUMBER][SEDENIONS_E10PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E3PART]*sedenions[SECOND_NUMBER][SEDENIONS_E11PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E4PART]*sedenions[SECOND_NUMBER][SEDENIONS_E12PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E5PART]*sedenions[SECOND_NUMBER][SEDENIONS_E13PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E6PART]*sedenions[SECOND_NUMBER][SEDENIONS_E14PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E7PART]*sedenions[SECOND_NUMBER][SEDENIONS_E15PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E8PART]*sedenions[SECOND_NUMBER][SEDENIONS_REALPART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E9PART]*sedenions[SECOND_NUMBER][SEDENIONS_E1PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E10PART]*sedenions[SECOND_NUMBER][SEDENIONS_E2PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E11PART]*sedenions[SECOND_NUMBER][SEDENIONS_E3PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E12PART]*sedenions[SECOND_NUMBER][SEDENIONS_E4PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E13PART]*sedenions[SECOND_NUMBER][SEDENIONS_E5PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E14PART]*sedenions[SECOND_NUMBER][SEDENIONS_E6PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E15PART]*sedenions[SECOND_NUMBER][SEDENIONS_E7PART]);
+	    sedenionsRes[SEDENIONS_E12PART] = *(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART) +
+										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART) -
+										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART) +
+										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART) +
+										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART) -
+										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART) -
+										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART) -
+										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART) -
+										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART) +
+										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART) +
+										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART) +
+										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART) +
+										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART) -
+										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART) -
+										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART) -
+										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART);	
 
-	    sedenionsRes[SEDENIONS_E9PART] = (sedenions[FIRST_NUMBER][SEDENIONS_REALPART]*sedenions[SECOND_NUMBER][SEDENIONS_E9PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E1PART]*sedenions[SECOND_NUMBER][SEDENIONS_E8PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E2PART]*sedenions[SECOND_NUMBER][SEDENIONS_E11PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E3PART]*sedenions[SECOND_NUMBER][SEDENIONS_E10PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E4PART]*sedenions[SECOND_NUMBER][SEDENIONS_E13PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E5PART]*sedenions[SECOND_NUMBER][SEDENIONS_E12PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E6PART]*sedenions[SECOND_NUMBER][SEDENIONS_E15PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E7PART]*sedenions[SECOND_NUMBER][SEDENIONS_E14PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E8PART]*sedenions[SECOND_NUMBER][SEDENIONS_E1PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E9PART]*sedenions[SECOND_NUMBER][SEDENIONS_REALPART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E10PART]*sedenions[SECOND_NUMBER][SEDENIONS_E3PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E11PART]*sedenions[SECOND_NUMBER][SEDENIONS_E2PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E12PART]*sedenions[SECOND_NUMBER][SEDENIONS_E5PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E13PART]*sedenions[SECOND_NUMBER][SEDENIONS_E4PART]) +
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E14PART]*sedenions[SECOND_NUMBER][SEDENIONS_E7PART]) -
-	                                     (sedenions[FIRST_NUMBER][SEDENIONS_E15PART]*sedenions[SECOND_NUMBER][SEDENIONS_E6PART]);
+	    sedenionsRes[SEDENIONS_E13PART] = *(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART) -
+										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART) +
+										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART) -
+										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART) +
+										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART) +
+										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART) +
+										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART) -
+										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART) -
+										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART) -
+										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART) +
+										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART) -
+										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART) +
+										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART) +
+										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART) +
+										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) -
+										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART);	
 
-	    sedenionsRes[SEDENIONS_E10PART] = (sedenions[FIRST_NUMBER][SEDENIONS_REALPART]*sedenions[SECOND_NUMBER][SEDENIONS_E10PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E1PART]*sedenions[SECOND_NUMBER][SEDENIONS_E11PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E2PART]*sedenions[SECOND_NUMBER][SEDENIONS_E8PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E3PART]*sedenions[SECOND_NUMBER][SEDENIONS_E9PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E4PART]*sedenions[SECOND_NUMBER][SEDENIONS_E14PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E5PART]*sedenions[SECOND_NUMBER][SEDENIONS_E15PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E6PART]*sedenions[SECOND_NUMBER][SEDENIONS_E12PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E7PART]*sedenions[SECOND_NUMBER][SEDENIONS_E13PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E8PART]*sedenions[SECOND_NUMBER][SEDENIONS_E2PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E9PART]*sedenions[SECOND_NUMBER][SEDENIONS_E3PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E10PART]*sedenions[SECOND_NUMBER][SEDENIONS_REALPART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E11PART]*sedenions[SECOND_NUMBER][SEDENIONS_E1PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E12PART]*sedenions[SECOND_NUMBER][SEDENIONS_E6PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E13PART]*sedenions[SECOND_NUMBER][SEDENIONS_E7PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E14PART]*sedenions[SECOND_NUMBER][SEDENIONS_E4PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E15PART]*sedenions[SECOND_NUMBER][SEDENIONS_E5PART]);
+	    sedenionsRes[SEDENIONS_E14PART] = *(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART) -
+										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART) -
+										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART) +
+										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART) +
+										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART) -
+										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART) +
+										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART) +
+										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART) -
+										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART) -
+										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART) -
+										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) +
+										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART) +
+										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART) -
+										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) +
+										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART) +
+										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART);	
 
-	    sedenionsRes[SEDENIONS_E11PART] = (sedenions[FIRST_NUMBER][SEDENIONS_REALPART]*sedenions[SECOND_NUMBER][SEDENIONS_E11PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E1PART]*sedenions[SECOND_NUMBER][SEDENIONS_E10PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E2PART]*sedenions[SECOND_NUMBER][SEDENIONS_E9PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E3PART]*sedenions[SECOND_NUMBER][SEDENIONS_E8PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E4PART]*sedenions[SECOND_NUMBER][SEDENIONS_E15PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E5PART]*sedenions[SECOND_NUMBER][SEDENIONS_E14PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E6PART]*sedenions[SECOND_NUMBER][SEDENIONS_E13PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E7PART]*sedenions[SECOND_NUMBER][SEDENIONS_E12PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E8PART]*sedenions[SECOND_NUMBER][SEDENIONS_E3PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E9PART]*sedenions[SECOND_NUMBER][SEDENIONS_E2PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E10PART]*sedenions[SECOND_NUMBER][SEDENIONS_E1PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E11PART]*sedenions[SECOND_NUMBER][SEDENIONS_REALPART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E12PART]*sedenions[SECOND_NUMBER][SEDENIONS_E7PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E13PART]*sedenions[SECOND_NUMBER][SEDENIONS_E6PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E14PART]*sedenions[SECOND_NUMBER][SEDENIONS_E5PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E15PART]*sedenions[SECOND_NUMBER][SEDENIONS_E4PART]);
-
-	    sedenionsRes[SEDENIONS_E12PART] = (sedenions[FIRST_NUMBER][SEDENIONS_REALPART]*sedenions[SECOND_NUMBER][SEDENIONS_E12PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E1PART]*sedenions[SECOND_NUMBER][SEDENIONS_E13PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E2PART]*sedenions[SECOND_NUMBER][SEDENIONS_E14PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E3PART]*sedenions[SECOND_NUMBER][SEDENIONS_E15PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E4PART]*sedenions[SECOND_NUMBER][SEDENIONS_E8PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E5PART]*sedenions[SECOND_NUMBER][SEDENIONS_E9PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E6PART]*sedenions[SECOND_NUMBER][SEDENIONS_E10PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E7PART]*sedenions[SECOND_NUMBER][SEDENIONS_E11PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E8PART]*sedenions[SECOND_NUMBER][SEDENIONS_E4PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E9PART]*sedenions[SECOND_NUMBER][SEDENIONS_E5PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E10PART]*sedenions[SECOND_NUMBER][SEDENIONS_E6PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E11PART]*sedenions[SECOND_NUMBER][SEDENIONS_E7PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E12PART]*sedenions[SECOND_NUMBER][SEDENIONS_REALPART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E13PART]*sedenions[SECOND_NUMBER][SEDENIONS_E1PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E14PART]*sedenions[SECOND_NUMBER][SEDENIONS_E2PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E15PART]*sedenions[SECOND_NUMBER][SEDENIONS_E3PART]);
-
-	    sedenionsRes[SEDENIONS_E13PART] = (sedenions[FIRST_NUMBER][SEDENIONS_REALPART]*sedenions[SECOND_NUMBER][SEDENIONS_E13PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E1PART]*sedenions[SECOND_NUMBER][SEDENIONS_E12PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E2PART]*sedenions[SECOND_NUMBER][SEDENIONS_E15PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E3PART]*sedenions[SECOND_NUMBER][SEDENIONS_E14PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E4PART]*sedenions[SECOND_NUMBER][SEDENIONS_E9PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E5PART]*sedenions[SECOND_NUMBER][SEDENIONS_E8PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E6PART]*sedenions[SECOND_NUMBER][SEDENIONS_E11PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E7PART]*sedenions[SECOND_NUMBER][SEDENIONS_E10PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E8PART]*sedenions[SECOND_NUMBER][SEDENIONS_E5PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E9PART]*sedenions[SECOND_NUMBER][SEDENIONS_E4PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E10PART]*sedenions[SECOND_NUMBER][SEDENIONS_E7PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E11PART]*sedenions[SECOND_NUMBER][SEDENIONS_E6PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E12PART]*sedenions[SECOND_NUMBER][SEDENIONS_E1PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E13PART]*sedenions[SECOND_NUMBER][SEDENIONS_REALPART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E14PART]*sedenions[SECOND_NUMBER][SEDENIONS_E3PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E15PART]*sedenions[SECOND_NUMBER][SEDENIONS_E2PART]);
-
-	    sedenionsRes[SEDENIONS_E14PART] = (sedenions[FIRST_NUMBER][SEDENIONS_REALPART]*sedenions[SECOND_NUMBER][SEDENIONS_E14PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E1PART]*sedenions[SECOND_NUMBER][SEDENIONS_E15PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E2PART]*sedenions[SECOND_NUMBER][SEDENIONS_E12PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E3PART]*sedenions[SECOND_NUMBER][SEDENIONS_E13PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E4PART]*sedenions[SECOND_NUMBER][SEDENIONS_E10PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E5PART]*sedenions[SECOND_NUMBER][SEDENIONS_E11PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E6PART]*sedenions[SECOND_NUMBER][SEDENIONS_E8PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E7PART]*sedenions[SECOND_NUMBER][SEDENIONS_E9PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E8PART]*sedenions[SECOND_NUMBER][SEDENIONS_E6PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E9PART]*sedenions[SECOND_NUMBER][SEDENIONS_E7PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E10PART]*sedenions[SECOND_NUMBER][SEDENIONS_E3PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E11PART]*sedenions[SECOND_NUMBER][SEDENIONS_E5PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E12PART]*sedenions[SECOND_NUMBER][SEDENIONS_E2PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E13PART]*sedenions[SECOND_NUMBER][SEDENIONS_E3PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E14PART]*sedenions[SECOND_NUMBER][SEDENIONS_REALPART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E15PART]*sedenions[SECOND_NUMBER][SEDENIONS_E1PART]);
-
-	    sedenionsRes[SEDENIONS_E15PART] = (sedenions[FIRST_NUMBER][SEDENIONS_REALPART]*sedenions[SECOND_NUMBER][SEDENIONS_E15PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E1PART]*sedenions[SECOND_NUMBER][SEDENIONS_E14PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E2PART]*sedenions[SECOND_NUMBER][SEDENIONS_E13PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E3PART]*sedenions[SECOND_NUMBER][SEDENIONS_E12PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E4PART]*sedenions[SECOND_NUMBER][SEDENIONS_E11PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E5PART]*sedenions[SECOND_NUMBER][SEDENIONS_E10PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E6PART]*sedenions[SECOND_NUMBER][SEDENIONS_E9PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E7PART]*sedenions[SECOND_NUMBER][SEDENIONS_E8PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E8PART]*sedenions[SECOND_NUMBER][SEDENIONS_E3PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E9PART]*sedenions[SECOND_NUMBER][SEDENIONS_E6PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E10PART]*sedenions[SECOND_NUMBER][SEDENIONS_E5PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E11PART]*sedenions[SECOND_NUMBER][SEDENIONS_E4PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E12PART]*sedenions[SECOND_NUMBER][SEDENIONS_E3PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E13PART]*sedenions[SECOND_NUMBER][SEDENIONS_E2PART]) -
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E14PART]*sedenions[SECOND_NUMBER][SEDENIONS_E1PART]) +
-	                                      (sedenions[FIRST_NUMBER][SEDENIONS_E15PART]*sedenions[SECOND_NUMBER][SEDENIONS_REALPART]);
+	    sedenionsRes[SEDENIONS_E15PART] = *(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART) +
+										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART) -
+										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART) -
+										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART) +
+										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART) +
+										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART) +
+										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART) +
+										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART) -
+										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) +
+										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART) -
+										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART) -
+										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART) +
+										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) +
+										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART) -
+										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART) +
+										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART);
 	}
 
 	return;
 }
 
-__MSNATIVE_ inline void __export _sedenionsProduct(ityp **sedenions, ityp sedenionsRes[static MAX_SEDENIONS_UNITS])
+__MSNATIVE_ inline void __export _sedenionsProduct(ityp *restrict sedenions, ityp sedenionsRes[static MAX_SEDENIONS_UNITS])
 {
-	void (* const omp_func)(ityp **, ityp [static MAX_SEDENIONS_UNITS]) = isSett(BOOLS_EXTENSIVEMULTITHREADING) ? _sedenionsEMTProduct : _sedenionsMTProduct;
+	void (* const omp_func)(ityp *restrict, ityp [static MAX_SEDENIONS_UNITS]) = isSett(BOOLS_EXTENSIVEMULTITHREADING) ? _sedenionsEMTProduct : _sedenionsMTProduct;
 	omp_func(sedenions, sedenionsRes);
     return;
 }
 
-__MSNATIVE_ bool __export _secondGradeEquationSolver(ityp *abc, ityp root[static MAX_DIMENSIONS])
+__MSNATIVE_ bool __export _secondGradeEquationSolver(ityp *restrict abc, ityp root[static MAX_DIMENSIONS])
 {
     ityp dscr; // storage for equation's discriminant
 
@@ -2910,13 +2935,13 @@ __MSNATIVE_ inline ityp __export qcotch(register ityp n)
     return coth(n)/(4.00*n);
 }
 
-__MSNATIVE_ inline bool __system __export isEqualMatrix(ityp **matrix1, ityp **matrix2, const register dim_typ dim[static MAX_DIMENSIONS])
+__MSNATIVE_ inline bool __system __export isEqualMatrix(ityp *matrix1, ityp *matrix2, const register dim_typ dim[static MAX_DIMENSIONS])
 {
     dim_typ i, j;
 
     for(i=0; i<dim[RAWS]; ++i)
         for(j=0; j<dim[COLUMNS]; ++j)
-            if(matrix1[i][j] != matrix2[i][j])
+            if(*(matrix1 + dim[COLUMNS]*i + j) != *(matrix2 + dim[COLUMNS]*i + j))
                 return false;
 
     return true;
@@ -2925,14 +2950,14 @@ __MSNATIVE_ inline bool __system __export isEqualMatrix(ityp **matrix1, ityp **m
 
 /// massive thanks to Bibek Subedi. Link at:
 /// http://www.programming-technique.blogspot.it/2011/09/numerical-methods-condition-number-and.html
-__MSNATIVE_ __MSUTIL_ ityp __system __export norms(ityp **matrix, dim_typ dim)
+__MSNATIVE_ __MSUTIL_ ityp __system __export norms(ityp *matrix, dim_typ dim)
 {
     dim_typ i, j;
     ityp sum;
 
     for(i=sum=0; i < dim; ++i)
         for(j = 0; j < dim; ++j)
-            sum += mpow2(matrix[i][j], 2);
+            sum += mpow2(*(matrix + dim*i + j), 2);
 
     return sqrt(sum);
 }
@@ -2941,7 +2966,7 @@ __MSNATIVE_ __MSUTIL_ ityp __system __export norms(ityp **matrix, dim_typ dim)
 /// pseudo-coded duet of functions which I renamed, unified, modified and adapted to this program.
 /// This function calculates the Norm, One or Infinity (depending on mode bool param), of a Square Matrix.
 /// http://www.matematicamente.it/forum/viewtopic.php?t=51498&p=371845
-__MSNATIVE_ __MSUTIL_ ityp __system __export norm(ityp **matrix, dim_typ dim, bool mode)
+__MSNATIVE_ __MSUTIL_ ityp __system __export norm(ityp *matrix, dim_typ dim, bool mode)
 {
     dim_typ i, j;
     ityp max; //  = 0.00; /* tutte le somme sono >= 0 */
@@ -2950,7 +2975,7 @@ __MSNATIVE_ __MSUTIL_ ityp __system __export norm(ityp **matrix, dim_typ dim, bo
     {
         ityp sum = 0.00;
         for (i = 0; i < dim; ++i)
-            sum += fabs(matrix[mode ? j:i][mode ? i:j]);
+            sum += fabs(*(matrix + dim*(mode?j:i) + (mode?i:j)));
         if (sum > max)
             max = sum;
     }
@@ -3005,7 +3030,7 @@ __MSNATIVE_ inline ityp __system __export math_div(register ityp a, register ity
 }
 
 // It works only with PL Problems with non-negative variables
-__MSNATIVE_ sel_typ _MS__private __system __export _simplexMethod(ityp ***tableau, ityp ***bfs, const register dim_typ dim[static MAX_DIMENSIONS], const bool constraint_types[static dim[RAWS]-1], bool mode)
+__MSNATIVE_ sel_typ _MS__private __system __export _simplexMethod(ityp **tableau, ityp **bfs, const register dim_typ dim[static MAX_DIMENSIONS], ityp *constraint_types, bool mode)
 {
 
     dim_typ i, j;
@@ -3016,30 +3041,33 @@ __MSNATIVE_ sel_typ _MS__private __system __export _simplexMethod(ityp ***tablea
     };
 
     const dim_typ vardims = dim[COLUMNS]+dim_minus1[RAWS];
+    
+    (*tableau) = realloc((*tableau), sizeof(ityp)*dim[RAWS]*vardims);
+    errMem((*tableau), SIMPLEXMETHOD_ALLOC_ERROR);
+
+    /// assert = false;
 
     for(i=0; i<dim[RAWS]; ++i)
     {
-        (*tableau)[i] = realloc((*tableau)[i], sizeof(ityp)*vardims);
-        errMem((*tableau)[i], SIMPLEXMETHOD_ALLOC_ERROR);
         const bool assert = i == dim_minus1[RAWS];
-        (*tableau)[i][vardims-1] = assert ? 0.00 : (*tableau)[i][dim_minus1[COLUMNS]];
+        *((*tableau)+ vardims*i + vardims-1) = assert ? 0.00 : *((*tableau) + vardims*i + dim_minus1[COLUMNS]);
         #pragma omp parallel for
         for(j=dim_minus1[COLUMNS]; j<vardims-1; ++j)
-            (*tableau)[i][j] = assert ? 0.00 : ((1-(2*constraint_types[i]))*(i+dim_minus1[COLUMNS] == j));
+        	*((*tableau) + vardims*i + j) = assert ? 0.00 : ((1-(2*constraint_types[i]))*(i+dim_minus1[COLUMNS] == j));
     }
 
-    (*bfs)[RAWS] = realloc((*bfs)[RAWS], sizeof(ityp)*(vardims-1));
+    (*bfs) = realloc((*bfs), sizeof(ityp)*(vardims-1));
     errMem((*bfs), SIMPLEXMETHOD_ALLOC_ERROR);
 
 
     // INITIALIZING BFS PHASE....
     #pragma omp parallel for
     for(i=0; i<dim_minus1[COLUMNS]; ++i)
-        (*bfs)[RAWS][i] = 0.00;
+    	*((*bfs) + i) = 0.00;
 
     j=0;
     for(i=dim_minus1[COLUMNS]; i<vardims-1; ++i)
-        (*bfs)[RAWS][i] = (*tableau)[j++][vardims-1];
+    	*((*bfs) + i) = *((*tableau) + (vardims*(j++)) + vardims-1);
 
 
     ityp func_vector[vardims];
@@ -3059,7 +3087,7 @@ __MSNATIVE_ sel_typ _MS__private __system __export _simplexMethod(ityp ***tablea
 
         // vector reversing operation...
         for(i=another_iteration=0; i<vardims; ++i)
-            if(_cmpfunc((func_vector[i] = (*tableau)[dim_minus1[RAWS]][i]), 0.00))
+            if(_cmpfunc((func_vector[i]=*((*tableau) + vardims*dim_minus1[RAWS] + i)), 0.00))
                 another_iteration = true;
 
         if(!another_iteration)
@@ -3069,1632 +3097,1627 @@ __MSNATIVE_ sel_typ _MS__private __system __export _simplexMethod(ityp ***tablea
 
         for(i=itemcheck=0; i<dim_minus1[RAWS]; ++i)
         {
-            if((*tableau)[i][bestvaltax_idx] <= 0)
+            if(*((*tableau) + vardims*i + bestvaltax_idx) <= 0)
             {
                 if(++itemcheck == dim_minus1[RAWS])
                     return SIMPLEXMETHOD_INFBFS_ERROR;
                 min_ratios_vector[i] = MAX_VAL;
             }
             else
-                min_ratios_vector[i] = ((*tableau)[i][vardims-1])/((*tableau)[i][bestvaltax_idx]);
+                min_ratios_vector[i] = *((*tableau) + vardims*i + vardims-1)/ *((*tableau) + vardims*i + bestvaltax_idx); // ((*tableau)[i][vardims-1])/((*tableau)[i][bestvaltax_idx]);
         }
 
         MINMAX(dim_minus1[RAWS], min_ratios_vector, MIN_MODE, &leaving_var_idx);
 
-        const ityp pivot = (*tableau)[leaving_var_idx][bestvaltax_idx];
+        const ityp pivot = *((*tableau) + vardims*leaving_var_idx + bestvaltax_idx);
 
         // gauss-jordan's method application to the tableau, inclusive of function coefficients.
         for(i=0; i<vardims; ++i)
-            (*tableau)[leaving_var_idx][i] /= pivot;
-
+            *((*tableau) + vardims*leaving_var_idx + i) /= pivot;
+            
         ityp zero_binder = 0.00;
 
         for(i=0; i<dim[RAWS]; ++i)
         {
-            if(i == leaving_var_idx || !(*tableau)[i][bestvaltax_idx])
+            if(i == leaving_var_idx || ! *((*tableau) + vardims*i + bestvaltax_idx))
                 continue;
-
-            zero_binder = (1-2*(((*tableau)[i][bestvaltax_idx]*(*tableau)[leaving_var_idx][bestvaltax_idx])>0))*((*tableau)[i][bestvaltax_idx])/((*tableau)[leaving_var_idx][bestvaltax_idx]);
+		
+			*((*tableau) + vardims*i + bestvaltax_idx); 
+			*((*tableau) + vardims*leaving_var_idx + bestvaltax_idx);
+			
+            zero_binder = (1-2*((*((*tableau) + vardims*i + bestvaltax_idx)* *((*tableau) + vardims*leaving_var_idx + bestvaltax_idx))>0))*(*((*tableau) + vardims*i + bestvaltax_idx))/(*((*tableau) + vardims*leaving_var_idx + bestvaltax_idx));
 
 			for(j=0; j<vardims; ++j)
-                (*tableau)[i][j] += (*tableau)[leaving_var_idx][j]*zero_binder;
+				*((*tableau) + vardims*i + j) += *((*tableau) + vardims*leaving_var_idx + j)*zero_binder;
         }
 
         j=0;
-        (*bfs)[RAWS][bestvaltax_idx] = (*tableau)[leaving_var_idx][vardims-1];
+        *((*bfs) + bestvaltax_idx) = *((*tableau) + vardims*leaving_var_idx + vardims-1);
         for(i=dim_minus1[COLUMNS]; i<vardims-1; ++i)
             if(i == dim_minus1[COLUMNS]+leaving_var_idx)
-                (*bfs)[RAWS][i] = 0.00;
-            else if((*bfs)[RAWS][i])
-                (*bfs)[RAWS][i] = (*tableau)[j++][vardims-1];
-
+            	*((*bfs) + i) = 0.00;
+            else if(*((*bfs) + i))
+            	*((*bfs) + i) = *((*tableau) + (vardims*(j++)) + vardims-1);
     }
 
     return SIMPLEXMETHOD_FOUNDBFS;
 }
 
-__MSNATIVE_ _MS__private void __system __export _matrixOEMTSum(ityp ***matrix1, ityp ***matrix2, ityp ***matrix_sum, const register dim_typ i, const register dim_typ j)
+__MSNATIVE_ __MSSTOCK _MS__private static void __system __export _matrixOEMTSum(ityp **matrix1, ityp **matrix2, ityp **matrix_sum, const register dim_typ idx)
 {
 	ityp (* const sum_func)(register ityp, register ityp) = INVERSE_OPS ? math_sub : math_sum;
+
 	#pragma omp parallel num_threads(MAX_OCTONIONS_UNITS)
 	{
-        matrix_sum[OCTONIONS_REALPART][i][j] = sum_func(matrix1[OCTONIONS_REALPART][i][j], matrix2[OCTONIONS_REALPART][i][j]);
-        matrix_sum[OCTONIONS_E1PART][i][j] = sum_func(matrix1[OCTONIONS_E1PART][i][j], matrix2[OCTONIONS_E1PART][i][j]);
-        matrix_sum[OCTONIONS_E2PART][i][j] = sum_func(matrix1[OCTONIONS_E2PART][i][j], matrix2[OCTONIONS_E2PART][i][j]);
-        matrix_sum[OCTONIONS_E3PART][i][j] = sum_func(matrix1[OCTONIONS_E3PART][i][j], matrix2[OCTONIONS_E3PART][i][j]);
-        matrix_sum[OCTONIONS_E4PART][i][j] = sum_func(matrix1[OCTONIONS_E4PART][i][j], matrix2[OCTONIONS_E4PART][i][j]);
-        matrix_sum[OCTONIONS_E5PART][i][j] = sum_func(matrix1[OCTONIONS_E5PART][i][j], matrix2[OCTONIONS_E5PART][i][j]);
-        matrix_sum[OCTONIONS_E6PART][i][j] = sum_func(matrix1[OCTONIONS_E6PART][i][j], matrix2[OCTONIONS_E6PART][i][j]);
-        matrix_sum[OCTONIONS_E7PART][i][j] = sum_func(matrix1[OCTONIONS_E7PART][i][j], matrix2[OCTONIONS_E7PART][i][j]);
+        matrix_sum[OCTONIONS_REALPART][idx] = sum_func(matrix1[OCTONIONS_REALPART][idx], matrix2[OCTONIONS_REALPART][idx]);
+        matrix_sum[OCTONIONS_E1PART][idx] = sum_func(matrix1[OCTONIONS_E1PART][idx], matrix2[OCTONIONS_E1PART][idx]);
+        matrix_sum[OCTONIONS_E2PART][idx] = sum_func(matrix1[OCTONIONS_E2PART][idx], matrix2[OCTONIONS_E2PART][idx]);
+        matrix_sum[OCTONIONS_E3PART][idx] = sum_func(matrix1[OCTONIONS_E3PART][idx], matrix2[OCTONIONS_E3PART][idx]);
+        matrix_sum[OCTONIONS_E4PART][idx] = sum_func(matrix1[OCTONIONS_E4PART][idx], matrix2[OCTONIONS_E4PART][idx]);
+        matrix_sum[OCTONIONS_E5PART][idx] = sum_func(matrix1[OCTONIONS_E5PART][idx], matrix2[OCTONIONS_E5PART][idx]);
+        matrix_sum[OCTONIONS_E6PART][idx] = sum_func(matrix1[OCTONIONS_E6PART][idx], matrix2[OCTONIONS_E6PART][idx]);
+        matrix_sum[OCTONIONS_E7PART][idx] = sum_func(matrix1[OCTONIONS_E7PART][idx], matrix2[OCTONIONS_E7PART][idx]);
 	}
 	return;
 }
 
-__MSNATIVE_ _MS__private void __system __export _matrixOMTSum(ityp ***matrix1, ityp ***matrix2, ityp ***matrix_sum, const register dim_typ i, const register dim_typ j)
+__MSNATIVE_ __MSSTOCK _MS__private static void __system __export _matrixOMTSum(ityp **matrix1, ityp **matrix2, ityp **matrix_sum, const register dim_typ idx)
 {
 	ityp (* const sum_func)(register ityp, register ityp) = INVERSE_OPS ? math_sub : math_sum;
 	#pragma omp parallel
 	{
-        matrix_sum[OCTONIONS_REALPART][i][j] = sum_func(matrix1[OCTONIONS_REALPART][i][j], matrix2[OCTONIONS_REALPART][i][j]);
-        matrix_sum[OCTONIONS_E1PART][i][j] = sum_func(matrix1[OCTONIONS_E1PART][i][j], matrix2[OCTONIONS_E1PART][i][j]);
-        matrix_sum[OCTONIONS_E2PART][i][j] = sum_func(matrix1[OCTONIONS_E2PART][i][j], matrix2[OCTONIONS_E2PART][i][j]);
-        matrix_sum[OCTONIONS_E3PART][i][j] = sum_func(matrix1[OCTONIONS_E3PART][i][j], matrix2[OCTONIONS_E3PART][i][j]);
-        matrix_sum[OCTONIONS_E4PART][i][j] = sum_func(matrix1[OCTONIONS_E4PART][i][j], matrix2[OCTONIONS_E4PART][i][j]);
-        matrix_sum[OCTONIONS_E5PART][i][j] = sum_func(matrix1[OCTONIONS_E5PART][i][j], matrix2[OCTONIONS_E5PART][i][j]);
-        matrix_sum[OCTONIONS_E6PART][i][j] = sum_func(matrix1[OCTONIONS_E6PART][i][j], matrix2[OCTONIONS_E6PART][i][j]);
-        matrix_sum[OCTONIONS_E7PART][i][j] = sum_func(matrix1[OCTONIONS_E7PART][i][j], matrix2[OCTONIONS_E7PART][i][j]);
+        matrix_sum[OCTONIONS_REALPART][idx] = sum_func(matrix1[OCTONIONS_REALPART][idx], matrix2[OCTONIONS_REALPART][idx]);
+        matrix_sum[OCTONIONS_E1PART][idx] = sum_func(matrix1[OCTONIONS_E1PART][idx], matrix2[OCTONIONS_E1PART][idx]);
+        matrix_sum[OCTONIONS_E2PART][idx] = sum_func(matrix1[OCTONIONS_E2PART][idx], matrix2[OCTONIONS_E2PART][idx]);
+        matrix_sum[OCTONIONS_E3PART][idx] = sum_func(matrix1[OCTONIONS_E3PART][idx], matrix2[OCTONIONS_E3PART][idx]);
+        matrix_sum[OCTONIONS_E4PART][idx] = sum_func(matrix1[OCTONIONS_E4PART][idx], matrix2[OCTONIONS_E4PART][idx]);
+        matrix_sum[OCTONIONS_E5PART][idx] = sum_func(matrix1[OCTONIONS_E5PART][idx], matrix2[OCTONIONS_E5PART][idx]);
+        matrix_sum[OCTONIONS_E6PART][idx] = sum_func(matrix1[OCTONIONS_E6PART][idx], matrix2[OCTONIONS_E6PART][idx]);
+        matrix_sum[OCTONIONS_E7PART][idx] = sum_func(matrix1[OCTONIONS_E7PART][idx], matrix2[OCTONIONS_E7PART][idx]);
 	}
 	return;
 }
 
-__MSNATIVE_ _MS__private void __system __export _matrixSEMTSum(ityp ***matrix1, ityp ***matrix2, ityp ***matrix_sum, const register dim_typ i, const register dim_typ j)
+__MSNATIVE_ __MSSTOCK _MS__private static void __system __export _matrixSEMTSum(ityp **matrix1, ityp **matrix2, ityp **matrix_sum, const register dim_typ idx)
 {
 	ityp (* const sum_func)(register ityp, register ityp) = INVERSE_OPS ? math_sub : math_sum;
 	#pragma omp parallel num_threads(MAX_SEDENIONS_UNITS)
 	{
-		matrix_sum[SEDENIONS_REALPART][i][j] = sum_func(matrix1[SEDENIONS_REALPART][i][j], matrix2[SEDENIONS_REALPART][i][j]);
-        matrix_sum[SEDENIONS_E1PART][i][j] = sum_func(matrix1[SEDENIONS_E1PART][i][j], matrix2[SEDENIONS_E1PART][i][j]);
-        matrix_sum[SEDENIONS_E2PART][i][j] = sum_func(matrix1[SEDENIONS_E2PART][i][j], matrix2[SEDENIONS_E2PART][i][j]);
-        matrix_sum[SEDENIONS_E3PART][i][j] = sum_func(matrix1[SEDENIONS_E3PART][i][j], matrix2[SEDENIONS_E3PART][i][j]);
-        matrix_sum[SEDENIONS_E4PART][i][j] = sum_func(matrix1[SEDENIONS_E4PART][i][j], matrix2[SEDENIONS_E4PART][i][j]);
-        matrix_sum[SEDENIONS_E5PART][i][j] = sum_func(matrix1[SEDENIONS_E5PART][i][j], matrix2[SEDENIONS_E5PART][i][j]);
-        matrix_sum[SEDENIONS_E6PART][i][j] = sum_func(matrix1[SEDENIONS_E6PART][i][j], matrix2[SEDENIONS_E6PART][i][j]);
-        matrix_sum[SEDENIONS_E7PART][i][j] = sum_func(matrix1[SEDENIONS_E7PART][i][j], matrix2[SEDENIONS_E7PART][i][j]);
-        matrix_sum[SEDENIONS_E8PART][i][j] = sum_func(matrix1[SEDENIONS_E8PART][i][j], matrix2[SEDENIONS_E8PART][i][j]);
-        matrix_sum[SEDENIONS_E9PART][i][j] = sum_func(matrix1[SEDENIONS_E9PART][i][j], matrix2[SEDENIONS_E9PART][i][j]);
-        matrix_sum[SEDENIONS_E10PART][i][j] = sum_func(matrix1[SEDENIONS_E10PART][i][j], matrix2[SEDENIONS_E10PART][i][j]);
-        matrix_sum[SEDENIONS_E11PART][i][j] = sum_func(matrix1[SEDENIONS_E11PART][i][j], matrix2[SEDENIONS_E11PART][i][j]);
-        matrix_sum[SEDENIONS_E12PART][i][j] = sum_func(matrix1[SEDENIONS_E12PART][i][j], matrix2[SEDENIONS_E12PART][i][j]);
-        matrix_sum[SEDENIONS_E13PART][i][j] = sum_func(matrix1[SEDENIONS_E13PART][i][j], matrix2[SEDENIONS_E13PART][i][j]);
-        matrix_sum[SEDENIONS_E14PART][i][j] = sum_func(matrix1[SEDENIONS_E14PART][i][j], matrix2[SEDENIONS_E14PART][i][j]);
-        matrix_sum[SEDENIONS_E15PART][i][j] = sum_func(matrix1[SEDENIONS_E15PART][i][j], matrix2[SEDENIONS_E15PART][i][j]);
+		matrix_sum[SEDENIONS_REALPART][idx] = sum_func(matrix1[SEDENIONS_REALPART][idx], matrix2[SEDENIONS_REALPART][idx]);
+        matrix_sum[SEDENIONS_E1PART][idx] = sum_func(matrix1[SEDENIONS_E1PART][idx], matrix2[SEDENIONS_E1PART][idx]);
+        matrix_sum[SEDENIONS_E2PART][idx] = sum_func(matrix1[SEDENIONS_E2PART][idx], matrix2[SEDENIONS_E2PART][idx]);
+        matrix_sum[SEDENIONS_E3PART][idx] = sum_func(matrix1[SEDENIONS_E3PART][idx], matrix2[SEDENIONS_E3PART][idx]);
+        matrix_sum[SEDENIONS_E4PART][idx] = sum_func(matrix1[SEDENIONS_E4PART][idx], matrix2[SEDENIONS_E4PART][idx]);
+        matrix_sum[SEDENIONS_E5PART][idx] = sum_func(matrix1[SEDENIONS_E5PART][idx], matrix2[SEDENIONS_E5PART][idx]);
+        matrix_sum[SEDENIONS_E6PART][idx] = sum_func(matrix1[SEDENIONS_E6PART][idx], matrix2[SEDENIONS_E6PART][idx]);
+        matrix_sum[SEDENIONS_E7PART][idx] = sum_func(matrix1[SEDENIONS_E7PART][idx], matrix2[SEDENIONS_E7PART][idx]);
+        matrix_sum[SEDENIONS_E8PART][idx] = sum_func(matrix1[SEDENIONS_E8PART][idx], matrix2[SEDENIONS_E8PART][idx]);
+        matrix_sum[SEDENIONS_E9PART][idx] = sum_func(matrix1[SEDENIONS_E9PART][idx], matrix2[SEDENIONS_E9PART][idx]);
+        matrix_sum[SEDENIONS_E10PART][idx] = sum_func(matrix1[SEDENIONS_E10PART][idx], matrix2[SEDENIONS_E10PART][idx]);
+        matrix_sum[SEDENIONS_E11PART][idx] = sum_func(matrix1[SEDENIONS_E11PART][idx], matrix2[SEDENIONS_E11PART][idx]);
+        matrix_sum[SEDENIONS_E12PART][idx] = sum_func(matrix1[SEDENIONS_E12PART][idx], matrix2[SEDENIONS_E12PART][idx]);
+        matrix_sum[SEDENIONS_E13PART][idx] = sum_func(matrix1[SEDENIONS_E13PART][idx], matrix2[SEDENIONS_E13PART][idx]);
+        matrix_sum[SEDENIONS_E14PART][idx] = sum_func(matrix1[SEDENIONS_E14PART][idx], matrix2[SEDENIONS_E14PART][idx]);
+        matrix_sum[SEDENIONS_E15PART][idx] = sum_func(matrix1[SEDENIONS_E15PART][idx], matrix2[SEDENIONS_E15PART][idx]);
 	}
 
 	return;
 }
 
-__MSNATIVE_ _MS__private void __system __export _matrixSMTSum(ityp ***matrix1, ityp ***matrix2, ityp ***matrix_sum, const register dim_typ i, const register dim_typ j)
+__MSNATIVE_ __MSSTOCK _MS__private static void __system __export _matrixSMTSum(ityp **matrix1, ityp **matrix2, ityp **matrix_sum, const register dim_typ idx)
 {
 	ityp (* const sum_func)(register ityp, register ityp) = INVERSE_OPS ? math_sub : math_sum;
 	#pragma omp parallel
 	{
-		matrix_sum[SEDENIONS_REALPART][i][j] = sum_func(matrix1[SEDENIONS_REALPART][i][j], matrix2[SEDENIONS_REALPART][i][j]);
-        matrix_sum[SEDENIONS_E1PART][i][j] = sum_func(matrix1[SEDENIONS_E1PART][i][j], matrix2[SEDENIONS_E1PART][i][j]);
-        matrix_sum[SEDENIONS_E2PART][i][j] = sum_func(matrix1[SEDENIONS_E2PART][i][j], matrix2[SEDENIONS_E2PART][i][j]);
-        matrix_sum[SEDENIONS_E3PART][i][j] = sum_func(matrix1[SEDENIONS_E3PART][i][j], matrix2[SEDENIONS_E3PART][i][j]);
-        matrix_sum[SEDENIONS_E4PART][i][j] = sum_func(matrix1[SEDENIONS_E4PART][i][j], matrix2[SEDENIONS_E4PART][i][j]);
-        matrix_sum[SEDENIONS_E5PART][i][j] = sum_func(matrix1[SEDENIONS_E5PART][i][j], matrix2[SEDENIONS_E5PART][i][j]);
-        matrix_sum[SEDENIONS_E6PART][i][j] = sum_func(matrix1[SEDENIONS_E6PART][i][j], matrix2[SEDENIONS_E6PART][i][j]);
-        matrix_sum[SEDENIONS_E7PART][i][j] = sum_func(matrix1[SEDENIONS_E7PART][i][j], matrix2[SEDENIONS_E7PART][i][j]);
-        matrix_sum[SEDENIONS_E8PART][i][j] = sum_func(matrix1[SEDENIONS_E8PART][i][j], matrix2[SEDENIONS_E8PART][i][j]);
-        matrix_sum[SEDENIONS_E9PART][i][j] = sum_func(matrix1[SEDENIONS_E9PART][i][j], matrix2[SEDENIONS_E9PART][i][j]);
-        matrix_sum[SEDENIONS_E10PART][i][j] = sum_func(matrix1[SEDENIONS_E10PART][i][j], matrix2[SEDENIONS_E10PART][i][j]);
-        matrix_sum[SEDENIONS_E11PART][i][j] = sum_func(matrix1[SEDENIONS_E11PART][i][j], matrix2[SEDENIONS_E11PART][i][j]);
-        matrix_sum[SEDENIONS_E12PART][i][j] = sum_func(matrix1[SEDENIONS_E12PART][i][j], matrix2[SEDENIONS_E12PART][i][j]);
-        matrix_sum[SEDENIONS_E13PART][i][j] = sum_func(matrix1[SEDENIONS_E13PART][i][j], matrix2[SEDENIONS_E13PART][i][j]);
-        matrix_sum[SEDENIONS_E14PART][i][j] = sum_func(matrix1[SEDENIONS_E14PART][i][j], matrix2[SEDENIONS_E14PART][i][j]);
-        matrix_sum[SEDENIONS_E15PART][i][j] = sum_func(matrix1[SEDENIONS_E15PART][i][j], matrix2[SEDENIONS_E15PART][i][j]);
+		matrix_sum[SEDENIONS_REALPART][idx] = sum_func(matrix1[SEDENIONS_REALPART][idx], matrix2[SEDENIONS_REALPART][idx]);
+        matrix_sum[SEDENIONS_E1PART][idx] = sum_func(matrix1[SEDENIONS_E1PART][idx], matrix2[SEDENIONS_E1PART][idx]);
+        matrix_sum[SEDENIONS_E2PART][idx] = sum_func(matrix1[SEDENIONS_E2PART][idx], matrix2[SEDENIONS_E2PART][idx]);
+        matrix_sum[SEDENIONS_E3PART][idx] = sum_func(matrix1[SEDENIONS_E3PART][idx], matrix2[SEDENIONS_E3PART][idx]);
+        matrix_sum[SEDENIONS_E4PART][idx] = sum_func(matrix1[SEDENIONS_E4PART][idx], matrix2[SEDENIONS_E4PART][idx]);
+        matrix_sum[SEDENIONS_E5PART][idx] = sum_func(matrix1[SEDENIONS_E5PART][idx], matrix2[SEDENIONS_E5PART][idx]);
+        matrix_sum[SEDENIONS_E6PART][idx] = sum_func(matrix1[SEDENIONS_E6PART][idx], matrix2[SEDENIONS_E6PART][idx]);
+        matrix_sum[SEDENIONS_E7PART][idx] = sum_func(matrix1[SEDENIONS_E7PART][idx], matrix2[SEDENIONS_E7PART][idx]);
+        matrix_sum[SEDENIONS_E8PART][idx] = sum_func(matrix1[SEDENIONS_E8PART][idx], matrix2[SEDENIONS_E8PART][idx]);
+        matrix_sum[SEDENIONS_E9PART][idx] = sum_func(matrix1[SEDENIONS_E9PART][idx], matrix2[SEDENIONS_E9PART][idx]);
+        matrix_sum[SEDENIONS_E10PART][idx] = sum_func(matrix1[SEDENIONS_E10PART][idx], matrix2[SEDENIONS_E10PART][idx]);
+        matrix_sum[SEDENIONS_E11PART][idx] = sum_func(matrix1[SEDENIONS_E11PART][idx], matrix2[SEDENIONS_E11PART][idx]);
+        matrix_sum[SEDENIONS_E12PART][idx] = sum_func(matrix1[SEDENIONS_E12PART][idx], matrix2[SEDENIONS_E12PART][idx]);
+        matrix_sum[SEDENIONS_E13PART][idx] = sum_func(matrix1[SEDENIONS_E13PART][idx], matrix2[SEDENIONS_E13PART][idx]);
+        matrix_sum[SEDENIONS_E14PART][idx] = sum_func(matrix1[SEDENIONS_E14PART][idx], matrix2[SEDENIONS_E14PART][idx]);
+        matrix_sum[SEDENIONS_E15PART][idx] = sum_func(matrix1[SEDENIONS_E15PART][idx], matrix2[SEDENIONS_E15PART][idx]);
 	}
 
 	return;
 }
 
-__MSNATIVE_ _MS__private void __system __export _matrixOEMTProduct(ityp ***matrix1, ityp ***matrix2, ityp ***matrix_product, const register dim_typ i, const register dim_typ j, const register dim_typ k)
+__MSNATIVE_ __MSSTOCK _MS__private static void __system __export _matrixOEMTProduct(ityp **matrix1, ityp **matrix2, ityp **matrix_product, const register dim_typ idx1, const register dim_typ idx2, const register dim_typ idx3)
 {
 	ityp (* const mul_func)(register ityp, register ityp) = INVERSE_OPS ? math_div : math_mul;
 	#pragma omp parallel num_threads(MAX_OCTONIONS_UNITS)
 	{
-		matrix_product[OCTONIONS_REALPART][i][j] += mul_func(matrix1[OCTONIONS_REALPART][i][k], matrix2[OCTONIONS_REALPART][k][j]) -
-                                                            mul_func(matrix1[OCTONIONS_E1PART][i][k], matrix2[OCTONIONS_E1PART][k][j]) -
-                                                            mul_func(matrix1[OCTONIONS_E2PART][i][k], matrix2[OCTONIONS_E2PART][k][j]) -
-                                                            mul_func(matrix1[OCTONIONS_E3PART][i][k], matrix2[OCTONIONS_E3PART][k][j]) -
-                                                            mul_func(matrix1[OCTONIONS_E4PART][i][k], matrix2[OCTONIONS_E4PART][k][j]) -
-                                                            mul_func(matrix1[OCTONIONS_E5PART][i][k], matrix2[OCTONIONS_E5PART][k][j]) -
-                                                            mul_func(matrix1[OCTONIONS_E6PART][i][k], matrix2[OCTONIONS_E6PART][k][j]) -
-                                                            mul_func(matrix1[OCTONIONS_E7PART][i][k], matrix2[OCTONIONS_E7PART][k][j]);
+		matrix_product[OCTONIONS_REALPART][idx1] += mul_func(matrix1[OCTONIONS_REALPART][idx2], matrix2[OCTONIONS_REALPART][idx3]) -
+                                                            mul_func(matrix1[OCTONIONS_E1PART][idx2], matrix2[OCTONIONS_E1PART][idx3]) -
+                                                            mul_func(matrix1[OCTONIONS_E2PART][idx2], matrix2[OCTONIONS_E2PART][idx3]) -
+                                                            mul_func(matrix1[OCTONIONS_E3PART][idx2], matrix2[OCTONIONS_E3PART][idx3]) -
+                                                            mul_func(matrix1[OCTONIONS_E4PART][idx2], matrix2[OCTONIONS_E4PART][idx3]) -
+                                                            mul_func(matrix1[OCTONIONS_E5PART][idx2], matrix2[OCTONIONS_E5PART][idx3]) -
+                                                            mul_func(matrix1[OCTONIONS_E6PART][idx2], matrix2[OCTONIONS_E6PART][idx3]) -
+                                                            mul_func(matrix1[OCTONIONS_E7PART][idx2], matrix2[OCTONIONS_E7PART][idx3]);
 
-        matrix_product[OCTONIONS_E1PART][i][j] += mul_func(matrix1[OCTONIONS_REALPART][i][k], matrix2[OCTONIONS_E1PART][k][j]) +
-                                                  mul_func(matrix1[OCTONIONS_E1PART][i][k], matrix2[OCTONIONS_REALPART][k][j]) +
-                                                  mul_func(matrix1[OCTONIONS_E2PART][i][k], matrix2[OCTONIONS_E4PART][k][j]) +
-                                                  mul_func(matrix1[OCTONIONS_E3PART][i][k], matrix2[OCTONIONS_E7PART][k][j]) -
-                                                  mul_func(matrix1[OCTONIONS_E4PART][i][k], matrix2[OCTONIONS_E2PART][k][j]) +
-                                                  mul_func(matrix1[OCTONIONS_E5PART][i][k], matrix2[OCTONIONS_E6PART][k][j]) -
-                                                  mul_func(matrix1[OCTONIONS_E6PART][i][k], matrix2[OCTONIONS_E5PART][k][j]) -
-                                                  mul_func(matrix1[OCTONIONS_E7PART][i][k], matrix2[OCTONIONS_E3PART][k][j]);
+        matrix_product[OCTONIONS_E1PART][idx1] += mul_func(matrix1[OCTONIONS_REALPART][idx2], matrix2[OCTONIONS_E1PART][idx3]) +
+                                                  mul_func(matrix1[OCTONIONS_E1PART][idx2], matrix2[OCTONIONS_REALPART][idx3]) +
+                                                  mul_func(matrix1[OCTONIONS_E2PART][idx2], matrix2[OCTONIONS_E4PART][idx3]) +
+                                                  mul_func(matrix1[OCTONIONS_E3PART][idx2], matrix2[OCTONIONS_E7PART][idx3]) -
+                                                  mul_func(matrix1[OCTONIONS_E4PART][idx2], matrix2[OCTONIONS_E2PART][idx3]) +
+                                                  mul_func(matrix1[OCTONIONS_E5PART][idx2], matrix2[OCTONIONS_E6PART][idx3]) -
+                                                  mul_func(matrix1[OCTONIONS_E6PART][idx2], matrix2[OCTONIONS_E5PART][idx3]) -
+                                                  mul_func(matrix1[OCTONIONS_E7PART][idx2], matrix2[OCTONIONS_E3PART][idx3]);
 
-        matrix_product[OCTONIONS_E2PART][i][j] += mul_func(matrix1[OCTONIONS_REALPART][i][k], matrix2[OCTONIONS_E2PART][k][j]) -
-                                                  mul_func(matrix1[OCTONIONS_E1PART][i][k], matrix2[OCTONIONS_E4PART][k][j]) +
-                                                  mul_func(matrix1[OCTONIONS_E2PART][i][k], matrix2[OCTONIONS_REALPART][k][j]) +
-                                                  mul_func(matrix1[OCTONIONS_E3PART][i][k], matrix2[OCTONIONS_E5PART][k][j]) -
-                                                  mul_func(matrix1[OCTONIONS_E4PART][i][k], matrix2[OCTONIONS_E1PART][k][j]) -
-                                                  mul_func(matrix1[OCTONIONS_E5PART][i][k], matrix2[OCTONIONS_E3PART][k][j]) +
-                                                  mul_func(matrix1[OCTONIONS_E6PART][i][k], matrix2[OCTONIONS_E7PART][k][j]) -
-                                                  mul_func(matrix1[OCTONIONS_E7PART][i][k], matrix2[OCTONIONS_E6PART][k][j]);
+        matrix_product[OCTONIONS_E2PART][idx1] += mul_func(matrix1[OCTONIONS_REALPART][idx2], matrix2[OCTONIONS_E2PART][idx3]) -
+                                                  mul_func(matrix1[OCTONIONS_E1PART][idx2], matrix2[OCTONIONS_E4PART][idx3]) +
+                                                  mul_func(matrix1[OCTONIONS_E2PART][idx2], matrix2[OCTONIONS_REALPART][idx3]) +
+                                                  mul_func(matrix1[OCTONIONS_E3PART][idx2], matrix2[OCTONIONS_E5PART][idx3]) -
+                                                  mul_func(matrix1[OCTONIONS_E4PART][idx2], matrix2[OCTONIONS_E1PART][idx3]) -
+                                                  mul_func(matrix1[OCTONIONS_E5PART][idx2], matrix2[OCTONIONS_E3PART][idx3]) +
+                                                  mul_func(matrix1[OCTONIONS_E6PART][idx2], matrix2[OCTONIONS_E7PART][idx3]) -
+                                                  mul_func(matrix1[OCTONIONS_E7PART][idx2], matrix2[OCTONIONS_E6PART][idx3]);
 
-        matrix_product[OCTONIONS_E3PART][i][j] += mul_func(matrix1[OCTONIONS_REALPART][i][k], matrix2[OCTONIONS_E3PART][k][j]) -
-                                                  mul_func(matrix1[OCTONIONS_E1PART][i][k], matrix2[OCTONIONS_E7PART][k][j]) -
-                                                  mul_func(matrix1[OCTONIONS_E2PART][i][k], matrix2[OCTONIONS_E5PART][k][j]) +
-                                                  mul_func(matrix1[OCTONIONS_E3PART][i][k], matrix2[OCTONIONS_REALPART][k][j]) +
-                                                  mul_func(matrix1[OCTONIONS_E4PART][i][k], matrix2[OCTONIONS_E6PART][k][j]) +
-                                                  mul_func(matrix1[OCTONIONS_E5PART][i][k], matrix2[OCTONIONS_E2PART][k][j]) -
-                                                  mul_func(matrix1[OCTONIONS_E6PART][i][k], matrix2[OCTONIONS_E4PART][k][j]) +
-                                                  mul_func(matrix1[OCTONIONS_E7PART][i][k], matrix2[OCTONIONS_E1PART][k][j]);
+        matrix_product[OCTONIONS_E3PART][idx1] += mul_func(matrix1[OCTONIONS_REALPART][idx2], matrix2[OCTONIONS_E3PART][idx3]) -
+                                                  mul_func(matrix1[OCTONIONS_E1PART][idx2], matrix2[OCTONIONS_E7PART][idx3]) -
+                                                  mul_func(matrix1[OCTONIONS_E2PART][idx2], matrix2[OCTONIONS_E5PART][idx3]) +
+                                                  mul_func(matrix1[OCTONIONS_E3PART][idx2], matrix2[OCTONIONS_REALPART][idx3]) +
+                                                  mul_func(matrix1[OCTONIONS_E4PART][idx2], matrix2[OCTONIONS_E6PART][idx3]) +
+                                                  mul_func(matrix1[OCTONIONS_E5PART][idx2], matrix2[OCTONIONS_E2PART][idx3]) -
+                                                  mul_func(matrix1[OCTONIONS_E6PART][idx2], matrix2[OCTONIONS_E4PART][idx3]) +
+                                                  mul_func(matrix1[OCTONIONS_E7PART][idx2], matrix2[OCTONIONS_E1PART][idx3]);
 
-        matrix_product[OCTONIONS_E4PART][i][j] += mul_func(matrix1[OCTONIONS_REALPART][i][k], matrix2[OCTONIONS_E4PART][k][j]) +
-                                                  mul_func(matrix1[OCTONIONS_E1PART][i][k], matrix2[OCTONIONS_E2PART][k][j]) -
-                                                  mul_func(matrix1[OCTONIONS_E2PART][i][k], matrix2[OCTONIONS_E1PART][k][j]) -
-                                                  mul_func(matrix1[OCTONIONS_E3PART][i][k], matrix2[OCTONIONS_E6PART][k][j]) +
-                                                  mul_func(matrix1[OCTONIONS_E4PART][i][k], matrix2[OCTONIONS_REALPART][k][j]) +
-                                                  mul_func(matrix1[OCTONIONS_E5PART][i][k], matrix2[OCTONIONS_E7PART][k][j]) +
-                                                  mul_func(matrix1[OCTONIONS_E6PART][i][k], matrix2[OCTONIONS_E3PART][k][j]) -
-                                                  mul_func(matrix1[OCTONIONS_E7PART][i][k], matrix2[OCTONIONS_E5PART][k][j]);
+        matrix_product[OCTONIONS_E4PART][idx1] += mul_func(matrix1[OCTONIONS_REALPART][idx2], matrix2[OCTONIONS_E4PART][idx3]) +
+                                                  mul_func(matrix1[OCTONIONS_E1PART][idx2], matrix2[OCTONIONS_E2PART][idx3]) -
+                                                  mul_func(matrix1[OCTONIONS_E2PART][idx2], matrix2[OCTONIONS_E1PART][idx3]) -
+                                                  mul_func(matrix1[OCTONIONS_E3PART][idx2], matrix2[OCTONIONS_E6PART][idx3]) +
+                                                  mul_func(matrix1[OCTONIONS_E4PART][idx2], matrix2[OCTONIONS_REALPART][idx3]) +
+                                                  mul_func(matrix1[OCTONIONS_E5PART][idx2], matrix2[OCTONIONS_E7PART][idx3]) +
+                                                  mul_func(matrix1[OCTONIONS_E6PART][idx2], matrix2[OCTONIONS_E3PART][idx3]) -
+                                                  mul_func(matrix1[OCTONIONS_E7PART][idx2], matrix2[OCTONIONS_E5PART][idx3]);
 
-        matrix_product[OCTONIONS_E5PART][i][j] += mul_func(matrix1[OCTONIONS_REALPART][i][k], matrix2[OCTONIONS_E5PART][k][j]) -
-                                                  mul_func(matrix1[OCTONIONS_E1PART][i][k], matrix2[OCTONIONS_E6PART][k][j]) +
-                                                  mul_func(matrix1[OCTONIONS_E2PART][i][k], matrix2[OCTONIONS_E3PART][k][j]) -
-                                                  mul_func(matrix1[OCTONIONS_E3PART][i][k], matrix2[OCTONIONS_E2PART][k][j]) -
-                                                  mul_func(matrix1[OCTONIONS_E4PART][i][k], matrix2[OCTONIONS_E7PART][k][j]) +
-                                                  mul_func(matrix1[OCTONIONS_E5PART][i][k], matrix2[OCTONIONS_REALPART][k][j]) +
-                                                  mul_func(matrix1[OCTONIONS_E6PART][i][k], matrix2[OCTONIONS_E1PART][k][j]) +
-                                                  mul_func(matrix1[OCTONIONS_E7PART][i][k], matrix2[OCTONIONS_E4PART][k][j]);
+        matrix_product[OCTONIONS_E5PART][idx1] += mul_func(matrix1[OCTONIONS_REALPART][idx2], matrix2[OCTONIONS_E5PART][idx3]) -
+                                                  mul_func(matrix1[OCTONIONS_E1PART][idx2], matrix2[OCTONIONS_E6PART][idx3]) +
+                                                  mul_func(matrix1[OCTONIONS_E2PART][idx2], matrix2[OCTONIONS_E3PART][idx3]) -
+                                                  mul_func(matrix1[OCTONIONS_E3PART][idx2], matrix2[OCTONIONS_E2PART][idx3]) -
+                                                  mul_func(matrix1[OCTONIONS_E4PART][idx2], matrix2[OCTONIONS_E7PART][idx3]) +
+                                                  mul_func(matrix1[OCTONIONS_E5PART][idx2], matrix2[OCTONIONS_REALPART][idx3]) +
+                                                  mul_func(matrix1[OCTONIONS_E6PART][idx2], matrix2[OCTONIONS_E1PART][idx3]) +
+                                                  mul_func(matrix1[OCTONIONS_E7PART][idx2], matrix2[OCTONIONS_E4PART][idx3]);
 
-        matrix_product[OCTONIONS_E6PART][i][j] += mul_func(matrix1[OCTONIONS_REALPART][i][k], matrix2[OCTONIONS_E6PART][k][j]) +
-                                                  mul_func(matrix1[OCTONIONS_E1PART][i][k], matrix2[OCTONIONS_E5PART][k][j]) -
-                                                  mul_func(matrix1[OCTONIONS_E2PART][i][k], matrix2[OCTONIONS_E7PART][k][j]) +
-                                                  mul_func(matrix1[OCTONIONS_E3PART][i][k], matrix2[OCTONIONS_E4PART][k][j]) -
-                                                  mul_func(matrix1[OCTONIONS_E4PART][i][k], matrix2[OCTONIONS_E3PART][k][j]) -
-                                                  mul_func(matrix1[OCTONIONS_E5PART][i][k], matrix2[OCTONIONS_E1PART][k][j]) +
-                                                  mul_func(matrix1[OCTONIONS_E6PART][i][k], matrix2[OCTONIONS_REALPART][k][j]) +
-                                                  mul_func(matrix1[OCTONIONS_E7PART][i][k], matrix2[OCTONIONS_E2PART][k][j]);
+        matrix_product[OCTONIONS_E6PART][idx1] += mul_func(matrix1[OCTONIONS_REALPART][idx2], matrix2[OCTONIONS_E6PART][idx3]) +
+                                                  mul_func(matrix1[OCTONIONS_E1PART][idx2], matrix2[OCTONIONS_E5PART][idx3]) -
+                                                  mul_func(matrix1[OCTONIONS_E2PART][idx2], matrix2[OCTONIONS_E7PART][idx3]) +
+                                                  mul_func(matrix1[OCTONIONS_E3PART][idx2], matrix2[OCTONIONS_E4PART][idx3]) -
+                                                  mul_func(matrix1[OCTONIONS_E4PART][idx2], matrix2[OCTONIONS_E3PART][idx3]) -
+                                                  mul_func(matrix1[OCTONIONS_E5PART][idx2], matrix2[OCTONIONS_E1PART][idx3]) +
+                                                  mul_func(matrix1[OCTONIONS_E6PART][idx2], matrix2[OCTONIONS_REALPART][idx3]) +
+                                                  mul_func(matrix1[OCTONIONS_E7PART][idx2], matrix2[OCTONIONS_E2PART][idx3]);
 
-        matrix_product[OCTONIONS_E7PART][i][j] += mul_func(matrix1[OCTONIONS_REALPART][i][k], matrix2[OCTONIONS_E7PART][k][j]) +
-                                                  mul_func(matrix1[OCTONIONS_E1PART][i][k], matrix2[OCTONIONS_E3PART][k][j]) +
-                                                  mul_func(matrix1[OCTONIONS_E2PART][i][k], matrix2[OCTONIONS_E6PART][k][j]) -
-                                                  mul_func(matrix1[OCTONIONS_E3PART][i][k], matrix2[OCTONIONS_E1PART][k][j]) +
-                                                  mul_func(matrix1[OCTONIONS_E4PART][i][k], matrix2[OCTONIONS_E5PART][k][j]) -
-                                                  mul_func(matrix1[OCTONIONS_E5PART][i][k], matrix2[OCTONIONS_E4PART][k][j]) -
-                                                  mul_func(matrix1[OCTONIONS_E6PART][i][k], matrix2[OCTONIONS_E2PART][k][j]) +
-                                                  mul_func(matrix1[OCTONIONS_E7PART][i][k], matrix2[OCTONIONS_REALPART][k][j]);
+        matrix_product[OCTONIONS_E7PART][idx1] += mul_func(matrix1[OCTONIONS_REALPART][idx2], matrix2[OCTONIONS_E7PART][idx3]) +
+                                                  mul_func(matrix1[OCTONIONS_E1PART][idx2], matrix2[OCTONIONS_E3PART][idx3]) +
+                                                  mul_func(matrix1[OCTONIONS_E2PART][idx2], matrix2[OCTONIONS_E6PART][idx3]) -
+                                                  mul_func(matrix1[OCTONIONS_E3PART][idx2], matrix2[OCTONIONS_E1PART][idx3]) +
+                                                  mul_func(matrix1[OCTONIONS_E4PART][idx2], matrix2[OCTONIONS_E5PART][idx3]) -
+                                                  mul_func(matrix1[OCTONIONS_E5PART][idx2], matrix2[OCTONIONS_E4PART][idx3]) -
+                                                  mul_func(matrix1[OCTONIONS_E6PART][idx2], matrix2[OCTONIONS_E2PART][idx3]) +
+                                                  mul_func(matrix1[OCTONIONS_E7PART][idx2], matrix2[OCTONIONS_REALPART][idx3]);
 	}
 	return;
 }
 
-__MSNATIVE_ _MS__private void __system __export _matrixOMTProduct(ityp ***matrix1, ityp ***matrix2, ityp ***matrix_product, const register dim_typ i, const register dim_typ j, const register dim_typ k)
+__MSNATIVE_ __MSSTOCK _MS__private static void __system __export _matrixOMTProduct(ityp **matrix1, ityp **matrix2, ityp **matrix_product, const register dim_typ idx1, const register dim_typ idx2, const register dim_typ idx3)
 {
 	ityp (* const mul_func)(register ityp, register ityp) = INVERSE_OPS ? math_div : math_mul;
 	#pragma omp parallel
 	{
-		matrix_product[OCTONIONS_REALPART][i][j] += mul_func(matrix1[OCTONIONS_REALPART][i][k], matrix2[OCTONIONS_REALPART][k][j]) -
-                                                            mul_func(matrix1[OCTONIONS_E1PART][i][k], matrix2[OCTONIONS_E1PART][k][j]) -
-                                                            mul_func(matrix1[OCTONIONS_E2PART][i][k], matrix2[OCTONIONS_E2PART][k][j]) -
-                                                            mul_func(matrix1[OCTONIONS_E3PART][i][k], matrix2[OCTONIONS_E3PART][k][j]) -
-                                                            mul_func(matrix1[OCTONIONS_E4PART][i][k], matrix2[OCTONIONS_E4PART][k][j]) -
-                                                            mul_func(matrix1[OCTONIONS_E5PART][i][k], matrix2[OCTONIONS_E5PART][k][j]) -
-                                                            mul_func(matrix1[OCTONIONS_E6PART][i][k], matrix2[OCTONIONS_E6PART][k][j]) -
-                                                            mul_func(matrix1[OCTONIONS_E7PART][i][k], matrix2[OCTONIONS_E7PART][k][j]);
+		matrix_product[OCTONIONS_REALPART][idx1] += mul_func(matrix1[OCTONIONS_REALPART][idx2], matrix2[OCTONIONS_REALPART][idx3]) -
+                                                            mul_func(matrix1[OCTONIONS_E1PART][idx2], matrix2[OCTONIONS_E1PART][idx3]) -
+                                                            mul_func(matrix1[OCTONIONS_E2PART][idx2], matrix2[OCTONIONS_E2PART][idx3]) -
+                                                            mul_func(matrix1[OCTONIONS_E3PART][idx2], matrix2[OCTONIONS_E3PART][idx3]) -
+                                                            mul_func(matrix1[OCTONIONS_E4PART][idx2], matrix2[OCTONIONS_E4PART][idx3]) -
+                                                            mul_func(matrix1[OCTONIONS_E5PART][idx2], matrix2[OCTONIONS_E5PART][idx3]) -
+                                                            mul_func(matrix1[OCTONIONS_E6PART][idx2], matrix2[OCTONIONS_E6PART][idx3]) -
+                                                            mul_func(matrix1[OCTONIONS_E7PART][idx2], matrix2[OCTONIONS_E7PART][idx3]);
 
-        matrix_product[OCTONIONS_E1PART][i][j] += mul_func(matrix1[OCTONIONS_REALPART][i][k], matrix2[OCTONIONS_E1PART][k][j]) +
-                                                  mul_func(matrix1[OCTONIONS_E1PART][i][k], matrix2[OCTONIONS_REALPART][k][j]) +
-                                                  mul_func(matrix1[OCTONIONS_E2PART][i][k], matrix2[OCTONIONS_E4PART][k][j]) +
-                                                  mul_func(matrix1[OCTONIONS_E3PART][i][k], matrix2[OCTONIONS_E7PART][k][j]) -
-                                                  mul_func(matrix1[OCTONIONS_E4PART][i][k], matrix2[OCTONIONS_E2PART][k][j]) +
-                                                  mul_func(matrix1[OCTONIONS_E5PART][i][k], matrix2[OCTONIONS_E6PART][k][j]) -
-                                                  mul_func(matrix1[OCTONIONS_E6PART][i][k], matrix2[OCTONIONS_E5PART][k][j]) -
-                                                  mul_func(matrix1[OCTONIONS_E7PART][i][k], matrix2[OCTONIONS_E3PART][k][j]);
+        matrix_product[OCTONIONS_E1PART][idx1] += mul_func(matrix1[OCTONIONS_REALPART][idx2], matrix2[OCTONIONS_E1PART][idx3]) +
+                                                  mul_func(matrix1[OCTONIONS_E1PART][idx2], matrix2[OCTONIONS_REALPART][idx3]) +
+                                                  mul_func(matrix1[OCTONIONS_E2PART][idx2], matrix2[OCTONIONS_E4PART][idx3]) +
+                                                  mul_func(matrix1[OCTONIONS_E3PART][idx2], matrix2[OCTONIONS_E7PART][idx3]) -
+                                                  mul_func(matrix1[OCTONIONS_E4PART][idx2], matrix2[OCTONIONS_E2PART][idx3]) +
+                                                  mul_func(matrix1[OCTONIONS_E5PART][idx2], matrix2[OCTONIONS_E6PART][idx3]) -
+                                                  mul_func(matrix1[OCTONIONS_E6PART][idx2], matrix2[OCTONIONS_E5PART][idx3]) -
+                                                  mul_func(matrix1[OCTONIONS_E7PART][idx2], matrix2[OCTONIONS_E3PART][idx3]);
 
-        matrix_product[OCTONIONS_E2PART][i][j] += mul_func(matrix1[OCTONIONS_REALPART][i][k], matrix2[OCTONIONS_E2PART][k][j]) -
-                                                  mul_func(matrix1[OCTONIONS_E1PART][i][k], matrix2[OCTONIONS_E4PART][k][j]) +
-                                                  mul_func(matrix1[OCTONIONS_E2PART][i][k], matrix2[OCTONIONS_REALPART][k][j]) +
-                                                  mul_func(matrix1[OCTONIONS_E3PART][i][k], matrix2[OCTONIONS_E5PART][k][j]) -
-                                                  mul_func(matrix1[OCTONIONS_E4PART][i][k], matrix2[OCTONIONS_E1PART][k][j]) -
-                                                  mul_func(matrix1[OCTONIONS_E5PART][i][k], matrix2[OCTONIONS_E3PART][k][j]) +
-                                                  mul_func(matrix1[OCTONIONS_E6PART][i][k], matrix2[OCTONIONS_E7PART][k][j]) -
-                                                  mul_func(matrix1[OCTONIONS_E7PART][i][k], matrix2[OCTONIONS_E6PART][k][j]);
+        matrix_product[OCTONIONS_E2PART][idx1] += mul_func(matrix1[OCTONIONS_REALPART][idx2], matrix2[OCTONIONS_E2PART][idx3]) -
+                                                  mul_func(matrix1[OCTONIONS_E1PART][idx2], matrix2[OCTONIONS_E4PART][idx3]) +
+                                                  mul_func(matrix1[OCTONIONS_E2PART][idx2], matrix2[OCTONIONS_REALPART][idx3]) +
+                                                  mul_func(matrix1[OCTONIONS_E3PART][idx2], matrix2[OCTONIONS_E5PART][idx3]) -
+                                                  mul_func(matrix1[OCTONIONS_E4PART][idx2], matrix2[OCTONIONS_E1PART][idx3]) -
+                                                  mul_func(matrix1[OCTONIONS_E5PART][idx2], matrix2[OCTONIONS_E3PART][idx3]) +
+                                                  mul_func(matrix1[OCTONIONS_E6PART][idx2], matrix2[OCTONIONS_E7PART][idx3]) -
+                                                  mul_func(matrix1[OCTONIONS_E7PART][idx2], matrix2[OCTONIONS_E6PART][idx3]);
 
-        matrix_product[OCTONIONS_E3PART][i][j] += mul_func(matrix1[OCTONIONS_REALPART][i][k], matrix2[OCTONIONS_E3PART][k][j]) -
-                                                  mul_func(matrix1[OCTONIONS_E1PART][i][k], matrix2[OCTONIONS_E7PART][k][j]) -
-                                                  mul_func(matrix1[OCTONIONS_E2PART][i][k], matrix2[OCTONIONS_E5PART][k][j]) +
-                                                  mul_func(matrix1[OCTONIONS_E3PART][i][k], matrix2[OCTONIONS_REALPART][k][j]) +
-                                                  mul_func(matrix1[OCTONIONS_E4PART][i][k], matrix2[OCTONIONS_E6PART][k][j]) +
-                                                  mul_func(matrix1[OCTONIONS_E5PART][i][k], matrix2[OCTONIONS_E2PART][k][j]) -
-                                                  mul_func(matrix1[OCTONIONS_E6PART][i][k], matrix2[OCTONIONS_E4PART][k][j]) +
-                                                  mul_func(matrix1[OCTONIONS_E7PART][i][k], matrix2[OCTONIONS_E1PART][k][j]);
+        matrix_product[OCTONIONS_E3PART][idx1] += mul_func(matrix1[OCTONIONS_REALPART][idx2], matrix2[OCTONIONS_E3PART][idx3]) -
+                                                  mul_func(matrix1[OCTONIONS_E1PART][idx2], matrix2[OCTONIONS_E7PART][idx3]) -
+                                                  mul_func(matrix1[OCTONIONS_E2PART][idx2], matrix2[OCTONIONS_E5PART][idx3]) +
+                                                  mul_func(matrix1[OCTONIONS_E3PART][idx2], matrix2[OCTONIONS_REALPART][idx3]) +
+                                                  mul_func(matrix1[OCTONIONS_E4PART][idx2], matrix2[OCTONIONS_E6PART][idx3]) +
+                                                  mul_func(matrix1[OCTONIONS_E5PART][idx2], matrix2[OCTONIONS_E2PART][idx3]) -
+                                                  mul_func(matrix1[OCTONIONS_E6PART][idx2], matrix2[OCTONIONS_E4PART][idx3]) +
+                                                  mul_func(matrix1[OCTONIONS_E7PART][idx2], matrix2[OCTONIONS_E1PART][idx3]);
 
-        matrix_product[OCTONIONS_E4PART][i][j] += mul_func(matrix1[OCTONIONS_REALPART][i][k], matrix2[OCTONIONS_E4PART][k][j]) +
-                                                  mul_func(matrix1[OCTONIONS_E1PART][i][k], matrix2[OCTONIONS_E2PART][k][j]) -
-                                                  mul_func(matrix1[OCTONIONS_E2PART][i][k], matrix2[OCTONIONS_E1PART][k][j]) -
-                                                  mul_func(matrix1[OCTONIONS_E3PART][i][k], matrix2[OCTONIONS_E6PART][k][j]) +
-                                                  mul_func(matrix1[OCTONIONS_E4PART][i][k], matrix2[OCTONIONS_REALPART][k][j]) +
-                                                  mul_func(matrix1[OCTONIONS_E5PART][i][k], matrix2[OCTONIONS_E7PART][k][j]) +
-                                                  mul_func(matrix1[OCTONIONS_E6PART][i][k], matrix2[OCTONIONS_E3PART][k][j]) -
-                                                  mul_func(matrix1[OCTONIONS_E7PART][i][k], matrix2[OCTONIONS_E5PART][k][j]);
+        matrix_product[OCTONIONS_E4PART][idx1] += mul_func(matrix1[OCTONIONS_REALPART][idx2], matrix2[OCTONIONS_E4PART][idx3]) +
+                                                  mul_func(matrix1[OCTONIONS_E1PART][idx2], matrix2[OCTONIONS_E2PART][idx3]) -
+                                                  mul_func(matrix1[OCTONIONS_E2PART][idx2], matrix2[OCTONIONS_E1PART][idx3]) -
+                                                  mul_func(matrix1[OCTONIONS_E3PART][idx2], matrix2[OCTONIONS_E6PART][idx3]) +
+                                                  mul_func(matrix1[OCTONIONS_E4PART][idx2], matrix2[OCTONIONS_REALPART][idx3]) +
+                                                  mul_func(matrix1[OCTONIONS_E5PART][idx2], matrix2[OCTONIONS_E7PART][idx3]) +
+                                                  mul_func(matrix1[OCTONIONS_E6PART][idx2], matrix2[OCTONIONS_E3PART][idx3]) -
+                                                  mul_func(matrix1[OCTONIONS_E7PART][idx2], matrix2[OCTONIONS_E5PART][idx3]);
 
-        matrix_product[OCTONIONS_E5PART][i][j] += mul_func(matrix1[OCTONIONS_REALPART][i][k], matrix2[OCTONIONS_E5PART][k][j]) -
-                                                  mul_func(matrix1[OCTONIONS_E1PART][i][k], matrix2[OCTONIONS_E6PART][k][j]) +
-                                                  mul_func(matrix1[OCTONIONS_E2PART][i][k], matrix2[OCTONIONS_E3PART][k][j]) -
-                                                  mul_func(matrix1[OCTONIONS_E3PART][i][k], matrix2[OCTONIONS_E2PART][k][j]) -
-                                                  mul_func(matrix1[OCTONIONS_E4PART][i][k], matrix2[OCTONIONS_E7PART][k][j]) +
-                                                  mul_func(matrix1[OCTONIONS_E5PART][i][k], matrix2[OCTONIONS_REALPART][k][j]) +
-                                                  mul_func(matrix1[OCTONIONS_E6PART][i][k], matrix2[OCTONIONS_E1PART][k][j]) +
-                                                  mul_func(matrix1[OCTONIONS_E7PART][i][k], matrix2[OCTONIONS_E4PART][k][j]);
+        matrix_product[OCTONIONS_E5PART][idx1] += mul_func(matrix1[OCTONIONS_REALPART][idx2], matrix2[OCTONIONS_E5PART][idx3]) -
+                                                  mul_func(matrix1[OCTONIONS_E1PART][idx2], matrix2[OCTONIONS_E6PART][idx3]) +
+                                                  mul_func(matrix1[OCTONIONS_E2PART][idx2], matrix2[OCTONIONS_E3PART][idx3]) -
+                                                  mul_func(matrix1[OCTONIONS_E3PART][idx2], matrix2[OCTONIONS_E2PART][idx3]) -
+                                                  mul_func(matrix1[OCTONIONS_E4PART][idx2], matrix2[OCTONIONS_E7PART][idx3]) +
+                                                  mul_func(matrix1[OCTONIONS_E5PART][idx2], matrix2[OCTONIONS_REALPART][idx3]) +
+                                                  mul_func(matrix1[OCTONIONS_E6PART][idx2], matrix2[OCTONIONS_E1PART][idx3]) +
+                                                  mul_func(matrix1[OCTONIONS_E7PART][idx2], matrix2[OCTONIONS_E4PART][idx3]);
 
-        matrix_product[OCTONIONS_E6PART][i][j] += mul_func(matrix1[OCTONIONS_REALPART][i][k], matrix2[OCTONIONS_E6PART][k][j]) +
-                                                  mul_func(matrix1[OCTONIONS_E1PART][i][k], matrix2[OCTONIONS_E5PART][k][j]) -
-                                                  mul_func(matrix1[OCTONIONS_E2PART][i][k], matrix2[OCTONIONS_E7PART][k][j]) +
-                                                  mul_func(matrix1[OCTONIONS_E3PART][i][k], matrix2[OCTONIONS_E4PART][k][j]) -
-                                                  mul_func(matrix1[OCTONIONS_E4PART][i][k], matrix2[OCTONIONS_E3PART][k][j]) -
-                                                  mul_func(matrix1[OCTONIONS_E5PART][i][k], matrix2[OCTONIONS_E1PART][k][j]) +
-                                                  mul_func(matrix1[OCTONIONS_E6PART][i][k], matrix2[OCTONIONS_REALPART][k][j]) +
-                                                  mul_func(matrix1[OCTONIONS_E7PART][i][k], matrix2[OCTONIONS_E2PART][k][j]);
+        matrix_product[OCTONIONS_E6PART][idx1] += mul_func(matrix1[OCTONIONS_REALPART][idx2], matrix2[OCTONIONS_E6PART][idx3]) +
+                                                  mul_func(matrix1[OCTONIONS_E1PART][idx2], matrix2[OCTONIONS_E5PART][idx3]) -
+                                                  mul_func(matrix1[OCTONIONS_E2PART][idx2], matrix2[OCTONIONS_E7PART][idx3]) +
+                                                  mul_func(matrix1[OCTONIONS_E3PART][idx2], matrix2[OCTONIONS_E4PART][idx3]) -
+                                                  mul_func(matrix1[OCTONIONS_E4PART][idx2], matrix2[OCTONIONS_E3PART][idx3]) -
+                                                  mul_func(matrix1[OCTONIONS_E5PART][idx2], matrix2[OCTONIONS_E1PART][idx3]) +
+                                                  mul_func(matrix1[OCTONIONS_E6PART][idx2], matrix2[OCTONIONS_REALPART][idx3]) +
+                                                  mul_func(matrix1[OCTONIONS_E7PART][idx2], matrix2[OCTONIONS_E2PART][idx3]);
 
-        matrix_product[OCTONIONS_E7PART][i][j] += mul_func(matrix1[OCTONIONS_REALPART][i][k], matrix2[OCTONIONS_E7PART][k][j]) +
-                                                  mul_func(matrix1[OCTONIONS_E1PART][i][k], matrix2[OCTONIONS_E3PART][k][j]) +
-                                                  mul_func(matrix1[OCTONIONS_E2PART][i][k], matrix2[OCTONIONS_E6PART][k][j]) -
-                                                  mul_func(matrix1[OCTONIONS_E3PART][i][k], matrix2[OCTONIONS_E1PART][k][j]) +
-                                                  mul_func(matrix1[OCTONIONS_E4PART][i][k], matrix2[OCTONIONS_E5PART][k][j]) -
-                                                  mul_func(matrix1[OCTONIONS_E5PART][i][k], matrix2[OCTONIONS_E4PART][k][j]) -
-                                                  mul_func(matrix1[OCTONIONS_E6PART][i][k], matrix2[OCTONIONS_E2PART][k][j]) +
-                                                  mul_func(matrix1[OCTONIONS_E7PART][i][k], matrix2[OCTONIONS_REALPART][k][j]);
+        matrix_product[OCTONIONS_E7PART][idx1] += mul_func(matrix1[OCTONIONS_REALPART][idx2], matrix2[OCTONIONS_E7PART][idx3]) +
+                                                  mul_func(matrix1[OCTONIONS_E1PART][idx2], matrix2[OCTONIONS_E3PART][idx3]) +
+                                                  mul_func(matrix1[OCTONIONS_E2PART][idx2], matrix2[OCTONIONS_E6PART][idx3]) -
+                                                  mul_func(matrix1[OCTONIONS_E3PART][idx2], matrix2[OCTONIONS_E1PART][idx3]) +
+                                                  mul_func(matrix1[OCTONIONS_E4PART][idx2], matrix2[OCTONIONS_E5PART][idx3]) -
+                                                  mul_func(matrix1[OCTONIONS_E5PART][idx2], matrix2[OCTONIONS_E4PART][idx3]) -
+                                                  mul_func(matrix1[OCTONIONS_E6PART][idx2], matrix2[OCTONIONS_E2PART][idx3]) +
+                                                  mul_func(matrix1[OCTONIONS_E7PART][idx2], matrix2[OCTONIONS_REALPART][idx3]);
 	}
 	return;
 }
 
-__MSNATIVE_ _MS__private void __system __export _matrixSEMTProduct(ityp ***matrix1, ityp ***matrix2, ityp ***matrix_product, const register dim_typ i, const register dim_typ j, const register dim_typ k)
+__MSNATIVE_ __MSSTOCK _MS__private static void __system __export _matrixSEMTProduct(ityp **matrix1, ityp **matrix2, ityp **matrix_product, const register dim_typ idx1, const register dim_typ idx2, const register dim_typ idx3)
 {
 	ityp (* const mul_func)(register ityp, register ityp) = INVERSE_OPS ? math_div : math_mul;
 	#pragma omp parallel num_threads(MAX_SEDENIONS_UNITS)
 	{
-		matrix_product[SEDENIONS_REALPART][i][j] += mul_func(matrix1[SEDENIONS_REALPART][i][k], matrix2[SEDENIONS_REALPART][k][j]) -
-                                                            mul_func(matrix1[SEDENIONS_E1PART][i][k], matrix2[SEDENIONS_E1PART][k][j]) -
-                                                            mul_func(matrix1[SEDENIONS_E2PART][i][k], matrix2[SEDENIONS_E2PART][k][j]) -
-                                                            mul_func(matrix1[SEDENIONS_E3PART][i][k], matrix2[SEDENIONS_E3PART][k][j]) -
-                                                            mul_func(matrix1[SEDENIONS_E4PART][i][k], matrix2[SEDENIONS_E4PART][k][j]) -
-                                                            mul_func(matrix1[SEDENIONS_E5PART][i][k], matrix2[SEDENIONS_E5PART][k][j]) -
-                                                            mul_func(matrix1[SEDENIONS_E6PART][i][k], matrix2[SEDENIONS_E6PART][k][j]) -
-                                                            mul_func(matrix1[SEDENIONS_E7PART][i][k], matrix2[SEDENIONS_E7PART][k][j]) -
-                                                            mul_func(matrix1[SEDENIONS_E8PART][i][k], matrix2[SEDENIONS_E8PART][k][j]) -
-                                                            mul_func(matrix1[SEDENIONS_E9PART][i][k], matrix2[SEDENIONS_E9PART][k][j]) -
-                                                            mul_func(matrix1[SEDENIONS_E10PART][i][k], matrix2[SEDENIONS_E10PART][k][j]) -
-                                                            mul_func(matrix1[SEDENIONS_E11PART][i][k], matrix2[SEDENIONS_E11PART][k][j]) -
-                                                            mul_func(matrix1[SEDENIONS_E12PART][i][k], matrix2[SEDENIONS_E12PART][k][j]) -
-                                                            mul_func(matrix1[SEDENIONS_E13PART][i][k], matrix2[SEDENIONS_E13PART][k][j]) -
-                                                            mul_func(matrix1[SEDENIONS_E14PART][i][k], matrix2[SEDENIONS_E14PART][k][j]) -
-                                                            mul_func(matrix1[SEDENIONS_E15PART][i][k], matrix2[SEDENIONS_E15PART][k][j]);
+		matrix_product[SEDENIONS_REALPART][idx1] += mul_func(matrix1[SEDENIONS_REALPART][idx2], matrix2[SEDENIONS_REALPART][idx3]) -
+                                                            mul_func(matrix1[SEDENIONS_E1PART][idx2], matrix2[SEDENIONS_E1PART][idx3]) -
+                                                            mul_func(matrix1[SEDENIONS_E2PART][idx2], matrix2[SEDENIONS_E2PART][idx3]) -
+                                                            mul_func(matrix1[SEDENIONS_E3PART][idx2], matrix2[SEDENIONS_E3PART][idx3]) -
+                                                            mul_func(matrix1[SEDENIONS_E4PART][idx2], matrix2[SEDENIONS_E4PART][idx3]) -
+                                                            mul_func(matrix1[SEDENIONS_E5PART][idx2], matrix2[SEDENIONS_E5PART][idx3]) -
+                                                            mul_func(matrix1[SEDENIONS_E6PART][idx2], matrix2[SEDENIONS_E6PART][idx3]) -
+                                                            mul_func(matrix1[SEDENIONS_E7PART][idx2], matrix2[SEDENIONS_E7PART][idx3]) -
+                                                            mul_func(matrix1[SEDENIONS_E8PART][idx2], matrix2[SEDENIONS_E8PART][idx3]) -
+                                                            mul_func(matrix1[SEDENIONS_E9PART][idx2], matrix2[SEDENIONS_E9PART][idx3]) -
+                                                            mul_func(matrix1[SEDENIONS_E10PART][idx2], matrix2[SEDENIONS_E10PART][idx3]) -
+                                                            mul_func(matrix1[SEDENIONS_E11PART][idx2], matrix2[SEDENIONS_E11PART][idx3]) -
+                                                            mul_func(matrix1[SEDENIONS_E12PART][idx2], matrix2[SEDENIONS_E12PART][idx3]) -
+                                                            mul_func(matrix1[SEDENIONS_E13PART][idx2], matrix2[SEDENIONS_E13PART][idx3]) -
+                                                            mul_func(matrix1[SEDENIONS_E14PART][idx2], matrix2[SEDENIONS_E14PART][idx3]) -
+                                                            mul_func(matrix1[SEDENIONS_E15PART][idx2], matrix2[SEDENIONS_E15PART][idx3]);
 
-        matrix_product[SEDENIONS_E1PART][i][j] += mul_func(matrix1[SEDENIONS_REALPART][i][k], matrix2[SEDENIONS_E1PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E1PART][i][k], matrix2[SEDENIONS_REALPART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E2PART][i][k], matrix2[SEDENIONS_E3PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E3PART][i][k], matrix2[SEDENIONS_E2PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E4PART][i][k], matrix2[SEDENIONS_E5PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E5PART][i][k], matrix2[SEDENIONS_E4PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E6PART][i][k], matrix2[SEDENIONS_E7PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E7PART][i][k], matrix2[SEDENIONS_E6PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E8PART][i][k], matrix2[SEDENIONS_E9PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E9PART][i][k], matrix2[SEDENIONS_E8PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E10PART][i][k], matrix2[SEDENIONS_E11PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E11PART][i][k], matrix2[SEDENIONS_E10PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E12PART][i][k], matrix2[SEDENIONS_E13PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E13PART][i][k], matrix2[SEDENIONS_E12PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E14PART][i][k], matrix2[SEDENIONS_E15PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E15PART][i][k], matrix2[SEDENIONS_E14PART][k][j]);
+        matrix_product[SEDENIONS_E1PART][idx1] += mul_func(matrix1[SEDENIONS_REALPART][idx2], matrix2[SEDENIONS_E1PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E1PART][idx2], matrix2[SEDENIONS_REALPART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E2PART][idx2], matrix2[SEDENIONS_E3PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E3PART][idx2], matrix2[SEDENIONS_E2PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E4PART][idx2], matrix2[SEDENIONS_E5PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E5PART][idx2], matrix2[SEDENIONS_E4PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E6PART][idx2], matrix2[SEDENIONS_E7PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E7PART][idx2], matrix2[SEDENIONS_E6PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E8PART][idx2], matrix2[SEDENIONS_E9PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E9PART][idx2], matrix2[SEDENIONS_E8PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E10PART][idx2], matrix2[SEDENIONS_E11PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E11PART][idx2], matrix2[SEDENIONS_E10PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E12PART][idx2], matrix2[SEDENIONS_E13PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E13PART][idx2], matrix2[SEDENIONS_E12PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E14PART][idx2], matrix2[SEDENIONS_E15PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E15PART][idx2], matrix2[SEDENIONS_E14PART][idx3]);
 
-        matrix_product[SEDENIONS_E2PART][i][j] += mul_func(matrix1[SEDENIONS_REALPART][i][k], matrix2[SEDENIONS_E2PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E1PART][i][k], matrix2[SEDENIONS_E3PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E2PART][i][k], matrix2[SEDENIONS_REALPART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E3PART][i][k], matrix2[SEDENIONS_E1PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E4PART][i][k], matrix2[SEDENIONS_E6PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E5PART][i][k], matrix2[SEDENIONS_E7PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E6PART][i][k], matrix2[SEDENIONS_E4PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E7PART][i][k], matrix2[SEDENIONS_E5PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E8PART][i][k], matrix2[SEDENIONS_E10PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E9PART][i][k], matrix2[SEDENIONS_E11PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E10PART][i][k], matrix2[SEDENIONS_E8PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E11PART][i][k], matrix2[SEDENIONS_E9PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E12PART][i][k], matrix2[SEDENIONS_E14PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E13PART][i][k], matrix2[SEDENIONS_E15PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E14PART][i][k], matrix2[SEDENIONS_E12PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E15PART][i][k], matrix2[SEDENIONS_E13PART][k][j]);
+        matrix_product[SEDENIONS_E2PART][idx1] += mul_func(matrix1[SEDENIONS_REALPART][idx2], matrix2[SEDENIONS_E2PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E1PART][idx2], matrix2[SEDENIONS_E3PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E2PART][idx2], matrix2[SEDENIONS_REALPART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E3PART][idx2], matrix2[SEDENIONS_E1PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E4PART][idx2], matrix2[SEDENIONS_E6PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E5PART][idx2], matrix2[SEDENIONS_E7PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E6PART][idx2], matrix2[SEDENIONS_E4PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E7PART][idx2], matrix2[SEDENIONS_E5PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E8PART][idx2], matrix2[SEDENIONS_E10PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E9PART][idx2], matrix2[SEDENIONS_E11PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E10PART][idx2], matrix2[SEDENIONS_E8PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E11PART][idx2], matrix2[SEDENIONS_E9PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E12PART][idx2], matrix2[SEDENIONS_E14PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E13PART][idx2], matrix2[SEDENIONS_E15PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E14PART][idx2], matrix2[SEDENIONS_E12PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E15PART][idx2], matrix2[SEDENIONS_E13PART][idx3]);
 
-        matrix_product[SEDENIONS_E3PART][i][j] += mul_func(matrix1[SEDENIONS_REALPART][i][k], matrix2[SEDENIONS_E3PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E1PART][i][k], matrix2[SEDENIONS_E2PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E2PART][i][k], matrix2[SEDENIONS_E1PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E3PART][i][k], matrix2[SEDENIONS_REALPART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E4PART][i][k], matrix2[SEDENIONS_E7PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E5PART][i][k], matrix2[SEDENIONS_E6PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E6PART][i][k], matrix2[SEDENIONS_E5PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E7PART][i][k], matrix2[SEDENIONS_E4PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E8PART][i][k], matrix2[SEDENIONS_E11PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E9PART][i][k], matrix2[SEDENIONS_E10PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E10PART][i][k], matrix2[SEDENIONS_E9PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E11PART][i][k], matrix2[SEDENIONS_E8PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E12PART][i][k], matrix2[SEDENIONS_E15PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E13PART][i][k], matrix2[SEDENIONS_E14PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E14PART][i][k], matrix2[SEDENIONS_E13PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E15PART][i][k], matrix2[SEDENIONS_E12PART][k][j]);
+        matrix_product[SEDENIONS_E3PART][idx1] += mul_func(matrix1[SEDENIONS_REALPART][idx2], matrix2[SEDENIONS_E3PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E1PART][idx2], matrix2[SEDENIONS_E2PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E2PART][idx2], matrix2[SEDENIONS_E1PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E3PART][idx2], matrix2[SEDENIONS_REALPART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E4PART][idx2], matrix2[SEDENIONS_E7PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E5PART][idx2], matrix2[SEDENIONS_E6PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E6PART][idx2], matrix2[SEDENIONS_E5PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E7PART][idx2], matrix2[SEDENIONS_E4PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E8PART][idx2], matrix2[SEDENIONS_E11PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E9PART][idx2], matrix2[SEDENIONS_E10PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E10PART][idx2], matrix2[SEDENIONS_E9PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E11PART][idx2], matrix2[SEDENIONS_E8PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E12PART][idx2], matrix2[SEDENIONS_E15PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E13PART][idx2], matrix2[SEDENIONS_E14PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E14PART][idx2], matrix2[SEDENIONS_E13PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E15PART][idx2], matrix2[SEDENIONS_E12PART][idx3]);
 
-        matrix_product[SEDENIONS_E4PART][i][j] += mul_func(matrix1[SEDENIONS_REALPART][i][k], matrix2[SEDENIONS_E4PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E1PART][i][k], matrix2[SEDENIONS_E5PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E2PART][i][k], matrix2[SEDENIONS_E6PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E3PART][i][k], matrix2[SEDENIONS_E7PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E4PART][i][k], matrix2[SEDENIONS_REALPART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E5PART][i][k], matrix2[SEDENIONS_E1PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E6PART][i][k], matrix2[SEDENIONS_E2PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E7PART][i][k], matrix2[SEDENIONS_E3PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E8PART][i][k], matrix2[SEDENIONS_E12PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E9PART][i][k], matrix2[SEDENIONS_E13PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E10PART][i][k], matrix2[SEDENIONS_E14PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E11PART][i][k], matrix2[SEDENIONS_E15PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E12PART][i][k], matrix2[SEDENIONS_E8PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E13PART][i][k], matrix2[SEDENIONS_E9PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E14PART][i][k], matrix2[SEDENIONS_E10PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E15PART][i][k], matrix2[SEDENIONS_E11PART][k][j]);
+        matrix_product[SEDENIONS_E4PART][idx1] += mul_func(matrix1[SEDENIONS_REALPART][idx2], matrix2[SEDENIONS_E4PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E1PART][idx2], matrix2[SEDENIONS_E5PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E2PART][idx2], matrix2[SEDENIONS_E6PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E3PART][idx2], matrix2[SEDENIONS_E7PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E4PART][idx2], matrix2[SEDENIONS_REALPART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E5PART][idx2], matrix2[SEDENIONS_E1PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E6PART][idx2], matrix2[SEDENIONS_E2PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E7PART][idx2], matrix2[SEDENIONS_E3PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E8PART][idx2], matrix2[SEDENIONS_E12PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E9PART][idx2], matrix2[SEDENIONS_E13PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E10PART][idx2], matrix2[SEDENIONS_E14PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E11PART][idx2], matrix2[SEDENIONS_E15PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E12PART][idx2], matrix2[SEDENIONS_E8PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E13PART][idx2], matrix2[SEDENIONS_E9PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E14PART][idx2], matrix2[SEDENIONS_E10PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E15PART][idx2], matrix2[SEDENIONS_E11PART][idx3]);
 
-        matrix_product[SEDENIONS_E5PART][i][j] += mul_func(matrix1[SEDENIONS_REALPART][i][k], matrix2[SEDENIONS_E5PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E1PART][i][k], matrix2[SEDENIONS_E4PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E2PART][i][k], matrix2[SEDENIONS_E7PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E3PART][i][k], matrix2[SEDENIONS_E6PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E4PART][i][k], matrix2[SEDENIONS_E1PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E5PART][i][k], matrix2[SEDENIONS_REALPART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E6PART][i][k], matrix2[SEDENIONS_E3PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E7PART][i][k], matrix2[SEDENIONS_E2PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E8PART][i][k], matrix2[SEDENIONS_E13PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E9PART][i][k], matrix2[SEDENIONS_E12PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E10PART][i][k], matrix2[SEDENIONS_E15PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E11PART][i][k], matrix2[SEDENIONS_E4PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E12PART][i][k], matrix2[SEDENIONS_E9PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E13PART][i][k], matrix2[SEDENIONS_E8PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E14PART][i][k], matrix2[SEDENIONS_E11PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E15PART][i][k], matrix2[SEDENIONS_E10PART][k][j]);
+        matrix_product[SEDENIONS_E5PART][idx1] += mul_func(matrix1[SEDENIONS_REALPART][idx2], matrix2[SEDENIONS_E5PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E1PART][idx2], matrix2[SEDENIONS_E4PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E2PART][idx2], matrix2[SEDENIONS_E7PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E3PART][idx2], matrix2[SEDENIONS_E6PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E4PART][idx2], matrix2[SEDENIONS_E1PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E5PART][idx2], matrix2[SEDENIONS_REALPART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E6PART][idx2], matrix2[SEDENIONS_E3PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E7PART][idx2], matrix2[SEDENIONS_E2PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E8PART][idx2], matrix2[SEDENIONS_E13PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E9PART][idx2], matrix2[SEDENIONS_E12PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E10PART][idx2], matrix2[SEDENIONS_E15PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E11PART][idx2], matrix2[SEDENIONS_E4PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E12PART][idx2], matrix2[SEDENIONS_E9PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E13PART][idx2], matrix2[SEDENIONS_E8PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E14PART][idx2], matrix2[SEDENIONS_E11PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E15PART][idx2], matrix2[SEDENIONS_E10PART][idx3]);
 
-        matrix_product[SEDENIONS_E6PART][i][j] += mul_func(matrix1[SEDENIONS_REALPART][i][k], matrix2[SEDENIONS_REALPART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E1PART][i][k], matrix2[SEDENIONS_E1PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E2PART][i][k], matrix2[SEDENIONS_E2PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E3PART][i][k], matrix2[SEDENIONS_E3PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E4PART][i][k], matrix2[SEDENIONS_E4PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E5PART][i][k], matrix2[SEDENIONS_E5PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E6PART][i][k], matrix2[SEDENIONS_E6PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E7PART][i][k], matrix2[SEDENIONS_E7PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E8PART][i][k], matrix2[SEDENIONS_E8PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E9PART][i][k], matrix2[SEDENIONS_E9PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E10PART][i][k], matrix2[SEDENIONS_E10PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E11PART][i][k], matrix2[SEDENIONS_E11PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E12PART][i][k], matrix2[SEDENIONS_E12PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E13PART][i][k], matrix2[SEDENIONS_E13PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E14PART][i][k], matrix2[SEDENIONS_E14PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E15PART][i][k], matrix2[SEDENIONS_E15PART][k][j]);
+        matrix_product[SEDENIONS_E6PART][idx1] += mul_func(matrix1[SEDENIONS_REALPART][idx2], matrix2[SEDENIONS_REALPART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E1PART][idx2], matrix2[SEDENIONS_E1PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E2PART][idx2], matrix2[SEDENIONS_E2PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E3PART][idx2], matrix2[SEDENIONS_E3PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E4PART][idx2], matrix2[SEDENIONS_E4PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E5PART][idx2], matrix2[SEDENIONS_E5PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E6PART][idx2], matrix2[SEDENIONS_E6PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E7PART][idx2], matrix2[SEDENIONS_E7PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E8PART][idx2], matrix2[SEDENIONS_E8PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E9PART][idx2], matrix2[SEDENIONS_E9PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E10PART][idx2], matrix2[SEDENIONS_E10PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E11PART][idx2], matrix2[SEDENIONS_E11PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E12PART][idx2], matrix2[SEDENIONS_E12PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E13PART][idx2], matrix2[SEDENIONS_E13PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E14PART][idx2], matrix2[SEDENIONS_E14PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E15PART][idx2], matrix2[SEDENIONS_E15PART][idx3]);
 
-        matrix_product[SEDENIONS_E7PART][i][j] += mul_func(matrix1[SEDENIONS_REALPART][i][k], matrix2[SEDENIONS_E7PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E1PART][i][k], matrix2[SEDENIONS_E6PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E2PART][i][k], matrix2[SEDENIONS_E5PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E3PART][i][k], matrix2[SEDENIONS_E4PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E4PART][i][k], matrix2[SEDENIONS_E3PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E5PART][i][k], matrix2[SEDENIONS_E2PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E6PART][i][k], matrix2[SEDENIONS_E1PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E7PART][i][k], matrix2[SEDENIONS_REALPART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E8PART][i][k], matrix2[SEDENIONS_E15PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E9PART][i][k], matrix2[SEDENIONS_E14PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E10PART][i][k], matrix2[SEDENIONS_E13PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E11PART][i][k], matrix2[SEDENIONS_E12PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E12PART][i][k], matrix2[SEDENIONS_E11PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E13PART][i][k], matrix2[SEDENIONS_E10PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E14PART][i][k], matrix2[SEDENIONS_E9PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E15PART][i][k], matrix2[SEDENIONS_E8PART][k][j]);
+        matrix_product[SEDENIONS_E7PART][idx1] += mul_func(matrix1[SEDENIONS_REALPART][idx2], matrix2[SEDENIONS_E7PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E1PART][idx2], matrix2[SEDENIONS_E6PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E2PART][idx2], matrix2[SEDENIONS_E5PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E3PART][idx2], matrix2[SEDENIONS_E4PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E4PART][idx2], matrix2[SEDENIONS_E3PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E5PART][idx2], matrix2[SEDENIONS_E2PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E6PART][idx2], matrix2[SEDENIONS_E1PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E7PART][idx2], matrix2[SEDENIONS_REALPART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E8PART][idx2], matrix2[SEDENIONS_E15PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E9PART][idx2], matrix2[SEDENIONS_E14PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E10PART][idx2], matrix2[SEDENIONS_E13PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E11PART][idx2], matrix2[SEDENIONS_E12PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E12PART][idx2], matrix2[SEDENIONS_E11PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E13PART][idx2], matrix2[SEDENIONS_E10PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E14PART][idx2], matrix2[SEDENIONS_E9PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E15PART][idx2], matrix2[SEDENIONS_E8PART][idx3]);
 
-        matrix_product[SEDENIONS_E8PART][i][j] += mul_func(matrix1[SEDENIONS_REALPART][i][k], matrix2[SEDENIONS_E8PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E1PART][i][k], matrix2[SEDENIONS_E9PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E2PART][i][k], matrix2[SEDENIONS_E10PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E3PART][i][k], matrix2[SEDENIONS_E11PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E4PART][i][k], matrix2[SEDENIONS_E12PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E5PART][i][k], matrix2[SEDENIONS_E13PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E6PART][i][k], matrix2[SEDENIONS_E14PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E7PART][i][k], matrix2[SEDENIONS_E15PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E8PART][i][k], matrix2[SEDENIONS_REALPART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E9PART][i][k], matrix2[SEDENIONS_E1PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E10PART][i][k], matrix2[SEDENIONS_E2PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E11PART][i][k], matrix2[SEDENIONS_E3PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E12PART][i][k], matrix2[SEDENIONS_E4PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E13PART][i][k], matrix2[SEDENIONS_E5PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E14PART][i][k], matrix2[SEDENIONS_E6PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E15PART][i][k], matrix2[SEDENIONS_E7PART][k][j]);
+        matrix_product[SEDENIONS_E8PART][idx1] += mul_func(matrix1[SEDENIONS_REALPART][idx2], matrix2[SEDENIONS_E8PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E1PART][idx2], matrix2[SEDENIONS_E9PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E2PART][idx2], matrix2[SEDENIONS_E10PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E3PART][idx2], matrix2[SEDENIONS_E11PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E4PART][idx2], matrix2[SEDENIONS_E12PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E5PART][idx2], matrix2[SEDENIONS_E13PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E6PART][idx2], matrix2[SEDENIONS_E14PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E7PART][idx2], matrix2[SEDENIONS_E15PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E8PART][idx2], matrix2[SEDENIONS_REALPART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E9PART][idx2], matrix2[SEDENIONS_E1PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E10PART][idx2], matrix2[SEDENIONS_E2PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E11PART][idx2], matrix2[SEDENIONS_E3PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E12PART][idx2], matrix2[SEDENIONS_E4PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E13PART][idx2], matrix2[SEDENIONS_E5PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E14PART][idx2], matrix2[SEDENIONS_E6PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E15PART][idx2], matrix2[SEDENIONS_E7PART][idx3]);
 
-        matrix_product[SEDENIONS_E9PART][i][j] += mul_func(matrix1[SEDENIONS_REALPART][i][k], matrix2[SEDENIONS_E9PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E1PART][i][k], matrix2[SEDENIONS_E8PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E2PART][i][k], matrix2[SEDENIONS_E11PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E3PART][i][k], matrix2[SEDENIONS_E10PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E4PART][i][k], matrix2[SEDENIONS_E13PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E5PART][i][k], matrix2[SEDENIONS_E12PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E6PART][i][k], matrix2[SEDENIONS_E15PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E7PART][i][k], matrix2[SEDENIONS_E14PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E8PART][i][k], matrix2[SEDENIONS_E1PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E9PART][i][k], matrix2[SEDENIONS_REALPART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E10PART][i][k], matrix2[SEDENIONS_E3PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E11PART][i][k], matrix2[SEDENIONS_E2PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E12PART][i][k], matrix2[SEDENIONS_E5PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E13PART][i][k], matrix2[SEDENIONS_E4PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E14PART][i][k], matrix2[SEDENIONS_E7PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E15PART][i][k], matrix2[SEDENIONS_E6PART][k][j]);
+        matrix_product[SEDENIONS_E9PART][idx1] += mul_func(matrix1[SEDENIONS_REALPART][idx2], matrix2[SEDENIONS_E9PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E1PART][idx2], matrix2[SEDENIONS_E8PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E2PART][idx2], matrix2[SEDENIONS_E11PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E3PART][idx2], matrix2[SEDENIONS_E10PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E4PART][idx2], matrix2[SEDENIONS_E13PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E5PART][idx2], matrix2[SEDENIONS_E12PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E6PART][idx2], matrix2[SEDENIONS_E15PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E7PART][idx2], matrix2[SEDENIONS_E14PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E8PART][idx2], matrix2[SEDENIONS_E1PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E9PART][idx2], matrix2[SEDENIONS_REALPART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E10PART][idx2], matrix2[SEDENIONS_E3PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E11PART][idx2], matrix2[SEDENIONS_E2PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E12PART][idx2], matrix2[SEDENIONS_E5PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E13PART][idx2], matrix2[SEDENIONS_E4PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E14PART][idx2], matrix2[SEDENIONS_E7PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E15PART][idx2], matrix2[SEDENIONS_E6PART][idx3]);
 
-        matrix_product[SEDENIONS_E10PART][i][j] += mul_func(matrix1[SEDENIONS_REALPART][i][k], matrix2[SEDENIONS_E10PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E1PART][i][k], matrix2[SEDENIONS_E11PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E2PART][i][k], matrix2[SEDENIONS_E8PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E3PART][i][k], matrix2[SEDENIONS_E9PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E4PART][i][k], matrix2[SEDENIONS_E14PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E5PART][i][k], matrix2[SEDENIONS_E15PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E6PART][i][k], matrix2[SEDENIONS_E12PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E7PART][i][k], matrix2[SEDENIONS_E13PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E8PART][i][k], matrix2[SEDENIONS_E2PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E9PART][i][k], matrix2[SEDENIONS_E3PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E10PART][i][k], matrix2[SEDENIONS_REALPART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E11PART][i][k], matrix2[SEDENIONS_E1PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E12PART][i][k], matrix2[SEDENIONS_E6PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E13PART][i][k], matrix2[SEDENIONS_E7PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E14PART][i][k], matrix2[SEDENIONS_E4PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E15PART][i][k], matrix2[SEDENIONS_E5PART][k][j]);
+        matrix_product[SEDENIONS_E10PART][idx1] += mul_func(matrix1[SEDENIONS_REALPART][idx2], matrix2[SEDENIONS_E10PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E1PART][idx2], matrix2[SEDENIONS_E11PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E2PART][idx2], matrix2[SEDENIONS_E8PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E3PART][idx2], matrix2[SEDENIONS_E9PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E4PART][idx2], matrix2[SEDENIONS_E14PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E5PART][idx2], matrix2[SEDENIONS_E15PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E6PART][idx2], matrix2[SEDENIONS_E12PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E7PART][idx2], matrix2[SEDENIONS_E13PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E8PART][idx2], matrix2[SEDENIONS_E2PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E9PART][idx2], matrix2[SEDENIONS_E3PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E10PART][idx2], matrix2[SEDENIONS_REALPART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E11PART][idx2], matrix2[SEDENIONS_E1PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E12PART][idx2], matrix2[SEDENIONS_E6PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E13PART][idx2], matrix2[SEDENIONS_E7PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E14PART][idx2], matrix2[SEDENIONS_E4PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E15PART][idx2], matrix2[SEDENIONS_E5PART][idx3]);
 
-        matrix_product[SEDENIONS_E11PART][i][j] += mul_func(matrix1[SEDENIONS_REALPART][i][k], matrix2[SEDENIONS_E11PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E1PART][i][k], matrix2[SEDENIONS_E10PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E2PART][i][k], matrix2[SEDENIONS_E9PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E3PART][i][k], matrix2[SEDENIONS_E8PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E4PART][i][k], matrix2[SEDENIONS_E15PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E5PART][i][k], matrix2[SEDENIONS_E14PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E6PART][i][k], matrix2[SEDENIONS_E13PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E7PART][i][k], matrix2[SEDENIONS_E12PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E8PART][i][k], matrix2[SEDENIONS_E3PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E9PART][i][k], matrix2[SEDENIONS_E2PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E10PART][i][k], matrix2[SEDENIONS_E1PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E11PART][i][k], matrix2[SEDENIONS_REALPART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E12PART][i][k], matrix2[SEDENIONS_E7PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E13PART][i][k], matrix2[SEDENIONS_E6PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E14PART][i][k], matrix2[SEDENIONS_E5PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E15PART][i][k], matrix2[SEDENIONS_E4PART][k][j]);
+        matrix_product[SEDENIONS_E11PART][idx1] += mul_func(matrix1[SEDENIONS_REALPART][idx2], matrix2[SEDENIONS_E11PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E1PART][idx2], matrix2[SEDENIONS_E10PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E2PART][idx2], matrix2[SEDENIONS_E9PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E3PART][idx2], matrix2[SEDENIONS_E8PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E4PART][idx2], matrix2[SEDENIONS_E15PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E5PART][idx2], matrix2[SEDENIONS_E14PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E6PART][idx2], matrix2[SEDENIONS_E13PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E7PART][idx2], matrix2[SEDENIONS_E12PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E8PART][idx2], matrix2[SEDENIONS_E3PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E9PART][idx2], matrix2[SEDENIONS_E2PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E10PART][idx2], matrix2[SEDENIONS_E1PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E11PART][idx2], matrix2[SEDENIONS_REALPART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E12PART][idx2], matrix2[SEDENIONS_E7PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E13PART][idx2], matrix2[SEDENIONS_E6PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E14PART][idx2], matrix2[SEDENIONS_E5PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E15PART][idx2], matrix2[SEDENIONS_E4PART][idx3]);
 
-        matrix_product[SEDENIONS_E12PART][i][j] += mul_func(matrix1[SEDENIONS_REALPART][i][k], matrix2[SEDENIONS_E12PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E1PART][i][k], matrix2[SEDENIONS_E13PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E2PART][i][k], matrix2[SEDENIONS_E14PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E3PART][i][k], matrix2[SEDENIONS_E15PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E4PART][i][k], matrix2[SEDENIONS_E8PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E5PART][i][k], matrix2[SEDENIONS_E9PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E6PART][i][k], matrix2[SEDENIONS_E10PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E7PART][i][k], matrix2[SEDENIONS_E11PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E8PART][i][k], matrix2[SEDENIONS_E4PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E9PART][i][k], matrix2[SEDENIONS_E5PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E10PART][i][k], matrix2[SEDENIONS_E6PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E11PART][i][k], matrix2[SEDENIONS_E7PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E12PART][i][k], matrix2[SEDENIONS_REALPART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E13PART][i][k], matrix2[SEDENIONS_E1PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E14PART][i][k], matrix2[SEDENIONS_E2PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E15PART][i][k], matrix2[SEDENIONS_E3PART][k][j]);
+        matrix_product[SEDENIONS_E12PART][idx1] += mul_func(matrix1[SEDENIONS_REALPART][idx2], matrix2[SEDENIONS_E12PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E1PART][idx2], matrix2[SEDENIONS_E13PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E2PART][idx2], matrix2[SEDENIONS_E14PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E3PART][idx2], matrix2[SEDENIONS_E15PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E4PART][idx2], matrix2[SEDENIONS_E8PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E5PART][idx2], matrix2[SEDENIONS_E9PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E6PART][idx2], matrix2[SEDENIONS_E10PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E7PART][idx2], matrix2[SEDENIONS_E11PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E8PART][idx2], matrix2[SEDENIONS_E4PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E9PART][idx2], matrix2[SEDENIONS_E5PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E10PART][idx2], matrix2[SEDENIONS_E6PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E11PART][idx2], matrix2[SEDENIONS_E7PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E12PART][idx2], matrix2[SEDENIONS_REALPART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E13PART][idx2], matrix2[SEDENIONS_E1PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E14PART][idx2], matrix2[SEDENIONS_E2PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E15PART][idx2], matrix2[SEDENIONS_E3PART][idx3]);
 
-        matrix_product[SEDENIONS_E13PART][i][j] += mul_func(matrix1[SEDENIONS_REALPART][i][k], matrix2[SEDENIONS_E13PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E1PART][i][k], matrix2[SEDENIONS_E12PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E2PART][i][k], matrix2[SEDENIONS_E15PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E3PART][i][k], matrix2[SEDENIONS_E14PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E4PART][i][k], matrix2[SEDENIONS_E9PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E5PART][i][k], matrix2[SEDENIONS_E8PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E6PART][i][k], matrix2[SEDENIONS_E11PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E7PART][i][k], matrix2[SEDENIONS_E10PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E8PART][i][k], matrix2[SEDENIONS_E5PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E9PART][i][k], matrix2[SEDENIONS_E4PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E10PART][i][k], matrix2[SEDENIONS_E7PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E11PART][i][k], matrix2[SEDENIONS_E6PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E12PART][i][k], matrix2[SEDENIONS_E1PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E13PART][i][k], matrix2[SEDENIONS_REALPART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E14PART][i][k], matrix2[SEDENIONS_E3PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E15PART][i][k], matrix2[SEDENIONS_E2PART][k][j]);
+        matrix_product[SEDENIONS_E13PART][idx1] += mul_func(matrix1[SEDENIONS_REALPART][idx2], matrix2[SEDENIONS_E13PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E1PART][idx2], matrix2[SEDENIONS_E12PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E2PART][idx2], matrix2[SEDENIONS_E15PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E3PART][idx2], matrix2[SEDENIONS_E14PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E4PART][idx2], matrix2[SEDENIONS_E9PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E5PART][idx2], matrix2[SEDENIONS_E8PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E6PART][idx2], matrix2[SEDENIONS_E11PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E7PART][idx2], matrix2[SEDENIONS_E10PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E8PART][idx2], matrix2[SEDENIONS_E5PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E9PART][idx2], matrix2[SEDENIONS_E4PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E10PART][idx2], matrix2[SEDENIONS_E7PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E11PART][idx2], matrix2[SEDENIONS_E6PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E12PART][idx2], matrix2[SEDENIONS_E1PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E13PART][idx2], matrix2[SEDENIONS_REALPART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E14PART][idx2], matrix2[SEDENIONS_E3PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E15PART][idx2], matrix2[SEDENIONS_E2PART][idx3]);
 
-        matrix_product[SEDENIONS_E14PART][i][j] += mul_func(matrix1[SEDENIONS_REALPART][i][k], matrix2[SEDENIONS_E14PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E1PART][i][k], matrix2[SEDENIONS_E15PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E2PART][i][k], matrix2[SEDENIONS_E12PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E3PART][i][k], matrix2[SEDENIONS_E13PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E4PART][i][k], matrix2[SEDENIONS_E10PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E5PART][i][k], matrix2[SEDENIONS_E11PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E6PART][i][k], matrix2[SEDENIONS_E8PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E7PART][i][k], matrix2[SEDENIONS_E9PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E8PART][i][k], matrix2[SEDENIONS_E6PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E9PART][i][k], matrix2[SEDENIONS_E7PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E10PART][i][k], matrix2[SEDENIONS_E3PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E11PART][i][k], matrix2[SEDENIONS_E5PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E12PART][i][k], matrix2[SEDENIONS_E2PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E13PART][i][k], matrix2[SEDENIONS_E3PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E14PART][i][k], matrix2[SEDENIONS_REALPART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E15PART][i][k], matrix2[SEDENIONS_E1PART][k][j]);
+        matrix_product[SEDENIONS_E14PART][idx1] += mul_func(matrix1[SEDENIONS_REALPART][idx2], matrix2[SEDENIONS_E14PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E1PART][idx2], matrix2[SEDENIONS_E15PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E2PART][idx2], matrix2[SEDENIONS_E12PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E3PART][idx2], matrix2[SEDENIONS_E13PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E4PART][idx2], matrix2[SEDENIONS_E10PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E5PART][idx2], matrix2[SEDENIONS_E11PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E6PART][idx2], matrix2[SEDENIONS_E8PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E7PART][idx2], matrix2[SEDENIONS_E9PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E8PART][idx2], matrix2[SEDENIONS_E6PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E9PART][idx2], matrix2[SEDENIONS_E7PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E10PART][idx2], matrix2[SEDENIONS_E3PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E11PART][idx2], matrix2[SEDENIONS_E5PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E12PART][idx2], matrix2[SEDENIONS_E2PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E13PART][idx2], matrix2[SEDENIONS_E3PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E14PART][idx2], matrix2[SEDENIONS_REALPART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E15PART][idx2], matrix2[SEDENIONS_E1PART][idx3]);
 
-        matrix_product[SEDENIONS_E15PART][i][j] += mul_func(matrix1[SEDENIONS_REALPART][i][k], matrix2[SEDENIONS_E15PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E1PART][i][k], matrix2[SEDENIONS_E14PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E2PART][i][k], matrix2[SEDENIONS_E13PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E3PART][i][k], matrix2[SEDENIONS_E12PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E4PART][i][k], matrix2[SEDENIONS_E11PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E5PART][i][k], matrix2[SEDENIONS_E10PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E6PART][i][k], matrix2[SEDENIONS_E9PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E7PART][i][k], matrix2[SEDENIONS_E8PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E8PART][i][k], matrix2[SEDENIONS_E3PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E9PART][i][k], matrix2[SEDENIONS_E6PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E10PART][i][k], matrix2[SEDENIONS_E5PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E11PART][i][k], matrix2[SEDENIONS_E4PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E12PART][i][k], matrix2[SEDENIONS_E3PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E13PART][i][k], matrix2[SEDENIONS_E2PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E14PART][i][k], matrix2[SEDENIONS_E1PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E15PART][i][k], matrix2[SEDENIONS_REALPART][k][j]);
+        matrix_product[SEDENIONS_E15PART][idx1] += mul_func(matrix1[SEDENIONS_REALPART][idx2], matrix2[SEDENIONS_E15PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E1PART][idx2], matrix2[SEDENIONS_E14PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E2PART][idx2], matrix2[SEDENIONS_E13PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E3PART][idx2], matrix2[SEDENIONS_E12PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E4PART][idx2], matrix2[SEDENIONS_E11PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E5PART][idx2], matrix2[SEDENIONS_E10PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E6PART][idx2], matrix2[SEDENIONS_E9PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E7PART][idx2], matrix2[SEDENIONS_E8PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E8PART][idx2], matrix2[SEDENIONS_E3PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E9PART][idx2], matrix2[SEDENIONS_E6PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E10PART][idx2], matrix2[SEDENIONS_E5PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E11PART][idx2], matrix2[SEDENIONS_E4PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E12PART][idx2], matrix2[SEDENIONS_E3PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E13PART][idx2], matrix2[SEDENIONS_E2PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E14PART][idx2], matrix2[SEDENIONS_E1PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E15PART][idx2], matrix2[SEDENIONS_REALPART][idx3]);
 	}
 }
 
-__MSNATIVE_ _MS__private void __system __export _matrixSMTProduct(ityp ***matrix1, ityp ***matrix2, ityp ***matrix_product, const register dim_typ i, const register dim_typ j, const register dim_typ k)
+__MSNATIVE_ __MSSTOCK _MS__private static void __system __export _matrixSMTProduct(ityp **matrix1, ityp **matrix2, ityp **matrix_product, const register dim_typ idx1, const register dim_typ idx2, const register dim_typ idx3)
 {
 	ityp (* const mul_func)(register ityp, register ityp) = INVERSE_OPS ? math_div : math_mul;
 	#pragma omp parallel
 	{
-		matrix_product[SEDENIONS_REALPART][i][j] += mul_func(matrix1[SEDENIONS_REALPART][i][k], matrix2[SEDENIONS_REALPART][k][j]) -
-                                                            mul_func(matrix1[SEDENIONS_E1PART][i][k], matrix2[SEDENIONS_E1PART][k][j]) -
-                                                            mul_func(matrix1[SEDENIONS_E2PART][i][k], matrix2[SEDENIONS_E2PART][k][j]) -
-                                                            mul_func(matrix1[SEDENIONS_E3PART][i][k], matrix2[SEDENIONS_E3PART][k][j]) -
-                                                            mul_func(matrix1[SEDENIONS_E4PART][i][k], matrix2[SEDENIONS_E4PART][k][j]) -
-                                                            mul_func(matrix1[SEDENIONS_E5PART][i][k], matrix2[SEDENIONS_E5PART][k][j]) -
-                                                            mul_func(matrix1[SEDENIONS_E6PART][i][k], matrix2[SEDENIONS_E6PART][k][j]) -
-                                                            mul_func(matrix1[SEDENIONS_E7PART][i][k], matrix2[SEDENIONS_E7PART][k][j]) -
-                                                            mul_func(matrix1[SEDENIONS_E8PART][i][k], matrix2[SEDENIONS_E8PART][k][j]) -
-                                                            mul_func(matrix1[SEDENIONS_E9PART][i][k], matrix2[SEDENIONS_E9PART][k][j]) -
-                                                            mul_func(matrix1[SEDENIONS_E10PART][i][k], matrix2[SEDENIONS_E10PART][k][j]) -
-                                                            mul_func(matrix1[SEDENIONS_E11PART][i][k], matrix2[SEDENIONS_E11PART][k][j]) -
-                                                            mul_func(matrix1[SEDENIONS_E12PART][i][k], matrix2[SEDENIONS_E12PART][k][j]) -
-                                                            mul_func(matrix1[SEDENIONS_E13PART][i][k], matrix2[SEDENIONS_E13PART][k][j]) -
-                                                            mul_func(matrix1[SEDENIONS_E14PART][i][k], matrix2[SEDENIONS_E14PART][k][j]) -
-                                                            mul_func(matrix1[SEDENIONS_E15PART][i][k], matrix2[SEDENIONS_E15PART][k][j]);
+		matrix_product[SEDENIONS_REALPART][idx1] += mul_func(matrix1[SEDENIONS_REALPART][idx2], matrix2[SEDENIONS_REALPART][idx3]) -
+                                                            mul_func(matrix1[SEDENIONS_E1PART][idx2], matrix2[SEDENIONS_E1PART][idx3]) -
+                                                            mul_func(matrix1[SEDENIONS_E2PART][idx2], matrix2[SEDENIONS_E2PART][idx3]) -
+                                                            mul_func(matrix1[SEDENIONS_E3PART][idx2], matrix2[SEDENIONS_E3PART][idx3]) -
+                                                            mul_func(matrix1[SEDENIONS_E4PART][idx2], matrix2[SEDENIONS_E4PART][idx3]) -
+                                                            mul_func(matrix1[SEDENIONS_E5PART][idx2], matrix2[SEDENIONS_E5PART][idx3]) -
+                                                            mul_func(matrix1[SEDENIONS_E6PART][idx2], matrix2[SEDENIONS_E6PART][idx3]) -
+                                                            mul_func(matrix1[SEDENIONS_E7PART][idx2], matrix2[SEDENIONS_E7PART][idx3]) -
+                                                            mul_func(matrix1[SEDENIONS_E8PART][idx2], matrix2[SEDENIONS_E8PART][idx3]) -
+                                                            mul_func(matrix1[SEDENIONS_E9PART][idx2], matrix2[SEDENIONS_E9PART][idx3]) -
+                                                            mul_func(matrix1[SEDENIONS_E10PART][idx2], matrix2[SEDENIONS_E10PART][idx3]) -
+                                                            mul_func(matrix1[SEDENIONS_E11PART][idx2], matrix2[SEDENIONS_E11PART][idx3]) -
+                                                            mul_func(matrix1[SEDENIONS_E12PART][idx2], matrix2[SEDENIONS_E12PART][idx3]) -
+                                                            mul_func(matrix1[SEDENIONS_E13PART][idx2], matrix2[SEDENIONS_E13PART][idx3]) -
+                                                            mul_func(matrix1[SEDENIONS_E14PART][idx2], matrix2[SEDENIONS_E14PART][idx3]) -
+                                                            mul_func(matrix1[SEDENIONS_E15PART][idx2], matrix2[SEDENIONS_E15PART][idx3]);
 
-        matrix_product[SEDENIONS_E1PART][i][j] += mul_func(matrix1[SEDENIONS_REALPART][i][k], matrix2[SEDENIONS_E1PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E1PART][i][k], matrix2[SEDENIONS_REALPART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E2PART][i][k], matrix2[SEDENIONS_E3PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E3PART][i][k], matrix2[SEDENIONS_E2PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E4PART][i][k], matrix2[SEDENIONS_E5PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E5PART][i][k], matrix2[SEDENIONS_E4PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E6PART][i][k], matrix2[SEDENIONS_E7PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E7PART][i][k], matrix2[SEDENIONS_E6PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E8PART][i][k], matrix2[SEDENIONS_E9PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E9PART][i][k], matrix2[SEDENIONS_E8PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E10PART][i][k], matrix2[SEDENIONS_E11PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E11PART][i][k], matrix2[SEDENIONS_E10PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E12PART][i][k], matrix2[SEDENIONS_E13PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E13PART][i][k], matrix2[SEDENIONS_E12PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E14PART][i][k], matrix2[SEDENIONS_E15PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E15PART][i][k], matrix2[SEDENIONS_E14PART][k][j]);
+        matrix_product[SEDENIONS_E1PART][idx1] += mul_func(matrix1[SEDENIONS_REALPART][idx2], matrix2[SEDENIONS_E1PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E1PART][idx2], matrix2[SEDENIONS_REALPART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E2PART][idx2], matrix2[SEDENIONS_E3PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E3PART][idx2], matrix2[SEDENIONS_E2PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E4PART][idx2], matrix2[SEDENIONS_E5PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E5PART][idx2], matrix2[SEDENIONS_E4PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E6PART][idx2], matrix2[SEDENIONS_E7PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E7PART][idx2], matrix2[SEDENIONS_E6PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E8PART][idx2], matrix2[SEDENIONS_E9PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E9PART][idx2], matrix2[SEDENIONS_E8PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E10PART][idx2], matrix2[SEDENIONS_E11PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E11PART][idx2], matrix2[SEDENIONS_E10PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E12PART][idx2], matrix2[SEDENIONS_E13PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E13PART][idx2], matrix2[SEDENIONS_E12PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E14PART][idx2], matrix2[SEDENIONS_E15PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E15PART][idx2], matrix2[SEDENIONS_E14PART][idx3]);
 
-        matrix_product[SEDENIONS_E2PART][i][j] += mul_func(matrix1[SEDENIONS_REALPART][i][k], matrix2[SEDENIONS_E2PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E1PART][i][k], matrix2[SEDENIONS_E3PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E2PART][i][k], matrix2[SEDENIONS_REALPART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E3PART][i][k], matrix2[SEDENIONS_E1PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E4PART][i][k], matrix2[SEDENIONS_E6PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E5PART][i][k], matrix2[SEDENIONS_E7PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E6PART][i][k], matrix2[SEDENIONS_E4PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E7PART][i][k], matrix2[SEDENIONS_E5PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E8PART][i][k], matrix2[SEDENIONS_E10PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E9PART][i][k], matrix2[SEDENIONS_E11PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E10PART][i][k], matrix2[SEDENIONS_E8PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E11PART][i][k], matrix2[SEDENIONS_E9PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E12PART][i][k], matrix2[SEDENIONS_E14PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E13PART][i][k], matrix2[SEDENIONS_E15PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E14PART][i][k], matrix2[SEDENIONS_E12PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E15PART][i][k], matrix2[SEDENIONS_E13PART][k][j]);
+        matrix_product[SEDENIONS_E2PART][idx1] += mul_func(matrix1[SEDENIONS_REALPART][idx2], matrix2[SEDENIONS_E2PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E1PART][idx2], matrix2[SEDENIONS_E3PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E2PART][idx2], matrix2[SEDENIONS_REALPART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E3PART][idx2], matrix2[SEDENIONS_E1PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E4PART][idx2], matrix2[SEDENIONS_E6PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E5PART][idx2], matrix2[SEDENIONS_E7PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E6PART][idx2], matrix2[SEDENIONS_E4PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E7PART][idx2], matrix2[SEDENIONS_E5PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E8PART][idx2], matrix2[SEDENIONS_E10PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E9PART][idx2], matrix2[SEDENIONS_E11PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E10PART][idx2], matrix2[SEDENIONS_E8PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E11PART][idx2], matrix2[SEDENIONS_E9PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E12PART][idx2], matrix2[SEDENIONS_E14PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E13PART][idx2], matrix2[SEDENIONS_E15PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E14PART][idx2], matrix2[SEDENIONS_E12PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E15PART][idx2], matrix2[SEDENIONS_E13PART][idx3]);
 
-        matrix_product[SEDENIONS_E3PART][i][j] += mul_func(matrix1[SEDENIONS_REALPART][i][k], matrix2[SEDENIONS_E3PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E1PART][i][k], matrix2[SEDENIONS_E2PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E2PART][i][k], matrix2[SEDENIONS_E1PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E3PART][i][k], matrix2[SEDENIONS_REALPART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E4PART][i][k], matrix2[SEDENIONS_E7PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E5PART][i][k], matrix2[SEDENIONS_E6PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E6PART][i][k], matrix2[SEDENIONS_E5PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E7PART][i][k], matrix2[SEDENIONS_E4PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E8PART][i][k], matrix2[SEDENIONS_E11PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E9PART][i][k], matrix2[SEDENIONS_E10PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E10PART][i][k], matrix2[SEDENIONS_E9PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E11PART][i][k], matrix2[SEDENIONS_E8PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E12PART][i][k], matrix2[SEDENIONS_E15PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E13PART][i][k], matrix2[SEDENIONS_E14PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E14PART][i][k], matrix2[SEDENIONS_E13PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E15PART][i][k], matrix2[SEDENIONS_E12PART][k][j]);
+        matrix_product[SEDENIONS_E3PART][idx1] += mul_func(matrix1[SEDENIONS_REALPART][idx2], matrix2[SEDENIONS_E3PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E1PART][idx2], matrix2[SEDENIONS_E2PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E2PART][idx2], matrix2[SEDENIONS_E1PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E3PART][idx2], matrix2[SEDENIONS_REALPART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E4PART][idx2], matrix2[SEDENIONS_E7PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E5PART][idx2], matrix2[SEDENIONS_E6PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E6PART][idx2], matrix2[SEDENIONS_E5PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E7PART][idx2], matrix2[SEDENIONS_E4PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E8PART][idx2], matrix2[SEDENIONS_E11PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E9PART][idx2], matrix2[SEDENIONS_E10PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E10PART][idx2], matrix2[SEDENIONS_E9PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E11PART][idx2], matrix2[SEDENIONS_E8PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E12PART][idx2], matrix2[SEDENIONS_E15PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E13PART][idx2], matrix2[SEDENIONS_E14PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E14PART][idx2], matrix2[SEDENIONS_E13PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E15PART][idx2], matrix2[SEDENIONS_E12PART][idx3]);
 
-        matrix_product[SEDENIONS_E4PART][i][j] += mul_func(matrix1[SEDENIONS_REALPART][i][k], matrix2[SEDENIONS_E4PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E1PART][i][k], matrix2[SEDENIONS_E5PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E2PART][i][k], matrix2[SEDENIONS_E6PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E3PART][i][k], matrix2[SEDENIONS_E7PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E4PART][i][k], matrix2[SEDENIONS_REALPART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E5PART][i][k], matrix2[SEDENIONS_E1PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E6PART][i][k], matrix2[SEDENIONS_E2PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E7PART][i][k], matrix2[SEDENIONS_E3PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E8PART][i][k], matrix2[SEDENIONS_E12PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E9PART][i][k], matrix2[SEDENIONS_E13PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E10PART][i][k], matrix2[SEDENIONS_E14PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E11PART][i][k], matrix2[SEDENIONS_E15PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E12PART][i][k], matrix2[SEDENIONS_E8PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E13PART][i][k], matrix2[SEDENIONS_E9PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E14PART][i][k], matrix2[SEDENIONS_E10PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E15PART][i][k], matrix2[SEDENIONS_E11PART][k][j]);
+        matrix_product[SEDENIONS_E4PART][idx1] += mul_func(matrix1[SEDENIONS_REALPART][idx2], matrix2[SEDENIONS_E4PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E1PART][idx2], matrix2[SEDENIONS_E5PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E2PART][idx2], matrix2[SEDENIONS_E6PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E3PART][idx2], matrix2[SEDENIONS_E7PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E4PART][idx2], matrix2[SEDENIONS_REALPART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E5PART][idx2], matrix2[SEDENIONS_E1PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E6PART][idx2], matrix2[SEDENIONS_E2PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E7PART][idx2], matrix2[SEDENIONS_E3PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E8PART][idx2], matrix2[SEDENIONS_E12PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E9PART][idx2], matrix2[SEDENIONS_E13PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E10PART][idx2], matrix2[SEDENIONS_E14PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E11PART][idx2], matrix2[SEDENIONS_E15PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E12PART][idx2], matrix2[SEDENIONS_E8PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E13PART][idx2], matrix2[SEDENIONS_E9PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E14PART][idx2], matrix2[SEDENIONS_E10PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E15PART][idx2], matrix2[SEDENIONS_E11PART][idx3]);
 
-        matrix_product[SEDENIONS_E5PART][i][j] += mul_func(matrix1[SEDENIONS_REALPART][i][k], matrix2[SEDENIONS_E5PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E1PART][i][k], matrix2[SEDENIONS_E4PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E2PART][i][k], matrix2[SEDENIONS_E7PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E3PART][i][k], matrix2[SEDENIONS_E6PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E4PART][i][k], matrix2[SEDENIONS_E1PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E5PART][i][k], matrix2[SEDENIONS_REALPART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E6PART][i][k], matrix2[SEDENIONS_E3PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E7PART][i][k], matrix2[SEDENIONS_E2PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E8PART][i][k], matrix2[SEDENIONS_E13PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E9PART][i][k], matrix2[SEDENIONS_E12PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E10PART][i][k], matrix2[SEDENIONS_E15PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E11PART][i][k], matrix2[SEDENIONS_E4PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E12PART][i][k], matrix2[SEDENIONS_E9PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E13PART][i][k], matrix2[SEDENIONS_E8PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E14PART][i][k], matrix2[SEDENIONS_E11PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E15PART][i][k], matrix2[SEDENIONS_E10PART][k][j]);
+        matrix_product[SEDENIONS_E5PART][idx1] += mul_func(matrix1[SEDENIONS_REALPART][idx2], matrix2[SEDENIONS_E5PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E1PART][idx2], matrix2[SEDENIONS_E4PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E2PART][idx2], matrix2[SEDENIONS_E7PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E3PART][idx2], matrix2[SEDENIONS_E6PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E4PART][idx2], matrix2[SEDENIONS_E1PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E5PART][idx2], matrix2[SEDENIONS_REALPART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E6PART][idx2], matrix2[SEDENIONS_E3PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E7PART][idx2], matrix2[SEDENIONS_E2PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E8PART][idx2], matrix2[SEDENIONS_E13PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E9PART][idx2], matrix2[SEDENIONS_E12PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E10PART][idx2], matrix2[SEDENIONS_E15PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E11PART][idx2], matrix2[SEDENIONS_E4PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E12PART][idx2], matrix2[SEDENIONS_E9PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E13PART][idx2], matrix2[SEDENIONS_E8PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E14PART][idx2], matrix2[SEDENIONS_E11PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E15PART][idx2], matrix2[SEDENIONS_E10PART][idx3]);
 
-        matrix_product[SEDENIONS_E6PART][i][j] += mul_func(matrix1[SEDENIONS_REALPART][i][k], matrix2[SEDENIONS_REALPART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E1PART][i][k], matrix2[SEDENIONS_E1PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E2PART][i][k], matrix2[SEDENIONS_E2PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E3PART][i][k], matrix2[SEDENIONS_E3PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E4PART][i][k], matrix2[SEDENIONS_E4PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E5PART][i][k], matrix2[SEDENIONS_E5PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E6PART][i][k], matrix2[SEDENIONS_E6PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E7PART][i][k], matrix2[SEDENIONS_E7PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E8PART][i][k], matrix2[SEDENIONS_E8PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E9PART][i][k], matrix2[SEDENIONS_E9PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E10PART][i][k], matrix2[SEDENIONS_E10PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E11PART][i][k], matrix2[SEDENIONS_E11PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E12PART][i][k], matrix2[SEDENIONS_E12PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E13PART][i][k], matrix2[SEDENIONS_E13PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E14PART][i][k], matrix2[SEDENIONS_E14PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E15PART][i][k], matrix2[SEDENIONS_E15PART][k][j]);
+        matrix_product[SEDENIONS_E6PART][idx1] += mul_func(matrix1[SEDENIONS_REALPART][idx2], matrix2[SEDENIONS_REALPART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E1PART][idx2], matrix2[SEDENIONS_E1PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E2PART][idx2], matrix2[SEDENIONS_E2PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E3PART][idx2], matrix2[SEDENIONS_E3PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E4PART][idx2], matrix2[SEDENIONS_E4PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E5PART][idx2], matrix2[SEDENIONS_E5PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E6PART][idx2], matrix2[SEDENIONS_E6PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E7PART][idx2], matrix2[SEDENIONS_E7PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E8PART][idx2], matrix2[SEDENIONS_E8PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E9PART][idx2], matrix2[SEDENIONS_E9PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E10PART][idx2], matrix2[SEDENIONS_E10PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E11PART][idx2], matrix2[SEDENIONS_E11PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E12PART][idx2], matrix2[SEDENIONS_E12PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E13PART][idx2], matrix2[SEDENIONS_E13PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E14PART][idx2], matrix2[SEDENIONS_E14PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E15PART][idx2], matrix2[SEDENIONS_E15PART][idx3]);
 
-        matrix_product[SEDENIONS_E7PART][i][j] += mul_func(matrix1[SEDENIONS_REALPART][i][k], matrix2[SEDENIONS_E7PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E1PART][i][k], matrix2[SEDENIONS_E6PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E2PART][i][k], matrix2[SEDENIONS_E5PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E3PART][i][k], matrix2[SEDENIONS_E4PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E4PART][i][k], matrix2[SEDENIONS_E3PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E5PART][i][k], matrix2[SEDENIONS_E2PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E6PART][i][k], matrix2[SEDENIONS_E1PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E7PART][i][k], matrix2[SEDENIONS_REALPART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E8PART][i][k], matrix2[SEDENIONS_E15PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E9PART][i][k], matrix2[SEDENIONS_E14PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E10PART][i][k], matrix2[SEDENIONS_E13PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E11PART][i][k], matrix2[SEDENIONS_E12PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E12PART][i][k], matrix2[SEDENIONS_E11PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E13PART][i][k], matrix2[SEDENIONS_E10PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E14PART][i][k], matrix2[SEDENIONS_E9PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E15PART][i][k], matrix2[SEDENIONS_E8PART][k][j]);
+        matrix_product[SEDENIONS_E7PART][idx1] += mul_func(matrix1[SEDENIONS_REALPART][idx2], matrix2[SEDENIONS_E7PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E1PART][idx2], matrix2[SEDENIONS_E6PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E2PART][idx2], matrix2[SEDENIONS_E5PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E3PART][idx2], matrix2[SEDENIONS_E4PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E4PART][idx2], matrix2[SEDENIONS_E3PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E5PART][idx2], matrix2[SEDENIONS_E2PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E6PART][idx2], matrix2[SEDENIONS_E1PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E7PART][idx2], matrix2[SEDENIONS_REALPART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E8PART][idx2], matrix2[SEDENIONS_E15PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E9PART][idx2], matrix2[SEDENIONS_E14PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E10PART][idx2], matrix2[SEDENIONS_E13PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E11PART][idx2], matrix2[SEDENIONS_E12PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E12PART][idx2], matrix2[SEDENIONS_E11PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E13PART][idx2], matrix2[SEDENIONS_E10PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E14PART][idx2], matrix2[SEDENIONS_E9PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E15PART][idx2], matrix2[SEDENIONS_E8PART][idx3]);
 
-        matrix_product[SEDENIONS_E8PART][i][j] += mul_func(matrix1[SEDENIONS_REALPART][i][k], matrix2[SEDENIONS_E8PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E1PART][i][k], matrix2[SEDENIONS_E9PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E2PART][i][k], matrix2[SEDENIONS_E10PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E3PART][i][k], matrix2[SEDENIONS_E11PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E4PART][i][k], matrix2[SEDENIONS_E12PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E5PART][i][k], matrix2[SEDENIONS_E13PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E6PART][i][k], matrix2[SEDENIONS_E14PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E7PART][i][k], matrix2[SEDENIONS_E15PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E8PART][i][k], matrix2[SEDENIONS_REALPART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E9PART][i][k], matrix2[SEDENIONS_E1PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E10PART][i][k], matrix2[SEDENIONS_E2PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E11PART][i][k], matrix2[SEDENIONS_E3PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E12PART][i][k], matrix2[SEDENIONS_E4PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E13PART][i][k], matrix2[SEDENIONS_E5PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E14PART][i][k], matrix2[SEDENIONS_E6PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E15PART][i][k], matrix2[SEDENIONS_E7PART][k][j]);
+        matrix_product[SEDENIONS_E8PART][idx1] += mul_func(matrix1[SEDENIONS_REALPART][idx2], matrix2[SEDENIONS_E8PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E1PART][idx2], matrix2[SEDENIONS_E9PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E2PART][idx2], matrix2[SEDENIONS_E10PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E3PART][idx2], matrix2[SEDENIONS_E11PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E4PART][idx2], matrix2[SEDENIONS_E12PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E5PART][idx2], matrix2[SEDENIONS_E13PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E6PART][idx2], matrix2[SEDENIONS_E14PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E7PART][idx2], matrix2[SEDENIONS_E15PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E8PART][idx2], matrix2[SEDENIONS_REALPART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E9PART][idx2], matrix2[SEDENIONS_E1PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E10PART][idx2], matrix2[SEDENIONS_E2PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E11PART][idx2], matrix2[SEDENIONS_E3PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E12PART][idx2], matrix2[SEDENIONS_E4PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E13PART][idx2], matrix2[SEDENIONS_E5PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E14PART][idx2], matrix2[SEDENIONS_E6PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E15PART][idx2], matrix2[SEDENIONS_E7PART][idx3]);
 
-        matrix_product[SEDENIONS_E9PART][i][j] += mul_func(matrix1[SEDENIONS_REALPART][i][k], matrix2[SEDENIONS_E9PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E1PART][i][k], matrix2[SEDENIONS_E8PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E2PART][i][k], matrix2[SEDENIONS_E11PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E3PART][i][k], matrix2[SEDENIONS_E10PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E4PART][i][k], matrix2[SEDENIONS_E13PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E5PART][i][k], matrix2[SEDENIONS_E12PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E6PART][i][k], matrix2[SEDENIONS_E15PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E7PART][i][k], matrix2[SEDENIONS_E14PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E8PART][i][k], matrix2[SEDENIONS_E1PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E9PART][i][k], matrix2[SEDENIONS_REALPART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E10PART][i][k], matrix2[SEDENIONS_E3PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E11PART][i][k], matrix2[SEDENIONS_E2PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E12PART][i][k], matrix2[SEDENIONS_E5PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E13PART][i][k], matrix2[SEDENIONS_E4PART][k][j]) +
-                                                  mul_func(matrix1[SEDENIONS_E14PART][i][k], matrix2[SEDENIONS_E7PART][k][j]) -
-                                                  mul_func(matrix1[SEDENIONS_E15PART][i][k], matrix2[SEDENIONS_E6PART][k][j]);
+        matrix_product[SEDENIONS_E9PART][idx1] += mul_func(matrix1[SEDENIONS_REALPART][idx2], matrix2[SEDENIONS_E9PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E1PART][idx2], matrix2[SEDENIONS_E8PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E2PART][idx2], matrix2[SEDENIONS_E11PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E3PART][idx2], matrix2[SEDENIONS_E10PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E4PART][idx2], matrix2[SEDENIONS_E13PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E5PART][idx2], matrix2[SEDENIONS_E12PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E6PART][idx2], matrix2[SEDENIONS_E15PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E7PART][idx2], matrix2[SEDENIONS_E14PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E8PART][idx2], matrix2[SEDENIONS_E1PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E9PART][idx2], matrix2[SEDENIONS_REALPART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E10PART][idx2], matrix2[SEDENIONS_E3PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E11PART][idx2], matrix2[SEDENIONS_E2PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E12PART][idx2], matrix2[SEDENIONS_E5PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E13PART][idx2], matrix2[SEDENIONS_E4PART][idx3]) +
+                                                  mul_func(matrix1[SEDENIONS_E14PART][idx2], matrix2[SEDENIONS_E7PART][idx3]) -
+                                                  mul_func(matrix1[SEDENIONS_E15PART][idx2], matrix2[SEDENIONS_E6PART][idx3]);
 
-        matrix_product[SEDENIONS_E10PART][i][j] += mul_func(matrix1[SEDENIONS_REALPART][i][k], matrix2[SEDENIONS_E10PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E1PART][i][k], matrix2[SEDENIONS_E11PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E2PART][i][k], matrix2[SEDENIONS_E8PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E3PART][i][k], matrix2[SEDENIONS_E9PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E4PART][i][k], matrix2[SEDENIONS_E14PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E5PART][i][k], matrix2[SEDENIONS_E15PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E6PART][i][k], matrix2[SEDENIONS_E12PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E7PART][i][k], matrix2[SEDENIONS_E13PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E8PART][i][k], matrix2[SEDENIONS_E2PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E9PART][i][k], matrix2[SEDENIONS_E3PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E10PART][i][k], matrix2[SEDENIONS_REALPART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E11PART][i][k], matrix2[SEDENIONS_E1PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E12PART][i][k], matrix2[SEDENIONS_E6PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E13PART][i][k], matrix2[SEDENIONS_E7PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E14PART][i][k], matrix2[SEDENIONS_E4PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E15PART][i][k], matrix2[SEDENIONS_E5PART][k][j]);
+        matrix_product[SEDENIONS_E10PART][idx1] += mul_func(matrix1[SEDENIONS_REALPART][idx2], matrix2[SEDENIONS_E10PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E1PART][idx2], matrix2[SEDENIONS_E11PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E2PART][idx2], matrix2[SEDENIONS_E8PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E3PART][idx2], matrix2[SEDENIONS_E9PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E4PART][idx2], matrix2[SEDENIONS_E14PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E5PART][idx2], matrix2[SEDENIONS_E15PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E6PART][idx2], matrix2[SEDENIONS_E12PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E7PART][idx2], matrix2[SEDENIONS_E13PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E8PART][idx2], matrix2[SEDENIONS_E2PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E9PART][idx2], matrix2[SEDENIONS_E3PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E10PART][idx2], matrix2[SEDENIONS_REALPART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E11PART][idx2], matrix2[SEDENIONS_E1PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E12PART][idx2], matrix2[SEDENIONS_E6PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E13PART][idx2], matrix2[SEDENIONS_E7PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E14PART][idx2], matrix2[SEDENIONS_E4PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E15PART][idx2], matrix2[SEDENIONS_E5PART][idx3]);
 
-        matrix_product[SEDENIONS_E11PART][i][j] += mul_func(matrix1[SEDENIONS_REALPART][i][k], matrix2[SEDENIONS_E11PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E1PART][i][k], matrix2[SEDENIONS_E10PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E2PART][i][k], matrix2[SEDENIONS_E9PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E3PART][i][k], matrix2[SEDENIONS_E8PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E4PART][i][k], matrix2[SEDENIONS_E15PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E5PART][i][k], matrix2[SEDENIONS_E14PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E6PART][i][k], matrix2[SEDENIONS_E13PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E7PART][i][k], matrix2[SEDENIONS_E12PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E8PART][i][k], matrix2[SEDENIONS_E3PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E9PART][i][k], matrix2[SEDENIONS_E2PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E10PART][i][k], matrix2[SEDENIONS_E1PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E11PART][i][k], matrix2[SEDENIONS_REALPART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E12PART][i][k], matrix2[SEDENIONS_E7PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E13PART][i][k], matrix2[SEDENIONS_E6PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E14PART][i][k], matrix2[SEDENIONS_E5PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E15PART][i][k], matrix2[SEDENIONS_E4PART][k][j]);
+        matrix_product[SEDENIONS_E11PART][idx1] += mul_func(matrix1[SEDENIONS_REALPART][idx2], matrix2[SEDENIONS_E11PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E1PART][idx2], matrix2[SEDENIONS_E10PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E2PART][idx2], matrix2[SEDENIONS_E9PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E3PART][idx2], matrix2[SEDENIONS_E8PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E4PART][idx2], matrix2[SEDENIONS_E15PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E5PART][idx2], matrix2[SEDENIONS_E14PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E6PART][idx2], matrix2[SEDENIONS_E13PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E7PART][idx2], matrix2[SEDENIONS_E12PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E8PART][idx2], matrix2[SEDENIONS_E3PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E9PART][idx2], matrix2[SEDENIONS_E2PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E10PART][idx2], matrix2[SEDENIONS_E1PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E11PART][idx2], matrix2[SEDENIONS_REALPART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E12PART][idx2], matrix2[SEDENIONS_E7PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E13PART][idx2], matrix2[SEDENIONS_E6PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E14PART][idx2], matrix2[SEDENIONS_E5PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E15PART][idx2], matrix2[SEDENIONS_E4PART][idx3]);
 
-        matrix_product[SEDENIONS_E12PART][i][j] += mul_func(matrix1[SEDENIONS_REALPART][i][k], matrix2[SEDENIONS_E12PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E1PART][i][k], matrix2[SEDENIONS_E13PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E2PART][i][k], matrix2[SEDENIONS_E14PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E3PART][i][k], matrix2[SEDENIONS_E15PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E4PART][i][k], matrix2[SEDENIONS_E8PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E5PART][i][k], matrix2[SEDENIONS_E9PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E6PART][i][k], matrix2[SEDENIONS_E10PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E7PART][i][k], matrix2[SEDENIONS_E11PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E8PART][i][k], matrix2[SEDENIONS_E4PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E9PART][i][k], matrix2[SEDENIONS_E5PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E10PART][i][k], matrix2[SEDENIONS_E6PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E11PART][i][k], matrix2[SEDENIONS_E7PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E12PART][i][k], matrix2[SEDENIONS_REALPART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E13PART][i][k], matrix2[SEDENIONS_E1PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E14PART][i][k], matrix2[SEDENIONS_E2PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E15PART][i][k], matrix2[SEDENIONS_E3PART][k][j]);
+        matrix_product[SEDENIONS_E12PART][idx1] += mul_func(matrix1[SEDENIONS_REALPART][idx2], matrix2[SEDENIONS_E12PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E1PART][idx2], matrix2[SEDENIONS_E13PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E2PART][idx2], matrix2[SEDENIONS_E14PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E3PART][idx2], matrix2[SEDENIONS_E15PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E4PART][idx2], matrix2[SEDENIONS_E8PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E5PART][idx2], matrix2[SEDENIONS_E9PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E6PART][idx2], matrix2[SEDENIONS_E10PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E7PART][idx2], matrix2[SEDENIONS_E11PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E8PART][idx2], matrix2[SEDENIONS_E4PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E9PART][idx2], matrix2[SEDENIONS_E5PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E10PART][idx2], matrix2[SEDENIONS_E6PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E11PART][idx2], matrix2[SEDENIONS_E7PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E12PART][idx2], matrix2[SEDENIONS_REALPART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E13PART][idx2], matrix2[SEDENIONS_E1PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E14PART][idx2], matrix2[SEDENIONS_E2PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E15PART][idx2], matrix2[SEDENIONS_E3PART][idx3]);
 
-        matrix_product[SEDENIONS_E13PART][i][j] += mul_func(matrix1[SEDENIONS_REALPART][i][k], matrix2[SEDENIONS_E13PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E1PART][i][k], matrix2[SEDENIONS_E12PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E2PART][i][k], matrix2[SEDENIONS_E15PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E3PART][i][k], matrix2[SEDENIONS_E14PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E4PART][i][k], matrix2[SEDENIONS_E9PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E5PART][i][k], matrix2[SEDENIONS_E8PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E6PART][i][k], matrix2[SEDENIONS_E11PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E7PART][i][k], matrix2[SEDENIONS_E10PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E8PART][i][k], matrix2[SEDENIONS_E5PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E9PART][i][k], matrix2[SEDENIONS_E4PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E10PART][i][k], matrix2[SEDENIONS_E7PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E11PART][i][k], matrix2[SEDENIONS_E6PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E12PART][i][k], matrix2[SEDENIONS_E1PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E13PART][i][k], matrix2[SEDENIONS_REALPART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E14PART][i][k], matrix2[SEDENIONS_E3PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E15PART][i][k], matrix2[SEDENIONS_E2PART][k][j]);
+        matrix_product[SEDENIONS_E13PART][idx1] += mul_func(matrix1[SEDENIONS_REALPART][idx2], matrix2[SEDENIONS_E13PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E1PART][idx2], matrix2[SEDENIONS_E12PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E2PART][idx2], matrix2[SEDENIONS_E15PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E3PART][idx2], matrix2[SEDENIONS_E14PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E4PART][idx2], matrix2[SEDENIONS_E9PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E5PART][idx2], matrix2[SEDENIONS_E8PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E6PART][idx2], matrix2[SEDENIONS_E11PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E7PART][idx2], matrix2[SEDENIONS_E10PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E8PART][idx2], matrix2[SEDENIONS_E5PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E9PART][idx2], matrix2[SEDENIONS_E4PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E10PART][idx2], matrix2[SEDENIONS_E7PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E11PART][idx2], matrix2[SEDENIONS_E6PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E12PART][idx2], matrix2[SEDENIONS_E1PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E13PART][idx2], matrix2[SEDENIONS_REALPART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E14PART][idx2], matrix2[SEDENIONS_E3PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E15PART][idx2], matrix2[SEDENIONS_E2PART][idx3]);
 
-        matrix_product[SEDENIONS_E14PART][i][j] += mul_func(matrix1[SEDENIONS_REALPART][i][k], matrix2[SEDENIONS_E14PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E1PART][i][k], matrix2[SEDENIONS_E15PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E2PART][i][k], matrix2[SEDENIONS_E12PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E3PART][i][k], matrix2[SEDENIONS_E13PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E4PART][i][k], matrix2[SEDENIONS_E10PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E5PART][i][k], matrix2[SEDENIONS_E11PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E6PART][i][k], matrix2[SEDENIONS_E8PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E7PART][i][k], matrix2[SEDENIONS_E9PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E8PART][i][k], matrix2[SEDENIONS_E6PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E9PART][i][k], matrix2[SEDENIONS_E7PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E10PART][i][k], matrix2[SEDENIONS_E3PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E11PART][i][k], matrix2[SEDENIONS_E5PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E12PART][i][k], matrix2[SEDENIONS_E2PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E13PART][i][k], matrix2[SEDENIONS_E3PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E14PART][i][k], matrix2[SEDENIONS_REALPART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E15PART][i][k], matrix2[SEDENIONS_E1PART][k][j]);
+        matrix_product[SEDENIONS_E14PART][idx1] += mul_func(matrix1[SEDENIONS_REALPART][idx2], matrix2[SEDENIONS_E14PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E1PART][idx2], matrix2[SEDENIONS_E15PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E2PART][idx2], matrix2[SEDENIONS_E12PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E3PART][idx2], matrix2[SEDENIONS_E13PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E4PART][idx2], matrix2[SEDENIONS_E10PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E5PART][idx2], matrix2[SEDENIONS_E11PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E6PART][idx2], matrix2[SEDENIONS_E8PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E7PART][idx2], matrix2[SEDENIONS_E9PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E8PART][idx2], matrix2[SEDENIONS_E6PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E9PART][idx2], matrix2[SEDENIONS_E7PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E10PART][idx2], matrix2[SEDENIONS_E3PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E11PART][idx2], matrix2[SEDENIONS_E5PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E12PART][idx2], matrix2[SEDENIONS_E2PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E13PART][idx2], matrix2[SEDENIONS_E3PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E14PART][idx2], matrix2[SEDENIONS_REALPART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E15PART][idx2], matrix2[SEDENIONS_E1PART][idx3]);
 
-        matrix_product[SEDENIONS_E15PART][i][j] += mul_func(matrix1[SEDENIONS_REALPART][i][k], matrix2[SEDENIONS_E15PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E1PART][i][k], matrix2[SEDENIONS_E14PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E2PART][i][k], matrix2[SEDENIONS_E13PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E3PART][i][k], matrix2[SEDENIONS_E12PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E4PART][i][k], matrix2[SEDENIONS_E11PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E5PART][i][k], matrix2[SEDENIONS_E10PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E6PART][i][k], matrix2[SEDENIONS_E9PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E7PART][i][k], matrix2[SEDENIONS_E8PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E8PART][i][k], matrix2[SEDENIONS_E3PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E9PART][i][k], matrix2[SEDENIONS_E6PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E10PART][i][k], matrix2[SEDENIONS_E5PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E11PART][i][k], matrix2[SEDENIONS_E4PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E12PART][i][k], matrix2[SEDENIONS_E3PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E13PART][i][k], matrix2[SEDENIONS_E2PART][k][j]) -
-                                                   mul_func(matrix1[SEDENIONS_E14PART][i][k], matrix2[SEDENIONS_E1PART][k][j]) +
-                                                   mul_func(matrix1[SEDENIONS_E15PART][i][k], matrix2[SEDENIONS_REALPART][k][j]);
+        matrix_product[SEDENIONS_E15PART][idx1] += mul_func(matrix1[SEDENIONS_REALPART][idx2], matrix2[SEDENIONS_E15PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E1PART][idx2], matrix2[SEDENIONS_E14PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E2PART][idx2], matrix2[SEDENIONS_E13PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E3PART][idx2], matrix2[SEDENIONS_E12PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E4PART][idx2], matrix2[SEDENIONS_E11PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E5PART][idx2], matrix2[SEDENIONS_E10PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E6PART][idx2], matrix2[SEDENIONS_E9PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E7PART][idx2], matrix2[SEDENIONS_E8PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E8PART][idx2], matrix2[SEDENIONS_E3PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E9PART][idx2], matrix2[SEDENIONS_E6PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E10PART][idx2], matrix2[SEDENIONS_E5PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E11PART][idx2], matrix2[SEDENIONS_E4PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E12PART][idx2], matrix2[SEDENIONS_E3PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E13PART][idx2], matrix2[SEDENIONS_E2PART][idx3]) -
+                                                   mul_func(matrix1[SEDENIONS_E14PART][idx2], matrix2[SEDENIONS_E1PART][idx3]) +
+                                                   mul_func(matrix1[SEDENIONS_E15PART][idx2], matrix2[SEDENIONS_REALPART][idx3]);
 	}
 }
 
-__MSNATIVE_ _MS__private void __system __export _matrixKOEMTProduct(ityp ***matrix1, ityp ***matrix2, ityp ***matrix_product, const register dim_typ dim[static MAX_DIMENSIONS][MAX_DIMENSIONS], const register dim_typ i, const register dim_typ j, const register dim_typ k, const register dim_typ l)
+__MSNATIVE_ __MSSTOCK _MS__private static void __system __export _matrixKOEMTProduct(ityp **matrix1, ityp **matrix2, ityp **matrix_product, const register dim_typ dim_cache, const register dim_typ idx1, const register dim_typ idx2)
 {
 	ityp (* const mul_func)(register ityp, register ityp) = INVERSE_OPS ? math_div : math_mul;
-	const register dim_typ dim_cache[MAX_DIMENSIONS] =
-	{
-		k+(i*dim[SECOND_MATRIX][RAWS]),
-		l+(j*dim[SECOND_MATRIX][COLUMNS])
-	};
 	#pragma omp parallel num_threads(MAX_OCTONIONS_UNITS)
 	{
-        matrix_product[OCTONIONS_REALPART][dim_cache[RAWS]][dim_cache[COLUMNS]] = mul_func(matrix1[OCTONIONS_REALPART][i][j], matrix2[OCTONIONS_REALPART][k][l]) -
-                                                                                  mul_func(matrix1[OCTONIONS_E1PART][i][j], matrix2[OCTONIONS_E1PART][k][l]) -
-                                                                                  mul_func(matrix1[OCTONIONS_E2PART][i][j], matrix2[OCTONIONS_E2PART][k][l]) -
-                                                                                  mul_func(matrix1[OCTONIONS_E3PART][i][j], matrix2[OCTONIONS_E3PART][k][l]) -
-                                                                                  mul_func(matrix1[OCTONIONS_E4PART][i][j], matrix2[OCTONIONS_E4PART][k][l]) -
-                                                                                  mul_func(matrix1[OCTONIONS_E5PART][i][j], matrix2[OCTONIONS_E5PART][k][l]) -
-                                                                                  mul_func(matrix1[OCTONIONS_E6PART][i][j], matrix2[OCTONIONS_E6PART][k][l]) -
-                                                                                  mul_func(matrix1[OCTONIONS_E7PART][i][j], matrix2[OCTONIONS_E7PART][k][l]);
+        matrix_product[OCTONIONS_REALPART][dim_cache] = mul_func(matrix1[OCTONIONS_REALPART][idx1], matrix2[OCTONIONS_REALPART][idx2]) -
+                                                                                  mul_func(matrix1[OCTONIONS_E1PART][idx1], matrix2[OCTONIONS_E1PART][idx2]) -
+                                                                                  mul_func(matrix1[OCTONIONS_E2PART][idx1], matrix2[OCTONIONS_E2PART][idx2]) -
+                                                                                  mul_func(matrix1[OCTONIONS_E3PART][idx1], matrix2[OCTONIONS_E3PART][idx2]) -
+                                                                                  mul_func(matrix1[OCTONIONS_E4PART][idx1], matrix2[OCTONIONS_E4PART][idx2]) -
+                                                                                  mul_func(matrix1[OCTONIONS_E5PART][idx1], matrix2[OCTONIONS_E5PART][idx2]) -
+                                                                                  mul_func(matrix1[OCTONIONS_E6PART][idx1], matrix2[OCTONIONS_E6PART][idx2]) -
+                                                                                  mul_func(matrix1[OCTONIONS_E7PART][idx1], matrix2[OCTONIONS_E7PART][idx2]);
 
-        matrix_product[OCTONIONS_E1PART][dim_cache[RAWS]][dim_cache[COLUMNS]] = mul_func(matrix1[OCTONIONS_REALPART][i][j], matrix2[OCTONIONS_E1PART][k][l]) +
-                                                                                mul_func(matrix1[OCTONIONS_E1PART][i][j], matrix2[OCTONIONS_REALPART][k][l]) +
-                                                                                mul_func(matrix1[OCTONIONS_E2PART][i][j], matrix2[OCTONIONS_E4PART][k][l]) +
-                                                                                mul_func(matrix1[OCTONIONS_E3PART][i][j], matrix2[OCTONIONS_E7PART][k][l]) -
-                                                                                mul_func(matrix1[OCTONIONS_E4PART][i][j], matrix2[OCTONIONS_E2PART][k][l]) +
-                                                                                mul_func(matrix1[OCTONIONS_E5PART][i][j], matrix2[OCTONIONS_E6PART][k][l]) -
-                                                                                mul_func(matrix1[OCTONIONS_E6PART][i][j], matrix2[OCTONIONS_E5PART][k][l]) -
-                                                                                mul_func(matrix1[OCTONIONS_E7PART][i][j], matrix2[OCTONIONS_E3PART][k][l]);
+        matrix_product[OCTONIONS_E1PART][dim_cache] = mul_func(matrix1[OCTONIONS_REALPART][idx1], matrix2[OCTONIONS_E1PART][idx2]) +
+                                                                                mul_func(matrix1[OCTONIONS_E1PART][idx1], matrix2[OCTONIONS_REALPART][idx2]) +
+                                                                                mul_func(matrix1[OCTONIONS_E2PART][idx1], matrix2[OCTONIONS_E4PART][idx2]) +
+                                                                                mul_func(matrix1[OCTONIONS_E3PART][idx1], matrix2[OCTONIONS_E7PART][idx2]) -
+                                                                                mul_func(matrix1[OCTONIONS_E4PART][idx1], matrix2[OCTONIONS_E2PART][idx2]) +
+                                                                                mul_func(matrix1[OCTONIONS_E5PART][idx1], matrix2[OCTONIONS_E6PART][idx2]) -
+                                                                                mul_func(matrix1[OCTONIONS_E6PART][idx1], matrix2[OCTONIONS_E5PART][idx2]) -
+                                                                                mul_func(matrix1[OCTONIONS_E7PART][idx1], matrix2[OCTONIONS_E3PART][idx2]);
 
-        matrix_product[OCTONIONS_E2PART][dim_cache[RAWS]][dim_cache[COLUMNS]] = mul_func(matrix1[OCTONIONS_REALPART][i][j], matrix2[OCTONIONS_E1PART][k][l]) -
-                                                                                mul_func(matrix1[OCTONIONS_E1PART][i][j], matrix2[OCTONIONS_E4PART][k][l]) +
-                                                                                mul_func(matrix1[OCTONIONS_E2PART][i][j], matrix2[OCTONIONS_REALPART][k][l]) +
-                                                                                mul_func(matrix1[OCTONIONS_E3PART][i][j], matrix2[OCTONIONS_E5PART][k][l]) -
-                                                                                mul_func(matrix1[OCTONIONS_E4PART][i][j], matrix2[OCTONIONS_E1PART][k][l]) -
-                                                                                mul_func(matrix1[OCTONIONS_E5PART][i][j], matrix2[OCTONIONS_E3PART][k][l]) +
-                                                                                mul_func(matrix1[OCTONIONS_E6PART][i][j], matrix2[OCTONIONS_E7PART][k][l]) -
-                                                                                mul_func(matrix1[OCTONIONS_E7PART][i][j], matrix2[OCTONIONS_E6PART][k][l]);
+        matrix_product[OCTONIONS_E2PART][dim_cache] = mul_func(matrix1[OCTONIONS_REALPART][idx1], matrix2[OCTONIONS_E1PART][idx2]) -
+                                                                                mul_func(matrix1[OCTONIONS_E1PART][idx1], matrix2[OCTONIONS_E4PART][idx2]) +
+                                                                                mul_func(matrix1[OCTONIONS_E2PART][idx1], matrix2[OCTONIONS_REALPART][idx2]) +
+                                                                                mul_func(matrix1[OCTONIONS_E3PART][idx1], matrix2[OCTONIONS_E5PART][idx2]) -
+                                                                                mul_func(matrix1[OCTONIONS_E4PART][idx1], matrix2[OCTONIONS_E1PART][idx2]) -
+                                                                                mul_func(matrix1[OCTONIONS_E5PART][idx1], matrix2[OCTONIONS_E3PART][idx2]) +
+                                                                                mul_func(matrix1[OCTONIONS_E6PART][idx1], matrix2[OCTONIONS_E7PART][idx2]) -
+                                                                                mul_func(matrix1[OCTONIONS_E7PART][idx1], matrix2[OCTONIONS_E6PART][idx2]);
 
-        matrix_product[OCTONIONS_E3PART][dim_cache[RAWS]][dim_cache[COLUMNS]] = mul_func(matrix1[OCTONIONS_REALPART][i][j], matrix2[OCTONIONS_E3PART][k][l]) -
-                                                                                mul_func(matrix1[OCTONIONS_E1PART][i][j], matrix2[OCTONIONS_E7PART][k][l]) -
-                                                                                mul_func(matrix1[OCTONIONS_E2PART][i][j], matrix2[OCTONIONS_E5PART][k][l]) +
-                                                                                mul_func(matrix1[OCTONIONS_E3PART][i][j], matrix2[OCTONIONS_REALPART][k][l]) +
-                                                                                mul_func(matrix1[OCTONIONS_E4PART][i][j], matrix2[OCTONIONS_E6PART][k][l]) +
-                                                                                mul_func(matrix1[OCTONIONS_E5PART][i][j], matrix2[OCTONIONS_E2PART][k][l]) -
-                                                                                mul_func(matrix1[OCTONIONS_E6PART][i][j], matrix2[OCTONIONS_E4PART][k][l]) +
-                                                                                mul_func(matrix1[OCTONIONS_E7PART][i][j], matrix2[OCTONIONS_E1PART][k][l]);
+        matrix_product[OCTONIONS_E3PART][dim_cache] = mul_func(matrix1[OCTONIONS_REALPART][idx1], matrix2[OCTONIONS_E3PART][idx2]) -
+                                                                                mul_func(matrix1[OCTONIONS_E1PART][idx1], matrix2[OCTONIONS_E7PART][idx2]) -
+                                                                                mul_func(matrix1[OCTONIONS_E2PART][idx1], matrix2[OCTONIONS_E5PART][idx2]) +
+                                                                                mul_func(matrix1[OCTONIONS_E3PART][idx1], matrix2[OCTONIONS_REALPART][idx2]) +
+                                                                                mul_func(matrix1[OCTONIONS_E4PART][idx1], matrix2[OCTONIONS_E6PART][idx2]) +
+                                                                                mul_func(matrix1[OCTONIONS_E5PART][idx1], matrix2[OCTONIONS_E2PART][idx2]) -
+                                                                                mul_func(matrix1[OCTONIONS_E6PART][idx1], matrix2[OCTONIONS_E4PART][idx2]) +
+                                                                                mul_func(matrix1[OCTONIONS_E7PART][idx1], matrix2[OCTONIONS_E1PART][idx2]);
 
-        matrix_product[OCTONIONS_E4PART][dim_cache[RAWS]][dim_cache[COLUMNS]] = mul_func(matrix1[OCTONIONS_REALPART][i][j], matrix2[OCTONIONS_E4PART][k][l]) +
-                                                                                mul_func(matrix1[OCTONIONS_E1PART][i][j], matrix2[OCTONIONS_E2PART][k][l]) -
-                                                                                mul_func(matrix1[OCTONIONS_E2PART][i][j], matrix2[OCTONIONS_E1PART][k][l]) -
-                                                                                mul_func(matrix1[OCTONIONS_E3PART][i][j], matrix2[OCTONIONS_E6PART][k][l]) +
-                                                                                mul_func(matrix1[OCTONIONS_E4PART][i][j], matrix2[OCTONIONS_REALPART][k][l]) +
-                                                                                mul_func(matrix1[OCTONIONS_E5PART][i][j], matrix2[OCTONIONS_E7PART][k][l]) +
-                                                                                mul_func(matrix1[OCTONIONS_E6PART][i][j], matrix2[OCTONIONS_E3PART][k][l]) -
-                                                                                mul_func(matrix1[OCTONIONS_E7PART][i][j], matrix2[OCTONIONS_E5PART][k][l]);
+        matrix_product[OCTONIONS_E4PART][dim_cache] = mul_func(matrix1[OCTONIONS_REALPART][idx1], matrix2[OCTONIONS_E4PART][idx2]) +
+                                                                                mul_func(matrix1[OCTONIONS_E1PART][idx1], matrix2[OCTONIONS_E2PART][idx2]) -
+                                                                                mul_func(matrix1[OCTONIONS_E2PART][idx1], matrix2[OCTONIONS_E1PART][idx2]) -
+                                                                                mul_func(matrix1[OCTONIONS_E3PART][idx1], matrix2[OCTONIONS_E6PART][idx2]) +
+                                                                                mul_func(matrix1[OCTONIONS_E4PART][idx1], matrix2[OCTONIONS_REALPART][idx2]) +
+                                                                                mul_func(matrix1[OCTONIONS_E5PART][idx1], matrix2[OCTONIONS_E7PART][idx2]) +
+                                                                                mul_func(matrix1[OCTONIONS_E6PART][idx1], matrix2[OCTONIONS_E3PART][idx2]) -
+                                                                                mul_func(matrix1[OCTONIONS_E7PART][idx1], matrix2[OCTONIONS_E5PART][idx2]);
 
-        matrix_product[OCTONIONS_E5PART][dim_cache[RAWS]][dim_cache[COLUMNS]] = mul_func(matrix1[OCTONIONS_REALPART][i][j], matrix2[OCTONIONS_E5PART][k][l]) -
-                                                                                mul_func(matrix1[OCTONIONS_E1PART][i][j], matrix2[OCTONIONS_E6PART][k][l]) +
-                                                                                mul_func(matrix1[OCTONIONS_E2PART][i][j], matrix2[OCTONIONS_E3PART][k][l]) -
-                                                                                mul_func(matrix1[OCTONIONS_E3PART][i][j], matrix2[OCTONIONS_E2PART][k][l]) -
-                                                                                mul_func(matrix1[OCTONIONS_E4PART][i][j], matrix2[OCTONIONS_E7PART][k][l]) +
-                                                                                mul_func(matrix1[OCTONIONS_E5PART][i][j], matrix2[OCTONIONS_REALPART][k][l]) +
-                                                                                mul_func(matrix1[OCTONIONS_E6PART][i][j], matrix2[OCTONIONS_E1PART][k][l]) +
-                                                                                mul_func(matrix1[OCTONIONS_E7PART][i][j], matrix2[OCTONIONS_E3PART][k][l]);
+        matrix_product[OCTONIONS_E5PART][dim_cache] = mul_func(matrix1[OCTONIONS_REALPART][idx1], matrix2[OCTONIONS_E5PART][idx2]) -
+                                                                                mul_func(matrix1[OCTONIONS_E1PART][idx1], matrix2[OCTONIONS_E6PART][idx2]) +
+                                                                                mul_func(matrix1[OCTONIONS_E2PART][idx1], matrix2[OCTONIONS_E3PART][idx2]) -
+                                                                                mul_func(matrix1[OCTONIONS_E3PART][idx1], matrix2[OCTONIONS_E2PART][idx2]) -
+                                                                                mul_func(matrix1[OCTONIONS_E4PART][idx1], matrix2[OCTONIONS_E7PART][idx2]) +
+                                                                                mul_func(matrix1[OCTONIONS_E5PART][idx1], matrix2[OCTONIONS_REALPART][idx2]) +
+                                                                                mul_func(matrix1[OCTONIONS_E6PART][idx1], matrix2[OCTONIONS_E1PART][idx2]) +
+                                                                                mul_func(matrix1[OCTONIONS_E7PART][idx1], matrix2[OCTONIONS_E3PART][idx2]);
 
-        matrix_product[OCTONIONS_E6PART][dim_cache[RAWS]][dim_cache[COLUMNS]] = mul_func(matrix1[OCTONIONS_REALPART][i][j], matrix2[OCTONIONS_E6PART][k][l]) +
-                                                                                mul_func(matrix1[OCTONIONS_E1PART][i][j], matrix2[OCTONIONS_E5PART][k][l]) -
-                                                                                mul_func(matrix1[OCTONIONS_E2PART][i][j], matrix2[OCTONIONS_E7PART][k][l]) +
-                                                                                mul_func(matrix1[OCTONIONS_E3PART][i][j], matrix2[OCTONIONS_E4PART][k][l]) -
-                                                                                mul_func(matrix1[OCTONIONS_E4PART][i][j], matrix2[OCTONIONS_E3PART][k][l]) -
-                                                                                mul_func(matrix1[OCTONIONS_E5PART][i][j], matrix2[OCTONIONS_E1PART][k][l]) +
-                                                                                mul_func(matrix1[OCTONIONS_E6PART][i][j], matrix2[OCTONIONS_REALPART][k][l]) +
-                                                                                mul_func(matrix1[OCTONIONS_E7PART][i][j], matrix2[OCTONIONS_E2PART][k][l]);
+        matrix_product[OCTONIONS_E6PART][dim_cache] = mul_func(matrix1[OCTONIONS_REALPART][idx1], matrix2[OCTONIONS_E6PART][idx2]) +
+                                                                                mul_func(matrix1[OCTONIONS_E1PART][idx1], matrix2[OCTONIONS_E5PART][idx2]) -
+                                                                                mul_func(matrix1[OCTONIONS_E2PART][idx1], matrix2[OCTONIONS_E7PART][idx2]) +
+                                                                                mul_func(matrix1[OCTONIONS_E3PART][idx1], matrix2[OCTONIONS_E4PART][idx2]) -
+                                                                                mul_func(matrix1[OCTONIONS_E4PART][idx1], matrix2[OCTONIONS_E3PART][idx2]) -
+                                                                                mul_func(matrix1[OCTONIONS_E5PART][idx1], matrix2[OCTONIONS_E1PART][idx2]) +
+                                                                                mul_func(matrix1[OCTONIONS_E6PART][idx1], matrix2[OCTONIONS_REALPART][idx2]) +
+                                                                                mul_func(matrix1[OCTONIONS_E7PART][idx1], matrix2[OCTONIONS_E2PART][idx2]);
 
-        matrix_product[OCTONIONS_E7PART][dim_cache[RAWS]][dim_cache[COLUMNS]] = mul_func(matrix1[OCTONIONS_REALPART][i][j], matrix2[OCTONIONS_E7PART][k][l]) +
-                                                                                mul_func(matrix1[OCTONIONS_E1PART][i][j], matrix2[OCTONIONS_E3PART][k][l]) +
-                                                                                mul_func(matrix1[OCTONIONS_E2PART][i][j], matrix2[OCTONIONS_E6PART][k][l]) -
-                                                                                mul_func(matrix1[OCTONIONS_E3PART][i][j], matrix2[OCTONIONS_E1PART][k][l]) +
-                                                                                mul_func(matrix1[OCTONIONS_E4PART][i][j], matrix2[OCTONIONS_E5PART][k][l]) -
-                                                                                mul_func(matrix1[OCTONIONS_E5PART][i][j], matrix2[OCTONIONS_E4PART][k][l]) -
-                                                                                mul_func(matrix1[OCTONIONS_E6PART][i][j], matrix2[OCTONIONS_E2PART][k][l]) +
-                                                                                mul_func(matrix1[OCTONIONS_E7PART][i][j], matrix2[OCTONIONS_REALPART][k][l]);
+        matrix_product[OCTONIONS_E7PART][dim_cache] = mul_func(matrix1[OCTONIONS_REALPART][idx1], matrix2[OCTONIONS_E7PART][idx2]) +
+                                                                                mul_func(matrix1[OCTONIONS_E1PART][idx1], matrix2[OCTONIONS_E3PART][idx2]) +
+                                                                                mul_func(matrix1[OCTONIONS_E2PART][idx1], matrix2[OCTONIONS_E6PART][idx2]) -
+                                                                                mul_func(matrix1[OCTONIONS_E3PART][idx1], matrix2[OCTONIONS_E1PART][idx2]) +
+                                                                                mul_func(matrix1[OCTONIONS_E4PART][idx1], matrix2[OCTONIONS_E5PART][idx2]) -
+                                                                                mul_func(matrix1[OCTONIONS_E5PART][idx1], matrix2[OCTONIONS_E4PART][idx2]) -
+                                                                                mul_func(matrix1[OCTONIONS_E6PART][idx1], matrix2[OCTONIONS_E2PART][idx2]) +
+                                                                                mul_func(matrix1[OCTONIONS_E7PART][idx1], matrix2[OCTONIONS_REALPART][idx2]);
 	}
 	return;
 }
 
-__MSNATIVE_ _MS__private void __system __export _matrixKOMTProduct(ityp ***matrix1, ityp ***matrix2, ityp ***matrix_product, const register dim_typ dim[static MAX_DIMENSIONS][MAX_DIMENSIONS], const register dim_typ i, const register dim_typ j, const register dim_typ k, const register dim_typ l)
+__MSNATIVE_ __MSSTOCK _MS__private static void __system __export _matrixKOMTProduct(ityp **matrix1, ityp **matrix2, ityp **matrix_product, const register dim_typ dim_cache, const register dim_typ idx1, const register dim_typ idx2)
 {
 	ityp (* const mul_func)(register ityp, register ityp) = INVERSE_OPS ? math_div : math_mul;
-	const register dim_typ dim_cache[MAX_DIMENSIONS] =
-	{
-		k+(i*dim[SECOND_MATRIX][RAWS]),
-		l+(j*dim[SECOND_MATRIX][COLUMNS])
-	};
+	
 	#pragma omp parallel
 	{
-        matrix_product[OCTONIONS_REALPART][dim_cache[RAWS]][dim_cache[COLUMNS]] = mul_func(matrix1[OCTONIONS_REALPART][i][j], matrix2[OCTONIONS_REALPART][k][l]) -
-                                                                                  mul_func(matrix1[OCTONIONS_E1PART][i][j], matrix2[OCTONIONS_E1PART][k][l]) -
-                                                                                  mul_func(matrix1[OCTONIONS_E2PART][i][j], matrix2[OCTONIONS_E2PART][k][l]) -
-                                                                                  mul_func(matrix1[OCTONIONS_E3PART][i][j], matrix2[OCTONIONS_E3PART][k][l]) -
-                                                                                  mul_func(matrix1[OCTONIONS_E4PART][i][j], matrix2[OCTONIONS_E4PART][k][l]) -
-                                                                                  mul_func(matrix1[OCTONIONS_E5PART][i][j], matrix2[OCTONIONS_E5PART][k][l]) -
-                                                                                  mul_func(matrix1[OCTONIONS_E6PART][i][j], matrix2[OCTONIONS_E6PART][k][l]) -
-                                                                                  mul_func(matrix1[OCTONIONS_E7PART][i][j], matrix2[OCTONIONS_E7PART][k][l]);
+        matrix_product[OCTONIONS_REALPART][dim_cache] = mul_func(matrix1[OCTONIONS_REALPART][idx1], matrix2[OCTONIONS_REALPART][idx2]) -
+                                                                                  mul_func(matrix1[OCTONIONS_E1PART][idx1], matrix2[OCTONIONS_E1PART][idx2]) -
+                                                                                  mul_func(matrix1[OCTONIONS_E2PART][idx1], matrix2[OCTONIONS_E2PART][idx2]) -
+                                                                                  mul_func(matrix1[OCTONIONS_E3PART][idx1], matrix2[OCTONIONS_E3PART][idx2]) -
+                                                                                  mul_func(matrix1[OCTONIONS_E4PART][idx1], matrix2[OCTONIONS_E4PART][idx2]) -
+                                                                                  mul_func(matrix1[OCTONIONS_E5PART][idx1], matrix2[OCTONIONS_E5PART][idx2]) -
+                                                                                  mul_func(matrix1[OCTONIONS_E6PART][idx1], matrix2[OCTONIONS_E6PART][idx2]) -
+                                                                                  mul_func(matrix1[OCTONIONS_E7PART][idx1], matrix2[OCTONIONS_E7PART][idx2]);
 
-        matrix_product[OCTONIONS_E1PART][dim_cache[RAWS]][dim_cache[COLUMNS]] = mul_func(matrix1[OCTONIONS_REALPART][i][j], matrix2[OCTONIONS_E1PART][k][l]) +
-                                                                                mul_func(matrix1[OCTONIONS_E1PART][i][j], matrix2[OCTONIONS_REALPART][k][l]) +
-                                                                                mul_func(matrix1[OCTONIONS_E2PART][i][j], matrix2[OCTONIONS_E4PART][k][l]) +
-                                                                                mul_func(matrix1[OCTONIONS_E3PART][i][j], matrix2[OCTONIONS_E7PART][k][l]) -
-                                                                                mul_func(matrix1[OCTONIONS_E4PART][i][j], matrix2[OCTONIONS_E2PART][k][l]) +
-                                                                                mul_func(matrix1[OCTONIONS_E5PART][i][j], matrix2[OCTONIONS_E6PART][k][l]) -
-                                                                                mul_func(matrix1[OCTONIONS_E6PART][i][j], matrix2[OCTONIONS_E5PART][k][l]) -
-                                                                                mul_func(matrix1[OCTONIONS_E7PART][i][j], matrix2[OCTONIONS_E3PART][k][l]);
+        matrix_product[OCTONIONS_E1PART][dim_cache] = mul_func(matrix1[OCTONIONS_REALPART][idx1], matrix2[OCTONIONS_E1PART][idx2]) +
+                                                                                mul_func(matrix1[OCTONIONS_E1PART][idx1], matrix2[OCTONIONS_REALPART][idx2]) +
+                                                                                mul_func(matrix1[OCTONIONS_E2PART][idx1], matrix2[OCTONIONS_E4PART][idx2]) +
+                                                                                mul_func(matrix1[OCTONIONS_E3PART][idx1], matrix2[OCTONIONS_E7PART][idx2]) -
+                                                                                mul_func(matrix1[OCTONIONS_E4PART][idx1], matrix2[OCTONIONS_E2PART][idx2]) +
+                                                                                mul_func(matrix1[OCTONIONS_E5PART][idx1], matrix2[OCTONIONS_E6PART][idx2]) -
+                                                                                mul_func(matrix1[OCTONIONS_E6PART][idx1], matrix2[OCTONIONS_E5PART][idx2]) -
+                                                                                mul_func(matrix1[OCTONIONS_E7PART][idx1], matrix2[OCTONIONS_E3PART][idx2]);
 
-        matrix_product[OCTONIONS_E2PART][dim_cache[RAWS]][dim_cache[COLUMNS]] = mul_func(matrix1[OCTONIONS_REALPART][i][j], matrix2[OCTONIONS_E1PART][k][l]) -
-                                                                                mul_func(matrix1[OCTONIONS_E1PART][i][j], matrix2[OCTONIONS_E4PART][k][l]) +
-                                                                                mul_func(matrix1[OCTONIONS_E2PART][i][j], matrix2[OCTONIONS_REALPART][k][l]) +
-                                                                                mul_func(matrix1[OCTONIONS_E3PART][i][j], matrix2[OCTONIONS_E5PART][k][l]) -
-                                                                                mul_func(matrix1[OCTONIONS_E4PART][i][j], matrix2[OCTONIONS_E1PART][k][l]) -
-                                                                                mul_func(matrix1[OCTONIONS_E5PART][i][j], matrix2[OCTONIONS_E3PART][k][l]) +
-                                                                                mul_func(matrix1[OCTONIONS_E6PART][i][j], matrix2[OCTONIONS_E7PART][k][l]) -
-                                                                                mul_func(matrix1[OCTONIONS_E7PART][i][j], matrix2[OCTONIONS_E6PART][k][l]);
+        matrix_product[OCTONIONS_E2PART][dim_cache] = mul_func(matrix1[OCTONIONS_REALPART][idx1], matrix2[OCTONIONS_E1PART][idx2]) -
+                                                                                mul_func(matrix1[OCTONIONS_E1PART][idx1], matrix2[OCTONIONS_E4PART][idx2]) +
+                                                                                mul_func(matrix1[OCTONIONS_E2PART][idx1], matrix2[OCTONIONS_REALPART][idx2]) +
+                                                                                mul_func(matrix1[OCTONIONS_E3PART][idx1], matrix2[OCTONIONS_E5PART][idx2]) -
+                                                                                mul_func(matrix1[OCTONIONS_E4PART][idx1], matrix2[OCTONIONS_E1PART][idx2]) -
+                                                                                mul_func(matrix1[OCTONIONS_E5PART][idx1], matrix2[OCTONIONS_E3PART][idx2]) +
+                                                                                mul_func(matrix1[OCTONIONS_E6PART][idx1], matrix2[OCTONIONS_E7PART][idx2]) -
+                                                                                mul_func(matrix1[OCTONIONS_E7PART][idx1], matrix2[OCTONIONS_E6PART][idx2]);
 
-        matrix_product[OCTONIONS_E3PART][dim_cache[RAWS]][dim_cache[COLUMNS]] = mul_func(matrix1[OCTONIONS_REALPART][i][j], matrix2[OCTONIONS_E3PART][k][l]) -
-                                                                                mul_func(matrix1[OCTONIONS_E1PART][i][j], matrix2[OCTONIONS_E7PART][k][l]) -
-                                                                                mul_func(matrix1[OCTONIONS_E2PART][i][j], matrix2[OCTONIONS_E5PART][k][l]) +
-                                                                                mul_func(matrix1[OCTONIONS_E3PART][i][j], matrix2[OCTONIONS_REALPART][k][l]) +
-                                                                                mul_func(matrix1[OCTONIONS_E4PART][i][j], matrix2[OCTONIONS_E6PART][k][l]) +
-                                                                                mul_func(matrix1[OCTONIONS_E5PART][i][j], matrix2[OCTONIONS_E2PART][k][l]) -
-                                                                                mul_func(matrix1[OCTONIONS_E6PART][i][j], matrix2[OCTONIONS_E4PART][k][l]) +
-                                                                                mul_func(matrix1[OCTONIONS_E7PART][i][j], matrix2[OCTONIONS_E1PART][k][l]);
+        matrix_product[OCTONIONS_E3PART][dim_cache] = mul_func(matrix1[OCTONIONS_REALPART][idx1], matrix2[OCTONIONS_E3PART][idx2]) -
+                                                                                mul_func(matrix1[OCTONIONS_E1PART][idx1], matrix2[OCTONIONS_E7PART][idx2]) -
+                                                                                mul_func(matrix1[OCTONIONS_E2PART][idx1], matrix2[OCTONIONS_E5PART][idx2]) +
+                                                                                mul_func(matrix1[OCTONIONS_E3PART][idx1], matrix2[OCTONIONS_REALPART][idx2]) +
+                                                                                mul_func(matrix1[OCTONIONS_E4PART][idx1], matrix2[OCTONIONS_E6PART][idx2]) +
+                                                                                mul_func(matrix1[OCTONIONS_E5PART][idx1], matrix2[OCTONIONS_E2PART][idx2]) -
+                                                                                mul_func(matrix1[OCTONIONS_E6PART][idx1], matrix2[OCTONIONS_E4PART][idx2]) +
+                                                                                mul_func(matrix1[OCTONIONS_E7PART][idx1], matrix2[OCTONIONS_E1PART][idx2]);
 
-        matrix_product[OCTONIONS_E4PART][dim_cache[RAWS]][dim_cache[COLUMNS]] = mul_func(matrix1[OCTONIONS_REALPART][i][j], matrix2[OCTONIONS_E4PART][k][l]) +
-                                                                                mul_func(matrix1[OCTONIONS_E1PART][i][j], matrix2[OCTONIONS_E2PART][k][l]) -
-                                                                                mul_func(matrix1[OCTONIONS_E2PART][i][j], matrix2[OCTONIONS_E1PART][k][l]) -
-                                                                                mul_func(matrix1[OCTONIONS_E3PART][i][j], matrix2[OCTONIONS_E6PART][k][l]) +
-                                                                                mul_func(matrix1[OCTONIONS_E4PART][i][j], matrix2[OCTONIONS_REALPART][k][l]) +
-                                                                                mul_func(matrix1[OCTONIONS_E5PART][i][j], matrix2[OCTONIONS_E7PART][k][l]) +
-                                                                                mul_func(matrix1[OCTONIONS_E6PART][i][j], matrix2[OCTONIONS_E3PART][k][l]) -
-                                                                                mul_func(matrix1[OCTONIONS_E7PART][i][j], matrix2[OCTONIONS_E5PART][k][l]);
+        matrix_product[OCTONIONS_E4PART][dim_cache] = mul_func(matrix1[OCTONIONS_REALPART][idx1], matrix2[OCTONIONS_E4PART][idx2]) +
+                                                                                mul_func(matrix1[OCTONIONS_E1PART][idx1], matrix2[OCTONIONS_E2PART][idx2]) -
+                                                                                mul_func(matrix1[OCTONIONS_E2PART][idx1], matrix2[OCTONIONS_E1PART][idx2]) -
+                                                                                mul_func(matrix1[OCTONIONS_E3PART][idx1], matrix2[OCTONIONS_E6PART][idx2]) +
+                                                                                mul_func(matrix1[OCTONIONS_E4PART][idx1], matrix2[OCTONIONS_REALPART][idx2]) +
+                                                                                mul_func(matrix1[OCTONIONS_E5PART][idx1], matrix2[OCTONIONS_E7PART][idx2]) +
+                                                                                mul_func(matrix1[OCTONIONS_E6PART][idx1], matrix2[OCTONIONS_E3PART][idx2]) -
+                                                                                mul_func(matrix1[OCTONIONS_E7PART][idx1], matrix2[OCTONIONS_E5PART][idx2]);
 
-        matrix_product[OCTONIONS_E5PART][dim_cache[RAWS]][dim_cache[COLUMNS]] = mul_func(matrix1[OCTONIONS_REALPART][i][j], matrix2[OCTONIONS_E5PART][k][l]) -
-                                                                                mul_func(matrix1[OCTONIONS_E1PART][i][j], matrix2[OCTONIONS_E6PART][k][l]) +
-                                                                                mul_func(matrix1[OCTONIONS_E2PART][i][j], matrix2[OCTONIONS_E3PART][k][l]) -
-                                                                                mul_func(matrix1[OCTONIONS_E3PART][i][j], matrix2[OCTONIONS_E2PART][k][l]) -
-                                                                                mul_func(matrix1[OCTONIONS_E4PART][i][j], matrix2[OCTONIONS_E7PART][k][l]) +
-                                                                                mul_func(matrix1[OCTONIONS_E5PART][i][j], matrix2[OCTONIONS_REALPART][k][l]) +
-                                                                                mul_func(matrix1[OCTONIONS_E6PART][i][j], matrix2[OCTONIONS_E1PART][k][l]) +
-                                                                                mul_func(matrix1[OCTONIONS_E7PART][i][j], matrix2[OCTONIONS_E3PART][k][l]);
+        matrix_product[OCTONIONS_E5PART][dim_cache] = mul_func(matrix1[OCTONIONS_REALPART][idx1], matrix2[OCTONIONS_E5PART][idx2]) -
+                                                                                mul_func(matrix1[OCTONIONS_E1PART][idx1], matrix2[OCTONIONS_E6PART][idx2]) +
+                                                                                mul_func(matrix1[OCTONIONS_E2PART][idx1], matrix2[OCTONIONS_E3PART][idx2]) -
+                                                                                mul_func(matrix1[OCTONIONS_E3PART][idx1], matrix2[OCTONIONS_E2PART][idx2]) -
+                                                                                mul_func(matrix1[OCTONIONS_E4PART][idx1], matrix2[OCTONIONS_E7PART][idx2]) +
+                                                                                mul_func(matrix1[OCTONIONS_E5PART][idx1], matrix2[OCTONIONS_REALPART][idx2]) +
+                                                                                mul_func(matrix1[OCTONIONS_E6PART][idx1], matrix2[OCTONIONS_E1PART][idx2]) +
+                                                                                mul_func(matrix1[OCTONIONS_E7PART][idx1], matrix2[OCTONIONS_E3PART][idx2]);
 
-        matrix_product[OCTONIONS_E6PART][dim_cache[RAWS]][dim_cache[COLUMNS]] = mul_func(matrix1[OCTONIONS_REALPART][i][j], matrix2[OCTONIONS_E6PART][k][l]) +
-                                                                                mul_func(matrix1[OCTONIONS_E1PART][i][j], matrix2[OCTONIONS_E5PART][k][l]) -
-                                                                                mul_func(matrix1[OCTONIONS_E2PART][i][j], matrix2[OCTONIONS_E7PART][k][l]) +
-                                                                                mul_func(matrix1[OCTONIONS_E3PART][i][j], matrix2[OCTONIONS_E4PART][k][l]) -
-                                                                                mul_func(matrix1[OCTONIONS_E4PART][i][j], matrix2[OCTONIONS_E3PART][k][l]) -
-                                                                                mul_func(matrix1[OCTONIONS_E5PART][i][j], matrix2[OCTONIONS_E1PART][k][l]) +
-                                                                                mul_func(matrix1[OCTONIONS_E6PART][i][j], matrix2[OCTONIONS_REALPART][k][l]) +
-                                                                                mul_func(matrix1[OCTONIONS_E7PART][i][j], matrix2[OCTONIONS_E2PART][k][l]);
+        matrix_product[OCTONIONS_E6PART][dim_cache] = mul_func(matrix1[OCTONIONS_REALPART][idx1], matrix2[OCTONIONS_E6PART][idx2]) +
+                                                                                mul_func(matrix1[OCTONIONS_E1PART][idx1], matrix2[OCTONIONS_E5PART][idx2]) -
+                                                                                mul_func(matrix1[OCTONIONS_E2PART][idx1], matrix2[OCTONIONS_E7PART][idx2]) +
+                                                                                mul_func(matrix1[OCTONIONS_E3PART][idx1], matrix2[OCTONIONS_E4PART][idx2]) -
+                                                                                mul_func(matrix1[OCTONIONS_E4PART][idx1], matrix2[OCTONIONS_E3PART][idx2]) -
+                                                                                mul_func(matrix1[OCTONIONS_E5PART][idx1], matrix2[OCTONIONS_E1PART][idx2]) +
+                                                                                mul_func(matrix1[OCTONIONS_E6PART][idx1], matrix2[OCTONIONS_REALPART][idx2]) +
+                                                                                mul_func(matrix1[OCTONIONS_E7PART][idx1], matrix2[OCTONIONS_E2PART][idx2]);
 
-        matrix_product[OCTONIONS_E7PART][dim_cache[RAWS]][dim_cache[COLUMNS]] = mul_func(matrix1[OCTONIONS_REALPART][i][j], matrix2[OCTONIONS_E7PART][k][l]) +
-                                                                                mul_func(matrix1[OCTONIONS_E1PART][i][j], matrix2[OCTONIONS_E3PART][k][l]) +
-                                                                                mul_func(matrix1[OCTONIONS_E2PART][i][j], matrix2[OCTONIONS_E6PART][k][l]) -
-                                                                                mul_func(matrix1[OCTONIONS_E3PART][i][j], matrix2[OCTONIONS_E1PART][k][l]) +
-                                                                                mul_func(matrix1[OCTONIONS_E4PART][i][j], matrix2[OCTONIONS_E5PART][k][l]) -
-                                                                                mul_func(matrix1[OCTONIONS_E5PART][i][j], matrix2[OCTONIONS_E4PART][k][l]) -
-                                                                                mul_func(matrix1[OCTONIONS_E6PART][i][j], matrix2[OCTONIONS_E2PART][k][l]) +
-                                                                                mul_func(matrix1[OCTONIONS_E7PART][i][j], matrix2[OCTONIONS_REALPART][k][l]);
+        matrix_product[OCTONIONS_E7PART][dim_cache] = mul_func(matrix1[OCTONIONS_REALPART][idx1], matrix2[OCTONIONS_E7PART][idx2]) +
+                                                                                mul_func(matrix1[OCTONIONS_E1PART][idx1], matrix2[OCTONIONS_E3PART][idx2]) +
+                                                                                mul_func(matrix1[OCTONIONS_E2PART][idx1], matrix2[OCTONIONS_E6PART][idx2]) -
+                                                                                mul_func(matrix1[OCTONIONS_E3PART][idx1], matrix2[OCTONIONS_E1PART][idx2]) +
+                                                                                mul_func(matrix1[OCTONIONS_E4PART][idx1], matrix2[OCTONIONS_E5PART][idx2]) -
+                                                                                mul_func(matrix1[OCTONIONS_E5PART][idx1], matrix2[OCTONIONS_E4PART][idx2]) -
+                                                                                mul_func(matrix1[OCTONIONS_E6PART][idx1], matrix2[OCTONIONS_E2PART][idx2]) +
+                                                                                mul_func(matrix1[OCTONIONS_E7PART][idx1], matrix2[OCTONIONS_REALPART][idx2]);
 	}
 	return;
 }
 
-__MSNATIVE_ _MS__private void __system __export _matrixKSEMTProduct(ityp ***matrix1, ityp ***matrix2, ityp ***matrix_product, const register dim_typ dim[static MAX_DIMENSIONS][MAX_DIMENSIONS], const register dim_typ i, const register dim_typ j, const register dim_typ k, const register dim_typ l)
+__MSNATIVE_ __MSSTOCK _MS__private static void __system __export _matrixKSEMTProduct(ityp **matrix1, ityp **matrix2, ityp **matrix_product, const register dim_typ dim_cache, const register dim_typ idx1, const register dim_typ idx2)
 {
 	ityp (* const mul_func)(register ityp, register ityp) = INVERSE_OPS ? math_div : math_mul;
-	const register dim_typ dim_cache[MAX_DIMENSIONS] =
-	{
-		k+(i*dim[SECOND_MATRIX][RAWS]),
-		l+(j*dim[SECOND_MATRIX][COLUMNS])
-	};
+	
 	#pragma omp parallel num_threads(MAX_SEDENIONS_UNITS)
 	{
-        matrix_product[SEDENIONS_REALPART][dim_cache[RAWS]][dim_cache[COLUMNS]] = mul_func(matrix1[SEDENIONS_REALPART][i][j], matrix2[SEDENIONS_REALPART][k][l]) -
-                                                                                  mul_func(matrix1[SEDENIONS_E1PART][i][j], matrix2[SEDENIONS_E1PART][k][l]) -
-                                                                                  mul_func(matrix1[SEDENIONS_E2PART][i][j], matrix2[SEDENIONS_E2PART][k][l]) -
-                                                                                  mul_func(matrix1[SEDENIONS_E3PART][i][j], matrix2[SEDENIONS_E3PART][k][l]) -
-                                                                                  mul_func(matrix1[SEDENIONS_E4PART][i][j], matrix2[SEDENIONS_E4PART][k][l]) -
-                                                                                  mul_func(matrix1[SEDENIONS_E5PART][i][j], matrix2[SEDENIONS_E5PART][k][l]) -
-                                                                                  mul_func(matrix1[SEDENIONS_E6PART][i][j], matrix2[SEDENIONS_E6PART][k][l]) -
-                                                                                  mul_func(matrix1[SEDENIONS_E7PART][i][j], matrix2[SEDENIONS_E7PART][k][l]) -
-                                                                                  mul_func(matrix1[SEDENIONS_E8PART][i][j], matrix2[SEDENIONS_E8PART][k][l]) -
-                                                                                  mul_func(matrix1[SEDENIONS_E9PART][i][j], matrix2[SEDENIONS_E9PART][k][l]) -
-                                                                                  mul_func(matrix1[SEDENIONS_E10PART][i][j], matrix2[SEDENIONS_E10PART][k][l]) -
-                                                                                  mul_func(matrix1[SEDENIONS_E11PART][i][j], matrix2[SEDENIONS_E11PART][k][l]) -
-                                                                                  mul_func(matrix1[SEDENIONS_E12PART][i][j], matrix2[SEDENIONS_E12PART][k][l]) -
-                                                                                  mul_func(matrix1[SEDENIONS_E13PART][i][j], matrix2[SEDENIONS_E13PART][k][l]) -
-                                                                                  mul_func(matrix1[SEDENIONS_E14PART][i][j], matrix2[SEDENIONS_E14PART][k][l]) -
-                                                                                  mul_func(matrix1[SEDENIONS_E15PART][i][j], matrix2[SEDENIONS_E15PART][k][l]);
+        matrix_product[SEDENIONS_REALPART][dim_cache] = mul_func(matrix1[SEDENIONS_REALPART][idx1], matrix2[SEDENIONS_REALPART][idx2]) -
+                                                                                  mul_func(matrix1[SEDENIONS_E1PART][idx1], matrix2[SEDENIONS_E1PART][idx2]) -
+                                                                                  mul_func(matrix1[SEDENIONS_E2PART][idx1], matrix2[SEDENIONS_E2PART][idx2]) -
+                                                                                  mul_func(matrix1[SEDENIONS_E3PART][idx1], matrix2[SEDENIONS_E3PART][idx2]) -
+                                                                                  mul_func(matrix1[SEDENIONS_E4PART][idx1], matrix2[SEDENIONS_E4PART][idx2]) -
+                                                                                  mul_func(matrix1[SEDENIONS_E5PART][idx1], matrix2[SEDENIONS_E5PART][idx2]) -
+                                                                                  mul_func(matrix1[SEDENIONS_E6PART][idx1], matrix2[SEDENIONS_E6PART][idx2]) -
+                                                                                  mul_func(matrix1[SEDENIONS_E7PART][idx1], matrix2[SEDENIONS_E7PART][idx2]) -
+                                                                                  mul_func(matrix1[SEDENIONS_E8PART][idx1], matrix2[SEDENIONS_E8PART][idx2]) -
+                                                                                  mul_func(matrix1[SEDENIONS_E9PART][idx1], matrix2[SEDENIONS_E9PART][idx2]) -
+                                                                                  mul_func(matrix1[SEDENIONS_E10PART][idx1], matrix2[SEDENIONS_E10PART][idx2]) -
+                                                                                  mul_func(matrix1[SEDENIONS_E11PART][idx1], matrix2[SEDENIONS_E11PART][idx2]) -
+                                                                                  mul_func(matrix1[SEDENIONS_E12PART][idx1], matrix2[SEDENIONS_E12PART][idx2]) -
+                                                                                  mul_func(matrix1[SEDENIONS_E13PART][idx1], matrix2[SEDENIONS_E13PART][idx2]) -
+                                                                                  mul_func(matrix1[SEDENIONS_E14PART][idx1], matrix2[SEDENIONS_E14PART][idx2]) -
+                                                                                  mul_func(matrix1[SEDENIONS_E15PART][idx1], matrix2[SEDENIONS_E15PART][idx2]);
 
-        matrix_product[SEDENIONS_E1PART][dim_cache[RAWS]][dim_cache[COLUMNS]] = mul_func(matrix1[SEDENIONS_REALPART][i][j], matrix2[SEDENIONS_E1PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E1PART][i][j], matrix2[SEDENIONS_REALPART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E2PART][i][j], matrix2[SEDENIONS_E3PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E3PART][i][j], matrix2[SEDENIONS_E2PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E4PART][i][j], matrix2[SEDENIONS_E5PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E5PART][i][j], matrix2[SEDENIONS_E4PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E6PART][i][j], matrix2[SEDENIONS_E7PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E7PART][i][j], matrix2[SEDENIONS_E6PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E8PART][i][j], matrix2[SEDENIONS_E9PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E9PART][i][j], matrix2[SEDENIONS_E8PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E10PART][i][j], matrix2[SEDENIONS_E11PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E11PART][i][j], matrix2[SEDENIONS_E10PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E12PART][i][j], matrix2[SEDENIONS_E13PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E13PART][i][j], matrix2[SEDENIONS_E12PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E14PART][i][j], matrix2[SEDENIONS_E15PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E15PART][i][j], matrix2[SEDENIONS_E14PART][k][l]);
+        matrix_product[SEDENIONS_E1PART][dim_cache] = mul_func(matrix1[SEDENIONS_REALPART][idx1], matrix2[SEDENIONS_E1PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E1PART][idx1], matrix2[SEDENIONS_REALPART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E2PART][idx1], matrix2[SEDENIONS_E3PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E3PART][idx1], matrix2[SEDENIONS_E2PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E4PART][idx1], matrix2[SEDENIONS_E5PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E5PART][idx1], matrix2[SEDENIONS_E4PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E6PART][idx1], matrix2[SEDENIONS_E7PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E7PART][idx1], matrix2[SEDENIONS_E6PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E8PART][idx1], matrix2[SEDENIONS_E9PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E9PART][idx1], matrix2[SEDENIONS_E8PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E10PART][idx1], matrix2[SEDENIONS_E11PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E11PART][idx1], matrix2[SEDENIONS_E10PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E12PART][idx1], matrix2[SEDENIONS_E13PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E13PART][idx1], matrix2[SEDENIONS_E12PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E14PART][idx1], matrix2[SEDENIONS_E15PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E15PART][idx1], matrix2[SEDENIONS_E14PART][idx2]);
 
-        matrix_product[SEDENIONS_E2PART][dim_cache[RAWS]][dim_cache[COLUMNS]] = mul_func(matrix1[SEDENIONS_REALPART][i][j], matrix2[SEDENIONS_E2PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E1PART][i][j], matrix2[SEDENIONS_E3PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E2PART][i][j], matrix2[SEDENIONS_REALPART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E3PART][i][j], matrix2[SEDENIONS_E1PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E4PART][i][j], matrix2[SEDENIONS_E6PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E5PART][i][j], matrix2[SEDENIONS_E7PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E6PART][i][j], matrix2[SEDENIONS_E4PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E7PART][i][j], matrix2[SEDENIONS_E5PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E8PART][i][j], matrix2[SEDENIONS_E10PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E9PART][i][j], matrix2[SEDENIONS_E11PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E10PART][i][j], matrix2[SEDENIONS_E8PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E11PART][i][j], matrix2[SEDENIONS_E9PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E12PART][i][j], matrix2[SEDENIONS_E14PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E13PART][i][j], matrix2[SEDENIONS_E15PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E14PART][i][j], matrix2[SEDENIONS_E12PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E15PART][i][j], matrix2[SEDENIONS_E13PART][k][l]);
+        matrix_product[SEDENIONS_E2PART][dim_cache] = mul_func(matrix1[SEDENIONS_REALPART][idx1], matrix2[SEDENIONS_E2PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E1PART][idx1], matrix2[SEDENIONS_E3PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E2PART][idx1], matrix2[SEDENIONS_REALPART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E3PART][idx1], matrix2[SEDENIONS_E1PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E4PART][idx1], matrix2[SEDENIONS_E6PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E5PART][idx1], matrix2[SEDENIONS_E7PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E6PART][idx1], matrix2[SEDENIONS_E4PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E7PART][idx1], matrix2[SEDENIONS_E5PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E8PART][idx1], matrix2[SEDENIONS_E10PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E9PART][idx1], matrix2[SEDENIONS_E11PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E10PART][idx1], matrix2[SEDENIONS_E8PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E11PART][idx1], matrix2[SEDENIONS_E9PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E12PART][idx1], matrix2[SEDENIONS_E14PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E13PART][idx1], matrix2[SEDENIONS_E15PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E14PART][idx1], matrix2[SEDENIONS_E12PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E15PART][idx1], matrix2[SEDENIONS_E13PART][idx2]);
 
-        matrix_product[SEDENIONS_E3PART][dim_cache[RAWS]][dim_cache[COLUMNS]] = mul_func(matrix1[SEDENIONS_REALPART][i][j], matrix2[SEDENIONS_E3PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E1PART][i][j], matrix2[SEDENIONS_E2PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E2PART][i][j], matrix2[SEDENIONS_E1PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E3PART][i][j], matrix2[SEDENIONS_REALPART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E4PART][i][j], matrix2[SEDENIONS_E7PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E5PART][i][j], matrix2[SEDENIONS_E6PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E6PART][i][j], matrix2[SEDENIONS_E5PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E7PART][i][j], matrix2[SEDENIONS_E4PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E8PART][i][j], matrix2[SEDENIONS_E11PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E9PART][i][j], matrix2[SEDENIONS_E10PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E10PART][i][j], matrix2[SEDENIONS_E9PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E11PART][i][j], matrix2[SEDENIONS_E8PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E12PART][i][j], matrix2[SEDENIONS_E15PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E13PART][i][j], matrix2[SEDENIONS_E14PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E14PART][i][j], matrix2[SEDENIONS_E13PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E15PART][i][j], matrix2[SEDENIONS_E12PART][k][l]);
+        matrix_product[SEDENIONS_E3PART][dim_cache] = mul_func(matrix1[SEDENIONS_REALPART][idx1], matrix2[SEDENIONS_E3PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E1PART][idx1], matrix2[SEDENIONS_E2PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E2PART][idx1], matrix2[SEDENIONS_E1PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E3PART][idx1], matrix2[SEDENIONS_REALPART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E4PART][idx1], matrix2[SEDENIONS_E7PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E5PART][idx1], matrix2[SEDENIONS_E6PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E6PART][idx1], matrix2[SEDENIONS_E5PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E7PART][idx1], matrix2[SEDENIONS_E4PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E8PART][idx1], matrix2[SEDENIONS_E11PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E9PART][idx1], matrix2[SEDENIONS_E10PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E10PART][idx1], matrix2[SEDENIONS_E9PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E11PART][idx1], matrix2[SEDENIONS_E8PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E12PART][idx1], matrix2[SEDENIONS_E15PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E13PART][idx1], matrix2[SEDENIONS_E14PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E14PART][idx1], matrix2[SEDENIONS_E13PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E15PART][idx1], matrix2[SEDENIONS_E12PART][idx2]);
 
-        matrix_product[SEDENIONS_E4PART][dim_cache[RAWS]][dim_cache[COLUMNS]] = mul_func(matrix1[SEDENIONS_REALPART][i][j], matrix2[SEDENIONS_E4PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E1PART][i][j], matrix2[SEDENIONS_E5PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E2PART][i][j], matrix2[SEDENIONS_E6PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E3PART][i][j], matrix2[SEDENIONS_E7PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E4PART][i][j], matrix2[SEDENIONS_REALPART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E5PART][i][j], matrix2[SEDENIONS_E1PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E6PART][i][j], matrix2[SEDENIONS_E2PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E7PART][i][j], matrix2[SEDENIONS_E3PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E8PART][i][j], matrix2[SEDENIONS_E12PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E9PART][i][j], matrix2[SEDENIONS_E13PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E10PART][i][j], matrix2[SEDENIONS_E14PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E11PART][i][j], matrix2[SEDENIONS_E15PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E12PART][i][j], matrix2[SEDENIONS_E8PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E13PART][i][j], matrix2[SEDENIONS_E9PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E14PART][i][j], matrix2[SEDENIONS_E10PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E15PART][i][j], matrix2[SEDENIONS_E11PART][k][l]);
+        matrix_product[SEDENIONS_E4PART][dim_cache] = mul_func(matrix1[SEDENIONS_REALPART][idx1], matrix2[SEDENIONS_E4PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E1PART][idx1], matrix2[SEDENIONS_E5PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E2PART][idx1], matrix2[SEDENIONS_E6PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E3PART][idx1], matrix2[SEDENIONS_E7PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E4PART][idx1], matrix2[SEDENIONS_REALPART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E5PART][idx1], matrix2[SEDENIONS_E1PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E6PART][idx1], matrix2[SEDENIONS_E2PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E7PART][idx1], matrix2[SEDENIONS_E3PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E8PART][idx1], matrix2[SEDENIONS_E12PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E9PART][idx1], matrix2[SEDENIONS_E13PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E10PART][idx1], matrix2[SEDENIONS_E14PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E11PART][idx1], matrix2[SEDENIONS_E15PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E12PART][idx1], matrix2[SEDENIONS_E8PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E13PART][idx1], matrix2[SEDENIONS_E9PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E14PART][idx1], matrix2[SEDENIONS_E10PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E15PART][idx1], matrix2[SEDENIONS_E11PART][idx2]);
 
-        matrix_product[SEDENIONS_E5PART][dim_cache[RAWS]][dim_cache[COLUMNS]] = mul_func(matrix1[SEDENIONS_REALPART][i][j], matrix2[SEDENIONS_E5PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E1PART][i][j], matrix2[SEDENIONS_E4PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E2PART][i][j], matrix2[SEDENIONS_E7PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E3PART][i][j], matrix2[SEDENIONS_E6PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E4PART][i][j], matrix2[SEDENIONS_E1PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E5PART][i][j], matrix2[SEDENIONS_REALPART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E6PART][i][j], matrix2[SEDENIONS_E3PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E7PART][i][j], matrix2[SEDENIONS_E2PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E8PART][i][j], matrix2[SEDENIONS_E13PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E9PART][i][j], matrix2[SEDENIONS_E12PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E10PART][i][j], matrix2[SEDENIONS_E15PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E11PART][i][j], matrix2[SEDENIONS_E4PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E12PART][i][j], matrix2[SEDENIONS_E9PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E13PART][i][j], matrix2[SEDENIONS_E8PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E14PART][i][j], matrix2[SEDENIONS_E11PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E15PART][i][j], matrix2[SEDENIONS_E10PART][k][l]);
+        matrix_product[SEDENIONS_E5PART][dim_cache] = mul_func(matrix1[SEDENIONS_REALPART][idx1], matrix2[SEDENIONS_E5PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E1PART][idx1], matrix2[SEDENIONS_E4PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E2PART][idx1], matrix2[SEDENIONS_E7PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E3PART][idx1], matrix2[SEDENIONS_E6PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E4PART][idx1], matrix2[SEDENIONS_E1PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E5PART][idx1], matrix2[SEDENIONS_REALPART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E6PART][idx1], matrix2[SEDENIONS_E3PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E7PART][idx1], matrix2[SEDENIONS_E2PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E8PART][idx1], matrix2[SEDENIONS_E13PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E9PART][idx1], matrix2[SEDENIONS_E12PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E10PART][idx1], matrix2[SEDENIONS_E15PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E11PART][idx1], matrix2[SEDENIONS_E4PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E12PART][idx1], matrix2[SEDENIONS_E9PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E13PART][idx1], matrix2[SEDENIONS_E8PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E14PART][idx1], matrix2[SEDENIONS_E11PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E15PART][idx1], matrix2[SEDENIONS_E10PART][idx2]);
 
-        matrix_product[SEDENIONS_E6PART][dim_cache[RAWS]][dim_cache[COLUMNS]] = mul_func(matrix1[SEDENIONS_REALPART][i][j], matrix2[SEDENIONS_E6PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E1PART][i][j], matrix2[SEDENIONS_E7PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E2PART][i][j], matrix2[SEDENIONS_E4PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E3PART][i][j], matrix2[SEDENIONS_E5PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E4PART][i][j], matrix2[SEDENIONS_E2PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E5PART][i][j], matrix2[SEDENIONS_E3PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E6PART][i][j], matrix2[SEDENIONS_REALPART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E7PART][i][j], matrix2[SEDENIONS_E1PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E8PART][i][j], matrix2[SEDENIONS_E14PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E9PART][i][j], matrix2[SEDENIONS_E15PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E10PART][i][j], matrix2[SEDENIONS_E12PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E11PART][i][j], matrix2[SEDENIONS_E13PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E12PART][i][j], matrix2[SEDENIONS_E10PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E13PART][i][j], matrix2[SEDENIONS_E11PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E14PART][i][j], matrix2[SEDENIONS_E8PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E15PART][i][j], matrix2[SEDENIONS_E9PART][k][l]);
+        matrix_product[SEDENIONS_E6PART][dim_cache] = mul_func(matrix1[SEDENIONS_REALPART][idx1], matrix2[SEDENIONS_E6PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E1PART][idx1], matrix2[SEDENIONS_E7PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E2PART][idx1], matrix2[SEDENIONS_E4PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E3PART][idx1], matrix2[SEDENIONS_E5PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E4PART][idx1], matrix2[SEDENIONS_E2PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E5PART][idx1], matrix2[SEDENIONS_E3PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E6PART][idx1], matrix2[SEDENIONS_REALPART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E7PART][idx1], matrix2[SEDENIONS_E1PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E8PART][idx1], matrix2[SEDENIONS_E14PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E9PART][idx1], matrix2[SEDENIONS_E15PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E10PART][idx1], matrix2[SEDENIONS_E12PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E11PART][idx1], matrix2[SEDENIONS_E13PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E12PART][idx1], matrix2[SEDENIONS_E10PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E13PART][idx1], matrix2[SEDENIONS_E11PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E14PART][idx1], matrix2[SEDENIONS_E8PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E15PART][idx1], matrix2[SEDENIONS_E9PART][idx2]);
 
-        matrix_product[SEDENIONS_E7PART][dim_cache[RAWS]][dim_cache[COLUMNS]] = mul_func(matrix1[SEDENIONS_REALPART][i][j], matrix2[SEDENIONS_E7PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E1PART][i][j], matrix2[SEDENIONS_E6PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E2PART][i][j], matrix2[SEDENIONS_E5PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E3PART][i][j], matrix2[SEDENIONS_E4PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E4PART][i][j], matrix2[SEDENIONS_E3PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E5PART][i][j], matrix2[SEDENIONS_E2PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E6PART][i][j], matrix2[SEDENIONS_E1PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E7PART][i][j], matrix2[SEDENIONS_REALPART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E8PART][i][j], matrix2[SEDENIONS_E15PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E9PART][i][j], matrix2[SEDENIONS_E14PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E10PART][i][j], matrix2[SEDENIONS_E13PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E11PART][i][j], matrix2[SEDENIONS_E12PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E12PART][i][j], matrix2[SEDENIONS_E11PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E13PART][i][j], matrix2[SEDENIONS_E10PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E14PART][i][j], matrix2[SEDENIONS_E9PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E15PART][i][j], matrix2[SEDENIONS_E8PART][k][l]);
+        matrix_product[SEDENIONS_E7PART][dim_cache] = mul_func(matrix1[SEDENIONS_REALPART][idx1], matrix2[SEDENIONS_E7PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E1PART][idx1], matrix2[SEDENIONS_E6PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E2PART][idx1], matrix2[SEDENIONS_E5PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E3PART][idx1], matrix2[SEDENIONS_E4PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E4PART][idx1], matrix2[SEDENIONS_E3PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E5PART][idx1], matrix2[SEDENIONS_E2PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E6PART][idx1], matrix2[SEDENIONS_E1PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E7PART][idx1], matrix2[SEDENIONS_REALPART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E8PART][idx1], matrix2[SEDENIONS_E15PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E9PART][idx1], matrix2[SEDENIONS_E14PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E10PART][idx1], matrix2[SEDENIONS_E13PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E11PART][idx1], matrix2[SEDENIONS_E12PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E12PART][idx1], matrix2[SEDENIONS_E11PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E13PART][idx1], matrix2[SEDENIONS_E10PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E14PART][idx1], matrix2[SEDENIONS_E9PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E15PART][idx1], matrix2[SEDENIONS_E8PART][idx2]);
 
-        matrix_product[SEDENIONS_E8PART][dim_cache[RAWS]][dim_cache[COLUMNS]] = mul_func(matrix1[SEDENIONS_REALPART][i][j], matrix2[SEDENIONS_E8PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E1PART][i][j], matrix2[SEDENIONS_E9PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E2PART][i][j], matrix2[SEDENIONS_E10PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E3PART][i][j], matrix2[SEDENIONS_E11PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E4PART][i][j], matrix2[SEDENIONS_E12PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E5PART][i][j], matrix2[SEDENIONS_E13PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E6PART][i][j], matrix2[SEDENIONS_E14PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E7PART][i][j], matrix2[SEDENIONS_E15PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E8PART][i][j], matrix2[SEDENIONS_REALPART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E9PART][i][j], matrix2[SEDENIONS_E1PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E10PART][i][j], matrix2[SEDENIONS_E2PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E11PART][i][j], matrix2[SEDENIONS_E3PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E12PART][i][j], matrix2[SEDENIONS_E4PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E13PART][i][j], matrix2[SEDENIONS_E5PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E14PART][i][j], matrix2[SEDENIONS_E6PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E15PART][i][j], matrix2[SEDENIONS_E7PART][k][l]);
+        matrix_product[SEDENIONS_E8PART][dim_cache] = mul_func(matrix1[SEDENIONS_REALPART][idx1], matrix2[SEDENIONS_E8PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E1PART][idx1], matrix2[SEDENIONS_E9PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E2PART][idx1], matrix2[SEDENIONS_E10PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E3PART][idx1], matrix2[SEDENIONS_E11PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E4PART][idx1], matrix2[SEDENIONS_E12PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E5PART][idx1], matrix2[SEDENIONS_E13PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E6PART][idx1], matrix2[SEDENIONS_E14PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E7PART][idx1], matrix2[SEDENIONS_E15PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E8PART][idx1], matrix2[SEDENIONS_REALPART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E9PART][idx1], matrix2[SEDENIONS_E1PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E10PART][idx1], matrix2[SEDENIONS_E2PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E11PART][idx1], matrix2[SEDENIONS_E3PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E12PART][idx1], matrix2[SEDENIONS_E4PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E13PART][idx1], matrix2[SEDENIONS_E5PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E14PART][idx1], matrix2[SEDENIONS_E6PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E15PART][idx1], matrix2[SEDENIONS_E7PART][idx2]);
 
-        matrix_product[SEDENIONS_E9PART][dim_cache[RAWS]][dim_cache[COLUMNS]] = mul_func(matrix1[SEDENIONS_REALPART][i][j], matrix2[SEDENIONS_E9PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E1PART][i][j], matrix2[SEDENIONS_E8PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E2PART][i][j], matrix2[SEDENIONS_E11PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E3PART][i][j], matrix2[SEDENIONS_E10PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E4PART][i][j], matrix2[SEDENIONS_E13PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E5PART][i][j], matrix2[SEDENIONS_E12PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E6PART][i][j], matrix2[SEDENIONS_E15PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E7PART][i][j], matrix2[SEDENIONS_E14PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E8PART][i][j], matrix2[SEDENIONS_E1PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E9PART][i][j], matrix2[SEDENIONS_REALPART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E10PART][i][j], matrix2[SEDENIONS_E3PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E11PART][i][j], matrix2[SEDENIONS_E2PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E12PART][i][j], matrix2[SEDENIONS_E5PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E13PART][i][j], matrix2[SEDENIONS_E4PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E14PART][i][j], matrix2[SEDENIONS_E7PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E15PART][i][j], matrix2[SEDENIONS_E6PART][k][l]);
+        matrix_product[SEDENIONS_E9PART][dim_cache] = mul_func(matrix1[SEDENIONS_REALPART][idx1], matrix2[SEDENIONS_E9PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E1PART][idx1], matrix2[SEDENIONS_E8PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E2PART][idx1], matrix2[SEDENIONS_E11PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E3PART][idx1], matrix2[SEDENIONS_E10PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E4PART][idx1], matrix2[SEDENIONS_E13PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E5PART][idx1], matrix2[SEDENIONS_E12PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E6PART][idx1], matrix2[SEDENIONS_E15PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E7PART][idx1], matrix2[SEDENIONS_E14PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E8PART][idx1], matrix2[SEDENIONS_E1PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E9PART][idx1], matrix2[SEDENIONS_REALPART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E10PART][idx1], matrix2[SEDENIONS_E3PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E11PART][idx1], matrix2[SEDENIONS_E2PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E12PART][idx1], matrix2[SEDENIONS_E5PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E13PART][idx1], matrix2[SEDENIONS_E4PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E14PART][idx1], matrix2[SEDENIONS_E7PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E15PART][idx1], matrix2[SEDENIONS_E6PART][idx2]);
 
-        matrix_product[SEDENIONS_E10PART][dim_cache[RAWS]][dim_cache[COLUMNS]] = mul_func(matrix1[SEDENIONS_REALPART][i][j], matrix2[SEDENIONS_E10PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E1PART][i][j], matrix2[SEDENIONS_E11PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E2PART][i][j], matrix2[SEDENIONS_E8PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E3PART][i][j], matrix2[SEDENIONS_E9PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E4PART][i][j], matrix2[SEDENIONS_E14PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E5PART][i][j], matrix2[SEDENIONS_E15PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E6PART][i][j], matrix2[SEDENIONS_E12PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E7PART][i][j], matrix2[SEDENIONS_E13PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E8PART][i][j], matrix2[SEDENIONS_E2PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E9PART][i][j], matrix2[SEDENIONS_E3PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E10PART][i][j], matrix2[SEDENIONS_REALPART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E11PART][i][j], matrix2[SEDENIONS_E1PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E12PART][i][j], matrix2[SEDENIONS_E6PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E13PART][i][j], matrix2[SEDENIONS_E7PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E14PART][i][j], matrix2[SEDENIONS_E4PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E15PART][i][j], matrix2[SEDENIONS_E5PART][k][l]);
+        matrix_product[SEDENIONS_E10PART][dim_cache] = mul_func(matrix1[SEDENIONS_REALPART][idx1], matrix2[SEDENIONS_E10PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E1PART][idx1], matrix2[SEDENIONS_E11PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E2PART][idx1], matrix2[SEDENIONS_E8PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E3PART][idx1], matrix2[SEDENIONS_E9PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E4PART][idx1], matrix2[SEDENIONS_E14PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E5PART][idx1], matrix2[SEDENIONS_E15PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E6PART][idx1], matrix2[SEDENIONS_E12PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E7PART][idx1], matrix2[SEDENIONS_E13PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E8PART][idx1], matrix2[SEDENIONS_E2PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E9PART][idx1], matrix2[SEDENIONS_E3PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E10PART][idx1], matrix2[SEDENIONS_REALPART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E11PART][idx1], matrix2[SEDENIONS_E1PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E12PART][idx1], matrix2[SEDENIONS_E6PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E13PART][idx1], matrix2[SEDENIONS_E7PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E14PART][idx1], matrix2[SEDENIONS_E4PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E15PART][idx1], matrix2[SEDENIONS_E5PART][idx2]);
 
-        matrix_product[SEDENIONS_E11PART][dim_cache[RAWS]][dim_cache[COLUMNS]] = mul_func(matrix1[SEDENIONS_REALPART][i][j], matrix2[SEDENIONS_E11PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E1PART][i][j], matrix2[SEDENIONS_E10PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E2PART][i][j], matrix2[SEDENIONS_E9PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E3PART][i][j], matrix2[SEDENIONS_E8PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E4PART][i][j], matrix2[SEDENIONS_E15PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E5PART][i][j], matrix2[SEDENIONS_E14PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E6PART][i][j], matrix2[SEDENIONS_E13PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E7PART][i][j], matrix2[SEDENIONS_E12PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E8PART][i][j], matrix2[SEDENIONS_E3PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E9PART][i][j], matrix2[SEDENIONS_E2PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E10PART][i][j], matrix2[SEDENIONS_E1PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E11PART][i][j], matrix2[SEDENIONS_REALPART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E12PART][i][j], matrix2[SEDENIONS_E7PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E13PART][i][j], matrix2[SEDENIONS_E6PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E14PART][i][j], matrix2[SEDENIONS_E5PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E15PART][i][j], matrix2[SEDENIONS_E4PART][k][l]);
+        matrix_product[SEDENIONS_E11PART][dim_cache] = mul_func(matrix1[SEDENIONS_REALPART][idx1], matrix2[SEDENIONS_E11PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E1PART][idx1], matrix2[SEDENIONS_E10PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E2PART][idx1], matrix2[SEDENIONS_E9PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E3PART][idx1], matrix2[SEDENIONS_E8PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E4PART][idx1], matrix2[SEDENIONS_E15PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E5PART][idx1], matrix2[SEDENIONS_E14PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E6PART][idx1], matrix2[SEDENIONS_E13PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E7PART][idx1], matrix2[SEDENIONS_E12PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E8PART][idx1], matrix2[SEDENIONS_E3PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E9PART][idx1], matrix2[SEDENIONS_E2PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E10PART][idx1], matrix2[SEDENIONS_E1PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E11PART][idx1], matrix2[SEDENIONS_REALPART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E12PART][idx1], matrix2[SEDENIONS_E7PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E13PART][idx1], matrix2[SEDENIONS_E6PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E14PART][idx1], matrix2[SEDENIONS_E5PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E15PART][idx1], matrix2[SEDENIONS_E4PART][idx2]);
 
-        matrix_product[SEDENIONS_E12PART][dim_cache[RAWS]][dim_cache[COLUMNS]] = mul_func(matrix1[SEDENIONS_REALPART][i][j], matrix2[SEDENIONS_E12PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E1PART][i][j], matrix2[SEDENIONS_E13PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E2PART][i][j], matrix2[SEDENIONS_E14PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E3PART][i][j], matrix2[SEDENIONS_E15PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E4PART][i][j], matrix2[SEDENIONS_E8PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E5PART][i][j], matrix2[SEDENIONS_E9PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E6PART][i][j], matrix2[SEDENIONS_E10PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E7PART][i][j], matrix2[SEDENIONS_E11PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E8PART][i][j], matrix2[SEDENIONS_E4PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E9PART][i][j], matrix2[SEDENIONS_E5PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E10PART][i][j], matrix2[SEDENIONS_E6PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E11PART][i][j], matrix2[SEDENIONS_E7PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E12PART][i][j], matrix2[SEDENIONS_REALPART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E13PART][i][j], matrix2[SEDENIONS_E1PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E14PART][i][j], matrix2[SEDENIONS_E2PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E15PART][i][j], matrix2[SEDENIONS_E3PART][k][l]);
+        matrix_product[SEDENIONS_E12PART][dim_cache] = mul_func(matrix1[SEDENIONS_REALPART][idx1], matrix2[SEDENIONS_E12PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E1PART][idx1], matrix2[SEDENIONS_E13PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E2PART][idx1], matrix2[SEDENIONS_E14PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E3PART][idx1], matrix2[SEDENIONS_E15PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E4PART][idx1], matrix2[SEDENIONS_E8PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E5PART][idx1], matrix2[SEDENIONS_E9PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E6PART][idx1], matrix2[SEDENIONS_E10PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E7PART][idx1], matrix2[SEDENIONS_E11PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E8PART][idx1], matrix2[SEDENIONS_E4PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E9PART][idx1], matrix2[SEDENIONS_E5PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E10PART][idx1], matrix2[SEDENIONS_E6PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E11PART][idx1], matrix2[SEDENIONS_E7PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E12PART][idx1], matrix2[SEDENIONS_REALPART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E13PART][idx1], matrix2[SEDENIONS_E1PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E14PART][idx1], matrix2[SEDENIONS_E2PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E15PART][idx1], matrix2[SEDENIONS_E3PART][idx2]);
 
-        matrix_product[SEDENIONS_E13PART][dim_cache[RAWS]][dim_cache[COLUMNS]] = mul_func(matrix1[SEDENIONS_REALPART][i][j], matrix2[SEDENIONS_E13PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E1PART][i][j], matrix2[SEDENIONS_E12PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E2PART][i][j], matrix2[SEDENIONS_E15PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E3PART][i][j], matrix2[SEDENIONS_E14PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E4PART][i][j], matrix2[SEDENIONS_E9PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E5PART][i][j], matrix2[SEDENIONS_E8PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E6PART][i][j], matrix2[SEDENIONS_E11PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E7PART][i][j], matrix2[SEDENIONS_E10PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E8PART][i][j], matrix2[SEDENIONS_E5PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E9PART][i][j], matrix2[SEDENIONS_E4PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E10PART][i][j], matrix2[SEDENIONS_E7PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E11PART][i][j], matrix2[SEDENIONS_E6PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E12PART][i][j], matrix2[SEDENIONS_E1PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E13PART][i][j], matrix2[SEDENIONS_REALPART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E14PART][i][j], matrix2[SEDENIONS_E3PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E15PART][i][j], matrix2[SEDENIONS_E2PART][k][l]);
+        matrix_product[SEDENIONS_E13PART][dim_cache] = mul_func(matrix1[SEDENIONS_REALPART][idx1], matrix2[SEDENIONS_E13PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E1PART][idx1], matrix2[SEDENIONS_E12PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E2PART][idx1], matrix2[SEDENIONS_E15PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E3PART][idx1], matrix2[SEDENIONS_E14PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E4PART][idx1], matrix2[SEDENIONS_E9PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E5PART][idx1], matrix2[SEDENIONS_E8PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E6PART][idx1], matrix2[SEDENIONS_E11PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E7PART][idx1], matrix2[SEDENIONS_E10PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E8PART][idx1], matrix2[SEDENIONS_E5PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E9PART][idx1], matrix2[SEDENIONS_E4PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E10PART][idx1], matrix2[SEDENIONS_E7PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E11PART][idx1], matrix2[SEDENIONS_E6PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E12PART][idx1], matrix2[SEDENIONS_E1PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E13PART][idx1], matrix2[SEDENIONS_REALPART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E14PART][idx1], matrix2[SEDENIONS_E3PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E15PART][idx1], matrix2[SEDENIONS_E2PART][idx2]);
 
-        matrix_product[SEDENIONS_E14PART][dim_cache[RAWS]][dim_cache[COLUMNS]] = mul_func(matrix1[SEDENIONS_REALPART][i][j], matrix2[SEDENIONS_E14PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E1PART][i][j], matrix2[SEDENIONS_E15PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E2PART][i][j], matrix2[SEDENIONS_E12PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E3PART][i][j], matrix2[SEDENIONS_E13PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E4PART][i][j], matrix2[SEDENIONS_E10PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E5PART][i][j], matrix2[SEDENIONS_E11PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E6PART][i][j], matrix2[SEDENIONS_E8PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E7PART][i][j], matrix2[SEDENIONS_E9PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E8PART][i][j], matrix2[SEDENIONS_E6PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E9PART][i][j], matrix2[SEDENIONS_E7PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E10PART][i][j], matrix2[SEDENIONS_E3PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E11PART][i][j], matrix2[SEDENIONS_E5PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E12PART][i][j], matrix2[SEDENIONS_E2PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E13PART][i][j], matrix2[SEDENIONS_E3PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E14PART][i][j], matrix2[SEDENIONS_REALPART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E15PART][i][j], matrix2[SEDENIONS_E1PART][k][l]);
+        matrix_product[SEDENIONS_E14PART][dim_cache] = mul_func(matrix1[SEDENIONS_REALPART][idx1], matrix2[SEDENIONS_E14PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E1PART][idx1], matrix2[SEDENIONS_E15PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E2PART][idx1], matrix2[SEDENIONS_E12PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E3PART][idx1], matrix2[SEDENIONS_E13PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E4PART][idx1], matrix2[SEDENIONS_E10PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E5PART][idx1], matrix2[SEDENIONS_E11PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E6PART][idx1], matrix2[SEDENIONS_E8PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E7PART][idx1], matrix2[SEDENIONS_E9PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E8PART][idx1], matrix2[SEDENIONS_E6PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E9PART][idx1], matrix2[SEDENIONS_E7PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E10PART][idx1], matrix2[SEDENIONS_E3PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E11PART][idx1], matrix2[SEDENIONS_E5PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E12PART][idx1], matrix2[SEDENIONS_E2PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E13PART][idx1], matrix2[SEDENIONS_E3PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E14PART][idx1], matrix2[SEDENIONS_REALPART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E15PART][idx1], matrix2[SEDENIONS_E1PART][idx2]);
 
-        matrix_product[SEDENIONS_E15PART][dim_cache[RAWS]][dim_cache[COLUMNS]] = mul_func(matrix1[SEDENIONS_REALPART][i][j], matrix2[SEDENIONS_E15PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E1PART][i][j], matrix2[SEDENIONS_E14PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E2PART][i][j], matrix2[SEDENIONS_E13PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E3PART][i][j], matrix2[SEDENIONS_E12PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E4PART][i][j], matrix2[SEDENIONS_E11PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E5PART][i][j], matrix2[SEDENIONS_E10PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E6PART][i][j], matrix2[SEDENIONS_E9PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E7PART][i][j], matrix2[SEDENIONS_E8PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E8PART][i][j], matrix2[SEDENIONS_E3PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E9PART][i][j], matrix2[SEDENIONS_E6PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E10PART][i][j], matrix2[SEDENIONS_E5PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E11PART][i][j], matrix2[SEDENIONS_E4PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E12PART][i][j], matrix2[SEDENIONS_E3PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E13PART][i][j], matrix2[SEDENIONS_E2PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E14PART][i][j], matrix2[SEDENIONS_E1PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E15PART][i][j], matrix2[SEDENIONS_E14PART][k][l]);
+        matrix_product[SEDENIONS_E15PART][dim_cache] = mul_func(matrix1[SEDENIONS_REALPART][idx1], matrix2[SEDENIONS_E15PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E1PART][idx1], matrix2[SEDENIONS_E14PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E2PART][idx1], matrix2[SEDENIONS_E13PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E3PART][idx1], matrix2[SEDENIONS_E12PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E4PART][idx1], matrix2[SEDENIONS_E11PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E5PART][idx1], matrix2[SEDENIONS_E10PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E6PART][idx1], matrix2[SEDENIONS_E9PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E7PART][idx1], matrix2[SEDENIONS_E8PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E8PART][idx1], matrix2[SEDENIONS_E3PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E9PART][idx1], matrix2[SEDENIONS_E6PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E10PART][idx1], matrix2[SEDENIONS_E5PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E11PART][idx1], matrix2[SEDENIONS_E4PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E12PART][idx1], matrix2[SEDENIONS_E3PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E13PART][idx1], matrix2[SEDENIONS_E2PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E14PART][idx1], matrix2[SEDENIONS_E1PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E15PART][idx1], matrix2[SEDENIONS_E14PART][idx2]);
 	}
 
 	return;
 }
 
-__MSNATIVE_ _MS__private void __system __export _matrixKSMTProduct(ityp ***matrix1, ityp ***matrix2, ityp ***matrix_product, const register dim_typ dim[static MAX_DIMENSIONS][MAX_DIMENSIONS], const register dim_typ i, const register dim_typ j, const register dim_typ k, const register dim_typ l)
+__MSNATIVE_ __MSSTOCK _MS__private static void __system __export _matrixKSMTProduct(ityp **matrix1, ityp **matrix2, ityp **matrix_product, const register dim_typ dim_cache, const register dim_typ idx1, const register dim_typ idx2)
 {
 	ityp (* const mul_func)(register ityp, register ityp) = INVERSE_OPS ? math_div : math_mul;
-	const register dim_typ dim_cache[MAX_DIMENSIONS] =
-	{
-		k+(i*dim[SECOND_MATRIX][RAWS]),
-		l+(j*dim[SECOND_MATRIX][COLUMNS])
-	};
+
 	#pragma omp parallel
 	{
-        matrix_product[SEDENIONS_REALPART][dim_cache[RAWS]][dim_cache[COLUMNS]] = mul_func(matrix1[SEDENIONS_REALPART][i][j], matrix2[SEDENIONS_REALPART][k][l]) -
-                                                                                  mul_func(matrix1[SEDENIONS_E1PART][i][j], matrix2[SEDENIONS_E1PART][k][l]) -
-                                                                                  mul_func(matrix1[SEDENIONS_E2PART][i][j], matrix2[SEDENIONS_E2PART][k][l]) -
-                                                                                  mul_func(matrix1[SEDENIONS_E3PART][i][j], matrix2[SEDENIONS_E3PART][k][l]) -
-                                                                                  mul_func(matrix1[SEDENIONS_E4PART][i][j], matrix2[SEDENIONS_E4PART][k][l]) -
-                                                                                  mul_func(matrix1[SEDENIONS_E5PART][i][j], matrix2[SEDENIONS_E5PART][k][l]) -
-                                                                                  mul_func(matrix1[SEDENIONS_E6PART][i][j], matrix2[SEDENIONS_E6PART][k][l]) -
-                                                                                  mul_func(matrix1[SEDENIONS_E7PART][i][j], matrix2[SEDENIONS_E7PART][k][l]) -
-                                                                                  mul_func(matrix1[SEDENIONS_E8PART][i][j], matrix2[SEDENIONS_E8PART][k][l]) -
-                                                                                  mul_func(matrix1[SEDENIONS_E9PART][i][j], matrix2[SEDENIONS_E9PART][k][l]) -
-                                                                                  mul_func(matrix1[SEDENIONS_E10PART][i][j], matrix2[SEDENIONS_E10PART][k][l]) -
-                                                                                  mul_func(matrix1[SEDENIONS_E11PART][i][j], matrix2[SEDENIONS_E11PART][k][l]) -
-                                                                                  mul_func(matrix1[SEDENIONS_E12PART][i][j], matrix2[SEDENIONS_E12PART][k][l]) -
-                                                                                  mul_func(matrix1[SEDENIONS_E13PART][i][j], matrix2[SEDENIONS_E13PART][k][l]) -
-                                                                                  mul_func(matrix1[SEDENIONS_E14PART][i][j], matrix2[SEDENIONS_E14PART][k][l]) -
-                                                                                  mul_func(matrix1[SEDENIONS_E15PART][i][j], matrix2[SEDENIONS_E15PART][k][l]);
+        matrix_product[SEDENIONS_REALPART][dim_cache] = mul_func(matrix1[SEDENIONS_REALPART][idx1], matrix2[SEDENIONS_REALPART][idx2]) -
+                                                                                  mul_func(matrix1[SEDENIONS_E1PART][idx1], matrix2[SEDENIONS_E1PART][idx2]) -
+                                                                                  mul_func(matrix1[SEDENIONS_E2PART][idx1], matrix2[SEDENIONS_E2PART][idx2]) -
+                                                                                  mul_func(matrix1[SEDENIONS_E3PART][idx1], matrix2[SEDENIONS_E3PART][idx2]) -
+                                                                                  mul_func(matrix1[SEDENIONS_E4PART][idx1], matrix2[SEDENIONS_E4PART][idx2]) -
+                                                                                  mul_func(matrix1[SEDENIONS_E5PART][idx1], matrix2[SEDENIONS_E5PART][idx2]) -
+                                                                                  mul_func(matrix1[SEDENIONS_E6PART][idx1], matrix2[SEDENIONS_E6PART][idx2]) -
+                                                                                  mul_func(matrix1[SEDENIONS_E7PART][idx1], matrix2[SEDENIONS_E7PART][idx2]) -
+                                                                                  mul_func(matrix1[SEDENIONS_E8PART][idx1], matrix2[SEDENIONS_E8PART][idx2]) -
+                                                                                  mul_func(matrix1[SEDENIONS_E9PART][idx1], matrix2[SEDENIONS_E9PART][idx2]) -
+                                                                                  mul_func(matrix1[SEDENIONS_E10PART][idx1], matrix2[SEDENIONS_E10PART][idx2]) -
+                                                                                  mul_func(matrix1[SEDENIONS_E11PART][idx1], matrix2[SEDENIONS_E11PART][idx2]) -
+                                                                                  mul_func(matrix1[SEDENIONS_E12PART][idx1], matrix2[SEDENIONS_E12PART][idx2]) -
+                                                                                  mul_func(matrix1[SEDENIONS_E13PART][idx1], matrix2[SEDENIONS_E13PART][idx2]) -
+                                                                                  mul_func(matrix1[SEDENIONS_E14PART][idx1], matrix2[SEDENIONS_E14PART][idx2]) -
+                                                                                  mul_func(matrix1[SEDENIONS_E15PART][idx1], matrix2[SEDENIONS_E15PART][idx2]);
 
-        matrix_product[SEDENIONS_E1PART][dim_cache[RAWS]][dim_cache[COLUMNS]] = mul_func(matrix1[SEDENIONS_REALPART][i][j], matrix2[SEDENIONS_E1PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E1PART][i][j], matrix2[SEDENIONS_REALPART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E2PART][i][j], matrix2[SEDENIONS_E3PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E3PART][i][j], matrix2[SEDENIONS_E2PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E4PART][i][j], matrix2[SEDENIONS_E5PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E5PART][i][j], matrix2[SEDENIONS_E4PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E6PART][i][j], matrix2[SEDENIONS_E7PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E7PART][i][j], matrix2[SEDENIONS_E6PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E8PART][i][j], matrix2[SEDENIONS_E9PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E9PART][i][j], matrix2[SEDENIONS_E8PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E10PART][i][j], matrix2[SEDENIONS_E11PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E11PART][i][j], matrix2[SEDENIONS_E10PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E12PART][i][j], matrix2[SEDENIONS_E13PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E13PART][i][j], matrix2[SEDENIONS_E12PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E14PART][i][j], matrix2[SEDENIONS_E15PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E15PART][i][j], matrix2[SEDENIONS_E14PART][k][l]);
+        matrix_product[SEDENIONS_E1PART][dim_cache] = mul_func(matrix1[SEDENIONS_REALPART][idx1], matrix2[SEDENIONS_E1PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E1PART][idx1], matrix2[SEDENIONS_REALPART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E2PART][idx1], matrix2[SEDENIONS_E3PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E3PART][idx1], matrix2[SEDENIONS_E2PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E4PART][idx1], matrix2[SEDENIONS_E5PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E5PART][idx1], matrix2[SEDENIONS_E4PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E6PART][idx1], matrix2[SEDENIONS_E7PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E7PART][idx1], matrix2[SEDENIONS_E6PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E8PART][idx1], matrix2[SEDENIONS_E9PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E9PART][idx1], matrix2[SEDENIONS_E8PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E10PART][idx1], matrix2[SEDENIONS_E11PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E11PART][idx1], matrix2[SEDENIONS_E10PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E12PART][idx1], matrix2[SEDENIONS_E13PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E13PART][idx1], matrix2[SEDENIONS_E12PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E14PART][idx1], matrix2[SEDENIONS_E15PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E15PART][idx1], matrix2[SEDENIONS_E14PART][idx2]);
 
-        matrix_product[SEDENIONS_E2PART][dim_cache[RAWS]][dim_cache[COLUMNS]] = mul_func(matrix1[SEDENIONS_REALPART][i][j], matrix2[SEDENIONS_E2PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E1PART][i][j], matrix2[SEDENIONS_E3PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E2PART][i][j], matrix2[SEDENIONS_REALPART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E3PART][i][j], matrix2[SEDENIONS_E1PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E4PART][i][j], matrix2[SEDENIONS_E6PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E5PART][i][j], matrix2[SEDENIONS_E7PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E6PART][i][j], matrix2[SEDENIONS_E4PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E7PART][i][j], matrix2[SEDENIONS_E5PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E8PART][i][j], matrix2[SEDENIONS_E10PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E9PART][i][j], matrix2[SEDENIONS_E11PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E10PART][i][j], matrix2[SEDENIONS_E8PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E11PART][i][j], matrix2[SEDENIONS_E9PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E12PART][i][j], matrix2[SEDENIONS_E14PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E13PART][i][j], matrix2[SEDENIONS_E15PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E14PART][i][j], matrix2[SEDENIONS_E12PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E15PART][i][j], matrix2[SEDENIONS_E13PART][k][l]);
+        matrix_product[SEDENIONS_E2PART][dim_cache] = mul_func(matrix1[SEDENIONS_REALPART][idx1], matrix2[SEDENIONS_E2PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E1PART][idx1], matrix2[SEDENIONS_E3PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E2PART][idx1], matrix2[SEDENIONS_REALPART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E3PART][idx1], matrix2[SEDENIONS_E1PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E4PART][idx1], matrix2[SEDENIONS_E6PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E5PART][idx1], matrix2[SEDENIONS_E7PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E6PART][idx1], matrix2[SEDENIONS_E4PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E7PART][idx1], matrix2[SEDENIONS_E5PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E8PART][idx1], matrix2[SEDENIONS_E10PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E9PART][idx1], matrix2[SEDENIONS_E11PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E10PART][idx1], matrix2[SEDENIONS_E8PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E11PART][idx1], matrix2[SEDENIONS_E9PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E12PART][idx1], matrix2[SEDENIONS_E14PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E13PART][idx1], matrix2[SEDENIONS_E15PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E14PART][idx1], matrix2[SEDENIONS_E12PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E15PART][idx1], matrix2[SEDENIONS_E13PART][idx2]);
 
-        matrix_product[SEDENIONS_E3PART][dim_cache[RAWS]][dim_cache[COLUMNS]] = mul_func(matrix1[SEDENIONS_REALPART][i][j], matrix2[SEDENIONS_E3PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E1PART][i][j], matrix2[SEDENIONS_E2PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E2PART][i][j], matrix2[SEDENIONS_E1PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E3PART][i][j], matrix2[SEDENIONS_REALPART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E4PART][i][j], matrix2[SEDENIONS_E7PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E5PART][i][j], matrix2[SEDENIONS_E6PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E6PART][i][j], matrix2[SEDENIONS_E5PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E7PART][i][j], matrix2[SEDENIONS_E4PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E8PART][i][j], matrix2[SEDENIONS_E11PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E9PART][i][j], matrix2[SEDENIONS_E10PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E10PART][i][j], matrix2[SEDENIONS_E9PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E11PART][i][j], matrix2[SEDENIONS_E8PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E12PART][i][j], matrix2[SEDENIONS_E15PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E13PART][i][j], matrix2[SEDENIONS_E14PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E14PART][i][j], matrix2[SEDENIONS_E13PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E15PART][i][j], matrix2[SEDENIONS_E12PART][k][l]);
+        matrix_product[SEDENIONS_E3PART][dim_cache] = mul_func(matrix1[SEDENIONS_REALPART][idx1], matrix2[SEDENIONS_E3PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E1PART][idx1], matrix2[SEDENIONS_E2PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E2PART][idx1], matrix2[SEDENIONS_E1PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E3PART][idx1], matrix2[SEDENIONS_REALPART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E4PART][idx1], matrix2[SEDENIONS_E7PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E5PART][idx1], matrix2[SEDENIONS_E6PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E6PART][idx1], matrix2[SEDENIONS_E5PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E7PART][idx1], matrix2[SEDENIONS_E4PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E8PART][idx1], matrix2[SEDENIONS_E11PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E9PART][idx1], matrix2[SEDENIONS_E10PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E10PART][idx1], matrix2[SEDENIONS_E9PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E11PART][idx1], matrix2[SEDENIONS_E8PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E12PART][idx1], matrix2[SEDENIONS_E15PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E13PART][idx1], matrix2[SEDENIONS_E14PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E14PART][idx1], matrix2[SEDENIONS_E13PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E15PART][idx1], matrix2[SEDENIONS_E12PART][idx2]);
 
-        matrix_product[SEDENIONS_E4PART][dim_cache[RAWS]][dim_cache[COLUMNS]] = mul_func(matrix1[SEDENIONS_REALPART][i][j], matrix2[SEDENIONS_E4PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E1PART][i][j], matrix2[SEDENIONS_E5PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E2PART][i][j], matrix2[SEDENIONS_E6PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E3PART][i][j], matrix2[SEDENIONS_E7PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E4PART][i][j], matrix2[SEDENIONS_REALPART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E5PART][i][j], matrix2[SEDENIONS_E1PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E6PART][i][j], matrix2[SEDENIONS_E2PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E7PART][i][j], matrix2[SEDENIONS_E3PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E8PART][i][j], matrix2[SEDENIONS_E12PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E9PART][i][j], matrix2[SEDENIONS_E13PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E10PART][i][j], matrix2[SEDENIONS_E14PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E11PART][i][j], matrix2[SEDENIONS_E15PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E12PART][i][j], matrix2[SEDENIONS_E8PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E13PART][i][j], matrix2[SEDENIONS_E9PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E14PART][i][j], matrix2[SEDENIONS_E10PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E15PART][i][j], matrix2[SEDENIONS_E11PART][k][l]);
+        matrix_product[SEDENIONS_E4PART][dim_cache] = mul_func(matrix1[SEDENIONS_REALPART][idx1], matrix2[SEDENIONS_E4PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E1PART][idx1], matrix2[SEDENIONS_E5PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E2PART][idx1], matrix2[SEDENIONS_E6PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E3PART][idx1], matrix2[SEDENIONS_E7PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E4PART][idx1], matrix2[SEDENIONS_REALPART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E5PART][idx1], matrix2[SEDENIONS_E1PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E6PART][idx1], matrix2[SEDENIONS_E2PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E7PART][idx1], matrix2[SEDENIONS_E3PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E8PART][idx1], matrix2[SEDENIONS_E12PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E9PART][idx1], matrix2[SEDENIONS_E13PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E10PART][idx1], matrix2[SEDENIONS_E14PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E11PART][idx1], matrix2[SEDENIONS_E15PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E12PART][idx1], matrix2[SEDENIONS_E8PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E13PART][idx1], matrix2[SEDENIONS_E9PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E14PART][idx1], matrix2[SEDENIONS_E10PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E15PART][idx1], matrix2[SEDENIONS_E11PART][idx2]);
 
-        matrix_product[SEDENIONS_E5PART][dim_cache[RAWS]][dim_cache[COLUMNS]] = mul_func(matrix1[SEDENIONS_REALPART][i][j], matrix2[SEDENIONS_E5PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E1PART][i][j], matrix2[SEDENIONS_E4PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E2PART][i][j], matrix2[SEDENIONS_E7PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E3PART][i][j], matrix2[SEDENIONS_E6PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E4PART][i][j], matrix2[SEDENIONS_E1PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E5PART][i][j], matrix2[SEDENIONS_REALPART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E6PART][i][j], matrix2[SEDENIONS_E3PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E7PART][i][j], matrix2[SEDENIONS_E2PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E8PART][i][j], matrix2[SEDENIONS_E13PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E9PART][i][j], matrix2[SEDENIONS_E12PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E10PART][i][j], matrix2[SEDENIONS_E15PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E11PART][i][j], matrix2[SEDENIONS_E4PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E12PART][i][j], matrix2[SEDENIONS_E9PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E13PART][i][j], matrix2[SEDENIONS_E8PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E14PART][i][j], matrix2[SEDENIONS_E11PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E15PART][i][j], matrix2[SEDENIONS_E10PART][k][l]);
+        matrix_product[SEDENIONS_E5PART][dim_cache] = mul_func(matrix1[SEDENIONS_REALPART][idx1], matrix2[SEDENIONS_E5PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E1PART][idx1], matrix2[SEDENIONS_E4PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E2PART][idx1], matrix2[SEDENIONS_E7PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E3PART][idx1], matrix2[SEDENIONS_E6PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E4PART][idx1], matrix2[SEDENIONS_E1PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E5PART][idx1], matrix2[SEDENIONS_REALPART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E6PART][idx1], matrix2[SEDENIONS_E3PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E7PART][idx1], matrix2[SEDENIONS_E2PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E8PART][idx1], matrix2[SEDENIONS_E13PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E9PART][idx1], matrix2[SEDENIONS_E12PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E10PART][idx1], matrix2[SEDENIONS_E15PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E11PART][idx1], matrix2[SEDENIONS_E4PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E12PART][idx1], matrix2[SEDENIONS_E9PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E13PART][idx1], matrix2[SEDENIONS_E8PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E14PART][idx1], matrix2[SEDENIONS_E11PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E15PART][idx1], matrix2[SEDENIONS_E10PART][idx2]);
 
-        matrix_product[SEDENIONS_E6PART][dim_cache[RAWS]][dim_cache[COLUMNS]] = mul_func(matrix1[SEDENIONS_REALPART][i][j], matrix2[SEDENIONS_E6PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E1PART][i][j], matrix2[SEDENIONS_E7PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E2PART][i][j], matrix2[SEDENIONS_E4PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E3PART][i][j], matrix2[SEDENIONS_E5PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E4PART][i][j], matrix2[SEDENIONS_E2PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E5PART][i][j], matrix2[SEDENIONS_E3PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E6PART][i][j], matrix2[SEDENIONS_REALPART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E7PART][i][j], matrix2[SEDENIONS_E1PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E8PART][i][j], matrix2[SEDENIONS_E14PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E9PART][i][j], matrix2[SEDENIONS_E15PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E10PART][i][j], matrix2[SEDENIONS_E12PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E11PART][i][j], matrix2[SEDENIONS_E13PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E12PART][i][j], matrix2[SEDENIONS_E10PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E13PART][i][j], matrix2[SEDENIONS_E11PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E14PART][i][j], matrix2[SEDENIONS_E8PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E15PART][i][j], matrix2[SEDENIONS_E9PART][k][l]);
+        matrix_product[SEDENIONS_E6PART][dim_cache] = mul_func(matrix1[SEDENIONS_REALPART][idx1], matrix2[SEDENIONS_E6PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E1PART][idx1], matrix2[SEDENIONS_E7PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E2PART][idx1], matrix2[SEDENIONS_E4PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E3PART][idx1], matrix2[SEDENIONS_E5PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E4PART][idx1], matrix2[SEDENIONS_E2PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E5PART][idx1], matrix2[SEDENIONS_E3PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E6PART][idx1], matrix2[SEDENIONS_REALPART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E7PART][idx1], matrix2[SEDENIONS_E1PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E8PART][idx1], matrix2[SEDENIONS_E14PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E9PART][idx1], matrix2[SEDENIONS_E15PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E10PART][idx1], matrix2[SEDENIONS_E12PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E11PART][idx1], matrix2[SEDENIONS_E13PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E12PART][idx1], matrix2[SEDENIONS_E10PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E13PART][idx1], matrix2[SEDENIONS_E11PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E14PART][idx1], matrix2[SEDENIONS_E8PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E15PART][idx1], matrix2[SEDENIONS_E9PART][idx2]);
 
-        matrix_product[SEDENIONS_E7PART][dim_cache[RAWS]][dim_cache[COLUMNS]] = mul_func(matrix1[SEDENIONS_REALPART][i][j], matrix2[SEDENIONS_E7PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E1PART][i][j], matrix2[SEDENIONS_E6PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E2PART][i][j], matrix2[SEDENIONS_E5PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E3PART][i][j], matrix2[SEDENIONS_E4PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E4PART][i][j], matrix2[SEDENIONS_E3PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E5PART][i][j], matrix2[SEDENIONS_E2PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E6PART][i][j], matrix2[SEDENIONS_E1PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E7PART][i][j], matrix2[SEDENIONS_REALPART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E8PART][i][j], matrix2[SEDENIONS_E15PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E9PART][i][j], matrix2[SEDENIONS_E14PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E10PART][i][j], matrix2[SEDENIONS_E13PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E11PART][i][j], matrix2[SEDENIONS_E12PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E12PART][i][j], matrix2[SEDENIONS_E11PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E13PART][i][j], matrix2[SEDENIONS_E10PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E14PART][i][j], matrix2[SEDENIONS_E9PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E15PART][i][j], matrix2[SEDENIONS_E8PART][k][l]);
+        matrix_product[SEDENIONS_E7PART][dim_cache] = mul_func(matrix1[SEDENIONS_REALPART][idx1], matrix2[SEDENIONS_E7PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E1PART][idx1], matrix2[SEDENIONS_E6PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E2PART][idx1], matrix2[SEDENIONS_E5PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E3PART][idx1], matrix2[SEDENIONS_E4PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E4PART][idx1], matrix2[SEDENIONS_E3PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E5PART][idx1], matrix2[SEDENIONS_E2PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E6PART][idx1], matrix2[SEDENIONS_E1PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E7PART][idx1], matrix2[SEDENIONS_REALPART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E8PART][idx1], matrix2[SEDENIONS_E15PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E9PART][idx1], matrix2[SEDENIONS_E14PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E10PART][idx1], matrix2[SEDENIONS_E13PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E11PART][idx1], matrix2[SEDENIONS_E12PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E12PART][idx1], matrix2[SEDENIONS_E11PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E13PART][idx1], matrix2[SEDENIONS_E10PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E14PART][idx1], matrix2[SEDENIONS_E9PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E15PART][idx1], matrix2[SEDENIONS_E8PART][idx2]);
 
-        matrix_product[SEDENIONS_E8PART][dim_cache[RAWS]][dim_cache[COLUMNS]] = mul_func(matrix1[SEDENIONS_REALPART][i][j], matrix2[SEDENIONS_E8PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E1PART][i][j], matrix2[SEDENIONS_E9PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E2PART][i][j], matrix2[SEDENIONS_E10PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E3PART][i][j], matrix2[SEDENIONS_E11PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E4PART][i][j], matrix2[SEDENIONS_E12PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E5PART][i][j], matrix2[SEDENIONS_E13PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E6PART][i][j], matrix2[SEDENIONS_E14PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E7PART][i][j], matrix2[SEDENIONS_E15PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E8PART][i][j], matrix2[SEDENIONS_REALPART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E9PART][i][j], matrix2[SEDENIONS_E1PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E10PART][i][j], matrix2[SEDENIONS_E2PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E11PART][i][j], matrix2[SEDENIONS_E3PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E12PART][i][j], matrix2[SEDENIONS_E4PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E13PART][i][j], matrix2[SEDENIONS_E5PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E14PART][i][j], matrix2[SEDENIONS_E6PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E15PART][i][j], matrix2[SEDENIONS_E7PART][k][l]);
+        matrix_product[SEDENIONS_E8PART][dim_cache] = mul_func(matrix1[SEDENIONS_REALPART][idx1], matrix2[SEDENIONS_E8PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E1PART][idx1], matrix2[SEDENIONS_E9PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E2PART][idx1], matrix2[SEDENIONS_E10PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E3PART][idx1], matrix2[SEDENIONS_E11PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E4PART][idx1], matrix2[SEDENIONS_E12PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E5PART][idx1], matrix2[SEDENIONS_E13PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E6PART][idx1], matrix2[SEDENIONS_E14PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E7PART][idx1], matrix2[SEDENIONS_E15PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E8PART][idx1], matrix2[SEDENIONS_REALPART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E9PART][idx1], matrix2[SEDENIONS_E1PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E10PART][idx1], matrix2[SEDENIONS_E2PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E11PART][idx1], matrix2[SEDENIONS_E3PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E12PART][idx1], matrix2[SEDENIONS_E4PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E13PART][idx1], matrix2[SEDENIONS_E5PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E14PART][idx1], matrix2[SEDENIONS_E6PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E15PART][idx1], matrix2[SEDENIONS_E7PART][idx2]);
 
-        matrix_product[SEDENIONS_E9PART][dim_cache[RAWS]][dim_cache[COLUMNS]] = mul_func(matrix1[SEDENIONS_REALPART][i][j], matrix2[SEDENIONS_E9PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E1PART][i][j], matrix2[SEDENIONS_E8PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E2PART][i][j], matrix2[SEDENIONS_E11PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E3PART][i][j], matrix2[SEDENIONS_E10PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E4PART][i][j], matrix2[SEDENIONS_E13PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E5PART][i][j], matrix2[SEDENIONS_E12PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E6PART][i][j], matrix2[SEDENIONS_E15PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E7PART][i][j], matrix2[SEDENIONS_E14PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E8PART][i][j], matrix2[SEDENIONS_E1PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E9PART][i][j], matrix2[SEDENIONS_REALPART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E10PART][i][j], matrix2[SEDENIONS_E3PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E11PART][i][j], matrix2[SEDENIONS_E2PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E12PART][i][j], matrix2[SEDENIONS_E5PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E13PART][i][j], matrix2[SEDENIONS_E4PART][k][l]) +
-                                                                                mul_func(matrix1[SEDENIONS_E14PART][i][j], matrix2[SEDENIONS_E7PART][k][l]) -
-                                                                                mul_func(matrix1[SEDENIONS_E15PART][i][j], matrix2[SEDENIONS_E6PART][k][l]);
+        matrix_product[SEDENIONS_E9PART][dim_cache] = mul_func(matrix1[SEDENIONS_REALPART][idx1], matrix2[SEDENIONS_E9PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E1PART][idx1], matrix2[SEDENIONS_E8PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E2PART][idx1], matrix2[SEDENIONS_E11PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E3PART][idx1], matrix2[SEDENIONS_E10PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E4PART][idx1], matrix2[SEDENIONS_E13PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E5PART][idx1], matrix2[SEDENIONS_E12PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E6PART][idx1], matrix2[SEDENIONS_E15PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E7PART][idx1], matrix2[SEDENIONS_E14PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E8PART][idx1], matrix2[SEDENIONS_E1PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E9PART][idx1], matrix2[SEDENIONS_REALPART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E10PART][idx1], matrix2[SEDENIONS_E3PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E11PART][idx1], matrix2[SEDENIONS_E2PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E12PART][idx1], matrix2[SEDENIONS_E5PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E13PART][idx1], matrix2[SEDENIONS_E4PART][idx2]) +
+                                                                                mul_func(matrix1[SEDENIONS_E14PART][idx1], matrix2[SEDENIONS_E7PART][idx2]) -
+                                                                                mul_func(matrix1[SEDENIONS_E15PART][idx1], matrix2[SEDENIONS_E6PART][idx2]);
 
-        matrix_product[SEDENIONS_E10PART][dim_cache[RAWS]][dim_cache[COLUMNS]] = mul_func(matrix1[SEDENIONS_REALPART][i][j], matrix2[SEDENIONS_E10PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E1PART][i][j], matrix2[SEDENIONS_E11PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E2PART][i][j], matrix2[SEDENIONS_E8PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E3PART][i][j], matrix2[SEDENIONS_E9PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E4PART][i][j], matrix2[SEDENIONS_E14PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E5PART][i][j], matrix2[SEDENIONS_E15PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E6PART][i][j], matrix2[SEDENIONS_E12PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E7PART][i][j], matrix2[SEDENIONS_E13PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E8PART][i][j], matrix2[SEDENIONS_E2PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E9PART][i][j], matrix2[SEDENIONS_E3PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E10PART][i][j], matrix2[SEDENIONS_REALPART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E11PART][i][j], matrix2[SEDENIONS_E1PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E12PART][i][j], matrix2[SEDENIONS_E6PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E13PART][i][j], matrix2[SEDENIONS_E7PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E14PART][i][j], matrix2[SEDENIONS_E4PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E15PART][i][j], matrix2[SEDENIONS_E5PART][k][l]);
+        matrix_product[SEDENIONS_E10PART][dim_cache] = mul_func(matrix1[SEDENIONS_REALPART][idx1], matrix2[SEDENIONS_E10PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E1PART][idx1], matrix2[SEDENIONS_E11PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E2PART][idx1], matrix2[SEDENIONS_E8PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E3PART][idx1], matrix2[SEDENIONS_E9PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E4PART][idx1], matrix2[SEDENIONS_E14PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E5PART][idx1], matrix2[SEDENIONS_E15PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E6PART][idx1], matrix2[SEDENIONS_E12PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E7PART][idx1], matrix2[SEDENIONS_E13PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E8PART][idx1], matrix2[SEDENIONS_E2PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E9PART][idx1], matrix2[SEDENIONS_E3PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E10PART][idx1], matrix2[SEDENIONS_REALPART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E11PART][idx1], matrix2[SEDENIONS_E1PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E12PART][idx1], matrix2[SEDENIONS_E6PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E13PART][idx1], matrix2[SEDENIONS_E7PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E14PART][idx1], matrix2[SEDENIONS_E4PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E15PART][idx1], matrix2[SEDENIONS_E5PART][idx2]);
 
-        matrix_product[SEDENIONS_E11PART][dim_cache[RAWS]][dim_cache[COLUMNS]] = mul_func(matrix1[SEDENIONS_REALPART][i][j], matrix2[SEDENIONS_E11PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E1PART][i][j], matrix2[SEDENIONS_E10PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E2PART][i][j], matrix2[SEDENIONS_E9PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E3PART][i][j], matrix2[SEDENIONS_E8PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E4PART][i][j], matrix2[SEDENIONS_E15PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E5PART][i][j], matrix2[SEDENIONS_E14PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E6PART][i][j], matrix2[SEDENIONS_E13PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E7PART][i][j], matrix2[SEDENIONS_E12PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E8PART][i][j], matrix2[SEDENIONS_E3PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E9PART][i][j], matrix2[SEDENIONS_E2PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E10PART][i][j], matrix2[SEDENIONS_E1PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E11PART][i][j], matrix2[SEDENIONS_REALPART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E12PART][i][j], matrix2[SEDENIONS_E7PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E13PART][i][j], matrix2[SEDENIONS_E6PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E14PART][i][j], matrix2[SEDENIONS_E5PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E15PART][i][j], matrix2[SEDENIONS_E4PART][k][l]);
+        matrix_product[SEDENIONS_E11PART][dim_cache] = mul_func(matrix1[SEDENIONS_REALPART][idx1], matrix2[SEDENIONS_E11PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E1PART][idx1], matrix2[SEDENIONS_E10PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E2PART][idx1], matrix2[SEDENIONS_E9PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E3PART][idx1], matrix2[SEDENIONS_E8PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E4PART][idx1], matrix2[SEDENIONS_E15PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E5PART][idx1], matrix2[SEDENIONS_E14PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E6PART][idx1], matrix2[SEDENIONS_E13PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E7PART][idx1], matrix2[SEDENIONS_E12PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E8PART][idx1], matrix2[SEDENIONS_E3PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E9PART][idx1], matrix2[SEDENIONS_E2PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E10PART][idx1], matrix2[SEDENIONS_E1PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E11PART][idx1], matrix2[SEDENIONS_REALPART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E12PART][idx1], matrix2[SEDENIONS_E7PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E13PART][idx1], matrix2[SEDENIONS_E6PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E14PART][idx1], matrix2[SEDENIONS_E5PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E15PART][idx1], matrix2[SEDENIONS_E4PART][idx2]);
 
-        matrix_product[SEDENIONS_E12PART][dim_cache[RAWS]][dim_cache[COLUMNS]] = mul_func(matrix1[SEDENIONS_REALPART][i][j], matrix2[SEDENIONS_E12PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E1PART][i][j], matrix2[SEDENIONS_E13PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E2PART][i][j], matrix2[SEDENIONS_E14PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E3PART][i][j], matrix2[SEDENIONS_E15PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E4PART][i][j], matrix2[SEDENIONS_E8PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E5PART][i][j], matrix2[SEDENIONS_E9PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E6PART][i][j], matrix2[SEDENIONS_E10PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E7PART][i][j], matrix2[SEDENIONS_E11PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E8PART][i][j], matrix2[SEDENIONS_E4PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E9PART][i][j], matrix2[SEDENIONS_E5PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E10PART][i][j], matrix2[SEDENIONS_E6PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E11PART][i][j], matrix2[SEDENIONS_E7PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E12PART][i][j], matrix2[SEDENIONS_REALPART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E13PART][i][j], matrix2[SEDENIONS_E1PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E14PART][i][j], matrix2[SEDENIONS_E2PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E15PART][i][j], matrix2[SEDENIONS_E3PART][k][l]);
+        matrix_product[SEDENIONS_E12PART][dim_cache] = mul_func(matrix1[SEDENIONS_REALPART][idx1], matrix2[SEDENIONS_E12PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E1PART][idx1], matrix2[SEDENIONS_E13PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E2PART][idx1], matrix2[SEDENIONS_E14PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E3PART][idx1], matrix2[SEDENIONS_E15PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E4PART][idx1], matrix2[SEDENIONS_E8PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E5PART][idx1], matrix2[SEDENIONS_E9PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E6PART][idx1], matrix2[SEDENIONS_E10PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E7PART][idx1], matrix2[SEDENIONS_E11PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E8PART][idx1], matrix2[SEDENIONS_E4PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E9PART][idx1], matrix2[SEDENIONS_E5PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E10PART][idx1], matrix2[SEDENIONS_E6PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E11PART][idx1], matrix2[SEDENIONS_E7PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E12PART][idx1], matrix2[SEDENIONS_REALPART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E13PART][idx1], matrix2[SEDENIONS_E1PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E14PART][idx1], matrix2[SEDENIONS_E2PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E15PART][idx1], matrix2[SEDENIONS_E3PART][idx2]);
 
-        matrix_product[SEDENIONS_E13PART][dim_cache[RAWS]][dim_cache[COLUMNS]] = mul_func(matrix1[SEDENIONS_REALPART][i][j], matrix2[SEDENIONS_E13PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E1PART][i][j], matrix2[SEDENIONS_E12PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E2PART][i][j], matrix2[SEDENIONS_E15PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E3PART][i][j], matrix2[SEDENIONS_E14PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E4PART][i][j], matrix2[SEDENIONS_E9PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E5PART][i][j], matrix2[SEDENIONS_E8PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E6PART][i][j], matrix2[SEDENIONS_E11PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E7PART][i][j], matrix2[SEDENIONS_E10PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E8PART][i][j], matrix2[SEDENIONS_E5PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E9PART][i][j], matrix2[SEDENIONS_E4PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E10PART][i][j], matrix2[SEDENIONS_E7PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E11PART][i][j], matrix2[SEDENIONS_E6PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E12PART][i][j], matrix2[SEDENIONS_E1PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E13PART][i][j], matrix2[SEDENIONS_REALPART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E14PART][i][j], matrix2[SEDENIONS_E3PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E15PART][i][j], matrix2[SEDENIONS_E2PART][k][l]);
+        matrix_product[SEDENIONS_E13PART][dim_cache] = mul_func(matrix1[SEDENIONS_REALPART][idx1], matrix2[SEDENIONS_E13PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E1PART][idx1], matrix2[SEDENIONS_E12PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E2PART][idx1], matrix2[SEDENIONS_E15PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E3PART][idx1], matrix2[SEDENIONS_E14PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E4PART][idx1], matrix2[SEDENIONS_E9PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E5PART][idx1], matrix2[SEDENIONS_E8PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E6PART][idx1], matrix2[SEDENIONS_E11PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E7PART][idx1], matrix2[SEDENIONS_E10PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E8PART][idx1], matrix2[SEDENIONS_E5PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E9PART][idx1], matrix2[SEDENIONS_E4PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E10PART][idx1], matrix2[SEDENIONS_E7PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E11PART][idx1], matrix2[SEDENIONS_E6PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E12PART][idx1], matrix2[SEDENIONS_E1PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E13PART][idx1], matrix2[SEDENIONS_REALPART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E14PART][idx1], matrix2[SEDENIONS_E3PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E15PART][idx1], matrix2[SEDENIONS_E2PART][idx2]);
 
-        matrix_product[SEDENIONS_E14PART][dim_cache[RAWS]][dim_cache[COLUMNS]] = mul_func(matrix1[SEDENIONS_REALPART][i][j], matrix2[SEDENIONS_E14PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E1PART][i][j], matrix2[SEDENIONS_E15PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E2PART][i][j], matrix2[SEDENIONS_E12PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E3PART][i][j], matrix2[SEDENIONS_E13PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E4PART][i][j], matrix2[SEDENIONS_E10PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E5PART][i][j], matrix2[SEDENIONS_E11PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E6PART][i][j], matrix2[SEDENIONS_E8PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E7PART][i][j], matrix2[SEDENIONS_E9PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E8PART][i][j], matrix2[SEDENIONS_E6PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E9PART][i][j], matrix2[SEDENIONS_E7PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E10PART][i][j], matrix2[SEDENIONS_E3PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E11PART][i][j], matrix2[SEDENIONS_E5PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E12PART][i][j], matrix2[SEDENIONS_E2PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E13PART][i][j], matrix2[SEDENIONS_E3PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E14PART][i][j], matrix2[SEDENIONS_REALPART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E15PART][i][j], matrix2[SEDENIONS_E1PART][k][l]);
+        matrix_product[SEDENIONS_E14PART][dim_cache] = mul_func(matrix1[SEDENIONS_REALPART][idx1], matrix2[SEDENIONS_E14PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E1PART][idx1], matrix2[SEDENIONS_E15PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E2PART][idx1], matrix2[SEDENIONS_E12PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E3PART][idx1], matrix2[SEDENIONS_E13PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E4PART][idx1], matrix2[SEDENIONS_E10PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E5PART][idx1], matrix2[SEDENIONS_E11PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E6PART][idx1], matrix2[SEDENIONS_E8PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E7PART][idx1], matrix2[SEDENIONS_E9PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E8PART][idx1], matrix2[SEDENIONS_E6PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E9PART][idx1], matrix2[SEDENIONS_E7PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E10PART][idx1], matrix2[SEDENIONS_E3PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E11PART][idx1], matrix2[SEDENIONS_E5PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E12PART][idx1], matrix2[SEDENIONS_E2PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E13PART][idx1], matrix2[SEDENIONS_E3PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E14PART][idx1], matrix2[SEDENIONS_REALPART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E15PART][idx1], matrix2[SEDENIONS_E1PART][idx2]);
 
-        matrix_product[SEDENIONS_E15PART][dim_cache[RAWS]][dim_cache[COLUMNS]] = mul_func(matrix1[SEDENIONS_REALPART][i][j], matrix2[SEDENIONS_E15PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E1PART][i][j], matrix2[SEDENIONS_E14PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E2PART][i][j], matrix2[SEDENIONS_E13PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E3PART][i][j], matrix2[SEDENIONS_E12PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E4PART][i][j], matrix2[SEDENIONS_E11PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E5PART][i][j], matrix2[SEDENIONS_E10PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E6PART][i][j], matrix2[SEDENIONS_E9PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E7PART][i][j], matrix2[SEDENIONS_E8PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E8PART][i][j], matrix2[SEDENIONS_E3PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E9PART][i][j], matrix2[SEDENIONS_E6PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E10PART][i][j], matrix2[SEDENIONS_E5PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E11PART][i][j], matrix2[SEDENIONS_E4PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E12PART][i][j], matrix2[SEDENIONS_E3PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E13PART][i][j], matrix2[SEDENIONS_E2PART][k][l]) -
-                                                                                 mul_func(matrix1[SEDENIONS_E14PART][i][j], matrix2[SEDENIONS_E1PART][k][l]) +
-                                                                                 mul_func(matrix1[SEDENIONS_E15PART][i][j], matrix2[SEDENIONS_E14PART][k][l]);
+        matrix_product[SEDENIONS_E15PART][dim_cache] = mul_func(matrix1[SEDENIONS_REALPART][idx1], matrix2[SEDENIONS_E15PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E1PART][idx1], matrix2[SEDENIONS_E14PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E2PART][idx1], matrix2[SEDENIONS_E13PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E3PART][idx1], matrix2[SEDENIONS_E12PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E4PART][idx1], matrix2[SEDENIONS_E11PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E5PART][idx1], matrix2[SEDENIONS_E10PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E6PART][idx1], matrix2[SEDENIONS_E9PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E7PART][idx1], matrix2[SEDENIONS_E8PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E8PART][idx1], matrix2[SEDENIONS_E3PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E9PART][idx1], matrix2[SEDENIONS_E6PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E10PART][idx1], matrix2[SEDENIONS_E5PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E11PART][idx1], matrix2[SEDENIONS_E4PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E12PART][idx1], matrix2[SEDENIONS_E3PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E13PART][idx1], matrix2[SEDENIONS_E2PART][idx2]) -
+                                                                                 mul_func(matrix1[SEDENIONS_E14PART][idx1], matrix2[SEDENIONS_E1PART][idx2]) +
+                                                                                 mul_func(matrix1[SEDENIONS_E15PART][idx1], matrix2[SEDENIONS_E14PART][idx2]);
 	}
 
 	return;
 }
 
-__MSNATIVE_ inline void _MS__private __system __export _matrixSum(ityp ***matrix1, ityp ***matrix2, ityp ***matrix_sum, const register dim_typ dim[static MAX_DIMENSIONS])
+__MSNATIVE_ inline void _MS__private __system __export _matrixSum(ityp **matrix1, ityp **matrix2, ityp **matrix_sum, const register dim_typ dim[static MAX_DIMENSIONS])
 {
 	dim_typ i, j;
+	register dim_typ idx;
     ityp (* const sum_func)(register ityp, register ityp) = INVERSE_OPS ? math_sub : math_sum;
+    
 
 	#pragma omp parallel for
     for(i=0; i<dim[RAWS]; ++i)
     	#pragma omp parallel for
         for(j=0; j<dim[COLUMNS]; ++j)
-            (*matrix_sum)[i][j] = sum_func((*matrix1)[i][j], (*matrix2)[i][j]);
+    	{
+        	idx = dim[COLUMNS]*i + j;
+        	*((*matrix_sum) + idx) = sum_func(*((*matrix1) + idx), *((*matrix2) + idx));
+    	}
 
     return;
 }
 
-__MSNATIVE_ void _MS__private __system __export _matrixCSum(ityp ***matrix1, ityp ***matrix2, ityp ***matrix_sum, const register dim_typ dim[static MAX_DIMENSIONS])
+__MSNATIVE_ void _MS__private __system __export _matrixCSum(ityp **matrix1, ityp **matrix2, ityp **matrix_sum, const register dim_typ dim[static MAX_DIMENSIONS])
 {
 	dim_typ i, j;
+	register dim_typ idx;
     ityp (* const sum_func)(register ityp, register ityp) = INVERSE_OPS ? math_sub : math_sum;
-
+	
 	#pragma omp parallel for
     for(i=0; i<dim[RAWS]; ++i)
     	#pragma omp parallel for
         for(j=0; j<dim[COLUMNS]; ++j)
         	#pragma omp parallel num_threads(MAX_COMPLEX_UNITS)
        		{
-	            matrix_sum[REAL_PART][i][j] = sum_func(matrix1[REAL_PART][i][j], matrix2[REAL_PART][i][j]);
-	            matrix_sum[IMAG_PART][i][j] = sum_func(matrix1[IMAG_PART][i][j], matrix2[IMAG_PART][i][j]);
+       			idx = dim[COLUMNS]*i + j;
+	            matrix_sum[REAL_PART][idx] = sum_func(matrix1[REAL_PART][idx], matrix2[REAL_PART][idx]);
+	            matrix_sum[IMAG_PART][idx] = sum_func(matrix1[IMAG_PART][idx], matrix2[IMAG_PART][idx]);
 	    	}
 
     return;
 }
 
-__MSNATIVE_ void _MS__private __system __export _matrixQSum(ityp ***matrix1, ityp ***matrix2, ityp ***matrix_sum, const register dim_typ dim[static MAX_DIMENSIONS])
+__MSNATIVE_ void _MS__private __system __export _matrixQSum(ityp **matrix1, ityp **matrix2, ityp **matrix_sum, const register dim_typ dim[static MAX_DIMENSIONS])
 {
 	dim_typ i, j;
+	register dim_typ idx;
     ityp (* const sum_func)(register ityp, register ityp) = INVERSE_OPS ? math_sub : math_sum;
+    
 
 	#pragma omp parallel for
     for(i=0; i<dim[RAWS]; ++i)
@@ -4702,46 +4725,47 @@ __MSNATIVE_ void _MS__private __system __export _matrixQSum(ityp ***matrix1, ity
         for(j=0; j<dim[COLUMNS]; ++j)
         	#pragma omp parallel num_threads(MAX_QUATERNIONS_UNITS)
         	{
-	            matrix_sum[QUATERNIONS_REALPART][i][j] = sum_func(matrix1[QUATERNIONS_REALPART][i][j], matrix2[QUATERNIONS_REALPART][i][j]);
-	            matrix_sum[QUATERNIONS_IPART][i][j] = sum_func(matrix1[QUATERNIONS_IPART][i][j], matrix2[QUATERNIONS_IPART][i][j]);
-	            matrix_sum[QUATERNIONS_JPART][i][j] = sum_func(matrix1[QUATERNIONS_JPART][i][j], matrix2[QUATERNIONS_JPART][i][j]);
-	            matrix_sum[QUATERNIONS_KPART][i][j] = sum_func(matrix1[QUATERNIONS_KPART][i][j], matrix2[QUATERNIONS_KPART][i][j]);
+        		idx = dim[COLUMNS]*i + j;
+	            matrix_sum[QUATERNIONS_REALPART][idx] = sum_func(matrix1[QUATERNIONS_REALPART][idx], matrix2[QUATERNIONS_REALPART][idx]);
+	            matrix_sum[QUATERNIONS_IPART][idx] = sum_func(matrix1[QUATERNIONS_IPART][idx], matrix2[QUATERNIONS_IPART][idx]);
+	            matrix_sum[QUATERNIONS_JPART][idx] = sum_func(matrix1[QUATERNIONS_JPART][idx], matrix2[QUATERNIONS_JPART][idx]);
+	            matrix_sum[QUATERNIONS_KPART][idx] = sum_func(matrix1[QUATERNIONS_KPART][idx], matrix2[QUATERNIONS_KPART][idx]);
 	    	}
 
     return;
 }
 
-__MSNATIVE_ inline void _MS__private __system __export _matrixOSum(ityp ***matrix1, ityp ***matrix2, ityp ***matrix_sum, const register dim_typ dim[static MAX_DIMENSIONS])
+__MSNATIVE_ inline void _MS__private __system __export _matrixOSum(ityp **matrix1, ityp **matrix2, ityp **matrix_sum, const register dim_typ dim[static MAX_DIMENSIONS])
 {
 	dim_typ i, j;
-    void (* const omp_func)(ityp ***, ityp ***, ityp ***, const register dim_typ, const register dim_typ) = isSett(BOOLS_EXTENSIVEMULTITHREADING) ? _matrixOEMTSum : _matrixOMTSum;
+    void (* const omp_func)(ityp **, ityp **, ityp **, const register dim_typ) = isSett(BOOLS_EXTENSIVEMULTITHREADING) ? _matrixOEMTSum : _matrixOMTSum;
 
 	#pragma omp parallel for
     for(i=0; i<dim[RAWS]; ++i)
     	#pragma omp parallel for
         for(j=0; j<dim[COLUMNS]; ++j)
-        	omp_func(matrix1, matrix2, matrix_sum, i, j);
+        	omp_func(matrix1, matrix2, matrix_sum, dim[COLUMNS]*i + j);
 
     return;
 }
 
-__MSNATIVE_ inline void _MS__private __system __export _matrixSSum(ityp ***matrix1, ityp ***matrix2, ityp ***matrix_sum, const register dim_typ dim[static MAX_DIMENSIONS])
+__MSNATIVE_ inline void _MS__private __system __export _matrixSSum(ityp **matrix1, ityp **matrix2, ityp **matrix_sum, const register dim_typ dim[static MAX_DIMENSIONS])
 {
 	dim_typ i, j;
-	void (* const omp_func)(ityp ***, ityp ***, ityp ***, const register dim_typ, const register dim_typ) = isSett(BOOLS_EXTENSIVEMULTITHREADING) ? _matrixSEMTSum : _matrixSMTSum;
+	void (* const omp_func)(ityp **, ityp **, ityp **, const register dim_typ) = isSett(BOOLS_EXTENSIVEMULTITHREADING) ? _matrixSEMTSum : _matrixSMTSum;
 
 
 	#pragma omp parallel for
     for(i=0; i<dim[RAWS]; ++i)
     	#pragma omp parallel for
         for(j=0; j<dim[COLUMNS]; ++j)
-        	omp_func(matrix1, matrix2, matrix_sum, i, j);
+        	omp_func(matrix1, matrix2, matrix_sum, dim[COLUMNS]*i + j);
 
     return;
 }
 
 
-__MSNATIVE_ inline void _MS__private __system __export _matrixProduct(ityp ***matrix1, ityp ***matrix2, ityp ***matrix_product, const register dim_typ dim[static MAX_ABSTRACT_DIMENSIONS]) // dim_typ righe, dim_typ colonne, dim_typ colonne2)
+__MSNATIVE_ inline void _MS__private __system __export _matrixProduct(ityp **matrix1, ityp **matrix2, ityp **matrix_product, const register dim_typ dim[static MAX_MATRICES]) // dim_typ righe, dim_typ colonne, dim_typ colonne2)
 {
     dim_typ i, j, k;
     ityp (* const mul_func)(register ityp, register ityp) = INVERSE_OPS ? math_div : math_mul;
@@ -4751,18 +4775,17 @@ __MSNATIVE_ inline void _MS__private __system __export _matrixProduct(ityp ***ma
     	#pragma omp parallel for
         for(j=0; j<dim[COLUMNS2]; ++j)
         	#pragma omp parallel for
-            for(k=(*matrix_product)[i][j]=0; k<dim[COLUMNS]; ++k)
-                (*matrix_product)[i][j] += mul_func((*matrix1)[i][k], (*matrix2)[k][j]); /// INVERSE_OPS ? (matrix1[i][k] / matrix2[k][j]):(matrix1[i][k] * matrix2[k][j]);
+            for(k=0; k<dim[COLUMNS]; ++k)
+            	*((*matrix_product) + dim[COLUMNS2]*i + j) += mul_func(*((*matrix1) + dim[COLUMNS]*i + k), *((*matrix2) + dim[COLUMNS2]*k + j));
 
-                        //
-                        // wasn't able to check OVERFLOW here, for technical and formatting reasons.
 
     return;
 }
 
-__MSNATIVE_ void _MS__private __system __export _matrixCProduct(ityp ***matrix1, ityp ***matrix2, ityp ***matrix_product, const register dim_typ dim[static MAX_ABSTRACT_DIMENSIONS])
+__MSNATIVE_ void _MS__private __system __export _matrixCProduct(ityp **matrix1, ityp **matrix2, ityp **matrix_product, const register dim_typ dim[static MAX_MATRICES])
 {
     dim_typ i, j, k;
+    register dim_typ idx[MAX_MATRICES];
     ityp (* const mul_func)(register ityp, register ityp) = INVERSE_OPS ? math_div : math_mul;
 
 	#pragma omp parallel for
@@ -4770,19 +4793,23 @@ __MSNATIVE_ void _MS__private __system __export _matrixCProduct(ityp ***matrix1,
     	#pragma omp parallel for
         for(j=0; j<dim[COLUMNS2]; ++j)
         	#pragma omp parallel for
-            for(k=matrix_product[REAL_PART][i][j]=matrix_product[IMAG_PART][i][j]=0; k<dim[COLUMNS]; ++k)
+            for(k=0; k<dim[COLUMNS]; ++k)
             	#pragma omp parallel num_threads(MAX_COMPLEX_UNITS)
             	{
-	                matrix_product[REAL_PART][i][j] += mul_func(matrix1[REAL_PART][i][k], matrix2[REAL_PART][k][j]) - mul_func(matrix1[IMAG_PART][i][k], matrix2[IMAG_PART][k][j]);
-	                matrix_product[IMAG_PART][i][j] += mul_func(matrix1[REAL_PART][i][k], matrix2[IMAG_PART][k][j]) + mul_func(matrix1[IMAG_PART][i][k], matrix2[REAL_PART][k][j]);
+            		idx[FIRST_MATRIX] = dim[COLUMNS]*i + k;
+            		idx[SECOND_MATRIX] = dim[COLUMNS2]*k + j;
+            		idx[MATRIX_PRODUCT] = dim[COLUMNS2]*i + j;
+				    matrix_product[REAL_PART][idx[MATRIX_PRODUCT]] += mul_func(matrix1[REAL_PART][idx[FIRST_MATRIX]], matrix2[REAL_PART][idx[SECOND_MATRIX]]) - mul_func(matrix1[IMAG_PART][idx[FIRST_MATRIX]], matrix2[IMAG_PART][idx[SECOND_MATRIX]]);
+	                matrix_product[IMAG_PART][idx[MATRIX_PRODUCT]] += mul_func(matrix1[REAL_PART][idx[FIRST_MATRIX]], matrix2[IMAG_PART][idx[SECOND_MATRIX]]) + mul_func(matrix1[IMAG_PART][idx[FIRST_MATRIX]], matrix2[REAL_PART][idx[SECOND_MATRIX]]);
 	       		}
 
     return;
 }
 
-__MSNATIVE_ void _MS__private __system __export _matrixQProduct(ityp ***matrix1, ityp ***matrix2, ityp ***matrix_product, const register dim_typ dim[static MAX_ABSTRACT_DIMENSIONS])
+__MSNATIVE_ void _MS__private __system __export _matrixQProduct(ityp **matrix1, ityp **matrix2, ityp **matrix_product, const register dim_typ dim[static MAX_MATRICES])
 {
     dim_typ i, j, k;
+    register dim_typ idx[MAX_MATRICES];
     ityp (* const mul_func)(register ityp, register ityp) = INVERSE_OPS ? math_div : math_mul;
 
 	#pragma omp parallel for
@@ -4790,88 +4817,68 @@ __MSNATIVE_ void _MS__private __system __export _matrixQProduct(ityp ***matrix1,
     	#pragma omp parallel for
         for(j=0; j<dim[COLUMNS2]; ++j)
         	#pragma omp parallel for
-            for(k=matrix_product[QUATERNIONS_REALPART][i][j]=
-                matrix_product[QUATERNIONS_IPART][i][j]   =
-                matrix_product[QUATERNIONS_JPART][i][j]   =
-                matrix_product[QUATERNIONS_KPART][i][j]=0; k<dim[COLUMNS]; ++k)
+            for(k=0; k<dim[COLUMNS]; ++k)
             	#pragma omp parallel num_threads(MAX_QUATERNIONS_UNITS)
             	{
-	                matrix_product[QUATERNIONS_REALPART][i][j] += mul_func(matrix1[QUATERNIONS_REALPART][i][k], matrix2[QUATERNIONS_REALPART][k][j]) -
-	                                                              mul_func(matrix1[QUATERNIONS_IPART][i][k], matrix2[QUATERNIONS_IPART][k][j]) -
-	                                                              mul_func(matrix1[QUATERNIONS_JPART][i][k], matrix2[QUATERNIONS_JPART][k][j]) -
-	                                                              mul_func(matrix1[QUATERNIONS_KPART][i][k], matrix2[QUATERNIONS_KPART][k][j]);
-	                matrix_product[QUATERNIONS_IPART][i][j] += mul_func(matrix1[QUATERNIONS_REALPART][i][k], matrix2[QUATERNIONS_IPART][k][j]) +
-	                                                           mul_func(matrix1[QUATERNIONS_IPART][i][k], matrix2[QUATERNIONS_REALPART][k][j]) +
-	                                                           mul_func(matrix1[QUATERNIONS_JPART][i][k], matrix2[QUATERNIONS_KPART][k][j]) -
-	                                                           mul_func(matrix1[QUATERNIONS_KPART][i][k], matrix2[QUATERNIONS_JPART][k][j]);
-	                matrix_product[QUATERNIONS_JPART][i][j] += mul_func(matrix1[QUATERNIONS_REALPART][i][k], matrix2[QUATERNIONS_JPART][k][j]) +
-	                                                           mul_func(matrix1[QUATERNIONS_JPART][i][k], matrix2[QUATERNIONS_REALPART][k][j]) +
-	                                                           mul_func(matrix1[QUATERNIONS_KPART][i][k], matrix2[QUATERNIONS_IPART][k][j]) -
-	                                                           mul_func(matrix1[QUATERNIONS_IPART][i][k], matrix2[QUATERNIONS_KPART][k][j]);
-	                matrix_product[QUATERNIONS_KPART][i][j] += mul_func(matrix1[QUATERNIONS_REALPART][i][k], matrix2[QUATERNIONS_KPART][k][j]) +
-	                                                           mul_func(matrix1[QUATERNIONS_KPART][i][k], matrix2[QUATERNIONS_REALPART][k][j]) +
-	                                                           mul_func(matrix1[QUATERNIONS_IPART][i][k], matrix2[QUATERNIONS_JPART][k][j]) -
-	                                                           mul_func(matrix1[QUATERNIONS_JPART][i][k], matrix2[QUATERNIONS_IPART][k][j]);
+            		
+            		idx[FIRST_MATRIX] = dim[COLUMNS]*i + k;
+            		idx[SECOND_MATRIX] = dim[COLUMNS2]*k + j;
+            		idx[MATRIX_PRODUCT] = dim[COLUMNS2]*i + j;
+	                matrix_product[QUATERNIONS_REALPART][idx[MATRIX_PRODUCT]] += mul_func(matrix1[QUATERNIONS_REALPART][idx[FIRST_MATRIX]], matrix2[QUATERNIONS_REALPART][idx[SECOND_MATRIX]]) -
+	                                                              mul_func(matrix1[QUATERNIONS_IPART][idx[FIRST_MATRIX]], matrix2[QUATERNIONS_IPART][idx[SECOND_MATRIX]]) -
+	                                                              mul_func(matrix1[QUATERNIONS_JPART][idx[FIRST_MATRIX]], matrix2[QUATERNIONS_JPART][idx[SECOND_MATRIX]]) -
+	                                                              mul_func(matrix1[QUATERNIONS_KPART][idx[FIRST_MATRIX]], matrix2[QUATERNIONS_KPART][idx[SECOND_MATRIX]]);
+	                matrix_product[QUATERNIONS_IPART][idx[MATRIX_PRODUCT]] += mul_func(matrix1[QUATERNIONS_REALPART][idx[FIRST_MATRIX]], matrix2[QUATERNIONS_IPART][idx[SECOND_MATRIX]]) +
+	                                                           mul_func(matrix1[QUATERNIONS_IPART][idx[FIRST_MATRIX]], matrix2[QUATERNIONS_REALPART][idx[SECOND_MATRIX]]) +
+	                                                           mul_func(matrix1[QUATERNIONS_JPART][idx[FIRST_MATRIX]], matrix2[QUATERNIONS_KPART][idx[SECOND_MATRIX]]) -
+	                                                           mul_func(matrix1[QUATERNIONS_KPART][idx[FIRST_MATRIX]], matrix2[QUATERNIONS_JPART][idx[SECOND_MATRIX]]);
+	                matrix_product[QUATERNIONS_JPART][idx[MATRIX_PRODUCT]] += mul_func(matrix1[QUATERNIONS_REALPART][idx[FIRST_MATRIX]], matrix2[QUATERNIONS_JPART][idx[SECOND_MATRIX]]) +
+	                                                           mul_func(matrix1[QUATERNIONS_JPART][idx[FIRST_MATRIX]], matrix2[QUATERNIONS_REALPART][idx[SECOND_MATRIX]]) +
+	                                                           mul_func(matrix1[QUATERNIONS_KPART][idx[FIRST_MATRIX]], matrix2[QUATERNIONS_IPART][idx[SECOND_MATRIX]]) -
+	                                                           mul_func(matrix1[QUATERNIONS_IPART][idx[FIRST_MATRIX]], matrix2[QUATERNIONS_KPART][idx[SECOND_MATRIX]]);
+	                matrix_product[QUATERNIONS_KPART][idx[MATRIX_PRODUCT]] += mul_func(matrix1[QUATERNIONS_REALPART][idx[FIRST_MATRIX]], matrix2[QUATERNIONS_KPART][idx[SECOND_MATRIX]]) +
+	                                                           mul_func(matrix1[QUATERNIONS_KPART][idx[FIRST_MATRIX]], matrix2[QUATERNIONS_REALPART][idx[SECOND_MATRIX]]) +
+	                                                           mul_func(matrix1[QUATERNIONS_IPART][idx[FIRST_MATRIX]], matrix2[QUATERNIONS_JPART][idx[SECOND_MATRIX]]) -
+	                                                           mul_func(matrix1[QUATERNIONS_JPART][idx[FIRST_MATRIX]], matrix2[QUATERNIONS_IPART][idx[SECOND_MATRIX]]);
 	            }
 
     return;
 }
 
-__MSNATIVE_ inline void _MS__private __system __export _matrixOProduct(ityp ***matrix1, ityp ***matrix2, ityp ***matrix_product, const register dim_typ dim[static MAX_ABSTRACT_DIMENSIONS])
+__MSNATIVE_ inline void _MS__private __system __export _matrixOProduct(ityp **matrix1, ityp **matrix2, ityp **matrix_product, const register dim_typ dim[static MAX_MATRICES])
 {
     dim_typ i, j, k;
-	void (* const omp_func)(ityp ***, ityp ***, ityp ***, const register dim_typ, const register dim_typ, const register dim_typ) = isSett(BOOLS_EXTENSIVEMULTITHREADING) ? _matrixOEMTProduct : _matrixOMTProduct;
+	void (* const omp_func)(ityp **, ityp **, ityp **, const register dim_typ, const register dim_typ, const register dim_typ) = isSett(BOOLS_EXTENSIVEMULTITHREADING) ? _matrixOEMTProduct : _matrixOMTProduct;
 
 	#pragma omp parallel for
     for(i=0; i<dim[RAWS]; ++i)
     	#pragma omp parallel for
         for(j=0; j<dim[COLUMNS2]; ++j)
         	#pragma omp parallel for
-            for(k=matrix_product[OCTONIONS_REALPART][i][j]=
-                matrix_product[OCTONIONS_E1PART][i][j]  =
-                matrix_product[OCTONIONS_E2PART][i][j]  =
-                matrix_product[OCTONIONS_E3PART][i][j]  =
-                matrix_product[OCTONIONS_E4PART][i][j]  =
-                matrix_product[OCTONIONS_E5PART][i][j]  =
-                matrix_product[OCTONIONS_E6PART][i][j]  =
-                matrix_product[OCTONIONS_E7PART][i][j]=0; k<dim[COLUMNS]; ++k)
-            	omp_func(matrix1, matrix2, matrix_product, i, j, k);
+            for(k=0; k<dim[COLUMNS]; ++k)
+            	omp_func(matrix1, matrix2, matrix_product, dim[COLUMNS2]*i + j, dim[COLUMNS]*i + k, dim[COLUMNS2]*k + j);
     return;
 }
 
-__MSNATIVE_ inline void _MS__private __system __export _matrixSProduct(ityp ***matrix1, ityp ***matrix2, ityp ***matrix_product, const register dim_typ dim[static MAX_ABSTRACT_DIMENSIONS])
+__MSNATIVE_ inline void _MS__private __system __export _matrixSProduct(ityp **matrix1, ityp **matrix2, ityp **matrix_product, const register dim_typ dim[static MAX_ABSTRACT_DIMENSIONS])
 {
     dim_typ i, j, k;
-	void (* const omp_func)(ityp ***, ityp ***, ityp ***, const register dim_typ, const register dim_typ, const register dim_typ) = isSett(BOOLS_EXTENSIVEMULTITHREADING) ? _matrixSEMTProduct : _matrixSMTProduct;
+	void (* const omp_func)(ityp **, ityp **, ityp **, const register dim_typ, const register dim_typ, const register dim_typ) = isSett(BOOLS_EXTENSIVEMULTITHREADING) ? _matrixSEMTProduct : _matrixSMTProduct;
 
 	#pragma omp parallel for
     for(i=0; i<dim[RAWS]; ++i)
 	#pragma omp parallel for
         for(j=0; j<dim[COLUMNS2]; ++j)
         	#pragma omp parallel for
-            for(k=matrix_product[SEDENIONS_REALPART][i][j]=
-                matrix_product[SEDENIONS_E1PART][i][j]  =
-                matrix_product[SEDENIONS_E2PART][i][j]  =
-                matrix_product[SEDENIONS_E3PART][i][j]  =
-                matrix_product[SEDENIONS_E4PART][i][j]  =
-                matrix_product[SEDENIONS_E5PART][i][j]  =
-                matrix_product[SEDENIONS_E6PART][i][j]  =
-                matrix_product[SEDENIONS_E7PART][i][j]  =
-                matrix_product[SEDENIONS_E8PART][i][j]  =
-                matrix_product[SEDENIONS_E9PART][i][j]  =
-                matrix_product[SEDENIONS_E10PART][i][j]  =
-                matrix_product[SEDENIONS_E11PART][i][j]  =
-                matrix_product[SEDENIONS_E12PART][i][j]  =
-                matrix_product[SEDENIONS_E13PART][i][j]  =
-                matrix_product[SEDENIONS_E14PART][i][j]  =
-                matrix_product[SEDENIONS_E15PART][i][j]=0; k<dim[COLUMNS]; ++k)
-            	omp_func(matrix1, matrix2, matrix_product, i, j, k);
+            for(k=0; k<dim[COLUMNS]; ++k)
+            	omp_func(matrix1, matrix2, matrix_product, dim[COLUMNS2]*i + j, dim[COLUMNS]*i + k, dim[COLUMNS2]*k + j);
     return;
 }
 
-__MSNATIVE_ inline void _MS__private __system __export _matrixKProduct(ityp ***matrix1, ityp ***matrix2, ityp ***matrix_product, const register dim_typ dim[static MAX_DIMENSIONS][MAX_DIMENSIONS])
+__MSNATIVE_ inline void _MS__private __system __export _matrixKProduct(ityp **matrix1, ityp **matrix2, ityp **matrix_product, const register dim_typ dim[static MAX_DIMENSIONS][MAX_DIMENSIONS])
 {
     dim_typ i, j, k, l;
+    const register dim_typ pdim = dim[FIRST_MATRIX][COLUMNS]*dim[SECOND_MATRIX][COLUMNS];
     ityp (* const mul_func)(register ityp, register ityp) = INVERSE_OPS ? math_div : math_mul;
 
 	#pragma omp parallel for
@@ -4882,15 +4889,16 @@ __MSNATIVE_ inline void _MS__private __system __export _matrixKProduct(ityp ***m
             for(k=0; k<dim[SECOND_MATRIX][RAWS]; ++k)
             	#pragma omp parallel for
                 for(l=0; l<dim[SECOND_MATRIX][COLUMNS]; ++l)
-                    (*matrix_product)[k+(i*dim[SECOND_MATRIX][RAWS])][l+(j*dim[SECOND_MATRIX][COLUMNS])] = mul_func((*matrix1)[i][j], (*matrix2)[k][l]);
+                	*((*matrix_product) + pdim*(k+(i*dim[SECOND_MATRIX][RAWS])) + l+(j*dim[SECOND_MATRIX][COLUMNS])) = mul_func(*((*matrix1) + dim[FIRST_MATRIX][COLUMNS]*i + j), *((*matrix2) + dim[SECOND_MATRIX][COLUMNS]*k + l));
 
     return;
 }
 
-__MSNATIVE_ void _MS__private __system __export _matrixKCProduct(ityp ***matrix1, ityp ***matrix2, ityp ***matrix_product, const register dim_typ dim[static MAX_DIMENSIONS][MAX_DIMENSIONS])
+__MSNATIVE_ void _MS__private __system __export _matrixKCProduct(ityp **matrix1, ityp **matrix2, ityp **matrix_product, const register dim_typ dim[static MAX_DIMENSIONS][MAX_DIMENSIONS])
 {
     dim_typ i, j, k, l;
-    dim_typ dim_cache[MAX_DIMENSIONS];
+    register dim_typ idx[MAX_MATRICES];
+    const register dim_typ pdim = dim[FIRST_MATRIX][COLUMNS]*dim[SECOND_MATRIX][COLUMNS];
     ityp (* const mul_func)(register ityp, register ityp) = INVERSE_OPS ? math_div : math_mul;
 
 	#pragma omp parallel for
@@ -4903,19 +4911,21 @@ __MSNATIVE_ void _MS__private __system __export _matrixKCProduct(ityp ***matrix1
                 for(l=0; l<dim[SECOND_MATRIX][COLUMNS]; ++l)
                 	#pragma omp parallel num_threads(MAX_COMPLEX_UNITS)
                 	{
-	                    dim_cache[RAWS] = k+(i*dim[SECOND_MATRIX][RAWS]);
-	                    dim_cache[COLUMNS] = l+(j*dim[SECOND_MATRIX][COLUMNS]);
-	                    matrix_product[REAL_PART][dim_cache[RAWS]][dim_cache[COLUMNS]] = mul_func(matrix1[REAL_PART][i][j], matrix2[REAL_PART][k][l]) - mul_func(matrix1[IMAG_PART][i][j], matrix2[IMAG_PART][k][l]);
-	                    matrix_product[IMAG_PART][dim_cache[RAWS]][dim_cache[COLUMNS]] = mul_func(matrix1[REAL_PART][i][j], matrix2[IMAG_PART][k][l]) - mul_func(matrix1[IMAG_PART][i][j], matrix2[REAL_PART][k][l]);
+                		idx[FIRST_MATRIX] = dim[FIRST_MATRIX][COLUMNS]*i + j;
+                		idx[SECOND_MATRIX] = dim[SECOND_MATRIX][COLUMNS]*k + l;
+                		idx[MATRIX_PRODUCT] = pdim*(k+(i*dim[SECOND_MATRIX][RAWS])) + l+(j*dim[SECOND_MATRIX][COLUMNS]);
+	                    matrix_product[REAL_PART][idx[MATRIX_PRODUCT]] = mul_func(matrix1[REAL_PART][idx[FIRST_MATRIX]], matrix2[REAL_PART][idx[SECOND_MATRIX]]) - mul_func(matrix1[IMAG_PART][idx[FIRST_MATRIX]], matrix2[IMAG_PART][idx[SECOND_MATRIX]]);
+	                    matrix_product[IMAG_PART][idx[MATRIX_PRODUCT]] = mul_func(matrix1[REAL_PART][idx[FIRST_MATRIX]], matrix2[IMAG_PART][idx[SECOND_MATRIX]]) - mul_func(matrix1[IMAG_PART][idx[FIRST_MATRIX]], matrix2[REAL_PART][idx[SECOND_MATRIX]]);
 	            	}
 
     return;
 }
 
-__MSNATIVE_ void _MS__private __system __export _matrixKQProduct(ityp ***matrix1, ityp ***matrix2, ityp ***matrix_product, const register dim_typ dim[static MAX_DIMENSIONS][MAX_DIMENSIONS])
+__MSNATIVE_ void _MS__private __system __export _matrixKQProduct(ityp **matrix1, ityp **matrix2, ityp **matrix_product, const register dim_typ dim[static MAX_DIMENSIONS][MAX_DIMENSIONS])
 {
     dim_typ i, j, k, l;
-    dim_typ dim_cache[MAX_DIMENSIONS];
+    register dim_typ idx[MAX_MATRICES];
+    const register dim_typ pdim = dim[FIRST_MATRIX][COLUMNS]*dim[SECOND_MATRIX][COLUMNS];
     ityp (* const mul_func)(register ityp, register ityp) = INVERSE_OPS ? math_div : math_mul;
 
 	#pragma omp parallel for
@@ -4928,36 +4938,38 @@ __MSNATIVE_ void _MS__private __system __export _matrixKQProduct(ityp ***matrix1
                 for(l=0; l<dim[SECOND_MATRIX][COLUMNS]; ++l)
                 	#pragma omp parallel num_threads(MAX_QUATERNIONS_UNITS)
                 	{
-	                    dim_cache[RAWS] = k+(i*dim[SECOND_MATRIX][RAWS]);
-	                    dim_cache[COLUMNS] = l+(j*dim[SECOND_MATRIX][COLUMNS]);
-	                    matrix_product[QUATERNIONS_REALPART][dim_cache[RAWS]][dim_cache[COLUMNS]] = mul_func(matrix1[QUATERNIONS_REALPART][i][j], matrix2[QUATERNIONS_REALPART][k][l]) -
-	                                                                                                                              mul_func(matrix1[QUATERNIONS_IPART][i][j], matrix2[QUATERNIONS_IPART][k][l]) -
-	                                                                                                                              mul_func(matrix1[QUATERNIONS_JPART][i][j], matrix2[QUATERNIONS_JPART][k][l]) -
-	                                                                                                                              mul_func(matrix1[QUATERNIONS_KPART][i][j], matrix2[QUATERNIONS_KPART][k][l]);
+	                    idx[FIRST_MATRIX] = dim[FIRST_MATRIX][COLUMNS]*i + j;
+                		idx[SECOND_MATRIX] = dim[SECOND_MATRIX][COLUMNS]*k + l;
+                		idx[MATRIX_PRODUCT] = pdim*(k+(i*dim[SECOND_MATRIX][RAWS])) + l+(j*dim[SECOND_MATRIX][COLUMNS]);
+	                    matrix_product[QUATERNIONS_REALPART][idx[MATRIX_PRODUCT]] = mul_func(matrix1[QUATERNIONS_REALPART][idx[FIRST_MATRIX]], matrix2[QUATERNIONS_REALPART][idx[SECOND_MATRIX]]) -
+	                                                                                                                              mul_func(matrix1[QUATERNIONS_IPART][idx[FIRST_MATRIX]], matrix2[QUATERNIONS_IPART][idx[SECOND_MATRIX]]) -
+	                                                                                                                              mul_func(matrix1[QUATERNIONS_JPART][idx[FIRST_MATRIX]], matrix2[QUATERNIONS_JPART][idx[SECOND_MATRIX]]) -
+	                                                                                                                              mul_func(matrix1[QUATERNIONS_KPART][idx[FIRST_MATRIX]], matrix2[QUATERNIONS_KPART][idx[SECOND_MATRIX]]);
 
-	                    matrix_product[QUATERNIONS_IPART][dim_cache[RAWS]][dim_cache[COLUMNS]] = mul_func(matrix1[QUATERNIONS_REALPART][i][j], matrix2[QUATERNIONS_IPART][k][l]) +
-	                                                                                                                           mul_func(matrix1[QUATERNIONS_IPART][i][j], matrix2[QUATERNIONS_REALPART][k][l])+
-	                                                                                                                           mul_func(matrix1[QUATERNIONS_JPART][i][j], matrix2[QUATERNIONS_KPART][k][l]) -
-	                                                                                                                           mul_func(matrix1[QUATERNIONS_KPART][i][j], matrix2[QUATERNIONS_JPART][k][l]);
+	                    matrix_product[QUATERNIONS_IPART][idx[MATRIX_PRODUCT]] = mul_func(matrix1[QUATERNIONS_REALPART][idx[FIRST_MATRIX]], matrix2[QUATERNIONS_IPART][idx[SECOND_MATRIX]]) +
+	                                                                                                                           mul_func(matrix1[QUATERNIONS_IPART][idx[FIRST_MATRIX]], matrix2[QUATERNIONS_REALPART][idx[SECOND_MATRIX]])+
+	                                                                                                                           mul_func(matrix1[QUATERNIONS_JPART][idx[FIRST_MATRIX]], matrix2[QUATERNIONS_KPART][idx[SECOND_MATRIX]]) -
+	                                                                                                                           mul_func(matrix1[QUATERNIONS_KPART][idx[FIRST_MATRIX]], matrix2[QUATERNIONS_JPART][idx[SECOND_MATRIX]]);
 
-	                    matrix_product[QUATERNIONS_JPART][dim_cache[RAWS]][dim_cache[COLUMNS]] = mul_func(matrix1[QUATERNIONS_REALPART][i][j], matrix2[QUATERNIONS_JPART][k][l]) +
-	                                                                                                                           mul_func(matrix1[QUATERNIONS_JPART][i][j], matrix2[QUATERNIONS_REALPART][k][l])+
-	                                                                                                                           mul_func(matrix1[QUATERNIONS_KPART][i][j], matrix2[QUATERNIONS_IPART][k][l]) -
-	                                                                                                                           mul_func(matrix1[QUATERNIONS_IPART][i][j], matrix2[QUATERNIONS_KPART][k][l]);
+	                    matrix_product[QUATERNIONS_JPART][idx[MATRIX_PRODUCT]] = mul_func(matrix1[QUATERNIONS_REALPART][idx[FIRST_MATRIX]], matrix2[QUATERNIONS_JPART][idx[SECOND_MATRIX]]) +
+	                                                                                                                           mul_func(matrix1[QUATERNIONS_JPART][idx[FIRST_MATRIX]], matrix2[QUATERNIONS_REALPART][idx[SECOND_MATRIX]])+
+	                                                                                                                           mul_func(matrix1[QUATERNIONS_KPART][idx[FIRST_MATRIX]], matrix2[QUATERNIONS_IPART][idx[SECOND_MATRIX]]) -
+	                                                                                                                           mul_func(matrix1[QUATERNIONS_IPART][idx[FIRST_MATRIX]], matrix2[QUATERNIONS_KPART][idx[SECOND_MATRIX]]);
 
-	                    matrix_product[QUATERNIONS_KPART][dim_cache[RAWS]][dim_cache[COLUMNS]] = mul_func(matrix1[QUATERNIONS_REALPART][i][j], matrix2[QUATERNIONS_KPART][k][l]) +
-	                                                                                                                           mul_func(matrix1[QUATERNIONS_KPART][i][j], matrix2[QUATERNIONS_REALPART][k][l])+
-	                                                                                                                           mul_func(matrix1[QUATERNIONS_IPART][i][j], matrix2[QUATERNIONS_JPART][k][l]) -
-	                                                                                                                           mul_func(matrix1[QUATERNIONS_JPART][i][j], matrix2[QUATERNIONS_IPART][k][l]);
+	                    matrix_product[QUATERNIONS_KPART][idx[MATRIX_PRODUCT]] = mul_func(matrix1[QUATERNIONS_REALPART][idx[FIRST_MATRIX]], matrix2[QUATERNIONS_KPART][idx[SECOND_MATRIX]]) +
+	                                                                                                                           mul_func(matrix1[QUATERNIONS_KPART][idx[FIRST_MATRIX]], matrix2[QUATERNIONS_REALPART][idx[SECOND_MATRIX]])+
+	                                                                                                                           mul_func(matrix1[QUATERNIONS_IPART][idx[FIRST_MATRIX]], matrix2[QUATERNIONS_JPART][idx[SECOND_MATRIX]]) -
+	                                                                                                                           mul_func(matrix1[QUATERNIONS_JPART][idx[FIRST_MATRIX]], matrix2[QUATERNIONS_IPART][idx[SECOND_MATRIX]]);
 	    			}
 
     return;
 }
 
-__MSNATIVE_ inline void _MS__private __system __export _matrixKOProduct(ityp ***matrix1, ityp ***matrix2, ityp ***matrix_product, const register dim_typ dim[static MAX_DIMENSIONS][MAX_DIMENSIONS])
+__MSNATIVE_ inline void _MS__private __system __export _matrixKOProduct(ityp **matrix1, ityp **matrix2, ityp **matrix_product, const register dim_typ dim[static MAX_DIMENSIONS][MAX_DIMENSIONS])
 {
     dim_typ i, j, k, l;
-	void (* const omp_func)(ityp ***, ityp ***, ityp ***, const register dim_typ [static MAX_DIMENSIONS][MAX_DIMENSIONS], const register dim_typ, const register dim_typ, const register dim_typ, const register dim_typ) = isSett(BOOLS_EXTENSIVEMULTITHREADING) ? _matrixKOEMTProduct : _matrixKOMTProduct;
+    const register dim_typ pdim = dim[FIRST_MATRIX][COLUMNS]*dim[SECOND_MATRIX][COLUMNS];
+	void (* const omp_func)(ityp **, ityp **, ityp **, const register dim_typ, const register dim_typ, const register dim_typ) = isSett(BOOLS_EXTENSIVEMULTITHREADING) ? _matrixKOEMTProduct : _matrixKOMTProduct;
 
     #pragma omp parallel for
     for(i=0; i<dim[FIRST_MATRIX][RAWS]; ++i)
@@ -4967,15 +4979,16 @@ __MSNATIVE_ inline void _MS__private __system __export _matrixKOProduct(ityp ***
             for(k=0; k<dim[SECOND_MATRIX][RAWS]; ++k)
             	#pragma omp parallel for
                 for(l=0; l<dim[SECOND_MATRIX][COLUMNS]; ++l)
-                	omp_func(matrix1, matrix2, matrix_product, dim, i, j, k, l);
+                	omp_func(matrix1, matrix2, matrix_product, pdim*(k+(i*dim[SECOND_MATRIX][RAWS])) + l+(j*dim[SECOND_MATRIX][COLUMNS]), dim[FIRST_MATRIX][COLUMNS]*i + j, dim[SECOND_MATRIX][COLUMNS]*k + l);
     return;
 }
 
-__MSNATIVE_ inline void _MS__private __system __export _matrixKSProduct(ityp ***matrix1, ityp ***matrix2, ityp ***matrix_product, const register dim_typ dim[static MAX_DIMENSIONS][MAX_DIMENSIONS])
+__MSNATIVE_ inline void _MS__private __system __export _matrixKSProduct(ityp **matrix1, ityp **matrix2, ityp **matrix_product, const register dim_typ dim[static MAX_DIMENSIONS][MAX_DIMENSIONS])
 {
 
     dim_typ i, j, k, l;
-	void (* const omp_func)(ityp ***, ityp ***, ityp ***, const register dim_typ [static MAX_DIMENSIONS][MAX_DIMENSIONS], const register dim_typ, const register dim_typ, const register dim_typ, const register dim_typ) = isSett(BOOLS_EXTENSIVEMULTITHREADING) ? _matrixKSEMTProduct : _matrixKSMTProduct;
+    const register dim_typ pdim = dim[FIRST_MATRIX][COLUMNS]*dim[SECOND_MATRIX][COLUMNS];
+	void (* const omp_func)(ityp **, ityp **, ityp **, const register dim_typ, const register dim_typ, const register dim_typ) = isSett(BOOLS_EXTENSIVEMULTITHREADING) ? _matrixKSEMTProduct : _matrixKSMTProduct;
 
 	#pragma omp parallel for
     for(i=0; i<dim[FIRST_MATRIX][RAWS]; ++i)
@@ -4985,7 +4998,7 @@ __MSNATIVE_ inline void _MS__private __system __export _matrixKSProduct(ityp ***
             for(k=0; k<dim[SECOND_MATRIX][RAWS]; ++k)
             	#pragma omp parallel for
                 for(l=0; l<dim[SECOND_MATRIX][COLUMNS]; ++l)
-                	omp_func(matrix1, matrix2, matrix_product, dim, i, j, k, l);
+                	omp_func(matrix1, matrix2, matrix_product, pdim*(k+(i*dim[SECOND_MATRIX][RAWS])) + l+(j*dim[SECOND_MATRIX][COLUMNS]), dim[FIRST_MATRIX][COLUMNS]*i + j, dim[SECOND_MATRIX][COLUMNS]*k + l);
     return;
 }
 

@@ -1,4 +1,4 @@
-// envs_manager.c 23/08/2014 Marco Chiarelli aka DekraN
+// envs_manager.c 04/09/2014 Marco Chiarelli aka DekraN
 /*
 WARNING!!! This program is intended to be used, so linked at the compilation,
 exclusively with main.c of my suite program! I do not assume any responsibilities

@@ -46,6 +46,10 @@ enhance some functions like det(...), sgeqsolver ExprEval inline command, etc...
 
 Greatly thanks to Daniel Veillard for his fabulous XML Parser, LIBXML2.
 
+Greatly thanks to vict85 of matematicamente.it Network, for having informed
+me about the benefits of using generally a single reference for the
+Matrix Type, like LAPACK and other Numeric Calculus Environments.
+
 Thanks to Francesco Palma for reporting me some bugs.
 
 ...and finally, but not less important, massive thanks to my Informatic

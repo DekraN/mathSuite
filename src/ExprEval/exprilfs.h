@@ -2687,33 +2687,29 @@ case EXPR_NODEFUNC_MATRIXDET:
     {
     err = exprEvalNode(obj, nodes->data.function.nodes, 0, &d1);
 
-    const dim_typ d1ex = (dim_typ)d1;
-    const dim_typ dim = d1ex*d1ex;
+    const register dim_typ d1ex = (dim_typ)d1;
+    const register dim_typ dim = d1ex*d1ex;
 
     if((!err) && nodes->data.function.nodecount >= dim+1)
         {
-        ityp vector[dim];
+        ityp *matrix = NULL;
+        
+        if(!matrixAlloc(&matrix, (dim_typ2){d1ex,d1ex}))
+            return err;
 
         for(pos = 0; ++pos < dim; )
             {
             err = exprEvalNode(obj, nodes->data.function.nodes, pos, &d2);
             if(!err)
-                vector[pos-1] = d2;
+                matrix[pos-1] = d2;
             else
                 return err;
             }
 
-        ityp **matrix = NULL;
-
-        if(!matrixAlloc(&matrix, (dim_typ2){d1ex,d1ex}))
-            return err;
-
-        vectorToMatrix((dim_typ2){d1ex,d1ex}, vector, matrix);
-
         bool flag = false;
 
         *val = det(matrix, d1ex, &flag);
-        matrixFree(&matrix, d1ex);
+        matrixFree(&matrix);
         }
     else
         return err;
@@ -2732,32 +2728,28 @@ case EXPR_NODEFUNC_MATRIXNORM:
 
     err = exprEvalNode(obj, nodes->data.function.nodes, 0, &d2);
 
-    const dim_typ d1ex = (dim_typ)d2;
-    const dim_typ dim = d1ex*d1ex;
+    const register dim_typ d1ex = (dim_typ)d2;
+    const register dim_typ dim = d1ex*d1ex;
 
     if((!err) && nodes->data.function.nodecount >= dim+1)
         {
         ityp d3;
-        ityp vector[dim];
+        ityp *matrix = NULL;
+        
+        if(!matrixAlloc(&matrix, (dim_typ2){d1ex,d1ex}))
+            return err;
 
         for(pos = 1; ++pos < dim; )
             {
             err = exprEvalNode(obj, nodes->data.function.nodes, pos, &d3);
             if(!err)
-                vector[pos-2] = d3;
+                matrix[pos-2] = d3;
             else
                 return err;
             }
 
-        ityp **matrix = NULL;
-
-        if(!matrixAlloc(&matrix, (dim_typ2){d1ex,d1ex}))
-            return err;
-
-        vectorToMatrix((dim_typ2){d1ex,d1ex}, vector, matrix);
-
         *val = norm(matrix, d1ex, d1);
-        matrixFree(&matrix, d1ex);
+        matrixFree(&matrix);
         }
     else
         return err;
@@ -2770,31 +2762,28 @@ case EXPR_NODEFUNC_MATRIXTRACE:
     {
     err = exprEvalNode(obj, nodes->data.function.nodes, 0, &d1);
 
-    const dim_typ d1ex = (dim_typ)d1;
-    const dim_typ dim = d1ex*d1ex;
+    const register dim_typ d1ex = (dim_typ)d1;
+    const register dim_typ dim = d1ex*d1ex;
 
     if((!err) && nodes->data.function.nodecount >= dim+1)
         {
-        ityp vector[dim];
+        	
+        ityp *matrix = NULL;
+        
+        if(!matrixAlloc(&matrix, (dim_typ2){d1ex,d1ex}))
+            return err;
 
         for(pos = 0; ++pos < dim; )
             {
             err = exprEvalNode(obj, nodes->data.function.nodes, pos, &d2);
             if(!err)
-                vector[pos-1] = d2;
+                matrix[pos-1] = d2;
             else
                 return err;
             }
 
-        ityp **matrix = NULL;
-
-        if(!matrixAlloc(&matrix, (dim_typ2){d1ex,d1ex}))
-            return err;
-
-        vectorToMatrix((dim_typ2){d1ex,d1ex}, vector, matrix);
-
         *val = trace(matrix, d1ex);
-        matrixFree(&matrix, d1ex);
+        matrixFree(&matrix);
         }
     else
         return err;
@@ -2818,31 +2807,27 @@ case EXPR_NODEFUNC_MATRIXRANK:
         (dim_typ)d2
     };
 
-    const dim_typ dim = dex[RAWS]*dex[COLUMNS];
+    const register dim_typ dim = dex[RAWS]*dex[COLUMNS];
 
     if((!err) && nodes->data.function.nodecount >= dim+2)
         {
         ityp d3;
-        ityp vector[dim];
+        ityp *matrix = NULL;
+        
+        if(!matrixAlloc(&matrix, dex))
+            return err;
 
         for(pos = 1; ++pos < dim; )
             {
             err = exprEvalNode(obj, nodes->data.function.nodes, pos, &d3);
             if(!err)
-                vector[pos-2] = d3;
+                matrix[pos-2] = d3;
             else
                 return err;
             }
 
-        ityp **matrix = NULL;
-
-        if(!matrixAlloc(&matrix, dex))
-            return err;
-
-        vectorToMatrix(dex, vector, matrix);
-
         *val = rank(matrix, dex);
-        matrixFree(&matrix, dex[RAWS]);
+        matrixFree(&matrix);
         }
     else
         return err;
@@ -2855,49 +2840,37 @@ case EXPR_NODEFUNC_MATRIXILLCHK:
     {
     err = exprEvalNode(obj, nodes->data.function.nodes, 0, &d1);
 
-    const dim_typ d1ex = (dim_typ)d1;
-    const dim_typ dim = d1ex*d1ex;
-
+    const register dim_typ d1ex = (dim_typ)d1;
+    const register dim_typ dim = d1ex*d1ex;
+    
+    ityp *matrix = NULL;
+    
+    if(!matrixAlloc(&matrix, (dim_typ2){d1ex, d1ex}))
+    	return err;
+            
     if((!err) && nodes->data.function.nodecount >= dim+1)
         {
-        ityp vector[dim];
 
         for(pos = 0; ++pos < dim; )
             {
             err = exprEvalNode(obj, nodes->data.function.nodes, pos, &d2);
             if(!err)
-                vector[pos-1] = d2;
+                matrix[pos-1] = d2;
             else
                 return err;
             }
 
-        ityp **matrix = NULL;
-
-        if(!matrixAlloc(&matrix, (dim_typ2){d1ex, d1ex}))
-            return err;
-
-        vectorToMatrix((dim_typ2){d1ex, d1ex}, vector, matrix);
-
-
-        const ityp norms1 = norms(matrix, d1ex);
+        const register ityp norms1 = norms(matrix, d1ex);
         const dim_typ d1ex_per2 = d1ex<<1;
 
-        matrix = realloc(matrix, sizeof(ityp *)*d1ex_per2);
+        matrix = realloc(matrix, sizeof(ityp)*d1ex_per2*d1ex_per2);
         errMem(matrix, err);
-
-        dim_typ i;
-
-        for(i=0; i<d1ex; ++i)
-        {
-            matrix[i] = realloc(matrix[i], sizeof(ityp)*d1ex_per2);
-            errMem(matrix[i], err);
-        }
-
+        
         if(!invertMatrix(matrix, d1ex))
             return err;
 
         *val = norms1*norms(matrix, d1ex);
-        matrixFree(&matrix, d1ex);
+        matrixFree(&matrix);
         }
     else
         return err;
@@ -2910,8 +2883,8 @@ case EXPR_NODEFUNC_SCALARPROD:
     {
     err = exprEvalNode(obj, nodes->data.function.nodes, 0, &d1);
 
-    const dim_typ d1ex = (dim_typ)d1;
-    const dim_typ dim = d1ex<<1;
+    const register dim_typ d1ex = (dim_typ)d1;
+    const register dim_typ dim = d1ex<<1;
 
     if((!err) && nodes->data.function.nodecount >= dim+1)
         {
@@ -3259,27 +3232,19 @@ case EXPR_NODEFUNC_SGEQSOLVER:
                 {
 
 
-                ityp **abc = NULL;
+                ityp *abc = NULL;
 
                 if(!matrixAlloc(&abc, (dim_typ2){1, MAX_ABSTRACT_DIMENSIONS}))
                     return err;
 
-                abc[0][COEFF_A] = d1;
-                abc[0][COEFF_B] = d2;
-                abc[0][COEFF_C] = coeff_c;
-
-                // ityp root[MAX_DIMENSIONS];
-
-                // if(!_secondGradeEquationSolver(abc, root))
-                   //  return err;
-
-                if(!_secondGradeEquationSolver(abc[0], *(nodes->data.function.refs)))
+                *(abc) = d1;
+                *(abc + COEFF_B) = d2;
+               	*(abc + COEFF_C) = coeff_c;
+               	
+                if(!_secondGradeEquationSolver(abc, *(nodes->data.function.refs)))
                    return err;
 
                 *val = *(nodes->data.function.refs[ROOT_X1]);
-
-                // *(nodes->data.function.refs[ROOT_X1]) = root[ROOT_X1];
-                // *(nodes->data.function.refs[ROOT_X2]) = root[ROOT_X2];
                 }
                 else
                     return err;
@@ -3310,25 +3275,21 @@ case EXPR_NODEFUNC_COMPLEXSUM:
 
                 if(!err)
                     {
-                    ityp **complex = NULL;
+                    ityp *complex = NULL;
 
                     if(!matrixAlloc(&complex, (dim_typ2){MAX_DIMENSIONS, MAX_DIMENSIONS}))
                         return err;
 
-                    complex[XRAW][REAL_PART] = d1;
-                    complex[XRAW][IMAG_PART] = d2;
-                    complex[YRAW][REAL_PART] = secondNum[REAL_PART];
-                    complex[YRAW][IMAG_PART] = secondNum[IMAG_PART];
+                    *(complex) = d1;
+                    *(complex + IMAG_PART) = d2;
+                    *(complex + MAX_COMPLEX_UNITS) = secondNum[REAL_PART];
+                    *(complex + MAX_COMPLEX_UNITS + IMAG_PART) = secondNum[IMAG_PART];
 
-                    // ityp complexRes[MAX_DIMENSIONS];
 
-                    _complexSum(complex, *(nodes->data.function.refs)); // _complexSum(complex, complexRes);
-                    matrixFree(&complex, MAX_DIMENSIONS);
+                    _complexSum(complex, *(nodes->data.function.refs));
+                    matrixFree(&complex);
 
                     *val = *(nodes->data.function.refs[IMAG_PART]);
-
-                    // *(nodes->data.function.refs[REAL_PART]) = complexRes[REAL_PART];
-                    // *(nodes->data.function.refs[IMAG_PART]) = complexRes[IMAG_PART];
                     }
                     else
                         return err;
@@ -3362,24 +3323,20 @@ case EXPR_NODEFUNC_COMPLEXPROD:
 
                 if(!err)
                     {
-                    ityp **complex = NULL;
+                    ityp *complex = NULL;
 
                     if(!matrixAlloc(&complex, (dim_typ2){MAX_DIMENSIONS, MAX_DIMENSIONS}))
                         return err;
 
-                    complex[XRAW][REAL_PART] = d1;
-                    complex[XRAW][IMAG_PART] = d2;
-                    complex[YRAW][REAL_PART] = secondNum[REAL_PART];
-                    complex[YRAW][IMAG_PART] = secondNum[IMAG_PART];
+                    *(complex) = d1;
+                    *(complex + IMAG_PART) = d2;
+                    *(complex + MAX_COMPLEX_UNITS) = secondNum[REAL_PART];
+                    *(complex + MAX_COMPLEX_UNITS + IMAG_PART) = secondNum[IMAG_PART];
 
-                    // ityp complexRes[MAX_DIMENSIONS];
-
-                    _complexProd(complex, *(nodes->data.function.refs)); // _complexProd(complex, complexRes);
-                    matrixFree(&complex, MAX_DIMENSIONS);
+                    _complexProd(complex, *(nodes->data.function.refs));
+                    matrixFree(&complex);
 
                     *val = *(nodes->data.function.refs[IMAG_PART]);
-                    // *(nodes->data.function.refs[REAL_PART]) = complexRes[REAL_PART];
-                    // *(nodes->data.function.refs[IMAG_PART]) = complexRes[IMAG_PART];
                     }
                     else
                         return err;

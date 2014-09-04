@@ -1,4 +1,4 @@
-// geometry.c 01/09/2014 Marco Chiarelli aka DekraN
+// geometry.c 04/09/2014 Marco Chiarelli aka DekraN
 /*
 WARNING!!! This program is intended to be used, so linked at the compilation,
 exclusively with main.c of my suite program! I do not assume any responsibilities
@@ -243,7 +243,7 @@ __MSNATIVE_ inline bool __system frename(const char name[static MAX_PATH_LENGTH]
 
 // Conversion of matrix to upper triangular
 // by Bibek Subedi original, adapted by me
-__MSUTIL_ bool matrixUTConv(ityp **mat, dim_typ dimq)
+__MSUTIL_ bool matrixUTConv(ityp *restrict mat, dim_typ dimq)
 {
     dim_typ i, j, k;
 
@@ -251,30 +251,34 @@ __MSUTIL_ bool matrixUTConv(ityp **mat, dim_typ dimq)
 
     for(i = 0; i < dimq; ++i)
     {
-        if( ISZERO(mat[i][i]) ) return false;
+        if( ISZERO(*(mat + dimq*i + i)) ) return false;
         for(j = 0; j < dimq; ++j)
             if(j>i)
             {
-                ratio = mat[j][i]/mat[i][i];
+                ratio = *(mat + dimq*j + i)/ *(mat + dimq*i + i);
                 for(k = 0; k < dimq; ++k)
-                    mat[j][k] -= ratio * mat[i][k];
+                    *(mat + dimq*j + k) -= ratio * *(mat + dimq*i + k);
             }
     }
 
     return true;
 }
 
-__MSNATIVE_ inline const ityp sarrus(ityp **mat)
+enum
 {
-    return ((mat[0][0]*mat[1][1]*mat[2][2])+(mat[0][1]*mat[1][2]*mat[2][0])+(mat[0][2]*mat[1][0]*mat[2][1])) -
-            ((mat[0][2]*mat[1][1]*mat[2][0])+(mat[0][0]*mat[1][2]*mat[2][1])+(mat[0][1]*mat[1][0]*mat[2][2]));
-}
+	SARRUS_DIM = 3,
+	CARLUCCI_DIM
+};
 
-#define CARLUCCI_DIM 4
+__MSNATIVE_ inline const ityp sarrus(ityp *restrict mat)
+{
+	return (((*(mat) * *(mat + 4) * *(mat + 8))+(*(mat + 1) * *(mat + 5) * *(mat + 6))+(*(mat + 2) * *(mat + 3) * *(mat + 7))) -
+	((*(mat + 2) * *(mat + 4) * *(mat + 6))+(*(mat) * *(mat + 5) * *(mat + 7))+(*(mat + 1) * *(mat + 3) * *(mat + 8))));
+}
 
 // It calculates the determinant of a nXn matrix
 // by up-triangularizing the square matrix passed
-__MSNATIVE_ __MSUTIL_ ityp det(ityp **mat, dim_typ dimq, bool *flag)
+__MSNATIVE_ __MSUTIL_ ityp det(ityp *restrict mat, dim_typ dimq, bool *flag)
 {
 
     if(dimq > 0 && dimq < CARLUCCI_DIM) return checkStdMat(mat, dimq);
@@ -287,13 +291,13 @@ __MSNATIVE_ __MSUTIL_ ityp det(ityp **mat, dim_typ dimq, bool *flag)
         dim_typ i;
 
         for(i = 0; i < dimq; ++i)
-            D *= mat[i][i];
+            D *= *(mat + dimq*i + i);
     }
     else
     {
         (*flag) = true;
         ityp * S = NULL;
-        ityp ** V = NULL;
+        ityp * V = NULL; // ityp ** V = NULL;
 
         S = malloc(sizeof(ityp)*dimq);
         errMem(S, MAX_VAL);
@@ -301,7 +305,7 @@ __MSNATIVE_ __MSUTIL_ ityp det(ityp **mat, dim_typ dimq, bool *flag)
         if(!matrixAlloc(&V, (dim_typ2){dimq, dimq}))
         {
             free(S);
-            matrixFree(&V, dimq);
+        	matrixFree(&V); // matrixFree(&V, dimq);
             D = MAX_VAL;
         }
         else
@@ -316,46 +320,44 @@ __MSNATIVE_ __MSUTIL_ ityp det(ityp **mat, dim_typ dimq, bool *flag)
     return D;
 }
 
-__MSNATIVE_ ityp trace(ityp **mat, dim_typ dimq)
+__MSNATIVE_ ityp trace(ityp *restrict mat, dim_typ dimq)
 {
     dim_typ i;
-    ityp res;
-
-    res = 0;
+    ityp res = 0.00;
 
     for(i=0; i<dimq; ++i)
-        res += mat[i][i];
+        res += *(mat + dimq*i + i);
 
     return res;
 }
-
-__MSSHELL_WRAPPER_ __MSNATIVE_ ityp carlucci(ityp **mat)
+ 
+__MSSHELL_WRAPPER_ __MSNATIVE_ ityp carlucci(ityp *restrict mat)
 {
  ityp det = 0.00;
  for(int i = 0; i < CARLUCCI_DIM; ++i)
-   det += i < CARLUCCI_DIM ? (pow(-1,i)*mat[CARLUCCI_DIM-2][i]*mat[CARLUCCI_DIM-1][(i+1)%CARLUCCI_DIM] + pow(-1,i+1)*mat[CARLUCCI_DIM-2][(i+1)%CARLUCCI_DIM]*mat[CARLUCCI_DIM-1][i])*(mat[0][(CARLUCCI_DIM-2+i)%CARLUCCI_DIM]*mat[1][(CARLUCCI_DIM-1+i)%CARLUCCI_DIM] - mat[0][(CARLUCCI_DIM-1+i)%CARLUCCI_DIM]*mat[1][(CARLUCCI_DIM-2+i)%CARLUCCI_DIM]) :
-       (mat[CARLUCCI_DIM-2][i-CARLUCCI_DIM+2]*mat[CARLUCCI_DIM-1][i-CARLUCCI_DIM] - mat[CARLUCCI_DIM-2][i-CARLUCCI_DIM]*mat[CARLUCCI_DIM-1][i-CARLUCCI_DIM+2])*(mat[0][1-(i-CARLUCCI_DIM)]*mat[1][(CARLUCCI_DIM-1)-(i-CARLUCCI_DIM)] - mat[0][(CARLUCCI_DIM-1)-(i-CARLUCCI_DIM)]*mat[1][1-(i-CARLUCCI_DIM)]);
+   det += i < CARLUCCI_DIM ? (pow(-1,i) * *(mat + CARLUCCI_DIM*(CARLUCCI_DIM-2) + i) * *(mat + CARLUCCI_DIM*(CARLUCCI_DIM-1) + (i+1)%CARLUCCI_DIM) + pow(-1,i+1) * *(mat + CARLUCCI_DIM*(CARLUCCI_DIM-2) + (i+1)%CARLUCCI_DIM) * *(mat + CARLUCCI_DIM*(CARLUCCI_DIM-1) +i))*(*(mat + (CARLUCCI_DIM-2+i)%CARLUCCI_DIM) * *(mat + CARLUCCI_DIM + (CARLUCCI_DIM-1+i)%CARLUCCI_DIM) - *(mat + (CARLUCCI_DIM-1+i)%CARLUCCI_DIM) * *(mat + CARLUCCI_DIM + (CARLUCCI_DIM-2+i)%CARLUCCI_DIM)) :
+       (*(mat + CARLUCCI_DIM*(CARLUCCI_DIM-2) + i-CARLUCCI_DIM+2) * *(mat + CARLUCCI_DIM*(CARLUCCI_DIM-1) + i-CARLUCCI_DIM) - *(mat + CARLUCCI_DIM*(CARLUCCI_DIM-2) + i-CARLUCCI_DIM) * *(mat + CARLUCCI_DIM*(CARLUCCI_DIM-1) + i-CARLUCCI_DIM+2))*(*(mat + 1-(i-CARLUCCI_DIM)) * *(mat + CARLUCCI_DIM + (CARLUCCI_DIM-1)-(i-CARLUCCI_DIM)) - *(mat + (CARLUCCI_DIM-1)-(i-CARLUCCI_DIM)) * *(mat + CARLUCCI_DIM + 1-(i-CARLUCCI_DIM)));
 
  return det;
 
 }
 
-__MSSHELL_WRAPPER_ __MSNATIVE_ ityp checkStdMat(ityp **a, dim_typ n)
+__MSSHELL_WRAPPER_ __MSNATIVE_ ityp checkStdMat(ityp *restrict a, dim_typ n)
 {
     ityp det = 0.00;
     switch(n)
     {
 
         case 1:
-            det = a[0][0];
+            det = *a;
             break;
         case 2:
-            det = ((a[0][0]*a[1][1]) - (a[0][1]*a[1][0]));
+            det = ((*a * *(a + n + 1)) - (*(a + 1) * *(a + n)));
             break;
         case 3:
             det = sarrus(a); // apply SARRUS algorithm
             break;
-        case 4:
+        case CARLUCCI_DIM:
             det = carlucci(a);
             break;
     }
@@ -363,7 +365,7 @@ __MSSHELL_WRAPPER_ __MSNATIVE_ ityp checkStdMat(ityp **a, dim_typ n)
     return det;
 }
 
-__MSSHELL_WRAPPER_ __MSNATIVE_ bool randomMatrix(ityp **matrix, const register dim_typ dim[static MAX_DIMENSIONS])  
+__MSSHELL_WRAPPER_ __MSNATIVE_ bool randomMatrix(ityp *restrict matrix, const register dim_typ dim[static MAX_DIMENSIONS])  
 {
     dim_typ range;
     printf2(COLOR_CREDITS, "\n\nEnter a non-negative integer to set pseudo-random numbers Range.\n");
@@ -391,7 +393,7 @@ __MSSHELL_WRAPPER_ __MSNATIVE_ bool randomMatrix(ityp **matrix, const register d
     for(i=0; i<dim[RAWS]; ++i)
     	#pragma omp parallel for
         for(j=0; j<dim[COLUMNS]; ++j)
-            matrix[i][j] = random(range);
+            *(matrix + dim[COLUMNS]*i + j) = random(range);
 
     printf2(COLOR_SYSTEM, "\n\n[%hu X %hu] Randomized Matrix with Range: %hu is:\n", dim[RAWS], dim[COLUMNS], range);
     PRINTL();
@@ -401,7 +403,7 @@ __MSSHELL_WRAPPER_ __MSNATIVE_ bool randomMatrix(ityp **matrix, const register d
     return true;
 }
 
-__MSNATIVE_ void transpose(ityp **matrix, ityp **matrix2, const register dim_typ dim[static MAX_DIMENSIONS])  
+__MSNATIVE_ void transpose(ityp *restrict matrix, ityp *restrict matrix2, const register dim_typ dim[static MAX_DIMENSIONS])  
 {
 
     dim_typ i, j;
@@ -409,7 +411,7 @@ __MSNATIVE_ void transpose(ityp **matrix, ityp **matrix2, const register dim_typ
     for(i=0; i<dim[COLUMNS]; ++i)
     	#pragma omp parallel for
         for(j=0; j<dim[RAWS]; ++j)
-            matrix2[i][j] = matrix[j][i];
+        	*(matrix2 + dim[RAWS]*i + j) = *(matrix + dim[COLUMNS]*j + i);
 
     return;
 }
@@ -426,7 +428,7 @@ __MSNATIVE_ void transpose(ityp **matrix, ityp **matrix2, const register dim_typ
    Restituisce 0 se non riesce a fattorizzare.
 */
 
-__MSUTIL_ bool __export FattLU(dim_typ n, ityp **c, ityp **l, ityp **a)
+__MSUTIL_ bool __export FattLU(dim_typ n, ityp *restrict c, ityp *restrict l, ityp * a)
 {
     ityp m, pivot;
     dim_typ i, j, k;
@@ -437,13 +439,13 @@ __MSUTIL_ bool __export FattLU(dim_typ n, ityp **c, ityp **l, ityp **a)
 
     for (k=0; k<n; ++k)
     {
-        pivot = a[k][k];
+        pivot = *(a + n*k + k);
         if ( ISZERO(pivot) ) return false;
         for (i=k+1; i<n; ++i)
         {
-            l[i][k] = m = a[i][k] / pivot ;
+            *(l + n*i + k) = m = *(a + n*i + k) / pivot ;
             for (j=k; j<n; ++j)
-                a[i][j] -= m*a[k][j] ;
+                *(a + n*i + j) -= m * *(a + n*k + j);
         }
     }
 
@@ -452,10 +454,10 @@ __MSUTIL_ bool __export FattLU(dim_typ n, ityp **c, ityp **l, ityp **a)
 	#pragma omp parallel for
     for (i=0; i<n; ++i) /* Completa L con zeri ed uni */
     {
-        l[i][i]=1.00;
+        *(l + n*i + i)=1.00;
         #pragma omp parallel for
         for (j=i+1; j<n; ++j)
-            l[i][j]=0.00;
+            *(l + n*i + j)=0.00;
     }
 
   return true;
@@ -468,7 +470,7 @@ http://programming-technique.blogspot.it/2011/09/numerical-methods-inverse-of-nx
 for this part of code, which I renamed, modified and adapted to this program
 */
 
-__MSUTIL_ bool __export invertMatrix(ityp **matrix, dim_typ n)
+__MSUTIL_ bool __export invertMatrix(ityp *restrict matrix, dim_typ n)
 {
 
     dim_typ i, j;
@@ -478,7 +480,7 @@ __MSUTIL_ bool __export invertMatrix(ityp **matrix, dim_typ n)
     for(i = 0; i < n; ++i)
    		#pragma omp parallel for
         for(j = n; j < 2*n; ++j)
-            matrix[i][j] = i == (j-n);
+            *(matrix + n*i + j) = i == (j-n);
 
     if(!matrixUTConv(matrix, n))
         return false;
@@ -486,9 +488,9 @@ __MSUTIL_ bool __export invertMatrix(ityp **matrix, dim_typ n)
 	#pragma omp parallel for
     for(i = 0; i < n; ++i)
     {
-        const ityp a = matrix[i][i];
+        const ityp a = *(matrix + n*i + i);
         for(j = 0; j < 2*n; ++j)
-            matrix[i][j] /= a;
+            *(matrix + n*i + j) /= a;
     }
 
     return true;
@@ -502,7 +504,7 @@ __MSUTIL_ static inline _MS__private __export ityp PYTHAG(ityp a, ityp b)
 }
 
 // Jacobi Singular Value Decomposition (SVD)
-__MSUTIL_ bool __export dsvd(ityp **a, const register dim_typ dim[static MAX_DIMENSIONS], ityp *w, ityp **v)
+__MSUTIL_ bool __export dsvd(ityp *restrict a, const register dim_typ dim[static MAX_DIMENSIONS], ityp *w, ityp *v)
 {
     // checking whether m < n and correct it
     // by transposing the matrix into n,m matrix
@@ -512,13 +514,13 @@ __MSUTIL_ bool __export dsvd(ityp **a, const register dim_typ dim[static MAX_DIM
 
     if(m < n)
     {
-        ityp ** tmp = NULL;
+        ityp * tmp = NULL;
         ityp res;
         if(!matrixAlloc(&tmp, (dim_typ2){n, m}))
             return false;
         transpose(a, tmp, dim); // m, n);
         res = dsvd(tmp, (dim_typ2){n, m}, w, v);
-        matrixFree(&tmp, n);
+        matrixFree(&tmp);
         return res;
     }
 
@@ -541,31 +543,31 @@ __MSUTIL_ bool __export dsvd(ityp **a, const register dim_typ dim[static MAX_DIM
         if (i < m)
         {
             for (k = i; k < m; ++k)
-                scale += fabs(a[k][i]);
+                scale += fabs(*(a + n*k + i));
             if (scale)
             {
                 for (k = i; k < m; ++k)
                 {
-                    a[k][i] = (a[k][i]/scale);
-                    s += (a[k][i] * a[k][i]);
+                    *(a + n*k + i) /= scale;
+                    s += (*(a + n*k + i) * *(a + n*k + i));
                 }
-                f = a[i][i];
-                g = -SIGN(sqrt(s), f);
+                f = *(a + n*i + i);
+				g = -SIGN(sqrt(s), f);
                 h = f * g - s;
-                a[i][i] = f - g;
+                *(a + n*i + i) = f - g;
                 if (i != n - 1)
                 {
                     for (j = l; j < n; ++j)
                     {
                         for (s = 0.00, k = i; k < m; ++k)
-                            s += (a[k][i] * a[k][j]);
+                            s += (*(a + n*k + i) * *(a + n*k + j));
                         f = s / h;
                         for (k = i; k < m; ++k)
-                            a[k][j] += (f * a[k][i]);
+                            *(a + n*k + j) += (f * *(a + n*k + i));
                     }
                 }
                 for (k = i; k < m; ++k)
-                    a[k][i] = a[k][i]*scale;
+                    *(a + n*k + i) *= scale;
             }
         }
         w[i] = scale * g;
@@ -575,32 +577,32 @@ __MSUTIL_ bool __export dsvd(ityp **a, const register dim_typ dim[static MAX_DIM
         if (i < m && i != n - 1)
         {
             for (k = l; k < n; ++k)
-                scale += fabs(a[i][k]);
+                scale += fabs(*(a + n*i + k));
             if (scale)
             {
                 for (k = l; k < n; ++k)
                 {
-                    a[i][k] = a[i][k]/scale;
-                    s += a[i][k] * a[i][k];
+                    *(a + n*i + k) /= scale;
+                    s += *(a + n*i + k) * *(a + n*i + k);
                 }
-                f = a[i][l];
+                f = *(a + n*i + l);
                 g = -SIGN(sqrt(s), f);
                 h = f * g - s;
-                a[i][l] = f - g;
+                *(a + n*i + l) = f - g;
                 for (k = l; k < n; ++k)
-                    rv1[k] = a[i][k] / h;
+                    rv1[k] = *(a + n*i + k) / h;
                 if (i != m - 1)
                 {
                     for (j = l; j < m; ++j)
                     {
                         for (s = 0.00, k = l; k < n; ++k)
-                            s += a[j][k] * a[i][k];
+                            s += (*(a + n*j +k) * *(a + n*i + k));
                         for (k = l; k < n; ++k)
-                            a[j][k] += s * rv1[k];
+                            *(a + n*j + k) += s * rv1[k];
                     }
                 }
                 for (k = l; k < n; ++k)
-                    a[i][k] = a[i][k]*scale;
+                    *(a + n*i + k) *= scale;
             }
         }
         register ityp reg;
@@ -616,20 +618,20 @@ __MSUTIL_ bool __export dsvd(ityp **a, const register dim_typ dim[static MAX_DIM
             if (g)
             {
                 for (j = l; j < n; ++j)
-                    v[j][i] = ((a[i][j] / a[i][l]) / g);
+                    *(v + n*j + i) = (*(a + n*i + j) / *(a + n*i + l) / g);
                     /* double division to avoid underflow */
                 for (j = l; j < n; j++)
                 {
                     for (s = 0.00, k = l; k < n; ++k)
-                        s += a[i][k] * v[k][j];
+                        s += *(a + n*i + k) * *(v + n*k + j);
                     for (k = l; k < n; ++k)
-                        v[k][j] += s * v[k][i];
+                        *(v + n*k + j) += s * *(v + n*k + i);
                 }
             }
             for (j = l; j < n; ++j)
-                v[i][j] = v[j][i] = 0.00;
+                *(v + n*i + j) = *(v + n*j + i) = 0.00;
         }
-        v[i][i] = 1.00;
+        *(v + n*i + i) = 1.00;
         g = rv1[i];
         l = i;
     }
@@ -641,7 +643,7 @@ __MSUTIL_ bool __export dsvd(ityp **a, const register dim_typ dim[static MAX_DIM
         g = w[i];
         if (i < n - 1)
             for (j = l; j < n; ++j)
-                a[i][j] = 0.00;
+                *(a + n*i + j) = 0.00;
         if (g)
         {
             g = 1.00 / g;
@@ -650,21 +652,21 @@ __MSUTIL_ bool __export dsvd(ityp **a, const register dim_typ dim[static MAX_DIM
                 for (j = l; j < n; ++j)
                 {
                     for (s = 0.00, k = l; k < m; ++k)
-                        s += a[k][i] * a[k][j];
-                    f = (s / a[i][i]) * g;
+                        s += *(a + n*k + i) * *(a + n*k + j);
+                    f = (s / *(a + n*i + i)) * g;
                     for (k = i; k < m; ++k)
-                        a[k][j] += f * a[k][i];
+                        *(a + n*k + j) += f * *(a + n*k + i);
                 }
             }
             for (j = i; j < m; ++j)
-                a[j][i] = a[j][i]*g;
+                *(a + n*j + i) *= g;
         }
         else
         {
             for (j = i; j < m; ++j)
-                a[j][i] = 0.00;
+                *(a + n*j + i) = 0.00;
         }
-        ++a[i][i];
+        ++ *(a + n*i + i);
     }
 
     /* diagonalize the bidiagonal form */
@@ -701,10 +703,10 @@ __MSUTIL_ bool __export dsvd(ityp **a, const register dim_typ dim[static MAX_DIM
                         s = (- f * h);
                         for (j = 0; j < m; ++j)
                         {
-                            y = a[j][nm];
-                            z = a[j][i];
-                            a[j][nm] = (y * c + z * s);
-                            a[j][i] = (z * c - y * s);
+                            y = *(a + n*j + nm);
+                            z = *(a + n*j + i);
+                            *(a + n*j + nm) = (y * c + z * s);
+                            *(a + n*j + i) = (z * c - y * s);
                         }
                     }
                 }
@@ -716,7 +718,7 @@ __MSUTIL_ bool __export dsvd(ityp **a, const register dim_typ dim[static MAX_DIM
                 {              /* make singular value nonnegative */
                     w[k] = (-z);
                     for (j = 0; j < n; ++j)
-                        v[j][k] = (-v[j][k]);
+                        *(v + n*j + k) = - *(v + n*j + k);
                 }
                 break;
             }
@@ -756,10 +758,10 @@ __MSUTIL_ bool __export dsvd(ityp **a, const register dim_typ dim[static MAX_DIM
                 y = y * c;
                 for (jj = 0; jj < n; ++jj)
                 {
-                    x = v[jj][j];
-                    z = v[jj][i];
-                    v[jj][j] = (x * c + z * s);
-                    v[jj][i] = (z * c - x * s);
+                    x = *(v + n*jj + j);
+                    z = *(v + n*jj + i);
+                    *(v + n*jj + j) = (x * c + z * s);
+                    *(v + n*jj + i) = (z * c - x * s);
                 }
                 z = PYTHAG(f, h);
                 w[j] = z;
@@ -773,10 +775,10 @@ __MSUTIL_ bool __export dsvd(ityp **a, const register dim_typ dim[static MAX_DIM
                 x = (c * y) - (s * g);
                 for (jj = 0; jj < m; ++jj)
                 {
-                    y = a[jj][j];
-                    z = a[jj][i];
-                    a[jj][j] = (y * c + z * s);
-                    a[jj][i] = (z * c - y * s);
+                    y = *(a + n*jj + j);
+                    z = *(a + n*jj + i);
+                    *(a + n*jj + j) = (y * c + z * s);
+                    *(a + n*jj + i) = (z * c - y * s);
                 }
             }
             rv1[l] = 0.00;
@@ -790,10 +792,10 @@ __MSUTIL_ bool __export dsvd(ityp **a, const register dim_typ dim[static MAX_DIM
 
 // RANK Calculator of a nXm Matrix using
 // Jacobi Singular Value Decomposition METHOD (SVD)
-__MSNATIVE_ dim_typ __export rank(ityp **matrix, const register dim_typ dim[static MAX_DIMENSIONS])
+__MSNATIVE_ dim_typ __export rank(ityp *restrict matrix, const register dim_typ dim[static MAX_DIMENSIONS])
 {
     ityp * S = NULL;
-    ityp ** V = NULL;
+    ityp * V = NULL;
 
     const register ityp maxv = dim[dim[RAWS] >= dim[COLUMNS]];
 
@@ -807,7 +809,7 @@ __MSNATIVE_ dim_typ __export rank(ityp **matrix, const register dim_typ dim[stat
     }
 
     dsvd(matrix, dim, S, V);
-    matrixFree(&V, maxv);
+    matrixFree(&V);
 
     register dim_typ rnk = maxv;
 
@@ -817,24 +819,6 @@ __MSNATIVE_ dim_typ __export rank(ityp **matrix, const register dim_typ dim[stat
     free(S);
 
     return rnk;
-}
-
-__MSNATIVE_ void __export matrixToVector(ityp **mdim_array, const register dim_typ dim[static MAX_DIMENSIONS], ityp vector[static dim[RAWS]*dim[COLUMNS]], bool direction)
-{
-    dim_typ i, j;
-    int k;
-
-    for(i=k=0; i<dim[RAWS]; ++i)
-        for(j=0; j<dim[COLUMNS]; ++j)
-            if(!direction) vector[k++] = mdim_array[i][j];
-            else mdim_array[i][j] = vector[k++];
-    return;
-}
-
-__MSNATIVE_ void __export vectorToMatrix(const register dim_typ dim[static MAX_DIMENSIONS], ityp vector[static dim[RAWS]*dim[COLUMNS]], ityp **mdim_array)
-{
-    matrixToVector(mdim_array, dim, vector, VECTOR_TO_MATRIX);
-    return;
 }
 
 __MSNATIVE_ inline void __system _flushLogBuf(logObj * const which_log)
@@ -1022,7 +1006,7 @@ __MSNATIVE_ bool __system scanf2(sel_typ count, const char *format, ...)
     return scanner == count;
 }
 
-__MSNATIVE_ _MS__private void __system printMatrix(FILE *fp, ityp **matrix, const register dim_typ dim[static MAX_DIMENSIONS])  
+__MSNATIVE_ _MS__private void __system printMatrix(FILE *fp, ityp *matrix, const register dim_typ dim[static MAX_DIMENSIONS])  
 {
 
     const bool assert = fp == stdout;
@@ -1036,7 +1020,7 @@ __MSNATIVE_ _MS__private void __system printMatrix(FILE *fp, ityp **matrix, cons
         for(j=0; j<dim[COLUMNS]; ++j)
         {   // remember to put comma and whitespace
             // in order to right-format matrix file-parsing system
-            fprintf2(fp, OUTPUT_CONVERSION_FORMAT, matrix[i][j]);
+            fprintf2(fp, OUTPUT_CONVERSION_FORMAT, *(matrix + dim[COLUMNS]*i + j));
             fprintf2(fp, "; ");
             if(j >= dim[COLUMNS]-1)
                fputc('\n', fp);
@@ -1048,14 +1032,13 @@ __MSNATIVE_ _MS__private void __system printMatrix(FILE *fp, ityp **matrix, cons
         PRINTN();
         
         if(access(lmpMatrix) && access(lmpMatrix)->matrix)
-        	matrixFree(&(access(lmpMatrix)->matrix), access(lmpMatrix)->dim[RAWS]);
+        	matrixFree(&(access(lmpMatrix)->matrix));
         
         if(access(lmpMatrix) && !matrixAlloc(&(access(lmpMatrix)->matrix), dim))
         	resetLmpMatrix();
 
-        if(matrix && access(lmpMatrix)->matrix && equalMatrix(&(access(lmpMatrix)->matrix), matrix, dim))
+        if(access(lmpMatrix)->matrix && equalMatrix(&(access(lmpMatrix)->matrix), matrix, dim))
         {
-        	/// printf("\n\nROMUALDO\n\n")
             access(lmpMatrix)->dim[RAWS] = dim[RAWS];
             access(lmpMatrix)->dim[COLUMNS] = dim[COLUMNS];
         }
@@ -1108,134 +1091,6 @@ __MSNATIVE_ bool __system __export parse(char expr[], ityp *res)
     return true;
 }
 
-/*
-// STATIC MATRIX EXTRACTION SYSTEM
-// this system is faster than the actual one,
-// but is slightly deprecated.
-// This went promptly discarded.
-bool extractMat(ityp ***matrix, dim_typ *righe, dim_typ *colonne, char item_path[static MAX_PATH_LENGTH])
-{
-
-    FILE *fp;
-
-    fp = NULL;
-
-
-    if((fp = checkForFHErrors(item_path, "r")) == NULL)
-       return false;
-
-    fflush(fp);
-
-    char str[MAX_BUFSIZ] = NULL_CHAR; // char str[MAX_BUFSIZ] = NULL_CHAR;
-
-
-    exprObj *e = INIT_OBJLIST;
-    int start, end;
-    time_t t1, t2;
-    double diff;
-    diff = 0;
-    volatile int err;
-
-    size_t len;
-
-    (*righe) = (*colonne) = 0;
-
-    if(fscanf(fp, "%hu", righe) != 1) // fgets(str, MAX_FILE_LINES, fp) == NULL)
-    {
-        fclose(fp);
-        return false;
-    }
-
-    // len = strlen(str)-1;
-    // str[len] = '\0';
-
-    // (*righe) = strtod(str, NULL);
-
-    if(fscanf(fp, "%hu", colonne) != 1) // fgets(str, MAX_FILE_LINES, fp) == NULL)
-    {
-        fclose(fp);
-        return false;
-    }
-
-    // len = strlen(str)-1;
-    // str[len] = '\0';
-
-    // (*colonne) = strtod(str, NULL);
-
-    if(!matrixAlloc(matrix, (*righe), (*colonne)))
-    {
-        fclose(fp);
-        return false;
-    }
-
-    dim_typ i, j;
-
-    for(i=0; i<(*righe); i++)
-    {
-        for(j=0; j<(*colonne); j++)
-        {
-            // printf("\nCURRENT RAWCOLUMN: [%hu, %hu]\n\n", i, j);
-            if(fgets(str, MAX_FILE_LINES, fp) == NULL)
-            {
-                fclose(fp);
-                return false;
-            }
-
-            err = exprCreate(&e, suite.exprVars.func_list, suite.exprVars.var_list, suite.exprVars.const_list, NULL, 0);
-
-            if(err != EXPR_ERROR_NOERROR)
-            {
-                printf("Expr Creation Error.\n");
-                exprFree(e);
-                continue;
-            }
-
-
-            err = exprParse(e, str);
-            if(err != EXPR_ERROR_NOERROR)
-            {
-                exprGetErrorPosition(e, &start, &end);
-                printf("Parse Error (%d,%d).\n", start, end);
-                exprFree(e);
-                continue;
-            }
-
-            if(suite.bools[BOOLS_SHOWDIFFTIME].state)
-                t1 = time(NULL);
-
-            ityp val;
-            err = exprEval(e, &val);
-
-            if(err != EXPR_ERROR_NOERROR)
-                printf("Eval Error: %d.\n", err);
-
-            if(suite.bools[BOOLS_SHOWDIFFTIME].state)
-            {
-                t2 = time(NULL);
-                diff += difftime(t2, t1);
-            }
-
-            (*matrix)[i][j] = val;
-
-            exprFree(e);
-
-        }
-
-    }
-
-    fclose(fp);
-
-    if(suite.bools[BOOLS_SHOWDIFFTIME].state)
-    {
-        PRINTL();
-        printf("Average Time: %.*f;\n", suite.precision, (EXPRTYPE)diff);
-        PRINTL();
-    }
-
-    return true;
-}
-*/
-
 #define MINMAX_BUFFER_LEN MAX_STRING
 
 __MSNATIVE_ bool __system __export extractMat(dim_typ which_mat)
@@ -1264,26 +1119,20 @@ __MSNATIVE_ bool __system __export extractMat(dim_typ which_mat)
     fflush(fp);
 
 
+	dim_typ analog_raws, analog_columns = 1;
     char *ij_element = NULL;
 
 
     for(tmp->dim[RAWS]=tmp->dim[COLUMNS]=INIT_DIM; fgets(str, sizeof(str), fp) != NULL; ++ tmp->dim[RAWS])  // fscanf(fp, "%[^\n]s", str)) // fgets(str, sizeof(str), fp) != NULL)
     {
-        if(!(tmp->dim[RAWS]) && !matrixAlloc(&(tmp->matrix), (dim_typ2){1, lazy_exec ? 1 : access(curLayout)->stabilizer_factor}))
+        if(!(tmp->dim[RAWS]) && !matrixAlloc(&(tmp->matrix), (dim_typ2){1, 1}))
             return false;
         else
         {
-            const dim_typ analog_raws = (tmp->dim[RAWS])+1;
+            analog_raws = (tmp->dim[RAWS])+1;
 
-            if(lazy_exec)
-                tmp->matrix = realloc(tmp->matrix, sizeof(ityp *)*analog_raws);
-            else if(!(analog_raws % access(curLayout)->stabilizer_factor))
-                tmp->matrix = realloc(tmp->matrix, sizeof(ityp *) * (tmp->dim[RAWS]+access(curLayout)->stabilizer_factor));
-
+            tmp->matrix = realloc(tmp->matrix, sizeof(ityp)*analog_raws*analog_columns);
             errMem(tmp->matrix, false);
-
-            (tmp->matrix)[tmp->dim[RAWS]] = malloc((tmp->dim[COLUMNS])*sizeof(ityp));
-            errMem((tmp->matrix)[tmp->dim[RAWS]], false);
         }
 
 
@@ -1296,34 +1145,23 @@ __MSNATIVE_ bool __system __export extractMat(dim_typ which_mat)
             }
 
             if(!(tmp->dim[RAWS]))
-            {
-                const dim_typ analog_columns = (tmp->dim[COLUMNS])+1;
-                if(lazy_exec)
-                    (tmp->matrix)[0] = realloc((tmp->matrix)[0], sizeof(ityp)*analog_columns);
-                else if(!(analog_columns % access(curLayout)->stabilizer_factor))
-                    (tmp->matrix)[0] = realloc((tmp->matrix)[0], sizeof(ityp)*((tmp->dim[COLUMNS]) + access(curLayout)->stabilizer_factor));
+        	{
+                tmp->matrix = realloc(tmp->matrix, sizeof(ityp)*analog_raws*analog_columns);
+                errMem(tmp->matrix, false);
+        	}
 
-                errMem((tmp->matrix)[0], false);
-            }
-
-            if(isSett(BOOLS_MATRIXPARSING) && !parse(ij_element, &((tmp->matrix)[tmp->dim[RAWS]][i])))
+            if(isSett(BOOLS_MATRIXPARSING) && !parse(ij_element, (tmp->matrix) + tmp->dim[COLUMNS]*tmp->dim[RAWS] + i))
                 continue;
             else
-                (tmp->matrix)[tmp->dim[RAWS]][i] = strtod(ij_element, NULL);
+                *((tmp->matrix) + tmp->dim[COLUMNS]*tmp->dim[RAWS] + i) = strtod(ij_element, NULL);
 
             if(!(tmp->dim[RAWS]))
-               ++(tmp->dim[COLUMNS]);
+               analog_columns = ++(tmp->dim[COLUMNS]) +1;
         }
     }
 
     fclose(fp);
     diff = difftime(time(NULL), t1);
-
-    if(!(lazy_exec))
-    {
-        (tmp->matrix) = realloc(tmp->matrix, sizeof(ityp*)*(tmp->dim[RAWS]));
-        errMem(tmp->matrix, false);
-    }
 
     if(isSett(BOOLS_SHOWDIFFTIME))
     {
@@ -1338,7 +1176,7 @@ __MSNATIVE_ bool __system __export extractMat(dim_typ which_mat)
     return true;
 }
 
-__MSNATIVE_ bool __system __export matrixToken(const char string[], ityp ***matrix, dim_typ *righe, dim_typ *colonne)
+__MSNATIVE_ bool __system __export matrixToken(const char string[], ityp **matrix, dim_typ *righe, dim_typ *colonne)
 {
 
     char target[MAX_BUFSIZ];
@@ -1351,7 +1189,8 @@ __MSNATIVE_ bool __system __export matrixToken(const char string[], ityp ***matr
 
     /// char str2[MAX_BUFSIZ];
     dim_typ i;
-
+	dim_typ analog_raws, analog_columns = 1;
+	
     line = token = NULL;
 
     for((*righe) = (*colonne) = INIT_DIM, line = strtok(target, TERMINATING_STRING); line != NULL; ++ (*righe), line = strtok (line + strlen (line) + 1, TERMINATING_STRING))
@@ -1359,22 +1198,15 @@ __MSNATIVE_ bool __system __export matrixToken(const char string[], ityp ***matr
         /* String to scan is in buf string..token */
         strncpy(buf, line, sizeof(buf));
 
-        if((!(*righe)) && !matrixAlloc(matrix, (dim_typ2){1, lazy_exec ? 1 : access(curLayout)->stabilizer_factor}))
+        if((!(*righe)) && !matrixAlloc(matrix, (dim_typ2){1, 1}))
             return false;
         else
         {
 
-            const dim_typ analog_raws = ((*righe))+1;
+            analog_raws = ((*righe))+1;
 
-            if(lazy_exec)
-                (*matrix) = realloc((*matrix), sizeof(ityp *)*analog_raws);
-            else if(!(analog_raws % access(curLayout)->stabilizer_factor))
-                (*matrix) = realloc((*matrix), sizeof(ityp *) * (((*righe))+access(curLayout)->stabilizer_factor));
-
+            (*matrix) = realloc((*matrix), sizeof(ityp)*analog_raws*analog_columns);
             errMem((*matrix), false);
-
-            (*matrix)[(*righe)] = malloc(((*colonne))*sizeof(ityp));
-            errMem((*matrix)[(*righe)], false);
         }
 
         for(i=0, token=strtok(buf,","); token != NULL; ++ i, token = strtok (token + strlen (token) + 1, ","))
@@ -1382,25 +1214,20 @@ __MSNATIVE_ bool __system __export matrixToken(const char string[], ityp ***matr
 
             if(!((*righe)))
             {
-                const dim_typ analog_columns = ((*colonne))+1;
-                if(lazy_exec)
-                    (*matrix)[0] = realloc((*matrix)[0], sizeof(ityp)*analog_columns);
-                else if(!(analog_columns % access(curLayout)->stabilizer_factor))
-                    (*matrix)[0] = realloc((*matrix)[0], sizeof(ityp)*(((*colonne))+ access(curLayout)->stabilizer_factor));
-
-                errMem((*matrix)[0], false);
+                (*matrix) = realloc((*matrix), sizeof(ityp)*analog_raws*analog_columns);
+                errMem((*matrix), false);
             }
 
             char token2[strlen(token)+1];
             sprintf(token2, "%s;", token);
 
-            if(isSett(BOOLS_MATRIXPARSING) && !parse(token2, &((*matrix)[(*righe)][i])))
+            if(isSett(BOOLS_MATRIXPARSING) && !parse(token2, (*matrix) + (*colonne)*(*righe) + i))
                 continue;
             else
-                (*matrix)[(*righe)][i] = strtod(token2, NULL);
+            	*((*matrix) + (*colonne)*(*righe) + i) = strtod(token2, NULL);
 
             if(!((*righe)))
-                ++ (*colonne);
+                analog_columns = ++ (*colonne) +1;
 
         }
     }
@@ -2077,32 +1904,23 @@ __MSNATIVE_ inline bool __system __export isDomainForbidden(ityp val, bool mode)
     return false;
 }
 
-__MSUTIL_ inline void _MS__private __system __export free_foreach(ityp ***matrix, const dim_typ algebra_units, const dim_typ dimraws, bool mode)
+__MSUTIL_ inline void _MS__private __system __export free_foreach(ityp **matrix, const dim_typ algebra_units, bool mode)
 {
     if(mode)
         return;
     #pragma omp parallel for num_threads(algebra_units)
     for(dim_typ i=0; i<algebra_units; ++i)
-        matrixFree(&matrix[i], dimraws);
+        matrixFree(&matrix[i]);
     return;
 }
 
-__MSUTIL_ inline void _MS__private __system __export free_foreach2(ityp ***matrix, const dim_typ dim)
-{
-	#pragma omp parallel for
-    for(dim_typ i=0; i<dim; ++i)
-        matrixFree(&matrix[i], dim);
-    return;
-}
-
-__MSUTIL_ inline void _MS__private __system __export free_foreach3(ityp ***matrix, const dim_typ algebra_units)
+__MSUTIL_ inline void _MS__private __system __export free_foreach2(ityp **matrix, const dim_typ algebra_units)
 {
 	#pragma omp parallel for num_threads(algebra_units)
     for(dim_typ i=0; i<algebra_units; ++i)
         free(matrix[i]);
     return;
 }
-
 
 __MSUTIL_ inline bool __system __export checkErrMem(const void * pntr)
 {
@@ -2119,34 +1937,22 @@ __MSUTIL_ inline bool __system __export checkErrMem(const void * pntr)
     return false;
 }
 
-__MSNATIVE_ bool __system __export matrixAlloc(ityp ***matrix, const register dim_typ dim[static MAX_DIMENSIONS])
+__MSNATIVE_ bool __system __export matrixAlloc(ityp **matrix, const register dim_typ dim[static MAX_DIMENSIONS])
 {
     if(!(*matrix))
         (*matrix) = NULL;
 
-    (*matrix) = calloc(sizeof(ityp *), dim[RAWS]);
+    (*matrix) = calloc(dim[RAWS]*dim[COLUMNS], sizeof(ityp));
     errMem((*matrix), false);
-
-    dim_typ i;
-
-    for(i=0; i<dim[RAWS]; ++i)
-    {
-        (*matrix)[i] = calloc(sizeof(ityp), dim[COLUMNS]);
-        errMem((*matrix)[i], false);
-    }
 
     return true;
 }
 
-__MSNATIVE_ void __system __export _matrixFree(ityp ***matrix, dim_typ raws, bool mode)
+__MSNATIVE_ void __system __export _matrixFree(ityp **matrix, bool mode)
 {
     if(mode || !(*matrix))
         return;
 
-    dim_typ i;
-    #pragma omp parallel for
-    for(i=0; i<raws; ++i)
-        free((*matrix)[i]);
     free((*matrix));
     (*matrix) = NULL; // to avoid dangling references,
     // even if all this pointer passed to this function
@@ -2154,27 +1960,17 @@ __MSNATIVE_ void __system __export _matrixFree(ityp ***matrix, dim_typ raws, boo
     return;
 }
 
-__MSNATIVE_ bool __system __export equalMatrix(ityp ***matrix1, ityp **matrix2, const register dim_typ dim[static MAX_DIMENSIONS])  
+__MSNATIVE_ bool __system __export equalMatrix(ityp **matrix1, ityp *matrix2, const register dim_typ dim[static MAX_DIMENSIONS])  
 {
-    (*matrix1) = realloc((*matrix1), sizeof(ityp*)*dim[RAWS]);
+    (*matrix1) = realloc((*matrix1), sizeof(ityp)*dim[RAWS]*dim[COLUMNS]);
     errMem((*matrix1), false);
 
-    dim_typ i;
-
-    for(i=0; i<dim[RAWS]; ++i)
-    {
-        (*matrix1)[i] = realloc((*matrix1)[i], sizeof(ityp)*dim[COLUMNS]);
-        errMem((*matrix1)[i], false);
-    }
-
-    dim_typ j;
+    dim_typ i, j;
 
     // Phisically equalling matrix1 values to matrix2 ones
-    #pragma omp parallel for
     for(i=0; i<dim[RAWS]; ++i)
-    	#pragma omp parallel for
         for(j=0; j<dim[COLUMNS]; ++j)
-            (*matrix1)[i][j] = matrix2[i][j];
+            *((*matrix1) + dim[COLUMNS]*i + j) = *(matrix2 + dim[COLUMNS]*i + j);
 
     return true;
 }
@@ -2634,7 +2430,7 @@ __MSNATIVE_ bool __system insertDim(dim_typ *dim, bool mode)
 // La seguente funzione sarebbe stata la funzione Handler
 // del segnale SIGINT. Il problema e' che dovrebbe essere
 // sempre e continuamente richiamata la funzione signal
-// per far sÃ¬ che funzioni correttamente. Meglio evitare.
+// per far sì che funzioni correttamente. Meglio evitare.
 
 
 __MSNATIVE_ void __system sigproc(void)
@@ -2690,7 +2486,7 @@ __MSSHELL_WRAPPER_ __MSNATIVE_ void showNewtonDifferenceTable(dim_typ n, ityp x[
     return;
 }
 
-__MSNATIVE_ bool __system insertNMMatrix(ityp ***matrix, const register dim_typ dim[static MAX_DIMENSIONS])  
+__MSNATIVE_ bool __system insertNMMatrix(ityp **matrix, const register dim_typ dim[static MAX_DIMENSIONS])  
 {
     if(!matrixAlloc(matrix, dim))
     {
@@ -2711,7 +2507,7 @@ __MSNATIVE_ bool __system insertNMMatrix(ityp ***matrix, const register dim_typ 
     for(i=start_col_index=0; tmp != -1 && i<dim[RAWS]; ++i)
         for(j=start_col_index; tmp != -1 && j<dim[COLUMNS]; ++j)
         {
-            while((tmp = insertElement((*matrix), (dim_typ2){i, j}, false)) != 1 && tmp != -2 && !(char_insert))
+            while((tmp = insertElement((*matrix), (dim_typ2){i, j}, dim[COLUMNS], false)) != 1 && tmp != -2 && !(char_insert))
                 if(getItemsListNo(MATRICES) != STARTING_MATNO && tmp == -1)
                     if(access(curMatrix)->dim[RAWS] != dim[RAWS] || access(curMatrix)->dim[COLUMNS] != dim[COLUMNS])
                         printErr(1, "You cannot use Current Matrix because\nit doesn't have %hu Raws and %hu Columns", dim[RAWS], dim[COLUMNS]);
@@ -2731,7 +2527,7 @@ __MSNATIVE_ bool __system insertNMMatrix(ityp ***matrix, const register dim_typ 
                 {
                     if(!i)
                     {
-                        matrixFree(matrix, dim[RAWS]);
+                        matrixFree(matrix);
                         #if WINOS
                             SetExitButtonState(ENABLED);
                         #endif // WINOS
@@ -2752,7 +2548,7 @@ __MSNATIVE_ bool __system insertNMMatrix(ityp ***matrix, const register dim_typ 
                 }
                 else
                 {
-                    matrixFree(matrix, dim[RAWS]);
+                    matrixFree(matrix);
                     #if WINOS
                         SetExitButtonState(ENABLED);
                     #endif // WINOS
@@ -2765,7 +2561,7 @@ __MSNATIVE_ bool __system insertNMMatrix(ityp ***matrix, const register dim_typ 
     return true;
 }
 
-__MSNATIVE_ volatile char __system insertElement(ityp **matrix, const register dim_typ dim[static MAX_DIMENSIONS], bool square)
+__MSNATIVE_ volatile char __system insertElement(ityp *restrict matrix, const register dim_typ dim[static MAX_DIMENSIONS], const register dim_typ columns, bool square)
 {
 
     if(square && (dim[RAWS] == MAX_RIGHE_PER_COLONNE || dim[COLUMNS] == MAX_RIGHE_PER_COLONNE))
@@ -2809,8 +2605,8 @@ __MSNATIVE_ volatile char __system insertElement(ityp **matrix, const register d
         // FARE ATTENZIONE PER IL GETSET SYSTEM CARATTERIZZATO DAI VALORI DI RITORNO NULL_VALN della funzione requires(NULL, ...)
 
 
-        tmp = PARSING_SYSTEM_ALLOWED ? (!((matrix[dim[RAWS]][dim[COLUMNS]] = requires(NULL, NULL_CHAR, str, PARSER_SHOWRESULT)) == NULL_VAL)) :
-                scanf2(1, INPUT_CONVERSION_FORMAT, &matrix[dim[RAWS]][dim[COLUMNS]]);// , printf("%s: ", str), printf(OUTPUT_CONVERSION_FORMAT, matrix[riga][colonna]), printf(".\n\n");
+        tmp = PARSING_SYSTEM_ALLOWED ? (!((*(matrix + columns*dim[RAWS] + dim[COLUMNS]) = requires(NULL, NULL_CHAR, str, PARSER_SHOWRESULT)) == NULL_VAL)) :
+                scanf2(1, INPUT_CONVERSION_FORMAT, matrix + columns*dim[RAWS] + dim[COLUMNS]);// , printf("%s: ", str), printf(OUTPUT_CONVERSION_FORMAT, matrix[riga][colonna]), printf(".\n\n");
 
 
 
@@ -2832,16 +2628,16 @@ __MSNATIVE_ volatile char __system insertElement(ityp **matrix, const register d
         if(isnSett(BOOLS_MATRIXPARSING))
         {
             printf2(COLOR_USER, "%s: ", str);
-            printf2(COLOR_USER, OUTPUT_CONVERSION_FORMAT, matrix[dim[RAWS]][dim[COLUMNS]]);
+            printf2(COLOR_USER, OUTPUT_CONVERSION_FORMAT, *(matrix + columns*dim[RAWS] + dim[COLUMNS]));
             printf2(COLOR_USER, ".\n\n");
         }
 
-        if(!(matrix[dim[RAWS]][dim[COLUMNS]]) && dcheck && INVERSE_OPS && ((__pmode__ >= ALGEBRA_MATRICESPRODUCT && __pmode__ <= ALGEBRA_SCALARPRODUCT)||__pmode__ == ALGEBRA_SCALARDIVISIONMATRIX))
+        if(!(*(matrix + columns*dim[RAWS] + dim[COLUMNS])) && dcheck && INVERSE_OPS && ((__pmode__ >= ALGEBRA_MATRICESPRODUCT && __pmode__ <= ALGEBRA_SCALARPRODUCT )|| __pmode__ == ALGEBRA_SCALARDIVISIONMATRIX))
            printErr(33, "You cannot enter a 0 because program is performing a Division somewhere");
 
     }
-    while((tmp != 1 && !(dim[RAWS]) && !(dim[COLUMNS])) || (!(matrix[dim[RAWS]][dim[COLUMNS]]) && dcheck && INVERSE_OPS && ((__pmode__ >= ALGEBRA_MATRICESPRODUCT && __pmode__ <= ALGEBRA_SCALARPRODUCT)
-    ||__pmode__ == ALGEBRA_SCALARDIVISIONMATRIX))||isDomainForbidden(matrix[dim[RAWS]][dim[COLUMNS]], INPUT));
+    while((tmp != 1 && !(dim[RAWS]) && !(dim[COLUMNS])) || (!(*(matrix + columns*dim[RAWS] + dim[COLUMNS])) && dcheck && INVERSE_OPS && ((__pmode__ >= ALGEBRA_SCALARPRODUCT && __pmode__ <= ALGEBRA_SCALARDIVISIONMATRIX)
+    ||__pmode__ == ALGEBRA_SCALARDIVISIONMATRIX))||isDomainForbidden(*(matrix + columns*dim[RAWS] + dim[COLUMNS]), INPUT));
 
     CLEARBUFFER();
 
@@ -2882,7 +2678,7 @@ __MSNATIVE_ inline volatile __system sel_typ checkBackTracking2(volatile char tm
     return 3;
 }
 
-__MSNATIVE_ bool __system __export enterMatrix(ityp ***matrix, dim_typ *righe, dim_typ *colonne, bool square, bool view)
+__MSNATIVE_ bool __system __export enterMatrix(ityp **matrix, dim_typ *righe, dim_typ *colonne, bool square, bool view)
 {
 
     printf2(COLOR_CREDITS, "\n\nEnter%s Matrix", square ? " Quad" : "");
@@ -2904,13 +2700,13 @@ __MSNATIVE_ bool __system __export enterMatrix(ityp ***matrix, dim_typ *righe, d
         printf2(COLOR_CREDITS, "And when you reach desired raws %s columns dimensions, %s.\n\n",
                square ? "=":"and", isSett(BOOLS_MATRIXPARSING) ? "press ENTER":"insert an alphanumeric value");
 
-        (*matrix) = malloc(2*sizeof(ityp *));
+        (*matrix) = malloc(MAX_DIMENSIONS*sizeof(ityp));
         errMem((*matrix), false);
 
-
-        (*matrix)[0] = malloc(sizeof(ityp)*(lazy_exec ? 1 : access(curLayout)->stabilizer_factor));
-
         (*righe) = 1;
+        
+        dim_typ analog_raws = MAX_DIMENSIONS;
+        dim_typ analog_columns;
 
         for(*colonne = 0; tmp; ++ (*colonne))
         {
@@ -2923,7 +2719,7 @@ __MSNATIVE_ bool __system __export enterMatrix(ityp ***matrix, dim_typ *righe, d
                     (*colonne) -= 2;
                 else
                 {
-                    matrixFree(matrix, (*righe));
+                    matrixFree(matrix);
                     #if WINOS
                         SetExitButtonState(ENABLED);
                     #endif
@@ -2931,15 +2727,13 @@ __MSNATIVE_ bool __system __export enterMatrix(ityp ***matrix, dim_typ *righe, d
                 }
             }
 
-            const dim_typ analog_columns = (*colonne)+1;
-            if(lazy_exec)
-                (*matrix)[0] = realloc((*matrix)[0], sizeof(ityp)*analog_columns);
-            else if(!(analog_columns % access(curLayout)->stabilizer_factor))
-                (*matrix)[0] = realloc((*matrix)[0], sizeof(ityp)*((*colonne) + access(curLayout)->stabilizer_factor));
+            analog_columns = (*colonne)+1;
+            
+            (*matrix) = realloc((*matrix), sizeof(ityp)*analog_raws*analog_columns);
 
-            errMem((*matrix)[0], false);
+            errMem((*matrix), false);
 
-            if((tmp = insertElement((*matrix), (dim_typ2){0, (*colonne)}, square)) == -1 && getItemsListNo(MATRICES) != STARTING_MATNO)
+            if((tmp = insertElement((*matrix), (dim_typ2){0, (*colonne)}, *colonne, square)) == -1 && getItemsListNo(MATRICES) != STARTING_MATNO)
             {
                 if(square && access(curMatrix)->dim[RAWS] != access(curMatrix)->dim[COLUMNS])
                 {
@@ -2953,7 +2747,7 @@ __MSNATIVE_ bool __system __export enterMatrix(ityp ***matrix, dim_typ *righe, d
                     #endif
                     if(!equalMatrix(matrix, access(curMatrix)->matrix, access(curMatrix)->dim))
                     {
-                        matrixFree(matrix, (*righe));
+                        matrixFree(matrix);
                         return false;
                     }
                     sprint("\nYou are correctly using Current Matrix.\n\n");
@@ -2967,32 +2761,24 @@ __MSNATIVE_ bool __system __export enterMatrix(ityp ***matrix, dim_typ *righe, d
         tmp = 1;
         (*colonne) --;
 
-        (*matrix)[0] = realloc((*matrix)[0], sizeof(ityp)*(*colonne));
-        errMem((*matrix)[0], false);
+        (*matrix) = realloc((*matrix), sizeof(ityp)*analog_raws*(*colonne));
+        errMem((*matrix), false);
 
 
         for(*righe = 1; (square ? *righe < *colonne : (tmp && __pmode__ != ALGEBRA_SCALARPRODUCT)); ++(*righe))
         {
-
             dim_typ i;
-            const dim_typ analog_raws = (*righe)+1;
+            analog_raws = (*righe)+1;
 
-            if(lazy_exec)
-                (*matrix) = realloc((*matrix), sizeof(ityp *)*analog_raws);
-            else if(!(analog_raws % access(curLayout)->stabilizer_factor))
-                (*matrix) = realloc((*matrix), sizeof(ityp *) * ((*righe)+access(curLayout)->stabilizer_factor));
-
+            (*matrix) = realloc((*matrix), sizeof(ityp)*analog_raws*(*colonne));
             errMem((*matrix), false);
-
-            (*matrix)[*righe] = malloc((*colonne)*sizeof(ityp));
-            errMem((*matrix)[*righe], false);
 
             for(i=start_col_index; tmp && i<*colonne; ++i)
             {
                 /// if(tmp == -2) return false; // simple backtracking on second or major raws...
                 // BACKTRACKING ON SECOND or MAJOR RAWS EXPERIMENTAL FORMULA
 
-                while((tmp = insertElement((*matrix), (dim_typ2){*righe, i}, square)) != 1 && tmp != -2 && !(char_insert) && i)
+                while((tmp = insertElement((*matrix), (dim_typ2){*righe, i}, *colonne, square)) != 1 && tmp != -2 && !(char_insert) && i)
                     if(getItemsListNo(MATRICES) != STARTING_MATNO && tmp == -1)
                         if(square && access(curMatrix)->dim[RAWS] != access(curMatrix)->dim[COLUMNS])
                             printErr(1, "You cannot use Current Matrix because\nit isn't a Quad one");
@@ -3003,7 +2789,7 @@ __MSNATIVE_ bool __system __export enterMatrix(ityp ***matrix, dim_typ *righe, d
                             #endif
                             if(!equalMatrix(matrix, access(curMatrix)->matrix, access(curMatrix)->dim))
                             {
-                                matrixFree(matrix, (*righe));
+                                matrixFree(matrix);
                                 return false;
                             }
                             sprint("\nYou're correctly using Current Matrix.\n\n");
@@ -3027,7 +2813,7 @@ __MSNATIVE_ bool __system __export enterMatrix(ityp ***matrix, dim_typ *righe, d
                     }
                     else
                     {
-                        matrixFree(matrix, (*righe));
+                        matrixFree(matrix);
                         #if WINOS
                             SetExitButtonState(ENABLED);
                         #endif // WINOS
@@ -3039,16 +2825,7 @@ __MSNATIVE_ bool __system __export enterMatrix(ityp ***matrix, dim_typ *righe, d
         }
 
         if(!(square) && __pmode__ != ALGEBRA_SCALARPRODUCT)
-        {
            (*righe) --;
-            free((*matrix)[*righe]);
-        }
-
-        if(!(lazy_exec))
-        {
-            (*matrix) = realloc((*matrix), sizeof(ityp*)*((*righe)+1));
-            errMem((*matrix), false);
-        }
 
     }
     else
@@ -3059,7 +2836,7 @@ __MSNATIVE_ bool __system __export enterMatrix(ityp ***matrix, dim_typ *righe, d
         {
             if(!insertDim(righe, MAX_DIMENSIONS))
             {
-                matrixFree(matrix, (*righe));
+                matrixFree(matrix);
                 #if WINOS
                     SetExitButtonState(ENABLED);
                 #endif
@@ -3074,7 +2851,7 @@ __MSNATIVE_ bool __system __export enterMatrix(ityp ***matrix, dim_typ *righe, d
 
         if(!matrixAlloc(matrix, (dim_typ2){*righe, *colonne}))
         {
-            matrixFree(matrix, (*righe));
+            matrixFree(matrix);
             #if WINOS
                 SetExitButtonState(ENABLED);
             #endif
@@ -3085,7 +2862,7 @@ __MSNATIVE_ bool __system __export enterMatrix(ityp ***matrix, dim_typ *righe, d
 
         for(i=0; i<(*colonne); ++i)
         {
-            while((tmp = insertElement((*matrix), (dim_typ2){0, i}, square)) != 1 && tmp != -2 && !(char_insert))
+            while((tmp = insertElement((*matrix), (dim_typ2){0, i}, *colonne, square)) != 1 && tmp != -2 && !(char_insert))
                 if(getItemsListNo(MATRICES) != STARTING_MATNO && tmp == -1)
                     if(access(curMatrix)->dim[RAWS] != *righe || access(curMatrix)->dim[COLUMNS] != *colonne)
                         printErr(1, "You cannot use Current Matrix because\nit doesn't have %hu Raws and %hu Columns", righe, colonne);
@@ -3096,7 +2873,7 @@ __MSNATIVE_ bool __system __export enterMatrix(ityp ***matrix, dim_typ *righe, d
                         #endif
                         if(!equalMatrix(matrix, access(curMatrix)->matrix, access(curMatrix)->dim))
                         {
-                            matrixFree(matrix, (*righe));
+                            matrixFree(matrix);
                             return false;
                         }
                         sprint("\nYou're correctly using Current Matrix.\n\n");
@@ -3107,7 +2884,7 @@ __MSNATIVE_ bool __system __export enterMatrix(ityp ***matrix, dim_typ *righe, d
 
             if(!checkBackTracking(tmp, &i))
             {
-                matrixFree(matrix, (*righe));
+                matrixFree(matrix);
                 #if WINOS
                     SetExitButtonState(ENABLED);
                 #endif
@@ -3121,7 +2898,7 @@ __MSNATIVE_ bool __system __export enterMatrix(ityp ***matrix, dim_typ *righe, d
         for(i = 1; i<(*righe) && __pmode__ != ALGEBRA_SCALARPRODUCT; ++i)
             for(j=start_col_index; j<(*colonne); ++j)
             {
-                while((tmp = insertElement((*matrix), (dim_typ2){i, j}, square)) != 1 && tmp != -2 && !(char_insert))
+                while((tmp = insertElement((*matrix), (dim_typ2){i, j}, *colonne, square)) != 1 && tmp != -2 && !(char_insert))
                     if(getItemsListNo(MATRICES) != STARTING_MATNO && tmp == -1)
                         if(access(curMatrix)->dim[RAWS] != *righe || access(curMatrix)->dim[COLUMNS] != *colonne)
                             printErr(1, "You cannot use Current Matrix because\nit doesn't have %hu Raws and %hu Columns", righe, colonne);
@@ -3132,7 +2909,7 @@ __MSNATIVE_ bool __system __export enterMatrix(ityp ***matrix, dim_typ *righe, d
                             #endif
                             if(!equalMatrix(matrix, access(curMatrix)->matrix, access(curMatrix)->dim))
                             {
-                                matrixFree(matrix, (*righe));
+                                matrixFree(matrix);
                                 return false;
                             }
                             sprint("\nYou're correctly using Current Matrix.\n\n");
@@ -3146,7 +2923,7 @@ __MSNATIVE_ bool __system __export enterMatrix(ityp ***matrix, dim_typ *righe, d
 
                 else if(back_tracking == 2)
                 {
-                    matrixFree(matrix, (*righe));
+                    matrixFree(matrix);
                     #if WINOS
                         SetExitButtonState(ENABLED);
                     #endif
@@ -3168,7 +2945,7 @@ __MSNATIVE_ bool __system __export enterMatrix(ityp ***matrix, dim_typ *righe, d
                     }
                     else
                     {
-                        matrixFree(matrix, (*righe));
+                        matrixFree(matrix);
                         #if WINOS
                             SetExitButtonState(ENABLED);
                         #endif
@@ -3189,3 +2966,4 @@ __MSNATIVE_ bool __system __export enterMatrix(ityp ***matrix, dim_typ *righe, d
 
     return true;
 }
+

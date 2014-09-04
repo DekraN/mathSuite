@@ -1,4 +1,4 @@
-// mat_manager.c 23/08/2014 Marco Chiarelli aka DekraN
+// mat_manager.c 04/09/2014 Marco Chiarelli aka DekraN
 /*
 WARNING!!! This program is intended to be used, so linked at the compilation,
 exclusively with main.c of my suite program! I do not assume any responsibilities
@@ -213,7 +213,7 @@ __MSSHELL_WRAPPER_ static void _MS__private __lmp_prog editMat(const register se
 
     if(tmp->matrix)
     {
-        ityp **matrix = NULL;
+        ityp *matrix = NULL;
         dim_typ olddim[MAX_DIMENSIONS];
 
         olddim[RAWS] = tmp->dim[RAWS];
@@ -223,7 +223,7 @@ __MSSHELL_WRAPPER_ static void _MS__private __lmp_prog editMat(const register se
         {
             if(!matrixToken(argv[1], &matrix, &(tmp->dim[RAWS]), &(tmp->dim[COLUMNS])))
             {
-                matrixFree(&matrix, tmp->dim[RAWS]);
+                matrixFree(&matrix);
                 tmp->dim[RAWS] = olddim[RAWS];
                 tmp->dim[COLUMNS] = olddim[COLUMNS];
                 printUsage(&mat_manager[MATRICES_EDIT]);
@@ -239,7 +239,7 @@ __MSSHELL_WRAPPER_ static void _MS__private __lmp_prog editMat(const register se
 
         if(!equalMatrix(&(tmp->matrix), matrix, tmp->dim))
         {
-            matrixFree(&matrix, tmp->dim[RAWS]);
+            matrixFree(&matrix);
             #if WINOS
                 SetExitButtonState(ENABLED);
             #endif

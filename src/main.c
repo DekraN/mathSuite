@@ -1,8 +1,8 @@
 /*!////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 //!////////////////////////////////////////////////////////////////////////////////////////////////////////////// ///
 /*!________________________________________________________________________________________________________________*/
-///                         mathSuite v5.75 --- by Marco Chiarelli aka DekraN aka Wesker013                  	  ///
-///        							LAST UPDATE: 15:00 of 01/09/2014 by Myself. 								  ///
+///                         mathSuite v6.00 --- by Marco Chiarelli aka DekraN aka Wesker013                  	  ///
+///        							LAST UPDATE: 17:00 of 04/09/2014 by Myself. 								  ///
 /// 	This program is protected by Creative Commons CC BY-SA 2.0 License. For more informations contact me. 	  ///
 ///                     You can contact me at: marco_chiarelli@yahoo.it or on the secundary mail:                 ///
 /// marcochiarelli.nextgenlab@gmail.com in order to report a bug or simply for sending me an advice that could be ///
@@ -31,6 +31,8 @@
 /// For example, the upper-triangular Matrixes conversion, which was useful to enhance some functions like det(), ///
 ///      							sgeqsolver ExprEval inline command, etc.									  ///
 ///                 Greatly thanks to Daniel Veillard for his fabulous XML Parser, LIBXML2.                       ///
+///  Greatly thanks to vict85 of matematicamente.it Network, for having informed me about the benefits of using   ///
+///   generally a single reference for the Matrix Type, like LAPACK and the other Numeric Calculus Environments.  ///
 /// 		Thanks to Francesco Palma for reporting me some bugs, and finally, massive thanks to my				  ///
 /// Informatic Fundaments Teacher, Mario Alessandro Bochicchio, which gave me a lot of C advices and some general ///
 ///            tricks and tips, that enlarged my professional informatic horizonts. That's all...                 ///

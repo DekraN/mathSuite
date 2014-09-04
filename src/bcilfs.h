@@ -2035,13 +2035,13 @@ and must be respectively less than: %hu and %hu", access(curLayout)->matrix_max_
         (dim_typ) a,
         (dim_typ) b
     };
-    ityp **matrix = NULL;
+    ityp *matrix = NULL;
 
     if(!matrixAlloc(&matrix, dim))
         return;
 
     randomMatrix(matrix, dim);
-    matrixFree(&matrix, dim[RAWS]);
+    matrixFree(&matrix);
     return;
 }
 

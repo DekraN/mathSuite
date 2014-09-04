@@ -1,4 +1,4 @@
-// programs.c 01/09/2014 Marco Chiarelli aka DekraN
+// programs.c 04/09/2014 Marco Chiarelli aka DekraN
 /*
 WARNING!!! This program is intended to be used, so linked at the compilation,
 exclusively with main.c of my suite program! I do not assume any responsibilities
@@ -2232,7 +2232,7 @@ __MSNATIVE_ inline void __system __export setCurrentMatrix(dim_typ which_mat)
     if(getItemsListNo(MATRICES) != STARTING_MATNO && !extractMat(which_mat))
     {
         matrixObj * const tmp = ((matrixObj *)(listNo(which_mat, MATRICES)->data));
-        matrixFree(&(tmp->matrix), tmp->dim[RAWS]);
+        matrixFree(&(tmp->matrix));
     }
 
     return;
@@ -2264,7 +2264,7 @@ __MSSHELL_WRAPPER_ __MSNATIVE_ void __system setDefaults()
     if(access(lmpMatrix))
     {
         if(access(lmpMatrix)->matrix)
-            matrixFree(&(access(lmpMatrix)->matrix), access(lmpMatrix)->dim[RAWS]);
+            matrixFree(&(access(lmpMatrix)->matrix));
         free(access(lmpMatrix));
     }
     
