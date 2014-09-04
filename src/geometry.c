@@ -1047,7 +1047,7 @@ __MSNATIVE_ _MS__private void __system printMatrix(FILE *fp, ityp **matrix, cons
         PRINT2N();
         PRINTN();
         
-        if(access(lmpMatrix) && !access(lmpMatrix)->matrix)
+        if(access(lmpMatrix) && access(lmpMatrix)->matrix)
         	matrixFree(&(access(lmpMatrix)->matrix), access(lmpMatrix)->dim[RAWS]);
         
         if(access(lmpMatrix) && !matrixAlloc(&(access(lmpMatrix)->matrix), dim))
@@ -2634,7 +2634,7 @@ __MSNATIVE_ bool __system insertDim(dim_typ *dim, bool mode)
 // La seguente funzione sarebbe stata la funzione Handler
 // del segnale SIGINT. Il problema e' che dovrebbe essere
 // sempre e continuamente richiamata la funzione signal
-// per far sì che funzioni correttamente. Meglio evitare.
+// per far sÃ¬ che funzioni correttamente. Meglio evitare.
 
 
 __MSNATIVE_ void __system sigproc(void)
