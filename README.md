@@ -411,6 +411,7 @@ or at marcochiarelli.nextgenlab@gmail.com									   ||
 /// the Operation due to an array field accessing problem. Now the S.E. (STABILIZER+INITIALIZER) System, known    ///
 /// also as M.S.D.M.A (mathSuite Dynamic Matrix Allocation) has been deprecated due to some problems occurred with///
 /// 	the introduction of the Single Reference M.B.T.. So, the Stabilizer System works only with vectors.       ///
+/// Added "qsum" and "qprod" inline functions, that performs respectively Sum and Product between two Quaternions.///
 /// 				    Code Totally optimized and fixed also some minor bugs. 			  ///
 ///    This is not a Final Built or Official Release, but (UPDATE) probably this could be the last release I write///
 ///              in C. A future release could be directly mathSMART Mobile Math Environment.                      ///

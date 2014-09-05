@@ -284,6 +284,16 @@ These functions are provided instead by Marco Chiarelli:
 |Performs complex prod between (rp1+i(ip1)) and (rp2+i(ip2))|  4  | 4 |  2 |  2 |
 |complex numbers and store results into (rpres+i(ipres)).   |     |   |    |    |
 |___________________________________________________________|_____|___|____|____|
+|qsum(rp1,ip1,jp1,kp1,rp2,ip2,jp2,kp2,&rp3,&ip3,&jp3,&kp3)  |     |   |    |    |
+|Performs quaternions sum between (rp1+i(ip1)+j(jp1)+k(kp1))|  8  | 8 |  4 |  4 |
+|and (rp2+i(ip2)+j(jp2)+k(kp2))quaternions and store results|     |   |    |    |
+|into (rp3+i(ip3)+j(jp3)+k(kp3)).			    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|qprod(rp1,ip1,jp1,kp1,rp2,ip2,jp2,kp2,&rp3,&ip3,&jp3,&kp3) |     |   |    |    |
+|Performs quaternionsprod between (rp1+i(ip1)+j(jp1)+k(kp1))|  8  | 8 |  4 |  4 |
+|and (rp2+i(ip2)+j(jp2)+k(kp2))quaternions and store results|     |   |    |    |
+|into (rp3+i(ip3)+j(jp3)+k(kp3)).			    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
 |csc(a) 		  				    |     |   |    |    |
 |The cosecant of a radians.			            |  1  | 1 |  0 |  0 |
 |___________________________________________________________|_____|___|____|____|

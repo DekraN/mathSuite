@@ -3220,14 +3220,14 @@ case EXPR_NODEFUNC_SGEQSOLVER:
     {
     EXPRTYPE coeff_c;
 
-    err = exprEvalNode(obj, nodes->data.function.nodes, 0, &d1);
+    err = exprEvalNode(obj, nodes->data.function.nodes, COEFF_A, &d1);
 
     if(!err)
         {
-        err = exprEvalNode(obj, nodes->data.function.nodes, 1, &d2);
+        err = exprEvalNode(obj, nodes->data.function.nodes, COEFF_B, &d2);
         if(!err)
             {
-            err = exprEvalNode(obj, nodes->data.function.nodes, 1, &coeff_c);
+            err = exprEvalNode(obj, nodes->data.function.nodes, COEFF_C, &coeff_c);
             if(!err)
                 {
 
@@ -3262,25 +3262,25 @@ case EXPR_NODEFUNC_SGEQSOLVER:
 /* csum */
 case EXPR_NODEFUNC_COMPLEXSUM:
     {
-    EXPRTYPE secondNum[MAX_DIMENSIONS];
+    EXPRTYPE secondNum[MAX_COMPLEX_UNITS];
 
-    err = exprEvalNode(obj, nodes->data.function.nodes, 0, &d1);
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
 
     if(!err)
         {
-        err = exprEvalNode(obj, nodes->data.function.nodes, 1, &d2);
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
         if(!err)
             {
-            err = exprEvalNode(obj, nodes->data.function.nodes, 1, secondNum);
+            err = exprEvalNode(obj, nodes->data.function.nodes, MAX_COMPLEX_UNITS, secondNum);
             if(!err)
                 {
-                err = exprEvalNode(obj, nodes->data.function.nodes, 1, &secondNum[IMAG_PART]);
+                err = exprEvalNode(obj, nodes->data.function.nodes, MAX_COMPLEX_UNITS+IMAG_PART, &secondNum[IMAG_PART]);
 
                 if(!err)
                     {
                     ityp *complex = NULL;
 
-                    if(!matrixAlloc(&complex, (dim_typ2){MAX_DIMENSIONS, MAX_DIMENSIONS}))
+                    if(!matrixAlloc(&complex, (dim_typ2){MAX_COMPLEX_UNITS, MAX_COMPLEX_UNITS}))
                         return err;
 
                     *(complex) = d1;
@@ -3294,8 +3294,8 @@ case EXPR_NODEFUNC_COMPLEXSUM:
                     _complexSum(complex, complexRes);
                     matrixFree(&complex);
 
-					*(nodes->data.function.refs[REAL_PART]) = complexRes[REAL_PART];
-                    *val = *(nodes->data.function.refs[IMAG_PART]) = complexRes[IMAG_PART];
+					*val = *(nodes->data.function.refs[REAL_PART]) = complexRes[REAL_PART];
+                    *(nodes->data.function.refs[IMAG_PART]) = complexRes[IMAG_PART];
                     }
                     else
                         return err;
@@ -3313,25 +3313,25 @@ case EXPR_NODEFUNC_COMPLEXSUM:
 /* cprod */
 case EXPR_NODEFUNC_COMPLEXPROD:
     {
-    EXPRTYPE secondNum[MAX_DIMENSIONS];
+    EXPRTYPE secondNum[MAX_COMPLEX_UNITS];
 
-    err = exprEvalNode(obj, nodes->data.function.nodes, 0, &d1);
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
 
     if(!err)
         {
-        err = exprEvalNode(obj, nodes->data.function.nodes, 1, &d2);
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
         if(!err)
             {
-            err = exprEvalNode(obj, nodes->data.function.nodes, 1, secondNum);
+            err = exprEvalNode(obj, nodes->data.function.nodes, MAX_COMPLEX_UNITS, secondNum);
             if(!err)
                 {
-                err = exprEvalNode(obj, nodes->data.function.nodes, 1, &secondNum[IMAG_PART]);
+                err = exprEvalNode(obj, nodes->data.function.nodes, MAX_COMPLEX_UNITS+IMAG_PART, &secondNum[IMAG_PART]);
 
                 if(!err)
                     {
                     ityp *complex = NULL;
 
-                    if(!matrixAlloc(&complex, (dim_typ2){MAX_DIMENSIONS, MAX_DIMENSIONS}))
+                    if(!matrixAlloc(&complex, (dim_typ2){MAX_COMPLEX_UNITS, MAX_COMPLEX_UNITS}))
                         return err;
 
                     *(complex) = d1;
@@ -3344,8 +3344,8 @@ case EXPR_NODEFUNC_COMPLEXPROD:
                     _complexProd(complex, complexRes);
                     matrixFree(&complex);
 
-					*(nodes->data.function.refs[REAL_PART]) = complexRes[REAL_PART];
-                    *val = *(nodes->data.function.refs[IMAG_PART]) = complexRes[IMAG_PART];
+					*val = *(nodes->data.function.refs[REAL_PART]) = complexRes[REAL_PART];
+                    *(nodes->data.function.refs[IMAG_PART]) = complexRes[IMAG_PART];
                     }
                     else
                         return err;
@@ -3356,6 +3356,174 @@ case EXPR_NODEFUNC_COMPLEXPROD:
             else
                 return err;
         }
+
+    break;
+    }
+    
+/* qsum */
+case EXPR_NODEFUNC_QUATERNIONSSUM:
+    {
+    ityp d3, d4;
+    EXPRTYPE secondNum[MAX_QUATERNIONS_UNITS];
+
+    err = exprEvalNode(obj, nodes->data.function.nodes, QUATERNIONS_REALPART, &d1);
+
+    if(!err)
+        {
+        err = exprEvalNode(obj, nodes->data.function.nodes, QUATERNIONS_IPART, &d2);
+        if(!err)
+            {
+            err = exprEvalNode(obj, nodes->data.function.nodes, QUATERNIONS_JPART, &d3);
+            if(!err)
+                {
+                err = exprEvalNode(obj, nodes->data.function.nodes, QUATERNIONS_KPART, &d4);
+				if(!err)
+                	{
+               		err = exprEvalNode(obj, nodes->data.function.nodes, MAX_QUATERNIONS_UNITS, secondNum);
+               		if(!err)
+                		{
+                		err = exprEvalNode(obj, nodes->data.function.nodes, MAX_QUATERNIONS_UNITS+QUATERNIONS_IPART, &secondNum[QUATERNIONS_IPART]);
+                		if(!err)
+               				{
+                			err = exprEvalNode(obj, nodes->data.function.nodes, MAX_QUATERNIONS_UNITS+QUATERNIONS_JPART, &secondNum[QUATERNIONS_JPART]);
+                			if(!err)
+               					{
+                				err = exprEvalNode(obj, nodes->data.function.nodes, MAX_QUATERNIONS_UNITS+QUATERNIONS_KPART, &secondNum[QUATERNIONS_KPART]);
+				                if(!err)
+				                    {
+				                    ityp *quaternions = NULL;
+				
+				                    if(!matrixAlloc(&quaternions, (dim_typ2){MAX_QUATERNIONS_UNITS, MAX_QUATERNIONS_UNITS}))
+				                        return err;
+				
+				                    *(quaternions) = d1;
+				                    *(quaternions + QUATERNIONS_IPART) = d2;
+				                    *(quaternions + QUATERNIONS_JPART) = d3;
+				                    *(quaternions + QUATERNIONS_KPART) = d4;
+				                    *(quaternions + MAX_QUATERNIONS_UNITS) = secondNum[QUATERNIONS_REALPART];
+				                    *(quaternions + MAX_QUATERNIONS_UNITS + QUATERNIONS_IPART) = secondNum[QUATERNIONS_IPART];
+				                    *(quaternions + MAX_QUATERNIONS_UNITS + QUATERNIONS_JPART) = secondNum[QUATERNIONS_JPART];
+				                    *(quaternions + MAX_QUATERNIONS_UNITS + QUATERNIONS_KPART) = secondNum[QUATERNIONS_KPART];
+				                    
+				                    ityp quaternionsRes[MAX_QUATERNIONS_UNITS];
+				
+				
+				                    _quaternionsSum(quaternions, quaternionsRes);
+				                    matrixFree(&quaternions);
+				
+									*val = *(nodes->data.function.refs[REAL_PART]) = quaternionsRes[QUATERNIONS_REALPART];
+				                    *(nodes->data.function.refs[QUATERNIONS_IPART]) = quaternionsRes[QUATERNIONS_IPART];
+				                    *(nodes->data.function.refs[QUATERNIONS_JPART]) = quaternionsRes[QUATERNIONS_JPART];
+				                    *(nodes->data.function.refs[QUATERNIONS_KPART]) = quaternionsRes[QUATERNIONS_KPART];
+
+				                    }
+				                    else
+				                        return err;
+				                }
+				                    else
+				                        return err;
+				       		}
+				                else
+				                	return err;
+				        }
+				        	else
+				                return err;
+				    }
+				    	else
+				        	return err;
+            	}
+                else
+                    return err;
+            }
+            else
+                return err;
+        }
+		else
+			return err;
+
+    break;
+    }
+    
+/* qprod */
+case EXPR_NODEFUNC_QUATERNIONSPROD:
+    {
+    ityp d3, d4;
+    EXPRTYPE secondNum[MAX_QUATERNIONS_UNITS];
+
+    err = exprEvalNode(obj, nodes->data.function.nodes, QUATERNIONS_REALPART, &d1);
+
+    if(!err)
+        {
+        err = exprEvalNode(obj, nodes->data.function.nodes, QUATERNIONS_IPART, &d2);
+        if(!err)
+            {
+            err = exprEvalNode(obj, nodes->data.function.nodes, QUATERNIONS_JPART, &d3);
+            if(!err)
+                {
+                err = exprEvalNode(obj, nodes->data.function.nodes, QUATERNIONS_KPART, &d4);
+				if(!err)
+                	{
+               		err = exprEvalNode(obj, nodes->data.function.nodes, MAX_QUATERNIONS_UNITS, secondNum);
+               		if(!err)
+                		{
+                		err = exprEvalNode(obj, nodes->data.function.nodes, MAX_QUATERNIONS_UNITS+QUATERNIONS_IPART, &secondNum[QUATERNIONS_IPART]);
+                		if(!err)
+               				{
+                			err = exprEvalNode(obj, nodes->data.function.nodes, MAX_QUATERNIONS_UNITS+QUATERNIONS_JPART, &secondNum[QUATERNIONS_JPART]);
+                			if(!err)
+               					{
+                				err = exprEvalNode(obj, nodes->data.function.nodes, MAX_QUATERNIONS_UNITS+QUATERNIONS_KPART, &secondNum[QUATERNIONS_KPART]);
+				                if(!err)
+				                    {
+				                    ityp *quaternions = NULL;
+				
+				                    if(!matrixAlloc(&quaternions, (dim_typ2){MAX_QUATERNIONS_UNITS, MAX_QUATERNIONS_UNITS}))
+				                        return err;
+				
+				                    *(quaternions) = d1;
+				                    *(quaternions + QUATERNIONS_IPART) = d2;
+				                    *(quaternions + QUATERNIONS_JPART) = d3;
+				                    *(quaternions + QUATERNIONS_KPART) = d4;
+				                    *(quaternions + MAX_QUATERNIONS_UNITS) = secondNum[QUATERNIONS_REALPART];
+				                    *(quaternions + MAX_QUATERNIONS_UNITS + QUATERNIONS_IPART) = secondNum[QUATERNIONS_IPART];
+				                    *(quaternions + MAX_QUATERNIONS_UNITS + QUATERNIONS_JPART) = secondNum[QUATERNIONS_JPART];
+				                    *(quaternions + MAX_QUATERNIONS_UNITS + QUATERNIONS_KPART) = secondNum[QUATERNIONS_KPART];
+				                    
+				                    ityp quaternionsRes[MAX_QUATERNIONS_UNITS];
+				
+				
+				                    _quaternionsSum(quaternions, quaternionsRes);
+				                    matrixFree(&quaternions);
+				
+									*val = *(nodes->data.function.refs[REAL_PART]) = quaternionsRes[QUATERNIONS_REALPART];
+				                    *(nodes->data.function.refs[QUATERNIONS_IPART]) = quaternionsRes[QUATERNIONS_IPART];
+				                    *(nodes->data.function.refs[QUATERNIONS_JPART]) = quaternionsRes[QUATERNIONS_JPART];
+				                    *(nodes->data.function.refs[QUATERNIONS_KPART]) = quaternionsRes[QUATERNIONS_KPART];
+
+				                    }
+				                    else
+				                        return err;
+				                }
+				                    else
+				                        return err;
+				       		}
+				                else
+				                	return err;
+				        }
+				        	else
+				                return err;
+				    }
+				    	else
+				        	return err;
+            	}
+                else
+                    return err;
+            }
+            else
+                return err;
+        }
+		else
+			return err;
 
     break;
     }
