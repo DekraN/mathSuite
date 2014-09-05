@@ -3241,10 +3241,13 @@ case EXPR_NODEFUNC_SGEQSOLVER:
                 *(abc + COEFF_B) = d2;
                	*(abc + COEFF_C) = coeff_c;
                	
-                if(!_secondGradeEquationSolver(abc, *(nodes->data.function.refs)))
+               	ityp root[MAX_DIMENSIONS];
+               	
+                if(!_secondGradeEquationSolver(abc, root))
                    return err;
 
-                *val = *(nodes->data.function.refs[ROOT_X1]);
+                *val = *(nodes->data.function.refs[ROOT_X1]) = root[ROOT_X1];
+                *(nodes->data.function.refs[ROOT_X2]) = root[ROOT_X2];
                 }
                 else
                     return err;
@@ -3284,12 +3287,15 @@ case EXPR_NODEFUNC_COMPLEXSUM:
                     *(complex + IMAG_PART) = d2;
                     *(complex + MAX_COMPLEX_UNITS) = secondNum[REAL_PART];
                     *(complex + MAX_COMPLEX_UNITS + IMAG_PART) = secondNum[IMAG_PART];
+                    
+                    ityp complexRes[MAX_COMPLEX_UNITS];
 
 
-                    _complexSum(complex, *(nodes->data.function.refs));
+                    _complexSum(complex, complexRes);
                     matrixFree(&complex);
 
-                    *val = *(nodes->data.function.refs[IMAG_PART]);
+					*(nodes->data.function.refs[REAL_PART]) = complexRes[REAL_PART];
+                    *val = *(nodes->data.function.refs[IMAG_PART]) = complexRes[IMAG_PART];
                     }
                     else
                         return err;
@@ -3332,11 +3338,14 @@ case EXPR_NODEFUNC_COMPLEXPROD:
                     *(complex + IMAG_PART) = d2;
                     *(complex + MAX_COMPLEX_UNITS) = secondNum[REAL_PART];
                     *(complex + MAX_COMPLEX_UNITS + IMAG_PART) = secondNum[IMAG_PART];
+                    
+                    ityp complexRes[MAX_COMPLEX_UNITS];
 
-                    _complexProd(complex, *(nodes->data.function.refs));
+                    _complexProd(complex, complexRes);
                     matrixFree(&complex);
 
-                    *val = *(nodes->data.function.refs[IMAG_PART]);
+					*(nodes->data.function.refs[REAL_PART]) = complexRes[REAL_PART];
+                    *val = *(nodes->data.function.refs[IMAG_PART]) = complexRes[IMAG_PART];
                     }
                     else
                         return err;
