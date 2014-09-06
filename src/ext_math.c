@@ -724,7 +724,7 @@ __MSNATIVE_ inline void __export _complexProd(ityp *restrict complex, ityp compl
 	#pragma omp parallel num_threads(MAX_COMPLEX_UNITS)
 	{
 		complexRes[REAL_PART] =((*(complex + REAL_PART)*(*(complex + MAX_COMPLEX_UNITS + REAL_PART)))-(*(complex + IMAG_PART)*(*(complex + MAX_COMPLEX_UNITS + IMAG_PART))));
-	    complexRes[IMAG_PART] =((*(complex + REAL_PART)*(*(complex + MAX_COMPLEX_UNITS + IMAG_PART)))-(*(complex + IMAG_PART)*(*(complex + MAX_COMPLEX_UNITS + REAL_PART))));
+	    complexRes[IMAG_PART] =((*(complex + REAL_PART)*(*(complex + MAX_COMPLEX_UNITS + IMAG_PART)))+(*(complex + IMAG_PART)*(*(complex + MAX_COMPLEX_UNITS + REAL_PART))));
 	}
     return;
 }
@@ -4928,7 +4928,7 @@ __MSNATIVE_ void _MS__private __system __export _matrixKCProduct(ityp **matrix1,
                 	{
                 		
 	                    matrix_product[REAL_PART][idx[MATRIX_PRODUCT]] = mul_func(matrix1[REAL_PART][idx[FIRST_MATRIX]], matrix2[REAL_PART][idx[SECOND_MATRIX]]) - mul_func(matrix1[IMAG_PART][idx[FIRST_MATRIX]], matrix2[IMAG_PART][idx[SECOND_MATRIX]]);
-	                    matrix_product[IMAG_PART][idx[MATRIX_PRODUCT]] = mul_func(matrix1[REAL_PART][idx[FIRST_MATRIX]], matrix2[IMAG_PART][idx[SECOND_MATRIX]]) - mul_func(matrix1[IMAG_PART][idx[FIRST_MATRIX]], matrix2[REAL_PART][idx[SECOND_MATRIX]]);
+	                    matrix_product[IMAG_PART][idx[MATRIX_PRODUCT]] = mul_func(matrix1[REAL_PART][idx[FIRST_MATRIX]], matrix2[IMAG_PART][idx[SECOND_MATRIX]]) + mul_func(matrix1[IMAG_PART][idx[FIRST_MATRIX]], matrix2[REAL_PART][idx[SECOND_MATRIX]]);
 	            	}
 	        	}
 
