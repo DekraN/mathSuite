@@ -4702,12 +4702,15 @@ __MSNATIVE_ void _MS__private __system __export _matrixCSum(ityp **matrix1, ityp
     for(i=0; i<dim[RAWS]; ++i)
     	#pragma omp parallel for
         for(j=0; j<dim[COLUMNS]; ++j)
+		{
+			idx = dim[COLUMNS]*i + j;
         	#pragma omp parallel num_threads(MAX_COMPLEX_UNITS)
        		{
        			idx = dim[COLUMNS]*i + j;
 	            matrix_sum[REAL_PART][idx] = sum_func(matrix1[REAL_PART][idx], matrix2[REAL_PART][idx]);
 	            matrix_sum[IMAG_PART][idx] = sum_func(matrix1[IMAG_PART][idx], matrix2[IMAG_PART][idx]);
 	    	}
+		}
 
     return;
 }
@@ -4723,15 +4726,17 @@ __MSNATIVE_ void _MS__private __system __export _matrixQSum(ityp **matrix1, ityp
     for(i=0; i<dim[RAWS]; ++i)
     	#pragma omp parallel for
         for(j=0; j<dim[COLUMNS]; ++j)
+    	{
+    		idx = dim[COLUMNS]*i + j;
         	#pragma omp parallel num_threads(MAX_QUATERNIONS_UNITS)
         	{
-        		idx = dim[COLUMNS]*i + j;
 	            matrix_sum[QUATERNIONS_REALPART][idx] = sum_func(matrix1[QUATERNIONS_REALPART][idx], matrix2[QUATERNIONS_REALPART][idx]);
 	            matrix_sum[QUATERNIONS_IPART][idx] = sum_func(matrix1[QUATERNIONS_IPART][idx], matrix2[QUATERNIONS_IPART][idx]);
 	            matrix_sum[QUATERNIONS_JPART][idx] = sum_func(matrix1[QUATERNIONS_JPART][idx], matrix2[QUATERNIONS_JPART][idx]);
 	            matrix_sum[QUATERNIONS_KPART][idx] = sum_func(matrix1[QUATERNIONS_KPART][idx], matrix2[QUATERNIONS_KPART][idx]);
 	    	}
-
+		}
+		
     return;
 }
 
@@ -4794,14 +4799,16 @@ __MSNATIVE_ void _MS__private __system __export _matrixCProduct(ityp **matrix1, 
         for(k=0; k<dim[COLUMNS]; ++k)
     		#pragma omp parallel for
         	for(j=0; j<dim[COLUMNS2]; ++j)
+        	{
+        		idx[FIRST_MATRIX] = dim[COLUMNS]*i + k;
+            	idx[SECOND_MATRIX] = dim[COLUMNS2]*k + j;
+            	idx[MATRIX_PRODUCT] = dim[COLUMNS2]*i + j;
             	#pragma omp parallel num_threads(MAX_COMPLEX_UNITS)
             	{
-            		idx[FIRST_MATRIX] = dim[COLUMNS]*i + k;
-            		idx[SECOND_MATRIX] = dim[COLUMNS2]*k + j;
-            		idx[MATRIX_PRODUCT] = dim[COLUMNS2]*i + j;
 				    matrix_product[REAL_PART][idx[MATRIX_PRODUCT]] += mul_func(matrix1[REAL_PART][idx[FIRST_MATRIX]], matrix2[REAL_PART][idx[SECOND_MATRIX]]) - mul_func(matrix1[IMAG_PART][idx[FIRST_MATRIX]], matrix2[IMAG_PART][idx[SECOND_MATRIX]]);
 	                matrix_product[IMAG_PART][idx[MATRIX_PRODUCT]] += mul_func(matrix1[REAL_PART][idx[FIRST_MATRIX]], matrix2[IMAG_PART][idx[SECOND_MATRIX]]) + mul_func(matrix1[IMAG_PART][idx[FIRST_MATRIX]], matrix2[REAL_PART][idx[SECOND_MATRIX]]);
 	       		}
+	       	}
 
     return;
 }
@@ -4818,12 +4825,14 @@ __MSNATIVE_ void _MS__private __system __export _matrixQProduct(ityp **matrix1, 
         for(k=0; k<dim[COLUMNS]; ++k)
     		#pragma omp parallel for
         	for(j=0; j<dim[COLUMNS2]; ++j)
+        	{
+        		idx[FIRST_MATRIX] = dim[COLUMNS]*i + k;
+            	idx[SECOND_MATRIX] = dim[COLUMNS2]*k + j;
+            	idx[MATRIX_PRODUCT] = dim[COLUMNS2]*i + j;
             	#pragma omp parallel num_threads(MAX_QUATERNIONS_UNITS)
             	{
             		
-            		idx[FIRST_MATRIX] = dim[COLUMNS]*i + k;
-            		idx[SECOND_MATRIX] = dim[COLUMNS2]*k + j;
-            		idx[MATRIX_PRODUCT] = dim[COLUMNS2]*i + j;
+            		
 	                matrix_product[QUATERNIONS_REALPART][idx[MATRIX_PRODUCT]] += mul_func(matrix1[QUATERNIONS_REALPART][idx[FIRST_MATRIX]], matrix2[QUATERNIONS_REALPART][idx[SECOND_MATRIX]]) -
 	                                                              mul_func(matrix1[QUATERNIONS_IPART][idx[FIRST_MATRIX]], matrix2[QUATERNIONS_IPART][idx[SECOND_MATRIX]]) -
 	                                                              mul_func(matrix1[QUATERNIONS_JPART][idx[FIRST_MATRIX]], matrix2[QUATERNIONS_JPART][idx[SECOND_MATRIX]]) -
@@ -4841,6 +4850,7 @@ __MSNATIVE_ void _MS__private __system __export _matrixQProduct(ityp **matrix1, 
 	                                                           mul_func(matrix1[QUATERNIONS_IPART][idx[FIRST_MATRIX]], matrix2[QUATERNIONS_JPART][idx[SECOND_MATRIX]]) -
 	                                                           mul_func(matrix1[QUATERNIONS_JPART][idx[FIRST_MATRIX]], matrix2[QUATERNIONS_IPART][idx[SECOND_MATRIX]]);
 	            }
+	    	}
 
     return;
 }
@@ -4910,14 +4920,17 @@ __MSNATIVE_ void _MS__private __system __export _matrixKCProduct(ityp **matrix1,
         	for(j=0; j<dim[FIRST_MATRIX][COLUMNS]; ++j)
             	#pragma omp parallel for
                 for(l=0; l<dim[SECOND_MATRIX][COLUMNS]; ++l)
+            	{
+            		idx[FIRST_MATRIX] = dim[FIRST_MATRIX][COLUMNS]*i + j;
+                	idx[SECOND_MATRIX] = dim[SECOND_MATRIX][COLUMNS]*k + l;
+                	idx[MATRIX_PRODUCT] = pdim*(k+(i*dim[SECOND_MATRIX][RAWS])) + l+(j*dim[SECOND_MATRIX][COLUMNS]);
                 	#pragma omp parallel num_threads(MAX_COMPLEX_UNITS)
                 	{
-                		idx[FIRST_MATRIX] = dim[FIRST_MATRIX][COLUMNS]*i + j;
-                		idx[SECOND_MATRIX] = dim[SECOND_MATRIX][COLUMNS]*k + l;
-                		idx[MATRIX_PRODUCT] = pdim*(k+(i*dim[SECOND_MATRIX][RAWS])) + l+(j*dim[SECOND_MATRIX][COLUMNS]);
+                		
 	                    matrix_product[REAL_PART][idx[MATRIX_PRODUCT]] = mul_func(matrix1[REAL_PART][idx[FIRST_MATRIX]], matrix2[REAL_PART][idx[SECOND_MATRIX]]) - mul_func(matrix1[IMAG_PART][idx[FIRST_MATRIX]], matrix2[IMAG_PART][idx[SECOND_MATRIX]]);
 	                    matrix_product[IMAG_PART][idx[MATRIX_PRODUCT]] = mul_func(matrix1[REAL_PART][idx[FIRST_MATRIX]], matrix2[IMAG_PART][idx[SECOND_MATRIX]]) - mul_func(matrix1[IMAG_PART][idx[FIRST_MATRIX]], matrix2[REAL_PART][idx[SECOND_MATRIX]]);
 	            	}
+	        	}
 
     return;
 }
@@ -4937,11 +4950,13 @@ __MSNATIVE_ void _MS__private __system __export _matrixKQProduct(ityp **matrix1,
         	for(j=0; j<dim[FIRST_MATRIX][COLUMNS]; ++j)
             	#pragma omp parallel for
                 for(l=0; l<dim[SECOND_MATRIX][COLUMNS]; ++l)
+                {
+                	idx[FIRST_MATRIX] = dim[FIRST_MATRIX][COLUMNS]*i + j;
+                	idx[SECOND_MATRIX] = dim[SECOND_MATRIX][COLUMNS]*k + l;
+                	idx[MATRIX_PRODUCT] = pdim*(k+(i*dim[SECOND_MATRIX][RAWS])) + l+(j*dim[SECOND_MATRIX][COLUMNS]);
                 	#pragma omp parallel num_threads(MAX_QUATERNIONS_UNITS)
                 	{
-	                    idx[FIRST_MATRIX] = dim[FIRST_MATRIX][COLUMNS]*i + j;
-                		idx[SECOND_MATRIX] = dim[SECOND_MATRIX][COLUMNS]*k + l;
-                		idx[MATRIX_PRODUCT] = pdim*(k+(i*dim[SECOND_MATRIX][RAWS])) + l+(j*dim[SECOND_MATRIX][COLUMNS]);
+	                    
 	                    matrix_product[QUATERNIONS_REALPART][idx[MATRIX_PRODUCT]] = mul_func(matrix1[QUATERNIONS_REALPART][idx[FIRST_MATRIX]], matrix2[QUATERNIONS_REALPART][idx[SECOND_MATRIX]]) -
 	                                                                                                                              mul_func(matrix1[QUATERNIONS_IPART][idx[FIRST_MATRIX]], matrix2[QUATERNIONS_IPART][idx[SECOND_MATRIX]]) -
 	                                                                                                                              mul_func(matrix1[QUATERNIONS_JPART][idx[FIRST_MATRIX]], matrix2[QUATERNIONS_JPART][idx[SECOND_MATRIX]]) -
@@ -4962,6 +4977,7 @@ __MSNATIVE_ void _MS__private __system __export _matrixKQProduct(ityp **matrix1,
 	                                                                                                                           mul_func(matrix1[QUATERNIONS_IPART][idx[FIRST_MATRIX]], matrix2[QUATERNIONS_JPART][idx[SECOND_MATRIX]]) -
 	                                                                                                                           mul_func(matrix1[QUATERNIONS_JPART][idx[FIRST_MATRIX]], matrix2[QUATERNIONS_IPART][idx[SECOND_MATRIX]]);
 	    			}
+	    		}
 
     return;
 }
