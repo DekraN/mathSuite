@@ -44,7 +44,7 @@ case EXPR_NODEFUNC_EXIT:
     else
         return err;
 
-    break;
+    break;;
     }
 
 /* mss */
@@ -59,7 +59,7 @@ case EXPR_NODEFUNC_ABS:
     err = exprEvalNode(obj, nodes->data.function.nodes, 0, &d1);
 
     if(!err)
-        *val = (-1+2*(d1 >= 0))*d1;
+        *val = (-1+((d1 >= 0)<<1))*d1;
     else
         return err;
 
@@ -259,13 +259,13 @@ case EXPR_NODEFUNC_MINSRNUMBER:
         err = exprEvalNode(obj, nodes->data.function.nodes, 0, val);
         if(!err)
             {
-            if((*val) < MIN_MEMOIZABLE_INDEX+1 || (*val) > MIN_STIRLINGREQUIRES_NUMBER)
+            if((*val) < MIN_MEMOIZABLE_INDEX+1 || (*val) > MIN_STIRLING_NUMBER)
                 return err;
-            access(curLayout)->min_stirlingrequires_number = *val;
+            access(curLayout)->min_stirling_number = *val;
             }
         }
         else
-            (*val) = access(curLayout)->min_stirlingrequires_number;
+            (*val) = access(curLayout)->min_stirling_number;
     break;
     }
 
@@ -279,7 +279,7 @@ case EXPR_NODEFUNC_ALGEBRA:
             {
             if((*val) < MIN_ALGEBRA || (*val) > MAX_ALGEBRA)
                 return err;
-            _changeAlgebraDims(*val);
+            access(curLayout)->algebra = (*val);
             }
         }
         else
@@ -333,11 +333,11 @@ case EXPR_NODEFUNC_MMIFIBO:
             {
             if((*val) < MIN_MEMOIZABLE_INDEX || (*val) > MAX_FIBONACCI_MEMOIZABLE_INDEX)
                 return err;
-            access(curLayout)->max_memoizable_indeces[FUNCTION_FIBONACCI] = *val;
+            access(curLayout)->max_memoizable_indices[FUNCTION_FIBONACCI] = *val;
             }
         }
         else
-            (*val) = access(curLayout)->max_memoizable_indeces[FUNCTION_FIBONACCI];
+            (*val) = access(curLayout)->max_memoizable_indices[FUNCTION_FIBONACCI];
     break;
     }
 
@@ -351,11 +351,11 @@ case EXPR_NODEFUNC_MMIFACT:
             {
             if((*val) < MIN_MEMOIZABLE_INDEX || (*val) > MAX_FATTORIALE_MEMOIZABLE_INDEX)
                 return err;
-            access(curLayout)->max_memoizable_indeces[FUNCTION_FATTORIALE] = *val;
+            access(curLayout)->max_memoizable_indices[FUNCTION_FATTORIALE] = *val;
             }
         }
         else
-            (*val) = access(curLayout)->max_memoizable_indeces[FUNCTION_FATTORIALE];
+            (*val) = access(curLayout)->max_memoizable_indices[FUNCTION_FATTORIALE];
     break;
     }
 
@@ -369,11 +369,11 @@ case EXPR_NODEFUNC_MMIEVENSFACT:
             {
             if((*val) < MIN_MEMOIZABLE_INDEX || (*val) > MAX_EVEN_SFATTORIALE_MEMOIZABLE_INDEX)
                 return err;
-            access(curLayout)->max_memoizable_indeces[FUNCTION_EVEN_SFATTORIALE] = *val;
+            access(curLayout)->max_memoizable_indices[FUNCTION_EVEN_SFATTORIALE] = *val;
             }
         }
         else
-            (*val) = access(curLayout)->max_memoizable_indeces[FUNCTION_EVEN_SFATTORIALE];
+            (*val) = access(curLayout)->max_memoizable_indices[FUNCTION_EVEN_SFATTORIALE];
     break;
     }
 
@@ -387,11 +387,11 @@ case EXPR_NODEFUNC_MMIODDSFACT:
             {
             if((*val) < MIN_MEMOIZABLE_INDEX || (*val) > MAX_ODD_SFATTORIALE_MEMOIZABLE_INDEX)
                 return err;
-            access(curLayout)->max_memoizable_indeces[FUNCTION_ODD_SFATTORIALE] = *val;
+            access(curLayout)->max_memoizable_indices[FUNCTION_ODD_SFATTORIALE] = *val;
             }
         }
         else
-            (*val) = access(curLayout)->max_memoizable_indeces[FUNCTION_ODD_SFATTORIALE];
+            (*val) = access(curLayout)->max_memoizable_indices[FUNCTION_ODD_SFATTORIALE];
     break;
     }
 
@@ -1646,7 +1646,7 @@ case EXPR_NODEFUNC_QVSINH:
     }
 
 /* qcvsin */
-case EXPR_NODEFUNC_HHCVSIN:
+case EXPR_NODEFUNC_QCVSIN:
     {
     err = exprEvalNode(obj, nodes->data.function.nodes, 0, &d1);
     if(isSett(BOOLS_DEGREESENTERING)) d1 = rad(d1);
@@ -1664,7 +1664,7 @@ case EXPR_NODEFUNC_HHCVSIN:
     }
 
 /* qcvsinh */
-case EXPR_NODEFUNC_HHCVSINH:
+case EXPR_NODEFUNC_QCVSINH:
     {
     err = exprEvalNode(obj, nodes->data.function.nodes, 0, &d1);
 
@@ -2681,7 +2681,3720 @@ case EXPR_NODEFUNC_ATAN2:
 
     break;
     }
+    
+/* csin */
+case EXPR_NODEFUNC_CSIN:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
 
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+        
+    if(isSett(BOOLS_DEGREESENTERING))
+	{
+		d1 = rad(d1);
+		d2 = rad(d2);
+	}
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = csin(d1+d2*I);
+        *val = creal(result);
+		if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* csinh */
+case EXPR_NODEFUNC_CSINH:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = csinh(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* ccos */
+case EXPR_NODEFUNC_CCOS:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+        
+    if(isSett(BOOLS_DEGREESENTERING))
+	{
+		d1 = rad(d1);
+		d2 = rad(d2);
+	}
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = ccos(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* ccosh */
+case EXPR_NODEFUNC_CCOSH:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = ccosh(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* ctan */
+case EXPR_NODEFUNC_CTAN:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+        
+    if(isSett(BOOLS_DEGREESENTERING))
+	{
+		d1 = rad(d1);
+		d2 = rad(d2);
+	}
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = ctan(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* ctanh */
+case EXPR_NODEFUNC_CTANH:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = ctanh(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* ccsc */
+case EXPR_NODEFUNC_CCSC:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+        
+    if(isSett(BOOLS_DEGREESENTERING))
+	{
+		d1 = rad(d1);
+		d2 = rad(d2);
+	}
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = ccsc(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* ccsch */
+case EXPR_NODEFUNC_CCSCH:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = ccsch(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* csec */
+case EXPR_NODEFUNC_CSEC:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+        
+    if(isSett(BOOLS_DEGREESENTERING))
+	{
+		d1 = rad(d1);
+		d2 = rad(d2);
+	}
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = csec(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* csech */
+case EXPR_NODEFUNC_CSECH:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = csech(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* ccot */
+case EXPR_NODEFUNC_CCOT:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+        
+    if(isSett(BOOLS_DEGREESENTERING))
+	{
+		d1 = rad(d1);
+		d2 = rad(d2);
+	}
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = ccot(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* ccoth */
+case EXPR_NODEFUNC_CCOTH:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = ccoth(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* chsin */
+case EXPR_NODEFUNC_CHSIN:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+        
+    if(isSett(BOOLS_DEGREESENTERING))
+	{
+		d1 = rad(d1);
+		d2 = rad(d2);
+	}
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = chsin(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }    
+    
+/* chsinh */
+case EXPR_NODEFUNC_CHSINH:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = chsinh(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* cqsin */
+case EXPR_NODEFUNC_CQSIN:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+        
+    if(isSett(BOOLS_DEGREESENTERING))
+	{
+		d1 = rad(d1);
+		d2 = rad(d2);
+	}
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = cqsin(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* cqsinh */
+case EXPR_NODEFUNC_CQSINH:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = cqsinh(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* chcos */
+case EXPR_NODEFUNC_CHCOS:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+        
+    if(isSett(BOOLS_DEGREESENTERING))
+	{
+		d1 = rad(d1);
+		d2 = rad(d2);
+	}
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = chcos(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* chcosh */
+case EXPR_NODEFUNC_CHCOSH:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = chcosh(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+    
+/* cqcos */
+case EXPR_NODEFUNC_CQCOS:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+        
+    if(isSett(BOOLS_DEGREESENTERING))
+	{
+		d1 = rad(d1);
+		d2 = rad(d2);
+	}
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = cqcos(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* cqcosh */
+case EXPR_NODEFUNC_CQCOSH:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = cqcosh(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* chsec */
+case EXPR_NODEFUNC_CHSEC:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+        
+    if(isSett(BOOLS_DEGREESENTERING))
+	{
+		d1 = rad(d1);
+		d2 = rad(d2);
+	}
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = chsec(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* chsech */
+case EXPR_NODEFUNC_CHSECH:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = chsech(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* cqsec */
+case EXPR_NODEFUNC_CQSEC:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+        
+    if(isSett(BOOLS_DEGREESENTERING))
+	{
+		d1 = rad(d1);
+		d2 = rad(d2);
+	}
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = cqsec(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* cqsech */
+case EXPR_NODEFUNC_CQSECH:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = cqsech(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+
+/* chcsc */
+case EXPR_NODEFUNC_CHCSC:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+        
+    if(isSett(BOOLS_DEGREESENTERING))
+	{
+		d1 = rad(d1);
+		d2 = rad(d2);
+	}
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = chcsc(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* chcsch */
+case EXPR_NODEFUNC_CHCSCH:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = chcsch(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* cqcsc */
+case EXPR_NODEFUNC_CQCSC:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+        
+    if(isSett(BOOLS_DEGREESENTERING))
+	{
+		d1 = rad(d1);
+		d2 = rad(d2);
+	}
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = cqcsc(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* cqcsch */
+case EXPR_NODEFUNC_CQCSCH:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = cqcsch(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* chtan */
+case EXPR_NODEFUNC_CHTAN:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+        
+    if(isSett(BOOLS_DEGREESENTERING))
+	{
+		d1 = rad(d1);
+		d2 = rad(d2);
+	}
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = chtan(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* chtanh */
+case EXPR_NODEFUNC_CHTANH:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = chtanh(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* cqtan */
+case EXPR_NODEFUNC_CQTAN:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+        
+    if(isSett(BOOLS_DEGREESENTERING))
+	{
+		d1 = rad(d1);
+		d2 = rad(d2);
+	}
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = cqtan(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* cqtanh */
+case EXPR_NODEFUNC_CQTANH:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = cqtanh(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* chcot */
+case EXPR_NODEFUNC_CHCOT:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+        
+    if(isSett(BOOLS_DEGREESENTERING))
+	{
+		d1 = rad(d1);
+		d2 = rad(d2);
+	}
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = chcot(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* chcoth */
+case EXPR_NODEFUNC_CHCOTH:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = chcoth(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* cqcot */
+case EXPR_NODEFUNC_CQCOT:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+        
+    if(isSett(BOOLS_DEGREESENTERING))
+	{
+		d1 = rad(d1);
+		d2 = rad(d2);
+	}
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = cqcot(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* cqcoth */
+case EXPR_NODEFUNC_CQCOTH:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = cqcoth(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* cpxvsin */
+case EXPR_NODEFUNC_CPXVSIN:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+        
+    if(isSett(BOOLS_DEGREESENTERING))
+	{
+		d1 = rad(d1);
+		d2 = rad(d2);
+	}
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = cpxvsin(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* cpxvsinh */
+case EXPR_NODEFUNC_CPXVSINH:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = cpxvsinh(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* ccvsin */
+case EXPR_NODEFUNC_CCVSIN:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+        
+    if(isSett(BOOLS_DEGREESENTERING))
+	{
+		d1 = rad(d1);
+		d2 = rad(d2);
+	}
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = ccvsin(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* ccvsinh */
+case EXPR_NODEFUNC_CCVSINH:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = ccvsinh(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* cpxvcos */
+case EXPR_NODEFUNC_CPXVCOS:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+        
+    if(isSett(BOOLS_DEGREESENTERING))
+	{
+		d1 = rad(d1);
+		d2 = rad(d2);
+	}
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = cpxvcos(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* cpxvcosh */
+case EXPR_NODEFUNC_CPXVCOSH:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = cpxvcosh(d1+d2*I);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* ccvcos */
+case EXPR_NODEFUNC_CCVCOS:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+        
+    if(isSett(BOOLS_DEGREESENTERING))
+	{
+		d1 = rad(d1);
+		d2 = rad(d2);
+	}
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = ccvcos(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* ccvcosh */
+case EXPR_NODEFUNC_CCVCOSH:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = ccvcosh(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* chvsin */
+case EXPR_NODEFUNC_CHVSIN:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+        
+    if(isSett(BOOLS_DEGREESENTERING))
+	{
+		d1 = rad(d1);
+		d2 = rad(d2);
+	}
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = chvsin(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* chvsinh */
+case EXPR_NODEFUNC_CHVSINH:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = chvsinh(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* chcvsin */
+case EXPR_NODEFUNC_CHCVSIN:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+        
+    if(isSett(BOOLS_DEGREESENTERING))
+	{
+		d1 = rad(d1);
+		d2 = rad(d2);
+	}
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = chcvsin(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* chcvsinh */
+case EXPR_NODEFUNC_CHCVSINH:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = chcvsinh(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* cqvsin */
+case EXPR_NODEFUNC_CQVSIN:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+        
+    if(isSett(BOOLS_DEGREESENTERING))
+	{
+		d1 = rad(d1);
+		d2 = rad(d2);
+	}
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = cqvsin(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* cqvsinh */
+case EXPR_NODEFUNC_CQVSINH:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = cqvsinh(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* cqcvsin */
+case EXPR_NODEFUNC_CQCVSIN:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+        
+    if(isSett(BOOLS_DEGREESENTERING))
+	{
+		d1 = rad(d1);
+		d2 = rad(d2);
+	}
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = cqcvsin(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* cqcvsinh */
+case EXPR_NODEFUNC_CQCVSINH:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = cqcvsinh(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* chvcos */
+case EXPR_NODEFUNC_CHVCOS:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+        
+    if(isSett(BOOLS_DEGREESENTERING))
+	{
+		d1 = rad(d1);
+		d2 = rad(d2);
+	}
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = chvcos(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* chvcosh */
+case EXPR_NODEFUNC_CHVCOSH:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = chvcosh(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* chcvcos */
+case EXPR_NODEFUNC_CHCVCOS:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+        
+    if(isSett(BOOLS_DEGREESENTERING))
+	{
+		d1 = rad(d1);
+		d2 = rad(d2);
+	}
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = chcvcos(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* chcvcosh */
+case EXPR_NODEFUNC_CHCVCOSH:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = chcvcosh(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* cqvcos */
+case EXPR_NODEFUNC_CQVCOS:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+        
+    if(isSett(BOOLS_DEGREESENTERING))
+	{
+		d1 = rad(d1);
+		d2 = rad(d2);
+	}
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = cqvcos(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* cqvcosh */
+case EXPR_NODEFUNC_CQVCOSH:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = cqvcosh(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* cqcvcos */
+case EXPR_NODEFUNC_CQCVCOS:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+        
+    if(isSett(BOOLS_DEGREESENTERING))
+	{
+		d1 = rad(d1);
+		d2 = rad(d2);
+	}
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = cqcvcos(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* cqcvcosh */
+case EXPR_NODEFUNC_CQCVCOSH:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = cqcvcosh(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* cesec */
+case EXPR_NODEFUNC_CESEC:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+        
+    if(isSett(BOOLS_DEGREESENTERING))
+	{
+		d1 = rad(d1);
+		d2 = rad(d2);
+	}
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = cesec(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* cesech */
+case EXPR_NODEFUNC_CESECH:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = cesech(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* cecsc */
+case EXPR_NODEFUNC_CECSC:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+        
+    if(isSett(BOOLS_DEGREESENTERING))
+	{
+		d1 = rad(d1);
+		d2 = rad(d2);
+	}
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = cecsc(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* cecsch */
+case EXPR_NODEFUNC_CECSCH:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = cecsch(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* chesec */
+case EXPR_NODEFUNC_CHESEC:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+        
+    if(isSett(BOOLS_DEGREESENTERING))
+	{
+		d1 = rad(d1);
+		d2 = rad(d2);
+	}
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = chesec(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* chesech */
+case EXPR_NODEFUNC_CHESECH:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = chesech(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* checsc */
+case EXPR_NODEFUNC_CHECSC:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+        
+    if(isSett(BOOLS_DEGREESENTERING))
+	{
+		d1 = rad(d1);
+		d2 = rad(d2);
+	}
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = checsc(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* checsch */
+case EXPR_NODEFUNC_CHECSCH:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = checsch(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* cqesec */
+case EXPR_NODEFUNC_CQESEC:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+        
+    if(isSett(BOOLS_DEGREESENTERING))
+	{
+		d1 = rad(d1);
+		d2 = rad(d2);
+	}
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = cqesec(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* cqesech */
+case EXPR_NODEFUNC_CQESECH:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = cqesech(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* cqecsc */
+case EXPR_NODEFUNC_CQECSC:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+        
+    if(isSett(BOOLS_DEGREESENTERING))
+	{
+		d1 = rad(d1);
+		d2 = rad(d2);
+	}
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = cqecsc(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* cqecsch */
+case EXPR_NODEFUNC_CQECSCH:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = cqecsch(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* csinc */
+case EXPR_NODEFUNC_CSINC:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+        
+    if(isSett(BOOLS_DEGREESENTERING))
+	{
+		d1 = rad(d1);
+		d2 = rad(d2);
+	}
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = csinc(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* csinch */
+case EXPR_NODEFUNC_CSINCH:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = csinch(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* chsinc */
+case EXPR_NODEFUNC_CHSINC:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+        
+    if(isSett(BOOLS_DEGREESENTERING))
+	{
+		d1 = rad(d1);
+		d2 = rad(d2);
+	}
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = chsinc(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* chsinch */
+case EXPR_NODEFUNC_CHSINCH:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = chsinch(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* cqsinc */
+case EXPR_NODEFUNC_CQSINC:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+        
+    if(isSett(BOOLS_DEGREESENTERING))
+	{
+		d1 = rad(d1);
+		d2 = rad(d2);
+	}
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = cqsinc(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* cqsinch */
+case EXPR_NODEFUNC_CQSINCH:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = cqsinch(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* ccosc */
+case EXPR_NODEFUNC_CCOSC:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+        
+    if(isSett(BOOLS_DEGREESENTERING))
+	{
+		d1 = rad(d1);
+		d2 = rad(d2);
+	}
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = ccosc(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* ccosch */
+case EXPR_NODEFUNC_CCOSCH:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = ccosch(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* chcosc */
+case EXPR_NODEFUNC_CHCOSC:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+        
+    if(isSett(BOOLS_DEGREESENTERING))
+	{
+		d1 = rad(d1);
+		d2 = rad(d2);
+	}
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = chcosc(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+	}
+	
+/* chcosch */
+case EXPR_NODEFUNC_CHCOSCH:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = chcosch(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* cqcosc */
+case EXPR_NODEFUNC_CQCOSC:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+        
+    if(isSett(BOOLS_DEGREESENTERING))
+	{
+		d1 = rad(d1);
+		d2 = rad(d2);
+	}
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = cqcosc(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+	}
+	
+/* cqcosch */
+case EXPR_NODEFUNC_CQCOSCH:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = cqcosch(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* csecc */
+case EXPR_NODEFUNC_CSECC:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+        
+    if(isSett(BOOLS_DEGREESENTERING))
+	{
+		d1 = rad(d1);
+		d2 = rad(d2);
+	}
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = csecc(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+	}
+	
+/* csecch */
+case EXPR_NODEFUNC_CSECCH:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = csecch(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* chsecc */
+case EXPR_NODEFUNC_CHSECC:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+        
+    if(isSett(BOOLS_DEGREESENTERING))
+	{
+		d1 = rad(d1);
+		d2 = rad(d2);
+	}
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = chsecc(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+	}
+	
+/* chsecch */
+case EXPR_NODEFUNC_CHSECCH:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = chsecch(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* cqsecc */
+case EXPR_NODEFUNC_CQSECC:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+        
+    if(isSett(BOOLS_DEGREESENTERING))
+	{
+		d1 = rad(d1);
+		d2 = rad(d2);
+	}
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = cqsecc(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+	}
+	
+/* cqsecch */
+case EXPR_NODEFUNC_CQSECCH:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = cqsecch(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* ccscc */
+case EXPR_NODEFUNC_CCSCC:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+        
+    if(isSett(BOOLS_DEGREESENTERING))
+	{
+		d1 = rad(d1);
+		d2 = rad(d2);
+	}
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = ccscc(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+	}
+	
+/* ccscch */
+case EXPR_NODEFUNC_CCSCCH:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = ccscch(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* chcscc */
+case EXPR_NODEFUNC_CHCSCC:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+        
+    if(isSett(BOOLS_DEGREESENTERING))
+	{
+		d1 = rad(d1);
+		d2 = rad(d2);
+	}
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = chcscc(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+	}
+	
+/* chcscch */
+case EXPR_NODEFUNC_CHCSCCH:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = chcscch(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* cqcscc */
+case EXPR_NODEFUNC_CQCSCC:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+        
+    if(isSett(BOOLS_DEGREESENTERING))
+	{
+		d1 = rad(d1);
+		d2 = rad(d2);
+	}
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = cqcscc(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+	}
+	
+/* cqcscch */
+case EXPR_NODEFUNC_CQCSCCH:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = cqcscch(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* ctanc */
+case EXPR_NODEFUNC_CTANC:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+        
+    if(isSett(BOOLS_DEGREESENTERING))
+	{
+		d1 = rad(d1);
+		d2 = rad(d2);
+	}
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = ctanc(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+	}
+	
+/* ctanch */
+case EXPR_NODEFUNC_CTANCH:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = ctanch(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* chtanc */
+case EXPR_NODEFUNC_CHTANC:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+        
+    if(isSett(BOOLS_DEGREESENTERING))
+	{
+		d1 = rad(d1);
+		d2 = rad(d2);
+	}
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = chtanc(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+	}
+	
+/* chtanch */
+case EXPR_NODEFUNC_CHTANCH:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = chtanch(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* cqtanc */
+case EXPR_NODEFUNC_CQTANC:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+        
+    if(isSett(BOOLS_DEGREESENTERING))
+	{
+		d1 = rad(d1);
+		d2 = rad(d2);
+	}
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = cqtanc(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+	}
+	
+/* cqtanch */
+case EXPR_NODEFUNC_CQTANCH:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = cqtanch(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* ccotc */
+case EXPR_NODEFUNC_CCOTC:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+        
+    if(isSett(BOOLS_DEGREESENTERING))
+	{
+		d1 = rad(d1);
+		d2 = rad(d2);
+	}
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = ccotc(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+	}
+	
+/* ccotch */
+case EXPR_NODEFUNC_CCOTCH:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = ccotch(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* chcotc */
+case EXPR_NODEFUNC_CHCOTC:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+        
+    if(isSett(BOOLS_DEGREESENTERING))
+	{
+		d1 = rad(d1);
+		d2 = rad(d2);
+	}
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = chcotc(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+	}
+	
+/* chcotch */
+case EXPR_NODEFUNC_CHCOTCH:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = chcotch(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* cqcotc */
+case EXPR_NODEFUNC_CQCOTC:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+        
+    if(isSett(BOOLS_DEGREESENTERING))
+	{
+		d1 = rad(d1);
+		d2 = rad(d2);
+	}
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = cqcotc(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+	}
+	
+/* cqcotch */
+case EXPR_NODEFUNC_CQCOTCH:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = cqcotch(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+
+/* casin */
+case EXPR_NODEFUNC_CASIN:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+        
+    if(isSett(BOOLS_DEGREESENTERING))
+	{
+		d1 = rad(d1);
+		d2 = rad(d2);
+	}
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = casin(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+	}
+	
+/* casinh */
+case EXPR_NODEFUNC_CASINH:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = casinh(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* cacos */
+case EXPR_NODEFUNC_CACOS:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+        
+    if(isSett(BOOLS_DEGREESENTERING))
+	{
+		d1 = rad(d1);
+		d2 = rad(d2);
+	}
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = cacos(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+	}
+	
+/* cacosh */
+case EXPR_NODEFUNC_CACOSH:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = cacosh(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* catan */
+case EXPR_NODEFUNC_CATAN:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+        
+    if(isSett(BOOLS_DEGREESENTERING))
+	{
+		d1 = rad(d1);
+		d2 = rad(d2);
+	}
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = catan(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+	}
+	
+/* catanh */
+case EXPR_NODEFUNC_CATANH:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = catanh(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* cacsc */
+case EXPR_NODEFUNC_CACSC:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+        
+    if(isSett(BOOLS_DEGREESENTERING))
+	{
+		d1 = rad(d1);
+		d2 = rad(d2);
+	}
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = cacsc(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+	}
+	
+/* cacsch */
+case EXPR_NODEFUNC_CACSCH:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = cacsch(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* casec */
+case EXPR_NODEFUNC_CASEC:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+        
+    if(isSett(BOOLS_DEGREESENTERING))
+	{
+		d1 = rad(d1);
+		d2 = rad(d2);
+	}
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = casec(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+	}
+	
+/* casech */
+case EXPR_NODEFUNC_CASECH:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = casech(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* cacot */
+case EXPR_NODEFUNC_CACOT:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+        
+    if(isSett(BOOLS_DEGREESENTERING))
+	{
+		d1 = rad(d1);
+		d2 = rad(d2);
+	}
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = cacot(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+	}
+	
+/* cacoth */
+case EXPR_NODEFUNC_CACOTH:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = cacoth(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
 /* det */
 case EXPR_NODEFUNC_MATRIXDET:
     {
@@ -2726,7 +6439,7 @@ case EXPR_NODEFUNC_MATRIXNORM:
     if(err)
         return err;
 
-    err = exprEvalNode(obj, nodes->data.function.nodes, 0, &d2);
+    err = exprEvalNode(obj, nodes->data.function.nodes, 1, &d2);
 
     const register dim_typ d1ex = (dim_typ)d2;
     const register dim_typ dim = d1ex*d1ex;
@@ -2743,7 +6456,7 @@ case EXPR_NODEFUNC_MATRIXNORM:
             {
             err = exprEvalNode(obj, nodes->data.function.nodes, pos, &d3);
             if(!err)
-                matrix[pos-2] = d3;
+                matrix[pos-MAX_DIMENSIONS] = d3;
             else
                 return err;
             }
@@ -2821,7 +6534,7 @@ case EXPR_NODEFUNC_MATRIXRANK:
             {
             err = exprEvalNode(obj, nodes->data.function.nodes, pos, &d3);
             if(!err)
-                matrix[pos-2] = d3;
+                matrix[pos-MAX_DIMENSIONS] = d3;
             else
                 return err;
             }
@@ -3184,6 +6897,1017 @@ case EXPR_NODEFUNC_LOG1PC:
 
     break;
     }
+    
+/* log101p */
+case EXPR_NODEFUNC_LOG101P:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, 0, &d1);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        *val = log101p(d1);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+
+/* log101pc */
+case EXPR_NODEFUNC_LOG101PC:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, 0, &d1);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        *val = log101pc(d1);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* log21p */
+case EXPR_NODEFUNC_LOG21P:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, 0, &d1);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        *val = log21p(d1);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+
+/* log21pc */
+case EXPR_NODEFUNC_LOG21PC:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, 0, &d1);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        *val = log21pc(d1);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* cexp */
+case EXPR_NODEFUNC_CEXP:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = cexp(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* cexpc */
+case EXPR_NODEFUNC_CEXPC:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = cexpc(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* cexp10 */
+case EXPR_NODEFUNC_CEXP10:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = cexp10(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* cexp10c */
+case EXPR_NODEFUNC_CEXP10C:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = cexp10c(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* cexp2 */
+case EXPR_NODEFUNC_CEXP2:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = cexp2(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* cexp2c */
+case EXPR_NODEFUNC_CEXP2C:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = cexp2c(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* cpow */
+case EXPR_NODEFUNC_CPOW:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+    	{
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+        if(!err)
+	    	{
+	    	ityp d3, d4;
+	        err = exprEvalNode(obj, nodes->data.function.nodes, MAX_COMPLEX_UNITS+REAL_PART, &d3);
+        	if(!err)
+		    	{
+		        err = exprEvalNode(obj, nodes->data.function.nodes, MAX_COMPLEX_UNITS+IMAG_PART, &d4);
+			    if(!err)
+			        {
+			        EXPR_RESET_ERR();
+					const register double complex result = cpow(d1+d2*I, d3+d4*I);
+					*val = creal(result);
+					if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+					{
+						*(nodes->data.function.refs[REAL_PART]) = *val;
+						*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+					}
+					else
+						*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+					
+			        EXPR_CHECK_ERR();
+			        }
+			    else
+			    	return err;
+				}
+			else
+				return err;
+			}
+		else
+			return err;
+		}
+    else
+        return err;
+
+    break;
+    }
+    
+/* croot */
+case EXPR_NODEFUNC_CROOT:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+    	{
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+        if(!err)
+	    	{
+	    	ityp d3, d4;
+	        err = exprEvalNode(obj, nodes->data.function.nodes, MAX_COMPLEX_UNITS+REAL_PART, &d3);
+        	if(!err)
+		    	{
+		        err = exprEvalNode(obj, nodes->data.function.nodes, MAX_COMPLEX_UNITS+IMAG_PART, &d4);
+			    if(!err)
+			        {
+			        EXPR_RESET_ERR();
+					const register double complex result = crootnX(d1+d2*I, d3+d4*I);
+					*val = creal(result);
+					if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+					{
+						*(nodes->data.function.refs[REAL_PART]) = *val;
+						*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+					}
+					else
+						*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+					
+			        EXPR_CHECK_ERR();
+			        }
+			    else
+			    	return err;
+				}
+			else
+				return err;
+			}
+		else
+			return err;
+		}
+    else
+        return err;
+
+    break;
+    }
+    
+/* csqrt */
+case EXPR_NODEFUNC_CSQRT:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = csqrt(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* ccbrt  */
+case EXPR_NODEFUNC_CCBRT:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = ccbrt(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* clogn */
+case EXPR_NODEFUNC_CLOGN:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+    	{
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+        if(!err)
+	    	{
+	    	ityp d3, d4;
+	        err = exprEvalNode(obj, nodes->data.function.nodes, MAX_COMPLEX_UNITS+REAL_PART, &d3);
+        	if(!err)
+		    	{
+		        err = exprEvalNode(obj, nodes->data.function.nodes, MAX_COMPLEX_UNITS+IMAG_PART, &d4);
+			    if(!err)
+			        {
+			        EXPR_RESET_ERR();
+					const register double complex result = clogbN(d1+d2*I, d3+d4*I);
+					*val = creal(result);
+					if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+					{
+						*(nodes->data.function.refs[REAL_PART]) = *val;
+						*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+					}
+					else
+						*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+					
+			        EXPR_CHECK_ERR();
+			        }
+			    else
+			    	return err;
+				}
+			else
+				return err;
+			}
+		else
+			return err;
+		}
+    else
+        return err;
+        
+    break;
+    }
+    
+/* cln */
+case EXPR_NODEFUNC_CLN:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = clog(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* clnc */
+case EXPR_NODEFUNC_CLNC:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = clogc(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* clog */
+case EXPR_NODEFUNC_CLOG:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = clog10(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* clogc */
+case EXPR_NODEFUNC_CLOGC:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = clog10c(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* clog2 */
+case EXPR_NODEFUNC_CLOG2:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = clog2(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* clog2c */
+case EXPR_NODEFUNC_CLOG2C:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = clog2c(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* clog1p */
+case EXPR_NODEFUNC_CLOG1P:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = clog1p(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* clog1pc */
+case EXPR_NODEFUNC_CLOG1PC:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = clog1pc(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* clog101p */
+case EXPR_NODEFUNC_CLOG101P:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = clog101p(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* clog101pc */
+case EXPR_NODEFUNC_CLOG101PC:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = clog101pc(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* clog21p */
+case EXPR_NODEFUNC_CLOG21P:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = clog21p(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* clog21pc */
+case EXPR_NODEFUNC_CLOG21PC:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        const register double complex result = clog21pc(d1+d2*I);
+        *val = creal(result);
+        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+		{
+			*(nodes->data.function.refs[REAL_PART]) = *val;
+			*(nodes->data.function.refs[IMAG_PART]) = cimag(result);
+		}
+		else
+			*(nodes->data.function.refs[REAL_PART]) = cimag(result);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* carg */
+case EXPR_NODEFUNC_CARG:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        *val = isSett(BOOLS_DEGREESENTERING) ? deg(carg(d1+d2*I)) : carg(d1+d2*I);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* cabs */
+case EXPR_NODEFUNC_CABS:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, REAL_PART, &d1);
+
+    if(!err)
+        err = exprEvalNode(obj, nodes->data.function.nodes, IMAG_PART, &d2);
+
+    if(!err)
+        {
+        EXPR_RESET_ERR();
+        *val = cabs(d1+d2*I);
+        EXPR_CHECK_ERR();
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+    
+/* qabs */
+case EXPR_NODEFUNC_QABS:
+    {
+    ityp cpx[MAX_QUATERNIONS_UNITS];
+    err = exprEvalNode(obj, nodes->data.function.nodes, QUATERNIONS_REALPART, cpx);
+
+    if(!err)
+    	{
+        err = exprEvalNode(obj, nodes->data.function.nodes, QUATERNIONS_IPART, &cpx[QUATERNIONS_IPART]);
+        if(!err)
+	    	{
+	    	ityp d3, d4;
+	        err = exprEvalNode(obj, nodes->data.function.nodes, QUATERNIONS_JPART, &cpx[QUATERNIONS_JPART]);
+        	if(!err)
+		    	{
+		        err = exprEvalNode(obj, nodes->data.function.nodes, QUATERNIONS_KPART, &cpx[QUATERNIONS_KPART]);
+			    if(!err)
+			        {
+			        EXPR_RESET_ERR();
+					*val = _qabs(cpx);
+			        EXPR_CHECK_ERR();
+			        }
+			    else
+			    	return err;
+				}
+			else
+				return err;
+			}
+		else
+			return err;
+		}
+    else
+        return err;
+
+    break;
+    }
+    
+/* oabs */
+case EXPR_NODEFUNC_OABS:
+    {
+    ityp cpx[MAX_OCTONIONS_UNITS];
+    err = exprEvalNode(obj, nodes->data.function.nodes, OCTONIONS_REALPART, cpx);
+
+    if(!err)
+    	{
+        err = exprEvalNode(obj, nodes->data.function.nodes, OCTONIONS_E1PART, &cpx[OCTONIONS_E1PART]);
+        if(!err)
+	    	{
+	    	ityp d3, d4;
+	        err = exprEvalNode(obj, nodes->data.function.nodes, OCTONIONS_E2PART, &cpx[OCTONIONS_E2PART]);
+        	if(!err)
+		    	{
+		        err = exprEvalNode(obj, nodes->data.function.nodes, OCTONIONS_E3PART, &cpx[OCTONIONS_E3PART]);
+		        if(!err)
+			    	{
+			        err = exprEvalNode(obj, nodes->data.function.nodes, OCTONIONS_E4PART, &cpx[OCTONIONS_E4PART]);
+			        if(!err)
+				    	{
+				        err = exprEvalNode(obj, nodes->data.function.nodes, OCTONIONS_E5PART, &cpx[OCTONIONS_E5PART]);
+				        if(!err)
+					    	{
+					        err = exprEvalNode(obj, nodes->data.function.nodes, OCTONIONS_E6PART, &cpx[OCTONIONS_E6PART]);
+					        if(!err)
+						    	{
+						        err = exprEvalNode(obj, nodes->data.function.nodes, OCTONIONS_E7PART, &cpx[OCTONIONS_E7PART]);
+							    if(!err)
+							        {
+							        EXPR_RESET_ERR();
+									*val = _oabs(cpx);
+							        EXPR_CHECK_ERR();
+							        }
+							    else
+							    	return err;
+								}	
+							else
+								return err;
+							}
+						else
+							return err;
+						}
+					else
+						return err;
+					}
+			    else
+			    	return err;
+				}
+			else
+				return err;
+			}
+		else
+			return err;
+		}
+    else
+        return err;
+
+    break;
+    }
+    
+/* sabs */
+case EXPR_NODEFUNC_SABS:
+    {
+    ityp cpx[MAX_SEDENIONS_UNITS];
+    err = exprEvalNode(obj, nodes->data.function.nodes, SEDENIONS_REALPART, cpx);
+
+    if(!err)
+    	{
+        err = exprEvalNode(obj, nodes->data.function.nodes, SEDENIONS_E1PART, &cpx[SEDENIONS_E1PART]);
+        if(!err)
+	    	{
+	    	ityp d3, d4;
+	        err = exprEvalNode(obj, nodes->data.function.nodes, SEDENIONS_E2PART, &cpx[SEDENIONS_E2PART]);
+        	if(!err)
+		    	{
+		        err = exprEvalNode(obj, nodes->data.function.nodes, SEDENIONS_E3PART, &cpx[SEDENIONS_E3PART]);
+		        if(!err)
+			    	{
+			        err = exprEvalNode(obj, nodes->data.function.nodes, SEDENIONS_E4PART, &cpx[SEDENIONS_E4PART]);
+			        if(!err)
+				    	{
+				        err = exprEvalNode(obj, nodes->data.function.nodes, SEDENIONS_E5PART, &cpx[SEDENIONS_E5PART]);
+				        if(!err)
+					    	{
+					        err = exprEvalNode(obj, nodes->data.function.nodes, SEDENIONS_E6PART, &cpx[SEDENIONS_E6PART]);
+					        if(!err)
+						    	{
+						        err = exprEvalNode(obj, nodes->data.function.nodes, SEDENIONS_E7PART, &cpx[SEDENIONS_E7PART]);
+						        if(!err)
+							    	{
+							        err = exprEvalNode(obj, nodes->data.function.nodes, SEDENIONS_E8PART, &cpx[SEDENIONS_E8PART]);
+							        if(!err)
+								    	{
+								        err = exprEvalNode(obj, nodes->data.function.nodes, SEDENIONS_E9PART, &cpx[SEDENIONS_E9PART]);
+								        if(!err)
+									    	{
+									        err = exprEvalNode(obj, nodes->data.function.nodes, SEDENIONS_E10PART, &cpx[SEDENIONS_E10PART]);
+									        if(!err)
+										    	{
+										        err = exprEvalNode(obj, nodes->data.function.nodes, SEDENIONS_E11PART, &cpx[SEDENIONS_E11PART]);
+										        if(!err)
+											    	{
+											        err = exprEvalNode(obj, nodes->data.function.nodes, SEDENIONS_E12PART, &cpx[SEDENIONS_E12PART]);
+											        if(!err)
+												    	{
+												        err = exprEvalNode(obj, nodes->data.function.nodes, SEDENIONS_E13PART, &cpx[SEDENIONS_E13PART]);
+												        if(!err)
+													    	{
+													        err = exprEvalNode(obj, nodes->data.function.nodes, SEDENIONS_E14PART, &cpx[SEDENIONS_E14PART]);
+													        if(!err)
+														    	{
+														        err = exprEvalNode(obj, nodes->data.function.nodes, SEDENIONS_E15PART, &cpx[SEDENIONS_E15PART]);
+															    if(!err)
+															        {
+															        EXPR_RESET_ERR();
+																	*val = _sabs(cpx);
+															        EXPR_CHECK_ERR();
+															        }
+															    else
+															    	return err;
+																}
+															else
+																return err;
+															}
+														else
+															return err;
+														}
+													else
+														return err;
+													}	
+												else
+													return err;
+												}
+											else
+												return err;
+											}
+										else
+											return err;
+										}
+									else
+										return err;
+									}
+							    else
+							    	return err;
+								}
+							else
+								return err;
+							}
+						else
+							return err;
+						}
+					else
+						return err;
+					}
+			    else
+			    	return err;
+				}
+			else
+				return err;
+			}
+		else
+			return err;
+		}
+    else
+        return err;
+
+    break;
+    } 
 
 /* ceil */
 case EXPR_NODEFUNC_CEIL:
@@ -3260,7 +7984,7 @@ case EXPR_NODEFUNC_SGEQSOLVER:
     }
 
 /* csum */
-case EXPR_NODEFUNC_COMPLEXSUM:
+case EXPR_NODEFUNC_COMPLEXADD:
     {
     EXPRTYPE secondNum[MAX_COMPLEX_UNITS];
 
@@ -3278,24 +8002,31 @@ case EXPR_NODEFUNC_COMPLEXSUM:
 
                 if(!err)
                     {
-                    ityp *complex = NULL;
+                    ityp *cpx = NULL;
 
-                    if(!matrixAlloc(&complex, (dim_typ2){MAX_COMPLEX_UNITS, MAX_COMPLEX_UNITS}))
+                    if(!matrixAlloc(&cpx, (dim_typ2){MAX_COMPLEX_UNITS, MAX_COMPLEX_UNITS}))
                         return err;
 
-                    *(complex) = d1;
-                    *(complex + IMAG_PART) = d2;
-                    *(complex + MAX_COMPLEX_UNITS) = secondNum[REAL_PART];
-                    *(complex + MAX_COMPLEX_UNITS + IMAG_PART) = secondNum[IMAG_PART];
+                    *(cpx) = d1;
+                    *(cpx + IMAG_PART) = d2;
+                    *(cpx + MAX_COMPLEX_UNITS) = secondNum[REAL_PART];
+                    *(cpx + MAX_COMPLEX_UNITS + IMAG_PART) = secondNum[IMAG_PART];
                     
                     ityp complexRes[MAX_COMPLEX_UNITS];
 
 
-                    _complexSum(complex, complexRes);
-                    matrixFree(&complex);
-
-					*val = *(nodes->data.function.refs[REAL_PART]) = complexRes[REAL_PART];
-                    *(nodes->data.function.refs[IMAG_PART]) = complexRes[IMAG_PART];
+                    _complexAdd(cpx, complexRes);
+                    matrixFree(&cpx);
+                    
+                    *val = complexRes[REAL_PART];
+			        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+					{
+						*(nodes->data.function.refs[REAL_PART]) = *val;
+						*(nodes->data.function.refs[IMAG_PART]) = complexRes[IMAG_PART];
+					}
+					else
+						*(nodes->data.function.refs[REAL_PART]) = complexRes[IMAG_PART];
+						
                     }
                     else
                         return err;
@@ -3306,12 +8037,14 @@ case EXPR_NODEFUNC_COMPLEXSUM:
             else
                 return err;
         }
+        else
+        	return err;
 
     break;
     }
 
 /* cprod */
-case EXPR_NODEFUNC_COMPLEXPROD:
+case EXPR_NODEFUNC_COMPLEXMUL:
     {
     EXPRTYPE secondNum[MAX_COMPLEX_UNITS];
 
@@ -3329,23 +8062,29 @@ case EXPR_NODEFUNC_COMPLEXPROD:
 
                 if(!err)
                     {
-                    ityp *complex = NULL;
+                    ityp *cpx = NULL;
 
-                    if(!matrixAlloc(&complex, (dim_typ2){MAX_COMPLEX_UNITS, MAX_COMPLEX_UNITS}))
+                    if(!matrixAlloc(&cpx, (dim_typ2){MAX_COMPLEX_UNITS, MAX_COMPLEX_UNITS}))
                         return err;
 
-                    *(complex) = d1;
-                    *(complex + IMAG_PART) = d2;
-                    *(complex + MAX_COMPLEX_UNITS) = secondNum[REAL_PART];
-                    *(complex + MAX_COMPLEX_UNITS + IMAG_PART) = secondNum[IMAG_PART];
+                    *(cpx) = d1;
+                    *(cpx + IMAG_PART) = d2;
+                    *(cpx + MAX_COMPLEX_UNITS) = secondNum[REAL_PART];
+                    *(cpx + MAX_COMPLEX_UNITS + IMAG_PART) = secondNum[IMAG_PART];
                     
                     ityp complexRes[MAX_COMPLEX_UNITS];
 
-                    _complexProd(complex, complexRes);
-                    matrixFree(&complex);
-
-					*val = *(nodes->data.function.refs[REAL_PART]) = complexRes[REAL_PART];
-                    *(nodes->data.function.refs[IMAG_PART]) = complexRes[IMAG_PART];
+                    _complexMul(cpx, complexRes);
+                    matrixFree(&cpx);
+                    
+                    *val = complexRes[REAL_PART];
+			        if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
+					{
+						*(nodes->data.function.refs[REAL_PART]) = *val;
+						*(nodes->data.function.refs[IMAG_PART]) = complexRes[IMAG_PART];
+					}
+					else
+						*(nodes->data.function.refs[REAL_PART]) = complexRes[IMAG_PART];
                     }
                     else
                         return err;
@@ -3356,12 +8095,14 @@ case EXPR_NODEFUNC_COMPLEXPROD:
             else
                 return err;
         }
+        else
+        	return err;
 
     break;
     }
     
 /* qsum */
-case EXPR_NODEFUNC_QUATERNIONSSUM:
+case EXPR_NODEFUNC_QUATERNIONSADD:
     {
     ityp d3, d4;
     EXPRTYPE secondNum[MAX_QUATERNIONS_UNITS];
@@ -3408,7 +8149,7 @@ case EXPR_NODEFUNC_QUATERNIONSSUM:
 				                    ityp quaternionsRes[MAX_QUATERNIONS_UNITS];
 				
 				
-				                    _quaternionsSum(quaternions, quaternionsRes);
+				                    _quaternionsAdd(quaternions, quaternionsRes);
 				                    matrixFree(&quaternions);
 				
 									*val = *(nodes->data.function.refs[REAL_PART]) = quaternionsRes[QUATERNIONS_REALPART];
@@ -3445,7 +8186,7 @@ case EXPR_NODEFUNC_QUATERNIONSSUM:
     }
     
 /* qprod */
-case EXPR_NODEFUNC_QUATERNIONSPROD:
+case EXPR_NODEFUNC_QUATERNIONSMUL:
     {
     ityp d3, d4;
     EXPRTYPE secondNum[MAX_QUATERNIONS_UNITS];
@@ -3492,7 +8233,7 @@ case EXPR_NODEFUNC_QUATERNIONSPROD:
 				                    ityp quaternionsRes[MAX_QUATERNIONS_UNITS];
 				
 				
-				                    _quaternionsSum(quaternions, quaternionsRes);
+				                    _quaternionsAdd(quaternions, quaternionsRes);
 				                    matrixFree(&quaternions);
 				
 									*val = *(nodes->data.function.refs[REAL_PART]) = quaternionsRes[QUATERNIONS_REALPART];
@@ -3710,7 +8451,7 @@ case EXPR_NODEFUNC_CBASE:
         err = exprEvalNode(obj, nodes->data.function.nodes, 1, &d1);
 
     if(!err)
-        err = exprEvalNode(obj, nodes->data.function.nodes, 1, &d2);
+        err = exprEvalNode(obj, nodes->data.function.nodes, 2, &d2);
 
     if(!err)
         {
@@ -3946,11 +8687,11 @@ case EXPR_NODEFUNC_PERMSREP:
         {
         const register dim_typ dim = nodes->data.function.nodecount-1;
         ityp args[dim];
-        for(pos = -1; ++pos < dim; )
+        for(pos = 0; ++pos < dim; )
             {
             err = exprEvalNode(obj, nodes->data.function.nodes, pos, &d2);
             if(!err)
-                args[pos] = d2;
+                args[pos-1] = d2;
             else
                 return err;
             }
@@ -4454,9 +9195,7 @@ case EXPR_NODEFUNC_POWMEDIA:
     err = exprEvalNode(obj, nodes->data.function.nodes, 0, &v);
 
     if(!err)
-        {
         err = exprEvalNode(obj, nodes->data.function.nodes, 1, &d1);
-        }
 
     if(!err)
         {
@@ -4466,7 +9205,7 @@ case EXPR_NODEFUNC_POWMEDIA:
             {
             err = exprEvalNode(obj, nodes->data.function.nodes, pos, &d2);
             if(!err)
-                args[pos] = d2;
+                args[pos-1] = d2;
             else
                 return err;
             }
@@ -4571,29 +9310,6 @@ case EXPR_NODEFUNC_THIRDQUARTILE:
                 return err;
             }
         *val = math_third_quartile(nodes->data.function.nodecount, args);
-        }
-    else
-        return err;
-
-    break;
-    }
-
-/* day */
-case EXPR_NODEFUNC_DAY:
-    {
-    EXPRTYPE d3;
-    err = exprEvalNode(obj, nodes->data.function.nodes, 0, &d1);
-
-    if(!err)
-        {
-            err = exprEvalNode(obj, nodes->data.function.nodes, 1, &d2);
-            if(!err)
-            {
-                err = exprEvalNode(obj, nodes->data.function.nodes, 2, &d3);
-                *val = getDayNumber(d1, d2, d3);
-            }
-            else
-                return err;
         }
     else
         return err;
@@ -4754,7 +9470,7 @@ case EXPR_NODEFUNC_CLIP:
         err = exprEvalNode(obj, nodes->data.function.nodes, 1, &d1);
 
     if(!err)
-        err = exprEvalNode(obj, nodes->data.function.nodes, 1, &d2);
+        err = exprEvalNode(obj, nodes->data.function.nodes, 2, &d2);
 
     if(!err)
         {
@@ -4782,7 +9498,7 @@ case EXPR_NODEFUNC_CLAMP:
         err = exprEvalNode(obj, nodes->data.function.nodes, 1, &d1);
 
     if(!err)
-        err = exprEvalNode(obj, nodes->data.function.nodes, 1, &d2);
+        err = exprEvalNode(obj, nodes->data.function.nodes, 2, &d2);
 
     if(!err)
         {

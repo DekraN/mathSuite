@@ -1,4 +1,4 @@
-// programs.c 04/09/2014 Marco Chiarelli aka DekraN
+// programs.c 10/09/2014 Marco Chiarelli aka DekraN
 /*
 WARNING!!! This program is intended to be used, so linked at the compilation,
 exclusively with main.c of my suite program! I do not assume any responsibilities
@@ -171,6 +171,26 @@ static const struct operations default_operazioni[MAX_OPERATIONS] =
         binary_function
     },
     {
+        "Square Root",
+        NULL_CHAR,
+        {
+            IDENTIFIER_RADICEQUADRATA
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_NULL,
+        unary_function
+    },
+    {
+        "Cubic Root",
+        NULL_CHAR,
+        {
+            IDENTIFIER_RADICECUBICA
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_NULL,
+        unary_function
+    },
+    {
         "Logarithm",
         "(a == 0 -> ln, 1 -> log)",
         {
@@ -245,6 +265,295 @@ static const struct operations default_operazioni[MAX_OPERATIONS] =
         DOMAIN_DEFAULT,
         DOMAIN_NULL,
         unary_function
+    },
+    {
+        "Base 10 Plus 1 Logarithm",
+        NULL_CHAR,
+        {
+            IDENTIFIER_LOGARITMO101P
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_NULL,
+        unary_function
+    },
+    {
+        "Base 10 Plus 1 Cardinal Logarithm",
+        NULL_CHAR,
+        {
+            IDENTIFIER_LOGARITMO101PC
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_NULL,
+        unary_function
+    },
+    {
+        "Base 2 Plus 1 Logarithm",
+        NULL_CHAR,
+        {
+            IDENTIFIER_LOGARITMO21P
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_NULL,
+        unary_function
+    },
+    {
+        "Base 2 Plus 1 Cardinal Logarithm",
+        NULL_CHAR,
+        {
+            IDENTIFIER_LOGARITMO21PC
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_NULL,
+        unary_function
+    },
+    {
+        "Complex Exponential",
+        "(a = RPART, b = IPART)",
+        {
+            OPERATOR_CEXP,
+            IDENTIFIER_CEXP,
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function,
+    },
+    {
+        "Complex Cardinal Exponential",
+        "(a = RPART, b = IPART)",
+        {
+            OPERATOR_CEXP"c",
+            IDENTIFIER_CEXP"c",
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function,
+    },
+    {
+        "Complex 10 Base Exponential",
+        "(a = RPART, b = IPART)",
+        {
+            OPERATOR_CEXP10,
+            OPERATOR_ALIAS_CEXP10,
+            IDENTIFIER_CEXP10
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex 10 Base Cardinal Exponential",
+        "(a = RPART, b = IPART)",
+        {
+            OPERATOR_CEXP10"c",
+            OPERATOR_ALIAS_CEXP10"c",
+            IDENTIFIER_CEXP10"c"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex 2 Base Exponential",
+        "(a = RPART, b = IPART)",
+        {
+            OPERATOR_CEXP2,
+            OPERATOR_ALIAS_CEXP2,
+            IDENTIFIER_CEXP2
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex 2 Base Cardinal Exponential",
+        "(a = RPART, b = IPART)",
+        {
+            OPERATOR_CEXP2"c",
+            OPERATOR_ALIAS_CEXP2"c",
+            IDENTIFIER_CEXP2"c"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Square Root",
+        NULL_CHAR,
+        {
+            IDENTIFIER_CSQRT
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Cubic Root",
+        NULL_CHAR,
+        {
+            IDENTIFIER_CCBRT
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Logarithm",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CLOG,
+            IDENTIFIER_ALIAS_CLOG,
+            IDENTIFIER_ALIAS2_CLOG,
+            IDENTIFIER_ALIAS3_CLOG
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Cardinal Logarithm",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CLOG"c",
+            IDENTIFIER_ALIAS_CLOG"c",
+            IDENTIFIER_ALIAS2_CLOG"c",
+            IDENTIFIER_ALIAS3_CLOG"c"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Base 10 Logarithm",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CLOG10,
+            IDENTIFIER_ALIAS_CLOG10,
+            IDENTIFIER_ALIAS2_CLOG10,
+            IDENTIFIER_ALIAS3_CLOG10
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Base 10 Cardinal Logarithm",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CLOG10"c",
+            IDENTIFIER_ALIAS_CLOG10"c",
+            IDENTIFIER_ALIAS2_CLOG10"c",
+            IDENTIFIER_ALIAS3_CLOG10"c"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Base 2 Logarithm",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CLOG2,
+            IDENTIFIER_ALIAS_CLOG2,
+            IDENTIFIER_ALIAS2_CLOG2,
+            IDENTIFIER_ALIAS3_CLOG2
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Base 2 Cardinal Logarithm",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CLOG2"c",
+            IDENTIFIER_ALIAS_CLOG2"c",
+            IDENTIFIER_ALIAS2_CLOG2"c",
+            IDENTIFIER_ALIAS3_CLOG2"c"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Plus 1 Logarithm",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CLOG1P
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Cardinal Plus 1 Logarithm",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CLOG1P"c"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Base 10 Plus 1 Logarithm",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CLOG101P
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Base 10 Cardinal Plus 1 Logarithm",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CLOG101P"c"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Base 2 Plus 1 Logarithm",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CLOG21P
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Base 2 Cardinal Plus 1 Logarithm",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CLOG21P"c"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+    	"Complex Argument"
+    	"(a = RPART, b = IPART)",
+    	{
+    		IDENTIFIER_CARG
+    	},
+    	DOMAIN_DEFAULT,
+    	DOMAIN_DEFAULT,
+    	binary_function
+
+    },
+    {
+    	"Complex Absolute Value"
+    	"(a = RPART, b = IPART)",
+    	{
+    		IDENTIFIER_CABS
+    	},
+    	DOMAIN_DEFAULT,
+    	DOMAIN_DEFAULT,
+    	binary_function
     },
     {
         "Bit Counter",
@@ -323,7 +632,7 @@ static const struct operations default_operazioni[MAX_OPERATIONS] =
         unary_function
     },
     {
-    	"Change Min Stirling-Requires Number",
+    	"Change Min Stirling Number",
     	NULL_CHAR,
     	{
     		IDENTIFIER_MINSRNUMBER,
@@ -1062,6 +1371,1264 @@ static const struct operations default_operazioni[MAX_OPERATIONS] =
         DOMAIN_DEFAULT,
         binary_function
     },
+    
+    
+    {
+        "Complex Sin",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CSIN
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hyperbolic Sin",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CSIN"h"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Cos",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CCOS
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hyperbolic Cos",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CCOS"h"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Tan",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CTAN
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hyperbolic Tan",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CTAN"h"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Csc",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CCSC
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hyperbolic Csc",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CCSC"h"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Sec",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CSEC
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hyperbolic Sec",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CSEC"h"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Cot",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CCOT
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hyperbolic Cot",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CCOT"h"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hsin",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CHSIN
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hyperbolic Hsin",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CHSIN"h"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Qsin",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CQSIN
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hyperbolic Qsin",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CQSIN"h"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hcos",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CHCOS
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hyperbolic Hcos",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CHCOS"h"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Qcos",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CQCOS
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hyperbolic Qcos",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CQCOS"h"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hsec",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CHSEC
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hypernolic Hsec",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CHSEC"h"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Qsec",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CQSEC
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hyperbolic Qsec",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CQSEC"h"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hcsc",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CHCSC
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hyperbolic Hcsc",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CHCSC"h"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Qcsc",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CQCSC
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hyperbolic Qcsc",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CQCSC"h"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Htan",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CHTAN
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hyperbolic Htan",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CHTAN"h"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Qtan",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CQTAN
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hyperbolic Qtan",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CQTAN"h"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hcot",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CHCOT
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hyperbolic Hcot",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CHCOT"h"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Qcot",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CQCOT
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hyperbolic Qcot",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CQCOT"h"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Vsin",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CVSIN,
+            IDENTIFIER_ALIAS_CVSIN
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hyperbolic Vsin",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CVSIN"h",
+            IDENTIFIER_ALIAS_CVSIN"h"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex CVsin",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CCVSIN,
+            IDENTIFIER_ALIAS_CCVSIN,
+            IDENTIFIER_ALIAS2_CCVSIN
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hyperbolic CVsin",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CCVSIN"h",
+            IDENTIFIER_ALIAS_CCVSIN"h",
+            IDENTIFIER_ALIAS2_CCVSIN"h"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Vcos",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CVCOS,
+            IDENTIFIER_ALIAS_CVCOS
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hyperbolic Vcos",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CVCOS"h",
+            IDENTIFIER_ALIAS_CVCOS"h"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex CVcos",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CCVCOS,
+            IDENTIFIER_ALIAS_CCVCOS,
+            IDENTIFIER_ALIAS2_CCVCOS
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hyperbolic CVcos",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CCVCOS"h",
+            IDENTIFIER_ALIAS_CCVCOS"h",
+            IDENTIFIER_ALIAS2_CCVCOS"h"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex HVsin",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CHVSIN,
+            IDENTIFIER_ALIAS_CHVSIN,
+            IDENTIFIER_ALIAS2_CHVSIN
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hyperbolic HVsin",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CHVSIN"h",
+            IDENTIFIER_ALIAS_CHVSIN"h",
+            IDENTIFIER_ALIAS2_CHVSIN"h"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex HCVsin",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CHCVSIN,
+            IDENTIFIER_ALIAS_CHCVSIN,
+            IDENTIFIER_ALIAS2_CHCVSIN
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hyperbolic HCVsin",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CHCVSIN"h",
+            IDENTIFIER_ALIAS_CHCVSIN"h",
+            IDENTIFIER_ALIAS2_CHCVSIN"h"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex QVsin",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CQVSIN
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hyperbolic QVsin",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CQVSIN"h"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex QCVsin",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CQCOS
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hyperbolic QCVsin",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CQCOS"h"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex HVcos",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CHVCOS,
+            IDENTIFIER_ALIAS_CHVCOS,
+            IDENTIFIER_ALIAS2_CHVCOS
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hyperbolic HVcos",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CHVCOS"h",
+            IDENTIFIER_ALIAS_CHVCOS"h",
+            IDENTIFIER_ALIAS2_CHVCOS"h"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex HCVcos",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CHCVCOS,
+            IDENTIFIER_ALIAS_CHCVCOS,
+            IDENTIFIER_ALIAS2_CHCVCOS
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hyperbolic HCVcos",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CHCVCOS"h",
+            IDENTIFIER_ALIAS_CHCVCOS"h",
+            IDENTIFIER_ALIAS2_CHCVCOS"h"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex QVcos",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CQVCOS
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hyperbolic QVcos",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CQVCOS"h"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex QCVcos",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CQCVCOS
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hyperbolic QCVcos",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CQCVCOS"h"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Esec",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CESEC,
+            IDENTIFIER_ALIAS_CESEC,
+            IDENTIFIER_ALIAS2_CESEC,
+            IDENTIFIER_ALIAS3_CESEC
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hyperbolic Esec",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CESEC"h",
+            IDENTIFIER_ALIAS_CESEC"h",
+            IDENTIFIER_ALIAS2_CESEC"h",
+            IDENTIFIER_ALIAS3_CESEC"h"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Ecsc",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CECSC,
+            IDENTIFIER_ALIAS_CECSC,
+            IDENTIFIER_ALIAS2_CECSC,
+            IDENTIFIER_ALIAS3_CECSC
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hyperbolic Ecsc",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CECSC"h",
+            IDENTIFIER_ALIAS_CECSC"h",
+            IDENTIFIER_ALIAS2_CECSC"h",
+            IDENTIFIER_ALIAS3_CECSC"h"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex HEsec",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CHESEC,
+            IDENTIFIER_ALIAS_CHESEC,
+            IDENTIFIER_ALIAS2_CHESEC,
+            IDENTIFIER_ALIAS3_CHESEC,
+            IDENTIFIER_ALIAS4_CHESEC
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hyperbolic HEsec",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CHESEC"h",
+            IDENTIFIER_ALIAS_CHESEC"h",
+            IDENTIFIER_ALIAS2_CHESEC"h",
+            IDENTIFIER_ALIAS3_CHESEC"h",
+            IDENTIFIER_ALIAS4_CHESEC"h"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex HEcsc",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CHECSC,
+            IDENTIFIER_ALIAS_CHECSC,
+            IDENTIFIER_ALIAS2_CHECSC,
+            IDENTIFIER_ALIAS3_CHECSC,
+            IDENTIFIER_ALIAS4_CHECSC
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hyperbolic HEcsc",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CHECSC"h",
+            IDENTIFIER_ALIAS_CHECSC"h",
+            IDENTIFIER_ALIAS2_CHECSC"h",
+            IDENTIFIER_ALIAS3_CHECSC"h",
+            IDENTIFIER_ALIAS4_CHECSC"h"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex QEsec",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CQESEC
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hyperbolic QEsec",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CQESEC"h"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex QEcsc",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CQECSC
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hyperbolic QEcsc",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CQECSC"h"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex sinc",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CSINC
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hyperbolic sinc",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CSINC"h"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hsinc",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CHSINC
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hyperbolic Hsinc",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CHSINC"h"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Qsinc",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CQSINC
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hyperbolic Qsinc",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CQSINC"h"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex cosc",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CCOSC
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hyperbolic cosc",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CCOSC"h"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hcosc",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CHCOSC
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hyperbolic Hcosc",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CHCOSC"h"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Qcosc",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CQCOSC
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hyperbolic Qcosc",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CQCOSC"h"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex secc",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CSECC
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hyperbolic secc",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CSECC"h"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hsecc",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CHSECC
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hyperbolic Hsecc",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CHSECC"h"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Qsecc",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CQSECC
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hyperbolic Qsecc",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CQSECC"h"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex cscc",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CCSCC
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hyperbolic cscc",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CCSCC"h"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hcscc",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CHCSCC
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hyperbolic Hcscc",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CHCSCC"h"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Qcscc",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CQCSCC
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hyperbolic Qcscc",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CQCSCC"h"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex tanc",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CTANC
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hyperbolic tanc",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CTANC"h"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Htanc",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CHTANC
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hyperbolic Htanc",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CHTANC"h"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Qtanc",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CQTANC
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hyperbolic Qtanc",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CQTANC"h"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex cotc",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CCOTC
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hyperbolic cotc",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CCOTC"h"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hcotc",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CHCOTC
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hyperbolic Hcotc",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CHCOTC"h"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Qcotc",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CQCOTC
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hyperbolic Qcotc",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CQCOTC"h"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Asin",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CASIN
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hyperbolic Asin",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CASIN"h"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Acos",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CACOS
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hyperbolic Acos",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CACOS"h"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Atan",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CATAN
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hyperbolic Atan",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CATAN"h"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Acsc",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CACSC
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hyperbolic Acsc",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CACSC"h"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Asec",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CASEC
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hyperbolic Asec",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CASEC"h"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Acot",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CACOT
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
+    {
+        "Complex Hyperbolic Acot",
+        "(a = RPART, b = IPART)",
+        {
+            IDENTIFIER_CACOT"h"
+        },
+        DOMAIN_DEFAULT,
+        DOMAIN_DEFAULT,
+        binary_function
+    },
     {
         "Greatest Common Divisor",
         "("IDENTIFIER_ALIAS_MCD"(a,b))",
@@ -1322,26 +2889,6 @@ static const struct operations default_operazioni[MAX_OPERATIONS] =
         unary_function
     },
     {
-        "Square Root",
-        NULL_CHAR,
-        {
-            IDENTIFIER_RADICEQUADRATA
-        },
-        DOMAIN_DEFAULT,
-        DOMAIN_NULL,
-        unary_function
-    },
-    {
-        "Cubic Root",
-        NULL_CHAR,
-        {
-            IDENTIFIER_RADICECUBICA
-        },
-        DOMAIN_DEFAULT,
-        DOMAIN_NULL,
-        unary_function
-    },
-    {
         "Factorial",
         "(b == 0 -> Shows Only that number, 1 -> Shows all the succession till it reaches Result)",
         {
@@ -1569,7 +3116,20 @@ static const struct operations default_operazioni[MAX_OPERATIONS] =
     }
 };
 
-__MSSHELL_WRAPPER_ void calcolatoreDiBase(const register sel_typ argc, char ** argv)
+__MSNATIVE_ __MSSHELL_WRAPPER_ static void viewComplexResult(const bool checkdg, const char oprname[static DINFO_STRING], register double complex result);
+
+__MSNATIVE_ __MSSHELL_WRAPPER_ static inline void __system viewComplexResult(const bool checkdg, const char oprname[static DINFO_STRING], register double complex result)
+{																				 								 		
+	if(checkdg && isSett(BOOLS_DEGREESENTERING)) result = deg(creal(result)) + deg(cimag(result))*I;				   
+	printf2(COLOR_USER, "\nRESULT of %s operation is: ", oprname);	
+	printf2(COLOR_USER, OUTPUT_CONVERSION_FORMAT, creal(result));					
+	printf2(COLOR_USER, " + ");														
+	printf2(COLOR_USER, OUTPUT_CONVERSION_FORMAT, cimag(result));					
+	printf2(COLOR_USER, "*i;\n\n");													
+	return;
+}
+
+__MSSHELL_WRAPPER_ void basicCalculator(const register sel_typ argc, char ** argv)
 {
 
     if(isSett(BOOLS_BASECALCPARSING))
@@ -1578,12 +3138,11 @@ __MSSHELL_WRAPPER_ void calcolatoreDiBase(const register sel_typ argc, char ** a
     else
     {
 
-        #define viewInsertedValue                                                                               \
-            printf2(COLOR_SYSTEM, "\nValue: ");                                                                               \
-            printf2(COLOR_CREDITS, OUTPUT_CONVERSION_FORMAT, a);                                                                \
-            printf2(COLOR_SYSTEM, " inserted in [%llu] position of elaborating Media Vector...\n\n", accumulate);    \
-            return ;
-
+        #define viewInsertedValue                                                                                \
+            printf2(COLOR_SYSTEM, "\nValue: ");                                                                  \
+            printf2(COLOR_CREDITS, OUTPUT_CONVERSION_FORMAT, a);                                                 \
+            printf2(COLOR_SYSTEM, " inserted in [%llu] position of elaborating Media Vector...\n\n", accumulate);\
+            return;
 
         sel_typ tmp;
         char identifier[MAX_IDENTIFIER_LENGTH];
@@ -1625,9 +3184,9 @@ __MSSHELL_WRAPPER_ void calcolatoreDiBase(const register sel_typ argc, char ** a
 
 
         register ityp c;
-        sel_typ output_ID[MAX_DIMENSIONS] =
+        fsel_typ output_ID[MAX_DIMENSIONS] =
         {
-            BASECALC_INFORMAZIONI,
+            MAX_OPERATIONS,
             0
         };
 
@@ -1636,7 +3195,7 @@ __MSSHELL_WRAPPER_ void calcolatoreDiBase(const register sel_typ argc, char ** a
 
         doesExistOperIdentifier(identifier, output_ID);
 
-        const sel_typ oprID = output_ID[OPERATION_ID];
+        const fsel_typ oprID = output_ID[OPERATION_ID];
 
         const TypeRange minmax[MAX_DIMENSIONS] =
         {
@@ -1660,9 +3219,16 @@ __MSSHELL_WRAPPER_ void calcolatoreDiBase(const register sel_typ argc, char ** a
         }
 
         const bool dg_ent = isSett(BOOLS_DEGREESENTERING);
+    	const bool complex_entries = ((oprID >= BCALC_CSIN && oprID <= BCALC_CACOTH) || (oprID >= BCALC_CEXP && oprID <= BCALC_CLOG21PC) || oprID == BCALC_CSQRT || oprID == BCALC_CCBRT);
 
-        if(dg_ent && oprID > BASECALC_TRASFORMAANGOLI && oprID < BASECALC_ASINANDASINH && a == 0) b = rad(b);
-
+		if(dg_ent)
+		{
+			if(complex_entries)
+				a = rad(a);
+       	 	if((complex_entries || (oprID > BCALC_TRASFORMAANGOLI && oprID < BCALC_ASINANDASINH)) && a == 0)
+				b = rad(b);
+		}
+		
         switch(oprID)
         {
 
@@ -1676,7 +3242,7 @@ __MSSHELL_WRAPPER_ void calcolatoreDiBase(const register sel_typ argc, char ** a
         #undef viewInsertedValue
 
 
-        if(dg_ent && oprID > BASECALC_QECSCANDQECSCH && oprID < BASECALC_MCM && a == 0) c = deg(c);
+        if(dg_ent && oprID > BCALC_QECSCANDQECSCH && oprID < BCALC_MCM && a == 0) c = deg(c);
 
         CLEARBUFFER();
 
@@ -1826,7 +3392,7 @@ __MSSHELL_WRAPPER_ __MSNATIVE_ void _MS__private __system __export operationsGro
 
         if(isSett(BOOLS_SHOWDESCRIPTION))
         {
-            if(prog_chosen.program_function == calcolatoreDiBase)
+            if(prog_chosen.program_function == basicCalculator)
                 if(isSett(BOOLS_BASECALCPARSING))
                 {
                     char low_name[FILENAME_MAX];
@@ -1884,7 +3450,7 @@ __MSSHELL_WRAPPER_ __MSNATIVE_ void _MS__private __system __export operationsGro
             }
         }
 
-        volatile bool rep_check;
+        bool rep_check;
 
         do
         {
@@ -2010,11 +3576,11 @@ __MSNATIVE_ static void _MS__private __system printOpersIdentifiers(void)
     return;
 }
 
-__MSNATIVE_ inline bool _MS__private __system doesExistOperIdentifier(const char identifier[static MAX_IDENTIFIER_LENGTH], sel_typ output_ID[static MAX_DIMENSIONS])
+__MSNATIVE_ inline bool _MS__private __system doesExistOperIdentifier(const char identifier[static MAX_IDENTIFIER_LENGTH], fsel_typ output_ID[static MAX_DIMENSIONS])
 {
-    sel_typ i, j;
-    for(i=0; i<MAX_OPERATIONS; ++i)
-        for(j=0; j<MAX_ALIAS; ++j)
+
+    for(fsel_typ i=0; i<MAX_OPERATIONS; ++i)
+        for(fsel_typ j=0; j<MAX_ALIAS; ++j)
             if(!strcmp(identifier, operazioni[i].identifiers[j]))
             {
                 output_ID[OPERATION_ID] = i;
@@ -2034,7 +3600,7 @@ __MSUTIL_ inline void __system __export freeExprEvalLists()
 
 __MSUTIL_ void __system __export refreshExprEvalVarList(dim_typ which_env)
 {
-    volatile int err;
+    int err;
     jmp_buf jumper;
 
     time_t t1;
@@ -2103,16 +3669,7 @@ __MSUTIL_ void __system __export refreshExprEvalVarList(dim_typ which_env)
 
         while(fgets(str, MAX_FILE_LINES, fp) != NULL)
         {
-            // exprObj *e = INIT_OBJLIST;
-            // int start, end;
-            // err = setjmp(jumper);
 
-
-            //if(e) // if(err && e)
-            //  exprFree(e);
-
-            /*err = */
-            // exprCreate(&e, suite.exprVars.func_list, (*vlist), suite.exprVars.const_list, NULL, 0);
             err = exprCreate(&e, access(func_list), tmp->var_list, access(const_list), NULL, 0);
             if(err != EXPR_ERROR_NOERROR)
             {
@@ -2175,7 +3732,7 @@ __MSUTIL_ void __system __export refreshExprEvalLists()
     access(const_list) = INIT_CONSTLIST;
     /* Set error buffer */
 
-    volatile int err;
+    int err;
     jmp_buf jumper;
 
     err = setjmp(jumper);

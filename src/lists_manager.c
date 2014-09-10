@@ -1,4 +1,4 @@
-// lists_manager.c 04/09/2014 Marco Chiarelli aka DekraN
+// lists_manager.c 10/09/2014 Marco Chiarelli aka DekraN
 /*
 WARNING!!! This program is intended to be used, so linked at the compilation,
 exclusively with main.c of my suite program! I do not assume any responsibilities
@@ -144,7 +144,7 @@ __MSNATIVE_ inline nodelist * __system __export listNo(dim_typ which_item, sel_t
 {
     const dim_typ itemno = getItemsListNo(mode);
     const bool assert = which_item > (itemno*0.5);
-    const sel_typ arm_index = 1-(2*assert);
+    const sel_typ arm_index = 1-(assert<<1);
     nodelist * pntr = NULL;
 
     dim_typ i;
@@ -241,7 +241,7 @@ __MSNATIVE_ dim_typ __system __export itemSelect(sel_typ mode)
         #endif
         #ifdef ALLOW_MATMANAGER
         case MATRICES:
-            strcpy(access_point, alg_operations[ALGEBRA_MATRICESMANAGER].name);
+            strcpy(access_point, alg_operations[ALGOPS_MATRICESMANAGER].name);
             break;
         #endif
         #ifdef ALLOW_LOGSMANAGER
@@ -351,7 +351,6 @@ __MSNATIVE_ inline void __system __export refreshItem(dim_typ which_item, sel_ty
 
         case LAYOUTS:
             access(curLayout) = ((layoutObj *)(listNo(which_item, LAYOUTS)->data));
-            _changeAlgebraDims(access(curLayout)->algebra);
             break;
     }
     return;

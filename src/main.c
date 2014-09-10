@@ -1,8 +1,8 @@
 /*!////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 //!////////////////////////////////////////////////////////////////////////////////////////////////////////////// ///
 /*!________________________________________________________________________________________________________________*/
-///                         mathSuite v6.00 --- by Marco Chiarelli aka DekraN aka Wesker013                  	  ///
-///        							LAST UPDATE: 17:00 of 04/09/2014 by Myself. 								  ///
+///                         mathSuite v6.50 --- by Marco Chiarelli aka DekraN aka Wesker013                  	  ///
+///        							LAST UPDATE: 18:00 of 10/09/2014 by Myself. 								  ///
 /// 	This program is protected by Creative Commons CC BY-SA 2.0 License. For more informations contact me. 	  ///
 ///                     You can contact me at: marco_chiarelli@yahoo.it or on the secundary mail:                 ///
 /// marcochiarelli.nextgenlab@gmail.com in order to report a bug or simply for sending me an advice that could be ///
@@ -19,6 +19,9 @@
 /// http://elite.polito.it/files/courses/12BHD/progr/Esercizi-C-v2_01.pdf for some of their scripts.              ///
 /// Thanks to Bibek Subedi, for his invertMatrix function, which I renamed, modified and adapted to this program. ///
 /// Link Source: http://programming-technique.blogspot.it/2011/09/numerical-methods-inverse-of-nxn-matrix.html    ///
+/// Thanks to W. Cochran  wcochran@vancouver.wsu.edu for his Strassen Algorithm Implementation, which I renamed,  ///
+/// adapted and modified to this program. Thanks also to: Computer Science Division | EECS at UC Berkeley for     ///
+/// some notions about Matrix Multiplication Optimizations Techniques: www.cs.berkeley.edu/~knight/cs267/hw1.html ///
 /// Massive thanks to Brian Allen Vanderburg II for his fabulous C parser and inline functions solver, EXPREVAL,  ///
 /// which elegantly gave in theory infinite functionalities and potential to my program. That's the project link  ///
 /// with Online Documentation: http://expreval.sourceforge.net/ Thanks to: http://www.cprogramming.com/tips/ and  ///
@@ -31,7 +34,7 @@
 /// For example, the upper-triangular Matrixes conversion, which was useful to enhance some functions like det(), ///
 ///      							sgeqsolver ExprEval inline command, etc.									  ///
 ///                 Greatly thanks to Daniel Veillard for his fabulous XML Parser, LIBXML2.                       ///
-///  Greatly thanks to vict85 of matematicamente.it Network, for having informed me about the benefits of using   ///
+///  Greatly thanks to vict85 of matematicamente.it Network, for informing me about the benefits of using   	  ///
 ///   generally a single reference for the Matrix Type, like LAPACK and the other Numeric Calculus Environments.  ///
 /// 		Thanks to Francesco Palma for reporting me some bugs, and finally, massive thanks to my				  ///
 /// Informatic Fundaments Teacher, Mario Alessandro Bochicchio, which gave me a lot of C advices and some general ///
@@ -47,9 +50,6 @@
     struct program suite =
     {
         SYSTEM_LOG,
-        INIT_MATRIXSUMFUNC,
-        INIT_MATRIXPRODFUNC,
-        INIT_MATRIXKPRODFUNC,
         INIT_EXPRTYPE,
         INIT_MATRIXOBJ,
         INIT_MATRIXOBJ,
@@ -169,6 +169,7 @@ const struct prog_constants suite_c =
         "Inverse Operations Automatic Deactivator",
         "Degrees Entering on Trigonometric Operations",
         "Request Programs Repetitions",
+        "Strassen Optimization",
         "Extensive MultiThreading"
     },
     {
@@ -267,6 +268,10 @@ const struct prog_constants suite_c =
             DEFAULT_PROGREPEATCHECK
         },
         {
+        	BITMASK_STRASSENOPTIMIZATION,
+        	DEFAULT_STRASSENOPTIMIZATION
+        },
+        {
         	BITMASK_EXTENSIVEMULTITHREADING,
         	DEFAULT_EXTENSIVEMULTITHREADING
         }
@@ -333,27 +338,6 @@ const struct prog_constants suite_c =
             "e14",
             "e15"
         }
-    },
-    {
-        _matrixSum,
-        _matrixCSum,
-        _matrixQSum,
-        _matrixOSum,
-        _matrixSSum
-    },
-    {
-        _matrixProduct,
-        _matrixCProduct,
-        _matrixQProduct,
-        _matrixOProduct,
-        _matrixSProduct
-    },
-    {
-        _matrixKProduct,
-        _matrixKCProduct,
-        _matrixKQProduct,
-        _matrixKOProduct,
-        _matrixKSProduct
     },
     {
         "Default                COLOR",
@@ -432,12 +416,12 @@ const struct prog_constants suite_c =
 
 sprog main_menu[MAX_PROGRAMMI] =
 {
-    [MAIN_BASECALCULATOR] =
+    [MAIN_BCALCULATOR] =
     {
-        "Base Calculator",
-        CMD_BASECALC,
-        USAGE_BASECALC,
-        calcolatoreDiBase,
+        "Basic Calculator",
+        CMD_BCALC,
+        USAGE_BCALC,
+        basicCalculator,
         BY_USER,
         CHILD
     },
@@ -490,10 +474,6 @@ int main(int argc, char **argv)
 
         // INITIALIZING suite vars
         strcpy(access(sysLogPath), SYSTEM_LOG);
-
-        access(matrixSumFunc) = INIT_MATRIXSUMFUNC;
-        access(matrixProdFunc) = INIT_MATRIXPRODFUNC;
-        access(matrixKProdFunc) = INIT_MATRIXKPRODFUNC;
 
         access(exprVars) = INIT_EXPRTYPE;
         access(curMatrix) = INIT_MATRIXOBJ;
@@ -622,8 +602,8 @@ int main(int argc, char **argv)
     	xmlNewChild(node, NULL, BAD_CAST "programPrecision", BAD_CAST tmp_string);
 		sprintf(tmp_string, "%hu", DEFAULT_STABILIZER_FACTOR);
     	xmlNewChild(node, NULL, BAD_CAST "stabilizerFactor", BAD_CAST tmp_string);
-    	sprintf(tmp_string, "%hu", MIN_STIRLINGREQUIRES_NUMBER);
-   	    xmlNewChild(node, NULL, BAD_CAST "minStirlingRequiresNumber", BAD_CAST tmp_string);
+    	sprintf(tmp_string, "%hu", MIN_STIRLING_NUMBER);
+   	    xmlNewChild(node, NULL, BAD_CAST "minStirlingNumber", BAD_CAST tmp_string);
    	    sprintf(tmp_string, "%hu", DEFAULT_ALGEBRA);
    	    xmlNewChild(node, NULL, BAD_CAST "algebra", BAD_CAST tmp_string);
    	    sprintf(tmp_string, "%.*f", DEFAULT_PRECISION, OUTLIER_CONSTANT);
@@ -638,6 +618,12 @@ int main(int argc, char **argv)
 		xmlNewChild(node, NULL, BAD_CAST "maxRaws", BAD_CAST tmp_string);
 		sprintf(tmp_string,"%hu", MAX_COLONNE);
 		xmlNewChild(node, NULL, BAD_CAST "maxColumns", BAD_CAST tmp_string);
+		sprintf(tmp_string, "%hu", _BLOCK_SIZE);
+		xmlNewChild(node, NULL, BAD_CAST "blockSize", BAD_CAST tmp_string);
+		sprintf(tmp_string,"%hu", STARTING_MINOSMMDIM);
+		xmlNewChild(node, NULL, BAD_CAST "minOSMMDim", BAD_CAST tmp_string);
+		sprintf(tmp_string,"%hu", STARTING_MINSTRASSENDIM);
+		xmlNewChild(node, NULL, BAD_CAST "minStrassenDim", BAD_CAST tmp_string);
 		sprintf(tmp_string, "%hu", MAX_DSVD_ITERATIONS);
 		xmlNewChild(node, NULL, BAD_CAST "maxDSVDIterations", BAD_CAST tmp_string);
 		sprintf(tmp_string, "%hu", MAX_SIMPLEXMETHOD_ITERATIONS);
@@ -651,7 +637,7 @@ int main(int argc, char **argv)
 		#pragma omp parallel for num_threads(MAX_MEMOIZABLE_FUNCTIONS)
 		for(i=0; i<MAX_MEMOIZABLE_FUNCTIONS; ++i)
 		{
-			char str[2*INFO_STRING] = NULL_CHAR;
+			char str[DINFO_STRING] = NULL_CHAR;
 			char strboolized[INFO_STRING] = NULL_CHAR;
 			strboolize(suite_c.memoizers_names[i], strboolized);
 			strboolized[0] = toupper(strboolized[0]);
@@ -664,9 +650,9 @@ int main(int argc, char **argv)
 
 		node = xmlNewNode(NULL, BAD_CAST "baseConversions");
 
-		sprintf(tmp_string, "%hu", BASECALC_CAMBIAMENTODIBASE_MINBASE);
+		sprintf(tmp_string, "%hu", BCALC_CAMBIAMENTODIBASE_MINBASE);
 		xmlNewChild(node, NULL, BAD_CAST "minBase", BAD_CAST tmp_string);
-		sprintf(tmp_string, "%hu", BASECALC_CAMBIAMENTODIBASE_MAXBASE);
+		sprintf(tmp_string, "%hu", BCALC_CAMBIAMENTODIBASE_MAXBASE);
 		xmlNewChild(node, NULL, BAD_CAST "maxBase", BAD_CAST tmp_string);
 		sprintf(tmp_string, "%d", MAX_MINBASE_CONVERTIBLE_NUM);
 		xmlNewChild(node, NULL, BAD_CAST "maxChangebaseBinaryConvnum", BAD_CAST tmp_string);
@@ -709,8 +695,8 @@ int main(int argc, char **argv)
 		#pragma omp parallel for
         for(i=0; i<MAX_BOOL_SETTINGS; ++i)
         {
-        	char name[4*MIN_STRING] = NULL_CHAR;
-			char strboolized[2*MIN_STRING] = NULL_CHAR;
+        	char name[MIN_STRING<<MAX_DIMENSIONS] = NULL_CHAR;
+			char strboolized[MIN_STRING<<1] = NULL_CHAR;
 			strboolize(suite_c.bools_names[i], strboolized);
         	sprintf(name, "/settings/booleanKeys/%s", strboolized);
         	xmlNewChild(node, NULL, BAD_CAST name, BAD_CAST suite_c.bools_identifiers[suite_c.bools[i].default_val]);

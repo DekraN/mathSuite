@@ -277,11 +277,11 @@ These functions are provided instead by Marco Chiarelli:
 |into root1 and root2 ExprEval Vars.			    |     |   |    |    |
 |___________________________________________________________|_____|___|____|____|
 |csum(rp1,ip1,rp2,ip2,&rpres,&ipres)	  		    |     |   |    |    |
-|Performs complex sum between (rp1+i(ip1)) and (rp2+i(ip2)) |  4  | 4 |  2 |  2 |
+|Performs complex sum between (rp1+i(ip1)) and (rp2+i(ip2)) |  4  | 4 |  1 |  2 |
 |complex numbers and store results into (rpres+i(ipres)).   |     |   |    |    |
 |___________________________________________________________|_____|___|____|____|
 |cprod(rp1,ip1,rp2,ip2,&rpres,&ipres)	  		    |     |   |    |    |
-|Performs complex prod between (rp1+i(ip1)) and (rp2+i(ip2))|  4  | 4 |  2 |  2 |
+|Performs complex prod between (rp1+i(ip1)) and (rp2+i(ip2))|  4  | 4 |  1 |  2 |
 |complex numbers and store results into (rpres+i(ipres)).   |     |   |    |    |
 |___________________________________________________________|_____|___|____|____|
 |qsum(rp1,ip1,jp1,kp1,rp2,ip2,jp2,kp2,&rp3,&ip3,&jp3,&kp3)  |     |   |    |    |
@@ -627,6 +627,484 @@ These functions are provided instead by Marco Chiarelli:
 |qcotch(a)		  				    |     |   |	   |    |
 |The quarter of the hyperbolic cardinal cotangent of a.	    |  1  | 1 |  0 |  0 |
 |___________________________________________________________|_____|___|____|____|
+|csin(a,b,&rpres,&ipres) 		  		    |     |   |	   |    |
+|The complex sine of (a+i(b)) (rad,rad).		    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|csinh(a,b,&rpres,&ipres) 	  			    |     |   |	   |    |
+|The complex hyperbolic sine of (a+i(b)).		    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|casin(a,b,&rpres,&ipres) 	  			    |     |   |    |    |
+|The complex arc-sine of (a+i(b)) in (rad,rad).	    	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).	    	    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|ccos(a,b,&rpres,&ipres) 		  		    |     |   |    |    |
+|The complex cosine of (a+i(b)) (rad,rad).		    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|ccosh(a,b,&rpres,&ipres) 	  			    |     |   |	   |    |
+|The complex hyperbolic cosine of (a+i(b)).		    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cacos(a,b,&rpres,&ipres) 	  			    |     |   |    |    |
+|The complex arc-cosine of (a+i(b)) in (rad,rad).	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).	    	    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|ctan(a,b,&rpres,&ipres) 		  		    |     |   |	   |    |
+|The complex tangent of (a+i(b)) (rad,rad). 		    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|ctanh(a,b,&rpres,&ipres) 	  			    |     |   |	   |    |
+|The complex hyperbolic tangent of (a+i(b)).		    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|catan(a,b,&rpres,&ipres) 	 			    |     |   |	   |    |
+|The complex arc-tangent of (a+i(b)) in (rad,rad).	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|ccsc(a,b,&rpres,&ipres) 		  		    |     |   |    |    |
+|The complex cosecant of (a+i(b)) (rad,rad).	    	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|ccsch(a,b,&rpres,&ipres)	  			    |     |   |    |    |
+|The complex hyperbolic cosecant of (a+i(b)).		    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|casinh(a,b,&rpres,&ipres)	  			    |     |   |	   |    |
+|The complex hyperbolic arc-sine of (a+i(b)).      	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cacsc(a,b,&rpres,&ipres)	  			    |     |   |	   |    |
+|The complex arc-cosecant of (a+i(b)) in (rad,rad).	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).    	    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cacsch(a,b,&rpres,&ipres)	  			    |     |   |    |    |
+|The complex hyperbolic arc-cosecant of (a+i(b)).           | 2   | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|csec(a,b,&rpres,&ipres)		 		    |     |   |    |    |
+|The complex secant of (a+i(b)) (rad,rad).	  	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|csech(a,b,&rpres,&ipres)	  			    |     |   |	   |    |
+|The complex hyperbolic secant of (a+i(b)). 		    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cacosh(a,b,&rpres,&ipres)	  	  		    |     |   |	   |    |
+|The complex hyperbolic arc-cosine of (a+i(b)).  	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|casec(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex arc-secant of (a+i(b)).			    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)). (rad,rad).    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|casech(a,b,&rpres,&ipres) 	  			    |     |   |	   |    |
+|The complex hyperbolic arc-sine of (a+i(b)).		    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|ccot(a,b,&rpres,&ipres) 	  		            |     |   |    |    |
+|The complex cotangent of (a+i(b)) (rad,rad).		    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|ccoth(a,b,&rpres,&ipres) 		  		    |     |   |    |    |
+|The complex hyperbolic cotangent of (a+i(b)).		    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|catanh(a,b,&rpres,&ipres)	  			    |     |   |	   |    |
+|The complex hyperbolic arc-tangent of (a+i(b)).            |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cacot(a,b,&rpres,&ipres) 	  			    |     |   |    |    |
+|The complex arc-cotangent of (a+i(b)).			    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)). (rad,rad).    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cacoth(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex hyperbolic arc-cotangent of (a+i(b)).          |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chsin(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the sine of (a+i(b)) (rad,rad). 	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chsinh(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the hyperbolic sine of (a+i(b)). 	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqsin(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex quarter of the sine of (a+i(b)) (rad,rad).     |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqsinh(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the hyperbolic sine of (a+i(b)). 	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chcos(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the cosine of (a+i(b)) (rad,rad). 	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chcosh(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the hyperbolic cosine of (a+i(b)).     |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqcos(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex quarter of the cosine of (a+i(b)) (rad,rad).   |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqcosh(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex quarter of the hyperbolic cosine of (a+i(b)).  |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chsec(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the secant of (a+i(b)) (rad,rad). 	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chsech(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the hyperbolic secant of (a+i(b)).     |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqsec(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex quarter of the secant of (a+i(b)) (rad,rad).   |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqsech(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex quarter of the hyperbolic secant of (a+i(b)).  |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chcsc(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the cosecant of (a+i(b)) (rad,rad).    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chcsc(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the hyperbolic cosecant of (a+i(b)).   |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqcsc(a,b,&rpres,&ipres)		  	  	    |     |   |	   |    |
+|The complex quarter of the cosecant of (a+i(b)) (rad,rad). |  2  | 2 |  1 |  2 |
+|___________________________________________________________|_____|___|____|____|
+|cqcsch(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex quarter of the hyperbolic cosecant of (a+i(b)).|  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chtan(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the tangent of (a+i(b)) (rad,rad).     |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chtanh(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the hyperbolic tangent of (a+i(b)).    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqtan(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex quarter of the tangent of (a+i(b)) (rad,rad).  |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqtanh(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex quarter of the hyperbolic tangent of (a+i(b)). |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chcot(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the cotangent of (a+i(b)) (rad,rad).   |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chcoth(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the hyperbolic cotangent of (a+i(b)).  |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqcot(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex quarter of the cotangent of (a+i(b)) (rad,rad).|  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqcoth(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex quarter of the cotangent of (a+i(b)). 	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cpxvsin(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex versine of (a+i(b)) (rad,rad).		    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cpxvsinh(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex hyperbolic versine of (a+i(b)).		    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|ccvsin(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex coversine of (a+i(b)) (rad,rad)		    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|ccvsinh(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex hyperbolic coversine of (a+i(b)). 		    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cpxvcos(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex vercosine of (a+i(b)) (rad,rad). 		    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cpxvcosh(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex hyperbolic vercosine of (a+i(b)). 		    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|ccvcos(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex covercosine of (a+i(b)) (rad,rad). 	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|ccvcosh(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex hyperbolic covercosine of (a+i(b)). 	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chvsin(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex haversin of (a+i(b)) (rad,rad). 		    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chvsinh(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex hyperbolic haversin of (a+i(b)). 		    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chcvsin(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex hacoversin of (a+i(b)) (rad,rad). 		    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chcvsinh(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex hyperbolic hacoversine of (a+i(b)). 	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqvsin(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the haversin of (a+i(b)) (rad,rad)	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqvsinh(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the hyperbolic haversin of (a+i(b)).   |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqcvsin(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the hacoversin of (a+i(b)) (rad,rad).  |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqcvsinh(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the hyperbolic hacoversin of (a+i(b)). |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chvcos(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex havercosine of (a+i(b)) (rad,rad).	 	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chvcosh(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex hyperbolic havercosine of (a+i(b)).	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chcvcos(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex hacovercosine of (a+i(b)) (rad,rad).	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chcvcosh(a,b,&rpres,&ipres)		  	   	    |     |   |	   |    |
+|The complex hyperbolic hacovercosine of (a+i(b)).	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqvcos(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the havercosine of (a+i(b)) (rad,rad). |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqvcosh(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the hyperbolic havercosine of (a+i(b)).|  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqcvcos(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the hacovercosine of (a+i(b)) (rad,rad)|  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqcvcosh(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the hyperbolic hacovercosine of        |  2  | 2 |  1 |  2 |
+|(a+i(b)); It stores the results into (rpres+i(ipres)).     |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cesec(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex extern secant of (a+i(b)) (rad,rad). 	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cesech(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex hyperbolic extern secant of (a+i(b)). 	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cecsc(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex extern cosecant of (a+i(b)) (rad,rad). 	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cecsch(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex hyperbolic extern cosecant of (a+i(b)). 	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chesec(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the extern secant of (a+i(b)) (rad,rad)| 2   | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chesech(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the hyperbolic extern secant of 	    |  2  | 2 |  1 |  2 |
+|(a+ib(b)); It stores the results into (rpres+i(ipres)).    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|checsc(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the extern cosecant of (a+i(b)) 	    |  2  | 2 |  1 |  2 |
+|(rad,rad); It stores the results into (rpres+i(ipres)).    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|checsch(a,b,&rpres,&ipres)		  	  	    |     |   |	   |    |
+|The complex half of the hyperbolic extern cosecant of 	    |  2  | 2 |  1 |  2 |
+|(a+i(b)); It stores the results into (rpres+i(ipres)).     |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqesec(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex quarter of the extern secant of (a+i(b))       |  2  | 2 |  1 |  2 |
+|(rad,rad); It stores the results into (rpres+i(ipres)).    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqesech(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex quarter of the hyperbolic extern secant of     |  2  | 2 |  1 |  2 |
+|(a+i(b)); It stores the results into (rpres+i(ipres)).     |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqecsc(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex quarter of the extern cosecant of (a+i(b))     |  2  | 2 |  1 |  2 |
+|(rad,rad); It stores the results into (rpres+i(ipres)).    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqecsch(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex quarter of the extern cosecant of (a+i(b)).    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|csinc(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex cardinal sine of (a+i(b)) (rad,rad).	    |  2  | 2 |  1 |  2 |
+|___________________________________________________________|_____|___|____|____|
+|csinch(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex hyperbolic cardinal sine of (a+i(b)).	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chsinc(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the cardinal sine of (a+i(b)) (rad,rad)|  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chsinch(a,b,&rpres,&ipres)		  	 	    |     |   |	   |    |
+|The complex half of the hyperbolic cardinal sine of 	    |  2  | 2 |  1 |  2 |
+|(a+i(b)); It stores the results into (rpres+i(ipres)).     |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqsinc(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex quarter of the cardinal sine of (a+i(b))       |  2  | 2 |  1 |  2 |
+|(rad,rad); It stores the results into (rpres+i(ipres)).    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqsinch(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex quarter of the hyperbolic cardinal sine of     |  2  | 2 |  1 |  2 |
+|(a+i(b)); It stores the results into (rpres+i(ipres)).     |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|ccosc(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex cardinal cosine of (a+i(b)) (rad,rad).  	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|ccosch(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex hyperbolic cardinal cosine of (a+i(b)).  	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chcosc(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the cardinal cosine of (a+i(b))        |  2  | 2 |  1 |  2 |
+|(rad,rad); It stores the results into (rpres+i(ipres)).    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chcosch(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the hyperbolic cardinal cosine of      |  2  | 2 |  1 |  2 |
+|(a+i(b)); It stores the results into (rpres+i(ipres)).     |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqcosc(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex quarter of the cardinal cosine of (a+i(b))     |  2  | 2 |  1 |  2 |
+|(rad,rad); It stores the results into (rpres+i(ipres)).    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqcosch(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex quarter of the hyperbolic cardinal cosine of   |  2  | 2 |  1 |  2 |
+|(a+i(b)); It stores the results into (rpres+i(ipres)).     |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|csecc(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex cardinal secant of (a+i(b)) (rad,rad).  	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|csecch(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex hyperbolic cardinal secant of (a+i(b)).   	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chsecc(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the cardinal secant of (a+i(b))	    |  2  | 2 |  1 |  2 |
+|(rad,rad); It stores the results into (rpres+i(ipres)).    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chsecch(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the hyperbolic cardinal secant of      |  2  | 2 |  1 |  2 |
+|(a+i(b)); It stores the results into (rpres+i(ipres)).     |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqsecc(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex quarter of the cardinal secant of (a+i(b))     |  2  | 2 |  1 |  2 |
+|(rad,rad); It stores the results into (rpres+i(ipres)).    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqsecch(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex quarter of the hyperbolic cardinal secant of   |  2  | 2 |  1 |  2 |
+|(a+i(b)); It stores the results into (rpres+i(ipres)).     |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|ccscc(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex cardinal cosecant of (a+i(b)) (rad,rad).       |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|ccscch(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex hyperbolic cardinal cosecant of (a+i(b)).      |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chcscc(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the cardinal cosecant of (a+i(b))      |  2  | 2 |  1 |  2 |
+|(rad,rad); It stores the results into (rpres+i(ipres)).    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chcscch(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the hyperbolic cardinal cosecant of    |  2  | 2 |  1 |  2 |
+|(a+i(b)); It stores the results into (rpres+i(ipres)).     |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqcscc(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex quarter of the cardinal cosecant of (a+i(b))   |  2  | 2 |  1 |  2 |
+|(rad,rad); It stores the results into (rpres+i(ipres)).    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqcscch(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex quarter of the hyperbolic cardinal cosecant of |  2  | 2 |  1 |  2 |
+|(a+i(b)); It stores the results into (rpres+i(ipres)).     |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|ctanc(a,b,&rpres,&ipres)		  	 	    |     |   |	   |    |
+|The complex cardinal tangent of (a+i(b)) (rad,rad).  	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|ctanch(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex hyperbolic cardinal tangent of (a+i(b)).  	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chtanc(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the cardinal tangent of (a+i(b))       |  2  | 2 |  1 |  2 |
+|(rad,rad); It stores the results into (rpres+i(ipres)).    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chtanch(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the hyperbolic cardinal tangent of     |  2  | 2 |  1 |  2 |
+|(a+i(b)); It stores the results into (rpres+i(ipres)).     |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqtanc(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex quarter of the cardinal tangent of (a+i(b))    |  2  | 2 |  1 |  2 |
+|(rad,rad); It stores the results into (rpres+i(ipres)).    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqtanch(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex quarter of the hyperbolic cardinal tangent of  |  2  | 2 |  1 |  2 |
+|(a+i(b)); It stores the results into (rpres+i(ipres)).     |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|ccotc(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex cardinal cotangent of (a+i(b)) (rad,rad).      |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|ccotch(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex hyperbolic cardinal cotangent of (a+i(b)).     |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chcotc(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the cardinal cotangent of (a+i(b))     |  2  | 2 |  1 |  2 |
+|(rad,rad); It stores the results into (rpres+i(ipres)).    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chcotch(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the hyperbolic cardinal cotangent of   |  2  | 2 |  1 |  2 |
+|(a+i(b)); It stores the results into (rpres+i(ipres)).     |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqcotc(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex quarter of the cardinal cotangent of (a+i(b))  |  2  | 2 |  1 |  2 |
+|(rad,rad); It stores the results into (rpres+i(ipres)).    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqcotch(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex quarter of the hyperbolic cardinal cotangent of|  2  | 2 |  1 |  2 |
+|(a+i(b)); It stores the results into (rpres+i(ipres)).     |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
 |log2(a)	  					    |     |   |	   |    |
 |The base 2 logarithm of a.				    |  1  | 1 |  0 |  0 |
 |___________________________________________________________|_____|___|____|____|
@@ -645,6 +1123,18 @@ These functions are provided instead by Marco Chiarelli:
 |log1pc(a)	  					    |     |   |	   |    |
 |Cardinal natural logarithm of 1+a.			    |  1  | 1 |  0 |  0 |
 |___________________________________________________________|_____|___|____|____|
+|log101p(a)	  					    |     |   |	   |    |
+|Logarithm of 1+a.				    	    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|log101pc(a)	  					    |     |   |	   |    |
+|Cardinal logarithm of 1+a.			    	    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|log21p(a)	  					    |     |   |	   |    |
+|The base 2 logarithm of 1+a.				    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|log21pc(a)	  					    |     |   |	   |    |
+|The base 2 cardinal logarithm of 1+a.			    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
 |expc(a)	  					    |     |   |	   |    |
 |Cardinal exponential of a.				    |  1  | 1 |  0 |  0 |
 |___________________________________________________________|_____|___|____|____|
@@ -659,6 +1149,118 @@ These functions are provided instead by Marco Chiarelli:
 |___________________________________________________________|_____|___|____|____|
 |exp2c(a)	  					    |     |   |	   |    |
 |Cardinal base 2 exponential of a.			    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+
+
+|clog(a,b,&rpres,&ipres)	  			    |     |   |	   |    |
+|The complex logarithm of (a+i(b))			    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cln(a,b,&rpres,&ipres)	  				    |     |   |	   |    |
+|The complex natural logarithm of (a+i(b))		    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|clog2(a,b,&rpres,&ipres)	  			    |     |   |	   |    |
+|The complex base 2 logarithm of (a+i(b)).		    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|clogc(a,b,&rpres,&ipres)	  			    |     |   |	   |    |
+|The complex cardinal logarithm of (a+i(b)).		    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|clnc(a,b,&rpres,&ipres)	  			    |     |   |	   |    |
+|The complex cardinal natural logarithm of (a+i(b)).	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|clog2c(a,b,&rpres,&ipres)	  			    |     |   |	   |    |
+|The complex base 2 cardinal logarithm of (a+i(b)).	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|clog1p(a,b,&rpres,&ipres)	  		 	    |     |   |	   |    |
+|The complex natural logarithm of (1+a,b).		    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|clog1pc(a,b,&rpres,&ipres)	  			    |     |   |	   |    |
+|The complex cardinal natural logarithm of (1+a,b).	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|clog101p(a,b,&rpres,&ipres)	  			    |     |   |	   |    |
+|The complex logarithm of (1+a,b).			    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|clog101pc(a,b,&rpres,&ipres)	  			    |     |   |	   |    |
+|The complex cardinal logarithm of (1+a,b).		    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|clog21p(a,b,&rpres,&ipres)	  			    |     |   |	   |    |
+|The complex base 2 logarithm of (1+a,b).		    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|clog21pc(a,b,&rpres,&ipres)	  			    |     |   |	   |    |
+|The complex base 2 cardinal logarithm of (1+a,b).	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cexp(a,b,&rpres,&ipres)	  			    |     |   |	   |    |
+|Complex exponential of (a+i(b)).			    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cexpc(a,b,&rpres,&ipres)	  			    |     |   |	   |    |
+|Complex cardinal exponential of (a+i(b)).		    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cexp10(a,b,&rpres,&ipres)	  			    |     |   |	   |    |
+|Complex base 10 exponential of (a+i(b)).		    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cexp10c(a,b,&rpres,&ipres)	  			    |     |   |	   |    |
+|Complex cardinal base 10 exponential of (a+i(b)).	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cexp2(a,b,&rpres,&ipres)	  			    |     |   |	   |    |
+|Complex base 2 exponential of (a+i(b)).		    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cexp2c(a,b,&rpres,&ipres)	  			    |     |   |	   |    |
+|Complex cardinal base 2 exponential of (a+i(b)).	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cpow(a,b,c,d,&rpres,&ipres)	  			    |     |   |	   |    |
+|Complex power of base (a+i(b)) and (c+i(d)) exponent.	    |  4  | 4 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|croot(a,b,c,d,&rpres,&ipres)	  			    |     |   |	   |    |
+|Complex root of (a+i(b)) of (c+i(d)) index. 		    |  4  | 4 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|csqrt(a,b,&rpres,&ipres)	  			    |     |   |	   |    |
+|Complex square root of (a+i(b)) . 		    	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|ccbrt(a,b,&rpres,&ipres)	  			    |     |   |	   |    |
+|Complex cubic root of (a+i(b)) . 		    	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|clogn(a,b,c,d,&rpres,&ipres)	  			    |     |   |	   |    |
+|Complex logarithm of (a+i(b)) of base (c+i(d)).	    |  4  | 4 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|carg(a,b)	  			    		    |     |   |	   |    |
+|The argument of the complex number (a+i(b)). 		    |  2  | 2 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|cabs(a,b)	  			    		    |     |   |	   |    |
+|The absolute value of the complex number (a+i(b)). 	    |  2  | 2 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|qabs(a,b,c,d)	  			    		    |     |   |	   |    |
+|The absolute value of the quaternion (a+i(b)+j(c)+k(d)).   |  4  | 4 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|oabs(a,b,c,d,e,f,g,h)	  			    	    |     |   |	   |    |
+|The absolute value of the octonion number:	 	    |  4  | 4 |  0 |  0 |
+|(a+e1(b)+e2(c)+e3(d)+e4(e)+e5(f)+e6(g)+e7(h)).	 	    |     |   |	   |    |
+|___________________________________________________________|_____|___|____|____|
+|oabs(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p)	  		    |     |   |	   |    |
+|The absolute value of the sedenion number:	 	    |  4  | 4 |  0 |  0 |
+|(a+e1(b)+e2(c)+e3(d)+e4(e)+e5(f)+e6(g)+e7(h)+e8(i)+e9(j)+  |     |   |	   |    |
+|e10(k)+e11(l)+e12(m)+e13(n)+e14(o)+e15(p)).		    |     |   |    |    |
 |___________________________________________________________|_____|___|____|____|
 |cbase(v,a,b) 	 					    |     |   |	   |    |
 |Convert v number from a base to b base.		    |  3  | 3 |  0 |  0 |
@@ -822,108 +1424,9 @@ The following constants are provided with ExprEval:
 |____________|______________|__________________________|
 | M_1_SQRT2  | 	1/sqrt(2)   |	0.70710678118654752440 |
 |____________|______________|__________________________|
-| 		[ INFORMATIC CONSTANTS ]	       |
-|______________________________________________________|
-| M_KIB	     |	   N/A 	    |	1024		       |
-|____________|______________|__________________________|
-| M_MIB      |	   N/A      |	1048576		       |
-|____________|______________|__________________________|
-| M_GIB      |	   N/A      |	1073741824	       |
-|____________|______________|__________________________|
-| M_TIB      |	   N/A 	    |	1099511627776	       |
-|____________|______________|__________________________|
-| M_PIB      |	   N/A 	    |	1125899906842624       |
-|____________|______________|__________________________|
-| M_EIB	     |	   N/A	    |	1152921504606846976    |
-|____________|______________|__________________________|	
-|		[ PHYSICS CONSTANTS ]		       |
-|______________________________________________________|
-| F_G 	     |	   N/A 	    |	6.67259E-11 	       |
-|____________|______________|__________________________|
-| F_GA 	     |	   N/A      |	9.80665                |
-|____________|______________|__________________________|
-| F_LA       |	   N/A      |	1.6300000 	       |
-|____________|______________|__________________________|
-| F_MRS      |	   N/A 	    |	3.7200000	       |
-|____________|______________|__________________________|
-| F_KB       |	   N/A 	    |	1.3806503E-23 	       |
-|____________|______________|__________________________|
-| F_R	     |	   N/A 	    |	8.31400000	       |
-|____________|______________|__________________________|
-| F_C	     |	   N/A	    |	299792458	       |
-|____________|______________|__________________________|
-| F_EPS0     |	   N/A      |	8.854187817E-12	       |
-|____________|______________|__________________________|
-| F_MI0      |	   N/A 	    |	M_PI*4E-7	       |
-|____________|______________|__________________________|
-| F_P        |	   N/A 	    |	6.62606876E-34         |
-|____________|______________|__________________________|
-| F_EC       | 	   N/A      |	1.602176462E-19	       |
-|____________|______________|__________________________|
-| F_ESM      | 	   N/A      |	9.10938188E-31	       |
-|____________|______________|__________________________|
-| F_PSM      |	   N/A	    |	1.67262158E-27         |
-|____________|______________|__________________________|
-| F_NSM      | 	   N/A      |	1.67492716E-27         |
-|____________|______________|__________________________|
-| F_AMU	     |	   N/A 	    |	1.66053873E-27 	       |
-|____________|______________|__________________________|
-| F_AV 	     |	   N/A      |	6.02214199E23          |
-|____________|______________|__________________________|
-| F_F        |	   N/A      |	9.648534150000 	       |
-|____________|______________|__________________________|
-| F_ALPHA    |	   N/A 	    |	0.007297352533	       |
-|____________|______________|__________________________|
-| F_BHR      |	   N/A 	    |	5.291772083E-11        |
-|____________|______________|__________________________|
-| F_RDB	     |     N/A 	    |	1.0973731568549E7      |
-|____________|______________|__________________________|
-| F_MBHR     |	   N/A 	    |	9.27400899E-24	       |
-|____________|______________|__________________________|
-| F_IV       |     N/A      |	22.710981	       |
-|____________|______________|__________________________|
-| F_EH       |	   N/A 	    |	4.35974381E-18	       |
-|____________|______________|__________________________|
-| F_EMM      |	   N/A	    |	-9.28476362E-24        |
-|____________|______________|__________________________|
-| F_EMP      | 	   N/A      |	1.41060761E-26	       |
-|____________|______________|__________________________|
-| F_NM       | 	   N/A      |	5.0507866E-27	       |
-|____________|______________|__________________________|
-| F_PGMR     |	   N/A	    |	2.6752212800000000     |
-|____________|______________|__________________________|
-| F_SB       |     N/A      |	5.670400E-8            |
-|____________|______________|__________________________|
-| F_FR       |     N/A      |	3.7417749E-16          |
-|____________|______________|__________________________|
-| F_SR       | 	   N/A      |	0.1438769              |
-|____________|______________|__________________________|
-| 		[ TIME CONSTANTS ]		       |
-|______________________________________________________|
-| T_M	     |	   N/A 	    |	60		       |
-|____________|______________|__________________________|
-| T_H        |	   N/A      |	3600	               |
-|____________|______________|__________________________|
-| T_D        |	   N/A      |	86400                  |
-|____________|______________|__________________________|
-| T_W        |	   N/A 	    |	604800    	       |
-|____________|______________|__________________________|
-| T_MT       |	   N/A 	    |	18144000               |
-|____________|______________|__________________________|
-| T_M1	     |	   N/A	    |	18748800               |
-|____________|______________|__________________________|
-| T_BM	     |	   N/A 	    |	16934400               |
-|____________|______________|__________________________|
-| T_BM1      |	   N/A      |	17539200               |
-|____________|______________|__________________________|
-| T_Y        |	   N/A      |	21772800               |
-|____________|______________|__________________________|
-| T_Y1       |	   N/A 	    |	224985600	       |
-|____________|______________|__________________________|
-| T_BY       |	   N/A 	    |	203212800              |
-|____________|______________|__________________________|
-| T_BY1      |	   N/A	    |	210470400              |
-|____________|______________|__________________________|
+
+NOTE: These Constants has not been implemented yet!
+.______________________________________________________.
 | 	     [ FUNCTIONS IDENTIFIERS ]		       |
 |______________________________________________________|
 | FID_SIN    |	   N/A      |   0                      |

@@ -44,7 +44,7 @@
 #define TEST_MATRIX_NAME "tmat"
 // #define TEST_MATRIX_PATH "tmat"
 
-#define DEFAULT_EXIT_MESSAGE "\n\n\nThank you for having used this program.\n"
+#define DEFAULT_EXIT_MESSAGE "\n\n\nThank you for using this program.\n"
 
 
 #define DEFAULT_RANDOM_SEED (unsigned)time(NULL)
@@ -78,7 +78,11 @@
 
 #define DEFAULT_OUTLIER_CONSTANT 1.50
 
-#define DEFAULT_MIN_STIRLINGREQUIRES_NUMBER DEFAULT_MAX_FATTORIALE_MEMOIZABLE_INDEX
+#define DEFAULT_MIN_STIRLING_NUMBER DEFAULT_MAX_FATTORIALE_MEMOIZABLE_INDEX
+
+#define DEFAULT_BLOCKSIZE 41
+#define DEFAULT_MINOSMMDIM 2
+#define DEFAULT_MINSTRASSENDIM 16
 
 #define DEFAULT_MAX_ALIAS 5
 
@@ -112,6 +116,7 @@
 #define DEFAULT_AUTOTURNBACK true
 #define DEFAULT_DEGREESENTERING false
 #define DEFAULT_PROGREPEATCHECK true
+#define DEFAULT_STRASSENOPTIMIZATION true
 #define DEFAULT_EXTENSIVEMULTITHREADING false
 
 #define EXIT_CHAR 'C'
@@ -164,6 +169,9 @@ sullo script in questione
 
 #define ALLOW_PRECEDIT
 #define ALLOW_STABFACTEDIT
+#define ALLOW_BLOCKSIZEEDIT
+#define ALLOW_MINOSMMDIMEDIT
+#define ALLOW_MINSTRASSENDIMEDIT
 #define ALLOW_OUTLIERCONSTEDIT
 #define ALLOW_MINSRNUMBEREDIT
 #define ALLOW_ALGEBRAEDIT
@@ -185,21 +193,20 @@ sullo script in questione
 // Default SubPrograms CmdNames
 
 // main()
-#define CMD_BASECALC "calc"
+#define CMD_BCALC "calc"
 #define CMD_ADVCALC "aclc"
 #define CMD_LINEARALGEBRAOPERATIONS "laop"
 #define CMD_CHANGESETTINGS "settings"
 #define CMD_MSSMANAGER DEFAULT_SCRIPTFILES_EXTENSION
-#define USAGE_BASECALC "[VALUE] [STRING] [VALUE] or [[EXPR]]"
+#define USAGE_BCALC "[VALUE] [STRING] [VALUE] or [[EXPR]]"
 #define USAGE_ADVCALC NULL_CHAR
 #define USAGE_LINEARALGEBRAOPERATIONS NULL_CHAR
 #define USAGE_CHANGESETTINGS NULL_CHAR
 #define USAGE_MSSMANAGER NULL_CHAR
 
 #define CMD_SECONDGRADEQSOLVER "secgreqs"
-#define CMD_COMPLEXSUM "csum"
-#define CMD_COMPLEXPROD "cprod"
-#define CMD_GETDATE "date"
+#define CMD_COMPLEXADD "cadd"
+#define CMD_COMPLEXMUL "cmul"
 #define CMD_SIMPLEXMETHOD "sxmeth"
 #define CMD_NEWTONDIFFTABLES "dftables"
 #define CMD_LAGRANGEINTERPOLATION "intrpl"
@@ -209,9 +216,8 @@ sullo script in questione
 #define CMD_PARABOLICCURVEFITTING "pcurvef"
 #define CMD_LINEARSYSTEMSSOLVER "meqslvr"
 #define USAGE_SECONDGRADEQSOLVER "[1X3MATRIX]"
-#define USAGE_COMPLEXSUM "[2X2MATRIX]"
-#define USAGE_COMPLEXPROD "[2X2MATRIX]"
-#define USAGE_GETDATE "[EXPR] [EXPR] [EXPR]"
+#define USAGE_COMPLEXADD "[2X2MATRIX]"
+#define USAGE_COMPLEXMUL "[2X2MATRIX]"
 #define USAGE_SIMPLEXMETHOD "[nXmMATRIX] [n-1BOOLMATRIX]"
 #define USAGE_NEWTONDIFFTABLES "[EXPR] [[EXPR]-(EXPR EXPR)COUPLES]"
 #define USAGE_LAGRANGEINTERPOLATION "[EXPR] [2X[EXPR]MATRIX] [EXPR]"
@@ -220,6 +226,9 @@ sullo script in questione
 #define USAGE_STRAIGHTLINEFITTING "[EXPR] [2X(EXPR)MATRIX]"
 #define USAGE_PARABOLICCURVEFITTING "[EXPR] [2X(EXPR)MATRIX]"
 #define USAGE_LINEARSYSTEMSSOLVER "[MATRIX]"
+
+// Remov the comment tag below to Add FIDs (Functions Identifiers) to the program
+/// #define ADDFIDCONSTANTS
 
 #ifdef ALLOW_MSSMANAGER
     #define CMD_CMDLINE "cmd"
@@ -239,16 +248,16 @@ sullo script in questione
 #define CMD_MATRIXSVD "svd"
 #define CMD_MATRIXINV "inv"
 #define CMD_MATRIXTRANSPOSE "tran"
-#define CMD_MATRIXSUM "sum"
-#define CMD_TENSORSUM "tsum"
-#define CMD_MATRIXPRODUCT "prod"
+#define CMD_MATRIXADD "add"
+#define CMD_TENSORADD "tadd"
+#define CMD_MATRIXMULTIPLICATION "mul"
 #define CMD_MATRIXKPRODUCT "kprod"
 // #define CMD_MATRIXKPRODUCT "kron"
 #define CMD_MATRIXPOWER "pow"
 #define CMD_MATRIXKPOWER "kpow"
 #define CMD_MATRIXPERVECTOR "mpv"
-#define CMD_SCALARPRODUCT "sprod"
-#define CMD_PERSCALARPRODUCT "psprod"
+#define CMD_DOTPRODUCT "dot"
+#define CMD_PERSCALARMULTIPLICATION "psmul"
 #define CMD_SCALARDIVISIONMATRIX "sdmat"
 #define CMD_ILLCONDITIONCHECKING "ichk"
 #define CMD_MATRIXFATTLU "flu"
@@ -260,15 +269,15 @@ sullo script in questione
 #define USAGE_MATRIXSVD "[MATRIX]"
 #define USAGE_MATRIXINV "[MATRIX]"
 #define USAGE_MATRIXTRANSPOSE "[MATRIX]"
-#define USAGE_MATRIXSUM "[nXmMATRIX] [nXmMATRIX]"
-#define USAGE_TENSORSUM "[lx[nXmMATRIX]] [lx[nXmMATRIX]]"
-#define USAGE_MATRIXPRODUCT "[iXjMATRIX] [jXkMATRIX]"
+#define USAGE_MATRIXADD "[nXmMATRIX] [nXmMATRIX]"
+#define USAGE_TENSORADD "[lx[nXmMATRIX]] [lx[nXmMATRIX]]"
+#define USAGE_MATRIXMULTIPLICATION "[iXjMATRIX] [jXkMATRIX]"
 #define USAGE_MATRIXKPRODUCT "[iXjMATRIX] [kXlMATRIX]"
 #define USAGE_MATRIXPOWER "[MATRIX] [EXPR]"
 #define USAGE_MATRIXKPOWER "[MATRIX] [EXPR]"
 #define USAGE_MATRIXPERVECTOR "[nXmMATRIX] [mX1MATRIX]"
-#define USAGE_SCALARPRODUCT "[1XnMATRIX] [nX1MATRIX]"
-#define USAGE_PERSCALARPRODUCT "[MATRIX] [EXPR]"
+#define USAGE_DOTPRODUCT "[1XnMATRIX] [nX1MATRIX]"
+#define USAGE_PERSCALARMULTIPLICATION "[MATRIX] [EXPR]"
 #define USAGE_SCALARDIVISIONMATRIX "[MATRIX] [EXPR]"
 #define USAGE_ILLCONDITIONCHECKING "[MATRIX]"
 #define USAGE_MATRIXFATTLU "[MATRIX]"
@@ -280,6 +289,18 @@ sullo script in questione
 #ifdef ALLOW_STABFACTEDIT
     #define CMD_CHANGESTABFACT "stabfact"
     #define USAGE_CHANGESTABFACT "[EXPR]"
+#endif
+#ifdef ALLOW_BLOCKSIZEEDIT
+	#define CMD_CHANGEBLOCKSIZE "bsiz"
+	#define USAGE_CHANGEBLOCKSIZE "[EXPR]"
+#endif
+#ifdef ALLOW_MINOSMMDIMEDIT
+	#define CMD_CHANGEMINOSMMDIM "mosmmd"
+	#define USAGE_CHANGEMINOSMMDIM "[EXPR]"
+#endif
+#ifdef ALLOW_MINSTRASSENDIMEDIT
+	#define CMD_CHANGEMINSTRASSENDIM "msd"
+	#define USAGE_CHANGEMINSTRASSENDIM "[EXPR]"
 #endif
 #ifdef ALLOW_MINSRNUMBEREDIT
 	#define CMD_CHANGEMINSRNUMBER "msrn"
@@ -534,16 +555,31 @@ sullo script in questione
 #define OPERATOR_ALIAS_EXP10ANDEXP10C "10e"
 #define OPERATOR_ALIAS_EXP2ANDEXP2C "2e" // "2e" // dangerous if you use 2
 #define OPERATOR_NOTANOPERATION "?"
+
+#define OPERATOR_EXPANDEXPC "e"
+#define OPERATOR_EXP10ANDEXP10C "10"
+#define OPERATOR_EXP2ANDEXP2C "2"
+#define OPERATOR_ALIAS_EXP10ANDEXP10C "10e"
+#define OPERATOR_ALIAS_EXP2ANDEXP2C "2e" // "2e" // dangerous if you use 2
+
+#define OPERATOR_CEXP "ce"
+#define OPERATOR_CEXP10 "c10"
+#define OPERATOR_CEXP2 "c2"
+#define OPERATOR_ALIAS_CEXP10 "c10e"
+#define OPERATOR_ALIAS_CEXP2 "c2e" // "2e" // dangerous if you use 2
+
+#define OPERATOR_NOTANOPERATION "?"
 #define IDENTIFIER_ADDIZIONE "sum"
 #define IDENTIFIER_SOTTRAZIONE "sub"
 #define IDENTIFIER_MOLTIPLICAZIONE "mul"
 #define IDENTIFIER_DIVISIONE "div"
 #define IDENTIFIER_RESTO "rest"
 #define IDENTIFIER_ALIAS_RESTO "rst"
-#define IDENTIFIER_ADDIZIONEBINARIA "bsum"
+#define IDENTIFIER_ADDIZIONEBINARIA "badd"
 #define IDENTIFIER_SOTTRAZIONEBINARIA "bsub"
 #define IDENTIFIER_COMPLEMENT "comp"
 #define IDENTIFIER_ELEVAMENTOAPOTENZA "pow"
+
 #define IDENTIFIER_EXPANDEXPC "exp"
 #define IDENTIFIER_EXP10ANDEXP10C "exp10"
 #define IDENTIFIER_EXP2ANDEXP2C "exp2"
@@ -561,6 +597,40 @@ sullo script in questione
 #define IDENTIFIER_LOGARITMO2C "log2c"
 #define IDENTIFIER_LOGARITMO1P "log1p"
 #define IDENTIFIER_LOGARITMO1PC "log1pc"
+#define IDENTIFIER_LOGARITMO101P "log101p"
+#define IDENTIFIER_LOGARITMO101PC "log101pc"
+#define IDENTIFIER_LOGARITMO21P "log21p"
+#define IDENTIFIER_LOGARITMO21PC "log21pc"
+
+
+#define IDENTIFIER_CEXP "cexp"
+#define IDENTIFIER_CEXP10 "cexp10"
+#define IDENTIFIER_CEXP2 "cexp2"
+#define IDENTIFIER_CPOW "cpow"
+#define IDENTIFIER_CROOT "croot"
+#define IDENTIFIER_CLOGN "clogn"
+#define IDENTIFIER_CLOG "clog"
+#define IDENTIFIER_ALIAS_CLOG "cln"
+#define IDENTIFIER_ALIAS2_CLOG "clg"
+#define IDENTIFIER_ALIAS3_CLOG "clgn"
+#define IDENTIFIER_CLOG10 "clog10"
+#define IDENTIFIER_ALIAS_CLOG10 "cln10"
+#define IDENTIFIER_ALIAS2_CLOG10 "clg10"
+#define IDENTIFIER_ALIAS3_CLOG10 "clgn10"
+#define IDENTIFIER_CLOG2 "clog2"
+#define IDENTIFIER_ALIAS_CLOG2 "cln2"
+#define IDENTIFIER_ALIAS2_CLOG2 "clg2"
+#define IDENTIFIER_ALIAS3_CLOG2 "clgn2"
+#define IDENTIFIER_CLOG1P "clog1p"
+#define IDENTIFIER_CLOG101P "clog101p"
+#define IDENTIFIER_CLOG21P "clog21p"
+#define IDENTIFIER_CARG "carg"
+#define IDENTIFIER_CABS "cabs"
+#define IDENTIFIER_QABS "qabs"
+#define IDENTIFIER_OABS "oabs"
+#define IDENTIFIER_SABS "sabs"
+
+
 #define IDENTIFIER_BITCOUNTER "bcnt"
 #define IDENTIFIER_ALIAS_BITCOUNTER "bitcounter"
 #define IDENTIFIER_ALIAS2_BITCOUNTER "bcounter"
@@ -694,6 +764,95 @@ sullo script in questione
 #define IDENTIFIER_HCOTCANDHCOTCH "hcotc"
 #define IDENTIFIER_QCOTCANDQCOTCH "qcotc"
 
+#define IDENTIFIER_CSIN "csin"
+#define IDENTIFIER_CCOS "ccos"
+#define IDENTIFIER_CTAN "ctan"
+#define IDENTIFIER_CCSC "ccsc"
+#define IDENTIFIER_CSEC "csec"
+#define IDENTIFIER_CCOT "ccot"
+#define IDENTIFIER_CASIN "casin"
+#define IDENTIFIER_CACOS "cacos"
+#define IDENTIFIER_CATAN "catan"
+#define IDENTIFIER_CACSC "cacsc"
+#define IDENTIFIER_CASEC "casec"
+#define IDENTIFIER_CACOT "cacot"
+#define IDENTIFIER_CHSIN "chsin"
+#define IDENTIFIER_CQSIN "cqsin"
+#define IDENTIFIER_CHCOS "chcos"
+#define IDENTIFIER_CQCOS "cqcos"
+#define IDENTIFIER_CHSEC "chsec"
+#define IDENTIFIER_CQSEC "cqsec"
+#define IDENTIFIER_CHCSC "chcsc"
+#define IDENTIFIER_CQCSC "cqcsc"
+#define IDENTIFIER_CHTAN "chtan"
+#define IDENTIFIER_CQTAN "cqtan"
+#define IDENTIFIER_CHCOT "chcot"
+#define IDENTIFIER_CQCOT "cqcot"
+#define IDENTIFIER_CVSIN "cpxvsin"
+#define IDENTIFIER_ALIAS_CVSIN "cversin"
+#define IDENTIFIER_CCVSIN "ccvsin"
+#define IDENTIFIER_ALIAS_CCVSIN "ccoversin"
+#define IDENTIFIER_ALIAS2_CCVSIN "ccvs"
+#define IDENTIFIER_CVCOS "cpxvcos"
+#define IDENTIFIER_ALIAS_CVCOS "cvercos"
+#define IDENTIFIER_CCVCOS "ccvcos"
+#define IDENTIFIER_ALIAS_CCVCOS "ccovercosin"
+#define IDENTIFIER_ALIAS2_CCVCOS "ccvc"
+#define IDENTIFIER_CHVSIN "chvsin"
+#define IDENTIFIER_ALIAS_CHVSIN "chaversin"
+#define IDENTIFIER_ALIAS2_CHVSIN "chvs"
+#define IDENTIFIER_CHCVSIN "chcvsin"
+#define IDENTIFIER_ALIAS_CHCVSIN "chacoversin"
+#define IDENTIFIER_ALIAS2_CHCVSIN "chcvs"
+#define IDENTIFIER_CHVCOS "chvcos"
+#define IDENTIFIER_ALIAS_CHVCOS "chavercos"
+#define IDENTIFIER_ALIAS2_CHVCOS "chvc"
+#define IDENTIFIER_CHCVCOS "chcvcos"
+#define IDENTIFIER_ALIAS_CHCVCOS "chacovercos"
+#define IDENTIFIER_ALIAS2_CHCVCOS "chcvc"
+#define IDENTIFIER_CQVSIN "cqvsin"
+#define IDENTIFIER_CQCVSIN "cqcvsin"
+#define IDENTIFIER_CQVCOS "cqvcos"
+#define IDENTIFIER_CQCVCOS "cqcvcos"
+#define IDENTIFIER_CESEC "cesec"
+#define IDENTIFIER_ALIAS_CESEC "cexsec"
+#define IDENTIFIER_ALIAS2_CESEC "cextsec"
+#define IDENTIFIER_ALIAS3_CESEC "csecext"
+#define IDENTIFIER_CECSC "cecsc"
+#define IDENTIFIER_ALIAS_CECSC "cexcsc"
+#define IDENTIFIER_ALIAS2_CECSC "cextcsc"
+#define IDENTIFIER_ALIAS3_CECSC "ccscext"
+#define IDENTIFIER_CHESEC "chesec"
+#define IDENTIFIER_ALIAS_CHESEC "chexsec"
+#define IDENTIFIER_ALIAS2_CHESEC "chextsec"
+#define IDENTIFIER_ALIAS3_CHESEC "chsecex"
+#define IDENTIFIER_ALIAS4_CHESEC "chsecext"
+#define IDENTIFIER_CHECSC "checsc"
+#define IDENTIFIER_ALIAS_CHECSC "chexcsc"
+#define IDENTIFIER_ALIAS2_CHECSC "chextcsc"
+#define IDENTIFIER_ALIAS3_CHECSC "chcscex"
+#define IDENTIFIER_ALIAS4_CHECSC "chcscext"
+#define IDENTIFIER_CQESEC "cqesec"
+#define IDENTIFIER_CQECSC "cqecsc"
+#define IDENTIFIER_CSINC "csinc"
+#define IDENTIFIER_CHSINC "chsinc"
+#define IDENTIFIER_CQSINC "cqsinc"
+#define IDENTIFIER_CCOSC "ccosc"
+#define IDENTIFIER_CHCOSC "chcosc"
+#define IDENTIFIER_CQCOSC "cqcosc"
+#define IDENTIFIER_CSECC "csecc"
+#define IDENTIFIER_CHSECC "chsecc"
+#define IDENTIFIER_CQSECC "cqsecc"
+#define IDENTIFIER_CCSCC "ccscc"
+#define IDENTIFIER_CHCSCC "chcscc"
+#define IDENTIFIER_CQCSCC "cqcscc"
+#define IDENTIFIER_CTANC "ctanc"
+#define IDENTIFIER_CHTANC "chtanc"
+#define IDENTIFIER_CQTANC "cqtanc"
+#define IDENTIFIER_CCOTC "ccotc"
+#define IDENTIFIER_CHCOTC "chcotc"
+#define IDENTIFIER_CQCOTC "cqcotc"
+
 #define IDENTIFIER_MATRIXNORM "norm"
 #define IDENTIFIER_MATRIXTRACE "trace"
 #define IDENTIFIER_MATRIXDET "det"
@@ -706,10 +865,10 @@ sullo script in questione
 #define IDENTIFIER_ALIAS_MCM "lcm"
 #define IDENTIFIER_APPROSSIMAZIONE "approx"
 #define IDENTIFIER_RISOLUTOREEQUAZIONISECONDOGRADO "sgeqs"
-#define IDENTIFIER_COMPLEXSUM "csum"
-#define IDENTIFIER_COMPLEXPROD "cprod"
-#define IDENTIFIER_QUATERNIONSSUM "qsum"
-#define IDENTIFIER_QUATERNIONSPROD "qprod"
+#define IDENTIFIER_COMPLEXADD "cadd"
+#define IDENTIFIER_COMPLEXMUL "cmul"
+#define IDENTIFIER_QUATERNIONSADD "qadd"
+#define IDENTIFIER_QUATERNIONSMUL "qmul"
 #define IDENTIFIER_SOMMASUCCESSIONEGEOMETRICA "gsum"
 #define IDENTIFIER_SOMMASUCCESSIONEARMONICA "asum"
 #define IDENTIFIER_SOMMASUCCESSIONEARMONICAGEN "gasum"
@@ -754,6 +913,8 @@ sullo script in questione
 #define IDENTIFIER_SOMMAPRIMINNUMERI "fnnsum"
 #define IDENTIFIER_RADICEQUADRATA "sqrt"
 #define IDENTIFIER_RADICECUBICA "cbrt"
+#define IDENTIFIER_CSQRT "csqrt"
+#define IDENTIFIER_CCBRT "ccbrt"
 #define OPERATOR_FATTORIALE "!"
 #define OPERATOR_SEMIFATTORIALE "!!"
 #define OPERATOR_FIBONACCI "\""
@@ -787,7 +948,6 @@ sullo script in questione
 #define IDENTIFIER_ALIAS_COMBINATIONSREP "crep"
 #define IDENTIFIER_ALIAS2_COMBINATIONSREP "combr"
 #define IDENTIFIER_ALIAS3_COMBINATIONSREP "cr"
-#define IDENTIFIER_DAY "day"
 #define IDENTIFIER_PASCALTRIANGLE "ptrn"
 #define IDENTIFIER_NUMERIROMANI "romn"
 #define IDENTIFIER_PRIMINNUMERIPRIMI "fpnum"

@@ -1,4 +1,4 @@
-// settings.c 04/09/2014 Marco Chiarelli aka DekraN
+// settings.c 10/09/2014 Marco Chiarelli aka DekraN
 /*
 WARNING!!! This program is intended to be used, so linked at the compilation,
 exclusively with main.c of my suite program! I do not assume any responsibilities
@@ -229,59 +229,230 @@ about the use with any other code-scripts.
 	}
 #endif
 
-#ifdef ALLOW_MINSRNUMBEREDIT
-	__MSSHELL_WRAPPER_ static void _MS__private __system changeMinSRNumber(const register sel_typ argc, char ** argv);
-	__MSSHELL_WRAPPER_ static void _MS__private __system changeMinSRNumber(const register sel_typ argc, char ** argv)
+#ifdef ALLOW_BLOCKSIZEEDIT
+	__MSSHELL_WRAPPER_ static void _MS__private __system changeBlockSize(const register sel_typ argc, char ** argv);
+	__MSSHELL_WRAPPER_ static void _MS__private __system changeBlockSize(const register sel_typ argc, char ** argv)
 	{
-		const dim_typ old_minsr_number = access(curLayout)->min_stirlingrequires_number;
-	    ityp tmp;
+	    const fsel_typ old_block_size= access(curLayout)->block_size;
+	    ityp tmp = 0.00;
 	
 	    if(argc)
 	    {
 	        if(PARSING_SYSTEM_ALLOWED)
 	        {
-	            if((!parse(argv[0], &tmp)) || tmp != (access(curLayout)->min_stirlingrequires_number = (dim_typ)tmp) || access(curLayout)->min_stirlingrequires_number < MIN_MEMOIZABLE_INDEX+1 || access(curLayout)->min_stirlingrequires_number > MIN_STIRLINGREQUIRES_NUMBER)
+	            if((!parse(argv[0], &tmp)) || tmp != (access(curLayout)->block_size = (fsel_typ)tmp) || access(curLayout)->block_size < MIN_BLOCKSIZE)
 	            {
-	            	access(curLayout)->min_stirlingrequires_number = old_minsr_number;
-	                printErr(33, "Invalid inserted Min Stirling-Requires Number.\nMust be an integer between %hu and %hu", MIN_MEMOIZABLE_INDEX+1, MIN_STIRLINGREQUIRES_NUMBER);
-	                printUsage(&change_settings[SETTINGS_CHANGEMINSRNUMBER]);
+	            	access(curLayout)->block_size = old_block_size;
+	                printErr(33, "Invalid inserted Block Size Value.\nMust be an integer greater or equal than %hu", MIN_BLOCKSIZE);
+	                printUsage(&change_settings[SETTINGS_CHANGEBLOCKSIZE]);
 	                return;
 	            }
 	        }
-	        else if((tmp = strtod(argv[0], NULL)) != (access(curLayout)->min_stirlingrequires_number = (dim_typ)tmp) || access(curLayout)->min_stirlingrequires_number < MIN_MEMOIZABLE_INDEX+1 || access(curLayout)->min_stirlingrequires_number > MIN_STIRLINGREQUIRES_NUMBER)
+	        else if((tmp = strtod(argv[0], NULL)) != (access(curLayout)->block_size = (fsel_typ)tmp) || access(curLayout)->block_size < MIN_BLOCKSIZE)
 	        {
-	        	access(curLayout)->min_stirlingrequires_number = old_minsr_number;
-	            printErr(33, "Invalid inserted Min Stirling-Requires Number.\nMust be an integer between %hu and %hu", MIN_MEMOIZABLE_INDEX+1, MIN_STIRLINGREQUIRES_NUMBER);
-	            printUsage(&change_settings[SETTINGS_CHANGEMINSRNUMBER]);
+	        	access(curLayout)->block_size = old_block_size;
+	            printErr(33, "Invalid inserted Block Size Value.\nMust be an integer greater or equal than %hu", MIN_BLOCKSIZE);
+	            printUsage(&change_settings[SETTINGS_CHANGEBLOCKSIZE]);
 	            return;
 	        }
 	    }
 	    else
 	    {
-	        printf2(COLOR_CREDITS, "\nEnter a Value as Min Stirling-Requires Number: a non-negative and non-zero integer.\n");
+	        printf2(COLOR_CREDITS, "\nEnter a Value as Program Block Size: a non-negative and non-zero integer.\n");
 	
 	        if(PARSING_SYSTEM_ALLOWED)
 	            PRINTHOWTOBACKMESSAGE();
 	        while((PARSING_SYSTEM_ALLOWED ? (isNullVal((tmp = requires(NULL, NULL_CHAR, NULL_CHAR, PARSER_NOSETTINGS)))) :
-	            (!scanf2(1, INPUT_CONVERSION_FORMAT, &tmp))) || tmp != (access(curLayout)->min_stirlingrequires_number = (dim_typ)tmp) || access(curLayout)->min_stirlingrequires_number < MIN_MEMOIZABLE_INDEX+1 || access(curLayout)->min_stirlingrequires_number > MIN_STIRLINGREQUIRES_NUMBER)
+	            (!scanf2(1, INPUT_CONVERSION_FORMAT, &tmp))) || tmp != (access(curLayout)->block_size = (fsel_typ)tmp) || access(curLayout)->block_size < MIN_BLOCKSIZE)
 	        {
 	            CLEARBUFFER();
 	            if(access(exitHandle) == EXITHANDLE_GETCMD) continue;
 	            if(exitHandleCheck)
 	            {
-	                access(curLayout)->min_stirlingrequires_number = old_minsr_number;
+	                access(curLayout)->block_size = old_block_size;
 	                return;
 	            }
-	            printErr(33, "Invalid inserted Min Stirling-Requires Number.\nMust be an integer between %hu and %hu", MIN_MEMOIZABLE_INDEX+1, MIN_STIRLINGREQUIRES_NUMBER);
+	            printErr(33, "Invalid inserted Block Size Value.\nMust be an integer greater or equal than %hu", MIN_BLOCKSIZE);
 	        }
 	    }
 	
 	    CLEARBUFFER();
 	
 	    if(getItemsListNo(ENVS) != STARTING_ENVSNO && access(exprVars)->e_ANS && isSett(BOOLS_SAVERESULTS))
-	        *(access(exprVars)->e_ANS) = access(curLayout)->min_stirlingrequires_number;
+	        *(access(exprVars)->e_ANS) = access(curLayout)->block_size;
 	
-	    sprint("Program Min Stirling-Requires Number has been correctly changed from: %hu to: %hu.\n", old_minsr_number, access(curLayout)->min_stirlingrequires_number);
+	    sprint("Program Block Size Value has been correctly changed from: %hu to: %hu.\n", old_block_size, access(curLayout)->block_size);
+	    return;
+	}
+#endif
+
+#ifdef ALLOW_MINOSMMDIMEDIT
+	__MSSHELL_WRAPPER_ static void _MS__private __system changeMinOSMMDim(const register sel_typ argc, char ** argv);
+	__MSSHELL_WRAPPER_ static void _MS__private __system changeMinOSMMDim(const register sel_typ argc, char ** argv)
+	{
+	    const fsel_typ old_min_osmm_dim= access(curLayout)->min_osmm_dim;
+	    ityp tmp = 0.00;
+	
+	    if(argc)
+	    {
+	        if(PARSING_SYSTEM_ALLOWED)
+	        {
+	            if((!parse(argv[0], &tmp)) || tmp != (access(curLayout)->min_osmm_dim = (fsel_typ)tmp) || access(curLayout)->min_osmm_dim < MIN_OSMM_DIM)
+	            {
+	            	access(curLayout)->min_osmm_dim = old_min_osmm_dim;
+	                printErr(33, "Invalid inserted Min OSMM Dimension Value.\nMust be an integer greater or equal than %hu", MIN_OSMM_DIM);
+	                printUsage(&change_settings[SETTINGS_CHANGEMINOSMMDIM]);
+	                return;
+	            }
+	        }
+	        else if((tmp = strtod(argv[0], NULL)) != (access(curLayout)->min_osmm_dim = (fsel_typ)tmp) || access(curLayout)->min_osmm_dim < MIN_OSMM_DIM)
+	        {
+	        	access(curLayout)->min_osmm_dim = old_min_osmm_dim;
+	            printErr(33, "Invalid inserted Min OSMM Dimension Value.\nMust be an integer greater or equal than %hu", MIN_OSMM_DIM);
+	            printUsage(&change_settings[SETTINGS_CHANGEMINOSMMDIM]);
+	            return;
+	        }
+	    }
+	    else
+	    {
+	        printf2(COLOR_CREDITS, "\nEnter a Value as Min OSMM Dimension: a non-negative and non-zero integer.\n");
+	
+	        if(PARSING_SYSTEM_ALLOWED)
+	            PRINTHOWTOBACKMESSAGE();
+	        while((PARSING_SYSTEM_ALLOWED ? (isNullVal((tmp = requires(NULL, NULL_CHAR, NULL_CHAR, PARSER_NOSETTINGS)))) :
+	            (!scanf2(1, INPUT_CONVERSION_FORMAT, &tmp))) || tmp != (access(curLayout)->min_osmm_dim = (fsel_typ)tmp) || access(curLayout)->min_osmm_dim < MIN_OSMM_DIM)
+	        {
+	            CLEARBUFFER();
+	            if(access(exitHandle) == EXITHANDLE_GETCMD) continue;
+	            if(exitHandleCheck)
+	            {
+	                access(curLayout)->min_osmm_dim = old_min_osmm_dim;
+	                return;
+	            }
+	            printErr(33, "Invalid inserted Min OSMM Dimension Value.\nMust be an integer greater or equal than %hu", MIN_OSMM_DIM);
+	        }
+	    }
+	
+	    CLEARBUFFER();
+	
+	    if(getItemsListNo(ENVS) != STARTING_ENVSNO && access(exprVars)->e_ANS && isSett(BOOLS_SAVERESULTS))
+	        *(access(exprVars)->e_ANS) = access(curLayout)->min_osmm_dim;
+	
+	    sprint("Program Min OSMM Dimension Value has been correctly changed from: %hu to: %hu.\n", old_min_osmm_dim, access(curLayout)->min_osmm_dim);
+	    return;
+	}
+#endif
+
+#ifdef ALLOW_MINSTRASSENDIMEDIT
+	__MSSHELL_WRAPPER_ static void _MS__private __system changeMinStrassenDim(const register sel_typ argc, char ** argv);
+	__MSSHELL_WRAPPER_ static void _MS__private __system changeMinStrassenDim(const register sel_typ argc, char ** argv)
+	{
+	    const fsel_typ old_min_strassen_dim= access(curLayout)->min_strassen_dim;
+	    ityp tmp = 0.00;
+	
+	    if(argc)
+	    {
+	        if(PARSING_SYSTEM_ALLOWED)
+	        {
+	            if((!parse(argv[0], &tmp)) || tmp != (access(curLayout)->min_strassen_dim = (fsel_typ)tmp) || access(curLayout)->min_strassen_dim < MIN_STRASSEN_DIM)
+	            {
+	            	access(curLayout)->min_strassen_dim = old_min_strassen_dim;
+	                printErr(33, "Invalid inserted Min Strassen Dimension Value.\nMust be an integer greater or equal than %hu", MIN_STRASSEN_DIM);
+	                printUsage(&change_settings[SETTINGS_CHANGEMINSTRASSENDIM]);
+	                return;
+	            }
+	        }
+	        else if((tmp = strtod(argv[0], NULL)) != (access(curLayout)->min_strassen_dim = (fsel_typ)tmp) || access(curLayout)->min_strassen_dim < MIN_STRASSEN_DIM)
+	        {
+	        	access(curLayout)->min_strassen_dim = old_min_strassen_dim;
+	            printErr(33, "Invalid inserted Min Strassen Dimension Value.\nMust be an integer greater or equal than %hu", MIN_STRASSEN_DIM);
+	            printUsage(&change_settings[SETTINGS_CHANGEMINSTRASSENDIM]);
+	            return;
+	        }
+	    }
+	    else
+	    {
+	        printf2(COLOR_CREDITS, "\nEnter a Value as Min Strassen Dimension: a non-negative and non-zero integer.\n");
+	
+	        if(PARSING_SYSTEM_ALLOWED)
+	            PRINTHOWTOBACKMESSAGE();
+	        while((PARSING_SYSTEM_ALLOWED ? (isNullVal((tmp = requires(NULL, NULL_CHAR, NULL_CHAR, PARSER_NOSETTINGS)))) :
+	            (!scanf2(1, INPUT_CONVERSION_FORMAT, &tmp))) || tmp != (access(curLayout)->min_strassen_dim = (fsel_typ)tmp) || access(curLayout)->min_strassen_dim < MIN_STRASSEN_DIM)
+	        {
+	            CLEARBUFFER();
+	            if(access(exitHandle) == EXITHANDLE_GETCMD) continue;
+	            if(exitHandleCheck)
+	            {
+	                access(curLayout)->min_strassen_dim = old_min_strassen_dim;
+	                return;
+	            }
+	            printErr(33, "Invalid inserted Min Strassen Dimension Value.\nMust be an integer greater or equal than %hu", MIN_STRASSEN_DIM);
+	        }
+	    }
+	
+	    CLEARBUFFER();
+	
+	    if(getItemsListNo(ENVS) != STARTING_ENVSNO && access(exprVars)->e_ANS && isSett(BOOLS_SAVERESULTS))
+	        *(access(exprVars)->e_ANS) = access(curLayout)->min_strassen_dim;
+	
+	    sprint("Program Min Strassen Dimension Value has been correctly changed from: %hu to: %hu.\n", old_min_strassen_dim, access(curLayout)->min_strassen_dim);
+	    return;
+	}
+#endif
+
+#ifdef ALLOW_MINSRNUMBEREDIT
+	__MSSHELL_WRAPPER_ static void _MS__private __system changeMinSRNumber(const register sel_typ argc, char ** argv);
+	__MSSHELL_WRAPPER_ static void _MS__private __system changeMinSRNumber(const register sel_typ argc, char ** argv)
+	{
+		const dim_typ old_minsr_number = access(curLayout)->min_stirling_number;
+	    ityp tmp;
+	
+	    if(argc)
+	    {
+	        if(PARSING_SYSTEM_ALLOWED)
+	        {
+	            if((!parse(argv[0], &tmp)) || tmp != (access(curLayout)->min_stirling_number = (dim_typ)tmp) || access(curLayout)->min_stirling_number < MIN_MEMOIZABLE_INDEX+1 || access(curLayout)->min_stirling_number > MIN_STIRLING_NUMBER)
+	            {
+	            	access(curLayout)->min_stirling_number = old_minsr_number;
+	                printErr(33, "Invalid inserted Min Stirling Number.\nMust be an integer between %hu and %hu", MIN_MEMOIZABLE_INDEX+1, MIN_STIRLING_NUMBER);
+	                printUsage(&change_settings[SETTINGS_CHANGEMINSRNUMBER]);
+	                return;
+	            }
+	        }
+	        else if((tmp = strtod(argv[0], NULL)) != (access(curLayout)->min_stirling_number = (dim_typ)tmp) || access(curLayout)->min_stirling_number < MIN_MEMOIZABLE_INDEX+1 || access(curLayout)->min_stirling_number > MIN_STIRLING_NUMBER)
+	        {
+	        	access(curLayout)->min_stirling_number = old_minsr_number;
+	            printErr(33, "Invalid inserted Min Stirling Number.\nMust be an integer between %hu and %hu", MIN_MEMOIZABLE_INDEX+1, MIN_STIRLING_NUMBER);
+	            printUsage(&change_settings[SETTINGS_CHANGEMINSRNUMBER]);
+	            return;
+	        }
+	    }
+	    else
+	    {
+	        printf2(COLOR_CREDITS, "\nEnter a Value as Min Stirling Number: a non-negative and non-zero integer.\n");
+	
+	        if(PARSING_SYSTEM_ALLOWED)
+	            PRINTHOWTOBACKMESSAGE();
+	        while((PARSING_SYSTEM_ALLOWED ? (isNullVal((tmp = requires(NULL, NULL_CHAR, NULL_CHAR, PARSER_NOSETTINGS)))) :
+	            (!scanf2(1, INPUT_CONVERSION_FORMAT, &tmp))) || tmp != (access(curLayout)->min_stirling_number = (dim_typ)tmp) || access(curLayout)->min_stirling_number < MIN_MEMOIZABLE_INDEX+1 || access(curLayout)->min_stirling_number > MIN_STIRLING_NUMBER)
+	        {
+	            CLEARBUFFER();
+	            if(access(exitHandle) == EXITHANDLE_GETCMD) continue;
+	            if(exitHandleCheck)
+	            {
+	                access(curLayout)->min_stirling_number = old_minsr_number;
+	                return;
+	            }
+	            printErr(33, "Invalid inserted Min Stirling Number.\nMust be an integer between %hu and %hu", MIN_MEMOIZABLE_INDEX+1, MIN_STIRLING_NUMBER);
+	        }
+	    }
+	
+	    CLEARBUFFER();
+	
+	    if(getItemsListNo(ENVS) != STARTING_ENVSNO && access(exprVars)->e_ANS && isSett(BOOLS_SAVERESULTS))
+	        *(access(exprVars)->e_ANS) = access(curLayout)->min_stirling_number;
+	
+	    sprint("Program Min Stirling Number has been correctly changed from: %hu to: %hu.\n", old_minsr_number, access(curLayout)->min_stirling_number);
 		return;
 	}
 
@@ -316,7 +487,7 @@ about the use with any other code-scripts.
 	    else if((i = selectListItem(_MAX_ALGEBRA, _MAX_ALGEBRA > MAX_CASEINSENSITIVE_CHARS_ALPHABET,
 	            "Select Algebra Identifier in which to perform Algebra Operations", suite_c.algebra_elements_names)) == _MAX_ALGEBRA) return;
 	
-	    _changeAlgebraDims(i);
+	    access(curLayout)->algebra = i;
 	    sprint("%s Algebra has been correctly selected.\n\n", suite_c.algebra_elements_names[i]);
 	    return;
 	}
@@ -488,7 +659,7 @@ about the use with any other code-scripts.
 	        }
 	        else if((tmp = strtod(argv[0], NULL)) != (i = (dim_typ)tmp) || i < 0 || i > MAX_BOOL_SETTINGS)
 	        {
-	            printErr(1, "Invalid inserted Value: not correspondent to any Bool Settings ID");
+	            printErr(1, "Invalid inserted Value: not correspondent to any Boolean Settings ID");
 	            printUsage(&change_settings[SETTINGS_CHANGEBOOLVALUES]);
 	            return;
 	        }
@@ -511,13 +682,13 @@ about the use with any other code-scripts.
 	    char identifier[MAX_IDENTIFIER_LENGTH] = NULL_CHAR;
 	    char identifier2[MAX_IDENTIFIER_LENGTH] = NULL_CHAR;
 	
-	    sel_typ output_ID[MAX_DIMENSIONS];
+	    fsel_typ output_ID[MAX_DIMENSIONS];
 	
 	    if(argc)
 	    {
 	        if(argc == 2)
 	        {
-	            if((!doesExistOperIdentifier(argv[0], output_ID)) || doesExistOperIdentifier(argv[1], (sel_typ[MAX_DIMENSIONS]){BASECALC_INFORMAZIONI, 0}))
+	            if((!doesExistOperIdentifier(argv[0], output_ID)) || doesExistOperIdentifier(argv[1], (fsel_typ[MAX_DIMENSIONS]){BCALC_INFORMAZIONI, 0}))
 	            {
 	                printErr(1, "Invalid inserted Identifier\nor not correspondent to any Operation");
 	                printUsage(&change_settings[SETTINGS_CHANGEOPERATIONSIDENTIFIERS]);
@@ -534,11 +705,11 @@ about the use with any other code-scripts.
 	    {
 	        printf("\nEnter new Operations Identifier\n");
 	        printf("by using expected syntax: (and by respecting white spaces):\n[old_identifier] [new_identifier].\n\n");
-	        while(scanf(" %s %s", identifier, identifier2) != 2 || (!doesExistOperIdentifier(identifier, output_ID)) || doesExistOperIdentifier(identifier2, (sel_typ[MAX_DIMENSIONS]){BASECALC_INFORMAZIONI, 0}))
+	        while(scanf(" %s %s", identifier, identifier2) != 2 || (!doesExistOperIdentifier(identifier, output_ID)) || doesExistOperIdentifier(identifier2, (fsel_typ[MAX_DIMENSIONS]){BCALC_INFORMAZIONI, 0}))
 	            printErr(1, "Invalid inserted Identifier\nor not correspondent to any Operation");
 	    }
 	
-	    const sel_typ oprID = output_ID[OPERATION_ID];
+	    const fsel_typ oprID = output_ID[OPERATION_ID];
 	
 	    CLEARBUFFER();
 	    sprint("%s Operations Identifier has been correctly changed from: %s a %s.\n", operazioni[oprID].name, identifier, identifier2);
@@ -555,10 +726,10 @@ about the use with any other code-scripts.
 	
 	    const dim_typ old_max_memoizable_index[MAX_MEMOIZABLE_FUNCTIONS] =
 	    {
-	        access(curLayout)->max_memoizable_indeces[FUNCTION_FIBONACCI],
-	        access(curLayout)->max_memoizable_indeces[FUNCTION_FATTORIALE],
-	        access(curLayout)->max_memoizable_indeces[FUNCTION_EVEN_SFATTORIALE],
-	        access(curLayout)->max_memoizable_indeces[FUNCTION_ODD_SFATTORIALE]
+	        access(curLayout)->max_memoizable_indices[FUNCTION_FIBONACCI],
+	        access(curLayout)->max_memoizable_indices[FUNCTION_FATTORIALE],
+	        access(curLayout)->max_memoizable_indices[FUNCTION_EVEN_SFATTORIALE],
+	        access(curLayout)->max_memoizable_indices[FUNCTION_ODD_SFATTORIALE]
 	    };
 	
 		dim_typ i;
@@ -570,43 +741,43 @@ about the use with any other code-scripts.
 	        {
 	            if(PARSING_SYSTEM_ALLOWED)
 	            {
-	                if((!parse(argv[FUNCTION_FIBONACCI], &tmp)) || tmp != (access(curLayout)->max_memoizable_indeces[FUNCTION_FIBONACCI] = (dim_typ)tmp) ||
-	                access(curLayout)->max_memoizable_indeces[FUNCTION_FIBONACCI] < MIN_MEMOIZABLE_INDEX+1 || access(curLayout)->max_memoizable_indeces[FUNCTION_FIBONACCI] > MAX_FIBONACCI_MEMOIZABLE_INDEX)
+	                if((!parse(argv[FUNCTION_FIBONACCI], &tmp)) || tmp != (access(curLayout)->max_memoizable_indices[FUNCTION_FIBONACCI] = (dim_typ)tmp) ||
+	                access(curLayout)->max_memoizable_indices[FUNCTION_FIBONACCI] < MIN_MEMOIZABLE_INDEX+1 || access(curLayout)->max_memoizable_indices[FUNCTION_FIBONACCI] > MAX_FIBONACCI_MEMOIZABLE_INDEX)
 	                {
-	                	access(curLayout)->max_memoizable_indeces[FUNCTION_FIBONACCI] = old_max_memoizable_index[FUNCTION_FIBONACCI];
+	                	access(curLayout)->max_memoizable_indices[FUNCTION_FIBONACCI] = old_max_memoizable_index[FUNCTION_FIBONACCI];
 	                    printErr(33, "Invalid inserted MIM_FIBO Value.\nMust be an integer between %hu and %hu", MIN_MEMOIZABLE_INDEX+1, MAX_FIBONACCI_MEMOIZABLE_INDEX);
 	                    printUsage(&change_settings[SETTINGS_CHANGEMAXMEMOIZABLEINDICES]);
 	                    return;
 	                }
 	
-	                if((!parse(argv[FUNCTION_FATTORIALE], &tmp)) || tmp != (access(curLayout)->max_memoizable_indeces[FUNCTION_FATTORIALE] = (dim_typ)tmp) ||
-	                access(curLayout)->max_memoizable_indeces[FUNCTION_FATTORIALE] < MIN_MEMOIZABLE_INDEX+1 || access(curLayout)->max_memoizable_indeces[FUNCTION_FATTORIALE] > MAX_FATTORIALE_MEMOIZABLE_INDEX)
+	                if((!parse(argv[FUNCTION_FATTORIALE], &tmp)) || tmp != (access(curLayout)->max_memoizable_indices[FUNCTION_FATTORIALE] = (dim_typ)tmp) ||
+	                access(curLayout)->max_memoizable_indices[FUNCTION_FATTORIALE] < MIN_MEMOIZABLE_INDEX+1 || access(curLayout)->max_memoizable_indices[FUNCTION_FATTORIALE] > MAX_FATTORIALE_MEMOIZABLE_INDEX)
 	                {
-	                	access(curLayout)->max_memoizable_indeces[FUNCTION_FIBONACCI] = old_max_memoizable_index[FUNCTION_FIBONACCI];
-	                	access(curLayout)->max_memoizable_indeces[FUNCTION_FATTORIALE] = old_max_memoizable_index[FUNCTION_FATTORIALE];
+	                	access(curLayout)->max_memoizable_indices[FUNCTION_FIBONACCI] = old_max_memoizable_index[FUNCTION_FIBONACCI];
+	                	access(curLayout)->max_memoizable_indices[FUNCTION_FATTORIALE] = old_max_memoizable_index[FUNCTION_FATTORIALE];
 	                    printErr(33, "Invalid inserted MIM_FACT Value.\nMust be an integer between %hu and %hu", MIN_MEMOIZABLE_INDEX+1, MAX_FATTORIALE_MEMOIZABLE_INDEX);
 	                    printUsage(&change_settings[SETTINGS_CHANGEMAXMEMOIZABLEINDICES]);
 	                    return;
 	                }
 	                
-	                if((!parse(argv[FUNCTION_EVEN_SFATTORIALE], &tmp)) || tmp != (access(curLayout)->max_memoizable_indeces[FUNCTION_EVEN_SFATTORIALE] = (dim_typ)tmp) ||
-	                access(curLayout)->max_memoizable_indeces[FUNCTION_EVEN_SFATTORIALE] < MIN_MEMOIZABLE_INDEX+1 || access(curLayout)->max_memoizable_indeces[FUNCTION_EVEN_SFATTORIALE] > MAX_EVEN_SFATTORIALE_MEMOIZABLE_INDEX)
+	                if((!parse(argv[FUNCTION_EVEN_SFATTORIALE], &tmp)) || tmp != (access(curLayout)->max_memoizable_indices[FUNCTION_EVEN_SFATTORIALE] = (dim_typ)tmp) ||
+	                access(curLayout)->max_memoizable_indices[FUNCTION_EVEN_SFATTORIALE] < MIN_MEMOIZABLE_INDEX+1 || access(curLayout)->max_memoizable_indices[FUNCTION_EVEN_SFATTORIALE] > MAX_EVEN_SFATTORIALE_MEMOIZABLE_INDEX)
 	                {
-	                	access(curLayout)->max_memoizable_indeces[FUNCTION_FIBONACCI] = old_max_memoizable_index[FUNCTION_FIBONACCI];
-	                	access(curLayout)->max_memoizable_indeces[FUNCTION_FATTORIALE] = old_max_memoizable_index[FUNCTION_FATTORIALE];
-	                	access(curLayout)->max_memoizable_indeces[FUNCTION_EVEN_SFATTORIALE] = old_max_memoizable_index[FUNCTION_EVEN_SFATTORIALE];
+	                	access(curLayout)->max_memoizable_indices[FUNCTION_FIBONACCI] = old_max_memoizable_index[FUNCTION_FIBONACCI];
+	                	access(curLayout)->max_memoizable_indices[FUNCTION_FATTORIALE] = old_max_memoizable_index[FUNCTION_FATTORIALE];
+	                	access(curLayout)->max_memoizable_indices[FUNCTION_EVEN_SFATTORIALE] = old_max_memoizable_index[FUNCTION_EVEN_SFATTORIALE];
 	                    printErr(33, "Invalid inserted MIM_SFACT_EVEN Value.\nMust be an integer between %hu and %hu", MIN_MEMOIZABLE_INDEX+1, MAX_EVEN_SFATTORIALE_MEMOIZABLE_INDEX);
 	                    printUsage(&change_settings[SETTINGS_CHANGEMAXMEMOIZABLEINDICES]);
 	                    return;
 	                }
 	                
-	                if((!parse(argv[FUNCTION_ODD_SFATTORIALE], &tmp)) || tmp != (access(curLayout)->max_memoizable_indeces[FUNCTION_ODD_SFATTORIALE] = (dim_typ)tmp) ||
-	                access(curLayout)->max_memoizable_indeces[FUNCTION_ODD_SFATTORIALE] < MIN_MEMOIZABLE_INDEX+1 || access(curLayout)->max_memoizable_indeces[FUNCTION_ODD_SFATTORIALE] > MAX_ODD_SFATTORIALE_MEMOIZABLE_INDEX)
+	                if((!parse(argv[FUNCTION_ODD_SFATTORIALE], &tmp)) || tmp != (access(curLayout)->max_memoizable_indices[FUNCTION_ODD_SFATTORIALE] = (dim_typ)tmp) ||
+	                access(curLayout)->max_memoizable_indices[FUNCTION_ODD_SFATTORIALE] < MIN_MEMOIZABLE_INDEX+1 || access(curLayout)->max_memoizable_indices[FUNCTION_ODD_SFATTORIALE] > MAX_ODD_SFATTORIALE_MEMOIZABLE_INDEX)
 	                {
-	                	access(curLayout)->max_memoizable_indeces[FUNCTION_FIBONACCI] = old_max_memoizable_index[FUNCTION_FIBONACCI];
-	                	access(curLayout)->max_memoizable_indeces[FUNCTION_FATTORIALE] = old_max_memoizable_index[FUNCTION_FATTORIALE];
-	                	access(curLayout)->max_memoizable_indeces[FUNCTION_EVEN_SFATTORIALE] = old_max_memoizable_index[FUNCTION_EVEN_SFATTORIALE];
-	                	access(curLayout)->max_memoizable_indeces[FUNCTION_ODD_SFATTORIALE] = old_max_memoizable_index[FUNCTION_ODD_SFATTORIALE];
+	                	access(curLayout)->max_memoizable_indices[FUNCTION_FIBONACCI] = old_max_memoizable_index[FUNCTION_FIBONACCI];
+	                	access(curLayout)->max_memoizable_indices[FUNCTION_FATTORIALE] = old_max_memoizable_index[FUNCTION_FATTORIALE];
+	                	access(curLayout)->max_memoizable_indices[FUNCTION_EVEN_SFATTORIALE] = old_max_memoizable_index[FUNCTION_EVEN_SFATTORIALE];
+	                	access(curLayout)->max_memoizable_indices[FUNCTION_ODD_SFATTORIALE] = old_max_memoizable_index[FUNCTION_ODD_SFATTORIALE];
 	                    printErr(33, "Invalid inserted MIM_SFACT_ODD Value.\nMust be an integer between %hu and %hu", MIN_MEMOIZABLE_INDEX+1, MAX_ODD_SFATTORIALE_MEMOIZABLE_INDEX);
 	                    printUsage(&change_settings[SETTINGS_CHANGEMAXMEMOIZABLEINDICES]);
 	                    return;
@@ -616,43 +787,43 @@ about the use with any other code-scripts.
 	            }
 	            else
 	            {
-	                if((tmp = strtod(argv[FUNCTION_FIBONACCI], NULL)) != (access(curLayout)->max_memoizable_indeces[FUNCTION_FIBONACCI] = (dim_typ)tmp) ||
-	                access(curLayout)->max_memoizable_indeces[FUNCTION_FIBONACCI] < MIN_MEMOIZABLE_INDEX+1 || access(curLayout)->max_memoizable_indeces[FUNCTION_FIBONACCI] > MAX_FIBONACCI_MEMOIZABLE_INDEX)
+	                if((tmp = strtod(argv[FUNCTION_FIBONACCI], NULL)) != (access(curLayout)->max_memoizable_indices[FUNCTION_FIBONACCI] = (dim_typ)tmp) ||
+	                access(curLayout)->max_memoizable_indices[FUNCTION_FIBONACCI] < MIN_MEMOIZABLE_INDEX+1 || access(curLayout)->max_memoizable_indices[FUNCTION_FIBONACCI] > MAX_FIBONACCI_MEMOIZABLE_INDEX)
 	                {
-	                	access(curLayout)->max_memoizable_indeces[FUNCTION_FIBONACCI] = old_max_memoizable_index[FUNCTION_FIBONACCI];
+	                	access(curLayout)->max_memoizable_indices[FUNCTION_FIBONACCI] = old_max_memoizable_index[FUNCTION_FIBONACCI];
 	                    printErr(33, "Invalid inserted MIM_FIBO Value.\nMust be an integer between %hu and %hu", MIN_MEMOIZABLE_INDEX+1, MAX_FIBONACCI_MEMOIZABLE_INDEX);
 	                    printUsage(&change_settings[SETTINGS_CHANGEMAXMEMOIZABLEINDICES]);
 	                    return;
 	                }
 	
-	                if((tmp = strtod(argv[FUNCTION_FATTORIALE], NULL)) != (access(curLayout)->max_memoizable_indeces[FUNCTION_FATTORIALE] = (dim_typ)tmp) ||
-	                access(curLayout)->max_memoizable_indeces[FUNCTION_FATTORIALE] < MIN_MEMOIZABLE_INDEX+1 || access(curLayout)->max_memoizable_indeces[FUNCTION_FATTORIALE] > MAX_FATTORIALE_MEMOIZABLE_INDEX)
+	                if((tmp = strtod(argv[FUNCTION_FATTORIALE], NULL)) != (access(curLayout)->max_memoizable_indices[FUNCTION_FATTORIALE] = (dim_typ)tmp) ||
+	                access(curLayout)->max_memoizable_indices[FUNCTION_FATTORIALE] < MIN_MEMOIZABLE_INDEX+1 || access(curLayout)->max_memoizable_indices[FUNCTION_FATTORIALE] > MAX_FATTORIALE_MEMOIZABLE_INDEX)
 	                {
-	                	access(curLayout)->max_memoizable_indeces[FUNCTION_FIBONACCI] = old_max_memoizable_index[FUNCTION_FIBONACCI];
-	                	access(curLayout)->max_memoizable_indeces[FUNCTION_FATTORIALE] = old_max_memoizable_index[FUNCTION_FATTORIALE];
+	                	access(curLayout)->max_memoizable_indices[FUNCTION_FIBONACCI] = old_max_memoizable_index[FUNCTION_FIBONACCI];
+	                	access(curLayout)->max_memoizable_indices[FUNCTION_FATTORIALE] = old_max_memoizable_index[FUNCTION_FATTORIALE];
 	                    printErr(33, "Invalid inserted MIM_FACT Value.\nMust be an integer between %hu and %hu", MIN_MEMOIZABLE_INDEX+1, MAX_FATTORIALE_MEMOIZABLE_INDEX);
 	                    printUsage(&change_settings[SETTINGS_CHANGEMAXMEMOIZABLEINDICES]);
 	                    return;
 	                }
 	                
-	                if((tmp = strtod(argv[FUNCTION_EVEN_SFATTORIALE], NULL)) != (access(curLayout)->max_memoizable_indeces[FUNCTION_EVEN_SFATTORIALE] = (dim_typ)tmp) ||
-	                access(curLayout)->max_memoizable_indeces[FUNCTION_EVEN_SFATTORIALE] < MIN_MEMOIZABLE_INDEX+1 || access(curLayout)->max_memoizable_indeces[FUNCTION_EVEN_SFATTORIALE] > MAX_EVEN_SFATTORIALE_MEMOIZABLE_INDEX)
+	                if((tmp = strtod(argv[FUNCTION_EVEN_SFATTORIALE], NULL)) != (access(curLayout)->max_memoizable_indices[FUNCTION_EVEN_SFATTORIALE] = (dim_typ)tmp) ||
+	                access(curLayout)->max_memoizable_indices[FUNCTION_EVEN_SFATTORIALE] < MIN_MEMOIZABLE_INDEX+1 || access(curLayout)->max_memoizable_indices[FUNCTION_EVEN_SFATTORIALE] > MAX_EVEN_SFATTORIALE_MEMOIZABLE_INDEX)
 	                {
-	                	access(curLayout)->max_memoizable_indeces[FUNCTION_FIBONACCI] = old_max_memoizable_index[FUNCTION_FIBONACCI];
-	                	access(curLayout)->max_memoizable_indeces[FUNCTION_FATTORIALE] = old_max_memoizable_index[FUNCTION_FATTORIALE];
-	                	access(curLayout)->max_memoizable_indeces[FUNCTION_EVEN_SFATTORIALE] = old_max_memoizable_index[FUNCTION_EVEN_SFATTORIALE];
+	                	access(curLayout)->max_memoizable_indices[FUNCTION_FIBONACCI] = old_max_memoizable_index[FUNCTION_FIBONACCI];
+	                	access(curLayout)->max_memoizable_indices[FUNCTION_FATTORIALE] = old_max_memoizable_index[FUNCTION_FATTORIALE];
+	                	access(curLayout)->max_memoizable_indices[FUNCTION_EVEN_SFATTORIALE] = old_max_memoizable_index[FUNCTION_EVEN_SFATTORIALE];
 	                    printErr(33, "Invalid inserted MIM_SFACT_EVEN Value.\nMust be an integer between %hu and %hu", MIN_MEMOIZABLE_INDEX+1, MAX_EVEN_SFATTORIALE_MEMOIZABLE_INDEX);
 	                    printUsage(&change_settings[SETTINGS_CHANGEMAXMEMOIZABLEINDICES]);
 	                    return;
 	                }
 	                
-	                if((tmp = strtod(argv[FUNCTION_ODD_SFATTORIALE], NULL)) != (access(curLayout)->max_memoizable_indeces[FUNCTION_ODD_SFATTORIALE] = (dim_typ)tmp) ||
-	                access(curLayout)->max_memoizable_indeces[FUNCTION_ODD_SFATTORIALE] < MIN_MEMOIZABLE_INDEX+1 || access(curLayout)->max_memoizable_indeces[FUNCTION_ODD_SFATTORIALE] > MAX_ODD_SFATTORIALE_MEMOIZABLE_INDEX)
+	                if((tmp = strtod(argv[FUNCTION_ODD_SFATTORIALE], NULL)) != (access(curLayout)->max_memoizable_indices[FUNCTION_ODD_SFATTORIALE] = (dim_typ)tmp) ||
+	                access(curLayout)->max_memoizable_indices[FUNCTION_ODD_SFATTORIALE] < MIN_MEMOIZABLE_INDEX+1 || access(curLayout)->max_memoizable_indices[FUNCTION_ODD_SFATTORIALE] > MAX_ODD_SFATTORIALE_MEMOIZABLE_INDEX)
 	                {
-	                	access(curLayout)->max_memoizable_indeces[FUNCTION_FIBONACCI] = old_max_memoizable_index[FUNCTION_FIBONACCI];
-	                	access(curLayout)->max_memoizable_indeces[FUNCTION_FATTORIALE] = old_max_memoizable_index[FUNCTION_FATTORIALE];
-	                	access(curLayout)->max_memoizable_indeces[FUNCTION_EVEN_SFATTORIALE] = old_max_memoizable_index[FUNCTION_EVEN_SFATTORIALE];
-	                	access(curLayout)->max_memoizable_indeces[FUNCTION_ODD_SFATTORIALE] = old_max_memoizable_index[FUNCTION_ODD_SFATTORIALE];
+	                	access(curLayout)->max_memoizable_indices[FUNCTION_FIBONACCI] = old_max_memoizable_index[FUNCTION_FIBONACCI];
+	                	access(curLayout)->max_memoizable_indices[FUNCTION_FATTORIALE] = old_max_memoizable_index[FUNCTION_FATTORIALE];
+	                	access(curLayout)->max_memoizable_indices[FUNCTION_EVEN_SFATTORIALE] = old_max_memoizable_index[FUNCTION_EVEN_SFATTORIALE];
+	                	access(curLayout)->max_memoizable_indices[FUNCTION_ODD_SFATTORIALE] = old_max_memoizable_index[FUNCTION_ODD_SFATTORIALE];
 	                    printErr(33, "Invalid inserted MIM_SFACT_EVEN Value.\nMust be an integer between %hu and %hu", MIN_MEMOIZABLE_INDEX+1, MAX_ODD_SFATTORIALE_MEMOIZABLE_INDEX);
 	                    printUsage(&change_settings[SETTINGS_CHANGEMAXMEMOIZABLEINDICES]);
 	                    return;
@@ -680,17 +851,17 @@ about the use with any other code-scripts.
 	        
 	        tmp2 = tmp3 = tmp4 = 0.00;
 	
-	        while(PARSING_SYSTEM_ALLOWED ? (isNullVal((tmp = requires(NULL, NULL_CHAR, "Inserted MAX Fibonacci MEMOIZABLE INDEX is:", PARSER_SHOWRESULT))) || tmp != (access(curLayout)->max_memoizable_indeces[FUNCTION_FIBONACCI] = (dim_typ)tmp) ||
-	            access(curLayout)->max_memoizable_indeces[FUNCTION_FIBONACCI] < MIN_MEMOIZABLE_INDEX+1 || access(curLayout)->max_memoizable_indeces[FUNCTION_FIBONACCI] > MAX_MEMOIZABLE_INDEX) ||
-	            (isNullVal((tmp = requires(NULL, NULL_CHAR, "Inserted MAX Factorial MEMOIZABLE INDEX is:", PARSER_SHOWRESULT))) || tmp != (access(curLayout)->max_memoizable_indeces[FUNCTION_FATTORIALE] = (dim_typ)tmp) ||
-	            access(curLayout)->max_memoizable_indeces[FUNCTION_FATTORIALE] < MIN_MEMOIZABLE_INDEX+1 || access(curLayout)->max_memoizable_indeces[FUNCTION_FATTORIALE] > MAX_MEMOIZABLE_INDEX) ||
-			    (isNullVal((tmp = requires(NULL, NULL_CHAR, "Inserted MAX Even SemiFactorial MEMOIZABLE INDEX is:", PARSER_SHOWRESULT))) || tmp != (access(curLayout)->max_memoizable_indeces[FUNCTION_EVEN_SFATTORIALE] = (dim_typ)tmp) ||
-	            access(curLayout)->max_memoizable_indeces[FUNCTION_EVEN_SFATTORIALE] < MIN_MEMOIZABLE_INDEX+1 || access(curLayout)->max_memoizable_indeces[FUNCTION_EVEN_SFATTORIALE] > MAX_MEMOIZABLE_INDEX) ||
-				(isNullVal((tmp = requires(NULL, NULL_CHAR, "Inserted MAX Odd SemiFactorial MEMOIZABLE INDEX is:", PARSER_SHOWRESULT))) || tmp != (access(curLayout)->max_memoizable_indeces[FUNCTION_ODD_SFATTORIALE] = (dim_typ)tmp) ||
-	            access(curLayout)->max_memoizable_indeces[FUNCTION_ODD_SFATTORIALE] < MIN_MEMOIZABLE_INDEX+1 || access(curLayout)->max_memoizable_indeces[FUNCTION_ODD_SFATTORIALE] > MAX_MEMOIZABLE_INDEX) :
-	            (!scanf2(2, "%lf %lf %lf %lf", &tmp, &tmp2, &tmp3, &tmp4)) || tmp != (access(curLayout)->max_memoizable_indeces[FUNCTION_FIBONACCI] = (dim_typ)tmp) || tmp2 != (access(curLayout)->max_memoizable_indeces[FUNCTION_FATTORIALE] = (dim_typ)tmp2) || tmp3 != (access(curLayout)->max_memoizable_indeces[FUNCTION_EVEN_SFATTORIALE] = (dim_typ)tmp3) || tmp4 != (access(curLayout)->max_memoizable_indeces[FUNCTION_ODD_SFATTORIALE] = (dim_typ)tmp4) ||
-	              access(curLayout)->max_memoizable_indeces[FUNCTION_FIBONACCI] < MIN_MEMOIZABLE_INDEX+1 || access(curLayout)->max_memoizable_indeces[FUNCTION_FATTORIALE] < MIN_MEMOIZABLE_INDEX+1 || access(curLayout)->max_memoizable_indeces[FUNCTION_EVEN_SFATTORIALE] < MIN_MEMOIZABLE_INDEX+1 || access(curLayout)->max_memoizable_indeces[FUNCTION_ODD_SFATTORIALE] < MIN_MEMOIZABLE_INDEX+1 || access(curLayout)->max_memoizable_indeces[FUNCTION_FIBONACCI] > MAX_MEMOIZABLE_INDEX ||
-	              access(curLayout)->max_memoizable_indeces[FUNCTION_FATTORIALE] > MAX_MEMOIZABLE_INDEX || access(curLayout)->max_memoizable_indeces[FUNCTION_EVEN_SFATTORIALE] > MAX_MEMOIZABLE_INDEX || access(curLayout)->max_memoizable_indeces[FUNCTION_ODD_SFATTORIALE] > MAX_MEMOIZABLE_INDEX)
+	        while(PARSING_SYSTEM_ALLOWED ? (isNullVal((tmp = requires(NULL, NULL_CHAR, "Inserted MAX Fibonacci MEMOIZABLE INDEX is:", PARSER_SHOWRESULT))) || tmp != (access(curLayout)->max_memoizable_indices[FUNCTION_FIBONACCI] = (dim_typ)tmp) ||
+	            access(curLayout)->max_memoizable_indices[FUNCTION_FIBONACCI] < MIN_MEMOIZABLE_INDEX+1 || access(curLayout)->max_memoizable_indices[FUNCTION_FIBONACCI] > MAX_MEMOIZABLE_INDEX) ||
+	            (isNullVal((tmp = requires(NULL, NULL_CHAR, "Inserted MAX Factorial MEMOIZABLE INDEX is:", PARSER_SHOWRESULT))) || tmp != (access(curLayout)->max_memoizable_indices[FUNCTION_FATTORIALE] = (dim_typ)tmp) ||
+	            access(curLayout)->max_memoizable_indices[FUNCTION_FATTORIALE] < MIN_MEMOIZABLE_INDEX+1 || access(curLayout)->max_memoizable_indices[FUNCTION_FATTORIALE] > MAX_MEMOIZABLE_INDEX) ||
+			    (isNullVal((tmp = requires(NULL, NULL_CHAR, "Inserted MAX Even SemiFactorial MEMOIZABLE INDEX is:", PARSER_SHOWRESULT))) || tmp != (access(curLayout)->max_memoizable_indices[FUNCTION_EVEN_SFATTORIALE] = (dim_typ)tmp) ||
+	            access(curLayout)->max_memoizable_indices[FUNCTION_EVEN_SFATTORIALE] < MIN_MEMOIZABLE_INDEX+1 || access(curLayout)->max_memoizable_indices[FUNCTION_EVEN_SFATTORIALE] > MAX_MEMOIZABLE_INDEX) ||
+				(isNullVal((tmp = requires(NULL, NULL_CHAR, "Inserted MAX Odd SemiFactorial MEMOIZABLE INDEX is:", PARSER_SHOWRESULT))) || tmp != (access(curLayout)->max_memoizable_indices[FUNCTION_ODD_SFATTORIALE] = (dim_typ)tmp) ||
+	            access(curLayout)->max_memoizable_indices[FUNCTION_ODD_SFATTORIALE] < MIN_MEMOIZABLE_INDEX+1 || access(curLayout)->max_memoizable_indices[FUNCTION_ODD_SFATTORIALE] > MAX_MEMOIZABLE_INDEX) :
+	            (!scanf2(2, "%lf %lf %lf %lf", &tmp, &tmp2, &tmp3, &tmp4)) || tmp != (access(curLayout)->max_memoizable_indices[FUNCTION_FIBONACCI] = (dim_typ)tmp) || tmp2 != (access(curLayout)->max_memoizable_indices[FUNCTION_FATTORIALE] = (dim_typ)tmp2) || tmp3 != (access(curLayout)->max_memoizable_indices[FUNCTION_EVEN_SFATTORIALE] = (dim_typ)tmp3) || tmp4 != (access(curLayout)->max_memoizable_indices[FUNCTION_ODD_SFATTORIALE] = (dim_typ)tmp4) ||
+	              access(curLayout)->max_memoizable_indices[FUNCTION_FIBONACCI] < MIN_MEMOIZABLE_INDEX+1 || access(curLayout)->max_memoizable_indices[FUNCTION_FATTORIALE] < MIN_MEMOIZABLE_INDEX+1 || access(curLayout)->max_memoizable_indices[FUNCTION_EVEN_SFATTORIALE] < MIN_MEMOIZABLE_INDEX+1 || access(curLayout)->max_memoizable_indices[FUNCTION_ODD_SFATTORIALE] < MIN_MEMOIZABLE_INDEX+1 || access(curLayout)->max_memoizable_indices[FUNCTION_FIBONACCI] > MAX_MEMOIZABLE_INDEX ||
+	              access(curLayout)->max_memoizable_indices[FUNCTION_FATTORIALE] > MAX_MEMOIZABLE_INDEX || access(curLayout)->max_memoizable_indices[FUNCTION_EVEN_SFATTORIALE] > MAX_MEMOIZABLE_INDEX || access(curLayout)->max_memoizable_indices[FUNCTION_ODD_SFATTORIALE] > MAX_MEMOIZABLE_INDEX)
 	        {
 	            CLEARBUFFER();
 	            if(access(exitHandle) == EXITHANDLE_GETCMD) continue;
@@ -698,7 +869,7 @@ about the use with any other code-scripts.
 	            {
 	            	#pragma omp parallel for num_threads(MAX_MEMOIZABLE_FUNCTIONS)
 	            	for(i=0; i<MAX_MEMOIZABLE_FUNCTIONS; ++i)
-	            		access(curLayout)->max_memoizable_indeces[i] = old_max_memoizable_index[i];
+	            		access(curLayout)->max_memoizable_indices[i] = old_max_memoizable_index[i];
 	                return;
 	            }
 	            printErr(33, "Invalid [MIM_FIBO MIM_FACT MIM_EVENSFACT MIM_ODDSFACT] format.\nMust be an integer between %hu and %hu", MIN_MEMOIZABLE_INDEX+1, MAX_MEMOIZABLE_INDEX);
@@ -706,7 +877,7 @@ about the use with any other code-scripts.
 	    }
 	    
 	    for(i=0; i<MAX_MEMOIZABLE_FUNCTIONS; ++i)
-			sprint("MAX %s MEMOIZABLE INDEX Value has been changed from: %hu to: %hu.\n", old_max_memoizable_index[i], access(curLayout)->max_memoizable_indeces[i]);
+			sprint("MAX %s MEMOIZABLE INDEX Value has been changed from: %hu to: %hu.\n", old_max_memoizable_index[i], access(curLayout)->max_memoizable_indices[i]);
 	
 	    return;
 	}
@@ -917,9 +1088,39 @@ sprog change_settings[MAX_SETTINGS] =
         CHILD
     },
     #endif
+    #ifdef ALLOW_BLOCKSIZEEDIT
+    {
+    	"Change Block Size",
+    	CMD_CHANGEBLOCKSIZE,
+    	USAGE_CHANGEBLOCKSIZE,
+    	changeBlockSize,
+    	AUTOMATIC,
+    	CHILD
+    },
+    #endif
+    #ifdef ALLOW_MINOSMMDIMEDIT
+    {
+    	"Change Min OSMM Dimension",
+    	CMD_CHANGEMINOSMMDIM,
+    	USAGE_CHANGEMINOSMMDIM,
+    	changeMinOSMMDim,
+    	AUTOMATIC,
+    	CHILD
+    },
+    #endif
+    #ifdef ALLOW_MINSTRASSENDIMEDIT
+    {
+    	"Change Min Strassen Dimension",
+    	CMD_CHANGEMINSTRASSENDIM,
+    	USAGE_CHANGEMINSTRASSENDIM,
+    	changeMinStrassenDim,
+    	AUTOMATIC,
+    	CHILD
+    },
+    #endif
     #ifdef ALLOW_MINSRNUMBEREDIT
     {
-    	"Change Min Stirling-Requires Number",
+    	"Change Min Stirling Number",
     	CMD_CHANGEMINSRNUMBER,
     	USAGE_CHANGEMINSRNUMBER,
     	changeMinSRNumber,

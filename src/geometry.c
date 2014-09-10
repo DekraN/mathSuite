@@ -1,4 +1,4 @@
-// geometry.c 04/09/2014 Marco Chiarelli aka DekraN
+// geometry.c 10/09/2014 Marco Chiarelli aka DekraN
 /*
 WARNING!!! This program is intended to be used, so linked at the compilation,
 exclusively with main.c of my suite program! I do not assume any responsibilities
@@ -475,11 +475,13 @@ __MSUTIL_ bool __export invertMatrix(ityp *restrict matrix, dim_typ n)
 
     dim_typ i, j;
     ityp a;
+    
+    const register dim_typ n2 = n<<1;
 	
 	#pragma omp parallel for
     for(i = 0; i < n; ++i)
    		#pragma omp parallel for
-        for(j = n; j < 2*n; ++j)
+        for(j = n; j < n2; ++j)
             *(matrix + n*i + j) = i == (j-n);
 
     if(!matrixUTConv(matrix, n))
@@ -489,7 +491,7 @@ __MSUTIL_ bool __export invertMatrix(ityp *restrict matrix, dim_typ n)
     for(i = 0; i < n; ++i)
     {
         const ityp a = *(matrix + n*i + i);
-        for(j = 0; j < 2*n; ++j)
+        for(j = 0; j < n2; ++j)
             *(matrix + n*i + j) /= a;
     }
 
@@ -1050,7 +1052,7 @@ __MSNATIVE_ _MS__private void __system printMatrix(FILE *fp, ityp *matrix, const
 __MSNATIVE_ bool __system __export parse(char expr[], ityp *res)
 {
 
-    volatile int err;
+    int err;
     exprObj * exp = INIT_OBJLIST;
 
     err = exprCreate(&exp, access(func_list), access(exprVars)->var_list, access(const_list), NULL, 0);
@@ -1292,15 +1294,6 @@ __MSUTIL_ inline int __export cmpfunc(const void * a, const void * b)
    return ( *(ityp*)a - *(ityp*)b );
 }
 
-__MSNATIVE_ inline void __system _changeAlgebraDims(const dim_typ dim)
-{
-    access(curLayout)->algebra = dim;
-    access(matrixSumFunc) = suite_c.matrixSumFuncs[dim];
-    access(matrixProdFunc) = suite_c.matrixProdFuncs[dim];
-    access(matrixKProdFunc) = suite_c.matrixKProdFuncs[dim];
-    return;
-}
-
 __MSNATIVE_ inline void __system _showUsage(const sprog * const prog)
 {
     printf2(COLOR_ERROR, "\nUSAGE: ");
@@ -1332,7 +1325,7 @@ __MSNATIVE_ void __system prepareToExit(void)
     return;
  }
 
-__MSNATIVE_ inline void __system safeExit(const volatile int exval)
+__MSNATIVE_ inline void __system safeExit(const int exval)
 {
     prepareToExit();
     exit(exval);
@@ -1404,7 +1397,7 @@ __MSNATIVE_ bool __system _execScriptFiles(const char path[static MAX_PATH_LENGT
             if(access(mss))
             {
                 char mss_apnt[MAX_FILE_LINES+SIGN_STRING];
-                sprintf(mss_apnt, CMD_BASECALC" %s", str);
+                sprintf(mss_apnt, CMD_BCALC" %s", str);
                 strcpy(str, mss_apnt);
             }
 
@@ -1589,12 +1582,15 @@ __MSUTIL_ static inline void ftoa(char *string, const float value, const fsel_ty
 		
 		xmlWriteInt(&xpathObj, xpathCtx, "/settings/generalSettings/programPrecision", cur_layout->precision);
 		xmlWriteInt(&xpathObj, xpathCtx, "/settings/generalSettings/stabilizerFactor", cur_layout->stabilizer_factor);
-		xmlWriteInt(&xpathObj, xpathCtx, "/settings/generalSettings/minStirlingRequiresNumber", cur_layout->min_stirlingrequires_number);
+		xmlWriteInt(&xpathObj, xpathCtx, "/settings/generalSettings/minStirlingNumber", cur_layout->min_stirling_number);
 		xmlWriteInt(&xpathObj, xpathCtx, "/settings/generalSettings/algebra", cur_layout->algebra);
 		xmlWriteFloat(&xpathObj, xpathCtx, "/settings/generalSettings/outlierConstant", cur_layout->outlier_constant);
 	
 		xmlWriteInt(&xpathObj, xpathCtx, "/settings/matricesOptions/maxRaws", cur_layout->matrix_max_raws);
 		xmlWriteInt(&xpathObj, xpathCtx, "/settings/matricesOptions/maxColumns", cur_layout->matrix_max_columns);
+		xmlWriteInt(&xpathObj, xpathCtx, "/settings/matricesOptions/blockSize", cur_layout->block_size);
+		xmlWriteInt(&xpathObj, xpathCtx, "/settings/matricesOptions/minOSMMDim", cur_layout->min_osmm_dim);
+		xmlWriteInt(&xpathObj, xpathCtx, "/settings/matricesOptions/minStrassenDim", cur_layout->min_strassen_dim);
 		xmlWriteInt(&xpathObj, xpathCtx, "/settings/matricesOptions/maxDSVDIterations", cur_layout->max_dsvd_iterations);
 		xmlWriteInt(&xpathObj, xpathCtx, "/settings/matricesOptions/maxSimplexIterations", cur_layout->max_simplex_iterations);
 	
@@ -1602,12 +1598,12 @@ __MSUTIL_ static inline void ftoa(char *string, const float value, const fsel_ty
 		#pragma omp parallel for num_threads(MAX_MEMOIZABLE_FUNCTIONS)
 		for(i=0; i<MAX_MEMOIZABLE_FUNCTIONS; ++i)
 		{
-			char str[2*INFO_STRING] = NULL_CHAR;
+			char str[DINFO_STRING] = NULL_CHAR;
 			char strboolized[INFO_STRING] = NULL_CHAR;
 			strboolize(suite_c.memoizers_names[i], strboolized);
 			strboolized[0] = toupper(strboolized[0]);
 			sprintf(str, "/settings/memoizerOptions/max%sMemoizableIndex", strboolized);
-			xmlWriteInt(&xpathObj, xpathCtx, str, cur_layout->max_memoizable_indeces[i]);
+			xmlWriteInt(&xpathObj, xpathCtx, str, cur_layout->max_memoizable_indices[i]);
 		}
 		
 		xmlWriteInt(&xpathObj, xpathCtx, "/settings/baseConversions/minBase", cur_layout->basecalc_minbase);
@@ -1628,8 +1624,8 @@ __MSUTIL_ static inline void ftoa(char *string, const float value, const fsel_ty
 		#pragma omp parallel for
 	    for(i=0; i<MAX_BOOL_SETTINGS; ++i)
 	    {   
-	    	char name[4*MIN_STRING] = NULL_CHAR;
-			char strboolized[2*MIN_STRING] = NULL_CHAR;
+	    	char name[MIN_STRING<<MAX_DIMENSIONS] = NULL_CHAR;
+			char strboolized[MIN_STRING<<1] = NULL_CHAR;
 			strboolize(suite_c.bools_names[i], strboolized);
 	    	sprintf(name, "/settings/booleanKeys/%s", strboolized);
 	        xmlWriteBool(&xpathObj, xpathCtx, name, (cur_layout->bools & suite_c.bools[i].bmask) == suite_c.bools[i].bmask);
@@ -1651,12 +1647,15 @@ __MSUTIL_ static inline void ftoa(char *string, const float value, const fsel_ty
 		tmp->exit_char = ex_char[0];
 		tmp->precision = xmlGetInt(&xpathObj, xpathCtx, "/settings/generalSettings/programPrecision");
 		tmp->stabilizer_factor = xmlGetInt(&xpathObj, xpathCtx, "/settings/generalSettings/stabilizerFactor");
-		tmp->min_stirlingrequires_number = xmlGetInt(&xpathObj, xpathCtx, "/settings/generalSettings/minStirlingRequiresNumber");
+		tmp->min_stirling_number = xmlGetInt(&xpathObj, xpathCtx, "/settings/generalSettings/minStirlingNumber");
 		tmp->algebra = xmlGetInt(&xpathObj, xpathCtx, "/settings/generalSettings/algebra");
 		tmp->outlier_constant = xmlGetFloat(&xpathObj, xpathCtx, "/settings/generalSettings/outlierConstant");
 			
 		tmp->matrix_max_raws = xmlGetInt(&xpathObj, xpathCtx, "/settings/matricesOptions/maxRaws");
 		tmp->matrix_max_columns = xmlGetInt(&xpathObj, xpathCtx, "/settings/matricesOptions/maxColumns");
+		tmp->block_size = xmlGetInt(&xpathObj, xpathCtx, "/settings/matricesOptions/blockSize");
+		tmp->min_osmm_dim = xmlGetInt(&xpathObj, xpathCtx, "/settings/matricesOptions/minOSMMDim");
+		tmp->min_strassen_dim = xmlGetInt(&xpathObj, xpathCtx, "/settings/matricesOptions/minStrassenDim");
 		tmp->max_dsvd_iterations = xmlGetInt(&xpathObj, xpathCtx, "/settings/matricesOptions/maxDSVDIterations");
 		tmp->max_simplex_iterations = xmlGetInt(&xpathObj, xpathCtx, "/settings/matricesOptions/maxSimplexIterations");
 	
@@ -1664,12 +1663,12 @@ __MSUTIL_ static inline void ftoa(char *string, const float value, const fsel_ty
 		#pragma omp parallel for num_threads(MAX_MEMOIZABLE_FUNCTIONS)
 		for(i=0; i<MAX_MEMOIZABLE_FUNCTIONS; ++i)
 		{
-			char str[2*INFO_STRING] = NULL_CHAR;
+			char str[DINFO_STRING] = NULL_CHAR;
 			char strboolized[INFO_STRING] = NULL_CHAR;
 			strboolize(suite_c.memoizers_names[i], strboolized);
 			strboolized[0] = toupper(strboolized[0]);
 			sprintf(str, "/settings/memoizerOptions/max%sMemoizableIndex", strboolized);
-			tmp->max_memoizable_indeces[i] = xmlGetInt(&xpathObj, xpathCtx, str);
+			tmp->max_memoizable_indices[i] = xmlGetInt(&xpathObj, xpathCtx, str);
 		}
 	
 	
@@ -1686,15 +1685,13 @@ __MSUTIL_ static inline void ftoa(char *string, const float value, const fsel_ty
 		tmp->pascal_triangle_min_raws = xmlGetInt(&xpathObj, xpathCtx, "/settings/pascalsTriangle/minRaws");
 		tmp->pascal_triangle_max_raws = xmlGetInt(&xpathObj, xpathCtx, "/settings/pascalsTriangle/maxRaws");
 		
-		/// printf("\n\nMAX PASCALTRIANGLE RAWS: %hu\n\n", tmp->pascal_triangle_max_raws);
-	
 	    volatile bool tmp_bool = false;
 		
 		#pragma omp parallel for
 	    for(i=0; i<MAX_BOOL_SETTINGS; ++i)
 	    {
-			char name[4*MIN_STRING] = NULL_CHAR;
-			char strboolized[2*MIN_STRING] = NULL_CHAR;
+			char name[MIN_STRING<<MAX_DIMENSIONS] = NULL_CHAR;
+			char strboolized[DINFO_STRING] = NULL_CHAR;
 	        strboolize(suite_c.bools_names[i], strboolized);
 	        sprintf(name, "/settings/booleanKeys/%s", strboolized);
 	        tmp_bool = xmlGetBool(&xpathObj, xpathCtx, name);
@@ -2060,12 +2057,15 @@ __MSNATIVE_ void __system viewProgramSettings(dim_typ which_layout)
 	sprint("- Exit CHAR: %c;\n", cur_layout->exit_char);
     sprint("- PROGRAM PRECISION: %hu;\n", cur_layout->precision);
     sprint("- STABILIZER FACTOR: %hu;\n", cur_layout->stabilizer_factor);
-    sprint("- Min Stirling-Requires NUMBER: %hu;\n", cur_layout->min_stirlingrequires_number);
+    sprint("- Min Stirling NUMBER: %hu;\n", cur_layout->min_stirling_number);
     sprint("- ALGEBRA: %s;\n", suite_c.algebra_elements_names[cur_layout->algebra]);
     sprint("- Outlier Constant: %.*f;\n", DEFAULT_PRECISION, cur_layout->outlier_constant);
 
     sprint("- Matrices MAX RAWS: %hu;\n", cur_layout->matrix_max_raws);
     sprint("- Matrices MAX COLUMNS: %hu;\n", cur_layout->matrix_max_columns);
+    sprint("- Matrices BLOCK SIZE: %hu;\n", cur_layout->block_size);
+    sprint("- Matrices Min OSMM Dimension: %hu;\n", cur_layout->min_osmm_dim);
+    sprint("- Matrices Min Strassen Dimension: %hu;\n", cur_layout->min_strassen_dim);
     sprint("- Max DSVD Iterations: %hu;\n", cur_layout->max_dsvd_iterations);
     sprint("- Max SIMPLEX METHOD Iterations: %hu;\n", cur_layout->max_simplex_iterations);
 
@@ -2075,7 +2075,7 @@ __MSNATIVE_ void __system viewProgramSettings(dim_typ which_layout)
 		char str[SIGN_STRING] = NULL_CHAR;
 		strcpy(str, suite_c.memoizers_names[i]);
 		toupper_s(str);
-		sprint("- Max %s Memoizable Index: %hu;\n", str, cur_layout->max_memoizable_indeces[i]);
+		sprint("- Max %s Memoizable Index: %hu;\n", str, cur_layout->max_memoizable_indices[i]);
 	}
 
     sprint("- MIN Processable BASE %hu;\n", cur_layout->basecalc_minbase);
@@ -2205,7 +2205,7 @@ __MSNATIVE_ ityp __system __export requires(const char *cmd_string, const char *
 
     char buf[MAX_BUFSIZ];
     exprObj *e = INIT_OBJLIST;
-    volatile int err;
+    int err;
     ityp val;
     ityp diff;
     time_t t1;
@@ -2632,12 +2632,12 @@ __MSNATIVE_ volatile char __system insertElement(ityp *restrict matrix, const re
             printf2(COLOR_USER, ".\n\n");
         }
 
-        if(!(*(matrix + columns*dim[RAWS] + dim[COLUMNS])) && dcheck && INVERSE_OPS && ((__pmode__ >= ALGEBRA_MATRICESPRODUCT && __pmode__ <= ALGEBRA_SCALARPRODUCT )|| __pmode__ == ALGEBRA_SCALARDIVISIONMATRIX))
+        if(!(*(matrix + columns*dim[RAWS] + dim[COLUMNS])) && dcheck && INVERSE_OPS && ((__pmode__ >= ALGOPS_MATRIXMULTIPLICATION && __pmode__ <= ALGOPS_DOTPRODUCT )|| __pmode__ == ALGOPS_SCALARDIVISIONMATRIX))
            printErr(33, "You cannot enter a 0 because program is performing a Division somewhere");
 
     }
-    while((tmp != 1 && !(dim[RAWS]) && !(dim[COLUMNS])) || (!(*(matrix + columns*dim[RAWS] + dim[COLUMNS])) && dcheck && INVERSE_OPS && ((__pmode__ >= ALGEBRA_SCALARPRODUCT && __pmode__ <= ALGEBRA_SCALARDIVISIONMATRIX)
-    ||__pmode__ == ALGEBRA_SCALARDIVISIONMATRIX))||isDomainForbidden(*(matrix + columns*dim[RAWS] + dim[COLUMNS]), INPUT));
+    while((tmp != 1 && !(dim[RAWS]) && !(dim[COLUMNS])) || (!(*(matrix + columns*dim[RAWS] + dim[COLUMNS])) && dcheck && INVERSE_OPS && ((__pmode__ >= ALGOPS_DOTPRODUCT && __pmode__ <= ALGOPS_SCALARDIVISIONMATRIX)
+    ||__pmode__ == ALGOPS_SCALARDIVISIONMATRIX))||isDomainForbidden(*(matrix + columns*dim[RAWS] + dim[COLUMNS]), INPUT));
 
     CLEARBUFFER();
 
@@ -2765,7 +2765,7 @@ __MSNATIVE_ bool __system __export enterMatrix(ityp **matrix, dim_typ *righe, di
         errMem((*matrix), false);
 
 
-        for(*righe = 1; (square ? *righe < *colonne : (tmp && __pmode__ != ALGEBRA_SCALARPRODUCT)); ++(*righe))
+        for(*righe = 1; (square ? *righe < *colonne : (tmp && __pmode__ != ALGOPS_DOTPRODUCT)); ++(*righe))
         {
             dim_typ i;
             analog_raws = (*righe)+1;
@@ -2824,7 +2824,7 @@ __MSNATIVE_ bool __system __export enterMatrix(ityp **matrix, dim_typ *righe, di
 
         }
 
-        if(!(square) && __pmode__ != ALGEBRA_SCALARPRODUCT)
+        if(!(square) && __pmode__ != ALGOPS_DOTPRODUCT)
            (*righe) --;
 
     }
@@ -2895,7 +2895,7 @@ __MSNATIVE_ bool __system __export enterMatrix(ityp **matrix, dim_typ *righe, di
         dim_typ j;
         volatile sel_typ back_tracking;
 
-        for(i = 1; i<(*righe) && __pmode__ != ALGEBRA_SCALARPRODUCT; ++i)
+        for(i = 1; i<(*righe) && __pmode__ != ALGOPS_DOTPRODUCT; ++i)
             for(j=start_col_index; j<(*colonne); ++j)
             {
                 while((tmp = insertElement((*matrix), (dim_typ2){i, j}, *colonne, square)) != 1 && tmp != -2 && !(char_insert))

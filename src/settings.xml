@@ -7,7 +7,7 @@
         <exitChar>C</exitChar>
         <programPrecision>2</programPrecision>
 	<stabilizerFactor>10</stabilizerFactor>
-	<minStirlingRequiresNumber>30</minStirlingRequiresNumber>
+	<minStirlingNumber>30</minStirlingNumber>
 	<!-- select 0 for real, 1 for complex, 2 for quaternions, 3 for octonions or 4 for sedenions -->
 	<algebra>0</algebra>
 	<outlierConstant>1.50</outlierConstant>
@@ -16,6 +16,8 @@
     <matricesOptions>
         <maxRaws>100</maxRaws>
 	<maxColumns>100</maxColumns>
+	<blockSize>41</blockSize>
+	<minOSMMDim>4</minOSMMDim>	<minStrassenDim>16</minStrassenDim>
 	<maxDSVDIterations>30000</maxDSVDIterations>
 	<maxSimplexIterations>500</maxSimplexIterations>
     </matricesOptions>
@@ -73,7 +75,7 @@
 	<inverseOperationsAutomaticDeactivator>true</inverseOperationsAutomaticDeactivator>
 	<degreesEnteringOnTrigonometricOperations>false</degreesEnteringOnTrigonometricOperations>
 	<requestProgramsRepetitions>true</requestProgramsRepetitions>
-	<extensiveMultiThreading>false</extensiveMultiThreading>
+	<strassenOptimization>true</strassenOptimization>	<extensiveMultiThreading>false</extensiveMultiThreading>
     </booleanKeys>
 
 </settings>

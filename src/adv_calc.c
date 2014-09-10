@@ -1,4 +1,4 @@
-// adv_calc.c 04/09/2014 Marco Chiarelli aka DekraN
+// adv_calc.c 10/09/2014 Marco Chiarelli aka DekraN
 /*
 WARNING!!! This program is intended to be used, so linked at the compilation,
 exclusively with main.c of my suite program! I do not assume any responsibilities
@@ -9,8 +9,8 @@ about the use with any other code-scripts.
 
 
 __MSSHELL_WRAPPER_ static void _MS__private secondGradeEquationSolver(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private complexSum(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private complexProd(const register sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private complexAdd(const register sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private complexMul(const register sel_typ argc, char ** argv);
 __MSSHELL_WRAPPER_ static void _MS__private getDate(const register sel_typ argc, char ** argv);
 __MSSHELL_WRAPPER_ static void _MS__private simplexMethod(const register sel_typ argc, char ** argv);
 __MSSHELL_WRAPPER_ static void _MS__private newtonDifferenceTables(const register sel_typ argc, char ** argv);
@@ -35,30 +35,21 @@ sprog adv_calc[MAX_ADVCALC_PROGS] =
     },
     [ADVCALC_COMPLEXNUMBERSSUM] =
     {
-        "Complex and HyperComplex Numbers Sum",
-        CMD_COMPLEXSUM,
-        USAGE_COMPLEXSUM,
-        complexSum,
+        "Complex and HyperComplex Numbers Addition",
+        CMD_COMPLEXADD,
+        USAGE_COMPLEXADD,
+        complexAdd,
         BY_USER,
         CHILD
     },
     [ADVCALC_COMPLEXNUMBERSPROD] =
     {
-        "Complex and HyperComplex Numbers Product",
-        CMD_COMPLEXPROD,
-        USAGE_COMPLEXPROD,
-        complexProd,
+        "Complex and HyperComplex Numbers Multiplication",
+        CMD_COMPLEXMUL,
+        USAGE_COMPLEXMUL,
+        complexMul,
         BY_USER,
         CHILD
-    },
-    [ADVCALC_GETFORMATTEDDATE] =
-    {
-        "Formatted Date by Numeric One",
-        CMD_GETDATE,
-        USAGE_GETDATE,
-        getDate,
-        BY_USER,
-        CHILD,
     },
     [ADVCALC_SIMPLEXMETHOD] =
     {
@@ -188,18 +179,18 @@ __MSSHELL_WRAPPER_ static void _MS__private secondGradeEquationSolver(const regi
     return;
 }
 
-__MSSHELL_WRAPPER_ static void _MS__private complexSum(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static void _MS__private complexAdd(const register sel_typ argc, char ** argv)
 {
-    ityp *complex = NULL;
-    const fsel_typ algebra_units = (!access(curLayout)->algebra) ? MAX_DIMENSIONS : exp2(access(curLayout)->algebra);
+    ityp *cpx = NULL;
+    const sel_typ algebra_units = (!access(curLayout)->algebra) ? MAX_COMPLEX_UNITS : exp2(access(curLayout)->algebra);
 
     if(argc)
     {
         dim_typ dim[MAX_DIMENSIONS];
 
-        if((!matrixToken(argv[0], &complex, dim, &dim[COLUMNS])) || dim[RAWS] != MAX_DIMENSIONS || dim[COLUMNS] != algebra_units)
+        if((!matrixToken(argv[0], &cpx, dim, &dim[COLUMNS])) || dim[RAWS] != MAX_DIMENSIONS || dim[COLUMNS] != algebra_units)
         {
-            matrixFree(&complex);
+            matrixFree(&cpx);
             printUsage(&adv_calc[ADVCALC_COMPLEXNUMBERSSUM]);
             return;
         }
@@ -213,44 +204,51 @@ __MSSHELL_WRAPPER_ static void _MS__private complexSum(const register sel_typ ar
 
         printf2(COLOR_CREDITS, "\nEnter 2x%hu MATRIX whose RAWS contains respectively\nREAL PART and IMAGINARY PART%s of both two Operands.\n\n", algebra_units, algebra_units > MAX_COMPLEX_UNITS ? "s":NULL_CHAR);
 
-        if(!insertNMMatrix(&complex, (dim_typ2){MAX_DIMENSIONS, algebra_units}))
+        if(!insertNMMatrix(&cpx, (dim_typ2){MAX_DIMENSIONS, algebra_units}))
             return;
     }
 
     ityp complexRes[algebra_units];
-
-    switch(access(curLayout)->algebra)
-    {
-        case ALGEBRA_REALNUMBERS:
-        case ALGEBRA_COMPLEXNUMBERS:
-            _complexSum(complex, complexRes);
-            break;
-        case ALGEBRA_QUATERNIONS:
-            _quaternionsSum(complex, complexRes);
-            break;
-        case ALGEBRA_OCTONIONS:
-            _octonionsSum(complex, complexRes);
-            break;
-        case ALGEBRA_SEDENIONS:
-            _sedenionsSum(complex, complexRes);
-            break;
-    }
-
+    
+    static void (* const complexAddFunc[_MAX_ALGEBRA][MAX_DIMENSIONS])(ityp *restrict, ityp [static MAX_SEDENIONS_UNITS]) =
+	{
+		{
+			_complexAdd,
+			_complexSub
+		},
+		{
+			_quaternionsAdd,
+			_quaternionsSub
+		},
+		{
+			_octonionsAdd,
+			_octonionsSub
+		},
+		{
+			_sedenionsAdd,
+			_sedenionsSub
+		}
+	};
+	
+	complexAddFunc[((access(curLayout)->algebra == ALGEBRA_COMPLEXNUMBERS || !access(curLayout)->algebra) ? ALGEBRA_COMPLEXNUMBERS : access(curLayout)->algebra)-1][INVERSE_OPS](cpx, complexRes);
     printf2(COLOR_USER, "\nRESULT of Operation: (");
-
+	
     dim_typ i;
 
     PRINT2N();
 
     for(i=0; i<algebra_units; ++i)
     {
-        printf2(COLOR_USER, OUTPUT_CONVERSION_FORMAT, *(complex + (algebra_units*FIRST_NUMBER) + i));
-        printf2(COLOR_USER, "%s%s ", suite_c.algebra_imaginary_units_names[algebra_units][i], i==algebra_units-1 ? ") +\n":" +");
+        printf2(COLOR_USER, OUTPUT_CONVERSION_FORMAT, *(cpx + i));
+        printf2(COLOR_USER, "%s%s ", suite_c.algebra_imaginary_units_names[algebra_units][i], i==algebra_units-1 ? ") ":" +");
     }
+    
+    static char oprchar[MAX_DIMENSIONS] = "+-";
+    printf("%c\n", oprchar[INVERSE_OPS]);
 
     for(i=0; i<algebra_units; ++i)
     {
-        printf2(COLOR_USER, OUTPUT_CONVERSION_FORMAT, *(complex + (algebra_units*SECOND_NUMBER) + i));
+        printf2(COLOR_USER, OUTPUT_CONVERSION_FORMAT, *(cpx + (algebra_units*SECOND_NUMBER) + i));
         printf2(COLOR_USER, "%s%s ", suite_c.algebra_imaginary_units_names[algebra_units][i], i==algebra_units-1 ? ") is = to:\n":" +");
     }
 
@@ -260,7 +258,7 @@ __MSSHELL_WRAPPER_ static void _MS__private complexSum(const register sel_typ ar
         printf2(COLOR_USER, "%s%s", suite_c.algebra_imaginary_units_names[algebra_units][i], i ==algebra_units-1 ? ";\n\n":" + ");
     }
 
-    matrixFree(&complex);
+    matrixFree(&cpx);
 
     #if WINOS
         SetExitButtonState(ENABLED);
@@ -269,18 +267,18 @@ __MSSHELL_WRAPPER_ static void _MS__private complexSum(const register sel_typ ar
     return;
 }
 
-__MSSHELL_WRAPPER_ static void _MS__private complexProd(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static void _MS__private complexMul(const register sel_typ argc, char ** argv)
 {
-    ityp *complex = NULL;
+    ityp *cpx = NULL;
     const fsel_typ algebra_units = (!access(curLayout)->algebra) ? MAX_DIMENSIONS : exp2(access(curLayout)->algebra);
 
     if(argc)
     {
         dim_typ dim[MAX_DIMENSIONS];
 
-        if((!matrixToken(argv[0], &complex, dim, &dim[COLUMNS])) || dim[RAWS] != MAX_DIMENSIONS || dim[COLUMNS] != MAX_DIMENSIONS)
+        if((!matrixToken(argv[0], &cpx, dim, &dim[COLUMNS])) || dim[RAWS] != MAX_DIMENSIONS || dim[COLUMNS] != MAX_DIMENSIONS)
         {
-            matrixFree(&complex);
+            matrixFree(&cpx);
             printUsage(&adv_calc[ADVCALC_COMPLEXNUMBERSPROD]);
             return;
         }
@@ -293,30 +291,33 @@ __MSSHELL_WRAPPER_ static void _MS__private complexProd(const register sel_typ a
 
         printf2(COLOR_CREDITS, "\nEnter 2x%hu MATRIX whose RAWS contains respectively\nREAL PART and IMAGINARY PART%s of both two Operands.\n\n", algebra_units, algebra_units > MAX_COMPLEX_UNITS ? "s":NULL_CHAR);
 
-        if(!insertNMMatrix(&complex, (dim_typ2){MAX_DIMENSIONS, algebra_units}))
+        if(!insertNMMatrix(&cpx, (dim_typ2){MAX_DIMENSIONS, algebra_units}))
             return;
     }
 
     ityp complexRes[algebra_units];
-
-    switch(access(curLayout)->algebra)
-    {
-        case ALGEBRA_REALNUMBERS:
-        case ALGEBRA_COMPLEXNUMBERS:
-            _complexProd(complex, complexRes);
-            break;
-        case ALGEBRA_QUATERNIONS:
-            _quaternionsProduct(complex, complexRes);
-            break;
-        case ALGEBRA_OCTONIONS:
-            _octonionsProduct(complex, complexRes);
-            break;
-        case ALGEBRA_SEDENIONS:
-            _sedenionsProduct(complex, complexRes);
-            break;
-    }
-
-
+    
+    static void (* const complexMulFunc[_MAX_ALGEBRA][MAX_DIMENSIONS])(ityp *restrict, ityp [static MAX_SEDENIONS_UNITS]) =
+	{
+		{
+			_complexMul,
+			_complexDiv
+		},
+		{
+			_quaternionsMul,
+			_quaternionsDiv
+		},
+		{
+			_octonionsMul,
+			_octonionsDiv
+		},
+		{
+			_sedenionsMul,
+			_sedenionsDiv
+		}
+	};
+	
+	complexMulFunc[((access(curLayout)->algebra == ALGEBRA_COMPLEXNUMBERS || !access(curLayout)->algebra) ? ALGEBRA_COMPLEXNUMBERS : access(curLayout)->algebra)-1][INVERSE_OPS](cpx, complexRes);
     printf2(COLOR_USER, "\nRESULT of Operation: (");
 
     dim_typ i;
@@ -325,13 +326,16 @@ __MSSHELL_WRAPPER_ static void _MS__private complexProd(const register sel_typ a
 
     for(i=0; i<algebra_units; ++i)
     {
-        printf2(COLOR_USER, OUTPUT_CONVERSION_FORMAT, *(complex + (algebra_units*FIRST_NUMBER) + i));
-        printf2(COLOR_USER, "%s%s ", suite_c.algebra_imaginary_units_names[algebra_units][i], i==algebra_units-1 ? ") *\n":" +");
+        printf2(COLOR_USER, OUTPUT_CONVERSION_FORMAT, *(cpx + (algebra_units*FIRST_NUMBER) + i));
+        printf2(COLOR_USER, "%s%s ", suite_c.algebra_imaginary_units_names[algebra_units][i], i==algebra_units-1 ? ") ":" +");
     }
+    
+    static char oprchar[MAX_DIMENSIONS] = "*/";
+    printf("%c\n", oprchar[INVERSE_OPS]);
 
     for(i=0; i<algebra_units; ++i)
     {
-        printf2(COLOR_USER, OUTPUT_CONVERSION_FORMAT, *(complex + (algebra_units*SECOND_NUMBER) + i));
+        printf2(COLOR_USER, OUTPUT_CONVERSION_FORMAT, *(cpx + (algebra_units*SECOND_NUMBER) + i));
         printf2(COLOR_USER, "%s%s ", suite_c.algebra_imaginary_units_names[algebra_units][i], i==algebra_units-1 ? ") is = to:\n":" +");
     }
 
@@ -341,96 +345,11 @@ __MSSHELL_WRAPPER_ static void _MS__private complexProd(const register sel_typ a
         printf2(COLOR_USER, "%s%s", suite_c.algebra_imaginary_units_names[algebra_units][i], i ==algebra_units-1 ? ";\n\n":" + ");
     }
 
-    matrixFree(&complex);
+    matrixFree(&cpx);
 
     #if WINOS
         SetExitButtonState(ENABLED);
     #endif // WINOS
-    return;
-}
-
-__MSSHELL_WRAPPER_ static void _MS__private getDate(const register sel_typ argc, char ** argv)
-{
-    ityp tmp;
-    ityp tmp2, tmp3;
-
-    ityp dd, mm;
-    ityp yyyy;
-
-    if(argc)
-    {
-        if(argc != MAX_ABSTRACT_DIMENSIONS)
-        {
-            printUsage(&adv_calc[ADVCALC_GETFORMATTEDDATE]);
-            return;
-        }
-
-        if(PARSING_ADVCALC_ALLOWED)
-        {
-            if((!parse(argv[0], &tmp)) || tmp != (dd = (sel_typ)tmp))
-            {
-                printUsage(&adv_calc[ADVCALC_GETFORMATTEDDATE]);
-                return;
-            }
-            if((!parse(argv[1], &tmp)) || tmp != (mm = (sel_typ)tmp))
-            {
-                printUsage(&adv_calc[ADVCALC_GETFORMATTEDDATE]);
-                return;
-            }
-            if((!parse(argv[2], &tmp)) || tmp != (yyyy = (uint64_t)tmp))
-            {
-                printUsage(&adv_calc[ADVCALC_GETFORMATTEDDATE]);
-                return;
-            }
-        }
-        else
-        {
-            if((tmp = strtod(argv[0], NULL)) != (dd = (sel_typ)tmp))
-            {
-                printUsage(&adv_calc[ADVCALC_GETFORMATTEDDATE]);
-                return;
-            }
-            if((tmp = strtod(argv[1], NULL)) != (mm = (sel_typ)tmp))
-            {
-                printUsage(&adv_calc[ADVCALC_GETFORMATTEDDATE]);
-                return;
-            }
-            if((tmp = strtod(argv[2], NULL)) != (yyyy = (uint64_t)tmp))
-            {
-                printUsage(&adv_calc[ADVCALC_GETFORMATTEDDATE]);
-                return;
-            }
-        }
-
-    }
-    else
-    {
-        char seperator[SIGN_STRING] = NULL_CHAR;
-
-        strcpy(seperator, PARSING_ADVCALC_ALLOWED ? "]\n[" : BLANK_STRING);
-
-        printf2(COLOR_CREDITS, "\nEnter Numeric DATE as expected format:\n");
-        printf2(COLOR_CREDITS, "[DD%sMM%sYYYY]\n", seperator, seperator);
-
-        if(PARSING_ADVCALC_ALLOWED)
-            PRINTHOWTOBACKMESSAGE();
-
-        while(PARSING_ADVCALC_ALLOWED ? (isNullVal((tmp = requires(NULL, NULL_CHAR, "Inserted DAY is", PARSER_SHOWRESULT))) || tmp != (dd = (sel_typ)tmp) || dd < 1 || dd > MAX_MONTH_DAYS) ||
-        (isNullVal((tmp = requires(NULL, NULL_CHAR, "Inserted MONTH is", PARSER_SHOWRESULT))) || tmp != (mm = (sel_typ)tmp) || mm < 1 || mm > MAX_MONTHS) ||
-        (isNullVal((tmp = requires(NULL, NULL_CHAR, "Inserted YEAR is", PARSER_SHOWRESULT))) || tmp != (yyyy = (uint64_t)tmp) || yyyy < 1)      :
-        (!scanf2(3, "%lf %lf %lf", &tmp, &tmp2, &tmp3)) || tmp != (dd = (sel_typ)tmp) || tmp2 != (mm = (sel_typ)tmp2) || tmp3 != (yyyy = (uint64_t)tmp3)
-          || dd < 1 || mm < 1 || yyyy < 1 || dd > MAX_MONTH_DAYS || mm > MAX_MONTHS)
-        {
-            CLEARBUFFER();
-            if(access(exitHandle) == EXITHANDLE_GETCMD) continue;
-            if(exitHandleCheck) return;
-            printErr(33, "Invalid [DD MM YYYY] format.\nYou have to insert DAY, MONTH and YEAR as non-negative and non-zero integers.\n\
-and the first two Params must respectively be less than %hu and %hu", MAX_MONTH_DAYS, MAX_MONTHS);
-        }
-    }
-
-    printf2(COLOR_USER, "\nFormatted DATE correspondent to the Inserted Numeric ONE:\n%hu/%hu/%llu is: %s %hu %s %llu.\n\n",
-           dd, mm, yyyy, getDayName(getDayNumber(dd, mm, yyyy)), dd, getMonthName(mm), yyyy);
     return;
 }
 
@@ -860,7 +779,7 @@ __MSSHELL_WRAPPER_ static void _MS__private greatestEigenValue(const register se
 
     for( ;; )
     {
-        _matrixProduct(matrix1, matrix2, result, (dim_typ3){dim[RAWS], dim[RAWS], 1});
+        _matrixMultiplication(matrix1, matrix2, result, (dim_typ3){dim[RAWS], dim[RAWS], 1});
         // matrixToVector((*result), (dim_typ2){dim[RAWS], 1}, resultVector, MATRIX_TO_VECTOR);
         eigenValue = MAX(3, resultVector);
 
@@ -1260,17 +1179,17 @@ __MSSHELL_WRAPPER_ static void _MS__private parabolicCurveFitting(const register
 		for(j = 0; j < MAX_ABSTRACT_DIMENSIONS; ++j)
             if(i!=j)
             {
-                const ityp ratio = *(matrix + 4*j + i)/ *(matrix + 4*i + i);
+                const ityp ratio = *(matrix + (j<<MAX_DIMENSIONS) + i)/ *(matrix + (i<<MAX_DIMENSIONS) + i);
                 for(k = 0; k < 4; ++k)
-                    *(matrix + 4*j + k) -= ratio * *(matrix + 4*i + k);
+                    *(matrix + (j<<MAX_DIMENSIONS) + k) -= ratio * *(matrix + (i<<MAX_DIMENSIONS) + k);
             }
 
     #pragma omp parallel for
 	for(i = 0; i < MAX_ABSTRACT_DIMENSIONS; ++i)
     {
-        const ityp a = *(matrix + 4*i + i);
+        const ityp a = *(matrix + (i<<MAX_DIMENSIONS) + i);
 		for(j = 0; j < 4; ++j)
-            *(matrix + 4*i + j) /= a;
+            *(matrix + (i<<MAX_DIMENSIONS) + j) /= a;
     }
 
     printf2(COLOR_USER, "\nPARABOLIC CURVE Fitting is:\n");
@@ -1279,7 +1198,7 @@ __MSSHELL_WRAPPER_ static void _MS__private parabolicCurveFitting(const register
     for(i = 0; i < MAX_ABSTRACT_DIMENSIONS; ++i)
     {
         printf2(COLOR_USER, "%c => ", i+97);
-        printf2(COLOR_USER, OUTPUT_CONVERSION_FORMAT, *(matrix + 4*i + 3));
+        printf2(COLOR_USER, OUTPUT_CONVERSION_FORMAT, *(matrix + (i<<MAX_DIMENSIONS) + 3));
         printf2(COLOR_USER, ";\n");
     }
 

@@ -1,5 +1,5 @@
 // dutils.h
-// 04/09/2014 Marco Chiarelli aka DekraN
+// 10/09/2014 Marco Chiarelli aka DekraN
 /*
 WARNING!!! This program is intended to be included
 exclusively by main.c, geometry.c, programs.c, algebra.c and settings.c project files of my suite program!
@@ -13,6 +13,7 @@ I do not assume any responsibilities about the use with any other code-scripts.
 #include <stdlib.h>
 #include <stdarg.h>
 #include <math.h>
+#include <complex.h>
 #include <time.h>
 #include <string.h>
 #include <ctype.h>
@@ -82,9 +83,9 @@ extern "C" {
 #define _MS__private
 
 #define PROG__NAME "mathSuite"
-#define PROG__VERSION "6.00"
+#define PROG__VERSION "6.50"
 #define PROG__AUTHOR "Marco Chiarelli"
-#define PROG__LASTUPDATEDATE "04/09/2014"
+#define PROG__LASTUPDATEDATE "10/09/2014"
 
 
 // INITIALIZING EXPREVAL DEFAULT CONSTANTS
@@ -157,14 +158,6 @@ extern "C" {
 #define MAIN_MAT MAIN_ITEM
 #define MAIN_LOG MAIN_ITEM
 #define MAIN_LAYOUT MAIN_ITEM
-
-
-
-#define INIT_MATRIXSUMFUNC (void (*)(ityp **, ityp **, ityp **, const register dim_typ [static MAX_DIMENSIONS]))NULL
-#define INIT_MATRIXPRODFUNC (void (*)(ityp **, ityp **, ityp **, const register dim_typ [static MAX_ABSTRACT_DIMENSIONS]))NULL
-#define INIT_MATRIXKPRODFUNC (void (*)(ityp **, ityp **, ityp **, const register dim_typ [static MAX_DIMENSIONS][MAX_DIMENSIONS]))NULL
-
-
 
 // #define MAIN_ENV DEFAULT_MAIN_ENV
 // #define MAIN_MAT DEFAULT_MAIN_MAT
@@ -257,8 +250,8 @@ enum
 #define MINMIN_STRING 20
 #define MIN_STRING 50
 #define MAX_STRING 256
-#define MAXX_STRING (2*MAX_STRING)
-#define MAXMAX_STRING (4*MAX_STRING)
+#define MAXX_STRING (MAX_STRING<<1)
+#define MAXMAX_STRING (MAX_STRING<<MAX_DIMENSIONS)
 #define MMAX_STRING (5*MAX_STRING)
 #define KSTRING 1000
 
@@ -266,9 +259,11 @@ enum
 //
 #define INFO_STRING MIN_STRING
 
+#define DINFO_STRING INFO_STRING<<1
+
 #define MAX_DESCRIPTION_STRING 3000
 
-#define PATHCONTAINS_STRING (MAX_PATH_LENGTH+(2*MIN_STRING))
+#define PATHCONTAINS_STRING (MAX_PATH_LENGTH+(MIN_STRING<<1))
 #define ERR_STRING PATHCONTAINS_STRING
 
 #define MAX_FILE_LINES MAXX_STRING /// 255 /// INFO_STRING /// 100
@@ -357,7 +352,7 @@ enum
 	#define SetDefaultColor() SetColor(COLOR_DEFAULT)
 #endif
 
-#define ROMAN_NUMBER_STRING 2*MIN_STRING
+#define ROMAN_NUMBER_STRING MIN_STRING<<1
 
 #define ROMAN_NUMBER_MAPSTRING 5
 
@@ -526,7 +521,7 @@ int exprValidIdent(char *name);
     #error Invalid definition of one of MAX FUNCTIONS MEMOIZABLE INDICES.
 #endif // MAX_FIBONACCI_MEMOIZABLE_INDEX
 
-#define MIN_STIRLINGREQUIRES_NUMBER DEFAULT_MIN_STIRLINGREQUIRES_NUMBER
+#define MIN_STIRLING_NUMBER DEFAULT_MIN_STIRLING_NUMBER
 
 #define INPUT false
 #define OUTPUT true
@@ -547,6 +542,16 @@ enum
 
 #define LAST_MATRIX_ENUM THIRD_MATRIX
 #define MAX_MATRICES LAST_MATRIX_ENUM+1
+
+/// #define BLOCK_SIZE 41
+
+#define MIN_BLOCKSIZE 1
+#define _BLOCK_SIZE DEFAULT_BLOCKSIZE
+#define MIN_OSMM_DIM DEFAULT_MINOSMMDIM
+#define MIN_STRASSEN_DIM DEFAULT_MINSTRASSENDIM
+
+#define STARTING_MINOSMMDIM MIN_OSMM_DIM + MAX_DIMENSIONS
+#define STARTING_MINSTRASSENDIM MIN_STRASSEN_DIM
 
 #define NORMAL_MODE false
 #define NOP_MODE true
@@ -660,7 +665,7 @@ enum
 // Used just to initializate the program random seed value.
 
 #define DEFAULT_RANDOM_SEED (unsigned)time(NULL)
-volatile tipo_random_seed starting_random_seed;
+tipo_random_seed starting_random_seed;
 
 #define MIN_RANDOMSEED 1
 #define MAX_RANDOMSEED RAND_MAX
@@ -686,6 +691,11 @@ enum
 
 #define REAL_UNIT_NAME NULL_CHAR // "real"
 
+#define _cabs(a) __cabs(a,ALGEBRA_COMPLEXNUMBERS)
+#define _qabs(a) __cabs(a,ALGEBRA_QUATERNIONS)
+#define _oabs(a) __cabs(a,ALGEBRA_OCTONIONS)
+#define _sabs(a) __cabs(a,ALGEBRA_SEDENIONS)
+
 #define MIN_MEMOIZABLE_INDEX 5
 
 
@@ -708,7 +718,7 @@ enum
 // MAIN PROGRAMS ENUMERATIONS
 enum
 {
-    MAIN_BASECALCULATOR = 0,
+    MAIN_BCALCULATOR = 0,
     MAIN_ADVANCEDCALCULATOR,
     MAIN_ALGEBRAOPERATIONS,
     #ifdef ALLOW_MSSMANAGER
@@ -744,7 +754,6 @@ enum
     ADVCALC_SECONDGRADEEQUATIONSOLVER = 0,
     ADVCALC_COMPLEXNUMBERSSUM,
     ADVCALC_COMPLEXNUMBERSPROD,
-    ADVCALC_GETFORMATTEDDATE,
     ADVCALC_SIMPLEXMETHOD,
     ADVCALC_NEWTONDIFFTABLES,
     ADVCALC_LAGRANGEINTERPOLATION,
@@ -762,31 +771,31 @@ enum
 //
 enum
 {
-    ALGEBRA_MATRICESMANAGER = 0,
-    ALGEBRA_MATRIXSORT,
-    ALGEBRA_NORMCALCULATOR,
-    ALGEBRA_DETERMINANTCALCULATOR,
-    ALGEBRA_TRACECALCULATOR,
-    ALGEBRA_RANKCALCULATOR,
-    ALGEBRA_MATRIXSVD,
-    ALGEBRA_INVERSEMATRIX,
-    ALGEBRA_MATRIXTRANSPOSE,
-    ALGEBRA_MATRICESSUM,
-    ALGEBRA_TENSORSSUM,
-    ALGEBRA_MATRICESPRODUCT,
-    ALGEBRA_MATRICESKPRODUCT,
-    ALGEBRA_MATRIXPOWER,
-    ALGEBRA_MATRIXKPOWER,
-    ALGEBRA_MATRIXPERVECTOR,
-    ALGEBRA_SCALARPRODUCT,
-    ALGEBRA_PERSCALARPRODUCT,
-    ALGEBRA_SCALARDIVISIONMATRIX,
-    ALGEBRA_ILLCONDITIONCHECKING,
-    ALGEBRA_MATRIXLUFACTORIZATION
+    ALGOPS_MATRICESMANAGER = 0,
+    ALGOPS_MATRIXSORT,
+    ALGOPS_NORMCALCULATOR,
+    ALGOPS_DETERMINANTCALCULATOR,
+    ALGOPS_TRACECALCULATOR,
+    ALGOPS_RANKCALCULATOR,
+    ALGOPS_MATRIXSVD,
+    ALGOPS_INVERSEMATRIX,
+    ALGOPS_MATRIXTRANSPOSE,
+    ALGOPS_MATRIXADD,
+    ALGOPS_TENSORSSUM,
+    ALGOPS_MATRIXMULTIPLICATION,
+    ALGOPS_KRONPRODUCT,
+    ALGOPS_MATRIXPOWER,
+    ALGOPS_MATRIXKPOWER,
+    ALGOPS_MATRIXPERVECTOR,
+    ALGOPS_DOTPRODUCT,
+    ALGOPS_PERSCALARMULTIPLICATION,
+    ALGOPS_SCALARDIVISIONMATRIX,
+    ALGOPS_ILLCONDITIONCHECKING,
+    ALGOPS_MATRIXLUFACTORIZATION
 };
 
 
-#define LAST_ALGEBRA_PROGRAM ALGEBRA_MATRIXLUFACTORIZATION
+#define LAST_ALGEBRA_PROGRAM ALGOPS_MATRIXLUFACTORIZATION
 #define MAX_ALGEBRA_OPERATIONS LAST_ALGEBRA_PROGRAM+1
 
 
@@ -824,6 +833,15 @@ enum
     #endif
     #ifdef ALLOW_STABFACTEDIT
         SETTINGS_CHANGESTABILIZERFACTOR,
+    #endif
+    #ifdef ALLOW_BLOCKSIZEEDIT
+    	SETTINGS_CHANGEBLOCKSIZE,
+    #endif
+    #ifdef ALLOW_MINOSMMDIMEDIT
+    	SETTINGS_CHANGEMINOSMMDIM,
+    #endif
+    #ifdef ALLOW_MINSTRASSENDIMEDIT
+    	SETTINGS_CHANGEMINSTRASSENDIM,
     #endif
     #ifdef ALLOW_MINSRNUMBEREDIT
     	SETTINGS_CHANGEMINSRNUMBER,
@@ -889,6 +907,7 @@ enum
     BOOLS_AUTOTURNBACK,
     BOOLS_DEGREESENTERING,
     BOOLS_PROGREPEATCHECK,
+    BOOLS_STRASSENOPTIMIZATION,
     BOOLS_EXTENSIVEMULTITHREADING
 };
 
@@ -915,10 +934,13 @@ enum
 #define BITMASK_AUTOTURNBACK 1048576
 #define BITMASK_DEGREESENTERING 2097152
 #define BITMASK_PROGREPEATCHECK 4194304
-#define BITMASK_EXTENSIVEMULTITHREADING 8388608
+#define BITMASK_STRASSENOPTIMIZATION 8388608
+#define BITMASK_EXTENSIVEMULTITHREADING 16777216
 
-#define LAST_BOOL_SETTINGS BOOLS_EXTENSIVEMULTITHREADING
-#define MAX_BOOL_SETTINGS LAST_BOOL_SETTINGS+1
+#define LAST_BOOL_SETTING BOOLS_EXTENSIVEMULTITHREADING
+#define MAX_BOOL_SETTINGS LAST_BOOL_SETTING+1
+
+#define BITMASK_BITFIELD LAST_BOOL_SETTING // MAX_BOOL_SETTINGS
 
 #define isSett(x) ((access(curLayout)->bools & suite_c.bools[x].bmask) == suite_c.bools[x].bmask)
 #define isnSett(x) (!(access(curLayout)->bools & suite_c.bools[x].bmask))
@@ -1077,158 +1099,309 @@ enum
 
 enum
 {
-    BASECALC_EXIT = 0,
-    BASECALC_ADDIZIONE,
-    BASECALC_SOTTRAZIONE,
-    BASECALC_MOLTIPLICAZIONE,
-    BASECALC_DIVISIONE,
-    BASECALC_RESTO,
-    BASECALC_ADDIZIONEBINARIA,
-    BASECALC_SOTTRAZIONEBINARIA,
-    BASECALC_COMPLEMENTO,
-    BASECALC_ELEVAMENTOAPOTENZA,
-    BASECALC_EXPANDEXPC,
-    BASECALC_EXP10ANDEXP10C,
-    BASECALC_EXP2ANDEXP2C,
-    BASECALC_RADICENESIMA,
-    BASECALC_LOGARITMO,
-    BASECALC_LOGARITMO2,
-    BASECALC_LOGARITMOBN,
-    BASECALC_LOGARITMOC,
-    BASECALC_LOGARITMO2C,
-    BASECALC_LOGARITMO1P,
-    BASECALC_LOGARITMO1PC,
-    BASECALC_BITCOUNTER,
-    BASECALC_UBITCOUNTER,
-    BASECALC_VERSION,
-    BASECALC_EXITCHAR,
-    BASECALC_PREC,
-    BASECALC_SFACT,
-    BASECALC_MINSRNUMBER,
-    BASECALC_ALGEBRA,
-    BASECALC_OUTLIERCONST,
-    BASECALC_RSEED,
-    BASECALC_MMIFIBO,
-    BASECALC_MMIFACT,
-    BASECALC_MMIEVENSFACT,
-    BASECALC_MMIODDSFACT,
-    BASECALC_TRASFORMAANGOLI,
-    BASECALC_SINANDSINH,
-    BASECALC_COSANDCOSH,
-    BASECALC_TANANDTANH,
-    BASECALC_CSCANDCSCH,
-    BASECALC_SECANDSECH,
-    BASECALC_COTANDCOTH,
-    BASECALC_HSINANDHSINH,
-    BASECALC_QSINANDQSINH,
-    BASECALC_HCOSANDHCOSH,
-    BASECALC_QCOSANDQCOSH,
-    BASECALC_HSECANDHSECH,
-    BASECALC_QSECANDQSECH,
-    BASECALC_HCSCANDHCSCH,
-    BASECALC_QCSCANDQCSC,
-    BASECALC_HTANANDHTANH,
-    BASECALC_QTANANDQTANH,
-    BASECALC_HCOTANDHCOTH,
-    BASECALC_QCOTANDQCOTH,
-    BASECALC_VSINANDVSINH,
-    BASECALC_CVSINANDCVSINH,
-    BASECALC_VCOSANDVCOSH,
-    BASECALC_CVCOSANDCVCOSH,
-    BASECALC_HVSINANDHVSINH,
-    BASECALC_HCVSINANDHCVSINH,
-    BASECALC_QVSINANDQVSINH,
-    BASECALC_QCVSINANDQCVSINH,
-    BASECALC_HVCOSANDHVCOSH,
-    BASECALC_HCVCOSANDHCVCOSH,
-    BASECALC_QVCOSANDQVCOSH,
-    BASECALC_QCVCOSANDQCVCOSH,
-    BASECALC_ESECANDESECH,
-    BASECALC_ECSCANDECSCH,
-    BASECALC_HESECANDHESECH,
-    BASECALC_HECSCANDHECSCH,
-    BASECALC_QESECANDQESECH,
-    BASECALC_QECSCANDQECSCH,
-    BASECALC_SINCANDSINCH,
-    BASECALC_HSINCANDHSINCH,
-    BASECALC_QSINCANDQSINCH,
-    BASECALC_COSCANDCOSCH,
-    BASECALC_HCOSCANDHCOSCH,
-    BASECALC_QCOSCANDQCOSCH,
-    BASECALC_SECCANDSECCH,
-    BASECALC_HSECCANDHSECCH,
-    BASECALC_QSECCANDQSECCH,
-    BASECALC_CSCCANDCSCCH,
-    BASECALC_HCSCCANDHCSCCH,
-    BASECALC_QCSCCANDQCSCCH,
-    BASECALC_TANCANDTANCH,
-    BASECALC_HTANCANDHTANCH,
-    BASECALC_QTANCANDQTANCH,
-    BASECALC_COTCANDCOTCH,
-    BASECALC_HCOTCANDHCOTCH,
-    BASECALC_QCOTCANDQCOTCH,
-    BASECALC_ASINANDASINH,
-    BASECALC_ACOSANDACOSH,
-    BASECALC_ATANANDATANH,
-    BASECALC_ATAN2,
-    BASECALC_ACSCANDACSCH,
-    BASECALC_ASECANDASECH,
-    BASECALC_ACOTANDACOTH,
-    BASECALC_MCM,
-    BASECALC_MCD,
-    BASECALC_APPROSSIMAZIONE,
-    BASECALC_SOMMASUCCESSIONEGEOMETRICA,
-    BASECALC_SOMMASUCCESSIONEARMONICA,
-    BASECALC_SOMMASUCCESSIONEARMONICAGEN,
-    BASECALC_SOMMASUCCESSIONEFIBONACCI,
-    BASECALC_SOMMASUCCESSIONEFATTORIALE,
-    BASECALC_SOMMASUCCESSIONESEMIFATTORIALE,
-    BASECALC_SOMMATORIA,
-    BASECALC_PRODUTTORIA,
-    BASECALC_MEDIA,
-    BASECALC_VARIANZA,
-    BASECALC_STDDEV,
-    BASECALC_OUTLIER,
-    BASECALC_MAP,
-    BASECALC_MEDIAGEOMETRICA,
-    BASECALC_MEDIAARMONICA,
-    BASECALC_MEDIAPOTENZA,
-    BASECALC_VALORECENTRALE,
-    BASECALC_PRIMOQUARTILE,
-    BASECALC_MEDIANA,
-    BASECALC_TERZOQUARTILE,
-    BASECALC_SOMMAPRIMINNUMERI,
-    BASECALC_RADICEQUADRATA,
-    BASECALC_RADICECUBICA,
-    BASECALC_FATTORIALE,
-    BASECALC_SEMIFATTORIALE,
-    BASECALC_STIRLING,
-    BASECALC_FIBONACCI,
-    BASECALC_PERMUTATIONS,
-    BASECALC_PERMUTATIONSREP,
-    BASECALC_KPERMUTATIONS,
-    BASECALC_KPERMUTATIONSREP,
-    BASECALC_COMBINATIONS,
-    BASECALC_COMBINATIONSREP,
-    BASECALC_PASCALTRIANGLE,
-    BASECALC_NUMERIROMANI,
-    BASECALC_PRIMINNUMERIPRIMI,
-    BASECALC_NESIMONUMEROPRIMO,
-    BASECALC_PRIMORIALE,
-    BASECALC_SOMMAPRIMINNUMERIPRIMI,
-    BASECALC_FIBONACCIALE,
-    BASECALC_CAMBIAMENTODIBASE,
-    BASECALC_GENERATOREMATRICIRANDOM,
-    BASECALC_INFORMAZIONI
+    BCALC_EXIT = 0,
+    BCALC_ADDIZIONE,
+    BCALC_SOTTRAZIONE,
+    BCALC_MOLTIPLICAZIONE,
+    BCALC_DIVISIONE,
+    BCALC_RESTO,
+    BCALC_ADDIZIONEBINARIA,
+    BCALC_SOTTRAZIONEBINARIA,
+    BCALC_COMPLEMENTO,
+    BCALC_ELEVAMENTOAPOTENZA,
+    BCALC_EXPANDEXPC,
+    BCALC_EXP10ANDEXP10C,
+    BCALC_EXP2ANDEXP2C,
+    BCALC_RADICENESIMA,
+    BCALC_RADICEQUADRATA,
+    BCALC_RADICECUBICA,
+    BCALC_LOGARITMO,
+    BCALC_LOGARITMO2,
+    BCALC_LOGARITMOBN,
+    BCALC_LOGARITMOC,
+    BCALC_LOGARITMO2C,
+    BCALC_LOGARITMO1P,
+    BCALC_LOGARITMO1PC,
+    BCALC_LOGARITMO101P,
+    BCALC_LOGARITMO101PC,
+    BCALC_LOGARITMO21P,
+    BCALC_LOGARITMO21PC,
+    BCALC_CEXP,
+    BCALC_CEXPC,
+    BCALC_CEXP10,
+    BCALC_CEXP10C,
+    BCALC_CEXP2,
+    BCALC_CEXP2C,
+    BCALC_CSQRT,
+    BCALC_CCBRT,
+	BCALC_CLOG,
+	BCALC_CLOGC,
+	BCALC_CLOG10,
+	BCALC_CLOG10C,
+	BCALC_CLOG2,
+	BCALC_CLOG2C,
+	BCALC_CLOG1P,
+	BCALC_CLOG1PC,
+	BCALC_CLOG101P,
+	BCALC_CLOG101PC,
+	BCALC_CLOG21P,
+	BCALC_CLOG21PC, 
+	BCALC_CARG,
+	BCALC_CABS,
+    BCALC_BITCOUNTER,
+    BCALC_UBITCOUNTER,
+    BCALC_VERSION,
+    BCALC_EXITCHAR,
+    BCALC_PREC,
+    BCALC_SFACT,
+    BCALC_MINSRNUMBER,
+    BCALC_ALGEBRA,
+    BCALC_OUTLIERCONST,
+    BCALC_RSEED,
+    BCALC_MMIFIBO,
+    BCALC_MMIFACT,
+    BCALC_MMIEVENSFACT,
+    BCALC_MMIODDSFACT,
+    BCALC_TRASFORMAANGOLI,
+    BCALC_SINANDSINH,
+    BCALC_COSANDCOSH,
+    BCALC_TANANDTANH,
+    BCALC_CSCANDCSCH,
+    BCALC_SECANDSECH,
+    BCALC_COTANDCOTH,
+    BCALC_HSINANDHSINH,
+    BCALC_QSINANDQSINH,
+    BCALC_HCOSANDHCOSH,
+    BCALC_QCOSANDQCOSH,
+    BCALC_HSECANDHSECH,
+    BCALC_QSECANDQSECH,
+    BCALC_HCSCANDHCSCH,
+    BCALC_QCSCANDQCSC,
+    BCALC_HTANANDHTANH,
+    BCALC_QTANANDQTANH,
+    BCALC_HCOTANDHCOTH,
+    BCALC_QCOTANDQCOTH,
+    BCALC_VSINANDVSINH,
+    BCALC_CVSINANDCVSINH,
+    BCALC_VCOSANDVCOSH,
+    BCALC_CVCOSANDCVCOSH,
+    BCALC_HVSINANDHVSINH,
+    BCALC_HCVSINANDHCVSINH,
+    BCALC_QVSINANDQVSINH,
+    BCALC_QCVSINANDQCVSINH,
+    BCALC_HVCOSANDHVCOSH,
+    BCALC_HCVCOSANDHCVCOSH,
+    BCALC_QVCOSANDQVCOSH,
+    BCALC_QCVCOSANDQCVCOSH,
+    BCALC_ESECANDESECH,
+    BCALC_ECSCANDECSCH,
+    BCALC_HESECANDHESECH,
+    BCALC_HECSCANDHECSCH,
+    BCALC_QESECANDQESECH,
+    BCALC_QECSCANDQECSCH,
+    BCALC_SINCANDSINCH,
+    BCALC_HSINCANDHSINCH,
+    BCALC_QSINCANDQSINCH,
+    BCALC_COSCANDCOSCH,
+    BCALC_HCOSCANDHCOSCH,
+    BCALC_QCOSCANDQCOSCH,
+    BCALC_SECCANDSECCH,
+    BCALC_HSECCANDHSECCH,
+    BCALC_QSECCANDQSECCH,
+    BCALC_CSCCANDCSCCH,
+    BCALC_HCSCCANDHCSCCH,
+    BCALC_QCSCCANDQCSCCH,
+    BCALC_TANCANDTANCH,
+    BCALC_HTANCANDHTANCH,
+    BCALC_QTANCANDQTANCH,
+    BCALC_COTCANDCOTCH,
+    BCALC_HCOTCANDHCOTCH,
+    BCALC_QCOTCANDQCOTCH,
+    BCALC_ASINANDASINH,
+    BCALC_ACOSANDACOSH,
+    BCALC_ATANANDATANH,
+    BCALC_ATAN2,
+    BCALC_ACSCANDACSCH,
+    BCALC_ASECANDASECH,
+    BCALC_ACOTANDACOTH,
+    BCALC_CSIN,
+    BCALC_CSINH,
+    BCALC_CCOS,
+    BCALC_CCOSH,
+    BCALC_CTAN,
+    BCALC_CTANH,
+    BCALC_CCSC,
+    BCALC_CCSCH,
+    BCALC_CSEC,
+    BCALC_CSECH,
+    BCALC_CCOT,
+    BCALC_CCOTH,
+    BCALC_CHSIN,
+    BCALC_CHSINH,
+    BCALC_CQSIN,
+    BCALC_CQSINH,
+    BCALC_CHCOS,
+    BCALC_CHCOSH,
+    BCALC_CQCOS,
+    BCALC_CQCOSH,
+    BCALC_CHSEC,
+    BCALC_CHSECH,
+    BCALC_CQSEC,
+    BCALC_CQSECH,
+    BCALC_CHCSC,
+    BCALC_CHCSCH,
+    BCALC_CQCSC,
+    BCALC_CQCSCH,
+    BCALC_CHTAN,
+    BCALC_CHTANH,
+    BCALC_CQTAN,
+    BCALC_CQTANH,
+    BCALC_CHCOT,
+    BCALC_CHCOTH,
+    BCALC_CQCOT,
+    BCALC_CQCOTH,
+    BCALC_CVSIN,
+    BCALC_CVSINH,
+    BCALC_CCVSIN,
+    BCALC_CCVSINH,
+    BCALC_CVCOS,
+    BCALC_CVCOSH,
+    BCALC_CCVCOS,
+    BCALC_CCVCOSH,
+    BCALC_CHVSIN,
+    BCALC_CHVSINH,
+    BCALC_CHCVSIN,
+    BCALC_CHCVSINH,
+    BCALC_CQVSIN,
+    BCALC_CQVSINH,
+    BCALC_CQCVSIN,
+    BCALC_CQCVSINH,
+    BCALC_CHVCOS,
+    BCALC_CHVCOSH,
+    BCALC_CHCVCOS,
+    BCALC_CHCVCOSH,
+    BCALC_CQVCOS,
+    BCALC_CQVCOSH,
+    BCALC_CQCVCOS,
+    BCALC_CQCVCOSH,
+    BCALC_CESEC,
+    BCALC_CESECH,
+    BCALC_CECSC,
+    BCALC_CECSCH,
+    BCALC_CHESEC,
+    BCALC_CHESECH,
+    BCALC_CHECSC,
+    BCALC_CHECSCH,
+    BCALC_CQESEC,
+    BCALC_CQESECH,
+    BCALC_CQECSC,
+    BCALC_CQECSCH,
+    BCALC_CSINC,
+    BCALC_CSINCH,
+    BCALC_CHSINC,
+    BCALC_CHSINCH,
+    BCALC_CQSINC,
+    BCALC_CQSINCH,
+    BCALC_CCOSC,
+    BCALC_CCOSCH,
+    BCALC_CHCOSC,
+    BCALC_CHCOSCH,
+    BCALC_CQCOSC,
+    BCALC_CQCOSCH,
+    BCALC_CSECC,
+    BCALC_CSECCH,
+    BCALC_CHSECC,
+    BCALC_CHSECCH,
+    BCALC_CQSECC,
+    BCALC_CQSECCH,
+    BCALC_CCSCC,
+    BCALC_CCSCCH,
+    BCALC_CHCSCC,
+    BCALC_CHCSCCH,
+    BCALC_CQCSCC,
+    BCALC_CQCSCCH,
+    BCALC_CTANC,
+    BCALC_CTANCH,
+    BCALC_CHTANC,
+    BCALC_CHTANCH,
+    BCALC_CQTANC,
+    BCALC_CQTANCH,
+    BCALC_CCOTC,
+    BCALC_CCOTCH,
+    BCALC_CHCOTC,
+    BCALC_CHCOTCH,
+    BCALC_CQCOTC,
+    BCALC_CQCOTCH,
+    BCALC_CASIN,
+    BCALC_CASINH,
+    BCALC_CACOS,
+    BCALC_CACOSH,
+    BCALC_CATAN,
+    BCALC_CATANH,
+    BCALC_CACSC,
+    BCALC_CACSCH,
+    BCALC_CASEC,
+    BCALC_CASECH,
+    BCALC_CACOT,
+    BCALC_CACOTH,
+    BCALC_MCM,
+    BCALC_MCD,
+    BCALC_APPROSSIMAZIONE,
+    BCALC_SOMMASUCCESSIONEGEOMETRICA,
+    BCALC_SOMMASUCCESSIONEARMONICA,
+    BCALC_SOMMASUCCESSIONEARMONICAGEN,
+    BCALC_SOMMASUCCESSIONEFIBONACCI,
+    BCALC_SOMMASUCCESSIONEFATTORIALE,
+    BCALC_SOMMASUCCESSIONESEMIFATTORIALE,
+    BCALC_SOMMATORIA,
+    BCALC_PRODUTTORIA,
+    BCALC_MEDIA,
+    BCALC_VARIANZA,
+    BCALC_STDDEV,
+    BCALC_OUTLIER,
+    BCALC_MAP,
+    BCALC_MEDIAGEOMETRICA,
+    BCALC_MEDIAARMONICA,
+    BCALC_MEDIAPOTENZA,
+    BCALC_VALORECENTRALE,
+    BCALC_PRIMOQUARTILE,
+    BCALC_MEDIANA,
+    BCALC_TERZOQUARTILE,
+    BCALC_SOMMAPRIMINNUMERI,
+    BCALC_FATTORIALE,
+    BCALC_SEMIFATTORIALE,
+    BCALC_STIRLING,
+    BCALC_FIBONACCI,
+    BCALC_PERMUTATIONS,
+    BCALC_PERMUTATIONSREP,
+    BCALC_KPERMUTATIONS,
+    BCALC_KPERMUTATIONSREP,
+    BCALC_COMBINATIONS,
+    BCALC_COMBINATIONSREP,
+    BCALC_PASCALTRIANGLE,
+    BCALC_NUMERIROMANI,
+    BCALC_PRIMINNUMERIPRIMI,
+    BCALC_NESIMONUMEROPRIMO,
+    BCALC_PRIMORIALE,
+    BCALC_SOMMAPRIMINNUMERIPRIMI,
+    BCALC_FIBONACCIALE,
+    BCALC_CAMBIAMENTODIBASE,
+    BCALC_GENERATOREMATRICIRANDOM,
+    BCALC_INFORMAZIONI
 };
 
 
-#define LAST_OPERATION BASECALC_INFORMAZIONI
+#define LAST_OPERATION BCALC_INFORMAZIONI
 // cambiare ogni qualvolta si aggiunge un'operazione
 // all'enumerazione operazioni e quindi all'array di operazioni di default default_operazioni
 //
 
 #define MAX_OPERATIONS LAST_OPERATION+1
+
+#define COMPAREDOUBLE_PRECISION 0.001
+
+#define CRV_DONTDGCHECK false
+#define CRV_DODGCHECK true
 
 
 enum
@@ -1409,9 +1582,9 @@ enum
 #define unary_function false
 #define binary_function true
 
-// calcolatoreDiBase() GENERIC STUFFS...
-#define BASECALC_CAMBIAMENTODIBASE_MINBASE 2
-#define BASECALC_CAMBIAMENTODIBASE_MAXBASE 10
+// basicCalculator() GENERIC STUFFS...
+#define BCALC_CAMBIAMENTODIBASE_MINBASE 2
+#define BCALC_CAMBIAMENTODIBASE_MAXBASE 10
 
 #define MAX_MINBASE_CONVERTIBLE_NUM 262000
 
@@ -1485,19 +1658,11 @@ associate al tipo int, ovvero normale Somma Algerica
 
 
 
-// #define DIM_BITFIELD (sizeof(dim_typ)-1)*8
+// #define DIM_BITFIELD (sizeof(dim_typ)-1)*<<3
 #define DIM_BITFIELD 8
 #define DATE_BITFIELD 5
 #define DOMAIN_BITFIELD 4
 #define BOOL_BITFIELD 1
-#define BITMASK_BITFIELD 24
-
-#define MAX_DAYSWEEK 7
-#define MAX_MONTH_DAYS 31
-#define MAX_MONTHS 12
-#define GETDAYNAME_MAP_LENGTH 12
-#define DAYSWEEK_LENGTH SIGN_STRING
-#define MONTHS_LENGTH SIGN_STRING
 
 #define MIN_NEWTON_DIFFTABLES_DIM 1
 #define MAX_NEWTON_DIFFTABLES_DIM 15
@@ -1681,7 +1846,7 @@ typedef const dim_typ dim_typ3[MAX_ABSTRACT_DIMENSIONS];
 
 typedef struct
 {
-    const char name[2*INFO_STRING];
+    const char name[DINFO_STRING];
     const char cmdname[SIGN_STRING];
     const char usage[INFO_STRING];
     void (*program_function)(const register sel_typ, char **);
@@ -1691,12 +1856,12 @@ typedef struct
 
 struct operations
 {
-    char name[2*INFO_STRING];
-    char description[2*INFO_STRING];
+    char name[DINFO_STRING];
+    char description[DINFO_STRING];
     char identifiers[MAX_ALIAS][MAX_IDENTIFIER_LENGTH];
     sel_typ domA: DOMAIN_BITFIELD;
     sel_typ domB: DOMAIN_BITFIELD;
-    volatile bool bin_or_unary: BOOL_BITFIELD;
+    bool bin_or_unary: BOOL_BITFIELD;
 };
 //
 
@@ -1737,10 +1902,13 @@ typedef struct
     float outlier_constant;
     dim_typ matrix_max_raws;
     dim_typ matrix_max_columns;
+    dim_typ block_size;
+    dim_typ min_osmm_dim;
+    dim_typ min_strassen_dim;
     dim_typ max_dsvd_iterations;
     dim_typ max_simplex_iterations;
-    dim_typ max_memoizable_indeces[MAX_MEMOIZABLE_FUNCTIONS];
-    dim_typ min_stirlingrequires_number: DIM_BITFIELD;
+    dim_typ max_memoizable_indices[MAX_MEMOIZABLE_FUNCTIONS];
+    dim_typ min_stirling_number: DIM_BITFIELD;
     dim_typ basecalc_minbase: DIM_BITFIELD;
     dim_typ basecalc_maxbase: DIM_BITFIELD;
     int max_changebase_binary_convnum;
@@ -1750,7 +1918,7 @@ typedef struct
     dim_typ max_roman_number;
     dim_typ pascal_triangle_min_raws: DIM_BITFIELD;
     dim_typ pascal_triangle_max_raws: DIM_BITFIELD;
-    volatile unsigned bools: BITMASK_BITFIELD;
+    unsigned bools: BITMASK_BITFIELD;
 } layoutObj;
 
 typedef struct
@@ -1815,9 +1983,6 @@ struct ext_math_type
     const TypeRange types_range[MAX_TYPES];
     const char funcnames[MAX_FIDS][MIN_STRING];
     ityp (* const functions[MAX_FIDS])(ityp);
-    const char days_week_names[MAX_DAYSWEEK][DAYSWEEK_LENGTH];
-    const char months_names[MAX_MONTHS][MONTHS_LENGTH];
-    const sel_typ getdaynum_map[GETDAYNAME_MAP_LENGTH];
     const char romn_thousand_map[MAX_ABSTRACT_DIMENSIONS][ROMAN_NUMBER_MAPSTRING];
     const char romn_map[MAX_ABSTRACT_DIMENSIONS][9][ROMAN_NUMBER_MAPSTRING];
 };
@@ -1839,9 +2004,6 @@ struct prog_constants
 	const char memoizers_names[_MAX_MEMOIZABLE_FUNCTIONS][INFO_STRING];
     const char algebra_elements_names[_MAX_ALGEBRA][INFO_STRING];
     const char algebra_imaginary_units_names[_MAX_ALGEBRA][MAX_SEDENIONS_UNITS][SIGN_STRING];
-    void (* matrixSumFuncs[_MAX_ALGEBRA])(ityp **, ityp **, ityp **, const register dim_typ [static MAX_DIMENSIONS]);
-    void (* matrixProdFuncs[_MAX_ALGEBRA])(ityp **, ityp **, ityp **, const register dim_typ [static MAX_ABSTRACT_DIMENSIONS]);
-    void (* matrixKProdFuncs[_MAX_ALGEBRA])(ityp **, ityp **, ityp **, const register dim_typ [static MAX_DIMENSIONS][MAX_DIMENSIONS]);
     const char colors_types_names[MAX_COLOR_TYPES][INFO_STRING];
     const char colors_names[MAX_COLORS][INFO_STRING];
 };
@@ -1849,9 +2011,6 @@ struct prog_constants
 struct program
 {
     char sysLogPath[MAX_PATH_LENGTH];
-    void (* matrixSumFunc)(ityp **, ityp **, ityp **, const register dim_typ [static MAX_DIMENSIONS]);
-    void (* matrixProdFunc)(ityp **, ityp **, ityp **, const register dim_typ [static MAX_ABSTRACT_DIMENSIONS]);
-    void (* matrixKProdFunc)(ityp **, ityp **, ityp **, const register dim_typ [static MAX_DIMENSIONS][MAX_DIMENSIONS]);
     exprType *exprVars;
     matrixObj *curMatrix;
     matrixObj *lmpMatrix;
@@ -1870,7 +2029,7 @@ struct program
     char colors_path[MAX_PATH_LENGTH];
     fsel_typ random_seed;
     sel_typ colors[MAX_COLOR_TYPES];
-    volatile sel_typ mode;
+    sel_typ mode;
     volatile sel_typ exitHandle;
     volatile bool mss: BOOL_BITFIELD;
     volatile bool sigresult: BOOL_BITFIELD;
@@ -1987,11 +2146,10 @@ __MSSHELL_WRAPPER_ __MSNATIVE_ const sprog * const __system searchProgram(const 
 __MSUTIL_ int __export cmpfunc(const void *, const void *);
 __MSUTIL_ bool __export min_cmpfunc(const register ityp, const register ityp);
 __MSUTIL_ bool __export max_cmpfunc(const register ityp, const register ityp);
-__MSNATIVE_ void __system _changeAlgebraDims(const dim_typ);
 __MSNATIVE_ void __system _showUsage(const sprog * const);
 __MSNATIVE_ void __system printUsage(const sprog * const);
 __MSNATIVE_ void __system prepareToExit(void);
-__MSNATIVE_ void __system safeExit(const volatile int);
+__MSNATIVE_ void __system safeExit(const int);
 __MSNATIVE_ void __system _handleCmdLine(const register sel_typ, char **);
 __MSNATIVE_ bool __system _execScriptFiles(const char [static MAX_PATH_LENGTH]);
 __MSNATIVE_ bool __system _lfLoader(const char [static MAX_PATH_LENGTH]);
@@ -2058,13 +2216,13 @@ __MSNATIVE_ bool __system __export enterMatrix(ityp **, dim_typ *, dim_typ *, bo
 
 /// programs.c
 __MSSHELL_WRAPPER_ void __apnt changeProgramSettings(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ void calcolatoreDiBase(const register sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ void basicCalculator(const register sel_typ argc, char ** argv);
 __MSSHELL_WRAPPER_ void __apnt calcolatoreAvanzato(const register sel_typ argc, char ** argv);
 __MSSHELL_WRAPPER_ void __apnt algebraOperations(const register sel_typ argc, char ** argv);
 __MSSHELL_WRAPPER_ void __apnt mssManager(const register sel_typ argc, char ** argv);
 __MSSHELL_WRAPPER_ __MSNATIVE_ void _MS__private __system __export operationsGroupMenu(dim_typ dim, sprog [static dim], const char [static INFO_STRING], bool);
 __MSSHELL_WRAPPER_ __MSNATIVE_ void __system progInfo(sel_typ);
-__MSNATIVE_ bool _MS__private __system doesExistOperIdentifier(const char [static MAX_IDENTIFIER_LENGTH], sel_typ [static MAX_DIMENSIONS]);
+__MSNATIVE_ bool _MS__private __system doesExistOperIdentifier(const char [static MAX_IDENTIFIER_LENGTH], fsel_typ [static MAX_DIMENSIONS]);
 __MSUTIL_ void __system __export freeExprEvalLists();
 __MSUTIL_ void __system __export refreshExprEvalVarList(dim_typ);
 __MSUTIL_ void __system __export refreshExprEvalLists();
@@ -2077,18 +2235,28 @@ __MSSHELL_WRAPPER_ __MSNATIVE_ void __system setDefaults();
 
 __MSNATIVE_ char * const __system __export binaryAlgSum(ityp, ityp, bool);
 __MSNATIVE_ char * const __system __export binNumComp(ityp);
-__MSNATIVE_ void __export _complexSum(ityp *restrict, ityp [static MAX_DIMENSIONS]);
-__MSNATIVE_ void __export _complexProd(ityp *restrict, ityp [static MAX_DIMENSIONS]);
-__MSNATIVE_ void __export _quaternionsSum(ityp *restrict, ityp [static MAX_QUATERNIONS_UNITS]);
-__MSNATIVE_ void __export _quaternionsProduct(ityp *restrict, ityp [static MAX_QUATERNIONS_UNITS]);
-__MSNATIVE_ void __export _octonionsSum(ityp *restrict, ityp [static MAX_OCTONIONS_UNITS]);
-__MSNATIVE_ void __export _octonionsProduct(ityp *restrict, ityp [static MAX_OCTONIONS_UNITS]);
-__MSNATIVE_ void __export _sedenionsSum(ityp *restrict, ityp [static MAX_SEDENIONS_UNITS]);
-__MSNATIVE_ void __export _sedenionsProduct(ityp *restrict, ityp [static MAX_SEDENIONS_UNITS]);
+__MSNATIVE_ ityp __system __export math_mul(register ityp, register ityp);
+__MSNATIVE_ ityp __system __export math_div(register ityp, register ityp);
+__MSNATIVE_ ityp __export __cabs(ityp *restrict, const register sel_typ);
+__MSNATIVE_ void __export _complexAdd(ityp *restrict, ityp [static MAX_DIMENSIONS]);
+__MSNATIVE_ void __export _complexSub(ityp *restrict, ityp [static MAX_DIMENSIONS]);
+__MSNATIVE_ void __export _complexMul(ityp *restrict, ityp [static MAX_DIMENSIONS]);
+__MSNATIVE_ void __export _complexDiv(ityp *restrict, ityp [static MAX_DIMENSIONS]);
+__MSNATIVE_ void __export _quaternionsAdd(ityp *restrict, ityp [static MAX_QUATERNIONS_UNITS]);
+__MSNATIVE_ void __export _quaternionsSub(ityp *restrict, ityp [static MAX_QUATERNIONS_UNITS]);
+__MSNATIVE_ void __export _quaternionsMul(ityp *restrict, ityp [static MAX_QUATERNIONS_UNITS]);
+__MSNATIVE_ void __export _quaternionsDiv(ityp *restrict, ityp [static MAX_QUATERNIONS_UNITS]);
+__MSNATIVE_ void __export _octonionsAdd(ityp *restrict, ityp [static MAX_OCTONIONS_UNITS]);
+__MSNATIVE_ void __export _octonionsSub(ityp *restrict, ityp [static MAX_OCTONIONS_UNITS]);
+__MSNATIVE_ void __export _octonionsMul(ityp *restrict, ityp [static MAX_OCTONIONS_UNITS]);
+__MSNATIVE_ void __export _octonionsDiv(ityp *restrict, ityp [static MAX_OCTONIONS_UNITS]);
+__MSNATIVE_ void __export _sedenionsAdd(ityp *restrict, ityp [static MAX_SEDENIONS_UNITS]);
+__MSNATIVE_ void __export _sedenionsSub(ityp *restrict, ityp [static MAX_SEDENIONS_UNITS]);
+__MSNATIVE_ void __export _sedenionsMul(ityp *restrict, ityp [static MAX_SEDENIONS_UNITS]);
+__MSNATIVE_ void __export _sedenionsDiv(ityp *restrict, ityp [static MAX_SEDENIONS_UNITS]);
 __MSNATIVE_ bool __export _secondGradeEquationSolver(ityp *restrict, ityp [static MAX_DIMENSIONS]);
 __MSUTIL_ const char * const __export getDayName(sel_typ);
 __MSUTIL_ const char * const __export getMonthName(sel_typ);
-__MSUTIL_ const sel_typ __export getDayNumber(sel_typ, sel_typ, uint64_t);
 __MSUTIL_ void __export getRomanNumber(dim_typ, char [static ROMAN_NUMBER_STRING]);
 __MSUTIL_ int64_t _MS__private __export powi(register int64_t, register int64_t);
 __MSUTIL_ ityp __export mpow(ityp, int64_t);
@@ -2148,7 +2316,31 @@ __MSNATIVE_ ityp __export logc(register ityp);
 __MSNATIVE_ ityp __export log10c(register ityp);
 __MSNATIVE_ ityp __export log2c(register ityp);
 __MSNATIVE_ ityp __export log1pc(register ityp);
+__MSNATIVE_ ityp __export log101p(register ityp);
+__MSNATIVE_ ityp __export log101pc(register ityp);
+__MSNATIVE_ ityp __export log21p(register ityp);
+__MSNATIVE_ ityp __export log21pc(register ityp);
 __MSUTIL_ ityp __export rootnX(register ityp, register ityp);
+__MSNATIVE_ double complex __export cexpc(register double complex);
+__MSNATIVE_ double complex __export cexp10(register double complex);
+__MSNATIVE_ double complex __export cexp10c(register double complex);
+__MSNATIVE_ double complex __export cexp2(register double complex);
+__MSNATIVE_ double complex __export cexp2c(register double complex);
+__MSUTIL_ double complex __export clogbN(register double complex, register double complex);
+__MSNATIVE_ double complex __export clogc(register double complex);
+__MSNATIVE_ double complex __export clog10(register double complex);
+__MSNATIVE_ double complex __export clog10c(register double complex);
+__MSNATIVE_ double complex __export clog2(register double complex);
+__MSNATIVE_ double complex __export clog2c(register double complex);
+__MSNATIVE_ double complex __export clog1p(register double complex);
+__MSNATIVE_ double complex __export clog1pc(register double complex);
+__MSNATIVE_ double complex __export clog101p(register double complex);
+__MSNATIVE_ double complex __export clog101pc(register double complex);
+__MSNATIVE_ double complex __export clog21p(register double complex);
+__MSNATIVE_ double complex __export clog21pc(register double complex);
+__MSUTIL_ double complex __export ccbrt(register double complex);
+__MSUTIL_ double complex __export crootnX(register double complex, register double complex);
+
 __MSNATIVE_ ityp __export deg(register ityp);
 __MSNATIVE_ ityp __export rad(register ityp);
 __MSNATIVE_ ityp __export csc(register ityp);
@@ -2260,25 +2452,157 @@ __MSNATIVE_ ityp __export hcotch(register ityp);
 __MSNATIVE_ ityp __export qcotc(register ityp);
 __MSNATIVE_ ityp __export qcotch(register ityp);
 
+__MSNATIVE_ double complex __export ccsc(register double complex);
+__MSNATIVE_ double complex __export csec(register double complex);
+__MSNATIVE_ double complex __export ccot(register double complex);
+__MSNATIVE_ double complex __export ccsch(register double complex);
+__MSNATIVE_ double complex __export csech(register double complex);
+__MSNATIVE_ double complex __export ccoth(register double complex);
+__MSNATIVE_ double complex __export cacsc(register double complex);
+__MSNATIVE_ double complex __export casec(register double complex);
+__MSNATIVE_ double complex __export cacot(register double complex);
+__MSNATIVE_ double complex __export cacsch(register double complex);
+__MSNATIVE_ double complex __export casech(register double complex);
+__MSNATIVE_ double complex __export cacoth(register double complex);
+__MSNATIVE_ double complex __export chsin(register double complex);
+__MSNATIVE_ double complex __export chsinh(register double complex);
+__MSNATIVE_ double complex __export cqsin(register double complex);
+__MSNATIVE_ double complex __export cqsinh(register double complex);
+__MSNATIVE_ double complex __export chcos(register double complex);
+__MSNATIVE_ double complex __export chcosh(register double complex);
+__MSNATIVE_ double complex __export cqcos(register double complex);
+__MSNATIVE_ double complex __export cqcosh(register double complex);
+__MSNATIVE_ double complex __export chcsc(register double complex);
+__MSNATIVE_ double complex __export chcsch(register double complex);
+__MSNATIVE_ double complex __export cqcsc(register double complex);
+__MSNATIVE_ double complex __export cqcsch(register double complex);
+__MSNATIVE_ double complex __export chsec(register double complex);
+__MSNATIVE_ double complex __export chsech(register double complex);
+__MSNATIVE_ double complex __export cqsec(register double complex);
+__MSNATIVE_ double complex __export cqsech(register double complex);
+__MSNATIVE_ double complex __export chtan(register double complex);
+__MSNATIVE_ double complex __export chtanh(register double complex);
+__MSNATIVE_ double complex __export cqtan(register double complex);
+__MSNATIVE_ double complex __export cqtanh(register double complex);
+__MSNATIVE_ double complex __export chcot(register double complex);
+__MSNATIVE_ double complex __export chcoth(register double complex);
+__MSNATIVE_ double complex __export cqcot(register double complex);
+__MSNATIVE_ double complex __export cqcoth(register double complex);
+__MSNATIVE_ double complex __export cpxvsin(register double complex);
+__MSNATIVE_ double complex __export ccvsin(register double complex);
+__MSNATIVE_ double complex __export cpxvcos(register double complex);
+__MSNATIVE_ double complex __export ccvcos(register double complex);
+__MSNATIVE_ double complex __export chvsin(register double complex);
+__MSNATIVE_ double complex __export chcvsin(register double complex);
+__MSNATIVE_ double complex __export chvcos(register double complex);
+__MSNATIVE_ double complex __export chcvcos(register double complex);
+__MSNATIVE_ double complex __export cqvsin(register double complex);
+__MSNATIVE_ double complex __export cqcvsin(register double complex);
+__MSNATIVE_ double complex __export cqvcos(register double complex);
+__MSNATIVE_ double complex __export cqcvcos(register double complex);
+__MSNATIVE_ double complex __export cpxvsinh(register double complex);
+__MSNATIVE_ double complex __export ccvsinh(register double complex);
+__MSNATIVE_ double complex __export cpxvcosh(register double complex);
+__MSNATIVE_ double complex __export ccvcosh(register double complex);
+__MSNATIVE_ double complex __export chvsinh(register double complex);
+__MSNATIVE_ double complex __export chcvsinh(register double complex);
+__MSNATIVE_ double complex __export chvcosh(register double complex);
+__MSNATIVE_ double complex __export chcvcosh(register double complex);
+__MSNATIVE_ double complex __export cqvsinh(register double complex);
+__MSNATIVE_ double complex __export cqcvsinh(register double complex);
+__MSNATIVE_ double complex __export cqvcosh(register double complex);
+__MSNATIVE_ double complex __export cqcvcosh(register double complex);
+__MSNATIVE_ double complex __export cesec(register double complex);
+__MSNATIVE_ double complex __export cecsc(register double complex);
+__MSNATIVE_ double complex __export cesech(register double complex);
+__MSNATIVE_ double complex __export cecsch(register double complex);
+__MSNATIVE_ double complex __export chesec(register double complex);
+__MSNATIVE_ double complex __export checsc(register double complex);
+__MSNATIVE_ double complex __export chesech(register double complex);
+__MSNATIVE_ double complex __export checsch(register double complex);
+__MSNATIVE_ double complex __export cqesec(register double complex);
+__MSNATIVE_ double complex __export cqecsc(register double complex);
+__MSNATIVE_ double complex __export cqesech(register double complex);
+__MSNATIVE_ double complex __export cqecsch(register double complex);
+__MSNATIVE_ double complex __export csinc(register double complex);
+__MSNATIVE_ double complex __export csinch(register double complex);
+__MSNATIVE_ double complex __export chsinc(register double complex);
+__MSNATIVE_ double complex __export chsinch(register double complex);
+__MSNATIVE_ double complex __export cqsinc(register double complex);
+__MSNATIVE_ double complex __export cqsinch(register double complex);
+__MSNATIVE_ double complex __export ccosc(register double complex);
+__MSNATIVE_ double complex __export ccosch(register double complex);
+__MSNATIVE_ double complex __export chcosc(register double complex);
+__MSNATIVE_ double complex __export chcosch(register double complex);
+__MSNATIVE_ double complex __export cqcosc(register double complex);
+__MSNATIVE_ double complex __export cqcosch(register double complex);
+__MSNATIVE_ double complex __export csecc(register double complex);
+__MSNATIVE_ double complex __export csecch(register double complex);
+__MSNATIVE_ double complex __export chsecc(register double complex);
+__MSNATIVE_ double complex __export chsecch(register double complex);
+__MSNATIVE_ double complex __export cqsecc(register double complex);
+__MSNATIVE_ double complex __export cqsecch(register double complex);
+__MSNATIVE_ double complex __export ccscc(register double complex);
+__MSNATIVE_ double complex __export ccscch(register double complex);
+__MSNATIVE_ double complex __export chcscc(register double complex);
+__MSNATIVE_ double complex __export chcscch(register double complex);
+__MSNATIVE_ double complex __export cqcscc(register double complex);
+__MSNATIVE_ double complex __export cqcscch(register double complex);
+__MSNATIVE_ double complex __export ctanc(register double complex);
+__MSNATIVE_ double complex __export ctanch(register double complex);
+__MSNATIVE_ double complex __export chtanc(register double complex);
+__MSNATIVE_ double complex __export chtanch(register double complex);
+__MSNATIVE_ double complex __export cqtanc(register double complex);
+__MSNATIVE_ double complex __export cqtanch(register double complex);
+__MSNATIVE_ double complex __export ccotc(register double complex);
+__MSNATIVE_ double complex __export ccotch(register double complex);
+__MSNATIVE_ double complex __export chcotc(register double complex);
+__MSNATIVE_ double complex __export chcotch(register double complex);
+__MSNATIVE_ double complex __export cqcotc(register double complex);
+__MSNATIVE_ double complex __export cqcotch(register double complex);
+
 __MSNATIVE_ bool __system __export isEqualMatrix(ityp *, ityp *, const register dim_typ [static MAX_DIMENSIONS]);
 __MSNATIVE_ __MSUTIL_ ityp __system __export norms(ityp *, dim_typ);
 __MSNATIVE_ __MSUTIL_ ityp __system __export norm(ityp *, dim_typ, bool);
 __MSNATIVE_ __MSUTIL_ void __export newtonDifferenceTable(dim_typ, ityp [access(curLayout)->max_newton_difftables_dim][access(curLayout)->max_newton_difftables_dim], bool);
-__MSNATIVE_ ityp __system __export math_sum(register ityp, register ityp);
-__MSNATIVE_ ityp __system __export math_sub(register ityp, register ityp);
-__MSNATIVE_ ityp __system __export math_mul(register ityp, register ityp);
-__MSNATIVE_ ityp __system __export math_div(register ityp, register ityp);
 __MSNATIVE_ sel_typ _MS__private __system __export _simplexMethod(ityp **, ityp **, const register dim_typ dim [static MAX_DIMENSIONS], ityp *, bool);
-__MSNATIVE_ void _MS__private __system __export _matrixSum(ityp **, ityp **, ityp **, const register dim_typ [static MAX_DIMENSIONS]);
-__MSNATIVE_ void _MS__private __system __export _matrixCSum(ityp **, ityp **, ityp **, const register dim_typ [static MAX_DIMENSIONS]);
-__MSNATIVE_ void _MS__private __system __export _matrixQSum(ityp **, ityp **, ityp **, const register dim_typ [static MAX_DIMENSIONS]);
-__MSNATIVE_ void _MS__private __system __export _matrixOSum(ityp **, ityp **, ityp **, const register dim_typ [static MAX_DIMENSIONS]);
-__MSNATIVE_ void _MS__private __system __export _matrixSSum(ityp **, ityp **, ityp **, const register dim_typ [static MAX_DIMENSIONS]);
-__MSNATIVE_ void _MS__private __system __export _matrixProduct(ityp **, ityp **, ityp **, const register dim_typ [static MAX_MATRICES]);
-__MSNATIVE_ void _MS__private __system __export _matrixCProduct(ityp **, ityp **, ityp **, const register dim_typ [static MAX_MATRICES]);
-__MSNATIVE_ void _MS__private __system __export _matrixQProduct(ityp **, ityp **, ityp **, const register dim_typ [static MAX_MATRICES]);
-__MSNATIVE_ void _MS__private __system __export _matrixOProduct(ityp **, ityp **, ityp **, const register dim_typ [static MAX_MATRICES]);
-__MSNATIVE_ void _MS__private __system __export _matrixSProduct(ityp **, ityp **, ityp **, const register dim_typ [static MAX_MATRICES]);
+__MSNATIVE_ void _MS__private __system __export _matrixAdd(ityp **, ityp **, ityp **, const register dim_typ [static MAX_DIMENSIONS]);
+__MSNATIVE_ void _MS__private __system __export _matrixCAdd(ityp **, ityp **, ityp **, const register dim_typ [static MAX_DIMENSIONS]);
+__MSNATIVE_ void _MS__private __system __export _matrixQAdd(ityp **, ityp **, ityp **, const register dim_typ [static MAX_DIMENSIONS]);
+__MSNATIVE_ void _MS__private __system __export _matrixOAdd(ityp **, ityp **, ityp **, const register dim_typ [static MAX_DIMENSIONS]);
+__MSNATIVE_ void _MS__private __system __export _matrixSAdd(ityp **, ityp **, ityp **, const register dim_typ [static MAX_DIMENSIONS]);
+__MSNATIVE_ void _MS__private __system __export _matrixSub(ityp **, ityp **, ityp **, const register dim_typ [static MAX_DIMENSIONS]);
+__MSNATIVE_ void _MS__private __system __export _matrixCSub(ityp **, ityp **, ityp **, const register dim_typ [static MAX_DIMENSIONS]);
+__MSNATIVE_ void _MS__private __system __export _matrixQSub(ityp **, ityp **, ityp **, const register dim_typ [static MAX_DIMENSIONS]);
+__MSNATIVE_ void _MS__private __system __export _matrixOSub(ityp **, ityp **, ityp **, const register dim_typ [static MAX_DIMENSIONS]);
+__MSNATIVE_ void _MS__private __system __export _matrixSSub(ityp **, ityp **, ityp **, const register dim_typ [static MAX_DIMENSIONS]);
+
+__MSNATIVE_ __MSUTIL_ void __system __export mmult_fast(const register dim_typ, const register sel_typ, ityp **, ityp **, ityp **,
+	void (* const )(ityp **, ityp **, ityp **, const register dim_typ [static MAX_MATRICES]), 
+	void (* const )(ityp **, ityp **, ityp **, const register dim_typ [static MAX_DIMENSIONS]),
+	void (* const )(ityp **, ityp **, ityp **, const register dim_typ [static MAX_DIMENSIONS]));
+
+__MSNATIVE_ __MSSTOCK void __system __call_OSMM(ityp **, ityp **, ityp **, const register dim_typ [static MAX_MATRICES], const register sel_typ,
+	void (* const )(ityp **, ityp **, ityp **, const register dim_typ [static MAX_MATRICES]),
+	void (* const )(ityp **, ityp **, ityp **, const register dim_typ [static MAX_DIMENSIONS]),
+	void (* const )(ityp **, ityp **, ityp **, const register dim_typ [static MAX_DIMENSIONS]));
+
+__MSNATIVE_ __MSSTOCK void __system __call_STRASSENMM(ityp **, ityp **, ityp **, const register dim_typ [static MAX_MATRICES], const register sel_typ,
+	void (* const )(ityp **, ityp **, ityp **, const register dim_typ [static MAX_MATRICES]),
+	void (* const )(ityp **, ityp **, ityp **, const register dim_typ [static MAX_DIMENSIONS]),
+	void (* const )(ityp **, ityp **, ityp **, const register dim_typ [static MAX_DIMENSIONS]));
+
+__MSNATIVE_ __MSSTOCK void __system __call_NORMALMM(ityp **, ityp **, ityp **, const register dim_typ [static MAX_MATRICES], const register sel_typ,
+	void (* const prodFunc)(ityp **, ityp **, ityp **, const register dim_typ [static MAX_MATRICES]),
+	void (* const sumFunc)(ityp **, ityp **, ityp **, const register dim_typ [static MAX_DIMENSIONS]),
+	void (* const subFunc)(ityp **, ityp **, ityp **, const register dim_typ [static MAX_DIMENSIONS]));
+
+__MSNATIVE_ __MSUTIL_ void __system __export squareOSMM(void (*)(ityp **, ityp **, ityp **, const register dim_typ [static MAX_MATRICES]), ityp **, ityp **, ityp **, const register dim_typ);
+__MSNATIVE_ void _MS__private __system __export _matrixMultiplication(ityp **, ityp **, ityp **, const register dim_typ [static MAX_MATRICES]);
+__MSNATIVE_ void _MS__private __system __export _matrixCMultiplication(ityp **, ityp **, ityp **, const register dim_typ [static MAX_MATRICES]);
+__MSNATIVE_ void _MS__private __system __export _matrixQMultiplication(ityp **, ityp **, ityp **, const register dim_typ [static MAX_MATRICES]);
+__MSNATIVE_ void _MS__private __system __export _matrixOMultiplication(ityp **, ityp **, ityp **, const register dim_typ [static MAX_MATRICES]);
+__MSNATIVE_ void _MS__private __system __export _matrixSMultiplication(ityp **, ityp **, ityp **, const register dim_typ [static MAX_MATRICES]);
 __MSNATIVE_ void _MS__private __system __export _matrixKProduct(ityp **, ityp **, ityp **, const register dim_typ [static MAX_DIMENSIONS][MAX_DIMENSIONS]);
 __MSNATIVE_ void _MS__private __system __export _matrixKCProduct(ityp **, ityp **, ityp **, const register dim_typ [static MAX_DIMENSIONS][MAX_DIMENSIONS]);
 __MSNATIVE_ void _MS__private __system __export _matrixKQProduct(ityp **, ityp **, ityp **, const register dim_typ [static MAX_DIMENSIONS][MAX_DIMENSIONS]);

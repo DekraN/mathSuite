@@ -6,23 +6,23 @@ to prevent programs.c getting too crowded.
 */
 
 
-case BASECALC_EXIT:
+case BCALC_EXIT:
     safeExit(a);
     break;
 
-case BASECALC_ADDIZIONE:
+case BCALC_ADDIZIONE:
     c = (a + b);
     break;
 
-case BASECALC_SOTTRAZIONE:
+case BCALC_SOTTRAZIONE:
     c = (a - b);
     break;
 
-case BASECALC_MOLTIPLICAZIONE:
+case BCALC_MOLTIPLICAZIONE:
     c = (a * b);
     break;
 
-case BASECALC_DIVISIONE:
+case BCALC_DIVISIONE:
     if(!b)
     {
         if(dcheck)
@@ -35,7 +35,7 @@ case BASECALC_DIVISIONE:
     c = (a / b);
     break;
 
-case BASECALC_RESTO:
+case BCALC_RESTO:
     if(dcheck && (!b))
     {
         printErr(33, "You are trying to get Rest from a 'per-zero DIVISION");
@@ -44,7 +44,7 @@ case BASECALC_RESTO:
     c = ((int)a % (int)b);
     break;
 
-case BASECALC_ADDIZIONEBINARIA:
+case BCALC_ADDIZIONEBINARIA:
 {
     char *c = NULL;
     if((c = binaryAlgSum(a, b, BAS_SUM)))
@@ -52,7 +52,7 @@ case BASECALC_ADDIZIONEBINARIA:
     return;
 }
 
-case BASECALC_SOTTRAZIONEBINARIA:
+case BCALC_SOTTRAZIONEBINARIA:
 {
     char *c = NULL;
     if((c = binaryAlgSum(a, b, BAS_SUB)))
@@ -60,7 +60,7 @@ case BASECALC_SOTTRAZIONEBINARIA:
     return;
 }
 
-case BASECALC_COMPLEMENTO:
+case BCALC_COMPLEMENTO:
 {
     char *c = NULL;
     if((c = binNumComp(a)))
@@ -68,7 +68,7 @@ case BASECALC_COMPLEMENTO:
     return;
 }
 
-case BASECALC_ELEVAMENTOAPOTENZA:
+case BCALC_ELEVAMENTOAPOTENZA:
     if(dcheck && (!a) && (!b))
     {
         printf2(COLOR_SYSTEM, "\nRESULT: Indeterminate Form 0^0.\n");
@@ -77,7 +77,7 @@ case BASECALC_ELEVAMENTOAPOTENZA:
     c = pow(a, b);
     break;
 
-case BASECALC_EXPANDEXPC:
+case BCALC_EXPANDEXPC:
     if(a)
     {
         if(dcheck && !b)
@@ -91,7 +91,7 @@ case BASECALC_EXPANDEXPC:
         c = exp(b);
     break;
 
-case BASECALC_EXP10ANDEXP10C:
+case BCALC_EXP10ANDEXP10C:
     if(a)
     {
         if(dcheck && !b)
@@ -106,7 +106,7 @@ case BASECALC_EXP10ANDEXP10C:
     break;
 
 
-case BASECALC_EXP2ANDEXP2C:
+case BCALC_EXP2ANDEXP2C:
     if(a)
     {
         if(dcheck && !b)
@@ -120,7 +120,7 @@ case BASECALC_EXP2ANDEXP2C:
         c = exp2(b);
     break;
 
-case BASECALC_RADICENESIMA:
+case BCALC_RADICENESIMA:
 {
     if(dcheck && a < 0 && !(((int)b)%2))
     {
@@ -132,26 +132,26 @@ case BASECALC_RADICENESIMA:
     break;
 }
 
-case BASECALC_RADICEQUADRATA:
+case BCALC_RADICEQUADRATA:
     if(dcheck && a < 0)
     {
-        printErr(33, "Invalid Quad Root Function Argument.\n(DOMAIN: [0,+inf] )");
+        printErr(33, "Invalid Square Root Function Argument.\n(DOMAIN: [0,+inf] )");
         return;
     }
     c = sqrt(a);
     break;
 
-case BASECALC_RADICECUBICA:
+case BCALC_RADICECUBICA:
     c = cbrt(a);
     break;
 
-case BASECALC_LOGARITMO:
+case BCALC_LOGARITMO:
 
     if(dcheck && b <= 0)
     {
         printf2(COLOR_SYSTEM, "\nlog function isn't defined in: ");
         printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, b);
-        printf2(COLOR_SYSTEM, ". ");
+        printf2(COLOR_SYSTEM, ".\n");
         printErr(33, "(DOMAIN: ]0,+inf[ )");
         return;
     }
@@ -159,13 +159,13 @@ case BASECALC_LOGARITMO:
     c = (a ? log10(b) : log(b));
     break;
 
-case BASECALC_LOGARITMO2:
+case BCALC_LOGARITMO2:
 
     if(dcheck && a <= 0)
     {
         printf2(COLOR_SYSTEM, "\nlog2 function isn't defined in: ");
         printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, a);
-        printf2(COLOR_SYSTEM, ". ");
+        printf2(COLOR_SYSTEM, ".\n");
         printErr(33, "(DOMAIN: ]0,+inf[ )");
         return;
     }
@@ -173,13 +173,13 @@ case BASECALC_LOGARITMO2:
     c = log2(a);
     break;
 
-case BASECALC_LOGARITMOBN:
+case BCALC_LOGARITMOBN:
 
     if(dcheck && a <= 0)
     {
         printf2(COLOR_SYSTEM, "\nlogBN functions isn't defined in: ");
         printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, a);
-        printf2(COLOR_SYSTEM, ". ");
+        printf2(COLOR_SYSTEM, ".\n");
         printErr(33, "(DOMAIN: ]0,+inf[ )");
         return;
     }
@@ -187,13 +187,13 @@ case BASECALC_LOGARITMOBN:
     c = logbN(a, b);
     break;
 
-case BASECALC_LOGARITMOC:
+case BCALC_LOGARITMOC:
 
     if(dcheck && b <= 0)
     {
         printf2(COLOR_SYSTEM, "\nlogc function isn't defined in: ");
         printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, b);
-        printf2(COLOR_SYSTEM, ". ");
+        printf2(COLOR_SYSTEM, ".\n");
         printErr(33, "(DOMAIN: ]0,+inf[ )");
         return;
     }
@@ -201,13 +201,13 @@ case BASECALC_LOGARITMOC:
     c = (a ? log10c(b) : logc(b));
     break;
 
-case BASECALC_LOGARITMO2C:
+case BCALC_LOGARITMO2C:
 
     if(dcheck && a <= 0)
     {
         printf2(COLOR_SYSTEM, "\nlog2c function isn't defined in: ");
         printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, a);
-        printf2(COLOR_SYSTEM, ". ");
+        printf2(COLOR_SYSTEM, ".\n");
         printErr(33, "(DOMAIN: ]0,+inf] )");
         return;
     }
@@ -215,13 +215,13 @@ case BASECALC_LOGARITMO2C:
     c = log2c(a);
     break;
 
-case BASECALC_LOGARITMO1P:
+case BCALC_LOGARITMO1P:
 
     if(dcheck && a <= -1)
     {
         printf2(COLOR_SYSTEM, "\nlog1p function isn't defined in: ");
         printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, a);
-        printf2(COLOR_SYSTEM, ". ");
+        printf2(COLOR_SYSTEM, ".\n");
         printErr(33, "(DOMAIN: ]-1,+inf[ )");
         return;
     }
@@ -229,33 +229,284 @@ case BASECALC_LOGARITMO1P:
     c = log1p(a);
     break;
 
-case BASECALC_LOGARITMO1PC:
+case BCALC_LOGARITMO1PC:
 
-    if(dcheck && a <= -1)
+    if(dcheck && (a <= -1 || !a))
     {
-        printf2(COLOR_SYSTEM, "\nlog2c function isn't defined in: ");
+        printf2(COLOR_SYSTEM, "\nlog1pc function isn't defined in: ");
         printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, a);
-        printf2(COLOR_SYSTEM, ". ");
-        printErr(33, "(DOMAIN: ]-1,+inf] )");
+        printf2(COLOR_SYSTEM, ".\n");
+        printErr(33, "(DOMAIN: ]-1,+inf]\\0 )");
         return;
     }
 
     c = log1pc(a);
     break;
+    
+case BCALC_LOGARITMO101P:
 
-case BASECALC_BITCOUNTER:
+    if(dcheck && a <= -1)
+    {
+        printf2(COLOR_SYSTEM, "\nlog101p function isn't defined in: ");
+        printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, a);
+        printf2(COLOR_SYSTEM, ".\n");
+        printErr(33, "(DOMAIN: ]-1,+inf[ )");
+        return;
+    }
+
+    c = log101p(a);
+    break;
+
+case BCALC_LOGARITMO101PC:
+
+    if(dcheck && (a <= -1 || !a))
+    {
+        printf2(COLOR_SYSTEM, "\nlog101pc function isn't defined in: ");
+        printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, a);
+        printf2(COLOR_SYSTEM, ".\n");
+        printErr(33, "(DOMAIN: ]-1,+inf]\\0 )");
+        return;
+    }
+
+    c = log101pc(a);
+    break;
+    
+case BCALC_LOGARITMO21P:
+
+    if(dcheck && a <= -1)
+    {
+        printf2(COLOR_SYSTEM, "\nlog21p function isn't defined in: ");
+        printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, a);
+        printf2(COLOR_SYSTEM, ".\n");
+        printErr(33, "(DOMAIN: ]-1,+inf[ )");
+        return;
+    }
+
+    c = log21p(a);
+    break;
+
+case BCALC_LOGARITMO21PC:
+
+    if(dcheck && (a <= -1 || !a))
+    {
+        printf2(COLOR_SYSTEM, "\nlog21pc function isn't defined in: ");
+        printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, a);
+        printf2(COLOR_SYSTEM, ".\n");
+        printErr(33, "(DOMAIN: ]-1,+inf]\\0 )");
+        return;
+    }
+
+    c = log21pc(a);
+    break;
+
+case BCALC_CEXP:
+	viewComplexResult(CRV_DONTDGCHECK, "cexp", cexp(a+b*I));
+	return;
+case BCALC_CEXPC:
+	if(dcheck && (!a) && !b)
+        printErr(33, "cexpc function isn't defined in (0,0).\n(DOMAIN: C\\(0,0))");
+	else
+		viewComplexResult(CRV_DONTDGCHECK, "cexpc", cexpc(a+b*I));
+	return;
+	
+case BCALC_CEXP10:	
+	viewComplexResult(CRV_DONTDGCHECK, "cexp10", cexp10(a+b*I));
+	return;
+	
+case BCALC_CEXP10C:
+	if(dcheck && (!a) && !b)
+        printErr(33, "cexp10c function isn't defined in (0,0).\n(DOMAIN: C\\(0,0))");
+	else
+		viewComplexResult(CRV_DONTDGCHECK, "cexp10c", cexp10c(a+b*I));
+	return;
+	
+case BCALC_CEXP2:
+	viewComplexResult(CRV_DONTDGCHECK, "cexp2", cexp2(a+b*I));
+	return;
+	
+case BCALC_CEXP2C:
+	if(dcheck && (!a) && !b)
+        printErr(33, "cexp2c function isn't defined in (0,0).\n(DOMAIN: C\\(0,0))");
+	else
+	viewComplexResult(CRV_DONTDGCHECK, "cexp2c", cexp2c(a+b*I));
+	return;
+	
+case BCALC_CSQRT:
+	if(dcheck && (!b) && a < 0)
+        printErr(33, "Invalid Complex Square Root Function Argument.\n(DOMAIN: C\\{x| Im(x) = 0 ^ Re(x) < 0} )");
+	else
+		viewComplexResult(CRV_DONTDGCHECK, "cqsrt", csqrt(a+b*I));
+	return;
+	
+case BCALC_CCBRT:
+	viewComplexResult(CRV_DONTDGCHECK, "ccbrt", ccbrt(a+b*I));
+	return;
+	
+case BCALC_CLOG:
+	if(dcheck && (!b) && a <= 0)
+    {
+        printf2(COLOR_SYSTEM, "\nclog function isn't defined in: (");
+        printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, a);
+        printf2(COLOR_SYSTEM, ",0).\n");
+        printErr(33, "(DOMAIN: C\\{x| Im(x) = 0 ^ Re(x) <= 0} )");
+    }
+    else
+		viewComplexResult(CRV_DONTDGCHECK, "clog", clog(a+b*I));
+	return;
+	
+case BCALC_CLOGC:
+	if(dcheck && (!b) && a <= 0)
+    {
+        printf2(COLOR_SYSTEM, "\nclogc function isn't defined in: (");
+        printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, a);
+        printf2(COLOR_SYSTEM, ",0).\n");
+        printErr(33, "(DOMAIN: C\\{x| Im(x) = 0 ^ Re(x) <= 0} )");
+    }
+    else
+		viewComplexResult(CRV_DONTDGCHECK, "clogc", clogc(a+b*I));
+	return;	
+	
+case BCALC_CLOG10:
+	if(dcheck && (!b) && a <= 0)
+    {
+        printf2(COLOR_SYSTEM, "\nclog10 function isn't defined in: (");
+        printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, a);
+        printf2(COLOR_SYSTEM, ",0).\n");
+        printErr(33, "(DOMAIN: C\\{x| Im(x) = 0 ^ Re(x) <= 0} )");
+    }
+    else
+		viewComplexResult(CRV_DONTDGCHECK, "clog10", clog10(a+b*I));
+	return;
+	
+case BCALC_CLOG10C:
+	if(dcheck && (!b) && a <= 0)
+    {
+        printf2(COLOR_SYSTEM, "\nclog10c function isn't defined in: (");
+        printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, a);
+        printf2(COLOR_SYSTEM, ",0).\n");
+        printErr(33, "(DOMAIN: C\\{x| Im(x) = 0 ^ Re(x) <= 0} )");
+    }
+    else
+		viewComplexResult(CRV_DONTDGCHECK, "clog10c", clog10c(a+b*I));
+	return;
+	
+case BCALC_CLOG2:
+	if(dcheck && (!b) && a <= 0)
+    {
+        printf2(COLOR_SYSTEM, "\nclog2 function isn't defined in: (");
+        printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, a);
+        printf2(COLOR_SYSTEM, ",0).\n");
+        printErr(33, "(DOMAIN: C\\{x| Im(x) = 0 ^ Re(x) <= 0} )");
+    }
+    else
+		viewComplexResult(CRV_DONTDGCHECK, "clog2", clog2(a+b*I));
+	return;
+	
+case BCALC_CLOG2C:
+	if(dcheck && (!b) && a <= 0)
+    {
+        printf2(COLOR_SYSTEM, "\nclog2c function isn't defined in: (");
+        printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, a);
+        printf2(COLOR_SYSTEM, ",0).\n");
+        printErr(33, "(DOMAIN: C\\{x| Im(x) = 0 ^ Re(x) <= 0} )");
+    }
+    else
+		viewComplexResult(CRV_DONTDGCHECK, "clog2c", clog2c(a+b*I));
+	return;
+	
+case BCALC_CLOG1P:
+	if(dcheck && (!b) && a <= -1)
+    {
+        printf2(COLOR_SYSTEM, "\nclog1p function isn't defined in: (");
+        printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, a);
+        printf2(COLOR_SYSTEM, ",0).\n");
+        printErr(33, "(DOMAIN: C\\{x| Im(x) = 0 ^ Re(x) <= -1} )");
+    }
+    else
+		viewComplexResult(CRV_DONTDGCHECK, "clog1p", clog1p(a+b*I));
+	return;
+	
+case BCALC_CLOG1PC:
+	if(dcheck && (!b) && (a <= -1 || !a))
+    {
+        printf2(COLOR_SYSTEM, "\nclog1pc function isn't defined in: (");
+        printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, a);
+        printf2(COLOR_SYSTEM, ",0).\n");
+        printErr(33, "(DOMAIN: C\\{x| Im(x) = 0 ^ (Re(x) <= -1 V Re(x) = 0)} )");
+    }
+    else
+		viewComplexResult(CRV_DONTDGCHECK, "clog1pc", clog1pc(a+b*I));
+	return;
+	
+case BCALC_CLOG101P:
+	if(dcheck && (!b) && a <= -1)
+    {
+        printf2(COLOR_SYSTEM, "\nclog101p function isn't defined in: (");
+        printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, a);
+        printf2(COLOR_SYSTEM, ",0).\n");
+        printErr(33, "(DOMAIN: C\\{x| Im(x) = 0 ^ Re(x) <= -1} )");
+    }
+    else
+		viewComplexResult(CRV_DONTDGCHECK, "clog101p", clog101p(a+b*I));
+	return;
+	
+case BCALC_CLOG101PC:
+	if(dcheck && (!b) && (a <= -1 || !a))
+    {
+        printf2(COLOR_SYSTEM, "\nclog101pc function isn't defined in: (");
+        printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, a);
+        printf2(COLOR_SYSTEM, ",0).\n");
+        printErr(33, "(DOMAIN: C\\{x| Im(x) = 0 ^ (Re(x) <= -1 V Re(x) = 0)} )");
+    }
+    else
+		viewComplexResult(CRV_DONTDGCHECK, "clog101pc", clog101pc(a+b*I));
+	return;
+	
+case BCALC_CLOG21P:
+	if(dcheck && (!b) && a <= -1)
+    {
+        printf2(COLOR_SYSTEM, "\nclog21p function isn't defined in: (");
+        printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, a);
+        printf2(COLOR_SYSTEM, ",0).\n");
+        printErr(33, "(DOMAIN: C\\{x| Im(x) = 0 ^ Re(x) <= -1} )");
+    }
+    else
+		viewComplexResult(CRV_DONTDGCHECK, "clog21p", clog21p(a+b*I));
+	return;
+	
+case BCALC_CLOG21PC:
+	if(dcheck && (!b) && (a <= -1 || !a))
+    {
+        printf2(COLOR_SYSTEM, "\nclog21pc function isn't defined in: (");
+        printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, a);
+        printf2(COLOR_SYSTEM, ",0).\n");
+        printErr(33, "(DOMAIN: C\\{x| Im(x) = 0 ^ (Re(x) <= -1 V Re(x) = 0)} )");
+    }
+    else
+		viewComplexResult(CRV_DONTDGCHECK, "clog21pc", clog21pc(a+b*I));
+	return;
+	
+case BCALC_CARG:
+	c = carg(a+b*I);
+	break;
+	
+case BCALC_CABS:
+	c = cabs(a+b*I);
+	break;
+	
+case BCALC_BITCOUNTER:
     c = countbits(a);
     break;
 
-case BASECALC_UBITCOUNTER:
+case BCALC_UBITCOUNTER:
     c = ucountbits(a);
     break;
 
-case BASECALC_VERSION:
+case BCALC_VERSION:
     c = strtod(PROG__VERSION, NULL);
     break;
     
-case BASECALC_EXITCHAR:
+case BCALC_EXITCHAR:
 	if(a)
 	{
 		if(a < 0 || a == 'A' || a == 'B')
@@ -270,7 +521,7 @@ case BASECALC_EXITCHAR:
 		c = access(curLayout)->exit_char;
 	break;
 
-case BASECALC_PREC:
+case BCALC_PREC:
 
     if(a)
     {
@@ -286,7 +537,7 @@ case BASECALC_PREC:
     break;
 
 
-case BASECALC_SFACT:
+case BCALC_SFACT:
 	
     if(a)
     {
@@ -301,22 +552,22 @@ case BASECALC_SFACT:
         c = access(curLayout)->stabilizer_factor;
     break;
     
-case BASECALC_MINSRNUMBER:
+case BCALC_MINSRNUMBER:
 	
 	if(a)
     {
-        if(a < MIN_MEMOIZABLE_INDEX+1 || a > MIN_STIRLINGREQUIRES_NUMBER)
+        if(a < MIN_MEMOIZABLE_INDEX+1 || a > MIN_STIRLING_NUMBER)
         {
-            printErr(33, "Invalid Inserted Stabilizer Factor Value.\nMust be a non-negative integer between %hu and %hu", MIN_MEMOIZABLE_INDEX+1, MIN_STIRLINGREQUIRES_NUMBER);
+            printErr(33, "Invalid Inserted Stabilizer Factor Value.\nMust be a non-negative integer between %hu and %hu", MIN_MEMOIZABLE_INDEX+1, MIN_STIRLING_NUMBER);
             return;
         }
-        c = access(curLayout)->min_stirlingrequires_number = a;
+        c = access(curLayout)->min_stirling_number = a;
     }
     else
-        c = access(curLayout)->min_stirlingrequires_number;
+        c = access(curLayout)->min_stirling_number;
     break;
 
-case BASECALC_ALGEBRA:
+case BCALC_ALGEBRA:
     if(a)
     {
     if(a < MIN_ALGEBRA || a > MAX_ALGEBRA)
@@ -325,13 +576,13 @@ case BASECALC_ALGEBRA:
             return;
         }
         c = a;
-        _changeAlgebraDims(a);
+        access(curLayout)->algebra = a;
     }
     else
         c = access(curLayout)->algebra;
     break;
     
-case BASECALC_OUTLIERCONST:
+case BCALC_OUTLIERCONST:
 	if(a)
     {
     if(a < MIN_OUTLIER_CONSTANT || a > MAX_OUTLIER_CONSTANT)
@@ -347,7 +598,7 @@ case BASECALC_OUTLIERCONST:
     break;
 	
 
-case BASECALC_RSEED:
+case BCALC_RSEED:
 
     if(a)
     {
@@ -362,7 +613,7 @@ case BASECALC_RSEED:
         c = access(random_seed);
     break;
 
-case BASECALC_MMIFIBO:
+case BCALC_MMIFIBO:
 
     if(a)
     {
@@ -371,13 +622,13 @@ case BASECALC_MMIFIBO:
             printErr(33, "Invalid inserted %s MIM Value.\nMust be a non-negative integer between %hu and %hu", suite_c.memoizers_names[FUNCTION_FIBONACCI], MIN_MEMOIZABLE_INDEX+1, MAX_FIBONACCI_MEMOIZABLE_INDEX);;
             return;
         }
-        c = access(curLayout)->max_memoizable_indeces[FUNCTION_FIBONACCI] = a;
+        c = access(curLayout)->max_memoizable_indices[FUNCTION_FIBONACCI] = a;
     }
     else
-        c = access(curLayout)->max_memoizable_indeces[FUNCTION_FIBONACCI];
+        c = access(curLayout)->max_memoizable_indices[FUNCTION_FIBONACCI];
     break;
 
-case BASECALC_MMIFACT:
+case BCALC_MMIFACT:
 
     if(a)
     {
@@ -386,13 +637,13 @@ case BASECALC_MMIFACT:
             printErr(33, "Invalid inserted %s MIM Value.\nMust be a non-negative integer between %hu and %hu", suite_c.memoizers_names[FUNCTION_FATTORIALE], MIN_MEMOIZABLE_INDEX+1, MAX_FATTORIALE_MEMOIZABLE_INDEX);
             return;
         }
-        c = access(curLayout)->max_memoizable_indeces[FUNCTION_FATTORIALE] = a;
+        c = access(curLayout)->max_memoizable_indices[FUNCTION_FATTORIALE] = a;
     }
     else
-        c = access(curLayout)->max_memoizable_indeces[FUNCTION_FATTORIALE];
+        c = access(curLayout)->max_memoizable_indices[FUNCTION_FATTORIALE];
     break;
     
-case BASECALC_MMIEVENSFACT:
+case BCALC_MMIEVENSFACT:
 
     if(a)
     {
@@ -401,13 +652,13 @@ case BASECALC_MMIEVENSFACT:
             printErr(33, "Invalid inserted %s MIM Value.\nMust be a non-negative integer between %hu and %hu", suite_c.memoizers_names[FUNCTION_EVEN_SFATTORIALE], MIN_MEMOIZABLE_INDEX+1, MAX_EVEN_SFATTORIALE_MEMOIZABLE_INDEX);
             return;
         }
-        c = access(curLayout)->max_memoizable_indeces[FUNCTION_EVEN_SFATTORIALE] = a;
+        c = access(curLayout)->max_memoizable_indices[FUNCTION_EVEN_SFATTORIALE] = a;
     }
     else
-        c = access(curLayout)->max_memoizable_indeces[FUNCTION_EVEN_SFATTORIALE];
+        c = access(curLayout)->max_memoizable_indices[FUNCTION_EVEN_SFATTORIALE];
     break;
     
-case BASECALC_MMIODDSFACT:
+case BCALC_MMIODDSFACT:
 
     if(a)
     {
@@ -416,26 +667,26 @@ case BASECALC_MMIODDSFACT:
             printErr(33, "Invalid inserted %s MIM Value.\nMust be a non-negative integer between %hu and %hu", suite_c.memoizers_names[FUNCTION_ODD_SFATTORIALE], MIN_MEMOIZABLE_INDEX+1, MAX_ODD_SFATTORIALE_MEMOIZABLE_INDEX);
             return;
         }
-        c = access(curLayout)->max_memoizable_indeces[FUNCTION_ODD_SFATTORIALE] = a;
+        c = access(curLayout)->max_memoizable_indices[FUNCTION_ODD_SFATTORIALE] = a;
     }
     else
-        c = access(curLayout)->max_memoizable_indeces[FUNCTION_ODD_SFATTORIALE];
+        c = access(curLayout)->max_memoizable_indices[FUNCTION_ODD_SFATTORIALE];
     break;
 
 
-case BASECALC_TRASFORMAANGOLI:
+case BCALC_TRASFORMAANGOLI:
     c = (a ? deg(b) : rad(b));
     break;
 
-case BASECALC_SINANDSINH:
+case BCALC_SINANDSINH:
     c = (a ? sinh(b) : sin(b));
     break;
 
-case BASECALC_COSANDCOSH:
+case BCALC_COSANDCOSH:
     c = (a  ? cosh(b) : cos(b));
     break;
 
-case BASECALC_TANANDTANH:
+case BCALC_TANANDTANH:
     if(a) c = tanh(b);
     else
     {
@@ -443,7 +694,7 @@ case BASECALC_TANANDTANH:
         {
             printf2(COLOR_SYSTEM, "\ntan function isn't defined in: ");
             printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, b);
-            printf2(COLOR_SYSTEM, ". ");
+            printf2(COLOR_SYSTEM, ".\n");
             printErr(33, "(DOMAIN: R\\{x| x = PI/2 + k*PI} )");
             return;
         }
@@ -451,14 +702,14 @@ case BASECALC_TANANDTANH:
     }
     break;
 
-case BASECALC_CSCANDCSCH:
+case BCALC_CSCANDCSCH:
     if(a)
     {
         if(dcheck && (!b))
         {
             printf2(COLOR_SYSTEM, "\ncsch function isn't defined in: ");
             printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, b);
-            printf2(COLOR_SYSTEM, ". ");
+            printf2(COLOR_SYSTEM, ".\n");
             printErr(33, "(DOMAIN: ]-inf,0[U]0,+inf[ )");
             return;
         }
@@ -470,7 +721,7 @@ case BASECALC_CSCANDCSCH:
         {
             printf2(COLOR_SYSTEM, "\ncsc function isn't defined in: ");
             printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, b);
-            printf2(COLOR_SYSTEM, ". ");
+            printf2(COLOR_SYSTEM, ".\n");
             printErr(33, "(DOMAIN: R\\{x|x = k*PI} )");
             return;
         }
@@ -478,7 +729,7 @@ case BASECALC_CSCANDCSCH:
     }
     break;
 
-case BASECALC_SECANDSECH:
+case BCALC_SECANDSECH:
     if(a) c = sech(b);
     else
     {
@@ -486,7 +737,7 @@ case BASECALC_SECANDSECH:
         {
             printf2(COLOR_SYSTEM, "\nsec function isn't defined in: ");
             printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, b);
-            printf2(COLOR_SYSTEM, ". ");
+            printf2(COLOR_SYSTEM, ".\n");
             printErr(33, "(DOMAIN: R\\{x|x = PI/2 + k*PI} )");
             return;
         }
@@ -494,14 +745,14 @@ case BASECALC_SECANDSECH:
     }
     break;
 
-case BASECALC_COTANDCOTH:
+case BCALC_COTANDCOTH:
     if(a)
     {
         if(dcheck && (!b))
         {
             printf2(COLOR_SYSTEM, "\ncoth function isn't defined in: ");
             printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, b);
-            printf2(COLOR_SYSTEM, ". ");
+            printf2(COLOR_SYSTEM, ".\n");
             printErr(33, "(DOMAIN: ]-inf,0[U]0,+inf[ )");
             return;
         }
@@ -513,7 +764,7 @@ case BASECALC_COTANDCOTH:
         {
             printf2(COLOR_SYSTEM, "\ncot function isn't defined in: ");
             printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, b);
-            printf2(COLOR_SYSTEM, ". ");
+            printf2(COLOR_SYSTEM, ".\n");
             printErr(33, "(DOMAIN: R\\{x|x = k*PI} )");
             return;
         }
@@ -521,23 +772,23 @@ case BASECALC_COTANDCOTH:
     }
     break;
 
-case BASECALC_HSINANDHSINH:
+case BCALC_HSINANDHSINH:
     c = (a ? hsinh(b) : hsin(b));
     break;
 
-case BASECALC_QSINANDQSINH:
+case BCALC_QSINANDQSINH:
     c = (a ? qsinh(b) : qsin(b));
     break;
 
-case BASECALC_HCOSANDHCOSH:
+case BCALC_HCOSANDHCOSH:
     c = (a ? hcosh(b) : hcos(b));
     break;
 
-case BASECALC_QCOSANDQCOSH:
+case BCALC_QCOSANDQCOSH:
     c = (a ? qcosh(b) : qcos(b));
     break;
 
-case BASECALC_HSECANDHSECH:
+case BCALC_HSECANDHSECH:
     if(a) c = hsech(b);
     else
     {
@@ -545,7 +796,7 @@ case BASECALC_HSECANDHSECH:
         {
             printf2(COLOR_SYSTEM, "\nhsec function isn't defined in: ");
             printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, b);
-            printf2(COLOR_SYSTEM, ". ");
+            printf2(COLOR_SYSTEM, ".\n");
             printErr(33, "(DOMAIN: R\\{x|x = PI/2 + k*PI} )");
             return;
         }
@@ -553,7 +804,7 @@ case BASECALC_HSECANDHSECH:
     }
     break;
 
-case BASECALC_QSECANDQSECH:
+case BCALC_QSECANDQSECH:
     if(a) c = qsech(b);
     else
     {
@@ -561,7 +812,7 @@ case BASECALC_QSECANDQSECH:
         {
             printf2(COLOR_SYSTEM, "\nqsec function isn't defined in: ");
             printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, b);
-            printf2(COLOR_SYSTEM, ". ");
+            printf2(COLOR_SYSTEM, ".\n");
             printErr(33, "(DOMAIN: R\\{x|x = PI/2 + k*PI} )");
             return;
         }
@@ -569,7 +820,7 @@ case BASECALC_QSECANDQSECH:
     }
     break;
 
-case BASECALC_HCSCANDHCSCH:
+case BCALC_HCSCANDHCSCH:
     if(a) c = hcsch(b);
     else
     {
@@ -577,7 +828,7 @@ case BASECALC_HCSCANDHCSCH:
         {
             printf2(COLOR_SYSTEM, "\nhcsc function isn't defined in: ");
             printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, b);
-            printf2(COLOR_SYSTEM, ". ");
+            printf2(COLOR_SYSTEM, ".\n");
             printErr(33, "(DOMAIN: R\\{x|x = k*PI} )");
             return;
         }
@@ -585,7 +836,7 @@ case BASECALC_HCSCANDHCSCH:
     }
     break;
 
-case BASECALC_QCSCANDQCSC:
+case BCALC_QCSCANDQCSC:
     if(a) c = qcsch(b);
     else
     {
@@ -593,7 +844,7 @@ case BASECALC_QCSCANDQCSC:
         {
             printf2(COLOR_SYSTEM, "\nqcsc function isn't defined in: ");
             printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, b);
-            printf2(COLOR_SYSTEM, ". ");
+            printf2(COLOR_SYSTEM, ".\n");
             printErr(33, "(DOMAIN: R\\{x|x = k*PI} )");
             return;
         }
@@ -601,7 +852,7 @@ case BASECALC_QCSCANDQCSC:
     }
     break;
 
-case BASECALC_HTANANDHTANH:
+case BCALC_HTANANDHTANH:
     if(a) c = htanh(b);
     else
     {
@@ -609,7 +860,7 @@ case BASECALC_HTANANDHTANH:
         {
             printf2(COLOR_SYSTEM, "\nhtan function isn't defined in: ");
             printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, b);
-            printf2(COLOR_SYSTEM, ". ");
+            printf2(COLOR_SYSTEM, ".\n");
             printErr(33, "(DOMAIN: R\\{x| x = PI/2 + k*PI} )");
             return;
         }
@@ -617,7 +868,7 @@ case BASECALC_HTANANDHTANH:
     }
     break;
 
-case BASECALC_QTANANDQTANH:
+case BCALC_QTANANDQTANH:
     if(a) c = qtanh(b);
     else
     {
@@ -625,7 +876,7 @@ case BASECALC_QTANANDQTANH:
         {
             printf2(COLOR_SYSTEM, "\nqtan function isn't defined in: ");
             printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, b);
-            printf2(COLOR_SYSTEM, ". ");
+            printf2(COLOR_SYSTEM, ".\n");
             printErr(33, "(DOMAIN: R\\{x| x = PI/2 + k*PI} )");
             return;
         }
@@ -633,14 +884,12 @@ case BASECALC_QTANANDQTANH:
     }
     break;
 
-case BASECALC_HCOTANDHCOTH:
+case BCALC_HCOTANDHCOTH:
     if(a)
     {
         if(dcheck && (!b))
         {
-            printf2(COLOR_SYSTEM, "\nhcoth function isn't defined in: ");
-            printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, b);
-            printf2(COLOR_SYSTEM, ". ");
+            printf2(COLOR_SYSTEM, "\nhcoth function isn't defined in: 0.\n");
             printErr(33, "(DOMAIN: ]-inf,0[U]0,+inf[ )");
             return;
         }
@@ -652,7 +901,7 @@ case BASECALC_HCOTANDHCOTH:
         {
             printf2(COLOR_SYSTEM, "\nhcot function isn't defined in: ");
             printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, b);
-            printf2(COLOR_SYSTEM, ". ");
+            printf2(COLOR_SYSTEM, ".\n");
             printErr(33, "(DOMAIN: R\\{x|x = k*PI} )");
             return;
         }
@@ -660,14 +909,12 @@ case BASECALC_HCOTANDHCOTH:
     }
     break;
 
-case BASECALC_QCOTANDQCOTH:
+case BCALC_QCOTANDQCOTH:
     if(a)
     {
         if(dcheck && (!b))
         {
-            printf2(COLOR_SYSTEM, "\nqcoth function isn't defined in: ");
-            printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, b);
-            printf2(COLOR_SYSTEM, ". ");
+            printf2(COLOR_SYSTEM, "\nqcoth function isn't defined in: 0.\n");
             printErr(33, "(DOMAIN: ]-inf,0[U]0,+inf[ )");
             return;
         }
@@ -679,7 +926,7 @@ case BASECALC_QCOTANDQCOTH:
         {
             printf2(COLOR_SYSTEM, "\nqcot function isn't defined in: ");
             printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, b);
-            printf2(COLOR_SYSTEM, ". ");
+            printf2(COLOR_SYSTEM, ".\n");
             printErr(33, "(DOMAIN: R\\{x|x = k*PI} )");
             return;
         }
@@ -687,55 +934,55 @@ case BASECALC_QCOTANDQCOTH:
     }
     break;
 
-case BASECALC_VSINANDVSINH:
+case BCALC_VSINANDVSINH:
     c = (a ? vsinh(b) : vsin(b));
     break;
 
-case BASECALC_CVSINANDCVSINH:
+case BCALC_CVSINANDCVSINH:
     c = (a ? cvsinh(b) : cvsin(b));
     break;
 
-case BASECALC_VCOSANDVCOSH:
+case BCALC_VCOSANDVCOSH:
     c = (a ? vcosh(b) : vcos(b));
     break;
 
-case BASECALC_CVCOSANDCVCOSH:
+case BCALC_CVCOSANDCVCOSH:
     c = (a ? cvcosh(b) : cvcos(b));
     break;
 
-case BASECALC_HVSINANDHVSINH:
+case BCALC_HVSINANDHVSINH:
     c = (a ? hvsinh(b) : hvsin(b));
     break;
 
-case BASECALC_HCVSINANDHCVSINH:
+case BCALC_HCVSINANDHCVSINH:
     c = (a ? hcvsinh(b) : hcvsin(b));
     break;
 
-case BASECALC_QVSINANDQVSINH:
+case BCALC_QVSINANDQVSINH:
     c = (a ? qvsinh(b) : qvsin(b));
     break;
 
-case BASECALC_QCVSINANDQCVSINH:
+case BCALC_QCVSINANDQCVSINH:
     c = (a ? qcvsinh(b) : qcvsin(b));
     break;
 
-case BASECALC_HVCOSANDHVCOSH:
+case BCALC_HVCOSANDHVCOSH:
     c = (a ? hvcosh(b) : hvcos(b));
     break;
 
-case BASECALC_HCVCOSANDHCVCOSH:
+case BCALC_HCVCOSANDHCVCOSH:
     c = (a ? hcvcosh(b) : hcvcos(b));
     break;
 
-case BASECALC_QVCOSANDQVCOSH:
+case BCALC_QVCOSANDQVCOSH:
     c = (a ? qvcosh(b) : qvcos(b));
     break;
 
-case BASECALC_QCVCOSANDQCVCOSH:
+case BCALC_QCVCOSANDQCVCOSH:
     c = (a ? qcvcosh(b) : qcvcos(b));
     break;
 
-case BASECALC_ESECANDESECH:
+case BCALC_ESECANDESECH:
     if(a) c = esech(b);
     else
     {
@@ -743,7 +990,7 @@ case BASECALC_ESECANDESECH:
         {
             printf2(COLOR_SYSTEM, "\nesec function isn't defined in: ");
             printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, b);
-            printf2(COLOR_SYSTEM, ". ");
+            printf2(COLOR_SYSTEM, ".\n");
             printErr(33, "(DOMAIN: R\\{x|x = PI/2 + k*PI} )");
             return;
         }
@@ -751,7 +998,7 @@ case BASECALC_ESECANDESECH:
     }
     break;
 
-case BASECALC_ECSCANDECSCH:
+case BCALC_ECSCANDECSCH:
     if(a) c = ecsch(b);
     else
     {
@@ -759,7 +1006,7 @@ case BASECALC_ECSCANDECSCH:
         {
             printf2(COLOR_SYSTEM, "\necsc function isn't defined in: ");
             printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, b);
-            printf2(COLOR_SYSTEM, ". ");
+            printf2(COLOR_SYSTEM, ".\n");
             printErr(33, "(DOMAIN: R\\{x|x = k*PI} )");
             return;
         }
@@ -767,7 +1014,7 @@ case BASECALC_ECSCANDECSCH:
     }
     break;
 
-case BASECALC_HESECANDHESECH:
+case BCALC_HESECANDHESECH:
     if(a) c = hesech(b);
     else
     {
@@ -775,7 +1022,7 @@ case BASECALC_HESECANDHESECH:
         {
             printf2(COLOR_SYSTEM, "\nhesec function isn't defined in: ");
             printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, b);
-            printf2(COLOR_SYSTEM, ". ");
+            printf2(COLOR_SYSTEM, ".\n");
             printErr(33, "(DOMAIN: R\\{x|x = PI/2 + k*PI} )");
             return;
         }
@@ -783,7 +1030,7 @@ case BASECALC_HESECANDHESECH:
     }
     break;
 
-case BASECALC_HECSCANDHECSCH:
+case BCALC_HECSCANDHECSCH:
     if(a) c = hecsch(b);
     else
     {
@@ -791,7 +1038,7 @@ case BASECALC_HECSCANDHECSCH:
         {
             printf2(COLOR_SYSTEM, "\nhecsc function isn't defined in: ");
             printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, b);
-            printf2(COLOR_SYSTEM, ". ");
+            printf2(COLOR_SYSTEM, ".\n");
             printErr(33, "(DOMAIN: R\\{x|x = k*PI} )");
             return;
         }
@@ -799,7 +1046,7 @@ case BASECALC_HECSCANDHECSCH:
     }
     break;
 
-case BASECALC_QESECANDQESECH:
+case BCALC_QESECANDQESECH:
     if(a) c = qesech(b);
     else
     {
@@ -807,7 +1054,7 @@ case BASECALC_QESECANDQESECH:
         {
             printf2(COLOR_SYSTEM, "\nqesec function isn't defined in: ");
             printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, b);
-            printf2(COLOR_SYSTEM, ". ");
+            printf2(COLOR_SYSTEM, ".\n");
             printErr(33, "(DOMAIN: R\\{x|x = PI/2 + k*PI} )");
             return;
         }
@@ -815,7 +1062,7 @@ case BASECALC_QESECANDQESECH:
     }
     break;
 
-case BASECALC_QECSCANDQECSCH:
+case BCALC_QECSCANDQECSCH:
     if(a) c = qecsch(b);
     else
     {
@@ -823,7 +1070,7 @@ case BASECALC_QECSCANDQECSCH:
         {
             printf2(COLOR_SYSTEM, "\nqecsc function isn't defined in: ");
             printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, b);
-            printf2(COLOR_SYSTEM, ". ");
+            printf2(COLOR_SYSTEM, ".\n");
             printErr(33, "(DOMAIN: R\\{x|x = k*PI} )");
             return;
         }
@@ -831,27 +1078,25 @@ case BASECALC_QECSCANDQECSCH:
     }
     break;
 
-case BASECALC_SINCANDSINCH:
+case BCALC_SINCANDSINCH:
     c = (a ? sinch(b) : sinc(b));
     break;
 
-case BASECALC_HSINCANDHSINCH:
+case BCALC_HSINCANDHSINCH:
     c = (a ? hsinch(b) : hsinc(b));
     break;
 
-case BASECALC_QSINCANDQSINCH:
+case BCALC_QSINCANDQSINCH:
     c = (a ? qsinch(b) : qsinc(b));
     break;
 
-case BASECALC_COSCANDCOSCH:
+case BCALC_COSCANDCOSCH:
     if(a) c = cosch(b);
     else
     {
         if(dcheck && !b)
         {
-            printf2(COLOR_SYSTEM, "\ncosc function isn't defined in: ");
-            printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, b);
-            printf2(COLOR_SYSTEM, ". ");
+            printf2(COLOR_SYSTEM, "\ncosc function isn't defined in: 0.\n");
             printErr(33, "(DOMAIN: R\\{x|x = 0} )");
             return;
         }
@@ -859,15 +1104,13 @@ case BASECALC_COSCANDCOSCH:
     }
     break;
 
-case BASECALC_HCOSCANDHCOSCH:
+case BCALC_HCOSCANDHCOSCH:
     if(a) c = hcosch(b);
     else
     {
         if(dcheck && !b)
         {
-            printf2(COLOR_SYSTEM, "\nhcosc function isn't defined in: ");
-            printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, b);
-            printf2(COLOR_SYSTEM, ". ");
+            printf2(COLOR_SYSTEM, "\nhcosc function isn't defined in: 0.\n");
             printErr(33, "(DOMAIN: R\\{x|x = 0} )");
             return;
         }
@@ -875,15 +1118,13 @@ case BASECALC_HCOSCANDHCOSCH:
     }
     break;
 
-case BASECALC_QCOSCANDQCOSCH:
+case BCALC_QCOSCANDQCOSCH:
     if(a) c = qcosch(b);
     else
     {
         if(dcheck && !b)
         {
-            printf2(COLOR_SYSTEM, "\nqcosc function isn't defined in: ");
-            printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, b);
-            printf2(COLOR_SYSTEM, ". ");
+            printf2(COLOR_SYSTEM, "\nqcosc function isn't defined in: 0.\n");
             printErr(33, "(DOMAIN: R\\{x|x = 0} )");
             return;
         }
@@ -891,7 +1132,7 @@ case BASECALC_QCOSCANDQCOSCH:
     }
     break;
 
-case BASECALC_SECCANDSECCH:
+case BCALC_SECCANDSECCH:
     if(a) c = secch(b);
     else
     {
@@ -899,7 +1140,7 @@ case BASECALC_SECCANDSECCH:
         {
             printf2(COLOR_SYSTEM, "\nsecc function isn't defined in: ");
             printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, b);
-            printf2(COLOR_SYSTEM, ". ");
+            printf2(COLOR_SYSTEM, ".\n");
             printErr(33, "(DOMAIN: R\\{x|x = 0 V x = PI/2 + k*PI} )");
             return;
         }
@@ -907,7 +1148,7 @@ case BASECALC_SECCANDSECCH:
     }
     break;
 
-case BASECALC_HSECCANDHSECCH:
+case BCALC_HSECCANDHSECCH:
     if(a) c = hsecch(b);
     else
     {
@@ -915,7 +1156,7 @@ case BASECALC_HSECCANDHSECCH:
         {
             printf2(COLOR_SYSTEM, "\nhsecc function isn't defined in: ");
             printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, b);
-            printf2(COLOR_SYSTEM, ". ");
+            printf2(COLOR_SYSTEM, ".\n");
             printErr(33, "(DOMAIN: R\\{x|x = 0 V x = PI/2 + k*PI} )");
             return;
         }
@@ -923,7 +1164,7 @@ case BASECALC_HSECCANDHSECCH:
     }
     break;
 
-case BASECALC_QSECCANDQSECCH:
+case BCALC_QSECCANDQSECCH:
     if(a) c = qsecch(b);
     else
     {
@@ -931,7 +1172,7 @@ case BASECALC_QSECCANDQSECCH:
         {
             printf2(COLOR_SYSTEM, "\nqsecc function isn't defined in: ");
             printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, b);
-            printf2(COLOR_SYSTEM, ". ");
+            printf2(COLOR_SYSTEM, ".\n");
             printErr(33, "(DOMAIN: R\\{x|x = 0 V x = PI/2 + k*PI} )");
             return;
         }
@@ -939,7 +1180,7 @@ case BASECALC_QSECCANDQSECCH:
     }
     break;
 
-case BASECALC_CSCCANDCSCCH:
+case BCALC_CSCCANDCSCCH:
     if(a) c = cscch(b);
     else
     {
@@ -947,7 +1188,7 @@ case BASECALC_CSCCANDCSCCH:
         {
             printf2(COLOR_SYSTEM, "\ncscc function isn't defined in: ");
             printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, b);
-            printf2(COLOR_SYSTEM, ". ");
+            printf2(COLOR_SYSTEM, ".\n");
             printErr(33, "(DOMAIN: R\\{x|x = k*PI} )");
             return;
         }
@@ -955,7 +1196,7 @@ case BASECALC_CSCCANDCSCCH:
     }
     break;
 
-case BASECALC_HCSCCANDHCSCCH:
+case BCALC_HCSCCANDHCSCCH:
     if(a) c = hcscch(b);
     else
     {
@@ -963,7 +1204,7 @@ case BASECALC_HCSCCANDHCSCCH:
         {
             printf2(COLOR_SYSTEM, "\nhcscc function isn't defined in: ");
             printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, b);
-            printf2(COLOR_SYSTEM, ". ");
+            printf2(COLOR_SYSTEM, ".\n");
             printErr(33, "(DOMAIN: R\\{x|x = k*PI} )");
             return;
         }
@@ -971,7 +1212,7 @@ case BASECALC_HCSCCANDHCSCCH:
     }
     break;
 
-case BASECALC_QCSCCANDQCSCCH:
+case BCALC_QCSCCANDQCSCCH:
     if(a) c = qcscch(b);
     else
     {
@@ -979,7 +1220,7 @@ case BASECALC_QCSCCANDQCSCCH:
         {
             printf2(COLOR_SYSTEM, "\nqcscc function isn't defined in: ");
             printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, b);
-            printf2(COLOR_SYSTEM, ". ");
+            printf2(COLOR_SYSTEM, ".\n");
             printErr(33, "(DOMAIN: R\\{x|x = k*PI} )");
             return;
         }
@@ -987,7 +1228,7 @@ case BASECALC_QCSCCANDQCSCCH:
     }
     break;
 
-case BASECALC_TANCANDTANCH:
+case BCALC_TANCANDTANCH:
     if(a) c = tanch(b);
     else
     {
@@ -995,7 +1236,7 @@ case BASECALC_TANCANDTANCH:
         {
             printf2(COLOR_SYSTEM, "\ntanc function isn't defined in: ");
             printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, b);
-            printf2(COLOR_SYSTEM, ". ");
+            printf2(COLOR_SYSTEM, ".\n");
             printErr(33, "(DOMAIN: R\\{x|x = 0 V x = PI/2 + k*PI} )");
             return;
         }
@@ -1003,7 +1244,7 @@ case BASECALC_TANCANDTANCH:
     }
     break;
 
-case BASECALC_HTANCANDHTANCH:
+case BCALC_HTANCANDHTANCH:
     if(a) c = htanch(b);
     else
     {
@@ -1011,7 +1252,7 @@ case BASECALC_HTANCANDHTANCH:
         {
             printf2(COLOR_SYSTEM, "\nhtanc function isn't defined in: ");
             printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, b);
-            printf2(COLOR_SYSTEM, ". ");
+            printf2(COLOR_SYSTEM, ".\n");
             printErr(33, "(DOMAIN: R\\{x|x = 0 V x = PI/2 + k*PI} )");
             return;
         }
@@ -1019,7 +1260,7 @@ case BASECALC_HTANCANDHTANCH:
     }
     break;
 
-case BASECALC_QTANCANDQTANCH:
+case BCALC_QTANCANDQTANCH:
     if(a) c = qtanch(b);
     else
     {
@@ -1027,7 +1268,7 @@ case BASECALC_QTANCANDQTANCH:
         {
             printf2(COLOR_SYSTEM, "\nqtanc function isn't defined in: ");
             printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, b);
-            printf2(COLOR_SYSTEM, ". ");
+            printf2(COLOR_SYSTEM, ".\n");
             printErr(33, "(DOMAIN: R\\{x|x = 0 V x = PI/2 + k*PI} )");
             return;
         }
@@ -1035,14 +1276,12 @@ case BASECALC_QTANCANDQTANCH:
     }
     break;
 
-case BASECALC_COTCANDCOTCH:
+case BCALC_COTCANDCOTCH:
     if(a)
     {
         if(dcheck && (!b))
         {
-            printf2(COLOR_SYSTEM, "\ncotch function isn't defined in: ");
-            printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, b);
-            printf2(COLOR_SYSTEM, ". ");
+            printf2(COLOR_SYSTEM, "\ncotch function isn't defined in: 0.\n");
             printErr(33, "(DOMAIN: ]-inf,0[U]0,+inf[ )");
             return;
         }
@@ -1054,7 +1293,7 @@ case BASECALC_COTCANDCOTCH:
         {
             printf2(COLOR_SYSTEM, "\ncotc function isn't defined in: ");
             printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, b);
-            printf2(COLOR_SYSTEM, ". ");
+            printf2(COLOR_SYSTEM, ".\n");
             printErr(33, "(DOMAIN: R\\{x|x = k*PI} )");
             return;
         }
@@ -1062,14 +1301,12 @@ case BASECALC_COTCANDCOTCH:
     }
     break;
 
-case BASECALC_HCOTCANDHCOTCH:
+case BCALC_HCOTCANDHCOTCH:
     if(a)
     {
         if(dcheck && (!b))
         {
-            printf2(COLOR_SYSTEM, "\nhcotch function isn't defined in: ");
-            printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, b);
-            printf2(COLOR_SYSTEM, ". ");
+            printf2(COLOR_SYSTEM, "\nhcotch function isn't defined in: 0.\n");
             printErr(33, "(DOMAIN: ]-inf,0[U]0,+inf[ )");
             return;
         }
@@ -1081,7 +1318,7 @@ case BASECALC_HCOTCANDHCOTCH:
         {
             printf2(COLOR_SYSTEM, "\nhcotc function isn't defined in: ");
             printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, b);
-            printf2(COLOR_SYSTEM, ". ");
+            printf2(COLOR_SYSTEM, ".\n");
             printErr(33, "(DOMAIN: R\\{x|x = k*PI} )");
             return;
         }
@@ -1089,14 +1326,12 @@ case BASECALC_HCOTCANDHCOTCH:
     }
     break;
 
-case BASECALC_QCOTCANDQCOTCH:
+case BCALC_QCOTCANDQCOTCH:
     if(a)
     {
         if(dcheck && (!b))
         {
-            printf2(COLOR_SYSTEM, "\nqcotch function isn't defined in: ");
-            printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, b);
-            printf2(COLOR_SYSTEM, ". ");
+            printf2(COLOR_SYSTEM, "\nqcotch function isn't defined in: 0.\n");
             printErr(33, "(DOMAIN: ]-inf,0[U]0,+inf[ )");
             return;
         }
@@ -1108,7 +1343,7 @@ case BASECALC_QCOTCANDQCOTCH:
         {
             printf2(COLOR_SYSTEM, "\nqcotc function isn't defined in: ");
             printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, b);
-            printf2(COLOR_SYSTEM, ". ");
+            printf2(COLOR_SYSTEM, ".\n");
             printErr(33, "(DOMAIN: R\\{x|x = k*PI} )");
             return;
         }
@@ -1117,14 +1352,14 @@ case BASECALC_QCOTCANDQCOTCH:
     break;
 
 
-case BASECALC_ASINANDASINH:
+case BCALC_ASINANDASINH:
     if(a == 0)
     {
         if(dcheck && !(TRIGONOMETRIC_DOMAIN(b)))
         {
             printf2(COLOR_SYSTEM, "\nasin function isn't defined in: ");
             printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, b);
-            printf2(COLOR_SYSTEM, ". ");
+            printf2(COLOR_SYSTEM, ".\n");
             printErr(33, "(DOMAIN: [-1,1] )");
             return;
         }
@@ -1133,7 +1368,7 @@ case BASECALC_ASINANDASINH:
     else c = asinh(b);
     break;
 
-case BASECALC_ACOSANDACOSH:
+case BCALC_ACOSANDACOSH:
     if(a)
     {
 
@@ -1141,7 +1376,7 @@ case BASECALC_ACOSANDACOSH:
         {
             printf2(COLOR_SYSTEM, "\nacosh function isn't defined in: ");
             printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, b);
-            printf2(COLOR_SYSTEM, ". ");
+            printf2(COLOR_SYSTEM, ".\n");
             printErr(33, "(DOMAIN: [1,+inf] )");
             return;
         }
@@ -1153,7 +1388,7 @@ case BASECALC_ACOSANDACOSH:
         {
             printf2(COLOR_SYSTEM, "\nacos function isn't defined in: ");
             printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, b);
-            printf2(COLOR_SYSTEM, ". ");
+            printf2(COLOR_SYSTEM, ".\n");
             printErr(33, "(DOMAIN: [-1,1] )");
             return;
         }
@@ -1161,14 +1396,14 @@ case BASECALC_ACOSANDACOSH:
     }
     break;
 
-case BASECALC_ATANANDATANH:
+case BCALC_ATANANDATANH:
     if(a)
     {
         if(dcheck && !(TRIGONOMETRIC_DOMAIN(b)))
         {
             printf2(COLOR_SYSTEM, "\natanh function isn't defined in: ");
             printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, b);
-            printf2(COLOR_SYSTEM, ". ");
+            printf2(COLOR_SYSTEM, ".\n");
             printErr(33, "(DOMAIN: [-1,1] )");
             return;
         }
@@ -1177,7 +1412,7 @@ case BASECALC_ATANANDATANH:
     else c = atan(b);
     break;
 
-case BASECALC_ATAN2:
+case BCALC_ATAN2:
     if(dcheck && (!a) && (!b))
     {
         printf2(COLOR_SYSTEM, "\natan2 function isn't defined in: (0,0). ");
@@ -1187,7 +1422,7 @@ case BASECALC_ATAN2:
     c = atan2(a, b);
     break;
 
-case BASECALC_ACSCANDACSCH:
+case BCALC_ACSCANDACSCH:
     if(a) c = acsch(b);
     else
     {
@@ -1195,7 +1430,7 @@ case BASECALC_ACSCANDACSCH:
         {
             printf2(COLOR_SYSTEM, "\nacsc function isn't defined in: ");
             printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, b);
-            printf2(COLOR_SYSTEM, ". ");
+            printf2(COLOR_SYSTEM, ".\n");
             printErr(33, "(DOMAIN: ]-inf,-1]U[1,+inf[ )");
             return;
         }
@@ -1203,14 +1438,14 @@ case BASECALC_ACSCANDACSCH:
     }
     break;
 
-case BASECALC_ASECANDASECH:
+case BCALC_ASECANDASECH:
     if(a)
     {
         if(dcheck && (b < 0 || b >= 1))
         {
             printf2(COLOR_SYSTEM, "\nasech function isn't defined in: ");
             printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, b);
-            printf2(COLOR_SYSTEM, ". ");
+            printf2(COLOR_SYSTEM, ".\n");
             printErr(33, "(DOMAIN: [0, 1) )");
             return;
         }
@@ -1223,7 +1458,7 @@ case BASECALC_ASECANDASECH:
         {
             printf2(COLOR_SYSTEM, "\nasec function isn't defined in: ");
             printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, b);
-            printf2(COLOR_SYSTEM, ". ");
+            printf2(COLOR_SYSTEM, ".\n");
             printErr(33, "(DOMAIN: ]-inf,-1]U[1,+inf[ )");
             return;
         }
@@ -1231,14 +1466,14 @@ case BASECALC_ASECANDASECH:
     }
     break;
 
-case BASECALC_ACOTANDACOTH:
+case BCALC_ACOTANDACOTH:
     if(a)
     {
         if(dcheck && TRIGONOMETRIC_DOMAIN(b))
         {
             printf2(COLOR_SYSTEM, "\nacoth function isn't defined in: ");
             printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, b);
-            printf2(COLOR_SYSTEM, ". ");
+            printf2(COLOR_SYSTEM, ".\n");
             printErr(33, "(DOMAIN: ]-inf,-1[U]1,+inf[ )");
             return;
         }
@@ -1246,8 +1481,734 @@ case BASECALC_ACOTANDACOTH:
     }
     else c = acot(b);
     break;
+    
+case BCALC_CSIN:
+	viewComplexResult(CRV_DODGCHECK, "csin", csin(a+b*I));
+	return;
+case BCALC_CSINH:
+	viewComplexResult(CRV_DODGCHECK, "csinh", csinh(a+b*I));
+	return;
+case BCALC_CCOS:	
+	viewComplexResult(CRV_DODGCHECK, "ccos", ccos(a+b*I));
+	return;
+case BCALC_CCOSH:
+	viewComplexResult(CRV_DODGCHECK, "ccosh", ccosh(a+b*I));
+	return;	
+case BCALC_CTAN:
+	if(dcheck && (!b) && (!trigonometric_domain(a, M_PI_2, M_PI)))
+    {
+        printf2(COLOR_SYSTEM, "\nctan function isn't defined in: (");
+        printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, a);
+        printf2(COLOR_SYSTEM, ",0).\n");
+        printErr(33, "(DOMAIN: C\\{x| Im(x) = 0 ^ Re(x) = PI/2 + k*PI} )");
+    }
+    else
+		viewComplexResult(CRV_DODGCHECK, "ctan", ctan(a+b*I));
+	return;
+case BCALC_CTANH:
+	viewComplexResult(CRV_DODGCHECK, "ctanh", ctanh(a+b*I));
+	return;
+case BCALC_CCSC:
+	if(dcheck && (!b) && (!trigonometric_domain(a, 0, M_PI)))
+    {
+        printf2(COLOR_SYSTEM, "\nccsc function isn't defined in: (");
+        printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, a);
+        printf2(COLOR_SYSTEM, ",0).\n");
+        printErr(33, "(DOMAIN: C\\{x| Im(x) = 0 ^ Re(x) = k*PI} )");
+    }
+    else
+		viewComplexResult(CRV_DODGCHECK, "ccsc", ccsc(a+b*I));
+	return;
+case BCALC_CCSCH:
+	if(dcheck && (!a) && (!b))
+    {
+        printf2(COLOR_SYSTEM, "\ncsch function isn't defined in: (0,0).\n");
+        printErr(33, "(DOMAIN: C\\(0,0))");
+    }
+    else
+		viewComplexResult(CRV_DODGCHECK, "ccsch", ccsch(a+b*I));
+	return;
+case BCALC_CSEC:
+	if(dcheck && (!b) && (!trigonometric_domain(a, M_PI_2, M_PI)))
+    {
+        printf2(COLOR_SYSTEM, "\ncsec function isn't defined in: (");
+        printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, a);
+        printf2(COLOR_SYSTEM, ",0).\n");
+        printErr(33, "(DOMAIN: C\\{x|Im(x) = 0 ^ Re(x) = PI/2 + k*PI} )");
+    }
+    else
+		viewComplexResult(CRV_DODGCHECK, "csec", csec(a+b*I));
+	return;
+case BCALC_CSECH:
+	viewComplexResult(CRV_DODGCHECK, "csech", csech(a+b*I));
+	return;
+case BCALC_CCOT:
+	if(dcheck && (!b) && (!trigonometric_domain(a, 0, M_PI)))
+    {
+        printf2(COLOR_SYSTEM, "\nccot function isn't defined in: (");
+        printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, a);
+        printf2(COLOR_SYSTEM, ",0).\n");
+        printErr(33, "(DOMAIN: C\\{x| Im(x) = 0 ^ Re(x) = k*PI} )");
+        return;
+    }
+	viewComplexResult(CRV_DODGCHECK, "ccot", ccot(a+b*I));
+	return;
+case BCALC_CCOTH:
+	if(dcheck && (!a) && (!b))
+    {
+        printf2(COLOR_SYSTEM, "\nccoth function isn't defined in: (0,0).\n");
+        printErr(33, "(DOMAIN: C\\(0,0))");
+    }
+    else
+		viewComplexResult(CRV_DODGCHECK, "ccoth", ccoth(a+b*I));
+	return;
+case BCALC_CHSIN:
+	viewComplexResult(CRV_DODGCHECK, "chsin", chsin(a+b*I));
+	return;
+case BCALC_CHSINH:
+	viewComplexResult(CRV_DODGCHECK, "chsinh", chsinh(a+b*I));
+	return;
+case BCALC_CQSIN:
+	viewComplexResult(CRV_DODGCHECK, "cqsin", cqsin(a+b*I));
+	return;
+case BCALC_CQSINH:
+	viewComplexResult(CRV_DODGCHECK, "cqsinh", cqsinh(a+b*I));
+	return;
+case BCALC_CHCOS:
+	viewComplexResult(CRV_DODGCHECK, "chcos", chcos(a+b*I));
+	return;
+case BCALC_CHCOSH:
+	viewComplexResult(CRV_DODGCHECK, "chcosh", chcosh(a+b*I));
+	return;
+case BCALC_CQCOS:
+	viewComplexResult(CRV_DODGCHECK, "cqcos", cqcos(a+b*I));
+	return;	
+case BCALC_CQCOSH:
+	viewComplexResult(CRV_DODGCHECK, "cqcosh", cqcosh(a+b*I));
+	return;
+case BCALC_CHSEC:
+	if(dcheck && (!b) && (!trigonometric_domain(a, M_PI_2, M_PI)))
+    {
+        printf2(COLOR_SYSTEM, "\nchsec function isn't defined in: (");
+        printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, a);
+        printf2(COLOR_SYSTEM, ",0).\n");
+        printErr(33, "(DOMAIN: C\\{x| Im(x) = 0 ^ Re(x) = PI/2 + k*PI} )");
+	}
+	else
+		viewComplexResult(CRV_DODGCHECK, "chsec", chsec(a+b*I));
+	return;
+case BCALC_CHSECH:
+	viewComplexResult(CRV_DODGCHECK, "chsech", chsech(a+b*I));
+	return;
+case BCALC_CQSEC:
+	if(dcheck && (!b) && (!trigonometric_domain(a, M_PI_2, M_PI)))
+    {
+        printf2(COLOR_SYSTEM, "\ncqsec function isn't defined in: (");
+        printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, a);
+        printf2(COLOR_SYSTEM, ",0).\n");
+        printErr(33, "(DOMAIN: C\\{x| Im(x) = 0 ^ Re(x) = PI/2 + k*PI} )");
+    }
+    else
+		viewComplexResult(CRV_DODGCHECK, "cqsec", cqsec(a+b*I));
+	return;
+case BCALC_CQSECH:
+	viewComplexResult(CRV_DODGCHECK, "cqsech", cqsech(a+b*I));
+	return;
+case BCALC_CHCSC:
+	if(dcheck && (!b) && (!trigonometric_domain(a, 0, M_PI)))
+    {
+        printf2(COLOR_SYSTEM, "\nchcsc function isn't defined in: (");
+        printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, a);
+        printf2(COLOR_SYSTEM, ",0).\n");
+        printErr(33, "(DOMAIN: C\\{x| Im(x) = 0 ^ Re(x) = k*PI} )");
+    }
+    else
+		viewComplexResult(CRV_DODGCHECK, "chcsc", chcsc(a+b*I));
+	return;
+case BCALC_CHCSCH:
+	viewComplexResult(CRV_DODGCHECK, "chcsch", chcsch(a+b*I));
+	return;
+case BCALC_CQCSC:
+	if(dcheck && (!b) && (!trigonometric_domain(a, 0, M_PI)))
+    {
+        printf2(COLOR_SYSTEM, "\ncqcsc function isn't defined in: (");
+        printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, a);
+        printf2(COLOR_SYSTEM, ",0).\n");
+        printErr(33, "(DOMAIN: C\\{x| Im(x) = 0 ^ Re(x) = k*PI} )");
+    }
+    else
+		viewComplexResult(CRV_DODGCHECK, "cqcsc", cqcsc(a+b*I));
+	return;
+case BCALC_CQCSCH:
+	viewComplexResult(CRV_DODGCHECK, "cqcsch", cqcsch(a+b*I));
+	return;
+case BCALC_CHTAN:
+	if(dcheck && (!b) && (!trigonometric_domain(a, M_PI_2, M_PI)))
+    {
+        printf2(COLOR_SYSTEM, "\nchtan function isn't defined in: (");
+        printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, a);
+        printf2(COLOR_SYSTEM, ",0).\n");
+        printErr(33, "(DOMAIN: C\\{x| Im(x) = 0 ^ Re(x) = PI/2 + k*PI} )");
+    }
+    else
+		viewComplexResult(CRV_DODGCHECK, "chtan", chtan(a+b*I));
+	return;
+case BCALC_CHTANH:
+	viewComplexResult(CRV_DODGCHECK, "chtanh", chtanh(a+b*I));
+	return;
+case BCALC_CQTAN:
+	if(dcheck && (!b) && (!trigonometric_domain(a, M_PI_2, M_PI)))
+    {
+        printf2(COLOR_SYSTEM, "\ncqtan function isn't defined in: (");
+        printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, a);
+        printf2(COLOR_SYSTEM, ",0).\n");
+        printErr(33, "(DOMAIN: C\\{x| Im(x) = 0 ^ Re(x) = PI/2 + k*PI} )");
+    }
+    else
+		viewComplexResult(CRV_DODGCHECK, "cqtan", cqtan(a+b*I));
+	return;
+case BCALC_CQTANH:
+	viewComplexResult(CRV_DODGCHECK, "cqtanh", cqtanh(a+b*I));
+	return;
+case BCALC_CHCOT:
+	if(dcheck && (!b) && (!trigonometric_domain(a, 0, M_PI)))
+    {
+        printf2(COLOR_SYSTEM, "\nchcot function isn't defined in: (");
+        printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, a);
+        printf2(COLOR_SYSTEM, ",0).\n");
+        printErr(33, "(DOMAIN: C\\{x| Im(x) = 0 ^ Re(x) = k*PI} )");
+    }
+    else
+		viewComplexResult(CRV_DODGCHECK, "chcot", chcot(a+b*I));
+	return;
+case BCALC_CHCOTH:
+	if(dcheck && (!a) && (!b))
+    {
+        printf2(COLOR_SYSTEM, "\nchcoth function isn't defined in: (0,0).\n");
+        printErr(33, "(DOMAIN: C\\(0,0))");
+    }
+    else
+		viewComplexResult(CRV_DODGCHECK, "chcoth", chcoth(a+b*I));
+	return;
+case BCALC_CQCOT:
+	if(dcheck && (!b) && (!trigonometric_domain(a, 0, M_PI)))
+    {
+        printf2(COLOR_SYSTEM, "\ncqcot function isn't defined in: (");
+        printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, a);
+        printf2(COLOR_SYSTEM, ",0).\n");
+        printErr(33, "(DOMAIN: C\\{x| Im(x) = 0 ^ Re(x) = k*PI} )");
+    }
+    else
+		viewComplexResult(CRV_DODGCHECK, "cqcot", cqcot(a+b*I));
+	return;
+case BCALC_CQCOTH:
+	if(dcheck && (!a) && (!b))
+    {
+        printf2(COLOR_SYSTEM, "\ncqcoth function isn't defined in: (0,0).\n");
+        printErr(33, "(DOMAIN: C\\(0,0))");
+    }
+    else
+		viewComplexResult(CRV_DODGCHECK, "cqcoth", cqcoth(a+b*I));
+	return;
+case BCALC_CVSIN:
+	viewComplexResult(CRV_DODGCHECK, "cpxvsin", cpxvsin(a+b*I));
+	return;
+case BCALC_CVSINH:
+	viewComplexResult(CRV_DODGCHECK, "cpxvsinh", cpxvsinh(a+b*I));
+	return;
+case BCALC_CCVSIN:
+	viewComplexResult(CRV_DODGCHECK, "ccvsin", ccvsin(a+b*I));
+	return;
+case BCALC_CCVSINH:
+	viewComplexResult(CRV_DODGCHECK, "ccvsinh", ccvsinh(a+b*I));
+	return;
+case BCALC_CVCOS:
+	viewComplexResult(CRV_DODGCHECK, "cpxvcos", cpxvcos(a+b*I));
+	return;
+case BCALC_CVCOSH:
+	viewComplexResult(CRV_DODGCHECK, "cpxvcosh", cpxvcosh(a+b*I));
+	return;
+case BCALC_CCVCOS:
+	viewComplexResult(CRV_DODGCHECK, "ccvcos", ccvcos(a+b*I));
+	return;
+case BCALC_CCVCOSH:
+	viewComplexResult(CRV_DODGCHECK, "ccvcosh", ccvcosh(a+b*I));
+	return;
+case BCALC_CHVSIN:
+	viewComplexResult(CRV_DODGCHECK, "chvsin", chvsin(a+b*I));
+	return;
+case BCALC_CHVSINH:
+	viewComplexResult(CRV_DODGCHECK, "chvsinh", chvsinh(a+b*I));
+	return;
+case BCALC_CHCVSIN:
+	viewComplexResult(CRV_DODGCHECK, "chcvsin", chcvsin(a+b*I));
+	return;
+case BCALC_CHCVSINH:
+	viewComplexResult(CRV_DODGCHECK, "chcvsinh", chcvsinh(a+b*I));
+	return;
+case BCALC_CQVSIN:	
+	viewComplexResult(CRV_DODGCHECK, "cqvsin", cqvsin(a+b*I));
+	return;
+case BCALC_CQVSINH:
+	viewComplexResult(CRV_DODGCHECK, "cqvsinh", cqvsinh(a+b*I));
+	return;
+case BCALC_CQCVSIN:
+	viewComplexResult(CRV_DODGCHECK, "cqcvsin", cqcvsin(a+b*I));
+	return;
+case BCALC_CQCVSINH:
+	viewComplexResult(CRV_DODGCHECK, "cqcvsinh", cqcvsinh(a+b*I));
+	return;
+case BCALC_CHVCOS:	
+	viewComplexResult(CRV_DODGCHECK, "chcvcos", chcvcos(a+b*I));
+	return;
+case BCALC_CHVCOSH:
+	viewComplexResult(CRV_DODGCHECK, "chcvcosh", chcvcosh(a+b*I));
+	return;
+case BCALC_CHCVCOS:
+	viewComplexResult(CRV_DODGCHECK, "chcvcos", chcvcos(a+b*I));
+	return;
+case BCALC_CHCVCOSH:
+	viewComplexResult(CRV_DODGCHECK, "chcvcosh", chcvcosh(a+b*I));
+	return;
+case BCALC_CQVCOS:
+	viewComplexResult(CRV_DODGCHECK, "cqvcos", cqvcos(a+b*I));
+	return;
+case BCALC_CQVCOSH:
+	viewComplexResult(CRV_DODGCHECK, "cqvcosh", cqvcosh(a+b*I));
+	return;
+case BCALC_CQCVCOS:
+	viewComplexResult(CRV_DODGCHECK, "cqcvcos", cqcvcos(a+b*I));
+	return;
+case BCALC_CQCVCOSH:
+	viewComplexResult(CRV_DODGCHECK, "cqcvcosh", cqcvcosh(a+b*I));
+	return;
+case BCALC_CESEC:
+	if(dcheck && (!b) && (!trigonometric_domain(a, M_PI_2, M_PI)))
+    {
+        printf2(COLOR_SYSTEM, "\ncesec function isn't defined in: (");
+        printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, a);
+        printf2(COLOR_SYSTEM, ",0).\n");
+        printErr(33, "(DOMAIN: C\\{x| Im(x) = 0 ^ Re(x) = PI/2 + k*PI} )");
+    }
+    else
+		viewComplexResult(CRV_DODGCHECK, "cesec", cesec(a+b*I));
+	return;
+case BCALC_CESECH:
+	viewComplexResult(CRV_DODGCHECK, "cesech", cesech(a+b*I));
+	return;
+case BCALC_CECSC:
+	if(dcheck && (!b) && (!trigonometric_domain(a, 0, M_PI)))
+    {
+        printf2(COLOR_SYSTEM, "\ncecsc function isn't defined in: (");
+        printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, a);
+        printf2(COLOR_SYSTEM, ",0).\n");
+        printErr(33, "(DOMAIN: C\\{x| Im(x) = 0 ^ Re(x) = k*PI} )");
+    }
+    else
+		viewComplexResult(CRV_DODGCHECK, "cecsc", cecsc(a+b*I));
+	return;
+case BCALC_CECSCH:
+	viewComplexResult(CRV_DODGCHECK, "cecsch", cecsch(a+b*I));
+	return;
+case BCALC_CHESEC:
+	if(dcheck && (!b) && (!trigonometric_domain(a, M_PI_2, M_PI)))
+    {
+        printf2(COLOR_SYSTEM, "\nchesec function isn't defined in: (");
+        printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, a);
+        printf2(COLOR_SYSTEM, ",0).\n");
+        printErr(33, "(DOMAIN: C\\{x| Im(x) = 0 ^ Re(x) = PI/2 + k*PI} )");
+    }
+    else
+		viewComplexResult(CRV_DODGCHECK, "chesec", chesec(a+b*I));
+	return;
+case BCALC_CHESECH:	
+	viewComplexResult(CRV_DODGCHECK, "chesech", chesech(a+b*I));
+	return;
+case BCALC_CHECSC:
+	if(dcheck && (!b) && (!trigonometric_domain(a, 0, M_PI)))
+    {
+        printf2(COLOR_SYSTEM, "\nchecsc function isn't defined in: (");
+        printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, a);
+        printf2(COLOR_SYSTEM, ",0).\n");
+        printErr(33, "(DOMAIN: R\\{x| Im(x) = 0 ^ Re(x) = k*PI} )");
+	
+	}
+	else
+		viewComplexResult(CRV_DODGCHECK, "checsc", checsc(a+b*I));
+	return;
+case BCALC_CHECSCH:
+	viewComplexResult(CRV_DODGCHECK, "checsch", checsch(a+b*I));
+	return;
+case BCALC_CQESEC:
+	if(dcheck && (!b) && (!trigonometric_domain(a, M_PI_2, M_PI)))
+    {
+        printf2(COLOR_SYSTEM, "\ncqesec function isn't defined in: (");
+        printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, a);
+        printf2(COLOR_SYSTEM, ",0).\n");
+        printErr(33, "(DOMAIN: C\\{x| Im(x) = 0 ^ Re(x) = PI/2 + k*PI} )");
+    }
+    else
+		viewComplexResult(CRV_DODGCHECK, "cqesec", cqesec(a+b*I));
+	return;
+case BCALC_CQESECH:
+	viewComplexResult(CRV_DODGCHECK, "cqesech", cqesech(a+b*I));
+	return;
+case BCALC_CQECSC:
+	if(dcheck && (!b) && (!trigonometric_domain(a, 0, M_PI)))
+    {
+        printf2(COLOR_SYSTEM, "\ncqecsc function isn't defined in: (");
+        printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, a);
+        printf2(COLOR_SYSTEM, ",0).\n");
+        printErr(33, "(DOMAIN: R\\{x|x = k*PI} )");
+    }
+    else
+		viewComplexResult(CRV_DODGCHECK, "cqecsc", cqecsc(a+b*I));
+	return;
+case BCALC_CQECSCH:
+	viewComplexResult(CRV_DODGCHECK, "cqecsch", cqecsch(a+b*I));
+	return;
+case BCALC_CSINC:
+	viewComplexResult(CRV_DODGCHECK, "csinc", csinc(a+b*I));
+	return;
+case BCALC_CSINCH:
+	viewComplexResult(CRV_DODGCHECK, "csinch", csinch(a+b*I));
+	return;
+case BCALC_CHSINC:
+	viewComplexResult(CRV_DODGCHECK, "chsinc", chsinc(a+b*I));
+	return;
+case BCALC_CHSINCH:
+	viewComplexResult(CRV_DODGCHECK, "chsinch", chsinch(a+b*I));
+	return;
+case BCALC_CQSINC:
+	viewComplexResult(CRV_DODGCHECK, "cqsinc", cqsinc(a+b*I));
+	return;
+case BCALC_CQSINCH:
+	viewComplexResult(CRV_DODGCHECK, "cqsinch", cqsinch(a+b*I));
+	return;
+case BCALC_CCOSC:
+	if(dcheck && (!a) && !b)
+    {
+        printf2(COLOR_SYSTEM, "\nccosc function isn't defined in: (0,0).\n");
+        printErr(33, "(DOMAIN: C\\(0,0))");
+    }
+    else
+		viewComplexResult(CRV_DODGCHECK, "ccosc", ccosc(a+b*I));
+	return;
+case BCALC_CCOSCH:
+	viewComplexResult(CRV_DODGCHECK, "ccosch", ccosch(a+b*I));
+	return;
+case BCALC_CHCOSC:	
+	if(dcheck && (!a) && !b)
+    {
+        printf2(COLOR_SYSTEM, "\nchcosc function isn't defined in: (0,0).\n");
+        printErr(33, "(DOMAIN: C\\(0,0))");
+    }
+    else
+		viewComplexResult(CRV_DODGCHECK, "chcosc", chcosc(a+b*I));
+	return;
+case BCALC_CHCOSCH:
+	viewComplexResult(CRV_DODGCHECK, "chcosch", chcosch(a+b*I));
+	return;
+case BCALC_CQCOSC:
+	if(dcheck && (!a) && !b)
+    {
+        printf2(COLOR_SYSTEM, "\ncqcosc function isn't defined in: (0,0).\n");
+        printErr(33, "(DOMAIN: C\\(0,0))");
+    }
+	else	
+		viewComplexResult(CRV_DODGCHECK, "cqcosc", cqcosc(a+b*I));
+	return;
+case BCALC_CQCOSCH:
+	viewComplexResult(CRV_DODGCHECK, "cqcosch", cqcosch(a+b*I));
+	return;
+case BCALC_CSECC:	
+	if(dcheck && (!b) && ((!a) || !trigonometric_domain(a, M_PI_2, M_PI)))
+    {
+        printf2(COLOR_SYSTEM, "\ncsecc function isn't defined in: (");
+        printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, a);
+        printf2(COLOR_SYSTEM, ",0).\n");
+        printErr(33, "(DOMAIN: C\\{x| Im(x) = 0 ^ (Re(x) = 0 V Re(x) = PI/2 + k*PI)} )");
+    }
+    else
+		viewComplexResult(CRV_DODGCHECK, "csecc", csecc(a+b*I));
+	return;
+case BCALC_CSECCH:
+	viewComplexResult(CRV_DODGCHECK, "csecch", csecch(a+b*I));
+	return;
+case BCALC_CHSECC:
+	if(dcheck && (!b) && ((!a) || !trigonometric_domain(a, M_PI_2, M_PI)))
+    {
+        printf2(COLOR_SYSTEM, "\nchsecc function isn't defined in: (");
+        printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, a);
+        printf2(COLOR_SYSTEM, ",0).\n");
+        printErr(33, "(DOMAIN: C\\{x| Im(x) = 0 ^ (Re(x) = 0 V Re(x) = PI/2 + k*PI)} )");
+    }
+    else
+		viewComplexResult(CRV_DODGCHECK, "chsecc", chsecc(a+b*I));
+	return;
+case BCALC_CHSECCH:
+	viewComplexResult(CRV_DODGCHECK, "chsecch", chsecch(a+b*I));
+	return;
+case BCALC_CQSECC:	
+	if(dcheck && (!b) && ((!a) || !trigonometric_domain(a, M_PI_2, M_PI)))
+    {
+        printf2(COLOR_SYSTEM, "\ncqsecc function isn't defined in: (");
+        printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, a);
+        printf2(COLOR_SYSTEM, ",0).\n");
+        printErr(33, "(DOMAIN: C\\{x| Im(x) = 0 ^ (Re(x) = 0 V Re(x) = PI/2 + k*PI)} )");
+    }
+    else
+		viewComplexResult(CRV_DODGCHECK, "cqsecc", cqsecc(a+b*I));
+	return;
+case BCALC_CQSECCH:
+	viewComplexResult(CRV_DODGCHECK, "cqsecch", cqsecch(a+b*I));
+	return;
+case BCALC_CCSCC:
+	if(dcheck && (!b) && (!trigonometric_domain(a, 0, M_PI)))
+    {
+        printf2(COLOR_SYSTEM, "\nccscc function isn't defined in: (");
+        printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, a);
+        printf2(COLOR_SYSTEM, ",0).\n");
+        printErr(33, "(DOMAIN: C\\{x| Im(x) = 0 ^ Re(x) = k*PI} )");
+    }
+    else
+		viewComplexResult(CRV_DODGCHECK, "ccscc", ccscc(a+b*I));
+	return;
+case BCALC_CCSCCH:
+	viewComplexResult(CRV_DODGCHECK, "ccscc", ccscch(a+b*I));
+	return;
+case BCALC_CHCSCC:
+	if(dcheck && (!b) && (!trigonometric_domain(a, 0, M_PI)))
+    {
+        printf2(COLOR_SYSTEM, "\nchcscc function isn't defined in: (");
+        printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, a);
+        printf2(COLOR_SYSTEM, ",0).\n");
+        printErr(33, "(DOMAIN: C\\{x| Im(x) = 0 ^ Re(x) = k*PI} )");
+    }
+    else	
+		viewComplexResult(CRV_DODGCHECK, "chcscc", chcscc(a+b*I));
+	return;
+case BCALC_CHCSCCH:
+	viewComplexResult(CRV_DODGCHECK, "chcscch", chcscch(a+b*I));
+	return;
+case BCALC_CQCSCC:	
+	if(dcheck && (!b) && (!trigonometric_domain(a, 0, M_PI)))
+    {
+        printf2(COLOR_SYSTEM, "\ncqcscc function isn't defined in: (");
+        printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, a);
+        printf2(COLOR_SYSTEM, ",0).\n");
+        printErr(33, "(DOMAIN: C\\{x| Im(x) = 0 ^ Re(x) = k*PI} )");
+    }
+    else
+		viewComplexResult(CRV_DODGCHECK, "cqcscc", cqcscc(a+b*I));
+	return;
+case BCALC_CQCSCCH:
+	viewComplexResult(CRV_DODGCHECK, "cqcscch", cqcscch(a+b*I));
+	return;
+case BCALC_CTANC:
+	if(dcheck && (!b) && ((!a) || !trigonometric_domain(a, M_PI_2, M_PI)))
+    {
+        printf2(COLOR_SYSTEM, "\nctanc function isn't defined in: (");
+        printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, a);
+        printf2(COLOR_SYSTEM, ",0).\n");
+        printErr(33, "(DOMAIN: C\\{x| Im(x) = 0 ^ (Re(x) = 0 V Re(x) = PI/2 + k*PI)} )");
+    }
+    else
+		viewComplexResult(CRV_DODGCHECK, "ctanc", ctanc(a+b*I));
+	return;
+case BCALC_CTANCH:
+	viewComplexResult(CRV_DODGCHECK, "ctanch", ctanch(a+b*I));
+	return;
+case BCALC_CHTANC:
+	if(dcheck && (!b) && ((!a) || !trigonometric_domain(a, M_PI_2, M_PI)))
+    {
+        printf2(COLOR_SYSTEM, "\nchtanc function isn't defined in: (");
+        printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, a);
+        printf2(COLOR_SYSTEM, ",0).\n");
+        printErr(33, "(DOMAIN: C\\{x| Im(x) = 0 ^ (Re(x) = 0 V Re(x) = PI/2 + k*PI)} )");
+    }
+    else
+		viewComplexResult(CRV_DODGCHECK, "chtanc", chtanc(a+b*I));
+	return;
+case BCALC_CHTANCH:
+	viewComplexResult(CRV_DODGCHECK, "chtanch", chtanch(a+b*I));
+	return;
+case BCALC_CQTANC:
+	if(dcheck && (!b) && ((!a) || !trigonometric_domain(a, M_PI_2, M_PI)))
+    {
+        printf2(COLOR_SYSTEM, "\ncqtanc function isn't defined in: (");
+        printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, a);
+        printf2(COLOR_SYSTEM, ",0).\n");
+        printErr(33, "(DOMAIN: C\\{x| Im(x) = 0 ^ (Re(x) = 0 V Re(x) = PI/2 + k*PI)} )");
+    }
+    else
+		viewComplexResult(CRV_DODGCHECK, "cqtanc", cqtanc(a+b*I));
+	return;
+case BCALC_CQTANCH:
+	viewComplexResult(CRV_DODGCHECK, "cqtanch", cqtanch(a+b*I));
+	return;
+case BCALC_CCOTC:
+	if(dcheck && (!b) && (!trigonometric_domain(a, 0, M_PI)))
+    {
+        printf2(COLOR_SYSTEM, "\nccotc function isn't defined in: (");
+        printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, a);
+        printf2(COLOR_SYSTEM, ",0).\n");
+        printErr(33, "(DOMAIN: C\\{x| Im(x) = 0 ^ Re(x) = k*PI} )");
+    }
+    else
+		viewComplexResult(CRV_DODGCHECK, "ccotc", ccotc(a+b*I));
+	return;	
+case BCALC_CCOTCH:
+	if(dcheck && (!a) && !b)
+    {
+        printf2(COLOR_SYSTEM, "\nccotch function isn't defined in: (0,0).\n");
+        printErr(33, "(DOMAIN: C\\(0,0))");
+    }
+    else
+		viewComplexResult(CRV_DODGCHECK, "ccotch", ccotch(a+b*I));
+	return;
+case BCALC_CHCOTC:
+	if(dcheck && (!b) && (!trigonometric_domain(a, 0, M_PI)))
+    {
+        printf2(COLOR_SYSTEM, "\nchcotc function isn't defined in: (");
+        printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, a);
+        printf2(COLOR_SYSTEM, ",0).\n");
+        printErr(33, "(DOMAIN: C\\{x| Im(x) = 0 ^ Re(x) = k*PI} )");
+    }
+    else
+		viewComplexResult(CRV_DODGCHECK, "chcotc", chcotc(a+b*I));
+	return;
+case BCALC_CHCOTCH:
+	if(dcheck && (!a) && !b)
+    {
+        printf2(COLOR_SYSTEM, "\nchcotch function isn't defined in: (0,0).\n");
+        printErr(33, "(DOMAIN: C\\(0,0))");
+    }
+    else
+		viewComplexResult(CRV_DODGCHECK, "chcotch", chcotch(a+b*I));
+	return;
+case BCALC_CQCOTC:
+	if(dcheck && (!b) && (!trigonometric_domain(a, 0, M_PI)))
+    {
+        printf2(COLOR_SYSTEM, "\ncqcotc function isn't defined in: (");
+        printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, a);
+        printf2(COLOR_SYSTEM, ",0).\n");
+        printErr(33, "(DOMAIN: C\\{x| Im(x) = 0 ^ Re(x) = k*PI} )");
+    }
+    else	
+		viewComplexResult(CRV_DODGCHECK, "cqcotc", cqcotc(a+b*I));
+	return;
+case BCALC_CQCOTCH:
+	if(dcheck && (!a) && !b)
+    {
+        printf2(COLOR_SYSTEM, "\ncqcotch function isn't defined in: (0,0).\n");
+        printErr(33, "(DOMAIN: C\\(0,0))");
+    }
+    else
+		viewComplexResult(CRV_DODGCHECK, "cqcotch", cqcotch(a+b*I));
+	return;
+case BCALC_CASIN:
+	if(dcheck && (!b) && !(TRIGONOMETRIC_DOMAIN(a)))
+    {
+        printf2(COLOR_SYSTEM, "\ncasin function isn't defined in: (");
+        printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, a);
+        printf2(COLOR_SYSTEM, ",0).\n");
+        printErr(33, "(DOMAIN: C\\{x| Im(x) = 0 ^ (Re(x) < -1 V Re(x) > 1)} )");
+    }
+    else
+		viewComplexResult(CRV_DODGCHECK, "casin", casin(a+b*I));
+	return;
+case BCALC_CASINH:
+	viewComplexResult(CRV_DODGCHECK, "casinh", casinh(a+b*I));
+	return;
+case BCALC_CACOS:
+	if(dcheck && (!b) && !(TRIGONOMETRIC_DOMAIN(a)))
+    {
+        printf2(COLOR_SYSTEM, "\ncacos function isn't defined in: (");
+        printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, a);
+        printf2(COLOR_SYSTEM, ",0).\n");
+    	printErr(33, "(DOMAIN: C\\{x| Im(x) = 0 ^ (Re(x) < -1 V Re(x) > 1)} )");
+    }
+    else
+		viewComplexResult(CRV_DODGCHECK, "cacos", cacos(a+b*I));
+	return;
+case BCALC_CACOSH:
+	if(dcheck && (!b) && a < 1)
+    {
+        printf2(COLOR_SYSTEM, "\ncacosh function isn't defined in: (");
+        printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, a);
+        printf2(COLOR_SYSTEM, ",0).\n");
+        printErr(33, "(DOMAIN: C\\{x| Im(x) = 0 ^ Re(x) < 1} )");
+    }
+    else
+		viewComplexResult(CRV_DODGCHECK, "cacosh", cacosh(a+b*I));
+	return;
+case BCALC_CATAN:
+	viewComplexResult(CRV_DODGCHECK, "catan", catan(a+b*I));
+	return;	
+case BCALC_CATANH:
+	if(dcheck && (!b) && !(TRIGONOMETRIC_DOMAIN(a)))
+    {
+        printf2(COLOR_SYSTEM, "\ncatanh function isn't defined in: (");
+        printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, a);
+        printf2(COLOR_SYSTEM, ",0).\n");
+    	printErr(33, "(DOMAIN: C\\{x| Im(x) = 0 ^ (Re(x) < -1 V Re(x) > 1)} )");
+    }
+    else
+		viewComplexResult(CRV_DODGCHECK, "catanh", catanh(a+b*I));
+	return;
+case BCALC_CACSC:	
+	if(dcheck && (!b) && a > -1 && a < 1)
+    {
+        printf2(COLOR_SYSTEM, "\ncacsc function isn't defined in: (");
+        printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, a);
+        printf2(COLOR_SYSTEM, ",0).\n");
+        printErr(33, "(DOMAIN: C\\{x| Im(x) = 0 ^ Re(x) > -1 ^ Re(x) < 1} )");
+    }
+    else
+		viewComplexResult(CRV_DODGCHECK, "cacsc", cacsc(a+b*I));
+	return;
+case BCALC_CACSCH:
+	viewComplexResult(CRV_DODGCHECK, "cacsch", cacsch(a+b*I));
+	return;
+case BCALC_CASEC:	
+	if(dcheck && (!b) && a > -1 && a < 1)
+    {
+        printf2(COLOR_SYSTEM, "\ncasec function isn't defined in: (");
+        printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, a);
+        printf2(COLOR_SYSTEM, ",0).\n");
+        printErr(33, "(DOMAIN: C\\{x| Im(x) = 0 ^ Re(x) > -1 ^ Re(x) < 1} )");
+    }
+    else
+		viewComplexResult(CRV_DODGCHECK, "casec", casec(a+b*I));
+	return;
+case BCALC_CASECH:
+	if(dcheck && (!b) && (a < 0 || a >= 1))
+    {
+        printf2(COLOR_SYSTEM, "\ncasech function isn't defined in: (");
+        printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, a);
+        printf2(COLOR_SYSTEM, ",0).\n");
+        printErr(33, "(DOMAIN: C\\{x| Im(x) = 0 ^ (Re(x) < 0 V Re(x) >= 1)} )");
+    }
+    else
+		viewComplexResult(CRV_DODGCHECK, "casech", casech(a+b*I));
+	return;
+case BCALC_CACOT:
+	viewComplexResult(CRV_DODGCHECK, "cacot", cacot(a+b*I));
+	return;
+case BCALC_CACOTH:
+	if(dcheck && (!b) && TRIGONOMETRIC_DOMAIN(a))
+    {
+        printf2(COLOR_SYSTEM, "\ncacoth function isn't defined in: (");
+        printf2(COLOR_SYSTEM, OUTPUT_CONVERSION_FORMAT, a);
+        printf2(COLOR_SYSTEM, ",0).\n");
+        printErr(33, "(DOMAIN: C\\{x| Im(x) = 0 ^ Re(x) >= -1 ^ Re(x) <= -1} )");
+    }
+    else
+		viewComplexResult(CRV_DODGCHECK, "cacoth", cacoth(a+b*I));
+	return;
 
-case BASECALC_MCD:
+case BCALC_MCD:
     if(dcheck && (a < 1 || b < 1))
     {
         printErr(33, "Invalid inserted Value");
@@ -1256,7 +2217,7 @@ case BASECALC_MCD:
     c = math_MCD((uint64_t)a, (uint64_t)b);
     break;
 
-case BASECALC_MCM:
+case BCALC_MCM:
     if(dcheck && (a < 1 || b < 1))
     {
         printErr(33, "Invalid inserted Value");
@@ -1265,11 +2226,11 @@ case BASECALC_MCM:
     c = math_mcm((uint64_t)a, (uint64_t)b);
     break;
 
-case BASECALC_APPROSSIMAZIONE:
+case BCALC_APPROSSIMAZIONE:
     c = a ? ceil(b) : floor(b);
     break;
 
-case BASECALC_SOMMASUCCESSIONEGEOMETRICA:
+case BCALC_SOMMASUCCESSIONEGEOMETRICA:
 {
     int64_t exponent;
     exponent = (int64_t) b;
@@ -1284,8 +2245,8 @@ case BASECALC_SOMMASUCCESSIONEGEOMETRICA:
     break;
 }
 
-case BASECALC_SOMMASUCCESSIONEARMONICAGEN:
-    case BASECALC_SOMMASUCCESSIONEARMONICA:
+case BCALC_SOMMASUCCESSIONEARMONICAGEN:
+    case BCALC_SOMMASUCCESSIONEARMONICA:
     {
         if(a <= 1)
         {
@@ -1296,14 +2257,14 @@ case BASECALC_SOMMASUCCESSIONEARMONICAGEN:
         uint64_t exponent;
 
         numero = (uint64_t) a;
-        exponent = oprID == BASECALC_SOMMASUCCESSIONEARMONICA ? 1 : (uint64_t) b;
+        exponent = oprID == BCALC_SOMMASUCCESSIONEARMONICA ? 1 : (uint64_t) b;
 
         c = gasum(numero, exponent);
 
         break;
     }
 
-case BASECALC_SOMMASUCCESSIONEFIBONACCI:
+case BCALC_SOMMASUCCESSIONEFIBONACCI:
     if(a < 1)
     {
         printErr(33, "Invalid inserted Value");
@@ -1313,7 +2274,7 @@ case BASECALC_SOMMASUCCESSIONEFIBONACCI:
     c = fsum(a);
     break;
 
-case BASECALC_SOMMASUCCESSIONEFATTORIALE:
+case BCALC_SOMMASUCCESSIONEFATTORIALE:
     if(a < 1)
     {
         printErr(33, "Invalid inserted Value");
@@ -1323,7 +2284,7 @@ case BASECALC_SOMMASUCCESSIONEFATTORIALE:
     c = fasum(a);
     break;
 
-case BASECALC_SOMMASUCCESSIONESEMIFATTORIALE:
+case BCALC_SOMMASUCCESSIONESEMIFATTORIALE:
     if(a < 1)
     {
         printErr(33, "Invalid inserted Value");
@@ -1333,7 +2294,7 @@ case BASECALC_SOMMASUCCESSIONESEMIFATTORIALE:
     c = sfasum(a);
     break;
 
-case BASECALC_SOMMATORIA:
+case BCALC_SOMMATORIA:
 {
     static ityp sum = 0.00;
     if(b)
@@ -1347,7 +2308,7 @@ case BASECALC_SOMMATORIA:
 }
 
 
-case BASECALC_PRODUTTORIA:
+case BCALC_PRODUTTORIA:
 {
     static ityp product = 1.00;
     if(b)
@@ -1360,7 +2321,7 @@ case BASECALC_PRODUTTORIA:
     break;
 }
 
-case BASECALC_MEDIA:
+case BCALC_MEDIA:
 {
     static ityp media = 0;
     static uint64_t accumulate = 0;
@@ -1378,7 +2339,7 @@ case BASECALC_MEDIA:
     break;
 }
 
-case BASECALC_VARIANZA:
+case BCALC_VARIANZA:
 {
     static ityp *vector = NULL;
     static uint64_t accumulate = 0;
@@ -1414,7 +2375,7 @@ case BASECALC_VARIANZA:
     break;
 }
 
-case BASECALC_STDDEV:
+case BCALC_STDDEV:
 {
     static ityp *vector = NULL;
     static uint64_t accumulate = 0;
@@ -1450,7 +2411,7 @@ case BASECALC_STDDEV:
     break;
 }
 
-case BASECALC_OUTLIER:
+case BCALC_OUTLIER:
 {
     static ityp *vector = NULL;
     static uint64_t accumulate = 0;
@@ -1503,7 +2464,7 @@ case BASECALC_OUTLIER:
     return;
 }
 
-case BASECALC_MAP:
+case BCALC_MAP:
 {
     static ityp *vector = NULL;
     static uint64_t accumulate = 0;
@@ -1582,7 +2543,7 @@ case BASECALC_MAP:
 }
 
 
-case BASECALC_MEDIAGEOMETRICA:
+case BCALC_MEDIAGEOMETRICA:
 {
     static ityp media = 0;
     static ityp accumulate = 0;
@@ -1600,7 +2561,7 @@ case BASECALC_MEDIAGEOMETRICA:
 
 }
 
-case BASECALC_MEDIAARMONICA:
+case BCALC_MEDIAARMONICA:
 {
     static ityp media = 0;
     static uint64_t accumulate = 0;
@@ -1617,7 +2578,7 @@ case BASECALC_MEDIAARMONICA:
     viewInsertedValue;
 }
 
-case BASECALC_MEDIAPOTENZA:
+case BCALC_MEDIAPOTENZA:
 {
     static ityp media = 1;
     static ityp accumulate = 0;
@@ -1647,7 +2608,7 @@ case BASECALC_MEDIAPOTENZA:
     viewInsertedValue;
 }
 
-case BASECALC_VALORECENTRALE:
+case BCALC_VALORECENTRALE:
 {
 
     static ityp *vector = NULL;
@@ -1684,7 +2645,7 @@ case BASECALC_VALORECENTRALE:
     break;
 }
 
-case BASECALC_PRIMOQUARTILE:
+case BCALC_PRIMOQUARTILE:
 {
 
     static ityp *vector;
@@ -1722,7 +2683,7 @@ case BASECALC_PRIMOQUARTILE:
 
 }
 
-case BASECALC_MEDIANA:
+case BCALC_MEDIANA:
 {
 
     static ityp *vector;
@@ -1760,7 +2721,7 @@ case BASECALC_MEDIANA:
 
 }
 
-case BASECALC_TERZOQUARTILE:
+case BCALC_TERZOQUARTILE:
 {
 
     static ityp *vector;
@@ -1798,7 +2759,7 @@ case BASECALC_TERZOQUARTILE:
 
 }
 
-case BASECALC_SOMMAPRIMINNUMERI:
+case BCALC_SOMMAPRIMINNUMERI:
     if(a < 0)
     {
         printErr(1, "Invalid inserted Value");
@@ -1807,7 +2768,7 @@ case BASECALC_SOMMAPRIMINNUMERI:
     printf2(COLOR_USER, "\nFirst %llu Natural Numbers SUM RESULT is: %llu.\n\n", (uint64_t) a, fnnsum(a));
     return;
 
-case BASECALC_FATTORIALE:
+case BCALC_FATTORIALE:
 {
     if(a < 1)
     {
@@ -1844,7 +2805,7 @@ case BASECALC_FATTORIALE:
 
 }
 
-case BASECALC_SEMIFATTORIALE:
+case BCALC_SEMIFATTORIALE:
 {
     if(a < 1)
     {
@@ -1881,7 +2842,7 @@ case BASECALC_SEMIFATTORIALE:
 
 }
 
-case BASECALC_STIRLING:
+case BCALC_STIRLING:
 {
     if(a < 1)
     {
@@ -1918,7 +2879,7 @@ case BASECALC_STIRLING:
 
 }
 
-case BASECALC_FIBONACCI:
+case BCALC_FIBONACCI:
 {
     if(a < 1)
     {
@@ -1955,11 +2916,11 @@ case BASECALC_FIBONACCI:
 
 }
 
-case BASECALC_PERMUTATIONS:
+case BCALC_PERMUTATIONS:
     c = perm(a);
     break;
     
-case BASECALC_PERMUTATIONSREP:
+case BCALC_PERMUTATIONSREP:
 {
 	static ityp denominator = 1.00;
 	static ityp sum = 0.00;
@@ -1988,20 +2949,20 @@ case BASECALC_PERMUTATIONSREP:
     break;
 }
     
-case BASECALC_KPERMUTATIONS:
+case BCALC_KPERMUTATIONS:
 	c = kperm(a, b);
     
-case BASECALC_KPERMUTATIONSREP:
+case BCALC_KPERMUTATIONSREP:
 	c = kperm_rep(a, b);
 
-case BASECALC_COMBINATIONS:
+case BCALC_COMBINATIONS:
     c = comb(a, b);
     break;
     
-case BASECALC_COMBINATIONSREP:
+case BCALC_COMBINATIONSREP:
 	c = comb_rep(a, b);
 
-case BASECALC_CAMBIAMENTODIBASE:
+case BCALC_CAMBIAMENTODIBASE:
 
     if(dcheck && a > access(curLayout)->max_changebase_binary_convnum)
     {
@@ -2020,7 +2981,7 @@ case BASECALC_CAMBIAMENTODIBASE:
     c = changeBase((int64_t)a, DEFAULT_BASE, b);
     break;
 
-case BASECALC_GENERATOREMATRICIRANDOM:
+case BCALC_GENERATOREMATRICIRANDOM:
 {
 
     if(dcheck && (a < 1 || b < 1 || a > access(curLayout)->matrix_max_raws || b > access(curLayout)->matrix_max_columns))
@@ -2045,7 +3006,7 @@ and must be respectively less than: %hu and %hu", access(curLayout)->matrix_max_
     return;
 }
 
-case BASECALC_PASCALTRIANGLE:
+case BCALC_PASCALTRIANGLE:
 {
     uint64_t numero;
     numero = (uint64_t) a;
@@ -2059,7 +3020,7 @@ case BASECALC_PASCALTRIANGLE:
     return;
 }
 
-case BASECALC_NUMERIROMANI:
+case BCALC_NUMERIROMANI:
 {
     const dim_typ numero = (dim_typ) a;
 
@@ -2075,7 +3036,7 @@ case BASECALC_NUMERIROMANI:
     return;
 }
 
-case BASECALC_PRIMINNUMERIPRIMI:
+case BCALC_PRIMINNUMERIPRIMI:
 {
     if(a > b || a < 2 || b < 2)
     {
@@ -2093,7 +3054,7 @@ case BASECALC_PRIMINNUMERIPRIMI:
     return;
 }
 
-case BASECALC_NESIMONUMEROPRIMO:
+case BCALC_NESIMONUMEROPRIMO:
     if(a < 1)
     {
         printErr(33, "Invalid inserted Value.\nMust be a non-negative and non-zero integer");
@@ -2103,20 +3064,18 @@ case BASECALC_NESIMONUMEROPRIMO:
     break;
 
 
-case BASECALC_PRIMORIALE:
+case BCALC_PRIMORIALE:
     c = primr(a);
     break;
 
-case BASECALC_SOMMAPRIMINNUMERIPRIMI:
+case BCALC_SOMMAPRIMINNUMERIPRIMI:
     c = fpnsum(a);
     break;
 
-case BASECALC_FIBONACCIALE:
+case BCALC_FIBONACCIALE:
     c = fibnc(a);
     break;
 
-case BASECALC_INFORMAZIONI:
-{
+case BCALC_INFORMAZIONI:
     printOpersIdentifiers();
     return;
-}

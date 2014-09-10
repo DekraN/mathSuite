@@ -1,8 +1,8 @@
 mathSuite
 //-----------------------------------------------------------------------------------------------------------------//
 AUTHOR: Marco Chiarelli aka DekraN aka Wesker013 (FB)								   ||
-CURRENT VERSION: v6.00												   ||
-LAST UPDATE: 17:00 04/09/2014											   ||
+CURRENT VERSION: v6.50												   ||
+LAST UPDATE: 17:00 10/09/2014											   ||
 CONTACT ME at: marco_chiarelli@yahoo.it										   ||
 or at marcochiarelli.nextgenlab@gmail.com									   ||
 //-----------------------------------------------------------------------------------------------------------------//
@@ -401,7 +401,7 @@ or at marcochiarelli.nextgenlab@gmail.com									   ||
 /// Added Permutations, Permutations with Repetitions, K-Permutations, K-Permutations with Repetitions and        ///
 /// Combinations with Repetitions, with the respective commands: "perm", "permrep", "kperm", "kpermrep", "combrep"///
 /// 			Removed "Vector per Vector" MACRO SubProgram, due to an undefined bug.			  ///
-///                                     CHANGELOG v6.00 (01/09/2014)                                              ///
+///                                     CHANGELOG v6.00 (04/09/2014)                                              ///
 /// Now the Matrix Base Type with double-reference pointer of double base-type has been changed to a single-ref   ///
 /// pointer. Now the maximum reference depth level present in my program is three (for the Tensors Sum feature).  ///
 /// Optimized program and deleted all metadata management system related to the previous method of allocating a   ///
@@ -413,6 +413,62 @@ or at marcochiarelli.nextgenlab@gmail.com									   ||
 /// 	the introduction of the Single Reference M.B.T.. So, the Stabilizer System works only with vectors.       ///
 /// Added "qsum" and "qprod" inline functions, that performs respectively Sum and Product between two Quaternions.///
 /// 				    Code Totally optimized and fixed also some minor bugs. 			  ///
+///                                     CHANGELOG v6.50 (10/09/2014)                                              ///
+/// Fixed a bug into the extensive multi-threaded matrix Sedenions Product routine, which didn't perform correctly///
+/// the operation on the e6 base-field of the matrix. Introduced new 154 complex functions, respectively 120      ///
+/// trigonometric and pseudo-trigonometric (hyperbolic), 23 exponential and logarithmic, 5 about complex          ///
+///   argument and complex and hypercomplex numbers absolute values, 2 are quaternions inline Addition and        ///
+/// Multiplication and the last 4 are the extensions of the 1P Logarithmic Functions (inclusive of the Cardinal   ///
+/// Versions) at the other bases. All these functions are respectively: chsin(a,b,&rrp,&rip),chsinh(a,b,&rrp,&rip)///
+/// cqsin(a,b,&rrp,&rip), cqsinh(a,b,&rrp,&rip), chcos(a,b,&rrp,&rip), chcosh(a,b,&rrp,&rip), cqcos(a,b,&rrp,&rip)///
+///cqcosh(a,b,&rrp,&rip), chsec(a,b,&rrp,&rip), chsech(a,b,&rrp,&rip), cqsec(a,b,&rrp,&rip), cqsech(a,b,&rrp,&rip)///
+/// chcsc(a,b,&rrp,&rip), chcsch(a,b,&rrp,&rip),cqcsc(a,b,&rrp,&rip), cqcsch(a,b,&rrp,&rip), chtan(a,b,&rrp,&rip),///
+///chtanh(a,b,&rrp,&rip), cqtan(a,b,&rrp,&rip), cqtanh(a,b,&rrp,&rip), chcot(a,b,&rrp,&rip), chcoth(a,b,&rrp,&rip)///
+///       ,cqcot(a,b,&rrp,&rip), cqcoth(a,b,&rrp,&rip), cpxvsin(a,b,&rrp,&rip), cpxvsinh(a,b,&rrp,&rip),          ///
+///	   ccvsin(a,b,&rrp,&rip), ccvsinh(a,b,&rrp,&rip), chvsin(a,b,&rrp,&rip), chvsinh(a,b,&rrp,&rip),          ///
+///      cqvsin(a,b,&rrp,&rip), cqvsinh(a,b,&rrp,&rip), chcvsin(a,b,&rrp,&rip), chcvsinh(a,b,&rrp,&rip),          ///
+/// 	cqcvsin(a,b,&rrp,&rip), cqcvsinh(a,b,&rrp,&rip), cpxvcos(a,b,&rrp,&rip), cpxvcosh(a,b,&rrp,&rip),         ///
+/// 	ccvcos(a,b,&rrp,&rip), ccvcosh(a,b,&rrp,&rip), chvcos(a,b,&rrp,&rip), chvcosh(a,b,&rrp,&rip),	    	  ///
+///	cqvcos(a,b,&rrp,&rip), cqvcosh(a,b,&rrp,&rip),chcvcos(a,b,&rrp,&rip),chcvcosh(a,b,&rrp,&rip),	    	  ///
+///cqcvcos(a,b,&rrp,&rip),cqcvcosh(a,b,&rrp,&rip),cesec(a,b,&rrp,&rip),cesech(a,b,&rrp,&rip),cecsc(a,b,&rrp,&rip),///
+///	  cecsch(a,b,&rrp,&rip), chesec(a,b,&rrp,&rip), chesech(a,b,&rrp,&rip), checsc(a,b,&rrp,&rip), 		  ///
+///checsch(a,b,&rrp,&rip), cqsec(a,b,&rrp,&rip), cqsech(a,b,&rrp,&rip), cqcsc(a,b,&rrp,&rip),cqcsch(a,b,&rrp,&rip)///
+///csinc(a,b,&rrp,&rip), csinch(a,b,&rrp,&rip), chsinc(a,b,&rrp,&rip),chsinch(a,b,&rrp,&rip),cqsinc(a,b,&rrp,&rip)///
+///	  cqsinch(a,b,&rrp,&rip), ccosc(a,b,&rrp,&rip), ccosch(a,b,&rrp,&rip), chcosc(a,b,&rrp,&rip),		  ///
+///	  chcosch(a,b,&rrp,&rip), cqcosc(a,b,&rrp,&rip), cqcosch(a,b,&rrp,&rip), csecc(a,b,&rrp,&rip),		  ///
+///		csecch(a,b,&rrp,&rip), chsecc(a,b,&rrp,&rip), chsecch(a,b,&rrp,&rip), cqsecc(a,b,&rrp,&rip),      ///
+///	     cqsecch(a,b,&rrp,&rip), ccscc(a,b,&rrp,&rip), ccscch(a,b,&rrp,&rip), chcscc(a,b,&rrp,&rip),    	  ///
+///	   chcscch(a,b,&rrp,&rip), cqcscc(a,b,&rrp,&rip),cqcscch(a,b,&rrp,&rip), ctanc(a,b,&rrp,&rip),       	  /// 
+///	    ctanch(a,b,&rrp,&rip), chtanc(a,b,&rrp,&rip), chtanch(a,b,&rrp,&rip), cqtanc(a,b,&rrp,&rip),	  ///
+///cqtanch(a,b,&rrp,&rip), ccotc(a,b,&rrp,&rip),ccotch(a,b,&rrp,&rip),chcotc(a,b,&rrp,&rip),chcotch(a,b,&rrp,&rip)///
+///cqcotc(a,b,&rrp,&rip), cqcotch(a,b,&rrp,&rip),clog(a,b,&rrp,&rip), clogc(a,b,&rrp,&rip), clog10(a,b,&rrp,&rip),///
+///clog10c(a,b,&rrp,&rip), clog2(a,b,&rrp,&rip),clog2c(a,b,&rrp,&rip), cexp(a,b,&rrp,&rip), cexpc(a,b,&rrp,&rip), ///
+///cexp10(a,b,&rrp,&rip), cexp10c(a,b,&rrp,&rip), cexp2(a,b,&rrp,&rip),cexp2c(a,b,&rrp,&rip),clog1p(a,b,&rrp,&rip)///
+///	clog1pc(a,b,&rrp,&rip), clog101p(a,b,&rrp,&rip), clog101pc(a,b,&rrp,&rip), clog21p(a,b,&rrp,&rip),        ///
+///   clog21pc(a,b,&rrp,&rip), carg(a,b,&rrp,&rip), cabs(a,b,&rrp,&rip), qabs(a,b,c,d), oabs(a,b,c,d,e,f,g,h),    ///
+///       sabs(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p), qadd(a1,b1,c1,d1,a2,b2,c2,d2,&rrp,&rip,&rjp,&rkp),	 	  ///
+/// 	qmul(a1,b1,c1,d1,a2,b2,c2,d2,&rrp,&rip,&rjp,&rkp), log101p(a), log101pc(a), log21p(a), log21pc(a).	  ///
+///    The upwriten functions perform calculations and store the Results into the ampersanded variables.	  ///
+/// Fixed a bug into "cadd" and "cmul" commands, that didn't allow to store the correct result into the rightmost ///
+/// variables arguments. Fixed a bug into the Complex and HyperComplex respectively both Addition and 		  ///
+/// Multiplication subPrograms, that didn't allow to format correctly the results. Totally rewritten the Domain   ///
+/// Checking System related functions and so enhanced precision in all the trigonometric functions. Now even the  ///
+/// Basic Calculator have the new Complex Trigonometric, Exponential, Logarithmic and Miscellaneous functions     ///
+/// introduced in this version, and the Domain Checking System (D.C.S.) works perfectly also in this Environment! ///
+/// Furthermore, it wasn't possible to accorp one complex trigonometric function with its hyperbolic version one  ///
+/// 	   one. So, bcilfs.h Basic Calculator HEADER got a bit crowded, but it isn't really a problem. 		  ///
+/// Introduced a simple performant OSMM Algorithm for the Square Matrices Multiplication (O.S.M.M. means Optimized///
+/// Square Matrices Multiplication) with dimension greater than a constant defined into the settings.xml file     ///
+/// (or any valid XML Settings File). Hoever it is possible to change this constant by using its subprogram into  ///
+/// "Edit Program SETTINGS" section. This algorithm works also with a BLOCK_SIZE constant that depends on some    ///
+/// hardware cache-related specifications. It is also possible to change its value both in XML Settings File and  ///
+/// by its inline setting command. Introduced also the Strassen Algorithm for Square Matrices Multiplication      ///
+/// with dimension of the form of: 2^n, with n integer. If the "Strassen Optimization" Bool Settings is enabled,  ///
+///then the program will use this algorithm instead of the naive classic one whenever the dimension of the actual ///
+/// Matrices is greater than a constant defined into the XML Settings File, just as the OSMM Algorithm one. Note  ///
+///that if these conditions are true and the dimension of the matrices is greather than the Min OSMM Dimension    ///
+/// 	     constant, Strassen has the priority upon OSMM algorithm for square matrices. 			  ///
+///					Fixed minor bugs and Code highly optimized.				  ///
 ///    This is not a Final Built or Official Release, but (UPDATE) probably this could be the last release I write///
 ///              in C. A future release could be directly mathSMART Mobile Math Environment.                      ///
 ///                     You can contact me at: marco_chiarelli@yahoo.it or on the secundary mail:                 ///
@@ -440,6 +496,9 @@ or at marcochiarelli.nextgenlab@gmail.com									   ||
 /// http://elite.polito.it/files/courses/12BHD/progr/Esercizi-C-v2_01.pdf for some of their scripts.              ///
 /// Thanks to Bibek Subedi, for his invertMatrix function, which I renamed, modified and adapted to this program. ///
 /// Link Source: http://programming-technique.blogspot.it/2011/09/numerical-methods-inverse-of-nxn-matrix.html    ///
+/// Thanks to W. Cochran  wcochran@vancouver.wsu.edu for his Strassen Algorithm Implementation, which I renamed,  ///
+/// adapted and modified to this program. Thanks also to: Computer Science Division | EECS at UC Berkeley for     ///
+/// some notions about Matrix Multiplication Optimizations Techniques: www.cs.berkeley.edu/~knight/cs267/hw1.html ///
 /// Massive thanks to Brian Allen Vanderburg II for his fabulous C parser and inline functions solver, EXPREVAL,  ///
 /// which elegantly gave in theory infinite functionalities and potential to my program. That's the project link  ///
 /// with Online Documentation: http://expreval.sourceforge.net/ Thanks to: http://www.cprogramming.com/tips/ and  ///
