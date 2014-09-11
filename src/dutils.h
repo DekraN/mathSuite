@@ -23,6 +23,8 @@ I do not assume any responsibilities about the use with any other code-scripts.
 #include <conio.h>
 #include <setjmp.h>
 
+#include <sys/time.h>
+
 #include <windows.h>
 #include <errors.h>
 #include <signal.h>
@@ -248,7 +250,7 @@ enum
 
 #define MINMINMIN_STRING 10
 #define MINMIN_STRING 20
-#define MIN_STRING 50
+#define MIN_STRING 100
 #define MAX_STRING 256
 #define MAXX_STRING (MAX_STRING<<1)
 #define MAXMAX_STRING (MAX_STRING<<MAX_DIMENSIONS)
@@ -897,6 +899,8 @@ enum
     BOOLS_SAVERESULTS,
     BOOLS_SHOWVARLIST,
     BOOLS_SHOWDIFFTIME,
+    BOOLS_SHOWDIFFTIMEADVCALC,
+    BOOLS_SHOWDIFFTIMEALGOPS,
     BOOLS_SHOWEXECTIME,
     BOOLS_PRINTTIME,
     BOOLS_DOMAINCHECK,
@@ -924,18 +928,20 @@ enum
 #define BITMASK_SAVERESULTS 1024
 #define BITMASK_SHOWVARLIST 2048
 #define BITMASK_SHOWDIFFTIME 4096
-#define BITMASK_SHOWEXECTIME 8192
-#define BITMASK_PRINTTIME 16384
-#define BITMASK_DOMAINCHECK 32768
-#define BITMASK_CHARINSERT 65536
-#define BITMASK_INSERTMODE 131072
-#define BITMASK_LAZYEXECUTION 262144
-#define BITMASK_INVERSEOPERATIONS 524288
-#define BITMASK_AUTOTURNBACK 1048576
-#define BITMASK_DEGREESENTERING 2097152
-#define BITMASK_PROGREPEATCHECK 4194304
-#define BITMASK_STRASSENOPTIMIZATION 8388608
-#define BITMASK_EXTENSIVEMULTITHREADING 16777216
+#define BITMASK_SHOWDIFFTIMEADVCALC 8192
+#define BITMASK_SHOWDIFFTIMEALGOPS 16384
+#define BITMASK_SHOWEXECTIME 32768
+#define BITMASK_PRINTTIME 65536
+#define BITMASK_DOMAINCHECK 131072
+#define BITMASK_CHARINSERT 262144
+#define BITMASK_INSERTMODE 524288
+#define BITMASK_LAZYEXECUTION 1048576
+#define BITMASK_INVERSEOPERATIONS 2097152
+#define BITMASK_AUTOTURNBACK 4194304
+#define BITMASK_DEGREESENTERING 8388608
+#define BITMASK_PROGREPEATCHECK 16777216
+#define BITMASK_STRASSENOPTIMIZATION 33554432
+#define BITMASK_EXTENSIVEMULTITHREADING 67108864
 
 #define LAST_BOOL_SETTING BOOLS_EXTENSIVEMULTITHREADING
 #define MAX_BOOL_SETTINGS LAST_BOOL_SETTING+1
@@ -1994,7 +2000,7 @@ struct prog_constants
     #ifdef XMLCALL
     	const char bools_identifiers[MAX_DIMENSIONS][SIGN_STRING];
     #endif
-    const char bools_names[MAX_BOOL_SETTINGS][INFO_STRING];
+    const char bools_names[MAX_BOOL_SETTINGS][MIN_STRING];
     struct
     {
         const unsigned bmask;
@@ -2183,6 +2189,7 @@ __MSNATIVE_ XMLCALL void __system getProgramSettings(dim_typ);
 __MSNATIVE_ XMLCALL void __system _colFileLoader(const char [static MAX_PATH_LENGTH]);
 
 __MSNATIVE_ ityp __export MINMAX(const register dim_typ dim, const ityp [static dim], const bool, dim_typ *);
+__MSNATIVE_ __MSUTIL_ ityp __system __export getDiffTime(struct timeval * tvBegin);
 __MSNATIVE_ bool __system __export isDomainForbidden(ityp, bool);
 __MSUTIL_ void _MS__private __system __export free_foreach(ityp **, const dim_typ, bool mode);
 __MSUTIL_ void _MS__private __system __export free_foreach2(ityp **, const dim_typ);

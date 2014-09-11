@@ -331,7 +331,19 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixSort(const register sel_typ ar
 
     PRINTL();
     
+    struct timeval tvBegin;
+    const bool difftime = isSett(BOOLS_SHOWDIFFTIMEALGOPS);
+    
+    if(difftime)
+    	gettimeofday(&tvBegin, NULL);
     qsort(matrix,dim[RAWS]*dim[COLUMNS], sizeof(ityp), cmpfunc);
+    
+    if(difftime)
+    {
+    	PRINTL();
+        printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, getDiffTime(&tvBegin));
+        PRINTL();
+	}
 
     printf2(COLOR_USER, "\nMatrix has been sort with Ascending Order:\n\n");
     PRINTL();
@@ -387,7 +399,19 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixNorm(const register sel_typ ar
     else if(!insertMatrix(matrix, dim[RAWS], dim[COLUMNS], true))
         return;
 
+	struct timeval tvBegin;
+	const bool difftime = isSett(BOOLS_SHOWDIFFTIMEALGOPS);
+	
+	if(difftime)
+		gettimeofday(&tvBegin, NULL);
     const register ityp nrm = tmp ? norm(matrix, dim[RAWS], tmp-1) : norms(matrix, dim[RAWS]);
+    
+    if(difftime)
+    {
+    	PRINTL();
+        printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, getDiffTime(&tvBegin));
+        PRINTL();
+	}
 
     matrixFree(&matrix);
 
@@ -424,7 +448,20 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixDet(const register sel_typ arg
         return;
 
     bool flag = false;
+    struct timeval tvBegin;
+    const bool difftime = isSett(BOOLS_SHOWDIFFTIMEALGOPS); 
+    
+    if(difftime)
+    	gettimeofday(&tvBegin, NULL);
+    	
     const register ityp dt = det(matrix, dim[RAWS], &flag);
+    
+    if(difftime)
+    {
+    	PRINTL();
+        printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, getDiffTime(&tvBegin));
+        PRINTL();
+	}
 
     matrixFree(&matrix);
 
@@ -460,7 +497,19 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixTrace(const register sel_typ a
     else if(!insertMatrix(matrix, dim[RAWS], dim[COLUMNS], true))
         return;
 
+	struct timeval tvBegin;
+	const bool difftime = isSett(BOOLS_SHOWDIFFTIMEALGOPS);
+	if(difftime)
+		gettimeofday(&tvBegin, NULL);
+		
     const register ityp trc = trace(matrix, dim[RAWS]);
+    
+    if(difftime)
+    {
+    	PRINTL();
+        printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, getDiffTime(&tvBegin));
+        PRINTL();
+	}
 
     matrixFree(&matrix);
 
@@ -490,7 +539,21 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixRank(const register sel_typ ar
     }
     else if(!insertMatrix(matrix, dim[RAWS], dim[COLUMNS], false))
         return;
+        
+    struct timeval tvBegin;
+    const bool difftime = isSett(BOOLS_SHOWDIFFTIMEALGOPS);
+    
+    if(difftime)
+    	gettimeofday(&tvBegin, NULL);
+    	
     const register dim_typ rk = rank(matrix, dim);
+    
+    if(difftime)
+    {
+    	PRINTL();
+        printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, getDiffTime(&tvBegin));
+        PRINTL();
+	}
 
     matrixFree(&matrix);
 
@@ -538,7 +601,21 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixSVD(const register sel_typ arg
     }
 
 
+	struct timeval tvBegin;
+	const bool difftime = isSett(BOOLS_SHOWDIFFTIMEALGOPS);
+	
+	if(difftime)
+		gettimeofday(&tvBegin, NULL);
+		
     dsvd(matrix, dim, S, V);
+    
+    if(difftime)
+    {
+    	PRINTL();
+        printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, getDiffTime(&tvBegin));
+        PRINTL();
+	}
+    
     matrixFree(&V);
     matrixFree(&matrix);
 
@@ -590,6 +667,12 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixInv(const register sel_typ arg
 
     dim_typ i;
 
+	struct timeval tvBegin;
+	const bool difftime = isSett(BOOLS_SHOWDIFFTIMEALGOPS);
+	
+	if(difftime)
+		gettimeofday(&tvBegin, NULL);
+		
     if(!invertMatrix(matrix, dim[RAWS]))
     {
         printErr(1, "You cannot invert SINGULAR Matrices");
@@ -598,6 +681,13 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixInv(const register sel_typ arg
         #endif // WINOS
         return;
     }
+    
+    if(difftime)
+    {
+    	PRINTL();
+        printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, getDiffTime(&tvBegin));
+        PRINTL();
+	}
 
     printf2(COLOR_SYSTEM, "\nINVERSE MATRIX of inserted Quad Matrix is:\n\n");
 
@@ -649,7 +739,21 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixTranspose(const register sel_t
         return;
     }
 
+	struct timeval tvBegin;
+	const bool difftime = isSett(BOOLS_SHOWDIFFTIMEALGOPS);
+	
+	if(difftime)
+		gettimeofday(&tvBegin, NULL);
+		
     transpose(matrix, matrix2, dim);
+    
+    if(difftime)
+    {
+    	PRINTL();
+        printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, getDiffTime(&tvBegin));
+        PRINTL();
+	}
+    
     printMatrix(stdout, matrix2, (dim_typ2){dim[COLUMNS], dim[RAWS]});
 
     matrixFree(&matrix);
@@ -1231,7 +1335,20 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixAdd(const register sel_typ arg
 	    	}
     	}; 
         
+        struct timeval tvBegin;
+        const bool difftime = isSett(BOOLS_SHOWDIFFTIMEALGOPS);
+        
+        if(difftime)
+        	gettimeofday(&tvBegin, NULL);
+        	
         matrixAddFuncs[access(curLayout)->algebra][INVERSE_OPS](matrix1[k], matrix2[k], matrix_sum[k], dim);
+        
+        if(difftime)
+    	{
+	    	PRINTL();
+	        printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, getDiffTime(&tvBegin));
+	        PRINTL();
+		}
 
         CHECK_INVERSE_OPERATIONS();
 
@@ -1849,7 +1966,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixMultiplication(const register 
 		}
 		else
 			matrixMulDispatcher = __call_NORMALMM;
-	
+			
 	if(tmp2 != 1)
     {
         if(mxprodErr && (!tmp2))
@@ -1876,6 +1993,11 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixMultiplication(const register 
             #endif // WINOS
             return;
         }
+        struct timeval tvBegin;
+        const bool difftime = isSett(BOOLS_SHOWDIFFTIMEALGOPS);
+        
+        if(difftime)
+        	gettimeofday(&tvBegin, NULL);
         do
         {
         	
@@ -1893,6 +2015,14 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixMultiplication(const register 
 	                    equalMatrix(&matrix2[ii], matrix_product[ii], (dim_typ2){dim[RAWS], dim[COLUMNS2]});
         }
         while(++x < tmp2);
+        
+        if(difftime)
+    	{
+	    	PRINTL();
+	        printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, getDiffTime(&tvBegin));
+	        PRINTL();
+		}
+		
     }
     else
         if(algebra_units <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && algebra_units > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
@@ -1913,7 +2043,6 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixMultiplication(const register 
         printf2(COLOR_USER, "\n+ %s*", suite_c.algebra_imaginary_units_names[access(curLayout)->algebra][ii]);
         printMatrix(stdout, matrix_product[ii], (dim_typ2){dim[RAWS], dim[COLUMNS2]});
     }
-
 
     // Overhead here isn't inevitable because the order is important
     if(algebra_units <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && algebra_units > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
@@ -2324,7 +2453,12 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixKProduct(const register sel_ty
             #endif // WINOS
             return;
         }
-        do
+        struct timeval tvBegin;
+        const bool difftime = isSett(BOOLS_SHOWDIFFTIMEALGOPS);
+        
+        if(difftime) 
+        	gettimeofday(&tvBegin, NULL); 
+  		do
         {
         	
 			dims[SECOND_MATRIX][RAWS] = powi(dim2[RAWS], x);
@@ -2343,6 +2477,14 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixKProduct(const register sel_ty
 	                    equalMatrix(&matrix2[i], matrix_product[i], dim3);
         }
         while(++x < tmp);
+        
+        if(difftime)
+    	{
+	    	PRINTL();
+	        printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, getDiffTime(&tvBegin));
+	        PRINTL();
+		}
+		
     }
     else
         if(algebra_units <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && algebra_units > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
@@ -2357,10 +2499,8 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixKProduct(const register sel_ty
 
     CHECK_INVERSE_OPERATIONS();
     PRINTL();
-    printMatrix(stdout, (*matrix_product), dim3);
-
-    /// UNTESTED!!!
-
+    
+	printMatrix(stdout, (*matrix_product), dim3);
 
     for(i=1; i<algebra_units; ++i)
     {
@@ -2547,6 +2687,12 @@ __MSSHELL_WRAPPER_ static void _MS__private perScalarMultiplication(const regist
     dim_typ i, j, k;
     ityp (* const mul_func)(register ityp, register ityp) = __pmode__ == ALGOPS_PERSCALARMULTIPLICATION ? math_mul : math_div;
 
+	struct timeval tvBegin;
+	const bool difftime = isSett(BOOLS_SHOWDIFFTIMEALGOPS);
+	
+	if(difftime)
+		gettimeofday(&tvBegin, NULL);
+		
 	if(algebra_units <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && algebra_units > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
 		#pragma omp parallel for num_threads(algebra_units)
 	    for(k=0; k<algebra_units; ++k)
@@ -2563,6 +2709,13 @@ __MSSHELL_WRAPPER_ static void _MS__private perScalarMultiplication(const regist
 	        	#pragma omp parallel for
 	            for(j=0; j<dim[COLUMNS]; ++j)
 	                matrix[k][dim[COLUMNS]*i+j] = mul_func(scal, matrix[k][dim[COLUMNS]*i+j]);
+	                
+	if(difftime)
+	{
+    	PRINTL();
+        printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, getDiffTime(&tvBegin));
+        PRINTL();
+	}
 
     CHECK_INVERSE_OPERATIONS();
 
@@ -2611,6 +2764,12 @@ __MSSHELL_WRAPPER_ static void _MS__private illConditionChecking(const register 
 
     dim_typ i;
 
+	struct timeval tvBegin;
+	const bool difftime = isSett(BOOLS_SHOWDIFFTIMEALGOPS);
+	
+	if(difftime)
+		gettimeofday(&tvBegin, NULL);
+		
     if(!invertMatrix(matrix, dim[RAWS]))
     {
         printErr(1, "You cannot invert SINGULAR Matrices!");
@@ -2619,7 +2778,14 @@ __MSSHELL_WRAPPER_ static void _MS__private illConditionChecking(const register 
         #endif // WINOS
         return;
     }
-
+    
+	if(difftime)
+	{
+    	PRINTL();
+        printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, getDiffTime(&tvBegin));
+        PRINTL();
+	}
+	
     printf2(COLOR_USER, "\nInserted Quad Matrix ILL CONDITION CHECKING is: ");
     printf2(COLOR_USER, OUTPUT_CONVERSION_FORMAT, norms1*norms(matrix,dim[RAWS]));
     printf2(COLOR_USER, ".\n\n");
@@ -2667,10 +2833,22 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixFattLU(const register sel_typ 
         return;
     }
 
+	struct timeval tvBegin;
+	const bool difftime = isSett(BOOLS_SHOWDIFFTIMEALGOPS);
+	
+	if(difftime)
+		gettimeofday(&tvBegin, NULL);
+		
     if(!FattLU(dim[RAWS], matrix, L, U))
         printErr(1, "You cannot LU-decompose SINGULAR Matrices");
     else
     {
+    	if(difftime)
+		{
+			PRINTL();
+		    printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, getDiffTime(&tvBegin));
+		    PRINTL();
+		}
         printf2(COLOR_USER, "\nInserted Matrix has been correctly LU-decomposed\ninto Triangular Matrices respectively: L as Lower and U as Upper:\n\n");
         printMatrix(stdout, L, dim);
         printMatrix(stdout, U, dim);

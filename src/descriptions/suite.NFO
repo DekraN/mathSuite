@@ -24,6 +24,12 @@ for some of their scripts. Thanks to Bibek Subedi, for his invertMatrix function
 http://programming-technique.blogspot.it/2011/09/numerical-methods-inverse-of
 -nxn-matrix.html
 
+Thanks to W. Cochran  wcochran@vancouver.wsu.edu for his
+Strassen Algorithm Implementation, which I renamed, adapted and modified to this program.
+Thanks also to: Computer Science Division | EECS at UC Berkeley for some notions
+about Matrix Multiplication Optimizations Techniques:
+www.cs.berkeley.edu/~knight/cs267/hw1.html
+
 Massive thanks to Brian Allen Vanderburg II for his fabulous C parser and
 inline functions solver, EXPREVAL, which elegantly gave in theory infinite
 functionalities and potential to my program. That's the project link with
@@ -46,7 +52,7 @@ enhance some functions like det(...), sgeqsolver ExprEval inline command, etc...
 
 Greatly thanks to Daniel Veillard for his fabulous XML Parser, LIBXML2.
 
-Greatly thanks to vict85 of matematicamente.it Network, for having informed
+Greatly thanks to vict85 of matematicamente.it Network, for informing
 me about the benefits of using generally a single reference for the
 Matrix Type, like LAPACK and other Numeric Calculus Environments.
 

@@ -159,6 +159,8 @@ const struct prog_constants suite_c =
         "Save last Results",
         "Show Varlist after Operations",
         "Show Average Time after Operations",
+    	"Show Average Time after Advanced Calculator Operations",
+    	"Show Average Time after Linear Algebra Operations",
         "Show Average Time after Programs Executions",
         "Show Date and Time in Textline",
         "Domains Checks",
@@ -226,6 +228,14 @@ const struct prog_constants suite_c =
         {
             BITMASK_SHOWDIFFTIME,
             DEFAULT_SHOWDIFFTIME
+        },
+        {
+        	BITMASK_SHOWDIFFTIMEADVCALC,
+        	DEFAULT_SHOWDIFFTIMEADVCALC
+        },
+        {
+        	BITMASK_SHOWDIFFTIMEALGOPS,
+        	DEFAULT_SHOWDIFFTIMEALGOPS
         },
         {
             BITMASK_SHOWEXECTIME,

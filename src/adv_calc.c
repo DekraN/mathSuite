@@ -160,6 +160,11 @@ __MSSHELL_WRAPPER_ static void _MS__private secondGradeEquationSolver(const regi
     }
 
     ityp root[MAX_DIMENSIONS];
+    struct timeval tvBegin;
+    const bool difftime = isSett(BOOLS_SHOWDIFFTIMEADVCALC);
+    
+    if(difftime)
+    	gettimeofday(&tvBegin, NULL);
 
     if(_secondGradeEquationSolver(abc, root))
     {
@@ -169,7 +174,14 @@ __MSSHELL_WRAPPER_ static void _MS__private secondGradeEquationSolver(const regi
         printf2(COLOR_USER, OUTPUT_CONVERSION_FORMAT, root[ROOT_X2]);
         printf2(COLOR_USER, ".\n\n");
     }
-
+    
+    if(difftime)
+    {
+    	PRINTL();
+        printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, getDiffTime(&tvBegin));
+        PRINTL();
+	}
+    
     matrixFree(&abc);
 
     #if WINOS
@@ -230,8 +242,19 @@ __MSSHELL_WRAPPER_ static void _MS__private complexAdd(const register sel_typ ar
 		}
 	};
 	
+	struct timeval tvBegin;
+	ityp atime;
+	const bool difftime = isSett(BOOLS_SHOWDIFFTIMEADVCALC);
+	
+	if(difftime)
+		gettimeofday(&tvBegin, NULL);
+		
 	complexAddFunc[((access(curLayout)->algebra == ALGEBRA_COMPLEXNUMBERS || !access(curLayout)->algebra) ? ALGEBRA_COMPLEXNUMBERS : access(curLayout)->algebra)-1][INVERSE_OPS](cpx, complexRes);
-    printf2(COLOR_USER, "\nRESULT of Operation: (");
+    
+	if(difftime)
+		atime = getDiffTime(&tvBegin);
+    
+	printf2(COLOR_USER, "\nRESULT of Operation: (");
 	
     dim_typ i;
 
@@ -259,6 +282,13 @@ __MSSHELL_WRAPPER_ static void _MS__private complexAdd(const register sel_typ ar
     }
 
     matrixFree(&cpx);
+    
+    if(difftime)
+    {
+    	PRINTL();
+        printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, atime);
+        PRINTL();
+	}
 
     #if WINOS
         SetExitButtonState(ENABLED);
@@ -317,8 +347,18 @@ __MSSHELL_WRAPPER_ static void _MS__private complexMul(const register sel_typ ar
 		}
 	};
 	
+	struct timeval tvBegin;
+	ityp atime;
+	const bool difftime = isSett(BOOLS_SHOWDIFFTIMEADVCALC);
+	
+	if(difftime)
+		gettimeofday(&tvBegin, NULL);
+	
 	complexMulFunc[((access(curLayout)->algebra == ALGEBRA_COMPLEXNUMBERS || !access(curLayout)->algebra) ? ALGEBRA_COMPLEXNUMBERS : access(curLayout)->algebra)-1][INVERSE_OPS](cpx, complexRes);
-    printf2(COLOR_USER, "\nRESULT of Operation: (");
+    if(difftime)
+    	atime = getDiffTime(&tvBegin);
+    	
+	printf2(COLOR_USER, "\nRESULT of Operation: (");
 
     dim_typ i;
     
@@ -346,6 +386,13 @@ __MSSHELL_WRAPPER_ static void _MS__private complexMul(const register sel_typ ar
     }
 
     matrixFree(&cpx);
+    
+    if(difftime)
+    {
+    	PRINTL();
+        printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, atime);
+        PRINTL();
+	}
 
     #if WINOS
         SetExitButtonState(ENABLED);
@@ -438,6 +485,12 @@ __MSSHELL_WRAPPER_ static void _MS__private simplexMethod(const register sel_typ
 
     sel_typ exit_state;
 
+	struct timeval tvBegin;
+	const bool difftime = isSett(BOOLS_SHOWDIFFTIMEADVCALC);
+	
+	if(difftime)
+		gettimeofday(&tvBegin, NULL);
+		
     if((exit_state = _simplexMethod(&tableau, &bfs, dim, constraint_types, mode)) == SIMPLEXMETHOD_INFBFS_ERROR)
         printErr(33, "This Problem has a Solution whose limit is Infinite");
     else if(exit_state == SIMPLEXMETHOD_FARBFS_ERROR)
@@ -449,6 +502,13 @@ __MSSHELL_WRAPPER_ static void _MS__private simplexMethod(const register sel_typ
         printf2(COLOR_USER, "\nRelaxed Problem BFS with Artificial Variables is: ");
         printMatrix(stdout, bfs, (dim_typ2){1,dim[RAWS]+dim[COLUMNS]-2});
     }
+    
+    if(difftime)
+    {
+    	PRINTL();
+        printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, getDiffTime(&tvBegin));
+        PRINTL();
+	}
 
     matrixFree(&tableau);
     matrixFree(&constraint_types);
@@ -573,10 +633,23 @@ __MSSHELL_WRAPPER_ static void _MS__private newtonDifferenceTables(const registe
             }
         }
 
+	struct timeval tvBegin;
+	const bool difftime = isSett(BOOLS_SHOWDIFFTIMEADVCALC);
+	
+	if(difftime)
+		gettimeofday(&tvBegin, NULL);
+		
     newtonDifferenceTable(n, y, FORWARD_DIFFTAB);
     showNewtonDifferenceTable(n, x, y, FORWARD_DIFFTAB);
     newtonDifferenceTable(n, y, BACKWARD_DIFFTAB);
     showNewtonDifferenceTable(n, x, y, BACKWARD_DIFFTAB);
+    
+    if(difftime)
+    {
+    	PRINTL();
+        printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, getDiffTime(&tvBegin));
+        PRINTL();
+	}
 
     return;
 }
@@ -681,6 +754,12 @@ __MSSHELL_WRAPPER_ static void _MS__private lagrangeInterpolation(const register
     ityp yp = 0;
     ityp dr, nr;
 
+	struct timeval tvBegin;
+	const bool difftime = isSett(BOOLS_SHOWDIFFTIMEADVCALC);
+	
+	if(difftime)
+		gettimeofday(&tvBegin, NULL);
+		
 	for(i = 0; i < dim; ++i)
     {
 
@@ -694,6 +773,13 @@ __MSSHELL_WRAPPER_ static void _MS__private lagrangeInterpolation(const register
 
         yp += nr/dr*(*(xy + (dim*YRAW) + i));
     }
+    
+    if(difftime)
+    {
+    	PRINTL();
+        printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, getDiffTime(&tvBegin));
+        PRINTL();
+	}
 
     matrixFree(&xy);
 
@@ -775,7 +861,11 @@ __MSSHELL_WRAPPER_ static void _MS__private greatestEigenValue(const register se
     }
 
     ityp resultVector[dim[RAWS]];
-
+	struct timeval tvBegin;
+	const bool difftime = isSett(BOOLS_SHOWDIFFTIMEADVCALC);
+	
+	if(difftime)
+		gettimeofday(&tvBegin, NULL);
 
     for( ;; )
     {
@@ -794,6 +884,13 @@ __MSSHELL_WRAPPER_ static void _MS__private greatestEigenValue(const register se
         for(i=0; i<dim[RAWS]; ++i)
             *((*matrix2) + i) = *((*result) + i);
     }
+    
+    if(difftime)
+    {
+    	PRINTL();
+        printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, getDiffTime(&tvBegin));
+        PRINTL();
+	}
 
     printf2(COLOR_USER, "\nGreatest EIGEN Value is: ");
     printf2(COLOR_USER, OUTPUT_CONVERSION_FORMAT, eigenValue);
@@ -921,6 +1018,12 @@ __MSSHELL_WRAPPER_ static void _MS__private funcIntegration(const register sel_t
     h = (xn - x0) / n;
 
     ityp (* const y)(register ityp) = ext_math.functions[funcID];
+    
+    struct timeval tvBegin;
+    const bool difftime = isSett(BOOLS_SHOWDIFFTIMEADVCALC);
+    
+    if(difftime)
+    	gettimeofday(&tvBegin, NULL);
 
     switch(mode)
     {
@@ -957,6 +1060,13 @@ __MSSHELL_WRAPPER_ static void _MS__private funcIntegration(const register sel_t
             result = (h*0.5)*s;
             break;
     }
+    
+    if(difftime)
+    {
+    	PRINTL();
+        printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, getDiffTime(&tvBegin));
+        PRINTL();
+	}
 
     printf2(COLOR_USER, "%s(x) Function Integral Value calculated between: x0 = ", ext_math.funcnames[funcID]);
     printf2(COLOR_USER, OUTPUT_CONVERSION_FORMAT, x0);
@@ -1041,6 +1151,12 @@ __MSSHELL_WRAPPER_ static void _MS__private straightLineFitting(const register s
     	dim*YRAW
     };
     
+    struct timeval tvBegin;
+    const bool difftime = isSett(BOOLS_SHOWDIFFTIMEADVCALC);
+    
+    if(difftime)
+    	gettimeofday(&tvBegin, NULL);
+    	
 	for(i = 0; i < dim; ++i)
     {
 
@@ -1049,6 +1165,13 @@ __MSSHELL_WRAPPER_ static void _MS__private straightLineFitting(const register s
         sum_xy += *(xy + cache[XRAW] + i) * *(xy + cache[YRAW] + i);
         sum_x2 += pow(*(xy + cache[XRAW] + i), 2);
     }
+    
+    if(difftime)
+    {
+    	PRINTL();
+        printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, getDiffTime(&tvBegin));
+        PRINTL();
+	}
 
     matrixFree(&xy);
 
@@ -1155,6 +1278,12 @@ __MSSHELL_WRAPPER_ static void _MS__private parabolicCurveFitting(const register
     	dim*XRAW,
     	dim*YRAW
     };
+    
+    struct timeval tvBegin;
+    const bool difftime = isSett(BOOLS_SHOWDIFFTIMEADVCALC);
+    
+    if(difftime)
+    	gettimeofday(&tvBegin, NULL);
 
     #pragma omp parallel for
 	for(i = 0; i < dim; ++i)
@@ -1167,6 +1296,13 @@ __MSSHELL_WRAPPER_ static void _MS__private parabolicCurveFitting(const register
         *(matrix + 7) += (*(xy + cache[XRAW] + i) * *(xy + cache[YRAW] * i));
         *(matrix + 11) += (pow(*(xy + cache[XRAW] + i), 2) * *(xy + cache[YRAW]*i));
     }
+    
+    if(difftime)
+    {
+    	PRINTL();
+        printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, getDiffTime(&tvBegin));
+        PRINTL();
+	}
 
     matrixFree(&xy);
 
@@ -1242,6 +1378,12 @@ __MSSHELL_WRAPPER_ static void _MS__private linearSystemsSolver(const register s
 
     dim_typ i, j, k;
     ityp a, b;
+    
+    struct timeval tvBegin;
+    const bool difftime = isSett(BOOLS_SHOWDIFFTIMEADVCALC);
+    
+    if(difftime)
+    	gettimeofday(&tvBegin, NULL);
 
     for(i = 0; i < dim[RAWS]; ++i)
         for(j = 0; j < dim[RAWS]; ++j)
@@ -1260,6 +1402,13 @@ __MSSHELL_WRAPPER_ static void _MS__private linearSystemsSolver(const register s
         for(j = 0; j < dim[COLUMNS]; ++j)
             *(matrix + (dim[COLUMNS]*i) + j) /= c;
     }
+    
+    if(difftime)
+    {
+    	PRINTL();
+        printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, getDiffTime(&tvBegin));
+        PRINTL();
+	}
 
     printf2(COLOR_USER, "Simultaneous Solutions of the given Linear System are:\n\n");
     PRINTL();
