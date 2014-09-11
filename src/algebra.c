@@ -1792,26 +1792,19 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixMultiplication(const register 
 
     PRINTN();
 
-    dim_typ x;
-    ityp **matrix_product = NULL;
-    const sel_typ idx = assert_m ? RAWS : COLUMNS2;
-
-
-    matrix_product = malloc(sizeof(ityp*)*algebra_units);
+    dim_typ x = 1;
+    ityp **matrix_product = malloc(sizeof(ityp*)*algebra_units);
     errMem(matrix_product, (free_foreach(matrix1, algebra_units, NORMAL_MODE),
                             free_foreach(matrix2, algebra_units, tmp2 == 1),
                             free(matrix1),
                             free(matrix2)));
-
+    const sel_typ idx = assert_m ? RAWS : COLUMNS2;
     bool mxprodErr = false;
 
     if(tmp2 != 1)
 		for(ii=0; ii<algebra_units; ++ii)
             if((mxprodErr = !matrixAlloc(&matrix_product[ii], (dim_typ2){dim[RAWS], dim[COLUMNS2]})))
                 break;
-
-    x = 1;
-    
     
     static void (* const matrixMulFuncs[_MAX_ALGEBRA])(ityp **, ityp **, ityp **, const register dim_typ [static MAX_MATRICES]) =
     {
@@ -1971,12 +1964,13 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixKProduct(const register sel_ty
     dim_typ cdim[MAX_DIMENSIONS];
     dim_typ i, j;
 
-    ityp **matrix1 = NULL;
+   
     const bool complex_entries = access(curLayout)->algebra != 0;
     const sel_typ algebra_units = exp2(access(curLayout)->algebra);
-
-    matrix1 = malloc(sizeof(ityp*)*algebra_units);
+    
+    ityp **matrix1 = malloc(sizeof(ityp*)*algebra_units);
     errMem(matrix1, VSPACE);
+
 
     if(argc)
     {
@@ -2038,9 +2032,9 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixKProduct(const register sel_ty
     }
 
     ityp **matrix2 = malloc(sizeof(ityp*)*algebra_units);
+    errMem(matrix2, (free_foreach(matrix1, algebra_units, NORMAL_MODE), free(matrix1)));
     dim_typ dim2[MAX_DIMENSIONS];
     const bool assert_m = __pmode__ == ALGOPS_MATRIXKPOWER;
-    errMem(matrix2, (free_foreach(matrix1, algebra_units, NORMAL_MODE), free(matrix1)));
 
     ++ argv_pos;
     uint64_t tmp = 0;
@@ -2271,14 +2265,12 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixKProduct(const register sel_ty
     if(assert_m)
         printf2(COLOR_SYSTEM, "First Matrix [%hu x %hu] raisen to the Kronecker Power of: %llu is the [%hu x %hu] Matrix:", dim[RAWS], dim[COLUMNS], tmp, dim3[RAWS], dim3[COLUMNS]);
     else
-        printf2(COLOR_SYSTEM, "Matrix Kronecker %s [%hu x %hu] between First and Second Matrix is:", INVERSE_OPS ? "Quotient":"Product", dim3[RAWS], dim3[COLUMNS]);
+        printf2(COLOR_SYSTEM, "Matrix Kronecker Product [%hu x %hu] between First and Second Matrix is:", dim3[RAWS], dim3[COLUMNS]);
 
     PRINT2N();
 
-    dim_typ x;
-    ityp **matrix_product = NULL;
-
-    matrix_product = malloc(sizeof(ityp*)*algebra_units);
+    dim_typ x = 1;
+    ityp **matrix_product = malloc(sizeof(ityp*)*algebra_units);
     errMem(matrix_product, (free_foreach(matrix1, algebra_units, NORMAL_MODE),
                             free_foreach(matrix2, algebra_units, tmp == 1),
                             free(matrix1),
@@ -2291,21 +2283,13 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixKProduct(const register sel_ty
             if((mxprodErr = !matrixAlloc(&matrix_product[i], dim3)))
                 break;
 
-    const dim_typ dims[MAX_DIMENSIONS][MAX_DIMENSIONS] =
-    {
-        {
-            dim[RAWS],
-            dim[COLUMNS]
-        },
-        {
-            dim2[RAWS],
-            dim2[COLUMNS]
-        }
-    };
-
-    x = 1;
+    dim_typ dims[MAX_DIMENSIONS][MAX_DIMENSIONS];
     
-    static void (* const matrixKProdFuncs[_MAX_ALGEBRA])(ityp **, ityp **, ityp **, const register dim_typ [static MAX_DIMENSIONS][MAX_DIMENSIONS]) =
+    dims[FIRST_MATRIX][RAWS] = dim[RAWS];
+    dims[FIRST_MATRIX][COLUMNS] = dim[COLUMNS];
+    
+    
+    static void (* const matrixKProdFuncs[_MAX_ALGEBRA])(ityp **, ityp **, ityp **, register dim_typ [static MAX_DIMENSIONS][MAX_DIMENSIONS]) =
     {
     	_matrixKProduct,
         _matrixKCProduct,
@@ -2342,18 +2326,21 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixKProduct(const register sel_ty
         }
         do
         {
-
+        	
+			dims[SECOND_MATRIX][RAWS] = powi(dim2[RAWS], x);
+			dims[SECOND_MATRIX][COLUMNS] = powi(dim2[COLUMNS], x);
+	
             matrixKProdFuncs[access(curLayout)->algebra](matrix1, matrix2, matrix_product, dims);
-
+            
             if(assert_m)
             	if(algebra_units <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && algebra_units > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
 	                #pragma omp parallel for num_threads(algebra_units)
 					for(i=0; i<algebra_units; ++i)
-	                    equalMatrix(&matrix2[i], matrix_product[i], dim);
+	                    equalMatrix(&matrix2[i], matrix_product[i], dim3);
 	            else
 	            	#pragma omp parallel for
 					for(i=0; i<algebra_units; ++i)
-	                    equalMatrix(&matrix2[i], matrix_product[i], dim);
+	                    equalMatrix(&matrix2[i], matrix_product[i], dim3);
         }
         while(++x < tmp);
     }

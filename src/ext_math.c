@@ -6783,7 +6783,7 @@ __MSNATIVE_ inline void _MS__private __system __export _matrixSMultiplication(it
     return;
 }
 
-__MSNATIVE_ inline void _MS__private __system __export _matrixKProduct(ityp **matrix1, ityp **matrix2, ityp **matrix_product, const register dim_typ dim[static MAX_DIMENSIONS][MAX_DIMENSIONS])
+__MSNATIVE_ inline void _MS__private __system __export _matrixKProduct(ityp **matrix1, ityp **matrix2, ityp **matrix_product, register dim_typ dim[static MAX_DIMENSIONS][MAX_DIMENSIONS])
 {
     dim_typ i, j, k, l;
     const register dim_typ pdim = dim[FIRST_MATRIX][COLUMNS]*dim[SECOND_MATRIX][COLUMNS];
@@ -6801,7 +6801,7 @@ __MSNATIVE_ inline void _MS__private __system __export _matrixKProduct(ityp **ma
     return;
 }
 
-__MSNATIVE_ void _MS__private __system __export _matrixKCProduct(ityp **matrix1, ityp **matrix2, ityp **matrix_product, const register dim_typ dim[static MAX_DIMENSIONS][MAX_DIMENSIONS])
+__MSNATIVE_ void _MS__private __system __export _matrixKCProduct(ityp **matrix1, ityp **matrix2, ityp **matrix_product, register dim_typ dim[static MAX_DIMENSIONS][MAX_DIMENSIONS])
 {
     dim_typ i, j, k, l;
     register dim_typ idx[MAX_MATRICES];
@@ -6827,7 +6827,7 @@ __MSNATIVE_ void _MS__private __system __export _matrixKCProduct(ityp **matrix1,
     return;
 }
 
-__MSNATIVE_ void _MS__private __system __export _matrixKQProduct(ityp **matrix1, ityp **matrix2, ityp **matrix_product, const register dim_typ dim[static MAX_DIMENSIONS][MAX_DIMENSIONS])
+__MSNATIVE_ void _MS__private __system __export _matrixKQProduct(ityp **matrix1, ityp **matrix2, ityp **matrix_product, register dim_typ dim[static MAX_DIMENSIONS][MAX_DIMENSIONS])
 {
     dim_typ i, j, k, l;
     register dim_typ idx[MAX_MATRICES];
@@ -6873,7 +6873,7 @@ __MSNATIVE_ void _MS__private __system __export _matrixKQProduct(ityp **matrix1,
     return;
 }
 
-__MSNATIVE_ inline void _MS__private __system __export _matrixKOProduct(ityp **matrix1, ityp **matrix2, ityp **matrix_product, const register dim_typ dim[static MAX_DIMENSIONS][MAX_DIMENSIONS])
+__MSNATIVE_ inline void _MS__private __system __export _matrixKOProduct(ityp **matrix1, ityp **matrix2, ityp **matrix_product, register dim_typ dim[static MAX_DIMENSIONS][MAX_DIMENSIONS])
 {
     dim_typ i, j, k, l;
     const register dim_typ pdim = dim[FIRST_MATRIX][COLUMNS]*dim[SECOND_MATRIX][COLUMNS];
@@ -6891,7 +6891,7 @@ __MSNATIVE_ inline void _MS__private __system __export _matrixKOProduct(ityp **m
     return;
 }
 
-__MSNATIVE_ inline void _MS__private __system __export _matrixKSProduct(ityp **matrix1, ityp **matrix2, ityp **matrix_product, const register dim_typ dim[static MAX_DIMENSIONS][MAX_DIMENSIONS])
+__MSNATIVE_ inline void _MS__private __system __export _matrixKSProduct(ityp **matrix1, ityp **matrix2, ityp **matrix_product, register dim_typ dim[static MAX_DIMENSIONS][MAX_DIMENSIONS])
 {
 
     dim_typ i, j, k, l;

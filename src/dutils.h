@@ -2603,11 +2603,11 @@ __MSNATIVE_ void _MS__private __system __export _matrixCMultiplication(ityp **, 
 __MSNATIVE_ void _MS__private __system __export _matrixQMultiplication(ityp **, ityp **, ityp **, const register dim_typ [static MAX_MATRICES]);
 __MSNATIVE_ void _MS__private __system __export _matrixOMultiplication(ityp **, ityp **, ityp **, const register dim_typ [static MAX_MATRICES]);
 __MSNATIVE_ void _MS__private __system __export _matrixSMultiplication(ityp **, ityp **, ityp **, const register dim_typ [static MAX_MATRICES]);
-__MSNATIVE_ void _MS__private __system __export _matrixKProduct(ityp **, ityp **, ityp **, const register dim_typ [static MAX_DIMENSIONS][MAX_DIMENSIONS]);
-__MSNATIVE_ void _MS__private __system __export _matrixKCProduct(ityp **, ityp **, ityp **, const register dim_typ [static MAX_DIMENSIONS][MAX_DIMENSIONS]);
-__MSNATIVE_ void _MS__private __system __export _matrixKQProduct(ityp **, ityp **, ityp **, const register dim_typ [static MAX_DIMENSIONS][MAX_DIMENSIONS]);
-__MSNATIVE_ void _MS__private __system __export _matrixKOProduct(ityp **, ityp **, ityp **, const register dim_typ [static MAX_DIMENSIONS][MAX_DIMENSIONS]);
-__MSNATIVE_ void _MS__private __system __export _matrixKSProduct(ityp **, ityp **, ityp **, const register dim_typ [static MAX_DIMENSIONS][MAX_DIMENSIONS]);
+__MSNATIVE_ void _MS__private __system __export _matrixKProduct(ityp **, ityp **, ityp **, register dim_typ [static MAX_DIMENSIONS][MAX_DIMENSIONS]);
+__MSNATIVE_ void _MS__private __system __export _matrixKCProduct(ityp **, ityp **, ityp **, register dim_typ [static MAX_DIMENSIONS][MAX_DIMENSIONS]);
+__MSNATIVE_ void _MS__private __system __export _matrixKQProduct(ityp **, ityp **, ityp **, register dim_typ [static MAX_DIMENSIONS][MAX_DIMENSIONS]);
+__MSNATIVE_ void _MS__private __system __export _matrixKOProduct(ityp **, ityp **, ityp **, register dim_typ [static MAX_DIMENSIONS][MAX_DIMENSIONS]);
+__MSNATIVE_ void _MS__private __system __export _matrixKSProduct(ityp **, ityp **, ityp **, register dim_typ [static MAX_DIMENSIONS][MAX_DIMENSIONS]);
 
 /// lists_manager.c
 __MSNATIVE_ sel_typ __system __export checkItemTypeByExtension(const char [static MAX_EXTENSION_LENGTH]);
