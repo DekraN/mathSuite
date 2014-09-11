@@ -889,7 +889,6 @@ __MSSHELL_WRAPPER_ static void _MS__private greatestEigenValue(const register se
     {
     	PRINTL();
         printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, getDiffTime(&tvBegin));
-        PRINTL();
 	}
 
     printf2(COLOR_USER, "\nGreatest EIGEN Value is: ");
@@ -1065,7 +1064,6 @@ __MSSHELL_WRAPPER_ static void _MS__private funcIntegration(const register sel_t
     {
     	PRINTL();
         printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, getDiffTime(&tvBegin));
-        PRINTL();
 	}
 
     printf2(COLOR_USER, "%s(x) Function Integral Value calculated between: x0 = ", ext_math.funcnames[funcID]);
@@ -1170,7 +1168,6 @@ __MSSHELL_WRAPPER_ static void _MS__private straightLineFitting(const register s
     {
     	PRINTL();
         printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, getDiffTime(&tvBegin));
-        PRINTL();
 	}
 
     matrixFree(&xy);
@@ -1301,7 +1298,6 @@ __MSSHELL_WRAPPER_ static void _MS__private parabolicCurveFitting(const register
     {
     	PRINTL();
         printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, getDiffTime(&tvBegin));
-        PRINTL();
 	}
 
     matrixFree(&xy);
@@ -1407,7 +1403,6 @@ __MSSHELL_WRAPPER_ static void _MS__private linearSystemsSolver(const register s
     {
     	PRINTL();
         printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, getDiffTime(&tvBegin));
-        PRINTL();
 	}
 
     printf2(COLOR_USER, "Simultaneous Solutions of the given Linear System are:\n\n");

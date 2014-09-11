@@ -342,7 +342,6 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixSort(const register sel_typ ar
     {
     	PRINTL();
         printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, getDiffTime(&tvBegin));
-        PRINTL();
 	}
 
     printf2(COLOR_USER, "\nMatrix has been sort with Ascending Order:\n\n");
@@ -404,13 +403,13 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixNorm(const register sel_typ ar
 	
 	if(difftime)
 		gettimeofday(&tvBegin, NULL);
+		
     const register ityp nrm = tmp ? norm(matrix, dim[RAWS], tmp-1) : norms(matrix, dim[RAWS]);
     
     if(difftime)
     {
     	PRINTL();
         printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, getDiffTime(&tvBegin));
-        PRINTL();
 	}
 
     matrixFree(&matrix);
@@ -460,7 +459,6 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixDet(const register sel_typ arg
     {
     	PRINTL();
         printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, getDiffTime(&tvBegin));
-        PRINTL();
 	}
 
     matrixFree(&matrix);
@@ -508,7 +506,6 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixTrace(const register sel_typ a
     {
     	PRINTL();
         printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, getDiffTime(&tvBegin));
-        PRINTL();
 	}
 
     matrixFree(&matrix);
@@ -552,7 +549,6 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixRank(const register sel_typ ar
     {
     	PRINTL();
         printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, getDiffTime(&tvBegin));
-        PRINTL();
 	}
 
     matrixFree(&matrix);
@@ -613,7 +609,6 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixSVD(const register sel_typ arg
     {
     	PRINTL();
         printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, getDiffTime(&tvBegin));
-        PRINTL();
 	}
     
     matrixFree(&V);
@@ -686,7 +681,6 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixInv(const register sel_typ arg
     {
     	PRINTL();
         printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, getDiffTime(&tvBegin));
-        PRINTL();
 	}
 
     printf2(COLOR_SYSTEM, "\nINVERSE MATRIX of inserted Quad Matrix is:\n\n");
@@ -751,7 +745,6 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixTranspose(const register sel_t
     {
     	PRINTL();
         printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, getDiffTime(&tvBegin));
-        PRINTL();
 	}
     
     printMatrix(stdout, matrix2, (dim_typ2){dim[COLUMNS], dim[RAWS]});
@@ -1347,7 +1340,6 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixAdd(const register sel_typ arg
     	{
 	    	PRINTL();
 	        printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, getDiffTime(&tvBegin));
-	        PRINTL();
 		}
 
         CHECK_INVERSE_OPERATIONS();
@@ -2020,7 +2012,6 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixMultiplication(const register 
     	{
 	    	PRINTL();
 	        printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, getDiffTime(&tvBegin));
-	        PRINTL();
 		}
 		
     }
@@ -2482,7 +2473,6 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixKProduct(const register sel_ty
     	{
 	    	PRINTL();
 	        printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, getDiffTime(&tvBegin));
-	        PRINTL();
 		}
 		
     }
@@ -2714,7 +2704,6 @@ __MSSHELL_WRAPPER_ static void _MS__private perScalarMultiplication(const regist
 	{
     	PRINTL();
         printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, getDiffTime(&tvBegin));
-        PRINTL();
 	}
 
     CHECK_INVERSE_OPERATIONS();
@@ -2783,7 +2772,6 @@ __MSSHELL_WRAPPER_ static void _MS__private illConditionChecking(const register 
 	{
     	PRINTL();
         printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, getDiffTime(&tvBegin));
-        PRINTL();
 	}
 	
     printf2(COLOR_USER, "\nInserted Quad Matrix ILL CONDITION CHECKING is: ");
@@ -2847,7 +2835,6 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixFattLU(const register sel_typ 
 		{
 			PRINTL();
 		    printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, getDiffTime(&tvBegin));
-		    PRINTL();
 		}
         printf2(COLOR_USER, "\nInserted Matrix has been correctly LU-decomposed\ninto Triangular Matrices respectively: L as Lower and U as Upper:\n\n");
         printMatrix(stdout, L, dim);
