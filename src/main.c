@@ -163,6 +163,7 @@ const struct prog_constants suite_c =
     	"Show Average Time after Linear Algebra Operations",
         "Show Average Time after Programs Executions",
         "Show Date and Time in Textline",
+        "Print Rows Labels",
         "Domains Checks",
         "Matrices Chars Insert",
         "Matrices Automatic Inserting",
@@ -244,6 +245,10 @@ const struct prog_constants suite_c =
         {
             BITMASK_PRINTTIME,
             DEFAULT_PRINTTIME
+        },
+        {
+        	BITMASK_PRINTROWSLABELS,
+        	DEFAULT_PRINTROWSLABELS,
         },
         {
             BITMASK_DOMAINCHECK,
@@ -625,7 +630,7 @@ int main(int argc, char **argv)
 		node = xmlNewNode(NULL, BAD_CAST "matricesOptions");
 
 		sprintf(tmp_string, "%hu", MAX_RIGHE);
-		xmlNewChild(node, NULL, BAD_CAST "maxRaws", BAD_CAST tmp_string);
+		xmlNewChild(node, NULL, BAD_CAST "maxRows", BAD_CAST tmp_string);
 		sprintf(tmp_string,"%hu", MAX_COLONNE);
 		xmlNewChild(node, NULL, BAD_CAST "maxColumns", BAD_CAST tmp_string);
 		sprintf(tmp_string, "%hu", _BLOCK_SIZE);
@@ -692,10 +697,10 @@ int main(int argc, char **argv)
 
 		node = xmlNewNode(NULL, BAD_CAST "pascalsTriangle");
 
-		sprintf(tmp_string, "%hu", MIN_PASCALTRIANGLE_RAWS);
-		xmlNewChild(node, NULL, BAD_CAST "minRaws", BAD_CAST tmp_string);
-		sprintf(tmp_string, "%hu", MAX_PASCALTRIANGLE_RAWS);
-		xmlNewChild(node, NULL, BAD_CAST "maxRaws", BAD_CAST tmp_string);
+		sprintf(tmp_string, "%hu", MIN_PASCALTRIANGLE_ROWS);
+		xmlNewChild(node, NULL, BAD_CAST "minRows", BAD_CAST tmp_string);
+		sprintf(tmp_string, "%hu", MAX_PASCALTRIANGLE_ROWS);
+		xmlNewChild(node, NULL, BAD_CAST "maxRows", BAD_CAST tmp_string);
 
 		xmlAddChild(root_node, node);
 		xmlFreeNode(node);

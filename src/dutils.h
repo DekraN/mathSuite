@@ -174,17 +174,17 @@ extern "C" {
 #define INIT_DIM 0
 
 //
-#define INIT_CM_RAWS INIT_DIM
+#define INIT_CM_ROWS INIT_DIM
 #define INIT_CM_COLUMNS INIT_DIM
-#define INIT_LMP_RAWS INIT_DIM
+#define INIT_LMP_ROWS INIT_DIM
 #define INIT_LMP_COLUMNS INIT_DIM
 //
 
 
 #define STARTING_DIM INIT_DIM+1
-#define STARTING_CM_RAWS STARTING_DIM
+#define STARTING_CM_ROWS STARTING_DIM
 #define STARTING_CM_COLUMNS STARTING_DIM
-#define STARTING_LMP_RAWS STARTING_DIM
+#define STARTING_LMP_ROWS STARTING_DIM
 #define STARTING_LMP_COLUMNS STARTING_DIM
 // #define MAT_LASTONESTANDING STARTING_MATNO+1
 // #define LOGS_LASTONESTANDING STARTING_LOGNO+1
@@ -361,8 +361,8 @@ enum
 #define MIN_PROCESSABLE_ROMAN_NUMBER 1
 #define MAX_PROCESSABLE_ROMAN_NUMBER 3000
 
-#define MIN_PASCALTRIANGLE_RAWS 1
-#define MAX_PASCALTRIANGLE_RAWS 50
+#define MIN_PASCALTRIANGLE_ROWS 1
+#define MAX_PASCALTRIANGLE_ROWS 50
 
 #define EXIT_MESSAGE DEFAULT_EXIT_MESSAGE
 
@@ -903,6 +903,7 @@ enum
     BOOLS_SHOWDIFFTIMEALGOPS,
     BOOLS_SHOWEXECTIME,
     BOOLS_PRINTTIME,
+    BOOLS_PRINTROWSLABELS,
     BOOLS_DOMAINCHECK,
     BOOLS_CHARINSERT,
     BOOLS_INSERTMODE,
@@ -932,16 +933,17 @@ enum
 #define BITMASK_SHOWDIFFTIMEALGOPS 16384
 #define BITMASK_SHOWEXECTIME 32768
 #define BITMASK_PRINTTIME 65536
-#define BITMASK_DOMAINCHECK 131072
-#define BITMASK_CHARINSERT 262144
-#define BITMASK_INSERTMODE 524288
-#define BITMASK_LAZYEXECUTION 1048576
-#define BITMASK_INVERSEOPERATIONS 2097152
-#define BITMASK_AUTOTURNBACK 4194304
-#define BITMASK_DEGREESENTERING 8388608
-#define BITMASK_PROGREPEATCHECK 16777216
-#define BITMASK_STRASSENOPTIMIZATION 33554432
-#define BITMASK_EXTENSIVEMULTITHREADING 67108864
+#define BITMASK_PRINTROWSLABELS 131072
+#define BITMASK_DOMAINCHECK 262144
+#define BITMASK_CHARINSERT 524288
+#define BITMASK_INSERTMODE 1048576
+#define BITMASK_LAZYEXECUTION 2097152
+#define BITMASK_INVERSEOPERATIONS 4194304
+#define BITMASK_AUTOTURNBACK 8388608
+#define BITMASK_DEGREESENTERING 16777216
+#define BITMASK_PROGREPEATCHECK 33554432
+#define BITMASK_STRASSENOPTIMIZATION 67108864
+#define BITMASK_EXTENSIVEMULTITHREADING 134217728
 
 #define LAST_BOOL_SETTING BOOLS_EXTENSIVEMULTITHREADING
 #define MAX_BOOL_SETTINGS LAST_BOOL_SETTING+1
@@ -1647,7 +1649,7 @@ di valori in virgola mobile, altrimenti di interi.
 
 enum
 {
-    RAWS = 0,
+    ROWS = 0,
     COLUMNS,
     COLUMNS2
 };
@@ -1701,7 +1703,7 @@ enum
 #define LEFT_OPR 0
 #define RIGHT_OPR 1
 
-#define MAX_RIGHE_PER_COLONNE (int)(floor(sqrt(access(curLayout)->matrix_max_raws*access(curLayout)->matrix_max_columns))) // DIMENSIONE MASSIMA MATRICI QUADRATE nXn
+#define MAX_RIGHE_PER_COLONNE (int)(floor(sqrt(access(curLayout)->matrix_max_rows*access(curLayout)->matrix_max_columns))) // DIMENSIONE MASSIMA MATRICI QUADRATE nXn
 
 #define MAX_DIMENSIONS 2
 #define MAX_ABSTRACT_DIMENSIONS 3
@@ -1715,18 +1717,18 @@ enum
 
 // used for CURVEs FITTING or INTERPOLATIONS SubPrograms...
 //
-#define XRAW 0
-#define YRAW 1
+#define XROW 0
+#define YROW 1
 //
 
-#define FIRST_NUMBER XRAW
-#define SECOND_NUMBER YRAW
+#define FIRST_NUMBER XROW
+#define SECOND_NUMBER YROW
 
-#define FIRST_VECTOR XRAW
-#define SECOND_VECTOR YRAW
+#define FIRST_VECTOR XROW
+#define SECOND_VECTOR YROW
 
-#define FIRST_QUARTILE XRAW
-#define THIRD_QUARTILE YRAW
+#define FIRST_QUARTILE XROW
+#define THIRD_QUARTILE YROW
 
 #define FIRST_QUARTILE_CONSTANT 0.25
 #define SECOND_QUARTILE_CONSTANT 0.50
@@ -1734,8 +1736,8 @@ enum
 
 // COMPLEX Numbers MACROS...
 //
-#define REAL_PART XRAW
-#define IMAG_PART YRAW
+#define REAL_PART XROW
+#define IMAG_PART YROW
 //
 #define MAX_COMPLEX_UNITS MAX_DIMENSIONS
 
@@ -1906,7 +1908,7 @@ typedef struct
     fsel_typ stabilizer_factor: DIM_BITFIELD;
     fsel_typ algebra: DIM_BITFIELD;
     float outlier_constant;
-    dim_typ matrix_max_raws;
+    dim_typ matrix_max_rows;
     dim_typ matrix_max_columns;
     dim_typ block_size;
     dim_typ min_osmm_dim;
@@ -1922,8 +1924,8 @@ typedef struct
     dim_typ max_newton_difftables_dim: DIM_BITFIELD;
     dim_typ min_roman_number: DIM_BITFIELD;
     dim_typ max_roman_number;
-    dim_typ pascal_triangle_min_raws: DIM_BITFIELD;
-    dim_typ pascal_triangle_max_raws: DIM_BITFIELD;
+    dim_typ pascal_triangle_min_rows: DIM_BITFIELD;
+    dim_typ pascal_triangle_max_rows: DIM_BITFIELD;
     unsigned bools: BITMASK_BITFIELD;
 } layoutObj;
 

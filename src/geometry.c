@@ -390,12 +390,12 @@ __MSSHELL_WRAPPER_ __MSNATIVE_ bool randomMatrix(ityp *restrict matrix, const re
     dim_typ i, j;
 
 	#pragma omp parallel for
-    for(i=0; i<dim[RAWS]; ++i)
+    for(i=0; i<dim[ROWS]; ++i)
     	#pragma omp parallel for
         for(j=0; j<dim[COLUMNS]; ++j)
             *(matrix + dim[COLUMNS]*i + j) = random(range);
 
-    printf2(COLOR_SYSTEM, "\n\n[%hu X %hu] Randomized Matrix with Range: %hu is:\n", dim[RAWS], dim[COLUMNS], range);
+    printf2(COLOR_SYSTEM, "\n\n[%hu X %hu] Randomized Matrix with Range: %hu is:\n", dim[ROWS], dim[COLUMNS], range);
     PRINTL();
 
     printMatrix(stdout, matrix, dim);
@@ -410,8 +410,8 @@ __MSNATIVE_ void transpose(ityp *restrict matrix, ityp *restrict matrix2, const 
     #pragma omp parallel for
     for(i=0; i<dim[COLUMNS]; ++i)
     	#pragma omp parallel for
-        for(j=0; j<dim[RAWS]; ++j)
-        	*(matrix2 + dim[RAWS]*i + j) = *(matrix + dim[COLUMNS]*j + i);
+        for(j=0; j<dim[ROWS]; ++j)
+        	*(matrix2 + dim[ROWS]*i + j) = *(matrix + dim[COLUMNS]*j + i);
 
     return;
 }
@@ -512,7 +512,7 @@ __MSUTIL_ bool __export dsvd(ityp *restrict a, const register dim_typ dim[static
     // by transposing the matrix into n,m matrix
     // causes its correctly dsvd decomposition...
 
-    const register dim_typ m = dim[RAWS], n = dim[COLUMNS];
+    const register dim_typ m = dim[ROWS], n = dim[COLUMNS];
 
     if(m < n)
     {
@@ -799,7 +799,7 @@ __MSNATIVE_ dim_typ __export rank(ityp *restrict matrix, const register dim_typ 
     ityp * S = NULL;
     ityp * V = NULL;
 
-    const register ityp maxv = dim[dim[RAWS] >= dim[COLUMNS]];
+    const register ityp maxv = dim[dim[ROWS] >= dim[COLUMNS]];
 
     S = malloc(sizeof(ityp)*maxv);
     errMem(S, USHRT_MAX);
@@ -1018,15 +1018,20 @@ __MSNATIVE_ _MS__private void __system printMatrix(FILE *fp, ityp *matrix, const
 
     dim_typ  i, j;
 
-    for(i=0; i<dim[RAWS]; ++i)
+    for(i=0; i<dim[ROWS]; ++i)
+	{
+    	if(fp == stdout && isSett(BOOLS_PRINTROWSLABELS))
+        	fprintf2(fp, "R%hu: ", i+1);
         for(j=0; j<dim[COLUMNS]; ++j)
         {   // remember to put comma and whitespace
             // in order to right-format matrix file-parsing system
             fprintf2(fp, OUTPUT_CONVERSION_FORMAT, *(matrix + dim[COLUMNS]*i + j));
             fprintf2(fp, "; ");
             if(j >= dim[COLUMNS]-1)
-               fputc('\n', fp);
+            	fputc('\n', fp);
+               
         }
+	}
 
     if(assert)
     {
@@ -1041,7 +1046,7 @@ __MSNATIVE_ _MS__private void __system printMatrix(FILE *fp, ityp *matrix, const
 
         if(access(lmpMatrix)->matrix && equalMatrix(&(access(lmpMatrix)->matrix), matrix, dim))
         {
-            access(lmpMatrix)->dim[RAWS] = dim[RAWS];
+            access(lmpMatrix)->dim[ROWS] = dim[ROWS];
             access(lmpMatrix)->dim[COLUMNS] = dim[COLUMNS];
         }
     }
@@ -1099,8 +1104,7 @@ __MSNATIVE_ bool __system __export extractMat(dim_typ which_mat)
 {
 
     FILE *fp;
-    time_t t1;
-    ityp diff = 0.00;
+    struct timeval tvBegin;
     char str[MINMAX_BUFFER_LEN] = NULL_CHAR;
 
     // char *ij_element = NULL;
@@ -1114,26 +1118,26 @@ __MSNATIVE_ bool __system __export extractMat(dim_typ which_mat)
 
     fp = NULL;
 
-    t1 = time(NULL);
+    gettimeofday(&tvBegin, NULL);
     if((fp = checkForFHErrors(listNo(which_mat, MATRICES)->path, "r")) == NULL)
         return false;
 
     fflush(fp);
 
 
-	dim_typ analog_raws, analog_columns = 1;
+	dim_typ analog_rows, analog_columns = 1;
     char *ij_element = NULL;
 
 
-    for(tmp->dim[RAWS]=tmp->dim[COLUMNS]=INIT_DIM; fgets(str, sizeof(str), fp) != NULL; ++ tmp->dim[RAWS])  // fscanf(fp, "%[^\n]s", str)) // fgets(str, sizeof(str), fp) != NULL)
+    for(tmp->dim[ROWS]=tmp->dim[COLUMNS]=INIT_DIM; fgets(str, sizeof(str), fp) != NULL; ++ tmp->dim[ROWS])  // fscanf(fp, "%[^\n]s", str)) // fgets(str, sizeof(str), fp) != NULL)
     {
-        if(!(tmp->dim[RAWS]) && !matrixAlloc(&(tmp->matrix), (dim_typ2){1, 1}))
+        if(!(tmp->dim[ROWS]) && !matrixAlloc(&(tmp->matrix), (dim_typ2){1, 1}))
             return false;
         else
         {
-            analog_raws = (tmp->dim[RAWS])+1;
+            analog_rows = (tmp->dim[ROWS])+1;
 
-            tmp->matrix = realloc(tmp->matrix, sizeof(ityp)*analog_raws*analog_columns);
+            tmp->matrix = realloc(tmp->matrix, sizeof(ityp)*analog_rows*analog_columns);
             errMem(tmp->matrix, false);
         }
 
@@ -1146,29 +1150,28 @@ __MSNATIVE_ bool __system __export extractMat(dim_typ which_mat)
                 break;
             }
 
-            if(!(tmp->dim[RAWS]))
+            if(!(tmp->dim[ROWS]))
         	{
-                tmp->matrix = realloc(tmp->matrix, sizeof(ityp)*analog_raws*analog_columns);
+                tmp->matrix = realloc(tmp->matrix, sizeof(ityp)*analog_rows*analog_columns);
                 errMem(tmp->matrix, false);
         	}
 
-            if(isSett(BOOLS_MATRIXPARSING) && !parse(ij_element, (tmp->matrix) + tmp->dim[COLUMNS]*tmp->dim[RAWS] + i))
+            if(isSett(BOOLS_MATRIXPARSING) && !parse(ij_element, (tmp->matrix) + tmp->dim[COLUMNS]*tmp->dim[ROWS] + i))
                 continue;
             else
-                *((tmp->matrix) + tmp->dim[COLUMNS]*tmp->dim[RAWS] + i) = strtod(ij_element, NULL);
+                *((tmp->matrix) + tmp->dim[COLUMNS]*tmp->dim[ROWS] + i) = strtod(ij_element, NULL);
 
-            if(!(tmp->dim[RAWS]))
+            if(!(tmp->dim[ROWS]))
                analog_columns = ++(tmp->dim[COLUMNS]) +1;
         }
     }
 
     fclose(fp);
-    diff = difftime(time(NULL), t1);
 
     if(isSett(BOOLS_SHOWDIFFTIME))
     {
         PRINTL();
-        printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", DEFAULT_PRECISION, (EXPRTYPE)diff);
+        printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, getDiffTime(&tvBegin));
         PRINTL();
     }
 
@@ -1191,7 +1194,7 @@ __MSNATIVE_ bool __system __export matrixToken(const char string[], ityp **matri
 
     /// char str2[MAX_BUFSIZ];
     dim_typ i;
-	dim_typ analog_raws, analog_columns = 1;
+	dim_typ analog_rows, analog_columns = 1;
 	
     line = token = NULL;
 
@@ -1205,9 +1208,9 @@ __MSNATIVE_ bool __system __export matrixToken(const char string[], ityp **matri
         else
         {
 
-            analog_raws = ((*righe))+1;
+            analog_rows = ((*righe))+1;
 
-            (*matrix) = realloc((*matrix), sizeof(ityp)*analog_raws*analog_columns);
+            (*matrix) = realloc((*matrix), sizeof(ityp)*analog_rows*analog_columns);
             errMem((*matrix), false);
         }
 
@@ -1216,7 +1219,7 @@ __MSNATIVE_ bool __system __export matrixToken(const char string[], ityp **matri
 
             if(!((*righe)))
             {
-                (*matrix) = realloc((*matrix), sizeof(ityp)*analog_raws*analog_columns);
+                (*matrix) = realloc((*matrix), sizeof(ityp)*analog_rows*analog_columns);
                 errMem((*matrix), false);
             }
 
@@ -1586,7 +1589,7 @@ __MSUTIL_ static inline void ftoa(char *string, const float value, const fsel_ty
 		xmlWriteInt(&xpathObj, xpathCtx, "/settings/generalSettings/algebra", cur_layout->algebra);
 		xmlWriteFloat(&xpathObj, xpathCtx, "/settings/generalSettings/outlierConstant", cur_layout->outlier_constant);
 	
-		xmlWriteInt(&xpathObj, xpathCtx, "/settings/matricesOptions/maxRaws", cur_layout->matrix_max_raws);
+		xmlWriteInt(&xpathObj, xpathCtx, "/settings/matricesOptions/maxRows", cur_layout->matrix_max_rows);
 		xmlWriteInt(&xpathObj, xpathCtx, "/settings/matricesOptions/maxColumns", cur_layout->matrix_max_columns);
 		xmlWriteInt(&xpathObj, xpathCtx, "/settings/matricesOptions/blockSize", cur_layout->block_size);
 		xmlWriteInt(&xpathObj, xpathCtx, "/settings/matricesOptions/minOSMMDim", cur_layout->min_osmm_dim);
@@ -1616,8 +1619,8 @@ __MSUTIL_ static inline void ftoa(char *string, const float value, const fsel_ty
 	    xmlWriteInt(&xpathObj, xpathCtx, "/settings/romanNumbers/minProcessableNumber", cur_layout->min_roman_number);
 	    xmlWriteInt(&xpathObj, xpathCtx, "/settings/romanNumbers/maxProcessableNumber", cur_layout->max_roman_number);
 	    
-	    xmlWriteInt(&xpathObj, xpathCtx, "/settings/pascalsTriangle/minRaws", cur_layout->pascal_triangle_min_raws);
-	    xmlWriteInt(&xpathObj, xpathCtx, "/settings/pascalsTriangle/maxRaws", cur_layout->pascal_triangle_max_raws);
+	    xmlWriteInt(&xpathObj, xpathCtx, "/settings/pascalsTriangle/minRows", cur_layout->pascal_triangle_min_rows);
+	    xmlWriteInt(&xpathObj, xpathCtx, "/settings/pascalsTriangle/maxRows", cur_layout->pascal_triangle_max_rows);
 	    
 	    /// write some stuffs...
 	
@@ -1651,7 +1654,7 @@ __MSUTIL_ static inline void ftoa(char *string, const float value, const fsel_ty
 		tmp->algebra = xmlGetInt(&xpathObj, xpathCtx, "/settings/generalSettings/algebra");
 		tmp->outlier_constant = xmlGetFloat(&xpathObj, xpathCtx, "/settings/generalSettings/outlierConstant");
 			
-		tmp->matrix_max_raws = xmlGetInt(&xpathObj, xpathCtx, "/settings/matricesOptions/maxRaws");
+		tmp->matrix_max_rows = xmlGetInt(&xpathObj, xpathCtx, "/settings/matricesOptions/maxRows");
 		tmp->matrix_max_columns = xmlGetInt(&xpathObj, xpathCtx, "/settings/matricesOptions/maxColumns");
 		tmp->block_size = xmlGetInt(&xpathObj, xpathCtx, "/settings/matricesOptions/blockSize");
 		tmp->min_osmm_dim = xmlGetInt(&xpathObj, xpathCtx, "/settings/matricesOptions/minOSMMDim");
@@ -1682,8 +1685,8 @@ __MSUTIL_ static inline void ftoa(char *string, const float value, const fsel_ty
 		tmp->min_roman_number = xmlGetInt(&xpathObj, xpathCtx, "/settings/romanNumbers/minProcessableNumber");
 		tmp->max_roman_number = xmlGetInt(&xpathObj, xpathCtx, "/settings/romanNumbers/maxProcessableNumber");
 		
-		tmp->pascal_triangle_min_raws = xmlGetInt(&xpathObj, xpathCtx, "/settings/pascalsTriangle/minRaws");
-		tmp->pascal_triangle_max_raws = xmlGetInt(&xpathObj, xpathCtx, "/settings/pascalsTriangle/maxRaws");
+		tmp->pascal_triangle_min_rows = xmlGetInt(&xpathObj, xpathCtx, "/settings/pascalsTriangle/minRows");
+		tmp->pascal_triangle_max_rows = xmlGetInt(&xpathObj, xpathCtx, "/settings/pascalsTriangle/maxRows");
 		
 	    volatile bool tmp_bool = false;
 		
@@ -1891,6 +1894,20 @@ __MSNATIVE_ ityp __export MINMAX(const register dim_typ dim, const ityp vector[s
     return tmp;
 }
 
+__MSNATIVE_ __MSUTIL_ ityp __system __export getDiffTime(struct timeval * t1)
+{
+	struct timeval result, t2;
+	gettimeofday(&t2, NULL);
+	long int diff = 
+	(t2.tv_usec + 1000000 * t2.tv_sec) - 
+	(t1->tv_usec + 1000000 * t1->tv_sec);
+	result.tv_sec = diff / 1000000;
+	result.tv_usec = diff % 1000000;
+	char str[MINMIN_STRING];
+	sprintf(str, "%ld.%06ld\n", (long int) result.tv_sec, (long int) result.tv_usec);
+	return atof(str);
+}
+
 __MSNATIVE_ inline bool __system __export isDomainForbidden(ityp val, bool mode)
 {
     if(TYPE_DOMAIN(val))
@@ -1939,7 +1956,7 @@ __MSNATIVE_ bool __system __export matrixAlloc(ityp **matrix, const register dim
     if(!(*matrix))
         (*matrix) = NULL;
 
-    (*matrix) = calloc(dim[RAWS]*dim[COLUMNS], sizeof(ityp));
+    (*matrix) = calloc(dim[ROWS]*dim[COLUMNS], sizeof(ityp));
     errMem((*matrix), false);
 
     return true;
@@ -1959,13 +1976,13 @@ __MSNATIVE_ void __system __export _matrixFree(ityp **matrix, bool mode)
 
 __MSNATIVE_ bool __system __export equalMatrix(ityp **matrix1, ityp *matrix2, const register dim_typ dim[static MAX_DIMENSIONS])  
 {
-    (*matrix1) = realloc((*matrix1), sizeof(ityp)*dim[RAWS]*dim[COLUMNS]);
+    (*matrix1) = realloc((*matrix1), sizeof(ityp)*dim[ROWS]*dim[COLUMNS]);
     errMem((*matrix1), false);
 
     dim_typ i, j;
 
     // Phisically equalling matrix1 values to matrix2 ones
-    for(i=0; i<dim[RAWS]; ++i)
+    for(i=0; i<dim[ROWS]; ++i)
         for(j=0; j<dim[COLUMNS]; ++j)
             *((*matrix1) + dim[COLUMNS]*i + j) = *(matrix2 + dim[COLUMNS]*i + j);
 
@@ -1975,7 +1992,7 @@ __MSNATIVE_ bool __system __export equalMatrix(ityp **matrix1, ityp *matrix2, co
 __MSNATIVE_ _MS__private inline void __system resetLmpMatrix(void)
 {
 	access(lmpMatrix)->matrix = NULL;
-    access(lmpMatrix)->dim[RAWS] = STARTING_LMP_RAWS;
+    access(lmpMatrix)->dim[ROWS] = STARTING_LMP_ROWS;
     access(lmpMatrix)->dim[COLUMNS] = STARTING_LMP_COLUMNS;
     return;
 }
@@ -2061,7 +2078,7 @@ __MSNATIVE_ void __system viewProgramSettings(dim_typ which_layout)
     sprint("- ALGEBRA: %s;\n", suite_c.algebra_elements_names[cur_layout->algebra]);
     sprint("- Outlier Constant: %.*f;\n", DEFAULT_PRECISION, cur_layout->outlier_constant);
 
-    sprint("- Matrices MAX RAWS: %hu;\n", cur_layout->matrix_max_raws);
+    sprint("- Matrices MAX ROWS: %hu;\n", cur_layout->matrix_max_rows);
     sprint("- Matrices MAX COLUMNS: %hu;\n", cur_layout->matrix_max_columns);
     sprint("- Matrices BLOCK SIZE: %hu;\n", cur_layout->block_size);
     sprint("- Matrices Min OSMM Dimension: %hu;\n", cur_layout->min_osmm_dim);
@@ -2088,8 +2105,8 @@ __MSNATIVE_ void __system viewProgramSettings(dim_typ which_layout)
     sprint("- MIN Processable ROMAN NUMBER: %hu;\n", cur_layout->min_roman_number);
     sprint("- MAX Processable ROMAN  NUMBER: %hu;\n", cur_layout->max_roman_number);
 
-    sprint("- Pascal's Triangle MIN RAWS: %hu;\n", cur_layout->pascal_triangle_min_raws);
-    sprint("- Pascal's Triangle MAX RAWS: %hu.\n", cur_layout->pascal_triangle_max_raws);
+    sprint("- Pascal's Triangle MIN ROWS: %hu;\n", cur_layout->pascal_triangle_min_rows);
+    sprint("- Pascal's Triangle MAX ROWS: %hu.\n", cur_layout->pascal_triangle_max_rows);
 
     printf2(COLOR_USER, "\n*** Boolean Settings ***\n\n");
 
@@ -2207,8 +2224,7 @@ __MSNATIVE_ ityp __system __export requires(const char *cmd_string, const char *
     exprObj *e = INIT_OBJLIST;
     int err;
     ityp val;
-    ityp diff;
-    time_t t1;
+	struct timeval tvBegin;
     jmp_buf jumper;
     int start, end;
 
@@ -2284,8 +2300,8 @@ __MSNATIVE_ ityp __system __export requires(const char *cmd_string, const char *
     const bool assert = (isSett(BOOLS_SHOWDIFFTIME) && (options & PARSER_SHOWDIFFTIME) == PARSER_SHOWDIFFTIME);
 
     if(assert)
-        t1 = time(NULL);
-
+    	gettimeofday(&tvBegin, NULL);
+    	
     err = exprEval(e, &val);
 
     if(err != EXPR_ERROR_NOERROR)
@@ -2305,8 +2321,7 @@ __MSNATIVE_ ityp __system __export requires(const char *cmd_string, const char *
     if(assert)
     {
         PRINTL();
-        diff = difftime(time(NULL), t1);
-        printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", DEFAULT_PRECISION, (EXPRTYPE)diff);
+        printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, getDiffTime(&tvBegin));
         PRINTL();
     }
 
@@ -2351,8 +2366,8 @@ __MSNATIVE_ bool __system insertDims(dim_typ *righe, dim_typ *colonne)
         (*colonne)
     };
 
-    printf2(COLOR_CREDITS, "\nEnter RAWS and COLUMNS as expected:\n\
-[RAWS%sCOLUMNS].\n", PARSING_SYSTEM_ALLOWED ? "]\n[" : " ");
+    printf2(COLOR_CREDITS, "\nEnter ROWS and COLUMNS as expected:\n\
+[ROWS%sCOLUMNS].\n", PARSING_SYSTEM_ALLOWED ? "]\n[" : " ");
 
     if(PARSING_SYSTEM_ALLOWED)
         PRINTHOWTOBACKMESSAGE();
@@ -2364,20 +2379,20 @@ __MSNATIVE_ bool __system insertDims(dim_typ *righe, dim_typ *colonne)
 
     // uint64_t tmp3[MAX_DIMENSIONS];
 
-    while(PARSING_SYSTEM_ALLOWED ? (isNullVal((tmp = requires(NULL, NULL_CHAR, "Inserted RAWS", PARSER_SHOWRESULT))) || tmp != ((*righe) = (dim_typ)tmp) || (*righe) < 1 || (*righe) > access(curLayout)->matrix_max_raws) ||
+    while(PARSING_SYSTEM_ALLOWED ? (isNullVal((tmp = requires(NULL, NULL_CHAR, "Inserted ROWS", PARSER_SHOWRESULT))) || tmp != ((*righe) = (dim_typ)tmp) || (*righe) < 1 || (*righe) > access(curLayout)->matrix_max_rows) ||
         (isNullVal((tmp = requires(NULL, NULL_CHAR, "Inserted COLUMNS", PARSER_SHOWRESULT))) || tmp != ((*colonne) = (dim_typ)tmp) || (*colonne) < 1 || (*colonne) > access(curLayout)->matrix_max_columns) :
-        (!scanf2(2, "%lf %lf", &tmp, &tmp2)) || tmp != ((*righe) = (dim_typ)tmp) || tmp2 != ((*colonne) = (dim_typ)tmp2) || (*righe) < 1 || (*colonne) < 1 || (*righe) > access(curLayout)->matrix_max_raws || (*colonne) > access(curLayout)->matrix_max_columns)
+        (!scanf2(2, "%lf %lf", &tmp, &tmp2)) || tmp != ((*righe) = (dim_typ)tmp) || tmp2 != ((*colonne) = (dim_typ)tmp2) || (*righe) < 1 || (*colonne) < 1 || (*righe) > access(curLayout)->matrix_max_rows || (*colonne) > access(curLayout)->matrix_max_columns)
     {
         CLEARBUFFER();
         if(access(exitHandle) == EXITHANDLE_GETCMD) continue;
-        if(exitHandleCheck) // if(tmp3[RAWS] == NULL_VAL || tmp3[COLUMNS] == NULL_VAL)
+        if(exitHandleCheck) // if(tmp3[ROWS] == NULL_VAL || tmp3[COLUMNS] == NULL_VAL)
         {
-            (*righe) = old_dims[RAWS];
+            (*righe) = old_dims[ROWS];
             (*colonne) = old_dims[COLUMNS];
             return false;
         }
-        printErr(33, "Invalid [RAWS COLUMNS] format.\nYou have to insert non-negative RAWS and COLUMNS,\n\
-and must be respectively less than: %hu and %hu", access(curLayout)->matrix_max_raws, access(curLayout)->matrix_max_columns);
+        printErr(33, "Invalid [ROWS COLUMNS] format.\nYou have to insert non-negative ROWS and COLUMNS,\n\
+and must be respectively less than: %hu and %hu", access(curLayout)->matrix_max_rows, access(curLayout)->matrix_max_columns);
     }
     return true;
 }
@@ -2396,8 +2411,8 @@ __MSNATIVE_ bool __system insertDim(dim_typ *dim, bool mode)
     }
     else
     {
-        max_dim = mode ? access(curLayout)->matrix_max_columns : access(curLayout)->matrix_max_raws;
-        printf2(COLOR_CREDITS, "Enter Matrix %s.", mode ? "COLUMNS":"RAWS");
+        max_dim = mode ? access(curLayout)->matrix_max_columns : access(curLayout)->matrix_max_rows;
+        printf2(COLOR_CREDITS, "Enter Matrix %s.", mode ? "COLUMNS":"ROWS");
     }
 
     if(PARSING_SYSTEM_ALLOWED)
@@ -2442,9 +2457,9 @@ __MSNATIVE_ void __system sigproc(void)
         if(isSett(BOOLS_ITEMSAUTOSAVING) && !saveItem(access(lists)[MATRICES].cur_item, MATRICES))
             return;
         access(curMatrix)->matrix = access(lmpMatrix)->matrix;
-        access(curMatrix)->dim[RAWS] = access(lmpMatrix)->dim[RAWS];
+        access(curMatrix)->dim[ROWS] = access(lmpMatrix)->dim[ROWS];
         access(curMatrix)->dim[COLUMNS] = access(lmpMatrix)->dim[COLUMNS];
-        // equalMatrix(&suite.current_matrix, suite.last_matrix_printed, suite.lmp_raws, suite.lmp_columns);
+        // equalMatrix(&suite.current_matrix, suite.last_matrix_printed, suite.lmp_rows, suite.lmp_columns);
         sprint("\nCurrent Matrix has been equalled\nto Last Matrix Printed.\n\n");
     }
     return;
@@ -2504,13 +2519,13 @@ __MSNATIVE_ bool __system insertNMMatrix(ityp **matrix, const register dim_typ d
     // we must seek for backtracking...
     // BY Inserting somewhere a 'return false' statement.
     // (FINAL BACKTRACKING RESPONSE)
-    for(i=start_col_index=0; tmp != -1 && i<dim[RAWS]; ++i)
+    for(i=start_col_index=0; tmp != -1 && i<dim[ROWS]; ++i)
         for(j=start_col_index; tmp != -1 && j<dim[COLUMNS]; ++j)
         {
             while((tmp = insertElement((*matrix), (dim_typ2){i, j}, dim[COLUMNS], false)) != 1 && tmp != -2 && !(char_insert))
                 if(getItemsListNo(MATRICES) != STARTING_MATNO && tmp == -1)
-                    if(access(curMatrix)->dim[RAWS] != dim[RAWS] || access(curMatrix)->dim[COLUMNS] != dim[COLUMNS])
-                        printErr(1, "You cannot use Current Matrix because\nit doesn't have %hu Raws and %hu Columns", dim[RAWS], dim[COLUMNS]);
+                    if(access(curMatrix)->dim[ROWS] != dim[ROWS] || access(curMatrix)->dim[COLUMNS] != dim[COLUMNS])
+                        printErr(1, "You cannot use Current Matrix because\nit doesn't have %hu Rows and %hu Columns", dim[ROWS], dim[COLUMNS]);
                     else
                     {
                         if(!equalMatrix(matrix, access(curMatrix)->matrix, access(curMatrix)->dim))
@@ -2564,15 +2579,15 @@ __MSNATIVE_ bool __system insertNMMatrix(ityp **matrix, const register dim_typ d
 __MSNATIVE_ volatile char __system insertElement(ityp *restrict matrix, const register dim_typ dim[static MAX_DIMENSIONS], const register dim_typ columns, bool square)
 {
 
-    if(square && (dim[RAWS] == MAX_RIGHE_PER_COLONNE || dim[COLUMNS] == MAX_RIGHE_PER_COLONNE))
+    if(square && (dim[ROWS] == MAX_RIGHE_PER_COLONNE || dim[COLUMNS] == MAX_RIGHE_PER_COLONNE))
     {
-        printErr(33, "MAX RAWS per COLUMNS Reached");
+        printErr(33, "MAX ROWS per COLUMNS Reached");
         return 0;
     }
 
-    if(dim[RAWS] == access(curLayout)->matrix_max_raws)
+    if(dim[ROWS] == access(curLayout)->matrix_max_rows)
     {
-        printErr(33, "MAX RAWS Reached");
+        printErr(33, "MAX ROWS Reached");
         return 0;
     }
 
@@ -2583,7 +2598,7 @@ __MSNATIVE_ volatile char __system insertElement(ityp *restrict matrix, const re
     }
 
     // PRINTN();
-    printf2(COLOR_CREDITS, "\nEnter [%hu,%hu] Matrix Element.\n", dim[RAWS]+1, dim[COLUMNS]+1);
+    printf2(COLOR_CREDITS, "\nEnter [%hu,%hu] Matrix Element.\n", dim[ROWS]+1, dim[COLUMNS]+1);
 
     sel_typ tmp;
     tmp = 1;
@@ -2595,7 +2610,7 @@ __MSNATIVE_ volatile char __system insertElement(ityp *restrict matrix, const re
 
         char str[MIN_STRING];
 
-        sprintf(str, "[%hu,%hu] Matrix Element correctly inserted", dim[RAWS]+1, dim[COLUMNS]+1);
+        sprintf(str, "[%hu,%hu] Matrix Element correctly inserted", dim[ROWS]+1, dim[COLUMNS]+1);
 
 
         // tmp = scanf(INPUT_CONVERSION_FORMAT, &matrix[riga][colonna]);
@@ -2605,8 +2620,8 @@ __MSNATIVE_ volatile char __system insertElement(ityp *restrict matrix, const re
         // FARE ATTENZIONE PER IL GETSET SYSTEM CARATTERIZZATO DAI VALORI DI RITORNO NULL_VALN della funzione requires(NULL, ...)
 
 
-        tmp = PARSING_SYSTEM_ALLOWED ? (!((*(matrix + columns*dim[RAWS] + dim[COLUMNS]) = requires(NULL, NULL_CHAR, str, PARSER_SHOWRESULT)) == NULL_VAL)) :
-                scanf2(1, INPUT_CONVERSION_FORMAT, matrix + columns*dim[RAWS] + dim[COLUMNS]);// , printf("%s: ", str), printf(OUTPUT_CONVERSION_FORMAT, matrix[riga][colonna]), printf(".\n\n");
+        tmp = PARSING_SYSTEM_ALLOWED ? (!((*(matrix + columns*dim[ROWS] + dim[COLUMNS]) = requires(NULL, NULL_CHAR, str, PARSER_SHOWRESULT)) == NULL_VAL)) :
+                scanf2(1, INPUT_CONVERSION_FORMAT, matrix + columns*dim[ROWS] + dim[COLUMNS]);// , printf("%s: ", str), printf(OUTPUT_CONVERSION_FORMAT, matrix[riga][colonna]), printf(".\n\n");
 
 
 
@@ -2619,7 +2634,7 @@ __MSNATIVE_ volatile char __system insertElement(ityp *restrict matrix, const re
         if(access(exitHandle) == EXITHANDLE_BACKCMD)
             return -2;
 
-        if(access(exitHandle) == EXITHANDLE_EXIT && (!dim[RAWS]) && (!dim[COLUMNS]))
+        if(access(exitHandle) == EXITHANDLE_EXIT && (!dim[ROWS]) && (!dim[COLUMNS]))
             return -3;
 
         // tmp = PARSING_SYSTEM_ALLOWED ? (!(isNullVal((matrix[riga][colonna] = requires(NULL, NULL_CHAR, str, true, false, false, true, false))))) :
@@ -2628,16 +2643,16 @@ __MSNATIVE_ volatile char __system insertElement(ityp *restrict matrix, const re
         if(isnSett(BOOLS_MATRIXPARSING))
         {
             printf2(COLOR_USER, "%s: ", str);
-            printf2(COLOR_USER, OUTPUT_CONVERSION_FORMAT, *(matrix + columns*dim[RAWS] + dim[COLUMNS]));
+            printf2(COLOR_USER, OUTPUT_CONVERSION_FORMAT, *(matrix + columns*dim[ROWS] + dim[COLUMNS]));
             printf2(COLOR_USER, ".\n\n");
         }
 
-        if(!(*(matrix + columns*dim[RAWS] + dim[COLUMNS])) && dcheck && INVERSE_OPS && ((__pmode__ >= ALGOPS_MATRIXMULTIPLICATION && __pmode__ <= ALGOPS_DOTPRODUCT )|| __pmode__ == ALGOPS_SCALARDIVISIONMATRIX))
+        if(!(*(matrix + columns*dim[ROWS] + dim[COLUMNS])) && dcheck && INVERSE_OPS && ((__pmode__ >= ALGOPS_MATRIXMULTIPLICATION && __pmode__ <= ALGOPS_DOTPRODUCT )|| __pmode__ == ALGOPS_SCALARDIVISIONMATRIX))
            printErr(33, "You cannot enter a 0 because program is performing a Division somewhere");
 
     }
-    while((tmp != 1 && !(dim[RAWS]) && !(dim[COLUMNS])) || (!(*(matrix + columns*dim[RAWS] + dim[COLUMNS])) && dcheck && INVERSE_OPS && ((__pmode__ >= ALGOPS_DOTPRODUCT && __pmode__ <= ALGOPS_SCALARDIVISIONMATRIX)
-    ||__pmode__ == ALGOPS_SCALARDIVISIONMATRIX))||isDomainForbidden(*(matrix + columns*dim[RAWS] + dim[COLUMNS]), INPUT));
+    while((tmp != 1 && !(dim[ROWS]) && !(dim[COLUMNS])) || (!(*(matrix + columns*dim[ROWS] + dim[COLUMNS])) && dcheck && INVERSE_OPS && ((__pmode__ >= ALGOPS_DOTPRODUCT && __pmode__ <= ALGOPS_SCALARDIVISIONMATRIX)
+    ||__pmode__ == ALGOPS_SCALARDIVISIONMATRIX))||isDomainForbidden(*(matrix + columns*dim[ROWS] + dim[COLUMNS]), INPUT));
 
     CLEARBUFFER();
 
@@ -2697,7 +2712,7 @@ __MSNATIVE_ bool __system __export enterMatrix(ityp **matrix, dim_typ *righe, di
 
     if(isSett(BOOLS_INSERTMODE))
     {
-        printf2(COLOR_CREDITS, "And when you reach desired raws %s columns dimensions, %s.\n\n",
+        printf2(COLOR_CREDITS, "And when you reach desired rows %s columns dimensions, %s.\n\n",
                square ? "=":"and", isSett(BOOLS_MATRIXPARSING) ? "press ENTER":"insert an alphanumeric value");
 
         (*matrix) = malloc(MAX_DIMENSIONS*sizeof(ityp));
@@ -2705,7 +2720,7 @@ __MSNATIVE_ bool __system __export enterMatrix(ityp **matrix, dim_typ *righe, di
 
         (*righe) = 1;
         
-        dim_typ analog_raws = MAX_DIMENSIONS;
+        dim_typ analog_rows = MAX_DIMENSIONS;
         dim_typ analog_columns;
 
         for(*colonne = 0; tmp; ++ (*colonne))
@@ -2729,13 +2744,13 @@ __MSNATIVE_ bool __system __export enterMatrix(ityp **matrix, dim_typ *righe, di
 
             analog_columns = (*colonne)+1;
             
-            (*matrix) = realloc((*matrix), sizeof(ityp)*analog_raws*analog_columns);
+            (*matrix) = realloc((*matrix), sizeof(ityp)*analog_rows*analog_columns);
 
             errMem((*matrix), false);
 
             if((tmp = insertElement((*matrix), (dim_typ2){0, (*colonne)}, *colonne, square)) == -1 && getItemsListNo(MATRICES) != STARTING_MATNO)
             {
-                if(square && access(curMatrix)->dim[RAWS] != access(curMatrix)->dim[COLUMNS])
+                if(square && access(curMatrix)->dim[ROWS] != access(curMatrix)->dim[COLUMNS])
                 {
                     printErr(1, "You cannot use Current Matrix because\nit isn't a Quad one");
                     (*colonne) --;
@@ -2751,7 +2766,7 @@ __MSNATIVE_ bool __system __export enterMatrix(ityp **matrix, dim_typ *righe, di
                         return false;
                     }
                     sprint("\nYou are correctly using Current Matrix.\n\n");
-                    (*righe) = access(curMatrix)->dim[RAWS];
+                    (*righe) = access(curMatrix)->dim[ROWS];
                     (*colonne) = access(curMatrix)->dim[COLUMNS];
                     return true;
                 }
@@ -2761,26 +2776,26 @@ __MSNATIVE_ bool __system __export enterMatrix(ityp **matrix, dim_typ *righe, di
         tmp = 1;
         (*colonne) --;
 
-        (*matrix) = realloc((*matrix), sizeof(ityp)*analog_raws*(*colonne));
+        (*matrix) = realloc((*matrix), sizeof(ityp)*analog_rows*(*colonne));
         errMem((*matrix), false);
 
 
         for(*righe = 1; (square ? *righe < *colonne : (tmp && __pmode__ != ALGOPS_DOTPRODUCT)); ++(*righe))
         {
             dim_typ i;
-            analog_raws = (*righe)+1;
+            analog_rows = (*righe)+1;
 
-            (*matrix) = realloc((*matrix), sizeof(ityp)*analog_raws*(*colonne));
+            (*matrix) = realloc((*matrix), sizeof(ityp)*analog_rows*(*colonne));
             errMem((*matrix), false);
 
             for(i=start_col_index; tmp && i<*colonne; ++i)
             {
-                /// if(tmp == -2) return false; // simple backtracking on second or major raws...
-                // BACKTRACKING ON SECOND or MAJOR RAWS EXPERIMENTAL FORMULA
+                /// if(tmp == -2) return false; // simple backtracking on second or major rows...
+                // BACKTRACKING ON SECOND or MAJOR ROWS EXPERIMENTAL FORMULA
 
                 while((tmp = insertElement((*matrix), (dim_typ2){*righe, i}, *colonne, square)) != 1 && tmp != -2 && !(char_insert) && i)
                     if(getItemsListNo(MATRICES) != STARTING_MATNO && tmp == -1)
-                        if(square && access(curMatrix)->dim[RAWS] != access(curMatrix)->dim[COLUMNS])
+                        if(square && access(curMatrix)->dim[ROWS] != access(curMatrix)->dim[COLUMNS])
                             printErr(1, "You cannot use Current Matrix because\nit isn't a Quad one");
                         else
                         {
@@ -2793,12 +2808,12 @@ __MSNATIVE_ bool __system __export enterMatrix(ityp **matrix, dim_typ *righe, di
                                 return false;
                             }
                             sprint("\nYou're correctly using Current Matrix.\n\n");
-                            (*righe) = access(curMatrix)->dim[RAWS];
+                            (*righe) = access(curMatrix)->dim[ROWS];
                             (*colonne) = access(curMatrix)->dim[COLUMNS];
                             return true;
                         }
                     else
-                        printErr(1, "You cannot enter an alphanumeric value\nif you haven't entered all elements of last raw");
+                        printErr(1, "You cannot enter an alphanumeric value\nif you haven't entered all elements of last row");
 
                 if(tmp == -2)
                 {
@@ -2864,8 +2879,8 @@ __MSNATIVE_ bool __system __export enterMatrix(ityp **matrix, dim_typ *righe, di
         {
             while((tmp = insertElement((*matrix), (dim_typ2){0, i}, *colonne, square)) != 1 && tmp != -2 && !(char_insert))
                 if(getItemsListNo(MATRICES) != STARTING_MATNO && tmp == -1)
-                    if(access(curMatrix)->dim[RAWS] != *righe || access(curMatrix)->dim[COLUMNS] != *colonne)
-                        printErr(1, "You cannot use Current Matrix because\nit doesn't have %hu Raws and %hu Columns", righe, colonne);
+                    if(access(curMatrix)->dim[ROWS] != *righe || access(curMatrix)->dim[COLUMNS] != *colonne)
+                        printErr(1, "You cannot use Current Matrix because\nit doesn't have %hu Rows and %hu Columns", righe, colonne);
                     else
                     {
                         #if WINOS
@@ -2900,8 +2915,8 @@ __MSNATIVE_ bool __system __export enterMatrix(ityp **matrix, dim_typ *righe, di
             {
                 while((tmp = insertElement((*matrix), (dim_typ2){i, j}, *colonne, square)) != 1 && tmp != -2 && !(char_insert))
                     if(getItemsListNo(MATRICES) != STARTING_MATNO && tmp == -1)
-                        if(access(curMatrix)->dim[RAWS] != *righe || access(curMatrix)->dim[COLUMNS] != *colonne)
-                            printErr(1, "You cannot use Current Matrix because\nit doesn't have %hu Raws and %hu Columns", righe, colonne);
+                        if(access(curMatrix)->dim[ROWS] != *righe || access(curMatrix)->dim[COLUMNS] != *colonne)
+                            printErr(1, "You cannot use Current Matrix because\nit doesn't have %hu Rows and %hu Columns", righe, colonne);
                         else
                         {
                             #if WINOS
