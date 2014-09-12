@@ -8,9 +8,9 @@ about the use with any other code-scripts.
 #include "dutils.h"
 #ifdef ALLOW_MSSMANAGER
 
-__MSSHELL_WRAPPER_ static void _MS__private __system handleCmdLine(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private __system execScriptFiles(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private __system showUsage(const register sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private __system handleCmdLine(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private __system execScriptFiles(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private __system showUsage(const sel_typ argc, char ** argv);
 
 sprog mss_manager[MAX_MSSMANAGER_PROGS] =
 {
@@ -45,7 +45,7 @@ sprog mss_manager[MAX_MSSMANAGER_PROGS] =
 
 #define MAX_ARGS 5
 
-__MSSHELL_WRAPPER_ static void _MS__private __system handleCmdLine(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static void _MS__private __system handleCmdLine(const sel_typ argc, char ** argv)
 {
     printf2(COLOR_CREDITS, "Enter one Programs Macro-List Command.\n\n");
 
@@ -66,7 +66,7 @@ __MSSHELL_WRAPPER_ static void _MS__private __system handleCmdLine(const registe
     return;
 }
 
-__MSSHELL_WRAPPER_ __WINCALL static void _MS__private __system execScriptFiles(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ __WINCALL static void _MS__private __system execScriptFiles(const sel_typ argc, char ** argv)
 {
     char path[MAX_PATH_LENGTH];
     #if WINOS
@@ -124,7 +124,7 @@ __MSSHELL_WRAPPER_ __WINCALL static void _MS__private __system execScriptFiles(c
     return;
 }
 
-__MSSHELL_WRAPPER_ static void _MS__private __system showUsage(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static void _MS__private __system showUsage(const sel_typ argc, char ** argv)
 {
     if(argc)
     {

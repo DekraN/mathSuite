@@ -10,15 +10,15 @@ about the use with any other code-scripts.
 
 // FUNCTIONS DECLARATIONS
 
-__MSSHELL_WRAPPER_ static void _MS__private __system __lmp_prog setCurLayout(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ __WINCALL static void _MS__private __system __lmp_prog createLayout(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private __system __lmp_prog viewLayout(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private __system __lmp_prog printLayout(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private __system __lmp_prog updLayout(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private __system __lmp_prog updAllLayouts(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private __system __lmp_prog delLayout(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private __system __lmp_prog relLayout(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private __system __lmp_prog renLayout(const register sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private __system __lmp_prog setCurLayout(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ __WINCALL static void _MS__private __system __lmp_prog createLayout(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private __system __lmp_prog viewLayout(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private __system __lmp_prog printLayout(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private __system __lmp_prog updLayout(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private __system __lmp_prog updAllLayouts(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private __system __lmp_prog delLayout(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private __system __lmp_prog relLayout(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private __system __lmp_prog renLayout(const sel_typ argc, char ** argv);
 
 sprog layouts_manager[MAX_LAYOUTSMANAGER_PROGS] =
 {
@@ -152,55 +152,55 @@ sprog layouts_manager[MAX_LAYOUTSMANAGER_PROGS] =
 
 // FUNCTIONS DEFINITIONS
 
-__MSSHELL_WRAPPER_ static inline void _MS__private __system __lmp_prog setCurLayout(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static inline void _MS__private __system __lmp_prog setCurLayout(const sel_typ argc, char ** argv)
 {
     setCurItem(argc ? getItemID(argv[0], &layouts_manager[LAYOUTS_SETCURRENT], LAYOUTS) : getItemsListNo(LAYOUTS), LAYOUTS);
     return;
 }
 
-__MSSHELL_WRAPPER_ __WINCALL static inline void _MS__private __system __lmp_prog createLayout(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ __WINCALL static inline void _MS__private __system __lmp_prog createLayout(const sel_typ argc, char ** argv)
 {
     createItem(argc ? argv[0] : NULL, LAYOUTS);
     return;
 }
 
-__MSSHELL_WRAPPER_ static inline void _MS__private __system __lmp_prog viewLayout(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static inline void _MS__private __system __lmp_prog viewLayout(const sel_typ argc, char ** argv)
 {
     viewItem(argc ? getItemID(argv[0], &layouts_manager[LAYOUTS_READ], LAYOUTS) : getItemsListNo(LAYOUTS), LAYOUTS);
     return;
 }
 
-__MSSHELL_WRAPPER_ static inline void _MS__private __system __lmp_prog printLayout(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static inline void _MS__private __system __lmp_prog printLayout(const sel_typ argc, char ** argv)
 {
     printListItem(argc ? getItemID(argv[0], &layouts_manager[LAYOUTS_PRINT], LAYOUTS) : getItemsListNo(LAYOUTS), LAYOUTS);
     return;
 }
 
-__MSSHELL_WRAPPER_ static inline void _MS__private __system __lmp_prog updLayout(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static inline void _MS__private __system __lmp_prog updLayout(const sel_typ argc, char ** argv)
 {
     updItem(LAYOUTS);
     return;
 }
 
-__MSSHELL_WRAPPER_ static inline void _MS__private __system __lmp_prog updAllLayouts(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static inline void _MS__private __system __lmp_prog updAllLayouts(const sel_typ argc, char ** argv)
 {
     updAll(LAYOUTS);
     return;
 }
 
-__MSSHELL_WRAPPER_ static inline void _MS__private __system __lmp_prog delLayout(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static inline void _MS__private __system __lmp_prog delLayout(const sel_typ argc, char ** argv)
 {
     delItem(argc ? getItemID(argv[0], &layouts_manager[__pmode__], LAYOUTS) : getItemsListNo(LAYOUTS), LAYOUTS);
     return;
 }
 
-__MSSHELL_WRAPPER_ static inline void _MS__private __system __lmp_prog relLayout(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static inline void _MS__private __system __lmp_prog relLayout(const sel_typ argc, char ** argv)
 {
     relItem(argc ? getItemID(argv[0], &layouts_manager[LAYOUTS_RELOAD], LAYOUTS) : getItemsListNo(LAYOUTS), LAYOUTS);
     return;
 }
 
-__MSSHELL_WRAPPER_ static inline void _MS__private __system __lmp_prog renLayout(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static inline void _MS__private __system __lmp_prog renLayout(const sel_typ argc, char ** argv)
 {
     renItem(argc > 1 ? argv[1] : NULL, argc ? getItemID(argv[0], &layouts_manager[LAYOUTS_RENAME], LAYOUTS) : getItemsListNo(LAYOUTS), LAYOUTS);
     return;

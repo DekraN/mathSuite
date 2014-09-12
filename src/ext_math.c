@@ -2552,14 +2552,14 @@ __MSUTIL_ ityp __export mpow2(ityp b, int64_t exp)
 /// special thanks to Bibek Subedi for this function,
 /// which I renamed, adapted and modified to this program. Link at:
 /// http://programming-technique.blogspot.it/2013/05/pascals-triangle-using-c-program.html
-__MSNATIVE_ __MSUTIL_ inline void __export getPascalTriangle(uint64_t raws)
+__MSNATIVE_ __MSUTIL_ inline void __export getPascalTriangle(uint64_t rows)
 {
     uint64_t i, j;
     PRINTL();
 
-    for(i = 0; i < raws; ++i)
+    for(i = 0; i < rows; ++i)
     {
-        for (j = 0; j < raws - i; ++j)
+        for (j = 0; j < rows - i; ++j)
             PRINTSPACE();
         for(j = 0; ++j <= i; )
             printf2(COLOR_USER, "%d ", comb(i, j));
@@ -4468,7 +4468,7 @@ __MSNATIVE_ inline bool __system __export isEqualMatrix(ityp *matrix1, ityp *mat
 {
     dim_typ i, j;
 
-    for(i=0; i<dim[RAWS]; ++i)
+    for(i=0; i<dim[ROWS]; ++i)
         for(j=0; j<dim[COLUMNS]; ++j)
             if(*(matrix1 + dim[COLUMNS]*i + j) != *(matrix2 + dim[COLUMNS]*i + j))
                 return false;
@@ -4575,20 +4575,20 @@ __MSNATIVE_ sel_typ _MS__private __system __export _simplexMethod(ityp **tableau
     dim_typ i, j;
     const dim_typ dim_minus1[MAX_DIMENSIONS] =
     {
-        dim[RAWS]-1,
+        dim[ROWS]-1,
         dim[COLUMNS]-1
     };
 
-    const dim_typ vardims = dim[COLUMNS]+dim_minus1[RAWS];
+    const dim_typ vardims = dim[COLUMNS]+dim_minus1[ROWS];
     
-    (*tableau) = realloc((*tableau), sizeof(ityp)*dim[RAWS]*vardims);
+    (*tableau) = realloc((*tableau), sizeof(ityp)*dim[ROWS]*vardims);
     errMem((*tableau), SIMPLEXMETHOD_ALLOC_ERROR);
 
     /// assert = false;
 
-    for(i=0; i<dim[RAWS]; ++i)
+    for(i=0; i<dim[ROWS]; ++i)
     {
-        const bool assert = i == dim_minus1[RAWS];
+        const bool assert = i == dim_minus1[ROWS];
         *((*tableau)+ vardims*i + vardims-1) = assert ? 0.00 : *((*tableau) + vardims*i + dim_minus1[COLUMNS]);
         #pragma omp parallel for
         for(j=dim_minus1[COLUMNS]; j<vardims-1; ++j)
@@ -4610,7 +4610,7 @@ __MSNATIVE_ sel_typ _MS__private __system __export _simplexMethod(ityp **tableau
 
 
     ityp func_vector[vardims];
-    ityp min_ratios_vector[dim_minus1[RAWS]];
+    ityp min_ratios_vector[dim_minus1[ROWS]];
     dim_typ itemcheck;
 
     bool (* const _cmpfunc)(const register ityp, const register ityp) = MAX_PROBLEM ? max_cmpfunc : min_cmpfunc;
@@ -4626,7 +4626,7 @@ __MSNATIVE_ sel_typ _MS__private __system __export _simplexMethod(ityp **tableau
 
         // vector reversing operation...
         for(i=another_iteration=0; i<vardims; ++i)
-            if(_cmpfunc((func_vector[i]=*((*tableau) + vardims*dim_minus1[RAWS] + i)), 0.00))
+            if(_cmpfunc((func_vector[i]=*((*tableau) + vardims*dim_minus1[ROWS] + i)), 0.00))
                 another_iteration = true;
 
         if(!another_iteration)
@@ -4634,11 +4634,11 @@ __MSNATIVE_ sel_typ _MS__private __system __export _simplexMethod(ityp **tableau
 
         MINMAX(vardims, func_vector, mode, &bestvaltax_idx);
 
-        for(i=itemcheck=0; i<dim_minus1[RAWS]; ++i)
+        for(i=itemcheck=0; i<dim_minus1[ROWS]; ++i)
         {
             if(*((*tableau) + vardims*i + bestvaltax_idx) <= 0)
             {
-                if(++itemcheck == dim_minus1[RAWS])
+                if(++itemcheck == dim_minus1[ROWS])
                     return SIMPLEXMETHOD_INFBFS_ERROR;
                 min_ratios_vector[i] = MAX_VAL;
             }
@@ -4646,7 +4646,7 @@ __MSNATIVE_ sel_typ _MS__private __system __export _simplexMethod(ityp **tableau
                 min_ratios_vector[i] = *((*tableau) + vardims*i + vardims-1)/ *((*tableau) + vardims*i + bestvaltax_idx); // ((*tableau)[i][vardims-1])/((*tableau)[i][bestvaltax_idx]);
         }
 
-        MINMAX(dim_minus1[RAWS], min_ratios_vector, MIN_MODE, &leaving_var_idx);
+        MINMAX(dim_minus1[ROWS], min_ratios_vector, MIN_MODE, &leaving_var_idx);
 
         const ityp pivot = *((*tableau) + vardims*leaving_var_idx + bestvaltax_idx);
 
@@ -4656,7 +4656,7 @@ __MSNATIVE_ sel_typ _MS__private __system __export _simplexMethod(ityp **tableau
             
         ityp zero_binder = 0.00;
 
-        for(i=0; i<dim[RAWS]; ++i)
+        for(i=0; i<dim[ROWS]; ++i)
         {
             if(i == leaving_var_idx || ! *((*tableau) + vardims*i + bestvaltax_idx))
                 continue;
@@ -6283,7 +6283,7 @@ __MSNATIVE_ inline void _MS__private __system __export _matrixSub(ityp **matrix1
 	register dim_typ idx;
     
 	#pragma omp parallel for
-    for(i=0; i<dim[RAWS]; ++i)
+    for(i=0; i<dim[ROWS]; ++i)
     	#pragma omp parallel for
         for(j=0; j<dim[COLUMNS]; ++j)
     	{
@@ -6300,7 +6300,7 @@ __MSNATIVE_ void _MS__private __system __export _matrixCSub(ityp **matrix1, ityp
 	register dim_typ idx;
 	
 	#pragma omp parallel for
-    for(i=0; i<dim[RAWS]; ++i)
+    for(i=0; i<dim[ROWS]; ++i)
     	#pragma omp parallel for
         for(j=0; j<dim[COLUMNS]; ++j)
 		{
@@ -6323,7 +6323,7 @@ __MSNATIVE_ void _MS__private __system __export _matrixQSub(ityp **matrix1, ityp
     
 
 	#pragma omp parallel for
-    for(i=0; i<dim[RAWS]; ++i)
+    for(i=0; i<dim[ROWS]; ++i)
     	#pragma omp parallel for
         for(j=0; j<dim[COLUMNS]; ++j)
     	{
@@ -6346,7 +6346,7 @@ __MSNATIVE_ inline void _MS__private __system __export _matrixOSub(ityp **matrix
     void (* const omp_func)(ityp **, ityp **, ityp **, const register dim_typ) = isSett(BOOLS_EXTENSIVEMULTITHREADING) ? _matrixOEMTSub : _matrixOMTSub;
 
 	#pragma omp parallel for
-    for(i=0; i<dim[RAWS]; ++i)
+    for(i=0; i<dim[ROWS]; ++i)
     	#pragma omp parallel for
         for(j=0; j<dim[COLUMNS]; ++j)
         	omp_func(matrix1, matrix2, matrix_sum, dim[COLUMNS]*i + j);
@@ -6361,7 +6361,7 @@ __MSNATIVE_ inline void _MS__private __system __export _matrixSSub(ityp **matrix
 
 
 	#pragma omp parallel for
-    for(i=0; i<dim[RAWS]; ++i)
+    for(i=0; i<dim[ROWS]; ++i)
     	#pragma omp parallel for
         for(j=0; j<dim[COLUMNS]; ++j)
         	omp_func(matrix1, matrix2, matrix_sum, dim[COLUMNS]*i + j);
@@ -6375,7 +6375,7 @@ __MSNATIVE_ inline void _MS__private __system __export _matrixAdd(ityp **matrix1
 	register dim_typ idx;
     
 	#pragma omp parallel for
-    for(i=0; i<dim[RAWS]; ++i)
+    for(i=0; i<dim[ROWS]; ++i)
     	#pragma omp parallel for
         for(j=0; j<dim[COLUMNS]; ++j)
     	{
@@ -6392,7 +6392,7 @@ __MSNATIVE_ void _MS__private __system __export _matrixCAdd(ityp **matrix1, ityp
 	register dim_typ idx;
 	
 	#pragma omp parallel for
-    for(i=0; i<dim[RAWS]; ++i)
+    for(i=0; i<dim[ROWS]; ++i)
     	#pragma omp parallel for
         for(j=0; j<dim[COLUMNS]; ++j)
 		{
@@ -6415,7 +6415,7 @@ __MSNATIVE_ void _MS__private __system __export _matrixQAdd(ityp **matrix1, ityp
     
 
 	#pragma omp parallel for
-    for(i=0; i<dim[RAWS]; ++i)
+    for(i=0; i<dim[ROWS]; ++i)
     	#pragma omp parallel for
         for(j=0; j<dim[COLUMNS]; ++j)
     	{
@@ -6438,7 +6438,7 @@ __MSNATIVE_ inline void _MS__private __system __export _matrixOAdd(ityp **matrix
     void (* const omp_func)(ityp **, ityp **, ityp **, const register dim_typ) = isSett(BOOLS_EXTENSIVEMULTITHREADING) ? _matrixOEMTSum : _matrixOMTSum;
 
 	#pragma omp parallel for
-    for(i=0; i<dim[RAWS]; ++i)
+    for(i=0; i<dim[ROWS]; ++i)
     	#pragma omp parallel for
         for(j=0; j<dim[COLUMNS]; ++j)
         	omp_func(matrix1, matrix2, matrix_sum, dim[COLUMNS]*i + j);
@@ -6453,7 +6453,7 @@ __MSNATIVE_ inline void _MS__private __system __export _matrixSAdd(ityp **matrix
 
 
 	#pragma omp parallel for
-    for(i=0; i<dim[RAWS]; ++i)
+    for(i=0; i<dim[ROWS]; ++i)
     	#pragma omp parallel for
         for(j=0; j<dim[COLUMNS]; ++j)
         	omp_func(matrix1, matrix2, matrix_sum, dim[COLUMNS]*i + j);
@@ -6466,7 +6466,7 @@ __MSNATIVE_ __MSSTOCK inline void __system __call_OSMM(ityp **matrix1, ityp **ma
 	void (* const sumFunc)(ityp **, ityp **, ityp **, const register dim_typ [static MAX_DIMENSIONS]),
 	void (* const subFunc)(ityp **, ityp **, ityp **, const register dim_typ [static MAX_DIMENSIONS]))
 {
-	squareOSMM(prodFunc, matrix1, matrix2, matrix_product, dim[RAWS]);
+	squareOSMM(prodFunc, matrix1, matrix2, matrix_product, dim[ROWS]);
 	return;
 }
 
@@ -6475,7 +6475,7 @@ __MSNATIVE_ __MSSTOCK inline void __system __call_STRASSENMM(ityp **matrix1, ity
 	void (* const sumFunc)(ityp **, ityp **, ityp **, const register dim_typ [static MAX_DIMENSIONS]),
 	void (* const subFunc)(ityp **, ityp **, ityp **, const register dim_typ [static MAX_DIMENSIONS]))
 {
-	mmult_fast(dim[RAWS], algunits, matrix1, matrix2, matrix_product, prodFunc, sumFunc, subFunc);
+	mmult_fast(dim[ROWS], algunits, matrix1, matrix2, matrix_product, prodFunc, sumFunc, subFunc);
 	return;
 }
 
@@ -6678,7 +6678,7 @@ __MSNATIVE_ inline void _MS__private __system __export _matrixMultiplication(ity
     dim_typ i, j, k;
 
 	#pragma omp parallel for
-    for(i=0; i<dim[RAWS]; ++i)
+    for(i=0; i<dim[ROWS]; ++i)
     	#pragma omp parallel for
         for(k=0; k<dim[COLUMNS]; ++k)
         	#pragma omp parallel for
@@ -6694,7 +6694,7 @@ __MSNATIVE_ void _MS__private __system __export _matrixCMultiplication(ityp **ma
     register dim_typ idx[MAX_MATRICES];
     
 	#pragma omp parallel for
-    for(i=0; i<dim[RAWS]; ++i)
+    for(i=0; i<dim[ROWS]; ++i)
     	#pragma omp parallel for
         for(k=0; k<dim[COLUMNS]; ++k)
     		#pragma omp parallel for
@@ -6717,7 +6717,7 @@ __MSNATIVE_ void _MS__private __system __export _matrixQMultiplication(ityp **ma
     register dim_typ idx[MAX_MATRICES];
 
 	#pragma omp parallel for
-    for(i=0; i<dim[RAWS]; ++i)
+    for(i=0; i<dim[ROWS]; ++i)
     	#pragma omp parallel for
         for(k=0; k<dim[COLUMNS]; ++k)
     		#pragma omp parallel for
@@ -6758,7 +6758,7 @@ __MSNATIVE_ inline void _MS__private __system __export _matrixOMultiplication(it
 	void (* const omp_func)(ityp **, ityp **, ityp **, const register dim_typ, const register dim_typ, const register dim_typ) = isSett(BOOLS_EXTENSIVEMULTITHREADING) ? _matrixOEMTMultiplication : _matrixOMTMultiplication;
 
 	#pragma omp parallel for
-    for(i=0; i<dim[RAWS]; ++i)
+    for(i=0; i<dim[ROWS]; ++i)
    		#pragma omp parallel for
         for(k=0; k<dim[COLUMNS]; ++k)
     		#pragma omp parallel for
@@ -6774,7 +6774,7 @@ __MSNATIVE_ inline void _MS__private __system __export _matrixSMultiplication(it
 	void (* const omp_func)(ityp **, ityp **, ityp **, const register dim_typ, const register dim_typ, const register dim_typ) = isSett(BOOLS_EXTENSIVEMULTITHREADING) ? _matrixSEMTMultiplication : _matrixSMTMultiplication;
 
 	#pragma omp parallel for
-    for(i=0; i<dim[RAWS]; ++i)
+    for(i=0; i<dim[ROWS]; ++i)
     	#pragma omp parallel for
         for(k=0; k<dim[COLUMNS]; ++k)
 			#pragma omp parallel for
@@ -6789,14 +6789,14 @@ __MSNATIVE_ inline void _MS__private __system __export _matrixKProduct(ityp **ma
     const register dim_typ pdim = dim[FIRST_MATRIX][COLUMNS]*dim[SECOND_MATRIX][COLUMNS];
 
 	#pragma omp parallel for
-    for(i=0; i<dim[FIRST_MATRIX][RAWS]; ++i)
+    for(i=0; i<dim[FIRST_MATRIX][ROWS]; ++i)
     	#pragma omp parallel for
-        for(k=0; k<dim[SECOND_MATRIX][RAWS]; ++k)
+        for(k=0; k<dim[SECOND_MATRIX][ROWS]; ++k)
 			#pragma omp parallel for
         	for(j=0; j<dim[FIRST_MATRIX][COLUMNS]; ++j)
             	#pragma omp parallel for
                 for(l=0; l<dim[SECOND_MATRIX][COLUMNS]; ++l)
-                	*((*matrix_product) + pdim*(k+(i*dim[SECOND_MATRIX][RAWS])) + l+(j*dim[SECOND_MATRIX][COLUMNS])) = (*((*matrix1) + dim[FIRST_MATRIX][COLUMNS]*i + j) * *((*matrix2) + dim[SECOND_MATRIX][COLUMNS]*k + l));
+                	*((*matrix_product) + pdim*(k+(i*dim[SECOND_MATRIX][ROWS])) + l+(j*dim[SECOND_MATRIX][COLUMNS])) = (*((*matrix1) + dim[FIRST_MATRIX][COLUMNS]*i + j) * *((*matrix2) + dim[SECOND_MATRIX][COLUMNS]*k + l));
 
     return;
 }
@@ -6808,9 +6808,9 @@ __MSNATIVE_ void _MS__private __system __export _matrixKCProduct(ityp **matrix1,
     const register dim_typ pdim = dim[FIRST_MATRIX][COLUMNS]*dim[SECOND_MATRIX][COLUMNS];
 
 	#pragma omp parallel for
-    for(i=0; i<dim[FIRST_MATRIX][RAWS]; ++i)
+    for(i=0; i<dim[FIRST_MATRIX][ROWS]; ++i)
     	#pragma omp parallel for
-        	for(k=0; k<dim[SECOND_MATRIX][RAWS]; ++k)
+        	for(k=0; k<dim[SECOND_MATRIX][ROWS]; ++k)
     		#pragma omp parallel for
         	for(j=0; j<dim[FIRST_MATRIX][COLUMNS]; ++j)
             	#pragma omp parallel for
@@ -6818,7 +6818,7 @@ __MSNATIVE_ void _MS__private __system __export _matrixKCProduct(ityp **matrix1,
             	{
             		idx[FIRST_MATRIX] = dim[FIRST_MATRIX][COLUMNS]*i + j;
                 	idx[SECOND_MATRIX] = dim[SECOND_MATRIX][COLUMNS]*k + l;
-                	idx[MATRIX_PRODUCT] = pdim*(k+(i*dim[SECOND_MATRIX][RAWS])) + l+(j*dim[SECOND_MATRIX][COLUMNS]);
+                	idx[MATRIX_PRODUCT] = pdim*(k+(i*dim[SECOND_MATRIX][ROWS])) + l+(j*dim[SECOND_MATRIX][COLUMNS]);
                 	const register double complex tmpres = ((matrix1[REAL_PART][idx[FIRST_MATRIX]] + matrix1[IMAG_PART][idx[FIRST_MATRIX]]*I)*(matrix2[REAL_PART][idx[SECOND_MATRIX]] + matrix2[IMAG_PART][idx[SECOND_MATRIX]]*I));
                     matrix_product[REAL_PART][idx[MATRIX_PRODUCT]] = creal(tmpres);
                     matrix_product[IMAG_PART][idx[MATRIX_PRODUCT]] = cimag(tmpres);
@@ -6834,9 +6834,9 @@ __MSNATIVE_ void _MS__private __system __export _matrixKQProduct(ityp **matrix1,
     const register dim_typ pdim = dim[FIRST_MATRIX][COLUMNS]*dim[SECOND_MATRIX][COLUMNS];
 
 	#pragma omp parallel for
-    for(i=0; i<dim[FIRST_MATRIX][RAWS]; ++i)
+    for(i=0; i<dim[FIRST_MATRIX][ROWS]; ++i)
     	#pragma omp parallel for
-        for(k=0; k<dim[SECOND_MATRIX][RAWS]; ++k)
+        for(k=0; k<dim[SECOND_MATRIX][ROWS]; ++k)
     		#pragma omp parallel for
         	for(j=0; j<dim[FIRST_MATRIX][COLUMNS]; ++j)
             	#pragma omp parallel for
@@ -6844,7 +6844,7 @@ __MSNATIVE_ void _MS__private __system __export _matrixKQProduct(ityp **matrix1,
                 {
                 	idx[FIRST_MATRIX] = dim[FIRST_MATRIX][COLUMNS]*i + j;
                 	idx[SECOND_MATRIX] = dim[SECOND_MATRIX][COLUMNS]*k + l;
-                	idx[MATRIX_PRODUCT] = pdim*(k+(i*dim[SECOND_MATRIX][RAWS])) + l+(j*dim[SECOND_MATRIX][COLUMNS]);
+                	idx[MATRIX_PRODUCT] = pdim*(k+(i*dim[SECOND_MATRIX][ROWS])) + l+(j*dim[SECOND_MATRIX][COLUMNS]);
                 	#pragma omp parallel num_threads(MAX_QUATERNIONS_UNITS)
                 	{
 	                    
@@ -6880,14 +6880,14 @@ __MSNATIVE_ inline void _MS__private __system __export _matrixKOProduct(ityp **m
 	void (* const omp_func)(ityp **, ityp **, ityp **, const register dim_typ, const register dim_typ, const register dim_typ) = isSett(BOOLS_EXTENSIVEMULTITHREADING) ? _matrixKOEMTProduct : _matrixKOMTProduct;
 
     #pragma omp parallel for
-    for(i=0; i<dim[FIRST_MATRIX][RAWS]; ++i)
+    for(i=0; i<dim[FIRST_MATRIX][ROWS]; ++i)
     	#pragma omp parallel for
-        for(k=0; k<dim[SECOND_MATRIX][RAWS]; ++k)
+        for(k=0; k<dim[SECOND_MATRIX][ROWS]; ++k)
     		#pragma omp parallel for
        	 	for(j=0; j<dim[FIRST_MATRIX][COLUMNS]; ++j)
             	#pragma omp parallel for
                 for(l=0; l<dim[SECOND_MATRIX][COLUMNS]; ++l)
-                	omp_func(matrix1, matrix2, matrix_product, pdim*(k+(i*dim[SECOND_MATRIX][RAWS])) + l+(j*dim[SECOND_MATRIX][COLUMNS]), dim[FIRST_MATRIX][COLUMNS]*i + j, dim[SECOND_MATRIX][COLUMNS]*k + l);
+                	omp_func(matrix1, matrix2, matrix_product, pdim*(k+(i*dim[SECOND_MATRIX][ROWS])) + l+(j*dim[SECOND_MATRIX][COLUMNS]), dim[FIRST_MATRIX][COLUMNS]*i + j, dim[SECOND_MATRIX][COLUMNS]*k + l);
     return;
 }
 
@@ -6899,14 +6899,14 @@ __MSNATIVE_ inline void _MS__private __system __export _matrixKSProduct(ityp **m
 	void (* const omp_func)(ityp **, ityp **, ityp **, const register dim_typ, const register dim_typ, const register dim_typ) = isSett(BOOLS_EXTENSIVEMULTITHREADING) ? _matrixKSEMTProduct : _matrixKSMTProduct;
 
 	#pragma omp parallel for
-    for(i=0; i<dim[FIRST_MATRIX][RAWS]; ++i)
+    for(i=0; i<dim[FIRST_MATRIX][ROWS]; ++i)
     	#pragma omp parallel for
-        for(k=0; k<dim[SECOND_MATRIX][RAWS]; ++k)
+        for(k=0; k<dim[SECOND_MATRIX][ROWS]; ++k)
     		#pragma omp parallel for
         	for(j=0; j<dim[FIRST_MATRIX][COLUMNS]; ++j)
             	#pragma omp parallel for
                 for(l=0; l<dim[SECOND_MATRIX][COLUMNS]; ++l)
-                	omp_func(matrix1, matrix2, matrix_product, pdim*(k+(i*dim[SECOND_MATRIX][RAWS])) + l+(j*dim[SECOND_MATRIX][COLUMNS]), dim[FIRST_MATRIX][COLUMNS]*i + j, dim[SECOND_MATRIX][COLUMNS]*k + l);
+                	omp_func(matrix1, matrix2, matrix_product, pdim*(k+(i*dim[SECOND_MATRIX][ROWS])) + l+(j*dim[SECOND_MATRIX][COLUMNS]), dim[FIRST_MATRIX][COLUMNS]*i + j, dim[SECOND_MATRIX][COLUMNS]*k + l);
     return;
 }
 

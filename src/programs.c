@@ -3129,7 +3129,7 @@ __MSNATIVE_ __MSSHELL_WRAPPER_ static inline void __system viewComplexResult(con
 	return;
 }
 
-__MSSHELL_WRAPPER_ void basicCalculator(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ void basicCalculator(const sel_typ argc, char ** argv)
 {
 
     if(isSett(BOOLS_BASECALCPARSING))
@@ -3256,7 +3256,7 @@ __MSSHELL_WRAPPER_ void basicCalculator(const register sel_typ argc, char ** arg
     return ;
 }
 
-__MSSHELL_WRAPPER_ void __apnt calcolatoreAvanzato(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ void __apnt calcolatoreAvanzato(const sel_typ argc, char ** argv)
 {
     operationsGroupMenu(MAX_ADVCALC_PROGS, adv_calc,
                         main_menu[MAIN_ADVANCEDCALCULATOR].name,
@@ -3269,7 +3269,7 @@ __MSSHELL_WRAPPER_ void __apnt calcolatoreAvanzato(const register sel_typ argc, 
     return ;
 }
 
-__MSSHELL_WRAPPER_ void __apnt mssManager(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ void __apnt mssManager(const sel_typ argc, char ** argv)
 {
     operationsGroupMenu(MAX_MSSMANAGER_PROGS, mss_manager,
                         main_menu[MAIN_MSSMANAGER].name,
@@ -3492,7 +3492,7 @@ __MSSHELL_WRAPPER_ __MSNATIVE_ void _MS__private __system __export operationsGro
 
 // New Families Access Points
 //
-__MSSHELL_WRAPPER_ void __apnt algebraOperations(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ void __apnt algebraOperations(const sel_typ argc, char ** argv)
 {
     operationsGroupMenu(MAX_ALGEBRA_OPERATIONS,
                         alg_operations, main_menu[MAIN_ALGEBRAOPERATIONS].name,
@@ -3505,7 +3505,7 @@ __MSSHELL_WRAPPER_ void __apnt algebraOperations(const register sel_typ argc, ch
     return;
 }
 
-__MSSHELL_WRAPPER_ void __apnt changeProgramSettings(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ void __apnt changeProgramSettings(const sel_typ argc, char ** argv)
 {
     operationsGroupMenu(MAX_SETTINGS, change_settings,
                         main_menu[MAIN_CHANGESETTINGS].name,

@@ -13,8 +13,8 @@ about the use with any other code-scripts.
 //
 
 #ifdef ALLOW_VARLISTMANAGER
-	__MSSHELL_WRAPPER_ static void _MS__private __system __apnt envsManager(const register sel_typ argc, char ** argv);
-	__MSSHELL_WRAPPER_ static void _MS__private __system __apnt envsManager(const register sel_typ argc, char ** argv)
+	__MSSHELL_WRAPPER_ static void _MS__private __system __apnt envsManager(const sel_typ argc, char ** argv);
+	__MSSHELL_WRAPPER_ static void _MS__private __system __apnt envsManager(const sel_typ argc, char ** argv)
 	{
 	
 	    operationsGroupMenu(MAX_ENVSMANAGER_PROGS,
@@ -30,8 +30,8 @@ about the use with any other code-scripts.
 #endif
 
 #ifdef ALLOW_LOGSMANAGER
-	__MSSHELL_WRAPPER_ static void _MS__private __system __apnt logsManager(const register sel_typ argc, char ** argv);
-	__MSSHELL_WRAPPER_ static void _MS__private __system __apnt logsManager(const register sel_typ argc, char ** argv)
+	__MSSHELL_WRAPPER_ static void _MS__private __system __apnt logsManager(const sel_typ argc, char ** argv);
+	__MSSHELL_WRAPPER_ static void _MS__private __system __apnt logsManager(const sel_typ argc, char ** argv)
 	{
 	    operationsGroupMenu(MAX_LOGSMANAGER_PROGS,
 	                        logs_manager, change_settings[SETTINGS_LOGSMANAGER].name,
@@ -46,8 +46,8 @@ about the use with any other code-scripts.
 #endif
 
 #ifdef ALLOW_SYSLOGMANAGER
-	__MSSHELL_WRAPPER_ static void _MS__private __system __apnt sysLogManager(const register sel_typ argc, char ** argv);
-	__MSSHELL_WRAPPER_ static void _MS__private __system __apnt sysLogManager(const register sel_typ argc, char ** argv)
+	__MSSHELL_WRAPPER_ static void _MS__private __system __apnt sysLogManager(const sel_typ argc, char ** argv);
+	__MSSHELL_WRAPPER_ static void _MS__private __system __apnt sysLogManager(const sel_typ argc, char ** argv)
 	{
 	    operationsGroupMenu(MAX_SYSLOGMANAGER_PROGS,
 	                        syslog_manager, change_settings[SETTINGS_SYSLOGMANAGER].name,
@@ -62,8 +62,8 @@ about the use with any other code-scripts.
 #endif
 
 #ifdef ALLOW_LAYOUTSMANAGER
-	__MSSHELL_WRAPPER_ static void _MS__private __system __apnt layoutsManager(const register sel_typ argc, char ** argv);
-	__MSSHELL_WRAPPER_ static void _MS__private __system __apnt layoutsManager(const register sel_typ argc, char ** argv)
+	__MSSHELL_WRAPPER_ static void _MS__private __system __apnt layoutsManager(const sel_typ argc, char ** argv);
+	__MSSHELL_WRAPPER_ static void _MS__private __system __apnt layoutsManager(const sel_typ argc, char ** argv)
 	{
 	    operationsGroupMenu(MAX_LAYOUTSMANAGER_PROGS,
 	                        layouts_manager, change_settings[SETTINGS_LAYOUTSMANAGER].name,
@@ -79,8 +79,8 @@ about the use with any other code-scripts.
 
 #if WINOS
 #ifdef ALLOW_COLSMANAGER
-	__MSSHELL_WRAPPER_ static void _MS__private __system __apnt colorsManager(const register sel_typ argc, char ** argv);
-	__MSSHELL_WRAPPER_ static void _MS__private __system __apnt colorsManager(const register sel_typ argc, char ** argv)
+	__MSSHELL_WRAPPER_ static void _MS__private __system __apnt colorsManager(const sel_typ argc, char ** argv);
+	__MSSHELL_WRAPPER_ static void _MS__private __system __apnt colorsManager(const sel_typ argc, char ** argv)
 	{
 	    operationsGroupMenu(MAX_COLSMANAGER_PROGS,
 	                        cols_manager, change_settings[SETTINGS_COLORSMANAGER].name,
@@ -96,8 +96,8 @@ about the use with any other code-scripts.
 #endif
 	
 #ifdef ALLOW_LFSMANAGER
-	__MSSHELL_WRAPPER_ static void _MS__private __system __apnt lfsManager(const register sel_typ argc, char ** argv);
-	__MSSHELL_WRAPPER_ static void _MS__private __system __apnt lfsManager(const register sel_typ argc, char ** argv)
+	__MSSHELL_WRAPPER_ static void _MS__private __system __apnt lfsManager(const sel_typ argc, char ** argv);
+	__MSSHELL_WRAPPER_ static void _MS__private __system __apnt lfsManager(const sel_typ argc, char ** argv)
 	{
 	    operationsGroupMenu(MAX_LFSMANAGER_PROGS,
 	                    lfs_manager, change_settings[SETTINGS_LFSMANAGER].name,
@@ -112,8 +112,8 @@ about the use with any other code-scripts.
 #endif
 
 #ifdef ALLOW_PRECEDIT
-	__MSSHELL_WRAPPER_ static void _MS__private __system changePrecision(const register sel_typ argc, char ** argv);
-	__MSSHELL_WRAPPER_ static void _MS__private __system changePrecision(const register sel_typ argc, char ** argv)
+	__MSSHELL_WRAPPER_ static void _MS__private __system changePrecision(const sel_typ argc, char ** argv);
+	__MSSHELL_WRAPPER_ static void _MS__private __system changePrecision(const sel_typ argc, char ** argv)
 	{
 	    const fsel_typ old_precision = access(curLayout)->precision;
 	    ityp tmp;
@@ -173,8 +173,8 @@ about the use with any other code-scripts.
 #endif
 
 #ifdef ALLOW_STABFACTEDIT
-	__MSSHELL_WRAPPER_ static void _MS__private __system changeStabilizerFactor(const register sel_typ argc, char ** argv);
-	__MSSHELL_WRAPPER_ static void _MS__private __system changeStabilizerFactor(const register sel_typ argc, char ** argv)
+	__MSSHELL_WRAPPER_ static void _MS__private __system changeStabilizerFactor(const sel_typ argc, char ** argv);
+	__MSSHELL_WRAPPER_ static void _MS__private __system changeStabilizerFactor(const sel_typ argc, char ** argv)
 	{
 	    const fsel_typ old_stabilizer_factor = access(curLayout)->stabilizer_factor;
 	    ityp tmp = 0.00;
@@ -230,8 +230,8 @@ about the use with any other code-scripts.
 #endif
 
 #ifdef ALLOW_BLOCKSIZEEDIT
-	__MSSHELL_WRAPPER_ static void _MS__private __system changeBlockSize(const register sel_typ argc, char ** argv);
-	__MSSHELL_WRAPPER_ static void _MS__private __system changeBlockSize(const register sel_typ argc, char ** argv)
+	__MSSHELL_WRAPPER_ static void _MS__private __system changeBlockSize(const sel_typ argc, char ** argv);
+	__MSSHELL_WRAPPER_ static void _MS__private __system changeBlockSize(const sel_typ argc, char ** argv)
 	{
 	    const fsel_typ old_block_size= access(curLayout)->block_size;
 	    ityp tmp = 0.00;
@@ -287,8 +287,8 @@ about the use with any other code-scripts.
 #endif
 
 #ifdef ALLOW_MINOSMMDIMEDIT
-	__MSSHELL_WRAPPER_ static void _MS__private __system changeMinOSMMDim(const register sel_typ argc, char ** argv);
-	__MSSHELL_WRAPPER_ static void _MS__private __system changeMinOSMMDim(const register sel_typ argc, char ** argv)
+	__MSSHELL_WRAPPER_ static void _MS__private __system changeMinOSMMDim(const sel_typ argc, char ** argv);
+	__MSSHELL_WRAPPER_ static void _MS__private __system changeMinOSMMDim(const sel_typ argc, char ** argv)
 	{
 	    const fsel_typ old_min_osmm_dim= access(curLayout)->min_osmm_dim;
 	    ityp tmp = 0.00;
@@ -344,8 +344,8 @@ about the use with any other code-scripts.
 #endif
 
 #ifdef ALLOW_MINSTRASSENDIMEDIT
-	__MSSHELL_WRAPPER_ static void _MS__private __system changeMinStrassenDim(const register sel_typ argc, char ** argv);
-	__MSSHELL_WRAPPER_ static void _MS__private __system changeMinStrassenDim(const register sel_typ argc, char ** argv)
+	__MSSHELL_WRAPPER_ static void _MS__private __system changeMinStrassenDim(const sel_typ argc, char ** argv);
+	__MSSHELL_WRAPPER_ static void _MS__private __system changeMinStrassenDim(const sel_typ argc, char ** argv)
 	{
 	    const fsel_typ old_min_strassen_dim= access(curLayout)->min_strassen_dim;
 	    ityp tmp = 0.00;
@@ -401,8 +401,8 @@ about the use with any other code-scripts.
 #endif
 
 #ifdef ALLOW_MINSRNUMBEREDIT
-	__MSSHELL_WRAPPER_ static void _MS__private __system changeMinSRNumber(const register sel_typ argc, char ** argv);
-	__MSSHELL_WRAPPER_ static void _MS__private __system changeMinSRNumber(const register sel_typ argc, char ** argv)
+	__MSSHELL_WRAPPER_ static void _MS__private __system changeMinSRNumber(const sel_typ argc, char ** argv);
+	__MSSHELL_WRAPPER_ static void _MS__private __system changeMinSRNumber(const sel_typ argc, char ** argv)
 	{
 		const dim_typ old_minsr_number = access(curLayout)->min_stirling_number;
 	    ityp tmp;
@@ -459,8 +459,8 @@ about the use with any other code-scripts.
 #endif
 
 #ifdef ALLOW_ALGEBRAEDIT
-	__MSSHELL_WRAPPER_ static void _MS__private __system changeAlgebra(const register sel_typ argc, char ** argv);
-	__MSSHELL_WRAPPER_ static void _MS__private __system changeAlgebra(const register sel_typ argc, char ** argv)
+	__MSSHELL_WRAPPER_ static void _MS__private __system changeAlgebra(const sel_typ argc, char ** argv);
+	__MSSHELL_WRAPPER_ static void _MS__private __system changeAlgebra(const sel_typ argc, char ** argv)
 	{
 	
 	    dim_typ i;
@@ -494,8 +494,8 @@ about the use with any other code-scripts.
 #endif
 
 #ifdef ALLOW_OUTLIERCONSTEDIT
-	__MSSHELL_WRAPPER_ static void _MS__private __system changeOutlierConst(const register sel_typ argc, char ** argv);
-	__MSSHELL_WRAPPER_ static void _MS__private __system changeOutlierConst(const register sel_typ argc, char ** argv)
+	__MSSHELL_WRAPPER_ static void _MS__private __system changeOutlierConst(const sel_typ argc, char ** argv);
+	__MSSHELL_WRAPPER_ static void _MS__private __system changeOutlierConst(const sel_typ argc, char ** argv)
 	{
 	    const fsel_typ old_outlier_constant = access(curLayout)->outlier_constant;
 		ityp tmp = 0.00; 
@@ -551,8 +551,8 @@ about the use with any other code-scripts.
 #endif
 
 #ifdef ALLOW_EXITCHAREDIT
-	__MSSHELL_WRAPPER_ static void _MS__private __system changeExitChar(const register sel_typ argc, char ** argv);
-	__MSSHELL_WRAPPER_ static void _MS__private __system changeExitChar(const register sel_typ argc, char ** argv)
+	__MSSHELL_WRAPPER_ static void _MS__private __system changeExitChar(const sel_typ argc, char ** argv);
+	__MSSHELL_WRAPPER_ static void _MS__private __system changeExitChar(const sel_typ argc, char ** argv)
 	{
 	    const char old_exit_char = access(curLayout)->exit_char;
 	
@@ -580,8 +580,8 @@ about the use with any other code-scripts.
 #endif
 
 #ifdef ALLOW_RANDOMSEEDEDIT
-	__MSSHELL_WRAPPER_ static void _MS__private __system changeRandomSeed(const register sel_typ argc, char ** argv);
-	__MSSHELL_WRAPPER_ static void _MS__private __system changeRandomSeed(const register sel_typ argc, char ** argv)
+	__MSSHELL_WRAPPER_ static void _MS__private __system changeRandomSeed(const sel_typ argc, char ** argv);
+	__MSSHELL_WRAPPER_ static void _MS__private __system changeRandomSeed(const sel_typ argc, char ** argv)
 	{
 	    const fsel_typ old_random_seed = access(random_seed);
 	    ityp tmp;
@@ -641,8 +641,8 @@ about the use with any other code-scripts.
 #endif
 
 #ifdef ALLOW_BOOLVARSEDIT
-	__MSSHELL_WRAPPER_ static void _MS__private __system changeBoolValues(const register sel_typ argc, char ** argv);
-	__MSSHELL_WRAPPER_ static void _MS__private __system changeBoolValues(const register sel_typ argc, char ** argv)
+	__MSSHELL_WRAPPER_ static void _MS__private __system changeBoolValues(const sel_typ argc, char ** argv);
+	__MSSHELL_WRAPPER_ static void _MS__private __system changeBoolValues(const sel_typ argc, char ** argv)
 	{
 	    dim_typ i;
 	    if(argc)
@@ -675,8 +675,8 @@ about the use with any other code-scripts.
 #endif
 
 #ifdef ALLOW_OPERIDSEDIT
-	__MSSHELL_WRAPPER_ static void _MS__private __system changeOpersIdentifiers(const register sel_typ argc, char ** argv);
-	__MSSHELL_WRAPPER_ static void _MS__private __system changeOpersIdentifiers(const register sel_typ argc, char ** argv)
+	__MSSHELL_WRAPPER_ static void _MS__private __system changeOpersIdentifiers(const sel_typ argc, char ** argv);
+	__MSSHELL_WRAPPER_ static void _MS__private __system changeOpersIdentifiers(const sel_typ argc, char ** argv)
 	{
 	
 	    char identifier[MAX_IDENTIFIER_LENGTH] = NULL_CHAR;
@@ -720,8 +720,8 @@ about the use with any other code-scripts.
 #endif
 
 #ifdef ALLOW_MMIEDIT
-	__MSSHELL_WRAPPER_ static void _MS__private __system changeMaxMemoizableIndices(const register sel_typ argc, char ** argv);
-	__MSSHELL_WRAPPER_ static void _MS__private __system changeMaxMemoizableIndices(const register sel_typ argc, char ** argv)
+	__MSSHELL_WRAPPER_ static void _MS__private __system changeMaxMemoizableIndices(const sel_typ argc, char ** argv);
+	__MSSHELL_WRAPPER_ static void _MS__private __system changeMaxMemoizableIndices(const sel_typ argc, char ** argv)
 	{
 	
 	    const dim_typ old_max_memoizable_index[MAX_MEMOIZABLE_FUNCTIONS] =
@@ -865,7 +865,7 @@ about the use with any other code-scripts.
 	        {
 	            CLEARBUFFER();
 	            if(access(exitHandle) == EXITHANDLE_GETCMD) continue;
-	            if(exitHandleCheck) // if(tmp3[RAWS] == NULL_VAL || tmp3[COLUMNS] == NULL_VAL)
+	            if(exitHandleCheck) // if(tmp3[ROWS] == NULL_VAL || tmp3[COLUMNS] == NULL_VAL)
 	            {
 	            	#pragma omp parallel for num_threads(MAX_MEMOIZABLE_FUNCTIONS)
 	            	for(i=0; i<MAX_MEMOIZABLE_FUNCTIONS; ++i)
@@ -882,8 +882,8 @@ about the use with any other code-scripts.
 	    return;
 	}
 	
-	__MSSHELL_WRAPPER_ static void _MS__private __system emptyMemoizersBuffers(const register sel_typ argc, char ** argv);
-	__MSSHELL_WRAPPER_ static void _MS__private __system emptyMemoizersBuffers(const register sel_typ argc, char ** argv)
+	__MSSHELL_WRAPPER_ static void _MS__private __system emptyMemoizersBuffers(const sel_typ argc, char ** argv);
+	__MSSHELL_WRAPPER_ static void _MS__private __system emptyMemoizersBuffers(const sel_typ argc, char ** argv)
 	{
 	
 	    sel_typ tmp;
@@ -921,8 +921,8 @@ about the use with any other code-scripts.
 #endif
 
 #ifdef ALLOW_BUFFERSEDIT
-	__MSSHELL_WRAPPER_ static void _MS__private __system emptyBuffers(const register sel_typ argc, char ** argv);
-	__MSSHELL_WRAPPER_ static void _MS__private __system emptyBuffers(const register sel_typ argc, char ** argv)
+	__MSSHELL_WRAPPER_ static void _MS__private __system emptyBuffers(const sel_typ argc, char ** argv);
+	__MSSHELL_WRAPPER_ static void _MS__private __system emptyBuffers(const sel_typ argc, char ** argv)
 	{
 	
 	    sel_typ tmp;
@@ -979,8 +979,8 @@ about the use with any other code-scripts.
 #endif
 
 #ifdef ALLOW_SETDEFAULTS
-	__MSSHELL_WRAPPER_ static void _MS__private __system setDefaultValues(const register sel_typ argc, char ** argv);
-	__MSSHELL_WRAPPER_ static void _MS__private __system setDefaultValues(const register sel_typ argc, char ** argv)
+	__MSSHELL_WRAPPER_ static void _MS__private __system setDefaultValues(const sel_typ argc, char ** argv);
+	__MSSHELL_WRAPPER_ static void _MS__private __system setDefaultValues(const sel_typ argc, char ** argv)
 	{
 	    setDefaults();
 	    printf2(COLOR_USER, "Default Settings has been correctly loaded:\n");

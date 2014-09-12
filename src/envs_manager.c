@@ -11,16 +11,16 @@ about the use with any other code-scripts.
 // FUNCTIONS DECLARATIONS
 
 
-__MSSHELL_WRAPPER_ static void _MS__private __lmp_prog setCurEnv(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ __WINCALL static void _MS__private __lmp_prog createEnv(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private __lmp_prog viewEnv(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private __lmp_prog printEnv(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private __lmp_prog updEnv(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private __lmp_prog updAllEnvs(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private __lmp_prog delEnv(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private __lmp_prog relEnv(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private __lmp_prog syncEnv(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private __lmp_prog renEnv(const register sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private __lmp_prog setCurEnv(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ __WINCALL static void _MS__private __lmp_prog createEnv(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private __lmp_prog viewEnv(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private __lmp_prog printEnv(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private __lmp_prog updEnv(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private __lmp_prog updAllEnvs(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private __lmp_prog delEnv(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private __lmp_prog relEnv(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private __lmp_prog syncEnv(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private __lmp_prog renEnv(const sel_typ argc, char ** argv);
 
 sprog envs_manager[MAX_ENVSMANAGER_PROGS] =
 {
@@ -163,54 +163,54 @@ sprog envs_manager[MAX_ENVSMANAGER_PROGS] =
 
 // FUNCTIONS DEFINITIONS
 
-__MSSHELL_WRAPPER_ static inline void _MS__private __lmp_prog setCurEnv(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static inline void _MS__private __lmp_prog setCurEnv(const sel_typ argc, char ** argv)
 {
     setCurItem(argc ? getItemID(argv[0], &envs_manager[ENVS_SETCURRENT], ENVS) : getItemsListNo(ENVS), ENVS);
     return;
 }
 
-__MSSHELL_WRAPPER_ __WINCALL static inline void _MS__private __lmp_prog createEnv(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ __WINCALL static inline void _MS__private __lmp_prog createEnv(const sel_typ argc, char ** argv)
 {
     createItem(argc ? argv[0] : NULL, ENVS);
     return;
 }
 
-__MSSHELL_WRAPPER_ static inline void _MS__private __lmp_prog viewEnv(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static inline void _MS__private __lmp_prog viewEnv(const sel_typ argc, char ** argv)
 {
     viewItem(argc ? getItemID(argv[0], &envs_manager[ENVS_READ], ENVS) : getItemsListNo(ENVS), ENVS);
     return;
 }
 
-__MSSHELL_WRAPPER_ static inline void _MS__private __lmp_prog printEnv(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static inline void _MS__private __lmp_prog printEnv(const sel_typ argc, char ** argv)
 {
     printListItem(argc ? getItemID(argv[0], &envs_manager[ENVS_PRINT], ENVS) : getItemsListNo(ENVS), ENVS);
     return;
 }
 
-__MSSHELL_WRAPPER_ static inline void _MS__private __lmp_prog updEnv(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static inline void _MS__private __lmp_prog updEnv(const sel_typ argc, char ** argv)
 {
     updItem(ENVS);
     return;
 }
-__MSSHELL_WRAPPER_ static inline void _MS__private __lmp_prog updAllEnvs(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static inline void _MS__private __lmp_prog updAllEnvs(const sel_typ argc, char ** argv)
 {
     updAll(ENVS);
     return;
 }
 
-__MSSHELL_WRAPPER_ static inline void _MS__private __lmp_prog delEnv(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static inline void _MS__private __lmp_prog delEnv(const sel_typ argc, char ** argv)
 {
     delItem(argc ? getItemID(argv[0], &envs_manager[__pmode__], ENVS) : getItemsListNo(ENVS), ENVS);
     return;
 }
 
-__MSSHELL_WRAPPER_ static inline void _MS__private __lmp_prog relEnv(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static inline void _MS__private __lmp_prog relEnv(const sel_typ argc, char ** argv)
 {
     relItem(argc ? getItemID(argv[0], &envs_manager[ENVS_RELOAD], ENVS) : getItemsListNo(ENVS), ENVS);
     return;
 }
 
-__MSSHELL_WRAPPER_ static inline void _MS__private __lmp_prog syncEnv(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static inline void _MS__private __lmp_prog syncEnv(const sel_typ argc, char ** argv)
 {
     dim_typ which_env;
 
@@ -243,7 +243,7 @@ __MSSHELL_WRAPPER_ static inline void _MS__private __lmp_prog syncEnv(const regi
     return;
 }
 
-__MSSHELL_WRAPPER_ static inline void _MS__private __lmp_prog renEnv(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static inline void _MS__private __lmp_prog renEnv(const sel_typ argc, char ** argv)
 {
     renItem(argc > 1 ? argv[1] : NULL, argc ? getItemID(argv[0], &envs_manager[ENVS_RENAME], ENVS) : getItemsListNo(ENVS), ENVS);
     return;

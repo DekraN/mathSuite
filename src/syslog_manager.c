@@ -11,15 +11,15 @@ about the use with any other code-scripts.
 
 // FUNCTIONS DECLARATIONS
 
-__MSSHELL_WRAPPER_ static void _MS__private __system createLog(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private __system viewLog(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private __system printLog(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private __system editLog(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private __system updLog(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private __system relLog(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private __system selLogBufLen(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private __system flushLogBuf(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private __system renLog(const register sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private __system createLog(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private __system viewLog(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private __system printLog(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private __system editLog(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private __system updLog(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private __system relLog(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private __system selLogBufLen(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private __system flushLogBuf(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private __system renLog(const sel_typ argc, char ** argv);
 
 
 sprog syslog_manager[MAX_SYSLOGMANAGER_PROGS] =
@@ -128,7 +128,7 @@ sprog syslog_manager[MAX_SYSLOGMANAGER_PROGS] =
 
 // FUNCTIONS DEFINITIONS
 
-__MSSHELL_WRAPPER_ static void _MS__private __system createLog(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static void _MS__private __system createLog(const sel_typ argc, char ** argv)
 {
     char name[MAX_PATH_LENGTH] = NULL_CHAR;
     const bool assert = __pmode__ == SYSLOG_OPEN;
@@ -199,25 +199,25 @@ __MSSHELL_WRAPPER_ static void _MS__private __system createLog(const register se
     return;
 }
 
-__MSSHELL_WRAPPER_ static void _MS__private __system viewLog(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static void _MS__private __system viewLog(const sel_typ argc, char ** argv)
 {
     logPrint(access(sysLog));
     return;
 }
 
-__MSSHELL_WRAPPER_ static void _MS__private __system printLog(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static void _MS__private __system printLog(const sel_typ argc, char ** argv)
 {
     printFile(access(sysLogPath));
     return;
 }
 
-static void editLog(const register sel_typ argc, char ** argv)
+static void editLog(const sel_typ argc, char ** argv)
 {
     _editLog(access(sysLogPath));
     return;
 }
 
-__MSSHELL_WRAPPER_ static void _MS__private __system updLog(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static void _MS__private __system updLog(const sel_typ argc, char ** argv)
 {
     FILE *fp;
 
@@ -239,13 +239,13 @@ __MSSHELL_WRAPPER_ static void _MS__private __system updLog(const register sel_t
     return;
 }
 
-__MSSHELL_WRAPPER_ static void _MS__private __system relLog(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static void _MS__private __system relLog(const sel_typ argc, char ** argv)
 {
     writeFile(access(sysLogPath));
     return;
 }
 
-__MSSHELL_WRAPPER_ static void _MS__private __system selLogBufLen(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static void _MS__private __system selLogBufLen(const sel_typ argc, char ** argv)
 {
     size_t buflen = 0;
 
@@ -268,14 +268,14 @@ __MSSHELL_WRAPPER_ static void _MS__private __system selLogBufLen(const register
     return;
 }
 
-__MSSHELL_WRAPPER_ static void _MS__private __system flushLogBuf(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static void _MS__private __system flushLogBuf(const sel_typ argc, char ** argv)
 {
     sprint("\nSystem Log:\n%s\nBuffer has been properly flushed.\n\n", access(sysLogPath));
     _flushLogBuf(access(sysLog));
     return;
 }
 
-__MSSHELL_WRAPPER_ static void _MS__private __system renLog(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static void _MS__private __system renLog(const sel_typ argc, char ** argv)
 {
     char name[MAX_PATH_LENGTH];
     char newname[MAX_PATH_LENGTH];

@@ -10,9 +10,9 @@ about the use with any other code-scripts.
 #if WINOS
 #ifdef ALLOW_COLSMANAGER
 
-__MSSHELL_WRAPPER_ static void _MS__private __system changeColors(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ __WINCALL static void _MS__private __system colFileLoader(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private __system backupColFile(const register sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private __system changeColors(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ __WINCALL static void _MS__private __system colFileLoader(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private __system backupColFile(const sel_typ argc, char ** argv);
 
 sprog cols_manager[MAX_COLSMANAGER_PROGS] =
 {
@@ -45,7 +45,7 @@ sprog cols_manager[MAX_COLSMANAGER_PROGS] =
     }
 };
 
-__MSSHELL_WRAPPER_ static void _MS__private __system changeColors(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static void _MS__private __system changeColors(const sel_typ argc, char ** argv)
 {
     dim_typ i, j;
     dim_typ old_col = INIT_COLOR;
@@ -107,7 +107,7 @@ __MSSHELL_WRAPPER_ static void _MS__private __system changeColors(const register
 
 }
 
-__MSSHELL_WRAPPER_ __WINCALL static void _MS__private __system colFileLoader(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ __WINCALL static void _MS__private __system colFileLoader(const sel_typ argc, char ** argv)
 {
     char path[MAX_PATH_LENGTH];
     if(isnSett(BOOLS_ITEMSSELECTBYPATH))
@@ -159,7 +159,7 @@ __MSSHELL_WRAPPER_ __WINCALL static void _MS__private __system colFileLoader(con
     return;
 }
 
-__MSSHELL_WRAPPER_ static void _MS__private __system backupColFile(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static void _MS__private __system backupColFile(const sel_typ argc, char ** argv)
 {
     _backupColFile();
     printf2(COLOR_USER, "%s\nColors Settings File has been correctly saved.\n\n", access(colors_path));

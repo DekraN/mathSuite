@@ -10,8 +10,8 @@ about the use with any other code-scripts.
 #define CHECK_INVERSE_OPERATIONS() if(isSett(BOOLS_AUTOTURNBACK))access(curLayout)->bools &= ~suite_c.bools[BOOLS_INVERSEOPERATIONS].bmask
 
 #ifdef ALLOW_MATMANAGER
-__MSSHELL_WRAPPER_ static void _MS__private __apnt matrixManager(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private __apnt matrixManager(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static void _MS__private __apnt matrixManager(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private __apnt matrixManager(const sel_typ argc, char ** argv)
 {
     operationsGroupMenu(MAX_MATMANAGER_PROGS,
                         mat_manager, alg_operations[ALGOPS_MATRICESMANAGER].name,
@@ -25,20 +25,20 @@ __MSSHELL_WRAPPER_ static void _MS__private __apnt matrixManager(const register 
 }
 #endif
 
-__MSSHELL_WRAPPER_ static void _MS__private matrixSort(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private matrixNorm(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private matrixDet(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private matrixTrace(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private matrixRank(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private matrixSVD(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private matrixInv(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private matrixTranspose(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private matrixAdd(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private matrixMultiplication(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private matrixKProduct(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private perScalarMultiplication(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private illConditionChecking(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private matrixFattLU(const register sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private matrixSort(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private matrixNorm(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private matrixDet(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private matrixTrace(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private matrixRank(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private matrixSVD(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private matrixInv(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private matrixTranspose(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private matrixAdd(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private matrixMultiplication(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private matrixKProduct(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private perScalarMultiplication(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private illConditionChecking(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private matrixFattLU(const sel_typ argc, char ** argv);
 
 sprog alg_operations[MAX_ALGEBRA_OPERATIONS] =
 {
@@ -237,7 +237,7 @@ sprog alg_operations[MAX_ALGEBRA_OPERATIONS] =
 
 #define PARSING_MATRIX_ALLOWED isSett(BOOLS_MATRIXPARSING)
 
-__MSSHELL_WRAPPER_ static void _MS__private matrixSort(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static void _MS__private matrixSort(const sel_typ argc, char ** argv)
 {
 
     sel_typ tmp;
@@ -263,7 +263,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixSort(const register sel_typ ar
             }
             else
             {
-                if(!insertDims(&dim[RAWS], &dim[COLUMNS]))
+                if(!insertDims(&dim[ROWS], &dim[COLUMNS]))
                     return;
 
                 if(!matrixAlloc(&matrix, dim))
@@ -302,13 +302,13 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixSort(const register sel_typ ar
 
             if(tmp == 'A')
             {
-                if(!insertMatrix(matrix, dim[RAWS], dim[COLUMNS], false))
+                if(!insertMatrix(matrix, dim[ROWS], dim[COLUMNS], false))
                     continue;
             }
 
             if(tmp == 'B')
             {
-                if(!insertDims(&dim[RAWS], &dim[COLUMNS]))
+                if(!insertDims(&dim[ROWS], &dim[COLUMNS]))
                     continue;
                 if(!matrixAlloc(&matrix, dim))
                     continue;
@@ -336,7 +336,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixSort(const register sel_typ ar
     
     if(difftime)
     	gettimeofday(&tvBegin, NULL);
-    qsort(matrix,dim[RAWS]*dim[COLUMNS], sizeof(ityp), cmpfunc);
+    qsort(matrix,dim[ROWS]*dim[COLUMNS], sizeof(ityp), cmpfunc);
     
     if(difftime)
     {
@@ -356,7 +356,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixSort(const register sel_typ ar
     return;
 }
 
-__MSSHELL_WRAPPER_ static void _MS__private matrixNorm(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static void _MS__private matrixNorm(const sel_typ argc, char ** argv)
 {
     sel_typ tmp;
 
@@ -388,14 +388,14 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixNorm(const register sel_typ ar
 
     if(argc > 1)
     {
-        if((!matrixToken(argv[1], &matrix, dim, &dim[COLUMNS])) || dim[RAWS] != dim[COLUMNS])
+        if((!matrixToken(argv[1], &matrix, dim, &dim[COLUMNS])) || dim[ROWS] != dim[COLUMNS])
         {
             matrixFree(&matrix);
             printUsage(&alg_operations[ALGOPS_NORMCALCULATOR]);
             return;
         }
     }
-    else if(!insertMatrix(matrix, dim[RAWS], dim[COLUMNS], true))
+    else if(!insertMatrix(matrix, dim[ROWS], dim[COLUMNS], true))
         return;
 
 	struct timeval tvBegin;
@@ -404,7 +404,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixNorm(const register sel_typ ar
 	if(difftime)
 		gettimeofday(&tvBegin, NULL);
 		
-    const register ityp nrm = tmp ? norm(matrix, dim[RAWS], tmp-1) : norms(matrix, dim[RAWS]);
+    const register ityp nrm = tmp ? norm(matrix, dim[ROWS], tmp-1) : norms(matrix, dim[ROWS]);
     
     if(difftime)
     {
@@ -428,7 +428,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixNorm(const register sel_typ ar
     return;
 }
 
-__MSSHELL_WRAPPER_ static void _MS__private matrixDet(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static void _MS__private matrixDet(const sel_typ argc, char ** argv)
 {
     ityp *matrix = NULL;
     dim_typ dim[MAX_DIMENSIONS];
@@ -436,14 +436,14 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixDet(const register sel_typ arg
     if(argc)
     {
 
-        if((!matrixToken(argv[0], &matrix, dim, &dim[COLUMNS])) || dim[RAWS] != dim[COLUMNS])
+        if((!matrixToken(argv[0], &matrix, dim, &dim[COLUMNS])) || dim[ROWS] != dim[COLUMNS])
         {
             matrixFree(&matrix);
             printUsage(&alg_operations[ALGOPS_DETERMINANTCALCULATOR]);
             return;
         }
     }
-    else if(!insertMatrix(matrix, dim[RAWS], dim[COLUMNS], true))
+    else if(!insertMatrix(matrix, dim[ROWS], dim[COLUMNS], true))
         return;
 
     bool flag = false;
@@ -453,7 +453,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixDet(const register sel_typ arg
     if(difftime)
     	gettimeofday(&tvBegin, NULL);
     	
-    const register ityp dt = det(matrix, dim[RAWS], &flag);
+    const register ityp dt = det(matrix, dim[ROWS], &flag);
     
     if(difftime)
     {
@@ -477,7 +477,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixDet(const register sel_typ arg
     return;
 }
 
-__MSSHELL_WRAPPER_ static void _MS__private matrixTrace(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static void _MS__private matrixTrace(const sel_typ argc, char ** argv)
 {
     ityp *matrix = NULL;
     dim_typ dim[MAX_DIMENSIONS];
@@ -485,14 +485,14 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixTrace(const register sel_typ a
 
     if(argc)
     {
-        if((!matrixToken(argv[0], &matrix, dim, &dim[COLUMNS])) || dim[RAWS] != dim[COLUMNS])
+        if((!matrixToken(argv[0], &matrix, dim, &dim[COLUMNS])) || dim[ROWS] != dim[COLUMNS])
         {
             matrixFree(&matrix);
             printUsage(&alg_operations[ALGOPS_TRACECALCULATOR]);
             return;
         }
     }
-    else if(!insertMatrix(matrix, dim[RAWS], dim[COLUMNS], true))
+    else if(!insertMatrix(matrix, dim[ROWS], dim[COLUMNS], true))
         return;
 
 	struct timeval tvBegin;
@@ -500,7 +500,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixTrace(const register sel_typ a
 	if(difftime)
 		gettimeofday(&tvBegin, NULL);
 		
-    const register ityp trc = trace(matrix, dim[RAWS]);
+    const register ityp trc = trace(matrix, dim[ROWS]);
     
     if(difftime)
     {
@@ -524,7 +524,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixTrace(const register sel_typ a
     return;
 }
 
-__MSSHELL_WRAPPER_ static void _MS__private matrixRank(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static void _MS__private matrixRank(const sel_typ argc, char ** argv)
 {
     ityp *matrix = NULL;
     dim_typ dim[MAX_DIMENSIONS];
@@ -534,7 +534,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixRank(const register sel_typ ar
         if(!matrixToken(argv[0], &matrix, dim, &dim[COLUMNS]))
             return;
     }
-    else if(!insertMatrix(matrix, dim[RAWS], dim[COLUMNS], false))
+    else if(!insertMatrix(matrix, dim[ROWS], dim[COLUMNS], false))
         return;
         
     struct timeval tvBegin;
@@ -565,7 +565,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixRank(const register sel_typ ar
     return;
 }
 
-__MSSHELL_WRAPPER_ static void _MS__private matrixSVD(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static void _MS__private matrixSVD(const sel_typ argc, char ** argv)
 {
     ityp *matrix = NULL;
     dim_typ dim[MAX_DIMENSIONS];
@@ -575,7 +575,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixSVD(const register sel_typ arg
         if(!matrixToken(argv[0], &matrix, dim, &dim[COLUMNS]))
             return;
     }
-    else if(!insertMatrix(matrix, dim[RAWS], dim[COLUMNS], false))
+    else if(!insertMatrix(matrix, dim[ROWS], dim[COLUMNS], false))
         return;
 
     ityp * S = NULL;
@@ -638,26 +638,26 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixSVD(const register sel_typ arg
     return;
 }
 
-__MSSHELL_WRAPPER_ static void _MS__private matrixInv(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static void _MS__private matrixInv(const sel_typ argc, char ** argv)
 {
     ityp *matrix = NULL;
     dim_typ dim[MAX_DIMENSIONS];
 
     if(argc)
     {
-        if((!matrixToken(argv[0], &matrix, dim, &dim[COLUMNS])) || dim[RAWS] != dim[COLUMNS])
+        if((!matrixToken(argv[0], &matrix, dim, &dim[COLUMNS])) || dim[ROWS] != dim[COLUMNS])
         {
             matrixFree(&matrix);
             printUsage(&alg_operations[ALGOPS_INVERSEMATRIX]);
             return;
         }
     }
-    else if(!insertMatrix(matrix, dim[RAWS], dim[COLUMNS], true))
+    else if(!insertMatrix(matrix, dim[ROWS], dim[COLUMNS], true))
         return;
 
-    const dim_typ dimraws_per2 = dim[RAWS]<<1;
+    const dim_typ dimrows_per2 = dim[ROWS]<<1;
 
-    matrix = realloc(matrix, sizeof(ityp *)*dimraws_per2*dim[COLUMNS]);
+    matrix = realloc(matrix, sizeof(ityp *)*dimrows_per2*dim[COLUMNS]);
     errMem(matrix, (matrixFree(&matrix)));
 
     dim_typ i;
@@ -668,7 +668,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixInv(const register sel_typ arg
 	if(difftime)
 		gettimeofday(&tvBegin, NULL);
 		
-    if(!invertMatrix(matrix, dim[RAWS]))
+    if(!invertMatrix(matrix, dim[ROWS]))
     {
         printErr(1, "You cannot invert SINGULAR Matrices");
         #if WINOS
@@ -688,12 +688,12 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixInv(const register sel_typ arg
     dim_typ j;
 
     // VISUALIZZAZIONE PARTICOLARE MATRICE
-    for(i=0; i<dim[RAWS]; ++i)
+    for(i=0; i<dim[ROWS]; ++i)
     {
-        for(j = dim[RAWS]; j < dimraws_per2; ++j)
+        for(j = dim[ROWS]; j < dimrows_per2; ++j)
         {
-            printf2(COLOR_USER, OUTPUT_CONVERSION_FORMAT, *(matrix + (dim[RAWS]*i) + j));
-            printf2(COLOR_USER, j == dimraws_per2-1 ? ";" : ",");
+            printf2(COLOR_USER, OUTPUT_CONVERSION_FORMAT, *(matrix + (dim[ROWS]*i) + j));
+            printf2(COLOR_USER, j == dimrows_per2-1 ? ";" : ",");
             PRINTSPACE();
         }
         PRINTN();
@@ -708,7 +708,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixInv(const register sel_typ arg
     return;
 }
 
-__MSSHELL_WRAPPER_ static void _MS__private matrixTranspose(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static void _MS__private matrixTranspose(const sel_typ argc, char ** argv)
 {
     ityp *matrix = NULL;
     dim_typ dim[MAX_DIMENSIONS];
@@ -718,14 +718,14 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixTranspose(const register sel_t
         if(!matrixToken(argv[0], &matrix, dim, &dim[COLUMNS]))
             return;
     }
-    else if(!insertMatrix(matrix, dim[RAWS], dim[COLUMNS], false))
+    else if(!insertMatrix(matrix, dim[ROWS], dim[COLUMNS], false))
         return;
 
     printf2(COLOR_SYSTEM, "\nTRANSPOSED MATRIX of Inserted Matrix is:\n\n");
 
     ityp *matrix2 = NULL;
 
-    if(!matrixAlloc(&matrix2, (dim_typ2){dim[COLUMNS], dim[RAWS]}))
+    if(!matrixAlloc(&matrix2, (dim_typ2){dim[COLUMNS], dim[ROWS]}))
     {
         #if WINOS
             SetExitButtonState(ENABLED);
@@ -747,7 +747,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixTranspose(const register sel_t
         printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, getDiffTime(&tvBegin));
 	}
     
-    printMatrix(stdout, matrix2, (dim_typ2){dim[COLUMNS], dim[RAWS]});
+    printMatrix(stdout, matrix2, (dim_typ2){dim[COLUMNS], dim[ROWS]});
 
     matrixFree(&matrix);
     matrixFree(&matrix2);
@@ -759,7 +759,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixTranspose(const register sel_t
     return;
 }
 
-__MSSHELL_WRAPPER_ static void _MS__private matrixAdd(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static void _MS__private matrixAdd(const sel_typ argc, char ** argv)
 {
     dim_typ i, j, k, l;
     dim_typ dim[MAX_DIMENSIONS];
@@ -881,10 +881,10 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixAdd(const register sel_typ arg
         {
             matrix1[k][i] = NULL;
             printf2(COLOR_CREDITS, "Enter IMAGINARY %s PART of the First Complex Matrix\n", suite_c.algebra_imaginary_units_names[access(curLayout)->algebra][i]);
-            printf2(COLOR_CREDITS, "by entering another [%hu x %hu] Matrix.\n\n", dim[RAWS], dim[COLUMNS]);
+            printf2(COLOR_CREDITS, "by entering another [%hu x %hu] Matrix.\n\n", dim[ROWS], dim[COLUMNS]);
             if(argc > argv_pos)
             {
-                if((!matrixToken(argv[argv_pos], &matrix1[k][i], cdim, &cdim[COLUMNS])) || cdim[RAWS] != dim[RAWS] || cdim[COLUMNS] != dim[COLUMNS])
+                if((!matrixToken(argv[argv_pos], &matrix1[k][i], cdim, &cdim[COLUMNS])) || cdim[ROWS] != dim[ROWS] || cdim[COLUMNS] != dim[COLUMNS])
                 {
                 	#pragma omp parallel for
                     for(j=0; j<=i; ++j)
@@ -1017,7 +1017,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixAdd(const register sel_typ arg
         {
             dim_typ rc[MAX_DIMENSIONS];
 
-            if((!matrixToken(argv[argv_pos], matrix2[k], rc, &rc[COLUMNS])) || rc[RAWS] != dim[RAWS] || rc[COLUMNS] != dim[COLUMNS])
+            if((!matrixToken(argv[argv_pos], matrix2[k], rc, &rc[COLUMNS])) || rc[ROWS] != dim[ROWS] || rc[COLUMNS] != dim[COLUMNS])
             {
             	if(algebra_units <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && algebra_units > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
 	            	#pragma omp parallel for num_threads(algebra_units)
@@ -1057,10 +1057,10 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixAdd(const register sel_typ arg
         else
         {
 
-            printf2(COLOR_CREDITS, "Enter second [%hu x %hu] Matrix Elements.\n", dim[RAWS], dim[COLUMNS]);
-            printf2(COLOR_CREDITS, "Elements Inserting Carriage will be automatically redirected on second scansion (for RAWS Scanning).\n\n");
+            printf2(COLOR_CREDITS, "Enter second [%hu x %hu] Matrix Elements.\n", dim[ROWS], dim[COLUMNS]);
+            printf2(COLOR_CREDITS, "Elements Inserting Carriage will be automatically redirected on second scansion (for ROWS Scanning).\n\n");
 
-            if(!insertNMMatrix(matrix2[k], dim)) // dim[RAWS], dim[COLUMNS]))
+            if(!insertNMMatrix(matrix2[k], dim)) // dim[ROWS], dim[COLUMNS]))
             {
             	if(algebra_units <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && algebra_units > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
 	                #pragma omp parallel for num_threads(algebra_units)
@@ -1096,11 +1096,11 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixAdd(const register sel_typ arg
         {
             matrix2[k][i] = NULL;
             printf2(COLOR_CREDITS, "Enter IMAGINARY %s PART of the Second Complex Matrix\n", suite_c.algebra_imaginary_units_names[access(curLayout)->algebra][i]);
-            printf2(COLOR_CREDITS, "by entering another [%hu x %hu] Matrix.\n\n", dim[RAWS], dim[COLUMNS]);
+            printf2(COLOR_CREDITS, "by entering another [%hu x %hu] Matrix.\n\n", dim[ROWS], dim[COLUMNS]);
             if(argc > argv_pos)
             {
 
-                if((!matrixToken(argv[argv_pos], &matrix2[k][i], cdim, &cdim[COLUMNS])) || cdim[RAWS] != dim[RAWS] || cdim[COLUMNS] != dim[COLUMNS])
+                if((!matrixToken(argv[argv_pos], &matrix2[k][i], cdim, &cdim[COLUMNS])) || cdim[ROWS] != dim[ROWS] || cdim[COLUMNS] != dim[COLUMNS])
                 {
                     #pragma omp parallel for
 					for(j=0; j<=i; ++j)
@@ -1146,7 +1146,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixAdd(const register sel_typ arg
             }
             else
             {
-                if(!insertNMMatrix(&matrix2[k][i], (dim_typ2){dim[RAWS], dim[COLUMNS]}))
+                if(!insertNMMatrix(&matrix2[k][i], (dim_typ2){dim[ROWS], dim[COLUMNS]}))
                 {
                 	#pragma omp parallel for
                     for(j=0; j<i; ++j)
@@ -1183,7 +1183,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixAdd(const register sel_typ arg
         }
 
         printf2(COLOR_USER, "\nSecond Matrix correctly inserted:\n\n");
-        printMatrix(stdout, matrix2[k][0], dim); // dim[RAWS], dim[COLUMNS]);
+        printMatrix(stdout, matrix2[k][0], dim); // dim[ROWS], dim[COLUMNS]);
 
         for(i=1; i<algebra_units; ++i)
         {
@@ -1191,7 +1191,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixAdd(const register sel_typ arg
             printMatrix(stdout, matrix2[k][i], dim);
         }
 
-        printf2(COLOR_SYSTEM, "\nMatrix %s [%hu x %hu] between First and Second Matrix is:\n", matrix_type, dim[RAWS], dim[COLUMNS]);
+        printf2(COLOR_SYSTEM, "\nMatrix %s [%hu x %hu] between First and Second Matrix is:\n", matrix_type, dim[ROWS], dim[COLUMNS]);
 
         if(!k)
         {
@@ -1378,7 +1378,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixAdd(const register sel_typ arg
 }
 
 
-__MSSHELL_WRAPPER_ static void _MS__private matrixMultiplication(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static void _MS__private matrixMultiplication(const sel_typ argc, char ** argv)
 {
     dim_typ dim[MAX_ABSTRACT_DIMENSIONS];
     dim_typ cdim[MAX_DIMENSIONS];
@@ -1398,7 +1398,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixMultiplication(const register 
 
     if(argc)
     {
-        if((!matrixToken(argv[0], matrix1, dim, &dim[COLUMNS])) || (assert_m && dim[RAWS] != dim[COLUMNS]))
+        if((!matrixToken(argv[0], matrix1, dim, &dim[COLUMNS])) || (assert_m && dim[ROWS] != dim[COLUMNS]))
         {
             matrixFree(matrix1);
             free(matrix1);
@@ -1420,10 +1420,10 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixMultiplication(const register 
     {
         matrix1[ii] = NULL;
         printf2(COLOR_CREDITS, "Enter IMAGINARY %s PART of the First Complex Matrix\n", suite_c.algebra_imaginary_units_names[access(curLayout)->algebra][ii]);
-        printf2(COLOR_CREDITS, "by entering another [%hu x %hu] Matrix.\n\n", dim[RAWS], dim[COLUMNS]);
+        printf2(COLOR_CREDITS, "by entering another [%hu x %hu] Matrix.\n\n", dim[ROWS], dim[COLUMNS]);
         if(argc > argv_pos)
         {
-            if((!matrixToken(argv[argv_pos], &matrix1[ii], cdim, &cdim[COLUMNS])) || cdim[RAWS] != dim[RAWS] || cdim[COLUMNS] != dim[COLUMNS])
+            if((!matrixToken(argv[argv_pos], &matrix1[ii], cdim, &cdim[COLUMNS])) || cdim[ROWS] != dim[ROWS] || cdim[COLUMNS] != dim[COLUMNS])
             {
                 #pragma omp parallel for
 				for(ij=0; ij<=ii; ++ij)
@@ -1588,7 +1588,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixMultiplication(const register 
 	            	
             }
 
-            dim[COLUMNS2] = dim[RAWS];
+            dim[COLUMNS2] = dim[ROWS];
         }
     }
     else
@@ -1603,8 +1603,8 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixMultiplication(const register 
 
         if(argc > argv_pos)
         {
-            dim_typ raw2;
-            if((!matrixToken(argv[argv_pos], matrix2, &raw2, &dim[COLUMNS2])) || raw2 != dim[COLUMNS])
+            dim_typ row2;
+            if((!matrixToken(argv[argv_pos], matrix2, &row2, &dim[COLUMNS2])) || row2 != dim[COLUMNS])
             {
                 matrixFree(matrix2);
                 if(algebra_units <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && algebra_units > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
@@ -1638,9 +1638,9 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixMultiplication(const register 
 
                     if((tmp = insertElement((*matrix2), (dim_typ2){0, dim[COLUMNS2]}, analog_columns, false)) == -1 && tmp != -2 && getItemsListNo(MATRICES) != STARTING_MATNO)
                     {
-                        if(access(curMatrix)->dim[RAWS] != dim[COLUMNS])
+                        if(access(curMatrix)->dim[ROWS] != dim[COLUMNS])
                         {
-                            printErr(33, "You cannot use Current Matrix because\nit doesn't have %hu Raws right as First Matrix", dim[COLUMNS]);
+                            printErr(33, "You cannot use Current Matrix because\nit doesn't have %hu Rows right as First Matrix", dim[COLUMNS]);
                             dim[COLUMNS2] --;
                             tmp = 1;
                         }
@@ -1684,8 +1684,8 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixMultiplication(const register 
                         {
                             while((tmp = insertElement((*matrix2), (dim_typ2){i, j}, dim[COLUMNS2], false)) != 1 && tmp != -2 && !(char_insert))
                                 if(getItemsListNo(MATRICES) != STARTING_MATNO && tmp == -1)
-                                    if(access(curMatrix)->dim[RAWS] != dim[COLUMNS])
-                                        printErr(1, "You cannot use Current Matrix because\nit doesn't have %hu Raws right as First Matrix", dim[COLUMNS]);
+                                    if(access(curMatrix)->dim[ROWS] != dim[COLUMNS])
+                                        printErr(1, "You cannot use Current Matrix because\nit doesn't have %hu Rows right as First Matrix", dim[COLUMNS]);
                                     else
                                     {
                                         equalMatrix(matrix2, access(curMatrix)->matrix, access(curMatrix)->dim);
@@ -1765,7 +1765,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixMultiplication(const register 
                 {
                     while((tmp = insertElement((*matrix2), (dim_typ2){0, i}, dim[COLUMNS2], false)) != 1 && tmp != -2 && !(char_insert))
                         if(getItemsListNo(MATRICES) != STARTING_MATNO && tmp == -1)
-                            if(access(curMatrix)->dim[RAWS] != dim[COLUMNS])
+                            if(access(curMatrix)->dim[ROWS] != dim[COLUMNS])
                                 printErr(1, "You cannot use Current Matrix because\nit doesn't have %hu Columns Right as First Matrix", dim[COLUMNS]);
                             else
                             {
@@ -1802,7 +1802,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixMultiplication(const register 
                     {
                         while((tmp = insertElement((*matrix2), (dim_typ2){i, j}, dim[COLUMNS2], false)) != 1 && tmp != -2 && !(char_insert))
                             if(getItemsListNo(MATRICES) != STARTING_MATNO && tmp == -1)
-                                if(access(curMatrix)->dim[RAWS] != dim[COLUMNS])
+                                if(access(curMatrix)->dim[ROWS] != dim[COLUMNS])
                                     printErr(1, "You cannot use Current Matrix because\nit doesn't have %hu Columns Right as First Matrix", dim[COLUMNS]);
                                 else
                                 {
@@ -1847,7 +1847,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixMultiplication(const register 
 
             if(argc > argv_pos)
             {
-                if((!matrixToken(argv[argv_pos], &matrix2[ii], cdim, &cdim[COLUMNS])) || cdim[RAWS] != dim[COLUMNS] || cdim[COLUMNS] != dim[COLUMNS2])
+                if((!matrixToken(argv[argv_pos], &matrix2[ii], cdim, &cdim[COLUMNS])) || cdim[ROWS] != dim[COLUMNS] || cdim[COLUMNS] != dim[COLUMNS2])
                 {
                     #pragma omp parallel for
 					for(ij=0; ij<=ii; ++ij)
@@ -1890,9 +1890,9 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixMultiplication(const register 
     PRINT2N();
 
     if(assert_m)
-        printf2(COLOR_SYSTEM, "First Matrix [%hu x %hu] raisen to the Power of: %llu is the [%hu x %hu] Matrix:", dim[RAWS], dim[RAWS], tmp2, dim[RAWS], dim[RAWS]);
+        printf2(COLOR_SYSTEM, "First Matrix [%hu x %hu] raisen to the Power of: %llu is the [%hu x %hu] Matrix:", dim[ROWS], dim[ROWS], tmp2, dim[ROWS], dim[ROWS]);
     else
-        printf2(COLOR_SYSTEM, "Matrix Multiplication [%hu x %hu] between First and Second Matrix is:", dim[RAWS], dim[COLUMNS2]);
+        printf2(COLOR_SYSTEM, "Matrix Multiplication [%hu x %hu] between First and Second Matrix is:", dim[ROWS], dim[COLUMNS2]);
 
     PRINT2N();
 
@@ -1907,12 +1907,12 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixMultiplication(const register 
                             free_foreach(matrix2, algebra_units, tmp2 == 1),
                             free(matrix1),
                             free(matrix2)));
-    const sel_typ idx = assert_m ? RAWS : COLUMNS2;
+    const sel_typ idx = assert_m ? ROWS : COLUMNS2;
     bool mxprodErr = false;
 
     if(tmp2 != 1)
 		for(ii=0; ii<algebra_units; ++ii)
-            if((mxprodErr = !matrixAlloc(&matrix_product[ii], (dim_typ2){dim[RAWS], dim[COLUMNS2]})))
+            if((mxprodErr = !matrixAlloc(&matrix_product[ii], (dim_typ2){dim[ROWS], dim[COLUMNS2]})))
                 break;
     
     static void (* const matrixMulFuncs[_MAX_ALGEBRA])(ityp **, ityp **, ityp **, const register dim_typ [static MAX_MATRICES]) =
@@ -1942,18 +1942,18 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixMultiplication(const register 
         _matrixSSub
 	};
 	
-	const register ityp logan = log2(dim[RAWS]);
+	const register ityp logan = log2(dim[ROWS]);
 	
 	void (* matrixMulDispatcher )(ityp **, ityp **, ityp **, const register dim_typ [static MAX_MATRICES], const register sel_typ,
 		void (* const)(ityp **, ityp **, ityp **, const register dim_typ [static MAX_MATRICES]),
 		void (* const)(ityp **, ityp **, ityp **, const register dim_typ [static MAX_DIMENSIONS]),
 		void (* const)(ityp **, ityp **, ityp **, const register dim_typ [static MAX_DIMENSIONS]));
 		
-		if(dim[RAWS] == dim[COLUMNS] && dim[RAWS] == dim[COLUMNS2])
+		if(dim[ROWS] == dim[COLUMNS] && dim[ROWS] == dim[COLUMNS2])
 		{
-			if(isSett(BOOLS_STRASSENOPTIMIZATION) && dim[RAWS] >= access(curLayout)->min_strassen_dim && logan == (dim_typ)logan)
+			if(isSett(BOOLS_STRASSENOPTIMIZATION) && dim[ROWS] >= access(curLayout)->min_strassen_dim && logan == (dim_typ)logan)
 				matrixMulDispatcher = __call_STRASSENMM;
-			else if(dim[RAWS] >= access(curLayout)->min_osmm_dim)
+			else if(dim[ROWS] >= access(curLayout)->min_osmm_dim)
 				matrixMulDispatcher = __call_OSMM;
 		}
 		else
@@ -2000,11 +2000,11 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixMultiplication(const register 
             	if(algebra_units <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && algebra_units > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
 	                #pragma omp parallel for num_threads(algebra_units)
 					for(ii=0; ii<algebra_units; ++ii)
-	                    equalMatrix(&matrix2[ii], matrix_product[ii], (dim_typ2){dim[RAWS], dim[COLUMNS2]});
+	                    equalMatrix(&matrix2[ii], matrix_product[ii], (dim_typ2){dim[ROWS], dim[COLUMNS2]});
 	            else
 	            	#pragma omp parallel for
 					for(ii=0; ii<algebra_units; ++ii)
-	                    equalMatrix(&matrix2[ii], matrix_product[ii], (dim_typ2){dim[RAWS], dim[COLUMNS2]});
+	                    equalMatrix(&matrix2[ii], matrix_product[ii], (dim_typ2){dim[ROWS], dim[COLUMNS2]});
         }
         while(++x < tmp2);
         
@@ -2028,11 +2028,11 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixMultiplication(const register 
     CHECK_INVERSE_OPERATIONS();
 
     PRINTL();
-    printMatrix(stdout, (*matrix_product), (dim_typ2){dim[RAWS], dim[COLUMNS2]});
+    printMatrix(stdout, (*matrix_product), (dim_typ2){dim[ROWS], dim[COLUMNS2]});
     for(ii=1; ii<algebra_units; ++ii)
     {
         printf2(COLOR_USER, "\n+ %s*", suite_c.algebra_imaginary_units_names[access(curLayout)->algebra][ii]);
-        printMatrix(stdout, matrix_product[ii], (dim_typ2){dim[RAWS], dim[COLUMNS2]});
+        printMatrix(stdout, matrix_product[ii], (dim_typ2){dim[ROWS], dim[COLUMNS2]});
     }
 
     // Overhead here isn't inevitable because the order is important
@@ -2077,7 +2077,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixMultiplication(const register 
     return;
 }
 
-__MSSHELL_WRAPPER_ static void _MS__private matrixKProduct(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static void _MS__private matrixKProduct(const sel_typ argc, char ** argv)
 {
 
     dim_typ dim[MAX_DIMENSIONS];
@@ -2113,10 +2113,10 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixKProduct(const register sel_ty
     {
         matrix1[i] = NULL;
         printf2(COLOR_CREDITS, "Enter IMAGINARY %s PART of the First Complex Matrix\n", suite_c.algebra_imaginary_units_names[access(curLayout)->algebra][i]);
-        printf2(COLOR_CREDITS, "by entering another [%hu x %hu] Matrix.\n\n", dim[RAWS], dim[COLUMNS]);
+        printf2(COLOR_CREDITS, "by entering another [%hu x %hu] Matrix.\n\n", dim[ROWS], dim[COLUMNS]);
         if(argc > argv_pos)
         {
-            if((!matrixToken(argv[argv_pos], &matrix1[i], cdim, &cdim[COLUMNS])) || cdim[RAWS] != dim[RAWS] || cdim[COLUMNS] != dim[COLUMNS])
+            if((!matrixToken(argv[argv_pos], &matrix1[i], cdim, &cdim[COLUMNS])) || cdim[ROWS] != dim[ROWS] || cdim[COLUMNS] != dim[COLUMNS])
             {
                 #pragma omp parallel for
 				for(j=0; j<=i; ++j)
@@ -2275,7 +2275,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixKProduct(const register sel_ty
 	                    equalMatrix(&matrix2[i], matrix1[i], dim);
 	                }
             }
-            dim2[RAWS] = dim[RAWS];
+            dim2[ROWS] = dim[ROWS];
             dim2[COLUMNS] = dim[COLUMNS];
         }
     }
@@ -2327,10 +2327,10 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixKProduct(const register sel_ty
         {
             matrix2[i] = NULL;
             printf2(COLOR_CREDITS, "Enter IMAGINARY %s PART of the Second Complex Matrix\n", suite_c.algebra_imaginary_units_names[access(curLayout)->algebra][i]);
-            printf2(COLOR_CREDITS, "by entering another [%hu x %hu] Matrix.\n\n", dim2[RAWS], dim2[COLUMNS]);
+            printf2(COLOR_CREDITS, "by entering another [%hu x %hu] Matrix.\n\n", dim2[ROWS], dim2[COLUMNS]);
             if(argc > argv_pos)
             {
-                if((!matrixToken(argv[argv_pos], &matrix2[i], cdim, &cdim[COLUMNS])) || cdim[RAWS] != dim2[RAWS] || cdim[COLUMNS] != dim2[COLUMNS])
+                if((!matrixToken(argv[argv_pos], &matrix2[i], cdim, &cdim[COLUMNS])) || cdim[ROWS] != dim2[ROWS] || cdim[COLUMNS] != dim2[COLUMNS])
                 {
                     #pragma omp parallel for
 					for(j=0; j<=i; ++j)
@@ -2376,16 +2376,16 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixKProduct(const register sel_ty
 
     const dim_typ dim3[MAX_DIMENSIONS] =
     {
-        assert_m ? powi(dim[RAWS], tmp) : dim[RAWS]*dim2[RAWS],
+        assert_m ? powi(dim[ROWS], tmp) : dim[ROWS]*dim2[ROWS],
         assert_m ? powi(dim[COLUMNS], tmp) : dim[COLUMNS]*dim2[COLUMNS]
     };
 
     PRINT2N();
 
     if(assert_m)
-        printf2(COLOR_SYSTEM, "First Matrix [%hu x %hu] raisen to the Kronecker Power of: %llu is the [%hu x %hu] Matrix:", dim[RAWS], dim[COLUMNS], tmp, dim3[RAWS], dim3[COLUMNS]);
+        printf2(COLOR_SYSTEM, "First Matrix [%hu x %hu] raisen to the Kronecker Power of: %llu is the [%hu x %hu] Matrix:", dim[ROWS], dim[COLUMNS], tmp, dim3[ROWS], dim3[COLUMNS]);
     else
-        printf2(COLOR_SYSTEM, "Matrix Kronecker Product [%hu x %hu] between First and Second Matrix is:", dim3[RAWS], dim3[COLUMNS]);
+        printf2(COLOR_SYSTEM, "Matrix Kronecker Product [%hu x %hu] between First and Second Matrix is:", dim3[ROWS], dim3[COLUMNS]);
 
     PRINT2N();
 
@@ -2405,7 +2405,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixKProduct(const register sel_ty
 
     dim_typ dims[MAX_DIMENSIONS][MAX_DIMENSIONS];
     
-    dims[FIRST_MATRIX][RAWS] = dim[RAWS];
+    dims[FIRST_MATRIX][ROWS] = dim[ROWS];
     dims[FIRST_MATRIX][COLUMNS] = dim[COLUMNS];
     
     
@@ -2452,7 +2452,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixKProduct(const register sel_ty
   		do
         {
         	
-			dims[SECOND_MATRIX][RAWS] = powi(dim2[RAWS], x);
+			dims[SECOND_MATRIX][ROWS] = powi(dim2[ROWS], x);
 			dims[SECOND_MATRIX][COLUMNS] = powi(dim2[COLUMNS], x);
 	
             matrixKProdFuncs[access(curLayout)->algebra](matrix1, matrix2, matrix_product, dims);
@@ -2543,7 +2543,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixKProduct(const register sel_ty
 }
 
 
-__MSSHELL_WRAPPER_ static void _MS__private perScalarMultiplication(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static void _MS__private perScalarMultiplication(const sel_typ argc, char ** argv)
 {
     ityp scal;
     dim_typ ii, ij;
@@ -2569,10 +2569,10 @@ __MSSHELL_WRAPPER_ static void _MS__private perScalarMultiplication(const regist
     {
         matrix[ii] = NULL;
         printf2(COLOR_CREDITS, "Enter IMAGINARY %s PART of the Complex Matrix\n", suite_c.algebra_imaginary_units_names[access(curLayout)->algebra][ii]);
-        printf2(COLOR_CREDITS, "by entering another [%hu x %hu] Matrix.\n\n", dim[RAWS], dim[COLUMNS]);
+        printf2(COLOR_CREDITS, "by entering another [%hu x %hu] Matrix.\n\n", dim[ROWS], dim[COLUMNS]);
         if(argc > 1)
         {
-            if((!matrixToken(argv[1], &matrix[ii], cdim, &cdim[COLUMNS])) || cdim[RAWS] != dim[RAWS] || cdim[COLUMNS] != dim[COLUMNS])
+            if((!matrixToken(argv[1], &matrix[ii], cdim, &cdim[COLUMNS])) || cdim[ROWS] != dim[ROWS] || cdim[COLUMNS] != dim[COLUMNS])
             {  
 				#pragma omp parallel for
 				for(ij=0; ij<=ii; ++ij)
@@ -2687,7 +2687,7 @@ __MSSHELL_WRAPPER_ static void _MS__private perScalarMultiplication(const regist
 		#pragma omp parallel for num_threads(algebra_units)
 	    for(k=0; k<algebra_units; ++k)
 	    	#pragma omp parallel for
-	        for(i=0; i<dim[RAWS]; ++i)
+	        for(i=0; i<dim[ROWS]; ++i)
 	        	#pragma omp parallel for
 	            for(j=0; j<dim[COLUMNS]; ++j)
 	                matrix[k][dim[COLUMNS]*i+j] = mul_func(scal, matrix[k][dim[COLUMNS]*i+j]);
@@ -2695,7 +2695,7 @@ __MSSHELL_WRAPPER_ static void _MS__private perScalarMultiplication(const regist
 		#pragma omp parallel for
 	    for(k=0; k<algebra_units; ++k)
 	    	#pragma omp parallel for
-	        for(i=0; i<dim[RAWS]; ++i)
+	        for(i=0; i<dim[ROWS]; ++i)
 	        	#pragma omp parallel for
 	            for(j=0; j<dim[COLUMNS]; ++j)
 	                matrix[k][dim[COLUMNS]*i+j] = mul_func(scal, matrix[k][dim[COLUMNS]*i+j]);
@@ -2725,7 +2725,7 @@ __MSSHELL_WRAPPER_ static void _MS__private perScalarMultiplication(const regist
     return;
 }
 
-__MSSHELL_WRAPPER_ static void _MS__private illConditionChecking(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static void _MS__private illConditionChecking(const sel_typ argc, char ** argv)
 {
     ityp *matrix = NULL;
     dim_typ dim[MAX_DIMENSIONS];
@@ -2735,20 +2735,20 @@ __MSSHELL_WRAPPER_ static void _MS__private illConditionChecking(const register 
         if(!matrixToken(argv[0], &matrix, dim, &dim[COLUMNS]))
             return;
 
-        if(dim[RAWS] != dim[COLUMNS])
+        if(dim[ROWS] != dim[COLUMNS])
         {
             matrixFree(&matrix);
             printUsage(&alg_operations[ALGOPS_ILLCONDITIONCHECKING]);
             return;
         }
     }
-    else if(!insertMatrix(matrix, dim[RAWS], dim[COLUMNS], true))
+    else if(!insertMatrix(matrix, dim[ROWS], dim[COLUMNS], true))
         return;
 
-    const ityp norms1 = norms(matrix, dim[RAWS]);
-    const dim_typ dimraws_per2 = dim[RAWS]<<1;
+    const ityp norms1 = norms(matrix, dim[ROWS]);
+    const dim_typ dimrows_per2 = dim[ROWS]<<1;
 
-    matrix = realloc(matrix, sizeof(ityp)*dimraws_per2*dimraws_per2);
+    matrix = realloc(matrix, sizeof(ityp)*dimrows_per2*dimrows_per2);
     errMem(matrix, VSPACE);
 
     dim_typ i;
@@ -2759,7 +2759,7 @@ __MSSHELL_WRAPPER_ static void _MS__private illConditionChecking(const register 
 	if(difftime)
 		gettimeofday(&tvBegin, NULL);
 		
-    if(!invertMatrix(matrix, dim[RAWS]))
+    if(!invertMatrix(matrix, dim[ROWS]))
     {
         printErr(1, "You cannot invert SINGULAR Matrices!");
         #if WINOS
@@ -2775,7 +2775,7 @@ __MSSHELL_WRAPPER_ static void _MS__private illConditionChecking(const register 
 	}
 	
     printf2(COLOR_USER, "\nInserted Quad Matrix ILL CONDITION CHECKING is: ");
-    printf2(COLOR_USER, OUTPUT_CONVERSION_FORMAT, norms1*norms(matrix,dim[RAWS]));
+    printf2(COLOR_USER, OUTPUT_CONVERSION_FORMAT, norms1*norms(matrix,dim[ROWS]));
     printf2(COLOR_USER, ".\n\n");
 
     matrixFree(&matrix);
@@ -2787,7 +2787,7 @@ __MSSHELL_WRAPPER_ static void _MS__private illConditionChecking(const register 
     return;
 }
 
-__MSSHELL_WRAPPER_ static void _MS__private matrixFattLU(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static void _MS__private matrixFattLU(const sel_typ argc, char ** argv)
 {
     dim_typ dim[MAX_DIMENSIONS];
     ityp *matrix;
@@ -2798,14 +2798,14 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixFattLU(const register sel_typ 
 
     if(argc)
     {
-        if((!matrixToken(argv[0], &matrix, dim, &dim[COLUMNS])) || dim[RAWS] != dim[COLUMNS])
+        if((!matrixToken(argv[0], &matrix, dim, &dim[COLUMNS])) || dim[ROWS] != dim[COLUMNS])
         {
             matrixFree(&matrix);
             printUsage(&alg_operations[ALGOPS_MATRIXLUFACTORIZATION]);
             return;
         }
     }
-    else if(!insertMatrix(matrix, dim[RAWS], dim[COLUMNS], true))
+    else if(!insertMatrix(matrix, dim[ROWS], dim[COLUMNS], true))
         return;
 
     bool assert[MAX_DIMENSIONS];
@@ -2827,7 +2827,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixFattLU(const register sel_typ 
 	if(difftime)
 		gettimeofday(&tvBegin, NULL);
 		
-    if(!FattLU(dim[RAWS], matrix, L, U))
+    if(!FattLU(dim[ROWS], matrix, L, U))
         printErr(1, "You cannot LU-decompose SINGULAR Matrices");
     else
     {

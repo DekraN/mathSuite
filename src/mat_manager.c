@@ -12,15 +12,15 @@ about the use with any other code-scripts.
 
 // static bool extractMat(ityp ***matrix, dim_typ *righe, dim_typ *colonne, char item_path[MAX_PATH_LENGTH]);
 
-__MSSHELL_WRAPPER_ static void _MS__private __lmp_prog setCurMat(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ __WINCALL static void _MS__private __lmp_prog createMat(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private __lmp_prog viewMat(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private __lmp_prog printMat(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private __lmp_prog updMat(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private __lmp_prog updAllMat(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private __lmp_prog delMat(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private __lmp_prog editMat(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private __lmp_prog renMat(const register sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private __lmp_prog setCurMat(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ __WINCALL static void _MS__private __lmp_prog createMat(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private __lmp_prog viewMat(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private __lmp_prog printMat(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private __lmp_prog updMat(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private __lmp_prog updAllMat(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private __lmp_prog delMat(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private __lmp_prog editMat(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private __lmp_prog renMat(const sel_typ argc, char ** argv);
 
 sprog mat_manager[MAX_MATMANAGER_PROGS] =
 {
@@ -154,49 +154,49 @@ sprog mat_manager[MAX_MATMANAGER_PROGS] =
 
 // FUNCTIONS DEFINITIONS
 
-__MSSHELL_WRAPPER_ static inline void _MS__private __lmp_prog setCurMat(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static inline void _MS__private __lmp_prog setCurMat(const sel_typ argc, char ** argv)
 {
     setCurItem(argc ? getItemID(argv[0], &mat_manager[MATRICES_SETCURRENT], MATRICES) : getItemsListNo(MATRICES), MATRICES);
     return;
 }
 
-__MSSHELL_WRAPPER_ __WINCALL static inline void _MS__private __lmp_prog createMat(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ __WINCALL static inline void _MS__private __lmp_prog createMat(const sel_typ argc, char ** argv)
 {
     createItem(argc ? argv[0] : NULL, MATRICES);
     return;
 }
 
-__MSSHELL_WRAPPER_ static inline void _MS__private __lmp_prog viewMat(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static inline void _MS__private __lmp_prog viewMat(const sel_typ argc, char ** argv)
 {
     viewItem(argc ? getItemID(argv[0], &mat_manager[MATRICES_READ], MATRICES) : getItemsListNo(MATRICES), MATRICES);
     return;
 }
 
-__MSSHELL_WRAPPER_ static inline void _MS__private __lmp_prog printMat(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static inline void _MS__private __lmp_prog printMat(const sel_typ argc, char ** argv)
 {
     printListItem(argc ? getItemID(argv[0], &mat_manager[MATRICES_PRINT], MATRICES) : getItemsListNo(MATRICES), MATRICES);
     return;
 }
 
-__MSSHELL_WRAPPER_ static inline void _MS__private __lmp_prog updMat(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static inline void _MS__private __lmp_prog updMat(const sel_typ argc, char ** argv)
 {
     updItem(MATRICES);
     return;
 }
 
-__MSSHELL_WRAPPER_ static inline void _MS__private __lmp_prog updAllMat(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static inline void _MS__private __lmp_prog updAllMat(const sel_typ argc, char ** argv)
 {
     updAll(MATRICES);
     return;
 }
 
-__MSSHELL_WRAPPER_ static inline void _MS__private __lmp_prog delMat(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static inline void _MS__private __lmp_prog delMat(const sel_typ argc, char ** argv)
 {
     delItem(argc ? getItemID(argv[0], &mat_manager[__pmode__], MATRICES) : getItemsListNo(MATRICES), MATRICES);
     return;
 }
 
-__MSSHELL_WRAPPER_ static void _MS__private __lmp_prog editMat(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static void _MS__private __lmp_prog editMat(const sel_typ argc, char ** argv)
 {
     dim_typ which_mat;
 
@@ -216,23 +216,23 @@ __MSSHELL_WRAPPER_ static void _MS__private __lmp_prog editMat(const register se
         ityp *matrix = NULL;
         dim_typ olddim[MAX_DIMENSIONS];
 
-        olddim[RAWS] = tmp->dim[RAWS];
+        olddim[ROWS] = tmp->dim[ROWS];
         olddim[COLUMNS] = tmp->dim[COLUMNS];
 
         if(argc > 1)
         {
-            if(!matrixToken(argv[1], &matrix, &(tmp->dim[RAWS]), &(tmp->dim[COLUMNS])))
+            if(!matrixToken(argv[1], &matrix, &(tmp->dim[ROWS]), &(tmp->dim[COLUMNS])))
             {
                 matrixFree(&matrix);
-                tmp->dim[RAWS] = olddim[RAWS];
+                tmp->dim[ROWS] = olddim[ROWS];
                 tmp->dim[COLUMNS] = olddim[COLUMNS];
                 printUsage(&mat_manager[MATRICES_EDIT]);
                 return;
             }
         }
-        else if(!insertMatrix(matrix, tmp->dim[RAWS], tmp->dim[COLUMNS], false))
+        else if(!insertMatrix(matrix, tmp->dim[ROWS], tmp->dim[COLUMNS], false))
         {
-            tmp->dim[RAWS] = olddim[RAWS];
+            tmp->dim[ROWS] = olddim[ROWS];
             tmp->dim[COLUMNS] = olddim[COLUMNS];
             return;
         }
@@ -246,7 +246,7 @@ __MSSHELL_WRAPPER_ static void _MS__private __lmp_prog editMat(const register se
             return;
         }
     }
-    else if(!insertMatrix(tmp->matrix, tmp->dim[RAWS], tmp->dim[COLUMNS], false))
+    else if(!insertMatrix(tmp->matrix, tmp->dim[ROWS], tmp->dim[COLUMNS], false))
         return;
 
     if(saveItem(which_mat, MATRICES))
@@ -261,7 +261,7 @@ __MSSHELL_WRAPPER_ static void _MS__private __lmp_prog editMat(const register se
     return;
 }
 
-__MSSHELL_WRAPPER_ static inline void _MS__private __lmp_prog renMat(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static inline void _MS__private __lmp_prog renMat(const sel_typ argc, char ** argv)
 {
     renItem(argc > 1 ? argv[1] : NULL, argc ? getItemID(argv[0], &mat_manager[MATRICES_RENAME], MATRICES) : getItemsListNo(MATRICES), MATRICES);
     return;

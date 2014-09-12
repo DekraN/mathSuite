@@ -387,7 +387,7 @@ __MSNATIVE_ bool __system __export saveItem(dim_typ which_item, sel_typ mode)
                     return false;
                 }
                 matrixObj * const tmp = ((matrixObj *)(listNo(which_item, MATRICES)->data));
-                printMatrix(fp, tmp->matrix, tmp->dim); // tmp->dim[RAWS], tmp->dim[COLUMNS]);
+                printMatrix(fp, tmp->matrix, tmp->dim); // tmp->dim[ROWS], tmp->dim[COLUMNS]);
                 // printfMatrix();
                 break;
         	}

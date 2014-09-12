@@ -1857,7 +1857,7 @@ typedef struct
     const char name[DINFO_STRING];
     const char cmdname[SIGN_STRING];
     const char usage[INFO_STRING];
-    void (*program_function)(const register sel_typ, char **);
+    void (*program_function)(const sel_typ, char **);
     const bool automatic: BOOL_BITFIELD;
     const bool isFather: BOOL_BITFIELD;
 } sprog;
@@ -2224,11 +2224,11 @@ __MSNATIVE_ bool __system __export enterMatrix(ityp **, dim_typ *, dim_typ *, bo
 
 
 /// programs.c
-__MSSHELL_WRAPPER_ void __apnt changeProgramSettings(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ void basicCalculator(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ void __apnt calcolatoreAvanzato(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ void __apnt algebraOperations(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ void __apnt mssManager(const register sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ void __apnt changeProgramSettings(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ void basicCalculator(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ void __apnt calcolatoreAvanzato(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ void __apnt algebraOperations(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ void __apnt mssManager(const sel_typ argc, char ** argv);
 __MSSHELL_WRAPPER_ __MSNATIVE_ void _MS__private __system __export operationsGroupMenu(dim_typ dim, sprog [static dim], const char [static INFO_STRING], bool);
 __MSSHELL_WRAPPER_ __MSNATIVE_ void __system progInfo(sel_typ);
 __MSNATIVE_ bool _MS__private __system doesExistOperIdentifier(const char [static MAX_IDENTIFIER_LENGTH], fsel_typ [static MAX_DIMENSIONS]);

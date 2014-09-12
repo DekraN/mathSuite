@@ -10,18 +10,18 @@ about the use with any other code-scripts.
 
 // FUNCTIONS DECLARATIONS
 
-__MSSHELL_WRAPPER_ static void _MS__private __lmp_prog setCurLog(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ __WINCALL static void _MS__private __lmp_prog createLog(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private __lmp_prog viewLog(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private __lmp_prog printLog(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private __lmp_prog updLog(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private __lmp_prog updAllLogs(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private __lmp_prog delLog(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private __lmp_prog relLog(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ __WINCALL static void _MS__private __lmp_prog editLog(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private __lmp_prog selLogBufLen(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private __lmp_prog flushLogBuf(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private __lmp_prog renLog(const register sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private __lmp_prog setCurLog(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ __WINCALL static void _MS__private __lmp_prog createLog(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private __lmp_prog viewLog(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private __lmp_prog printLog(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private __lmp_prog updLog(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private __lmp_prog updAllLogs(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private __lmp_prog delLog(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private __lmp_prog relLog(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ __WINCALL static void _MS__private __lmp_prog editLog(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private __lmp_prog selLogBufLen(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private __lmp_prog flushLogBuf(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private __lmp_prog renLog(const sel_typ argc, char ** argv);
 
 sprog logs_manager[MAX_LOGSMANAGER_PROGS] =
 {
@@ -182,55 +182,55 @@ sprog logs_manager[MAX_LOGSMANAGER_PROGS] =
 
 // FUNCTIONS DEFINITIONS
 
-__MSSHELL_WRAPPER_ static inline void _MS__private __lmp_prog setCurLog(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static inline void _MS__private __lmp_prog setCurLog(const sel_typ argc, char ** argv)
 {
     setCurItem(argc ? getItemID(argv[0], &logs_manager[LOGS_SETCURRENT], LOGS) : getItemsListNo(LOGS), LOGS);
     return;
 }
 
-__MSSHELL_WRAPPER_ __WINCALL static inline void _MS__private __lmp_prog createLog(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ __WINCALL static inline void _MS__private __lmp_prog createLog(const sel_typ argc, char ** argv)
 {
     createItem(argc ? argv[0] : NULL, LOGS);
     return;
 }
 
-__MSSHELL_WRAPPER_ static inline void _MS__private __lmp_prog viewLog(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static inline void _MS__private __lmp_prog viewLog(const sel_typ argc, char ** argv)
 {
     viewItem(argc ? getItemID(argv[0], &logs_manager[LOGS_READ], LOGS) : getItemsListNo(LOGS), LOGS);
     return;
 }
 
-__MSSHELL_WRAPPER_ static inline void _MS__private __lmp_prog printLog(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static inline void _MS__private __lmp_prog printLog(const sel_typ argc, char ** argv)
 {
     printListItem(argc ? getItemID(argv[0], &logs_manager[LOGS_PRINT], LOGS) : getItemsListNo(LOGS), LOGS);
     return;
 }
 
-__MSSHELL_WRAPPER_ static inline void _MS__private __lmp_prog updLog(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static inline void _MS__private __lmp_prog updLog(const sel_typ argc, char ** argv)
 {
     updItem(LOGS);
     return;
 }
 
-__MSSHELL_WRAPPER_ static inline void _MS__private __lmp_prog updAllLogs(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static inline void _MS__private __lmp_prog updAllLogs(const sel_typ argc, char ** argv)
 {
     updAll(LOGS);
     return;
 }
 
-__MSSHELL_WRAPPER_ static inline void _MS__private __lmp_prog delLog(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static inline void _MS__private __lmp_prog delLog(const sel_typ argc, char ** argv)
 {
     delItem(argc ? getItemID(argv[0], &logs_manager[__pmode__], LOGS) : getItemsListNo(LOGS), LOGS);
     return;
 }
 
-__MSSHELL_WRAPPER_ static inline void _MS__private __lmp_prog relLog(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static inline void _MS__private __lmp_prog relLog(const sel_typ argc, char ** argv)
 {
     relItem(argc ? getItemID(argv[0], &logs_manager[LOGS_RELOAD], LOGS) : getItemsListNo(LOGS), LOGS);
     return;
 }
 
-__MSSHELL_WRAPPER_ __WINCALL static void _MS__private __lmp_prog editLog(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ __WINCALL static void _MS__private __lmp_prog editLog(const sel_typ argc, char ** argv)
 {
     dim_typ which_log;
 
@@ -290,7 +290,7 @@ __MSSHELL_WRAPPER_ void _MS__private __lmp_prog setLogBufLen(const char path[sta
     return;
 }
 
-__MSSHELL_WRAPPER_ static void _MS__private __lmp_prog selLogBufLen(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static void _MS__private __lmp_prog selLogBufLen(const sel_typ argc, char ** argv)
 {
     dim_typ which_log;
 
@@ -322,7 +322,7 @@ __MSSHELL_WRAPPER_ static void _MS__private __lmp_prog selLogBufLen(const regist
     return;
 }
 
-__MSSHELL_WRAPPER_ static void _MS__private __lmp_prog flushLogBuf(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static void _MS__private __lmp_prog flushLogBuf(const sel_typ argc, char ** argv)
 {
     dim_typ which_log;
 
@@ -338,7 +338,7 @@ __MSSHELL_WRAPPER_ static void _MS__private __lmp_prog flushLogBuf(const registe
     return;
 }
 
-__MSSHELL_WRAPPER_ static inline void _MS__private __lmp_prog renLog(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static inline void _MS__private __lmp_prog renLog(const sel_typ argc, char ** argv)
 {
     renItem(argc > 1 ? argv[1] : NULL, argc ? getItemID(argv[0], &logs_manager[LOGS_RENAME], LOGS) : getItemsListNo(LOGS), LOGS);
     return;

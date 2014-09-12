@@ -1335,7 +1335,7 @@ __MSNATIVE_ inline void __system safeExit(const int exval)
     return;
 }
 
-__MSNATIVE_ void __system _handleCmdLine(const register sel_typ argc, char ** argv)
+__MSNATIVE_ void __system _handleCmdLine(const sel_typ argc, char ** argv)
 {
     // catch _MSS_CMD exception
     if(!strcmp(argv[0], _MSS_CMD))
@@ -2445,7 +2445,7 @@ __MSNATIVE_ bool __system insertDim(dim_typ *dim, bool mode)
 // La seguente funzione sarebbe stata la funzione Handler
 // del segnale SIGINT. Il problema e' che dovrebbe essere
 // sempre e continuamente richiamata la funzione signal
-// per far sÃ¬ che funzioni correttamente. Meglio evitare.
+// per far sì che funzioni correttamente. Meglio evitare.
 
 
 __MSNATIVE_ void __system sigproc(void)

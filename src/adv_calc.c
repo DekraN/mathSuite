@@ -8,18 +8,18 @@ about the use with any other code-scripts.
 #include "dutils.h"
 
 
-__MSSHELL_WRAPPER_ static void _MS__private secondGradeEquationSolver(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private complexAdd(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private complexMul(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private getDate(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private simplexMethod(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private newtonDifferenceTables(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private lagrangeInterpolation(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private greatestEigenValue(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private funcIntegration(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private straightLineFitting(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private parabolicCurveFitting(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private linearSystemsSolver(const register sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private secondGradeEquationSolver(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private complexAdd(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private complexMul(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private getDate(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private simplexMethod(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private newtonDifferenceTables(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private lagrangeInterpolation(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private greatestEigenValue(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private funcIntegration(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private straightLineFitting(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private parabolicCurveFitting(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private linearSystemsSolver(const sel_typ argc, char ** argv);
 
 
 sprog adv_calc[MAX_ADVCALC_PROGS] =
@@ -127,7 +127,7 @@ sprog adv_calc[MAX_ADVCALC_PROGS] =
 
 #define PARSING_ADVCALC_ALLOWED isSett(BOOLS_ADVCALCPARSING)
 
-__MSSHELL_WRAPPER_ static void _MS__private secondGradeEquationSolver(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static void _MS__private secondGradeEquationSolver(const sel_typ argc, char ** argv)
 {
     ityp *abc = NULL;
 
@@ -135,7 +135,7 @@ __MSSHELL_WRAPPER_ static void _MS__private secondGradeEquationSolver(const regi
     {
         dim_typ dim[MAX_DIMENSIONS];
 
-        if((!matrixToken(argv[0], &abc, dim, &dim[COLUMNS])) || dim[RAWS] != 1 || dim[COLUMNS] != MAX_ABSTRACT_DIMENSIONS)
+        if((!matrixToken(argv[0], &abc, dim, &dim[COLUMNS])) || dim[ROWS] != 1 || dim[COLUMNS] != MAX_ABSTRACT_DIMENSIONS)
         {
             matrixFree(&abc);
             printUsage(&adv_calc[ADVCALC_SECONDGRADEEQUATIONSOLVER]);
@@ -191,7 +191,7 @@ __MSSHELL_WRAPPER_ static void _MS__private secondGradeEquationSolver(const regi
     return;
 }
 
-__MSSHELL_WRAPPER_ static void _MS__private complexAdd(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static void _MS__private complexAdd(const sel_typ argc, char ** argv)
 {
     ityp *cpx = NULL;
     const sel_typ algebra_units = (!access(curLayout)->algebra) ? MAX_COMPLEX_UNITS : exp2(access(curLayout)->algebra);
@@ -200,7 +200,7 @@ __MSSHELL_WRAPPER_ static void _MS__private complexAdd(const register sel_typ ar
     {
         dim_typ dim[MAX_DIMENSIONS];
 
-        if((!matrixToken(argv[0], &cpx, dim, &dim[COLUMNS])) || dim[RAWS] != MAX_DIMENSIONS || dim[COLUMNS] != algebra_units)
+        if((!matrixToken(argv[0], &cpx, dim, &dim[COLUMNS])) || dim[ROWS] != MAX_DIMENSIONS || dim[COLUMNS] != algebra_units)
         {
             matrixFree(&cpx);
             printUsage(&adv_calc[ADVCALC_COMPLEXNUMBERSSUM]);
@@ -214,7 +214,7 @@ __MSSHELL_WRAPPER_ static void _MS__private complexAdd(const register sel_typ ar
             SetExitButtonState(DISABLED);
         #endif
 
-        printf2(COLOR_CREDITS, "\nEnter 2x%hu MATRIX whose RAWS contains respectively\nREAL PART and IMAGINARY PART%s of both two Operands.\n\n", algebra_units, algebra_units > MAX_COMPLEX_UNITS ? "s":NULL_CHAR);
+        printf2(COLOR_CREDITS, "\nEnter 2x%hu MATRIX whose ROWS contains respectively\nREAL PART and IMAGINARY PART%s of both two Operands.\n\n", algebra_units, algebra_units > MAX_COMPLEX_UNITS ? "s":NULL_CHAR);
 
         if(!insertNMMatrix(&cpx, (dim_typ2){MAX_DIMENSIONS, algebra_units}))
             return;
@@ -297,7 +297,7 @@ __MSSHELL_WRAPPER_ static void _MS__private complexAdd(const register sel_typ ar
     return;
 }
 
-__MSSHELL_WRAPPER_ static void _MS__private complexMul(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static void _MS__private complexMul(const sel_typ argc, char ** argv)
 {
     ityp *cpx = NULL;
     const fsel_typ algebra_units = (!access(curLayout)->algebra) ? MAX_DIMENSIONS : exp2(access(curLayout)->algebra);
@@ -306,7 +306,7 @@ __MSSHELL_WRAPPER_ static void _MS__private complexMul(const register sel_typ ar
     {
         dim_typ dim[MAX_DIMENSIONS];
 
-        if((!matrixToken(argv[0], &cpx, dim, &dim[COLUMNS])) || dim[RAWS] != MAX_DIMENSIONS || dim[COLUMNS] != MAX_DIMENSIONS)
+        if((!matrixToken(argv[0], &cpx, dim, &dim[COLUMNS])) || dim[ROWS] != MAX_DIMENSIONS || dim[COLUMNS] != MAX_DIMENSIONS)
         {
             matrixFree(&cpx);
             printUsage(&adv_calc[ADVCALC_COMPLEXNUMBERSPROD]);
@@ -319,7 +319,7 @@ __MSSHELL_WRAPPER_ static void _MS__private complexMul(const register sel_typ ar
             SetExitButtonState(DISABLED);
         #endif // WINOS
 
-        printf2(COLOR_CREDITS, "\nEnter 2x%hu MATRIX whose RAWS contains respectively\nREAL PART and IMAGINARY PART%s of both two Operands.\n\n", algebra_units, algebra_units > MAX_COMPLEX_UNITS ? "s":NULL_CHAR);
+        printf2(COLOR_CREDITS, "\nEnter 2x%hu MATRIX whose ROWS contains respectively\nREAL PART and IMAGINARY PART%s of both two Operands.\n\n", algebra_units, algebra_units > MAX_COMPLEX_UNITS ? "s":NULL_CHAR);
 
         if(!insertNMMatrix(&cpx, (dim_typ2){MAX_DIMENSIONS, algebra_units}))
             return;
@@ -400,7 +400,7 @@ __MSSHELL_WRAPPER_ static void _MS__private complexMul(const register sel_typ ar
     return;
 }
 
-__MSSHELL_WRAPPER_ static void _MS__private simplexMethod(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static void _MS__private simplexMethod(const sel_typ argc, char ** argv)
 {
 
     sel_typ mode;
@@ -439,21 +439,21 @@ __MSSHELL_WRAPPER_ static void _MS__private simplexMethod(const register sel_typ
     }
     else
     {
-        printf2(COLOR_CREDITS, "Enter the Constraints' Coefficients Matrix, and use the last raw\nto insert the Target Function Coefficients.\n");
-        printf2(COLOR_CREDITS, "NOTE: In the last raw you have to insert an element\nbefore exiting Insert Process, in order to align Matrix Dimensions.\n\n");
-        if(!insertMatrix(tableau, dim[RAWS], dim[COLUMNS], false))
+        printf2(COLOR_CREDITS, "Enter the Constraints' Coefficients Matrix, and use the last row\nto insert the Target Function Coefficients.\n");
+        printf2(COLOR_CREDITS, "NOTE: In the last row you have to insert an element\nbefore exiting Insert Process, in order to align Matrix Dimensions.\n\n");
+        if(!insertMatrix(tableau, dim[ROWS], dim[COLUMNS], false))
             return;
     }
 
     dim_typ i;
     dim_typ dimc[MAX_DIMENSIONS];
-    const dim_typ dimraws_minus1 = dim[RAWS]-1;
+    const dim_typ dimrows_minus1 = dim[ROWS]-1;
 
     ityp *constraint_types = NULL;
 
     if(argc > 2)
     {
-        if((!matrixToken(argv[2], &constraint_types, dimc, &dimc[COLUMNS])) || dimc[RAWS] != 1 || dimc[COLUMNS] != dim[RAWS])
+        if((!matrixToken(argv[2], &constraint_types, dimc, &dimc[COLUMNS])) || dimc[ROWS] != 1 || dimc[COLUMNS] != dim[ROWS])
         {
             matrixFree(&tableau);
             printUsage(&adv_calc[ADVCALC_SIMPLEXMETHOD]);
@@ -463,7 +463,7 @@ __MSSHELL_WRAPPER_ static void _MS__private simplexMethod(const register sel_typ
     else
     {
         printf2(COLOR_CREDITS, "\nEnter Constraints Types: 0 for <=, non-zero element for >=.\n");
-        if(!insertNMMatrix(&constraint_types, (dim_typ2){1,dimraws_minus1}))
+        if(!insertNMMatrix(&constraint_types, (dim_typ2){1,dimrows_minus1}))
         {
             matrixFree(&tableau);
             return;
@@ -500,7 +500,7 @@ __MSSHELL_WRAPPER_ static void _MS__private simplexMethod(const register sel_typ
     else
     {
         printf2(COLOR_USER, "\nRelaxed Problem BFS with Artificial Variables is: ");
-        printMatrix(stdout, bfs, (dim_typ2){1,dim[RAWS]+dim[COLUMNS]-2});
+        printMatrix(stdout, bfs, (dim_typ2){1,dim[ROWS]+dim[COLUMNS]-2});
     }
     
     if(difftime)
@@ -522,7 +522,7 @@ __MSSHELL_WRAPPER_ static void _MS__private simplexMethod(const register sel_typ
 }
 
 
-__MSSHELL_WRAPPER_ static void _MS__private newtonDifferenceTables(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static void _MS__private newtonDifferenceTables(const sel_typ argc, char ** argv)
 {
 
     ityp x[access(curLayout)->max_newton_difftables_dim];
@@ -654,7 +654,7 @@ __MSSHELL_WRAPPER_ static void _MS__private newtonDifferenceTables(const registe
     return;
 }
 
-__MSSHELL_WRAPPER_ static void _MS__private lagrangeInterpolation(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static void _MS__private lagrangeInterpolation(const sel_typ argc, char ** argv)
 {
     ityp tmp;
     dim_typ dim;
@@ -696,7 +696,7 @@ __MSSHELL_WRAPPER_ static void _MS__private lagrangeInterpolation(const register
     {
         dim_typ rc[MAX_DIMENSIONS];
 
-        if((!matrixToken(argv[1], &xy, rc, &rc[COLUMNS])) || rc[RAWS] != MAX_DIMENSIONS || rc[COLUMNS] != dim)
+        if((!matrixToken(argv[1], &xy, rc, &rc[COLUMNS])) || rc[ROWS] != MAX_DIMENSIONS || rc[COLUMNS] != dim)
         {
             matrixFree(&xy);
             printUsage(&adv_calc[ADVCALC_LAGRANGEINTERPOLATION]);
@@ -710,7 +710,7 @@ __MSSHELL_WRAPPER_ static void _MS__private lagrangeInterpolation(const register
         #endif // WINOS
 
         printf2(COLOR_CREDITS, "\nEnter related Matrix filled with Data you want Interpolation to Process,\n");
-        printf2(COLOR_CREDITS, "by putting on each raws the %hu X and Y Values.\n\n", dim);
+        printf2(COLOR_CREDITS, "by putting on each rows the %hu X and Y Values.\n\n", dim);
 
         if(!insertNMMatrix(&xy, (dim_typ2){MAX_DIMENSIONS, dim}))
             return;
@@ -767,11 +767,11 @@ __MSSHELL_WRAPPER_ static void _MS__private lagrangeInterpolation(const register
         for(j = 0; j<dim; ++j)
             if(i!=j)
             {
-                nr *= xp - *(xy + (dim*XRAW) + j);
-                dr *= *(xy + (dim*XRAW) + i) - *(xy + (dim*XRAW) + j);
+                nr *= xp - *(xy + (dim*XROW) + j);
+                dr *= *(xy + (dim*XROW) + i) - *(xy + (dim*XROW) + j);
             }
 
-        yp += nr/dr*(*(xy + (dim*YRAW) + i));
+        yp += nr/dr*(*(xy + (dim*YROW) + i));
     }
     
     if(difftime)
@@ -794,7 +794,7 @@ __MSSHELL_WRAPPER_ static void _MS__private lagrangeInterpolation(const register
     return;
 }
 
-__MSSHELL_WRAPPER_ static void _MS__private greatestEigenValue(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static void _MS__private greatestEigenValue(const sel_typ argc, char ** argv)
 {
 
     ityp **matrix1 = NULL;
@@ -805,7 +805,7 @@ __MSSHELL_WRAPPER_ static void _MS__private greatestEigenValue(const register se
 
     if(argc)
     {
-        if((!matrixToken(argv[0], matrix1, dim, &dim[COLUMNS])) || dim[RAWS] != dim[COLUMNS])
+        if((!matrixToken(argv[0], matrix1, dim, &dim[COLUMNS])) || dim[ROWS] != dim[COLUMNS])
         {
             matrixFree(matrix1);
             free(matrix1);
@@ -823,7 +823,7 @@ __MSSHELL_WRAPPER_ static void _MS__private greatestEigenValue(const register se
     matrix2 = malloc(sizeof(ityp*));
     errMem(matrix2, (matrixFree(matrix1), free(matrix1)));
 
-    if(!matrixAlloc(matrix2, (dim_typ2){dim[RAWS], 1}))
+    if(!matrixAlloc(matrix2, (dim_typ2){dim[ROWS], 1}))
     {
         matrixFree(matrix1);
         free(matrix1);
@@ -839,7 +839,7 @@ __MSSHELL_WRAPPER_ static void _MS__private greatestEigenValue(const register se
     dim_typ i;
 
     #pragma omp parallel for
-	for(i=0; i<dim[RAWS]; ++i)
+	for(i=0; i<dim[ROWS]; ++i)
         *((*matrix2) + i) = 1.00;
 
     ityp **result = NULL;
@@ -847,7 +847,7 @@ __MSSHELL_WRAPPER_ static void _MS__private greatestEigenValue(const register se
     result = malloc(sizeof(ityp*));
     errMem(result, (matrixFree(matrix1), matrixFree(matrix2), free(matrix1), free(matrix2)));
 
-    if(!matrixAlloc(result, (dim_typ2){dim[RAWS], 1}))
+    if(!matrixAlloc(result, (dim_typ2){dim[ROWS], 1}))
     {
         matrixFree(matrix1);
         matrixFree(matrix2);
@@ -860,7 +860,7 @@ __MSSHELL_WRAPPER_ static void _MS__private greatestEigenValue(const register se
         return;
     }
 
-    ityp resultVector[dim[RAWS]];
+    ityp resultVector[dim[ROWS]];
 	struct timeval tvBegin;
 	const bool difftime = isSett(BOOLS_SHOWDIFFTIMEADVCALC);
 	
@@ -869,19 +869,19 @@ __MSSHELL_WRAPPER_ static void _MS__private greatestEigenValue(const register se
 
     for( ;; )
     {
-        _matrixMultiplication(matrix1, matrix2, result, (dim_typ3){dim[RAWS], dim[RAWS], 1});
-        // matrixToVector((*result), (dim_typ2){dim[RAWS], 1}, resultVector, MATRIX_TO_VECTOR);
+        _matrixMultiplication(matrix1, matrix2, result, (dim_typ3){dim[ROWS], dim[ROWS], 1});
+        // matrixToVector((*result), (dim_typ2){dim[ROWS], 1}, resultVector, MATRIX_TO_VECTOR);
         eigenValue = MAX(3, resultVector);
 
         #pragma omp parallel for
-		for(i=0; i<dim[RAWS]; ++i)
+		for(i=0; i<dim[ROWS]; ++i)
             *((*result) + i) /= eigenValue;
 
-        if(isEqualMatrix((*matrix2), (*result), (dim_typ2){dim[RAWS], 1}))
+        if(isEqualMatrix((*matrix2), (*result), (dim_typ2){dim[ROWS], 1}))
             break;
 	
 		#pragma omp parallel for
-        for(i=0; i<dim[RAWS]; ++i)
+        for(i=0; i<dim[ROWS]; ++i)
             *((*matrix2) + i) = *((*result) + i);
     }
     
@@ -895,7 +895,7 @@ __MSSHELL_WRAPPER_ static void _MS__private greatestEigenValue(const register se
     printf2(COLOR_USER, OUTPUT_CONVERSION_FORMAT, eigenValue);
     printf2(COLOR_USER, ".\nAn EIGEN Vector is:\n\n");
 
-    printMatrix(stdout, (*result), (dim_typ2){dim[RAWS],1});
+    printMatrix(stdout, (*result), (dim_typ2){dim[ROWS],1});
 
     matrixFree(matrix1);
     matrixFree(matrix2);
@@ -911,7 +911,7 @@ __MSSHELL_WRAPPER_ static void _MS__private greatestEigenValue(const register se
     return;
 }
 
-__MSSHELL_WRAPPER_ static void _MS__private funcIntegration(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static void _MS__private funcIntegration(const sel_typ argc, char ** argv)
 {
     ityp x0, xn;
     ityp h, s;
@@ -1074,7 +1074,7 @@ __MSSHELL_WRAPPER_ static void _MS__private funcIntegration(const register sel_t
     return;
 }
 
-__MSSHELL_WRAPPER_ static void _MS__private straightLineFitting(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static void _MS__private straightLineFitting(const sel_typ argc, char ** argv)
 {
     ityp tmp;
     dim_typ dim;
@@ -1118,7 +1118,7 @@ __MSSHELL_WRAPPER_ static void _MS__private straightLineFitting(const register s
     {
         dim_typ rc[MAX_DIMENSIONS];
 
-        if((!matrixToken(argv[1], &xy, rc, &rc[COLUMNS])) || rc[RAWS] != MAX_DIMENSIONS || rc[COLUMNS] != dim)
+        if((!matrixToken(argv[1], &xy, rc, &rc[COLUMNS])) || rc[ROWS] != MAX_DIMENSIONS || rc[COLUMNS] != dim)
         {
             matrixFree(&xy);
             printUsage(&adv_calc[ADVCALC_STRAIGHTLINEFITTING]);
@@ -1133,7 +1133,7 @@ __MSSHELL_WRAPPER_ static void _MS__private straightLineFitting(const register s
         #endif // WINOS
 
         printf2(COLOR_CREDITS, "\nEnter the Matrix filled with EQUATIONS DATA,\n");
-        printf2(COLOR_CREDITS, "by putting on each RAWS the %hu X and Y VALUES.\n\n", dim);
+        printf2(COLOR_CREDITS, "by putting on each ROWS the %hu X and Y VALUES.\n\n", dim);
 
         if(!insertNMMatrix(&xy, (dim_typ2){MAX_DIMENSIONS, dim}))
             return;
@@ -1145,8 +1145,8 @@ __MSSHELL_WRAPPER_ static void _MS__private straightLineFitting(const register s
     
     const register dim_typ cache[MAX_DIMENSIONS] =
     {
-    	dim*XRAW,
-    	dim*YRAW
+    	dim*XROW,
+    	dim*YROW
     };
     
     struct timeval tvBegin;
@@ -1158,10 +1158,10 @@ __MSSHELL_WRAPPER_ static void _MS__private straightLineFitting(const register s
 	for(i = 0; i < dim; ++i)
     {
 
-        sum_x += *(xy + cache[XRAW] + i);
-        sum_y += *(xy + cache[YRAW] + i);
-        sum_xy += *(xy + cache[XRAW] + i) * *(xy + cache[YRAW] + i);
-        sum_x2 += pow(*(xy + cache[XRAW] + i), 2);
+        sum_x += *(xy + cache[XROW] + i);
+        sum_y += *(xy + cache[YROW] + i);
+        sum_xy += *(xy + cache[XROW] + i) * *(xy + cache[YROW] + i);
+        sum_x2 += pow(*(xy + cache[XROW] + i), 2);
     }
     
     if(difftime)
@@ -1192,7 +1192,7 @@ __MSSHELL_WRAPPER_ static void _MS__private straightLineFitting(const register s
     return;
 }
 
-__MSSHELL_WRAPPER_ static void _MS__private parabolicCurveFitting(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static void _MS__private parabolicCurveFitting(const sel_typ argc, char ** argv)
 {
     ityp tmp;
     dim_typ dim;
@@ -1235,7 +1235,7 @@ __MSSHELL_WRAPPER_ static void _MS__private parabolicCurveFitting(const register
     {
         dim_typ rc[MAX_DIMENSIONS];
 
-        if((!matrixToken(argv[1], &xy, rc, &rc[COLUMNS])) || rc[RAWS] != MAX_DIMENSIONS || rc[COLUMNS] != dim)
+        if((!matrixToken(argv[1], &xy, rc, &rc[COLUMNS])) || rc[ROWS] != MAX_DIMENSIONS || rc[COLUMNS] != dim)
         {
             matrixFree(&xy);
             printUsage(&adv_calc[ADVCALC_PARABOLICCURVEFITTING]);
@@ -1249,7 +1249,7 @@ __MSSHELL_WRAPPER_ static void _MS__private parabolicCurveFitting(const register
         #endif // WINOS
 
         printf2(COLOR_CREDITS, "\nEnter the Matrix filled with EQUATIONS DATA,\n");
-        printf2(COLOR_CREDITS, "by putting on each Raws the %hu X and Y VALUES.\n\n", dim);
+        printf2(COLOR_CREDITS, "by putting on each Rows the %hu X and Y VALUES.\n\n", dim);
 
         if(!insertNMMatrix(&xy, (dim_typ2){MAX_DIMENSIONS, dim}))
             return;
@@ -1272,8 +1272,8 @@ __MSSHELL_WRAPPER_ static void _MS__private parabolicCurveFitting(const register
     
     const register dim_typ cache[MAX_DIMENSIONS] =
     {
-    	dim*XRAW,
-    	dim*YRAW
+    	dim*XROW,
+    	dim*YROW
     };
     
     struct timeval tvBegin;
@@ -1285,13 +1285,13 @@ __MSSHELL_WRAPPER_ static void _MS__private parabolicCurveFitting(const register
     #pragma omp parallel for
 	for(i = 0; i < dim; ++i)
     {
-        *(matrix + 1) = (*(matrix + 4) += *(xy + cache[XRAW] + i));
-        *(matrix + 3) += *(xy + cache[YRAW] + i);
-        *(matrix + 2) = (*(matrix + 8) += pow(*(xy + cache[XRAW] + i), 2)); 
-        *(matrix + 6) = (*(matrix + 9) += pow(*(xy + cache[XRAW] + i), 3));
-        *(matrix + 10) += pow(*(xy + cache[XRAW] + i), 4); 
-        *(matrix + 7) += (*(xy + cache[XRAW] + i) * *(xy + cache[YRAW] * i));
-        *(matrix + 11) += (pow(*(xy + cache[XRAW] + i), 2) * *(xy + cache[YRAW]*i));
+        *(matrix + 1) = (*(matrix + 4) += *(xy + cache[XROW] + i));
+        *(matrix + 3) += *(xy + cache[YROW] + i);
+        *(matrix + 2) = (*(matrix + 8) += pow(*(xy + cache[XROW] + i), 2)); 
+        *(matrix + 6) = (*(matrix + 9) += pow(*(xy + cache[XROW] + i), 3));
+        *(matrix + 10) += pow(*(xy + cache[XROW] + i), 4); 
+        *(matrix + 7) += (*(xy + cache[XROW] + i) * *(xy + cache[YROW] * i));
+        *(matrix + 11) += (pow(*(xy + cache[XROW] + i), 2) * *(xy + cache[YROW]*i));
     }
     
     if(difftime)
@@ -1346,7 +1346,7 @@ __MSSHELL_WRAPPER_ static void _MS__private parabolicCurveFitting(const register
     return;
 }
 
-__MSSHELL_WRAPPER_ static void _MS__private linearSystemsSolver(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ static void _MS__private linearSystemsSolver(const sel_typ argc, char ** argv)
 {
     dim_typ dim[MAX_DIMENSIONS];
     ityp *matrix = NULL;
@@ -1354,7 +1354,7 @@ __MSSHELL_WRAPPER_ static void _MS__private linearSystemsSolver(const register s
     if(argc)
     {
 
-        if((!matrixToken(argv[0], &matrix, dim, &dim[COLUMNS])) || dim[COLUMNS] != dim[RAWS]+1)
+        if((!matrixToken(argv[0], &matrix, dim, &dim[COLUMNS])) || dim[COLUMNS] != dim[ROWS]+1)
         {
             matrixFree(&matrix);
             printUsage(&adv_calc[ADVCALC_LINEARSYSTEMSSOLVER]);
@@ -1364,9 +1364,9 @@ __MSSHELL_WRAPPER_ static void _MS__private linearSystemsSolver(const register s
     else
     {
         printf2(COLOR_CREDITS, "\nEnter Complete Matrix correspondent to the Linear System you want the Program to solve.\n\n");
-        if((!insertMatrix(matrix, dim[RAWS], dim[COLUMNS], false)) || dim[COLUMNS] != dim[RAWS]+1)
+        if((!insertMatrix(matrix, dim[ROWS], dim[COLUMNS], false)) || dim[COLUMNS] != dim[ROWS]+1)
         {
-            if(dim[COLUMNS] != dim[RAWS]+1)
+            if(dim[COLUMNS] != dim[ROWS]+1)
                 printErr(33, "You have to insert an [R X R+1] Matrix");
             return;
         }
@@ -1381,8 +1381,8 @@ __MSSHELL_WRAPPER_ static void _MS__private linearSystemsSolver(const register s
     if(difftime)
     	gettimeofday(&tvBegin, NULL);
 
-    for(i = 0; i < dim[RAWS]; ++i)
-        for(j = 0; j < dim[RAWS]; ++j)
+    for(i = 0; i < dim[ROWS]; ++i)
+        for(j = 0; j < dim[ROWS]; ++j)
             if(i != j)
             {
                 a = *(matrix + (dim[COLUMNS]*j) + i);
@@ -1392,7 +1392,7 @@ __MSSHELL_WRAPPER_ static void _MS__private linearSystemsSolver(const register s
             }
 
 	#pragma omp parallel for
-    for(i = 0; i < dim[RAWS]; ++i)
+    for(i = 0; i < dim[ROWS]; ++i)
     {
         const ityp c = *(matrix + (dim[COLUMNS]*i) + i);
         for(j = 0; j < dim[COLUMNS]; ++j)
@@ -1408,10 +1408,10 @@ __MSSHELL_WRAPPER_ static void _MS__private linearSystemsSolver(const register s
     printf2(COLOR_USER, "Simultaneous Solutions of the given Linear System are:\n\n");
     PRINTL();
 
-    for(i = 0; i < dim[RAWS] ; ++i)
+    for(i = 0; i < dim[ROWS] ; ++i)
     {
         printf2(COLOR_USER, "%c => ", i+97);
-        printf2(COLOR_USER, OUTPUT_CONVERSION_FORMAT, *(matrix + (dim[COLUMNS]*i) + dim[RAWS]));
+        printf2(COLOR_USER, OUTPUT_CONVERSION_FORMAT, *(matrix + (dim[COLUMNS]*i) + dim[ROWS]));
         printf2(COLOR_USER, ";\n");
     }
 

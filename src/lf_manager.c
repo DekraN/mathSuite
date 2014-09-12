@@ -8,8 +8,8 @@ about the use with any other code-scripts.
 #include "dutils.h"
 #ifdef ALLOW_LFSMANAGER
 
-__MSSHELL_WRAPPER_ __WINCALL static void _MS__private __system lfLoader(const register sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ __WINCALL static void _MS__private __system lfCreate(const register sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ __WINCALL static void _MS__private __system lfLoader(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ __WINCALL static void _MS__private __system lfCreate(const sel_typ argc, char ** argv);
 
 sprog lfs_manager[MAX_LFSMANAGER_PROGS] =
 {
@@ -33,7 +33,7 @@ sprog lfs_manager[MAX_LFSMANAGER_PROGS] =
     }
 };
 
-__MSSHELL_WRAPPER_ __WINCALL static void _MS__private __system lfLoader(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ __WINCALL static void _MS__private __system lfLoader(const sel_typ argc, char ** argv)
 {
     char path[MAX_PATH_LENGTH];
     #if WINOS
@@ -92,7 +92,7 @@ __MSSHELL_WRAPPER_ __WINCALL static void _MS__private __system lfLoader(const re
     return;
 }
 
-__MSSHELL_WRAPPER_ __WINCALL static void _MS__private __system lfCreate(const register sel_typ argc, char ** argv)
+__MSSHELL_WRAPPER_ __WINCALL static void _MS__private __system lfCreate(const sel_typ argc, char ** argv)
 {
     char path[MAX_PATH_LENGTH];
     #if WINOS
