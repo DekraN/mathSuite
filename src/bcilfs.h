@@ -2984,10 +2984,10 @@ case BCALC_CAMBIAMENTODIBASE:
 case BCALC_GENERATOREMATRICIRANDOM:
 {
 
-    if(dcheck && (a < 1 || b < 1 || a > access(curLayout)->matrix_max_raws || b > access(curLayout)->matrix_max_columns))
+    if(dcheck && (a < 1 || b < 1 || a > access(curLayout)->matrix_max_rows || b > access(curLayout)->matrix_max_columns))
     {
-        printErr(33, "Invalid [RAWS COLUMNS] format.\nYou have to insert non-negative and non-zero RAWS and COLUMNS.\n\
-and must be respectively less than: %hu and %hu", access(curLayout)->matrix_max_raws, access(curLayout)->matrix_max_columns);
+        printErr(33, "Invalid [ROWS COLUMNS] format.\nYou have to insert non-negative and non-zero ROWS and COLUMNS.\n\
+and must be respectively less than: %hu and %hu", access(curLayout)->matrix_max_rows, access(curLayout)->matrix_max_columns);
         return;
     }
 
@@ -3010,9 +3010,9 @@ case BCALC_PASCALTRIANGLE:
 {
     uint64_t numero;
     numero = (uint64_t) a;
-    if(a < access(curLayout)->pascal_triangle_min_raws || a > access(curLayout)->pascal_triangle_max_raws)
+    if(a < access(curLayout)->pascal_triangle_min_rows || a > access(curLayout)->pascal_triangle_max_rows)
     {
-        printErr(33, "Invalid inserted Value.\nMust be an integer between %u and %u", access(curLayout)->pascal_triangle_min_raws, access(curLayout)->pascal_triangle_max_raws);
+        printErr(33, "Invalid inserted Value.\nMust be an integer between %u and %u", access(curLayout)->pascal_triangle_min_rows, access(curLayout)->pascal_triangle_max_rows);
         return;
     }
 

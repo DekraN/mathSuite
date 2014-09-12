@@ -689,7 +689,7 @@ Il suo COMPLEMENTO a DUE e': %s.\n", num, bin_num, c);
     return c;
 }
 
-__MSNATIVE_ inline ityp __export __cabs(ityp *restrict cpx, const register sel_typ dim)
+__MSNATIVE_ inline ityp __export ___cabs(ityp *restrict cpx, const register sel_typ dim)
 {
 	const register sel_typ algebra_units = exp2(dim);
 	ityp accumulate = 0.00;

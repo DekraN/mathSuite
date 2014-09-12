@@ -20,13 +20,12 @@ I do not assume any responsibilities about the use with any other code-scripts.
 #include <limits.h>
 #include <float.h>
 #include <errno.h>
-#include <conio.h>
 #include <setjmp.h>
-
-#include <sys/time.h>
 
 #include <windows.h>
 #include <errors.h>
+#include <sys/time.h>
+
 #include <signal.h>
 
 #include <omp.h>
@@ -40,7 +39,7 @@ I do not assume any responsibilities about the use with any other code-scripts.
 // PROJECT HEADERS
 // #include "ext_math.h"
 #include "defaults.h"
-#include "ExprEval\exprincl.h"
+#include "ExprEval/exprincl.h"
 
 #define XMLCALL
 
@@ -123,11 +122,13 @@ extern "C" {
 #define XML_NAME "./settings.xml"
 
 #if WINOS
+	#include <conio.h>
     #define MAX_PATH_LENGTH MAX_PATH
     #define pulisciSchermo system("cls")
 #else
     #include <unistd.h>
-    #define MAX_PATH_LENGTH PATH_MAX
+    #include <curses.h>
+    #define MAX_PATH_LENGTH 260
     #define DEFAULT_LINUX_SPOOLFOLDER "/var/spool"
     #define pulisciSchermo system("clear")
 #endif
@@ -379,11 +380,12 @@ typedef unsigned long long uint64_t;
 
 typedef unsigned char sel_typ; // DEFINING SELECTION TYPE
 typedef unsigned short fsel_typ; // DEFINING FORMATTABLE SELECTION TYPE
-typedef sel_typ bool; // DEFINING ASSERT TYPE (like bool vars)
+#if WINOS
+	typedef sel_typ bool; // DEFINING ASSERT TYPE (like bool vars)
 // but unlike typedefining a { false, true } enumeration, this system
 // combinated to false,true macro definition occupies less memory.
+#endif
 
-// typedef fsel_typ dim_typ;
 
 #define COMPARE_STRING_FACTOR MAX_STRING
 
@@ -572,22 +574,22 @@ enum
 // COLOR Enumerations
 enum
 {
-    COLOR_BLACK = 0,
-    COLOR_BLUE,
-    COLOR_GREEN,
-    COLOR_AZURE,
-    COLOR_DARKRED,
-    COLOR_PURPLE,
-    COLOR_YELLOW,
-    COLOR_WHITE,
-    COLOR_GREY,
-    COLOR_SMARTBLUE,
-    COLOR_LUMGREEN,
-    COLOR_CRYSTAL,
-    COLOR_SMARTRED,
-    COLOR_SMARTPURPLE,
-    COLOR_SMARTYELLOW,
-    COLOR_WHITEPLUS
+    _COLOR_BLACK = 0,
+    _COLOR_BLUE,
+    _COLOR_GREEN,
+    _COLOR_AZURE,
+    _COLOR_DARKRED,
+    _COLOR_PURPLE,
+    _COLOR_YELLOW,
+    _COLOR_WHITE,
+    _COLOR_GREY,
+    _COLOR_SMARTBLUE,
+    _COLOR_LUMGREEN,
+    _COLOR_CRYSTAL,
+    _COLOR_SMARTRED,
+    _COLOR_SMARTPURPLE,
+    _COLOR_SMARTYELLOW,
+    _COLOR_WHITEPLUS
 };
 
 #define COLOR_SMARTWHITE 39
@@ -609,7 +611,7 @@ enum
     MEMBER_COLORAUTHOR
 };
 
-#define INIT_COLOR COLOR_WHITE
+#define INIT_COLOR _COLOR_WHITE
 #define LAST_MEMBER_COLOR MEMBER_COLORAUTHOR
 #define MAX_COLOR_TYPES LAST_MEMBER_COLOR+1
 #define COLORS_PATH DEFAULT_COLORS_PATH
@@ -693,10 +695,10 @@ enum
 
 #define REAL_UNIT_NAME NULL_CHAR // "real"
 
-#define _cabs(a) __cabs(a,ALGEBRA_COMPLEXNUMBERS)
-#define _qabs(a) __cabs(a,ALGEBRA_QUATERNIONS)
-#define _oabs(a) __cabs(a,ALGEBRA_OCTONIONS)
-#define _sabs(a) __cabs(a,ALGEBRA_SEDENIONS)
+#define _cabs(a) ___cabs(a, ALGEBRA_COMPLEXNUMBERS)
+#define _qabs(a) ___cabs(a, ALGEBRA_QUATERNIONS)
+#define _oabs(a) ___cabs(a, ALGEBRA_OCTONIONS)
+#define _sabs(a) ___cabs(a, ALGEBRA_SEDENIONS)
 
 #define MIN_MEMOIZABLE_INDEX 5
 
@@ -2130,7 +2132,7 @@ __MSNATIVE_ const ityp sarrus(ityp *restrict);
 __MSNATIVE_ ityp carlucci(ityp *restrict);
 __MSNATIVE_ ityp checkStdMat(ityp *restrict, dim_typ);
 __MSNATIVE_ __MSUTIL_ ityp det(ityp *restrict, dim_typ, bool *);
-__MSNATIVE_ ityp trace(ityp *restrict, dim_typ);
+__MSNATIVE_ ityp _matrixTrace(ityp *restrict, dim_typ);
 __MSSHELL_WRAPPER_ __MSNATIVE_ bool randomMatrix(ityp *restrict, const register dim_typ [static MAX_DIMENSIONS]);
 __MSNATIVE_ void transpose(ityp *restrict, ityp *restrict, const register dim_typ [static MAX_DIMENSIONS]);
 __MSUTIL_ bool __export FattLU(dim_typ, ityp *restrict, ityp *restrict, ityp *);
@@ -2178,12 +2180,12 @@ __MSNATIVE_ bool __system _lfCreate(const char [static MAX_PATH_LENGTH]);
 
 #if WINOS
     __MSUTIL_ __WINCALL BOOL WINAPI __system __export SetExitButtonState(const bool);
-    __MSUTIL_ const char * const __system __export getFilename(const char [static MAX_PATH_LENGTH]);
     __MSUTIL_ __WINCALL void __system updInfo(void);
     __MSUTIL_ __WINCALL HWND WINAPI __system __export GetConsoleWindowNT();
     __MSUTIL_ __WINCALL bool __system __export windowsFileHandler(char *, const char *, const char [static MAX_EXTENSION_LENGTH], bool);
 #endif
 
+__MSUTIL_ const char * const __system __export getFilename(const char path[static MAX_PATH_LENGTH]);
 __MSUTIL_ void __system updInfo(void);
 __MSUTIL_ void __system __export SetColor(const sel_typ);
 __MSNATIVE_ XMLCALL void __system _backupColFile(void);
@@ -2246,7 +2248,7 @@ __MSNATIVE_ char * const __system __export binaryAlgSum(ityp, ityp, bool);
 __MSNATIVE_ char * const __system __export binNumComp(ityp);
 __MSNATIVE_ ityp __system __export math_mul(register ityp, register ityp);
 __MSNATIVE_ ityp __system __export math_div(register ityp, register ityp);
-__MSNATIVE_ ityp __export __cabs(ityp *restrict, const register sel_typ);
+__MSNATIVE_ ityp __export ___cabs(ityp *restrict, const register sel_typ);
 __MSNATIVE_ void __export _complexAdd(ityp *restrict, ityp [static MAX_DIMENSIONS]);
 __MSNATIVE_ void __export _complexSub(ityp *restrict, ityp [static MAX_DIMENSIONS]);
 __MSNATIVE_ void __export _complexMul(ityp *restrict, ityp [static MAX_DIMENSIONS]);

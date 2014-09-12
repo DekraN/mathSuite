@@ -320,7 +320,7 @@ __MSNATIVE_ __MSUTIL_ ityp det(ityp *restrict mat, dim_typ dimq, bool *flag)
     return D;
 }
 
-__MSNATIVE_ ityp trace(ityp *restrict mat, dim_typ dimq)
+__MSNATIVE_ ityp _matrixTrace(ityp *restrict mat, dim_typ dimq)
 {
     dim_typ i;
     ityp res = 0.00;
@@ -1763,12 +1763,6 @@ __MSUTIL_ static inline void ftoa(char *string, const float value, const fsel_ty
 	{
 		return DeleteMenu(GetSystemMenu(GetConsoleWindowNT(),state),6,MF_BYPOSITION);
 	}
-	
-    __MSUTIL_ inline const char * const __system __export getFilename(const char path[static MAX_PATH_LENGTH])
-    {
-        const char * const stkr = strrchr(path, '\\');
-        return stkr ? stkr+1 : path;
-    }
 
     __MSUTIL_ __WINCALL HWND WINAPI __system __export GetConsoleWindowNT()
     {
@@ -1832,6 +1826,12 @@ __MSUTIL_ static inline void ftoa(char *string, const float value, const fsel_ty
     }
     
 #endif
+
+__MSUTIL_ inline const char * const __system __export getFilename(const char path[static MAX_PATH_LENGTH])
+{
+    const char * const stkr = strrchr(path, '\\');
+    return stkr ? stkr+1 : path;
+}
 
 __MSUTIL_ inline void __system updInfo(void)
 {

@@ -6495,7 +6495,7 @@ case EXPR_NODEFUNC_MATRIXTRACE:
                 return err;
             }
 
-        *val = trace(matrix, d1ex);
+        *val = _matrixTrace(matrix, d1ex);
         matrixFree(&matrix);
         }
     else
@@ -6520,7 +6520,7 @@ case EXPR_NODEFUNC_MATRIXRANK:
         (dim_typ)d2
     };
 
-    const register dim_typ dim = dex[RAWS]*dex[COLUMNS];
+    const register dim_typ dim = dex[ROWS]*dex[COLUMNS];
 
     if((!err) && nodes->data.function.nodecount >= dim+2)
         {

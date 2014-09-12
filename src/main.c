@@ -742,7 +742,9 @@ int main(int argc, char **argv)
     operationsGroupMenu(MAX_PROGRAMMI, main_menu, NULL_CHAR, BY_CHARS);
 
     prepareToExit();
-    system("PAUSE"); // if working on Windows Environment...
+    #if WINOS
+    	system("PAUSE"); // if working on Windows Environment...
+    #endif
 
     return NOERROR_EXIT;
 }

@@ -500,7 +500,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixTrace(const sel_typ argc, char
 	if(difftime)
 		gettimeofday(&tvBegin, NULL);
 		
-    const register ityp trc = trace(matrix, dim[ROWS]);
+    const register ityp trc = _matrixTrace(matrix, dim[ROWS]);
     
     if(difftime)
     {

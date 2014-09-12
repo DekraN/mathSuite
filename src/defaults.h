@@ -480,7 +480,6 @@ sullo script in questione
     #define USAGE_RENSYSLOG "[STRING]"
 #endif // modifica_syslog
 
-#if WINOS
 #ifdef ALLOW_LAYOUTSMANAGER
     #define CMD_LAYOUTSMANAGER "layts"
     #define USAGE_LAYOUTSMANAGER NULL_CHAR
@@ -524,7 +523,6 @@ sullo script in questione
     #define USAGE_COLORSFILESLOADER "[STRING]"
     #define USAGE_BACKUPCOLORSFILES NULL_CHAR
 #endif // modifica_colori
-#endif
 
 #ifdef ALLOW_LFSMANAGER
     #define CMD_LFSMANAGER DEFAULT_PATHLIST_FILE_EXTENSION

@@ -11,7 +11,7 @@
 #include "exprincl.h"
 
 #include "exprpriv.h"
-#include "..\defaults.h"
+#include "../defaults.h"
 
 
 /* Macro for adding a function node type */
