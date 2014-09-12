@@ -3456,19 +3456,19 @@ __MSSHELL_WRAPPER_ __MSNATIVE_ void _MS__private __system __export operationsGro
         {
             // printf("\n_____________________________________________________\n\n");
 
-            time_t t1;
+            struct timeval tvBegin;
             const bool asrt = isSett(BOOLS_SHOWEXECTIME);
 
             CLEARBUFFER();
 
             if(asrt)
-                t1 = time(NULL);
+            	gettimeofday(&tvBegin, NULL);
 
 
             prog_chosen.program_function(0, NULL); // RICHIAMA LA FUNZIONE O METODO DEL PROGRAMMA SELEZIONATO
             // avendo a disposizione l'indirizzo della funzione corrispondente al subprogram scelto.
             if(asrt)
-                printf("\nAverage Execution Time: %.*f.\n\n", DEFAULT_PRECISION, difftime(time(NULL), t1));
+                printf("\nExecution Average Time: %.*f.\n\n", SHOWTIME_PRECISION, getDiffTime(&tvBegin));
 
             if(isSett(BOOLS_RESETLISTS)) refreshExprEvalLists();
 
@@ -3522,12 +3522,11 @@ __MSSHELL_WRAPPER_ void __apnt changeProgramSettings(const register sel_typ argc
 
 __MSSHELL_WRAPPER_ __MSNATIVE_ void __system progInfo(sel_typ skip)
 {
-	
     if(skip)
     {
         FILE *fp = NULL;
 
-        if((fp = fopen(DESCRIPTIONS_FOLDER"suite.NFO", "r")) == NULL)
+        if((fp = fopen(DESCRIPTIONS_FOLDER"suite."DEFAULT_HELP_FILE_EXTENSION"", "r")) == NULL)
             printErr(2, "Unable to open File containing\nProgram Description");
         else
         {
@@ -3537,7 +3536,7 @@ __MSSHELL_WRAPPER_ __MSNATIVE_ void __system progInfo(sel_typ skip)
             printf2(COLOR_CREDITS, ".\n\n\t   //________________________________________________________\\\\\
 \n\nLAST UPDATE DATE: "PROG__LASTUPDATEDATE"\n");
 
-            if(!readFile(DESCRIPTIONS_FOLDER"suite.NFO"))
+            if(!readFile(DESCRIPTIONS_FOLDER"suite."DEFAULT_HELP_FILE_EXTENSION""))
                 printErr(2, "Non-existent DESCRIPTION File in Directory "DESCRIPTIONS_FOLDER":\nsuite."DEFAULT_HELP_FILE_EXTENSION);
 
             PRINTL();
@@ -3603,11 +3602,7 @@ __MSUTIL_ void __system __export refreshExprEvalVarList(dim_typ which_env)
     int err;
     jmp_buf jumper;
 
-    time_t t1;
-    double diff;
-
-    diff = 0.00;
-
+    ityp diff = 0.00;
     exprType * const tmp = malloc(sizeof(exprType));
 
     errMem(tmp, VSPACE);
@@ -3659,6 +3654,7 @@ __MSUTIL_ void __system __export refreshExprEvalVarList(dim_typ which_env)
 
     exprObj *e = INIT_OBJLIST;
     int start, end;
+    struct timeval tvBegin;
 
     if(assert)
     {
@@ -3689,8 +3685,7 @@ __MSUTIL_ void __system __export refreshExprEvalVarList(dim_typ which_env)
             }
 
             if(asrt)
-                t1 = time(NULL);
-
+            	gettimeofday(&tvBegin, NULL);
 
             ityp val;
             err = exprEval(e, &val);
@@ -3703,7 +3698,7 @@ __MSUTIL_ void __system __export refreshExprEvalVarList(dim_typ which_env)
             }
 
             if(asrt)
-                diff += difftime(time(NULL), t1);
+                diff += getDiffTime(&tvBegin);
 
             exprFree(e);
         }
@@ -3713,7 +3708,7 @@ __MSUTIL_ void __system __export refreshExprEvalVarList(dim_typ which_env)
         if(asrt)
         {
             PRINTL();
-            printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", DEFAULT_PRECISION, (EXPRTYPE)diff);
+            printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, diff);
             PRINTL();
         }
     }
