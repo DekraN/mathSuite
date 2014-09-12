@@ -7,7 +7,6 @@ about the use with any other code-scripts.
 
 #include "dutils.h"
 
-#if WINOS
 #ifdef ALLOW_COLSMANAGER
 
 __MSSHELL_WRAPPER_ static void _MS__private __system changeColors(const sel_typ argc, char ** argv);
@@ -166,5 +165,4 @@ __MSSHELL_WRAPPER_ static void _MS__private __system backupColFile(const sel_typ
     return;
 }
 
-#endif
 #endif
