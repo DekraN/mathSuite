@@ -1020,7 +1020,7 @@ __MSNATIVE_ _MS__private void __system printMatrix(FILE *fp, ityp *matrix, const
 
     for(i=0; i<dim[ROWS]; ++i)
 	{
-    	if(fp == stdout && isSett(BOOLS_PRINTROWSLABELS))
+    	if(assert && isSett(BOOLS_PRINTROWSLABELS))
         	fprintf2(fp, "R%hu: ", i+1);
         for(j=0; j<dim[COLUMNS]; ++j)
         {   // remember to put comma and whitespace
@@ -2445,7 +2445,7 @@ __MSNATIVE_ bool __system insertDim(dim_typ *dim, bool mode)
 // La seguente funzione sarebbe stata la funzione Handler
 // del segnale SIGINT. Il problema e' che dovrebbe essere
 // sempre e continuamente richiamata la funzione signal
-// per far sì che funzioni correttamente. Meglio evitare.
+// per far sÃ¬ che funzioni correttamente. Meglio evitare.
 
 
 __MSNATIVE_ void __system sigproc(void)
