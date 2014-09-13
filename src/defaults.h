@@ -57,9 +57,6 @@
 
 #define DEFAULT_GLOBALVAL 27.200
 
-#define DEFAULT_MIN_EXTENSIVE_MULTITHREADING_CORESNO 4 // QUAD-CORE value
-
-
 #define DEFAULT_MAX_FIBONACCI_MEMOIZABLE_INDEX 25
 #define DEFAULT_MAX_FATTORIALE_MEMOIZABLE_INDEX 40
 #define DEFAULT_MAX_SFATTORIALE_MEMOIZABLE_INDEX 80
@@ -121,7 +118,7 @@
 
 /*
 Cambia il tipo predefinito di elementi delle matrici.
-ATTENZIONE: Ammessi tutti i tipi purché siano formattabili tramite conversion format,
+ATTENZIONE: Ammessi tutti i tipi purchÃ© siano formattabili tramite conversion format,
 ma le modifiche laddove le variabili del suddetto tipo vengano coinvolte in formattazioni
 per funzioni INPUT o OUTPUT, sono assolutamente richieste per il corretto funzionamento
 del programma e devono essere fatte manualmente agendo in maniera diretta
