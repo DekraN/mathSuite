@@ -172,8 +172,7 @@ const struct prog_constants suite_c =
         "Inverse Operations Automatic Deactivator",
         "Degrees Entering on Trigonometric Operations",
         "Request Programs Repetitions",
-        "Strassen Optimization",
-        "Extensive MultiThreading"
+        "Strassen Optimization"
     },
     {
         {
@@ -285,10 +284,6 @@ const struct prog_constants suite_c =
         {
         	BITMASK_STRASSENOPTIMIZATION,
         	DEFAULT_STRASSENOPTIMIZATION
-        },
-        {
-        	BITMASK_EXTENSIVEMULTITHREADING,
-        	DEFAULT_EXTENSIVEMULTITHREADING
         }
     },
     {

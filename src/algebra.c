@@ -847,14 +847,9 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixAdd(const sel_typ argc, char *
         {
             if(!matrixToken(argv[argv_pos], matrix1[k], dim, &dim[COLUMNS]))
             {
-            	if(tdim <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && tdim > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
-		       		#pragma omp parallel for num_threads(tdim)
-		            for(i=0; i<tdim; ++i)
-		                free(matrix1[i]);
-		        else
-		        	#pragma omp parallel for
-		            for(i=0; i<tdim; ++i)
-		                free(matrix1[i]);
+	       		#pragma omp parallel for num_threads(tdim)
+	            for(i=0; i<tdim; ++i)
+	                free(matrix1[i]);
                 free(matrix1);
                 return;
             }
@@ -864,14 +859,9 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixAdd(const sel_typ argc, char *
         }
         else if(!enterMatrix(matrix1[k], dim, &dim[COLUMNS], false, !complex_entries))
         {
-        	if(tdim <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && tdim > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
-	        	#pragma omp parallel for num_threads(tdim)
-	            for(i=0; i<tdim; ++i)
-	                free(matrix1[i]);
-	        else
-	        	#pragma omp parallel for
-	            for(i=0; i<tdim; ++i)
-	                free(matrix1[i]);
+        	#pragma omp parallel for num_threads(tdim)
+            for(i=0; i<tdim; ++i)
+                free(matrix1[i]);
             free(matrix1);
             return;
         }
@@ -889,23 +879,14 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixAdd(const sel_typ argc, char *
                 	#pragma omp parallel for
                     for(j=0; j<=i; ++j)
                         matrixFree(&matrix1[k][j]);
-                	if(algebra_units <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && algebra_units > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
-	                    #pragma omp parallel for num_threads(algebra_units)
-	                    for(j=0; j<algebra_units; ++j)
-	                        matrixFree(&matrix1[k][j]);
-                    else
-                    	#pragma omp parallel for
-                    	for(j=0; j<algebra_units; ++j)
-	                        matrixFree(&matrix1[k][j]);
+                        
+	                #pragma omp parallel for num_threads(algebra_units)
+	                for(j=0; j<algebra_units; ++j)
+	                    matrixFree(&matrix1[k][j]);
 	                    
-	                if(tdim <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && tdim > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
-                    	#pragma omp parallel for num_threads(tdim)
-	                    for(j=0; j<tdim; ++j)
-	                        free(matrix1[j]);
-	                else
-	                	#pragma omp parallel for
-	                    for(j=0; j<tdim; ++j)
-	                        free(matrix1[j]);
+                	#pragma omp parallel for num_threads(tdim)
+                    for(j=0; j<tdim; ++j)
+                        free(matrix1[j]);
 	                    
                     free(matrix1);
                     printUsage(&alg_operations[__pmode__]);
@@ -920,23 +901,14 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixAdd(const sel_typ argc, char *
                 	#pragma omp parallel for
                     for(j=0; j<i; ++j)
                         matrixFree(&matrix1[k][j]);
-                    if(algebra_units <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && algebra_units > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
-	                    #pragma omp parallel for num_threads(algebra_units)
-	                    for(j=0; j<algebra_units; ++j)
-	                        matrixFree(&matrix1[k][j]);
-	            	else
-	            		#pragma omp parallel for
-	                    for(j=0; j<algebra_units; ++j)
-	                        matrixFree(&matrix1[k][j]);
-	                
-	                if(tdim <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && tdim > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
-	                    #pragma omp parallel for num_threads(tdim)
-						for(j=0; j<tdim; ++j)
-	                        free(matrix1[j]);
-	                else
-	                	#pragma omp parallel for
-						for(j=0; j<tdim; ++j)
-	                        free(matrix1[j]);
+                        
+                    #pragma omp parallel for num_threads(algebra_units)
+                    for(j=0; j<algebra_units; ++j)
+                        matrixFree(&matrix1[k][j]);
+
+                    #pragma omp parallel for num_threads(tdim)
+					for(j=0; j<tdim; ++j)
+                        free(matrix1[j]);
 
                     free(matrix1);
                     return;
@@ -960,23 +932,14 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixAdd(const sel_typ argc, char *
             matrix2 = malloc(sizeof(ityp**)*tdim);
             if(checkErrMem(matrix2))
             {
-                if(algebra_units <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && algebra_units > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
-	            	#pragma omp parallel for num_threads(algebra_units)
-	                for(i=0; i<algebra_units; ++i)
-	                    matrixFree(&matrix1[k][j]);
-	            else
-	            	#pragma omp parallel for
-	                for(i=0; i<algebra_units; ++i)
-	                    matrixFree(&matrix1[k][j]);
+            	#pragma omp parallel for num_threads(algebra_units)
+                for(i=0; i<algebra_units; ++i)
+                    matrixFree(&matrix1[k][j]);
 	            
-	        	if(tdim <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && tdim > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
-				    #pragma omp parallel for num_threads(tdim)
-					for(i=0; i<tdim; ++i)
-	                    free(matrix1[i]);
-	            else
-	            	#pragma omp parallel for
-					for(i=0; i<tdim; ++i)
-	                    free(matrix1[i]);
+			    #pragma omp parallel for num_threads(tdim)
+				for(i=0; i<tdim; ++i)
+                    free(matrix1[i]);
+                    
                 free(matrix1);
             }
 
@@ -985,23 +948,13 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixAdd(const sel_typ argc, char *
                 matrix2[i] = malloc(sizeof(ityp*)*algebra_units);
                 if(checkErrMem(matrix2[i]))
                 {
-                	if(algebra_units <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && algebra_units > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
-	                    #pragma omp parallel for num_threads(algebra_units)
-						for(j=0; j<algebra_units; ++j)
-	                        matrixFree(&matrix1[k][j]);
-	            	else
-	            		#pragma omp parallel for
-						for(j=0; j<algebra_units; ++j)
-	                        matrixFree(&matrix1[k][j]);
+                    #pragma omp parallel for num_threads(algebra_units)
+					for(j=0; j<algebra_units; ++j)
+                        matrixFree(&matrix1[k][j]);
 	                
-	                if(tdim <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && tdim > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
-	                    #pragma omp parallel for num_threads(tdim)
-						for(j=0; j<tdim; ++j)
-	                        free(matrix1[j]);
-	                else
-	                	#pragma omp parallel for
-						for(j=0; j<tdim; ++j)
-	                        free(matrix1[j]);
+                    #pragma omp parallel for num_threads(tdim)
+					for(j=0; j<tdim; ++j)
+                        free(matrix1[j]);
 	                        
                     #pragma omp parallel for
 				    for(j=0; j<i; ++j)
@@ -1019,31 +972,18 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixAdd(const sel_typ argc, char *
 
             if((!matrixToken(argv[argv_pos], matrix2[k], rc, &rc[COLUMNS])) || rc[ROWS] != dim[ROWS] || rc[COLUMNS] != dim[COLUMNS])
             {
-            	if(algebra_units <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && algebra_units > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
-	            	#pragma omp parallel for num_threads(algebra_units)
-	                for(i=0; i<algebra_units; ++i)
-	                    matrixFree(&matrix1[k][i]);
-	            else
-	            	#pragma omp parallel for
-	                for(i=0; i<algebra_units; ++i)
-	                    matrixFree(&matrix1[k][i]); 
+            	#pragma omp parallel for num_threads(algebra_units)
+                for(i=0; i<algebra_units; ++i)
+                    matrixFree(&matrix1[k][i]);
 	                    
                 matrixFree(matrix2[k]);
                 
-                if(tdim <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && tdim > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
-	                #pragma omp parallel for num_threads(tdim)
-					for(i=0; i<tdim; ++i)
-	                {
-	                    free(matrix1[i]);
-	                    free(matrix2[i]);
-	                }
-	            else
-	            	#pragma omp parallel for
-					for(i=0; i<tdim; ++i)
-	                {
-	                    free(matrix1[i]);
-	                    free(matrix2[i]);
-	                }
+                #pragma omp parallel for num_threads(tdim)
+				for(i=0; i<tdim; ++i)
+                {
+                    free(matrix1[i]);
+                    free(matrix2[i]);
+                }
 	                
                 free(matrix1);
                 free(matrix2);
@@ -1062,29 +1002,16 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixAdd(const sel_typ argc, char *
 
             if(!insertNMMatrix(matrix2[k], dim)) // dim[ROWS], dim[COLUMNS]))
             {
-            	if(algebra_units <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && algebra_units > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
-	                #pragma omp parallel for num_threads(algebra_units)
-				    for(i=0; i<algebra_units; ++i)
-	                    matrixFree(&matrix1[k][i]);
-	            else
-	            	#pragma omp parallel for
-				    for(i=0; i<algebra_units; ++i)
-	                    matrixFree(&matrix1[k][i]);
+                #pragma omp parallel for num_threads(algebra_units)
+			    for(i=0; i<algebra_units; ++i)
+                    matrixFree(&matrix1[k][i]);
 	            
-	            if(tdim <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && tdim > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
-	                #pragma omp parallel for num_threads(tdim)
-					for(i=0; i<tdim; ++i)
-	                {
-	                    free(matrix1[i]);
-	                    free(matrix2[i]);
-	                }
-	            else
-		            #pragma omp parallel for
-						for(i=0; i<tdim; ++i)
-		                {
-		                    free(matrix1[i]);
-		                    free(matrix2[i]);
-		                }
+                #pragma omp parallel for num_threads(tdim)
+				for(i=0; i<tdim; ++i)
+                {
+                    free(matrix1[i]);
+                    free(matrix2[i]);
+                }
 		                
                 free(matrix1);
                 free(matrix2);
@@ -1108,35 +1035,21 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixAdd(const sel_typ argc, char *
                         matrixFree(&matrix1[k][j]);
                         matrixFree(&matrix2[k][j]); 
                     }
-                    if(algebra_units <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && algebra_units > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
-	                    #pragma omp parallel for num_threads(algebra_units)
-						for(j=0; j<algebra_units; ++j)
-	                    {
-	                        matrixFree(&matrix1[k][j]);
-	                        matrixFree(&matrix2[k][j]);
-	                    }
-	                else
-	                	#pragma omp parallel for
-						for(j=0; j<algebra_units; ++j)
-	                    {
-	                        matrixFree(&matrix1[k][j]);
-	                        matrixFree(&matrix2[k][j]);
-	                    }
+                    
+                    #pragma omp parallel for num_threads(algebra_units)
+					for(j=0; j<algebra_units; ++j)
+                    {
+                        matrixFree(&matrix1[k][j]);
+                        matrixFree(&matrix2[k][j]);
+                    }
 	                    
-	                if(tdim <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && tdim > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
-	                    #pragma omp parallel for num_threads(tdim)
-					    for(j=0; j<tdim; ++j)
-	                    {
-	                        free(matrix1[j]);
-	                        free(matrix2[j]);
-	                    }
-	                else
-		                #pragma omp parallel for
-						    for(j=0; j<tdim; ++j)
-		                    {
-		                        free(matrix1[j]);
-		                        free(matrix2[j]);
-		                    }
+                    #pragma omp parallel for num_threads(tdim)
+				    for(j=0; j<tdim; ++j)
+                    {
+                        free(matrix1[j]);
+                        free(matrix2[j]);
+                    }
+                    
                     free(matrix1);
                     free(matrix2);
                     printUsage(&alg_operations[__pmode__]);
@@ -1151,30 +1064,20 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixAdd(const sel_typ argc, char *
                 	#pragma omp parallel for
                     for(j=0; j<i; ++j)
                         matrixFree(&matrix1[k][j]);
-                    if(algebra_units <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && algebra_units > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
-	                    #pragma omp parallel for num_threads(algebra_units)
-						for(j=0; j<algebra_units; ++j)
-	                        matrixFree(&matrix1[k][j]);
-	                else
-	                	#pragma omp parallel for
-						for(j=0; j<algebra_units; ++j)
-	                        matrixFree(&matrix1[k][j]);
+                        
+                    #pragma omp parallel for num_threads(algebra_units)
+					for(j=0; j<algebra_units; ++j)
+                        matrixFree(&matrix1[k][j]);
 	                        
                     matrixFree(matrix2[k]);
-                	if(tdim <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && tdim > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
-	                    #pragma omp parallel for num_threads(tdim)
-						for(j=0; j<tdim; ++j)
-	                    {
-	                        free(matrix1[j]);
-	                        free(matrix2[j]);
-	                    }
-	                else
-	                	#pragma omp parallel for
-						for(j=0; j<tdim; ++j)
-	                    {
-	                        free(matrix1[j]);
-	                        free(matrix2[j]);
-	                    }
+                    
+                    #pragma omp parallel for num_threads(tdim)
+					for(j=0; j<tdim; ++j)
+                    {
+                        free(matrix1[j]);
+                        free(matrix2[j]);
+                    }
+                    
                     free(matrix1);
                     free(matrix2);
                     return;
@@ -1206,20 +1109,14 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixAdd(const sel_typ argc, char *
                         matrixFree(&matrix1[i][j]);
                         matrixFree(&matrix2[i][j]);
                     }
-                if(tdim <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && tdim > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
-	                #pragma omp parallel for num_threads(tdim)
-					for(i=0; i<tdim; ++i)
-	                {
-	                    free(matrix1[i]);
-	                    free(matrix2[i]);
-	                }
-	            else
-	            	#pragma omp parallel for
-					for(i=0; i<tdim; ++i)
-	                {
-	                    free(matrix1[i]);
-	                    free(matrix2[i]);
-	                }
+                    
+                #pragma omp parallel for num_threads(tdim)
+				for(i=0; i<tdim; ++i)
+                {
+                    free(matrix1[i]);
+                    free(matrix2[i]);
+                }
+                
                 free(matrix1);
                 free(matrix2);
             }
@@ -1238,20 +1135,12 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixAdd(const sel_typ argc, char *
                             matrixFree(&matrix2[l][j]);
                         }
 
-					if(tdim <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && tdim > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
-	                    #pragma omp parallel for num_threads(tdim)
-						for(j=0; j<tdim; ++j)
-	                    {
-	                        free(matrix1[j]);
-	                        free(matrix2[j]);
-	                    }
-	                else
-	                	#pragma omp parallel for
-						for(j=0; j<tdim; ++j)
-	                    {
-	                        free(matrix1[j]);
-	                        free(matrix2[j]);
-	                    }
+                    #pragma omp parallel for num_threads(tdim)
+					for(j=0; j<tdim; ++j)
+                    {
+                        free(matrix1[j]);
+                        free(matrix2[j]);
+                    }
                     #pragma omp parallel for
 					for(j=0; j<i; ++j)
                         free(matrix_sum[j]);
@@ -1279,22 +1168,15 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixAdd(const sel_typ argc, char *
                     matrixFree(&matrix1[i][j]);
                     matrixFree(&matrix2[i][j]);
                 }
-            if(tdim <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && tdim > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
-	            #pragma omp parallel for num_threads(tdim)
-				for(i=0; i<tdim; ++i)
-	            {
-	                free(matrix1[i]);
-	                free(matrix2[i]);
-	                free(matrix_sum[i]);
-	            }
-	        else
-	        	#pragma omp parallel for
-				for(i=0; i<tdim; ++i)
-	            {
-	                free(matrix1[i]);
-	                free(matrix2[i]);
-	                free(matrix_sum[i]);
-	            }
+                
+            #pragma omp parallel for num_threads(tdim)
+			for(i=0; i<tdim; ++i)
+            {
+                free(matrix1[i]);
+                free(matrix2[i]);
+                free(matrix_sum[i]);
+            }
+            
             free(matrix1);
             free(matrix2);
             free(matrix_sum);
@@ -1478,14 +1360,9 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixMultiplication(const sel_typ a
             {
                 if((!parse(argv[argv_pos], &tmp3)) || tmp3 != (tmp2 = (uint64_t)tmp3) || tmp2 < 1)
                 {
-                	if(algebra_units <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && algebra_units > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
-	                    #pragma omp parallel for num_threads(algebra_units)
-						for(ii=0; ii<algebra_units; ++ii)
-	                        matrixFree(&matrix1[ii]);
-	                else
-	                	#pragma omp parallel for
-						for(ii=0; ii<algebra_units; ++ii)
-	                        matrixFree(&matrix1[ii]);
+                    #pragma omp parallel for num_threads(algebra_units)
+					for(ii=0; ii<algebra_units; ++ii)
+                        matrixFree(&matrix1[ii]);
 	                        
                     free(matrix1);
                     free(matrix2);
@@ -1498,14 +1375,9 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixMultiplication(const sel_typ a
             }
             else if((tmp3 = strtod(argv[argv_pos], NULL)) != (tmp2 = (uint64_t)tmp3) || tmp2 < 1)
             {
-            	if(algebra_units <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && algebra_units > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
-	                #pragma omp parallel for num_threads(algebra_units)
-					for(ii=0; ii<algebra_units; ++ii)
-	                    matrixFree(&matrix1[ii]);
-	            else
-	            	#pragma omp parallel for
-					for(ii=0; ii<algebra_units; ++ii)
-	                    matrixFree(&matrix1[ii]);
+                #pragma omp parallel for num_threads(algebra_units)
+				for(ii=0; ii<algebra_units; ++ii)
+                    matrixFree(&matrix1[ii]);
                 free(matrix1);
                 free(matrix2);
                 #if WINOS
@@ -1531,14 +1403,9 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixMultiplication(const sel_typ a
                 if(access(exitHandle) == EXITHANDLE_GETCMD) continue;
                 if(isNullVal(tmp3) && exitHandleCheck)
                 {
-                	if(algebra_units <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && algebra_units > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
-	                    #pragma omp parallel for num_threads(algebra_units)
-						for(ii=0; ii<algebra_units; ++ii)
-	                        matrixFree(&matrix1[ii]);
-	                else
-	                	#pragma omp parallel for
-						for(ii=0; ii<algebra_units; ++ii)
-	                        matrixFree(&matrix1[ii]);
+                    #pragma omp parallel for num_threads(algebra_units)
+					for(ii=0; ii<algebra_units; ++ii)
+                        matrixFree(&matrix1[ii]);
                     free(matrix1);
                     free(matrix2);
                     #if WINOS
@@ -1555,14 +1422,9 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixMultiplication(const sel_typ a
             {
                 if(!matrixAlloc(matrix2, dim))
                 {
-                	if(algebra_units <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && algebra_units > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
-	                    #pragma omp parallel for num_threads(algebra_units)
-						for(ii=0; ii<algebra_units; ++ii)
-	                        matrixFree(&matrix1[ii]);
-	                else
-	                	#pragma omp parallel for 
-						for(ii=0; ii<algebra_units; ++ii)
-	                        matrixFree(&matrix1[ii]);
+                    #pragma omp parallel for num_threads(algebra_units)
+					for(ii=0; ii<algebra_units; ++ii)
+                        matrixFree(&matrix1[ii]);
                     free(matrix1);
                     free(matrix2);
                     #if WINOS
@@ -1571,20 +1433,12 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixMultiplication(const sel_typ a
                     return;
                 }
                 equalMatrix(matrix2, (*matrix1), dim);
-                if(algebra_units <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && algebra_units > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
-	                #pragma omp parallel for num_threads(algebra_units)
-					for(ii=1; ii<algebra_units; ++ii)
-	                {
-	                    matrix2[ii] = NULL;
-	                    equalMatrix(&matrix2[ii], matrix1[ii], dim);
-	                }
-	            else
-		            #pragma omp parallel for
-						for(ii=1; ii<algebra_units; ++ii)
-		                {
-		                    matrix2[ii] = NULL;
-		                    equalMatrix(&matrix2[ii], matrix1[ii], dim);
-		                }
+                #pragma omp parallel for num_threads(algebra_units)
+				for(ii=1; ii<algebra_units; ++ii)
+                {
+                    matrix2[ii] = NULL;
+                    equalMatrix(&matrix2[ii], matrix1[ii], dim);
+                }
 	            	
             }
 
@@ -1607,14 +1461,9 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixMultiplication(const sel_typ a
             if((!matrixToken(argv[argv_pos], matrix2, &row2, &dim[COLUMNS2])) || row2 != dim[COLUMNS])
             {
                 matrixFree(matrix2);
-                if(algebra_units <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && algebra_units > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
-	                #pragma omp parallel for num_threads(algebra_units)
-					for(ii=0; ii<algebra_units; ++ii)
-	                    matrixFree(&matrix1[ii]);
-	            else
-	            	#pragma omp parallel for
-					for(ii=0; ii<algebra_units; ++ii)
-	                    matrixFree(&matrix1[ii]);
+                #pragma omp parallel for num_threads(algebra_units)
+				for(ii=0; ii<algebra_units; ++ii)
+                    matrixFree(&matrix1[ii]);
                 free(matrix1);
                 free(matrix2);
                 printUsage(&alg_operations[__pmode__]);
@@ -1654,14 +1503,9 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixMultiplication(const sel_typ a
 
                     if(!checkBackTracking(tmp, &dim[COLUMNS2]))
                     {
-                    	if(algebra_units <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && algebra_units > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
-	                        #pragma omp parallel for num_threads(algebra_units)
-							for(ii=0; ii<algebra_units; ++ii)
-	                            matrixFree(&matrix1[ii]);
-	                    else
-	                    	#pragma omp parallel for
-							for(ii=0; ii<algebra_units; ++ii)
-	                            matrixFree(&matrix1[ii]);
+                        #pragma omp parallel for num_threads(algebra_units)
+						for(ii=0; ii<algebra_units; ++ii)
+                            matrixFree(&matrix1[ii]);
                         matrixFree(matrix2);
                         free(matrix1);
                         free(matrix2);
@@ -1700,14 +1544,9 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixMultiplication(const sel_typ a
                                 break;
                             else if(back_tracking == 2)
                             {
-                            	if(algebra_units <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && algebra_units > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
-	                                #pragma omp parallel for num_threads(algebra_units)
-									for(ii=0; ii<algebra_units; ++ii)
-	                                    matrixFree(&matrix1[ii]);
-	                            else
-	                            	 #pragma omp parallel for
-									for(ii=0; ii<algebra_units; ++ii)
-	                                    matrixFree(&matrix1[ii]);
+                                #pragma omp parallel for num_threads(algebra_units)
+								for(ii=0; ii<algebra_units; ++ii)
+                                    matrixFree(&matrix1[ii]);
                                 matrixFree(matrix2);
                                 free(matrix1);
                                 free(matrix2);
@@ -1725,14 +1564,9 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixMultiplication(const sel_typ a
             {
                 if(!insertDim(&dim[COLUMNS2], COLUMNS))
                 {
-                	if(algebra_units <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && algebra_units > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
-	                    #pragma omp parallel for num_threads(algebra_units)
-						for(ii=0; ii<algebra_units; ++ii)
-	                        matrixFree(&matrix1[ii]);
-	                else
-	                	#pragma omp parallel for
-						for(ii=0; ii<algebra_units; ++ii)
-	                        matrixFree(&matrix1[ii]);
+                    #pragma omp parallel for num_threads(algebra_units)
+					for(ii=0; ii<algebra_units; ++ii)
+                        matrixFree(&matrix1[ii]);
                     free(matrix1);
                     free(matrix2);
                     #if WINOS
@@ -1745,14 +1579,9 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixMultiplication(const sel_typ a
 
                 if(!matrixAlloc(matrix2, (dim_typ2){dim[COLUMNS], dim[COLUMNS2]}))
                 {
-                	if(algebra_units <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && algebra_units > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
-	                    #pragma omp parallel for num_threads(algebra_units)
-						for(ii=0; ii<algebra_units; ++ii)
-	                        matrixFree(&matrix1[ii]);
-	                else
-	                	 #pragma omp parallel for
-						for(ii=0; ii<algebra_units; ++ii)
-	                        matrixFree(&matrix1[ii]);
+                    #pragma omp parallel for num_threads(algebra_units)
+					for(ii=0; ii<algebra_units; ++ii)
+                        matrixFree(&matrix1[ii]);
                     free(matrix1);
                     free(matrix2);
                     #if WINOS
@@ -1778,14 +1607,9 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixMultiplication(const sel_typ a
 
                     if(!checkBackTracking(tmp, &i))
                     {
-                    	if(algebra_units <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && algebra_units > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
-	                        #pragma omp parallel for num_threads(algebra_units)
-							for(ii=0; ii<algebra_units; ++ii)
-	                            matrixFree(&matrix1[ii]);
-	                	else
-	                		#pragma omp parallel for
-							for(ii=0; ii<algebra_units; ++ii)
-	                            matrixFree(&matrix1[ii]);
+                        #pragma omp parallel for num_threads(algebra_units)
+						for(ii=0; ii<algebra_units; ++ii)
+                            matrixFree(&matrix1[ii]);
                         matrixFree(matrix2);
                         free(matrix1);
                         free(matrix2);
@@ -1817,14 +1641,9 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixMultiplication(const sel_typ a
                             break;
                         else if(back_tracking == 2)
                         {
-                        	if(algebra_units <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && algebra_units > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
-	                            #pragma omp parallel for num_threads(algebra_units)
-								for(ii=0; ii<algebra_units; ++ii)
-	                                matrixFree(&matrix1[ii]);
-	                        else
-	                        	#pragma omp parallel for
-								for(ii=0; ii<algebra_units; ++ii)
-	                                matrixFree(&matrix1[ii]);
+                            #pragma omp parallel for num_threads(algebra_units)
+							for(ii=0; ii<algebra_units; ++ii)
+                                matrixFree(&matrix1[ii]);
                             matrixFree(matrix2);
                             free(matrix1);
                             free(matrix2);
@@ -1963,20 +1782,12 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixMultiplication(const sel_typ a
     {
         if(mxprodErr && (!tmp2))
         {
-        	if(algebra_units <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && algebra_units > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
-	            #pragma omp parallel for num_threads(algebra_units)
-				for(ii=0; ii<algebra_units; ++ii)
-	            {
-	                matrixFree(&matrix_product[ii]);
-	                matrixFree(&matrix1[ii]);
-	            }
-	        else
-	            #pragma omp parallel for
-				for(ii=0; ii<algebra_units; ++ii)
-	            {
-	                matrixFree(&matrix_product[ii]);
-	                matrixFree(&matrix1[ii]);
-	            }
+            #pragma omp parallel for num_threads(algebra_units)
+			for(ii=0; ii<algebra_units; ++ii)
+            {
+                matrixFree(&matrix_product[ii]);
+                matrixFree(&matrix1[ii]);
+            }
             free(matrix1);
             free(matrix2);
             free(matrix_product);
@@ -1997,14 +1808,9 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixMultiplication(const sel_typ a
         	/// matrixMulFuncs[access(curLayout)->algebra](matrix1, matrix2, matrix_product, dim);
 
             if(assert_m)
-            	if(algebra_units <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && algebra_units > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
-	                #pragma omp parallel for num_threads(algebra_units)
-					for(ii=0; ii<algebra_units; ++ii)
-	                    equalMatrix(&matrix2[ii], matrix_product[ii], (dim_typ2){dim[ROWS], dim[COLUMNS2]});
-	            else
-	            	#pragma omp parallel for
-					for(ii=0; ii<algebra_units; ++ii)
-	                    equalMatrix(&matrix2[ii], matrix_product[ii], (dim_typ2){dim[ROWS], dim[COLUMNS2]});
+                #pragma omp parallel for num_threads(algebra_units)
+				for(ii=0; ii<algebra_units; ++ii)
+                    equalMatrix(&matrix2[ii], matrix_product[ii], (dim_typ2){dim[ROWS], dim[COLUMNS2]});
         }
         while(++x < tmp2);
         
@@ -2016,14 +1822,9 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixMultiplication(const sel_typ a
 		
     }
     else
-        if(algebra_units <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && algebra_units > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
-	        #pragma omp parallel for num_threads(algebra_units)
-			for(ii=0; ii<algebra_units; ++ii)
-	            matrix_product[ii] = matrix1[ii];
-		else
-			#pragma omp parallel for
-			for(ii=0; ii<algebra_units; ++ii)
-	            matrix_product[ii] = matrix1[ii];
+        #pragma omp parallel for num_threads(algebra_units)
+		for(ii=0; ii<algebra_units; ++ii)
+            matrix_product[ii] = matrix1[ii];
 
     CHECK_INVERSE_OPERATIONS();
 
@@ -2036,34 +1837,19 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixMultiplication(const sel_typ a
     }
 
     // Overhead here isn't inevitable because the order is important
-    if(algebra_units <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && algebra_units > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
-	    #pragma omp parallel for num_threads(algebra_units)
-		for(ii=0; ii<algebra_units; ++ii)
-	        matrixFree(&matrix_product[ii]); 
-	else
-		#pragma omp parallel for
-		for(ii=0; ii<algebra_units; ++ii)
-	        matrixFree(&matrix_product[ii]); 
+    #pragma omp parallel for num_threads(algebra_units)
+	for(ii=0; ii<algebra_units; ++ii)
+        matrixFree(&matrix_product[ii]); 
 
     if(tmp2 != 1)
-        if(algebra_units <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && algebra_units > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
-	        #pragma omp parallel for num_threads(algebra_units)
-			for(ii=0; ii<algebra_units; ++ii)
-	            matrixFree(&matrix2[ii]);
-	    else
-	    	#pragma omp parallel for
-			for(ii=0; ii<algebra_units; ++ii)
-	            matrixFree(&matrix2[ii]);
+        #pragma omp parallel for num_threads(algebra_units)
+		for(ii=0; ii<algebra_units; ++ii)
+            matrixFree(&matrix2[ii]);
 
     if(!tmp2)
-        if(algebra_units <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && algebra_units > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
-	        #pragma omp parallel for num_threads(algebra_units)
-			for(ii=0; ii<algebra_units; ++ii)
-	            matrixFree(&matrix1[ii]);
-	    else
-	    	#pragma omp parallel for
-			for(ii=0; ii<algebra_units; ++ii)
-	            matrixFree(&matrix1[ii]);
+        #pragma omp parallel for num_threads(algebra_units)
+		for(ii=0; ii<algebra_units; ++ii)
+            matrixFree(&matrix1[ii]);
 
     free(matrix1);
     free(matrix2);
@@ -2169,14 +1955,9 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixKProduct(const sel_typ argc, c
             {
                 if((!parse(argv[argv_pos], &tmp2)) || tmp2 != (tmp = (uint64_t)tmp2) || tmp < 1)
                 {
-                	if(algebra_units <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && algebra_units > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
-	                    #pragma omp parallel for num_threads(algebra_units)
-						for(i=0; i<algebra_units; ++i)
-	                        matrixFree(&matrix1[i]);
-	                else
-	                	#pragma omp parallel for
-						for(i=0; i<algebra_units; ++i)
-	                        matrixFree(&matrix1[i]);
+                    #pragma omp parallel for num_threads(algebra_units)
+					for(i=0; i<algebra_units; ++i)
+                        matrixFree(&matrix1[i]);
                     free(matrix1);
                     free(matrix2);
                     #if WINOS
@@ -2188,14 +1969,9 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixKProduct(const sel_typ argc, c
             }
             else if((tmp2 = strtod(argv[argv_pos], NULL)) != (tmp = (uint64_t)tmp2) || tmp < 1)
             {
-            	if(algebra_units <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && algebra_units > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
-	                #pragma omp parallel for num_threads(algebra_units)
-					for(i=0; i<algebra_units; ++i)
-	                    matrixFree(&matrix1[i]);
-	            else
-	            	#pragma omp parallel
-					for(i=0; i<algebra_units; ++i)
-	                    matrixFree(&matrix1[i]);
+                #pragma omp parallel for num_threads(algebra_units)
+				for(i=0; i<algebra_units; ++i)
+                    matrixFree(&matrix1[i]);
                 free(matrix1);
                 free(matrix2);
                 #if WINOS
@@ -2221,14 +1997,9 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixKProduct(const sel_typ argc, c
                 if(access(exitHandle) == EXITHANDLE_GETCMD) continue;
                 if(isNullVal(tmp2) && exitHandleCheck)
                 {
-                	if(algebra_units <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && algebra_units > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
-	                    #pragma omp parallel for num_threads(algebra_units)
-						for(i=0; i<algebra_units; ++i)
-	                        matrixFree(&matrix1[i]);
-	                else
-	                	#pragma omp parallel for
-						for(i=0; i<algebra_units; ++i)
-	                        matrixFree(&matrix1[i]);
+                    #pragma omp parallel for num_threads(algebra_units)
+					for(i=0; i<algebra_units; ++i)
+                        matrixFree(&matrix1[i]);
                     free(matrix1);
                     free(matrix2);
                     #if WINOS
@@ -2245,14 +2016,9 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixKProduct(const sel_typ argc, c
             {
                 if(!matrixAlloc(matrix2, dim))
                 {
-                	if(algebra_units <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && algebra_units > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
-	                    #pragma omp parallel for num_threads(algebra_units)
-						for(i=0; i<algebra_units; ++i)
-	                        matrixFree(&matrix1[i]);
-	                else
-	                	#pragma omp parallel for
-						for(i=0; i<algebra_units; ++i)
-	                        matrixFree(&matrix1[i]);
+                    #pragma omp parallel for num_threads(algebra_units)
+					for(i=0; i<algebra_units; ++i)
+                        matrixFree(&matrix1[i]);
                     free(matrix1);
                     free(matrix2);
                     #if WINOS
@@ -2260,20 +2026,14 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixKProduct(const sel_typ argc, c
                     #endif
                     return;
                 }
-                if(algebra_units <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && algebra_units > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
-	                #pragma omp parallel for num_threads(algebra_units)
-					for(i=0; i<algebra_units; ++i)
-	                {
-	                    matrix2[i] = NULL;
-	                    equalMatrix(&matrix2[i], matrix1[i], dim);
-	                }
-	            else
-	            	#pragma omp parallel for
-					for(i=0; i<algebra_units; ++i)
-	                {
-	                    matrix2[i] = NULL;
-	                    equalMatrix(&matrix2[i], matrix1[i], dim);
-	                }
+                
+                #pragma omp parallel for num_threads(algebra_units)
+				for(i=0; i<algebra_units; ++i)
+                {
+                    matrix2[i] = NULL;
+                    equalMatrix(&matrix2[i], matrix1[i], dim);
+                }
+
             }
             dim2[ROWS] = dim[ROWS];
             dim2[COLUMNS] = dim[COLUMNS];
@@ -2286,14 +2046,9 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixKProduct(const sel_typ argc, c
 
             if((!matrixToken(argv[argv_pos], matrix2, dim2, &dim2[COLUMNS])))
             {
-            	if(algebra_units <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && algebra_units > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
-	                #pragma omp parallel for num_threads(algebra_units)
-					for(i=0; i<algebra_units; ++i)
-	                    matrixFree(&matrix1[i]);
-	            else
-	            	#pragma omp parallel for
-					for(i=0; i<algebra_units; ++i)
-	                    matrixFree(&matrix1[i]);
+                #pragma omp parallel for num_threads(algebra_units)
+				for(i=0; i<algebra_units; ++i)
+                    matrixFree(&matrix1[i]);
                 matrixFree(matrix2);
                 free(matrix1);
                 free(matrix2);
@@ -2309,14 +2064,9 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixKProduct(const sel_typ argc, c
 
             if(!enterMatrix(matrix2, dim2, &dim2[COLUMNS], false, !complex_entries))
             {
-            	if(algebra_units <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && algebra_units > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
-	                #pragma omp parallel for num_threads(algebra_units)
-					for(i=0; i<algebra_units; ++i)
-	                    matrixFree(&matrix1[i]);
-	            else
-	            	#pragma omp parallel for
-					for(i=0; i<algebra_units; ++i)
-	                    matrixFree(&matrix1[i]);
+                #pragma omp parallel for num_threads(algebra_units)
+				for(i=0; i<algebra_units; ++i)
+                    matrixFree(&matrix1[i]);
                 free(matrix1);
                 free(matrix2);
                 return;
@@ -2422,20 +2172,12 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixKProduct(const sel_typ argc, c
     {
         if(mxprodErr && !tmp)
         {
-        	if(algebra_units <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && algebra_units > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
-	            #pragma omp parallel for num_threads(algebra_units)
-			    for(i=0; i<algebra_units; ++i)
-	            {
-	                matrixFree(&matrix_product[i]);
-	                matrixFree(&matrix1[i]);
-	            }
-	        else
-	        	#pragma omp parallel for
-			    for(i=0; i<algebra_units; ++i)
-	            {
-	                matrixFree(&matrix_product[i]);
-	                matrixFree(&matrix1[i]);
-	            }
+            #pragma omp parallel for num_threads(algebra_units)
+		    for(i=0; i<algebra_units; ++i)
+            {
+                matrixFree(&matrix_product[i]);
+                matrixFree(&matrix1[i]);
+            }
             free(matrix1);
             free(matrix2);
             free(matrix_product);
@@ -2458,14 +2200,9 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixKProduct(const sel_typ argc, c
             matrixKProdFuncs[access(curLayout)->algebra](matrix1, matrix2, matrix_product, dims);
             
             if(assert_m)
-            	if(algebra_units <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && algebra_units > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
-	                #pragma omp parallel for num_threads(algebra_units)
-					for(i=0; i<algebra_units; ++i)
-	                    equalMatrix(&matrix2[i], matrix_product[i], dim3);
-	            else
-	            	#pragma omp parallel for
-					for(i=0; i<algebra_units; ++i)
-	                    equalMatrix(&matrix2[i], matrix_product[i], dim3);
+                #pragma omp parallel for num_threads(algebra_units)
+				for(i=0; i<algebra_units; ++i)
+                    equalMatrix(&matrix2[i], matrix_product[i], dim3);
         }
         while(++x < tmp);
         
@@ -2477,14 +2214,9 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixKProduct(const sel_typ argc, c
 		
     }
     else
-        if(algebra_units <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && algebra_units > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
-	        #pragma omp parallel for num_threads(algebra_units)
-			for(i=0; i<algebra_units; ++i)
-	            matrix_product[i] = matrix1[i];
-	    else
-	    	#pragma omp parallel for
-			for(i=0; i<algebra_units; ++i)
-	            matrix_product[i] = matrix1[i];
+        #pragma omp parallel for num_threads(algebra_units)
+		for(i=0; i<algebra_units; ++i)
+            matrix_product[i] = matrix1[i];
 
 
     CHECK_INVERSE_OPERATIONS();
@@ -2501,34 +2233,19 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixKProduct(const sel_typ argc, c
 
     // Overhead here isn't inevitable because the order is important
 
-	if(algebra_units <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && algebra_units > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
-	    #pragma omp parallel for num_threads(algebra_units)
-		for(i=0; i<algebra_units; ++i)
-	        matrixFree(&matrix_product[i]);
-	else
-		#pragma omp parallel for
-		for(i=0; i<algebra_units; ++i)
-	        matrixFree(&matrix_product[i]);
+    #pragma omp parallel for num_threads(algebra_units)
+	for(i=0; i<algebra_units; ++i)
+        matrixFree(&matrix_product[i]);
 
     if(tmp != 1)
-    	if(algebra_units <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && algebra_units > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
-	        #pragma omp parallel for num_threads(algebra_units)
-			for(i=0; i<algebra_units; ++i)
-	            matrixFree(&matrix2[i]);
-	    else
-	    	#pragma omp parallel for
-			for(i=0; i<algebra_units; ++i)
-	            matrixFree(&matrix2[i]);
+        #pragma omp parallel for num_threads(algebra_units)
+		for(i=0; i<algebra_units; ++i)
+            matrixFree(&matrix2[i]);
 
     if(!tmp)
-    	if(algebra_units <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && algebra_units > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
-	        #pragma omp parallel for num_threads(algebra_units)
-			for(i=0; i<algebra_units; ++i)
-	            matrixFree(&matrix1[i]);
-	    else	
-	    	#pragma omp parallel for
-			for(i=0; i<algebra_units; ++i)
-	            matrixFree(&matrix1[i]);
+        #pragma omp parallel for num_threads(algebra_units)
+		for(i=0; i<algebra_units; ++i)
+            matrixFree(&matrix1[i]);
 
     free(matrix1);
     free(matrix2);
@@ -2619,14 +2336,9 @@ __MSSHELL_WRAPPER_ static void _MS__private perScalarMultiplication(const sel_ty
         {
             if(!parse(argv[argv_pos], &scal))
             {
-            	if(algebra_units <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && algebra_units > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
-	                #pragma omp parallel for num_threads(algebra_units)
-					for(ii=0; ii<algebra_units; ++ii)
-	                    matrixFree(&matrix[ii]);
-	            else
-	            	#pragma omp parallel for
-					for(ii=0; ii<algebra_units; ++ii)
-	                    matrixFree(&matrix[ii]);
+                #pragma omp parallel for num_threads(algebra_units)
+				for(ii=0; ii<algebra_units; ++ii)
+                    matrixFree(&matrix[ii]);
                 return;
             }
         }
@@ -2640,14 +2352,9 @@ __MSSHELL_WRAPPER_ static void _MS__private perScalarMultiplication(const sel_ty
 
     if(isNullVal(scal))
     {
-    	if(algebra_units <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && algebra_units > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
-	        #pragma omp parallel for num_threads(algebra_units)
-			for(ii=0; ii<algebra_units; ++ii)
-	            matrixFree(&matrix[ii]);
-	    else
-	    	#pragma omp parallel for
-			for(ii=0; ii<algebra_units; ++ii)
-	            matrixFree(&matrix[ii]);
+        #pragma omp parallel for num_threads(algebra_units)
+		for(ii=0; ii<algebra_units; ++ii)
+            matrixFree(&matrix[ii]);
         #if WINOS
             SetExitButtonState(ENABLED);
         #endif // WINOS
@@ -2683,22 +2390,13 @@ __MSSHELL_WRAPPER_ static void _MS__private perScalarMultiplication(const sel_ty
 	if(difftime)
 		gettimeofday(&tvBegin, NULL);
 		
-	if(algebra_units <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && algebra_units > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
-		#pragma omp parallel for num_threads(algebra_units)
-	    for(k=0; k<algebra_units; ++k)
-	    	#pragma omp parallel for
-	        for(i=0; i<dim[ROWS]; ++i)
-	        	#pragma omp parallel for
-	            for(j=0; j<dim[COLUMNS]; ++j)
-	                matrix[k][dim[COLUMNS]*i+j] = mul_func(scal, matrix[k][dim[COLUMNS]*i+j]);
-	else
-		#pragma omp parallel for
-	    for(k=0; k<algebra_units; ++k)
-	    	#pragma omp parallel for
-	        for(i=0; i<dim[ROWS]; ++i)
-	        	#pragma omp parallel for
-	            for(j=0; j<dim[COLUMNS]; ++j)
-	                matrix[k][dim[COLUMNS]*i+j] = mul_func(scal, matrix[k][dim[COLUMNS]*i+j]);
+	#pragma omp parallel for num_threads(algebra_units)
+    for(k=0; k<algebra_units; ++k)
+    	#pragma omp parallel for
+        for(i=0; i<dim[ROWS]; ++i)
+        	#pragma omp parallel for
+            for(j=0; j<dim[COLUMNS]; ++j)
+                matrix[k][dim[COLUMNS]*i+j] = mul_func(scal, matrix[k][dim[COLUMNS]*i+j]);
 	                
 	if(difftime)
 	{

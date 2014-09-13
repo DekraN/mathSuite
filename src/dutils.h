@@ -70,7 +70,6 @@ extern "C" {
 
 #define __MSSHELL_WRAPPER_
 #define __MSNATIVE_
-#define __MSSTOCK
 #define __MSUTIL_
 
 
@@ -914,8 +913,7 @@ enum
     BOOLS_AUTOTURNBACK,
     BOOLS_DEGREESENTERING,
     BOOLS_PROGREPEATCHECK,
-    BOOLS_STRASSENOPTIMIZATION,
-    BOOLS_EXTENSIVEMULTITHREADING
+    BOOLS_STRASSENOPTIMIZATION
 };
 
 #define BITMASK_SHOWDESCRIPTION 1
@@ -945,9 +943,8 @@ enum
 #define BITMASK_DEGREESENTERING 16777216
 #define BITMASK_PROGREPEATCHECK 33554432
 #define BITMASK_STRASSENOPTIMIZATION 67108864
-#define BITMASK_EXTENSIVEMULTITHREADING 134217728
 
-#define LAST_BOOL_SETTING BOOLS_EXTENSIVEMULTITHREADING
+#define LAST_BOOL_SETTING BOOLS_STRASSENOPTIMIZATION
 #define MAX_BOOL_SETTINGS LAST_BOOL_SETTING+1
 
 #define BITMASK_BITFIELD LAST_BOOL_SETTING // MAX_BOOL_SETTINGS
@@ -2593,17 +2590,17 @@ __MSNATIVE_ __MSUTIL_ void __system __export mmult_fast(const register dim_typ, 
 	void (* const )(ityp **, ityp **, ityp **, const register dim_typ [static MAX_DIMENSIONS]),
 	void (* const )(ityp **, ityp **, ityp **, const register dim_typ [static MAX_DIMENSIONS]));
 
-__MSNATIVE_ __MSSTOCK void __system __call_OSMM(ityp **, ityp **, ityp **, const register dim_typ [static MAX_MATRICES], const register sel_typ,
+__MSNATIVE_ void __system __call_OSMM(ityp **, ityp **, ityp **, const register dim_typ [static MAX_MATRICES], const register sel_typ,
 	void (* const )(ityp **, ityp **, ityp **, const register dim_typ [static MAX_MATRICES]),
 	void (* const )(ityp **, ityp **, ityp **, const register dim_typ [static MAX_DIMENSIONS]),
 	void (* const )(ityp **, ityp **, ityp **, const register dim_typ [static MAX_DIMENSIONS]));
 
-__MSNATIVE_ __MSSTOCK void __system __call_STRASSENMM(ityp **, ityp **, ityp **, const register dim_typ [static MAX_MATRICES], const register sel_typ,
+__MSNATIVE_ void __system __call_STRASSENMM(ityp **, ityp **, ityp **, const register dim_typ [static MAX_MATRICES], const register sel_typ,
 	void (* const )(ityp **, ityp **, ityp **, const register dim_typ [static MAX_MATRICES]),
 	void (* const )(ityp **, ityp **, ityp **, const register dim_typ [static MAX_DIMENSIONS]),
 	void (* const )(ityp **, ityp **, ityp **, const register dim_typ [static MAX_DIMENSIONS]));
 
-__MSNATIVE_ __MSSTOCK void __system __call_NORMALMM(ityp **, ityp **, ityp **, const register dim_typ [static MAX_MATRICES], const register sel_typ,
+__MSNATIVE_ void __system __call_NORMALMM(ityp **, ityp **, ityp **, const register dim_typ [static MAX_MATRICES], const register sel_typ,
 	void (* const prodFunc)(ityp **, ityp **, ityp **, const register dim_typ [static MAX_MATRICES]),
 	void (* const sumFunc)(ityp **, ityp **, ityp **, const register dim_typ [static MAX_DIMENSIONS]),
 	void (* const subFunc)(ityp **, ityp **, ityp **, const register dim_typ [static MAX_DIMENSIONS]));

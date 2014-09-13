@@ -35,40 +35,6 @@ __MSNATIVE_ static ityp __system __export math_sub(register ityp, register ityp)
 __MSNATIVE_ static double complex __system __export math_csum(register double complex, register double complex);
 __MSNATIVE_ static double complex __system __export math_csub(register double complex, register double complex);
 
-__MSNATIVE_ __MSSTOCK _MS__private static void __system __export _matrixOEMTSum(ityp **, ityp **, ityp **, const register dim_typ);
-__MSNATIVE_ __MSSTOCK _MS__private static void __system __export _matrixOMTSum(ityp **, ityp **, ityp **, const register dim_typ);
-__MSNATIVE_ __MSSTOCK _MS__private static void __system __export _matrixSEMTSum(ityp **, ityp **, ityp **, const register dim_typ);
-__MSNATIVE_ __MSSTOCK _MS__private static void __system __export _matrixSMTSum(ityp **, ityp **, ityp **, const register dim_typ);
-__MSNATIVE_ __MSSTOCK _MS__private static void __system __export _matrixOEMTSub(ityp **, ityp **, ityp **, const register dim_typ);
-__MSNATIVE_ __MSSTOCK _MS__private static void __system __export _matrixOMTSub(ityp **, ityp **, ityp **, const register dim_typ);
-__MSNATIVE_ __MSSTOCK _MS__private static void __system __export _matrixSEMTSub(ityp **, ityp **, ityp **, const register dim_typ);
-__MSNATIVE_ __MSSTOCK _MS__private static void __system __export _matrixSMTSub(ityp **, ityp **, ityp **, const register dim_typ);
-__MSNATIVE_ __MSSTOCK _MS__private static void __system __export _matrixOEMTMultiplication(ityp **, ityp **, ityp **, const register dim_typ, const register dim_typ, const register dim_typ);
-__MSNATIVE_ __MSSTOCK _MS__private static void __system __export _matrixOMTMultiplication(ityp **, ityp **, ityp **, const register dim_typ, const register dim_typ, const register dim_typ);
-__MSNATIVE_ __MSSTOCK _MS__private static void __system __export _matrixSEMTMultiplication(ityp **, ityp **, ityp **, const register dim_typ, const register dim_typ, const register dim_typ);
-__MSNATIVE_ __MSSTOCK _MS__private static void __system __export _matrixSMTMultiplication(ityp **, ityp **, ityp **, const register dim_typ, const register dim_typ, const register dim_typ);
-__MSNATIVE_ __MSSTOCK _MS__private static void __system __export _matrixKOEMTProduct(ityp **, ityp **, ityp **, const register dim_typ, const register dim_typ, const register dim_typ);
-__MSNATIVE_ __MSSTOCK _MS__private static void __system __export _matrixKOMTProduct(ityp **, ityp **, ityp **, const register dim_typ, const register dim_typ, const register dim_typ);
-__MSNATIVE_ __MSSTOCK _MS__private static void __system __export _matrixKSEMTProduct(ityp **, ityp **, ityp **, const register dim_typ, const register dim_typ, const register dim_typ);
-__MSNATIVE_ __MSSTOCK _MS__private static void __system __export _matrixKSMTProduct(ityp **, ityp **, ityp **, const register dim_typ, const register dim_typ, const register dim_typ);
-
-__MSNATIVE_ __MSSTOCK _MS__private static void __export _octonionsEMTSum(ityp *restrict, ityp [static MAX_OCTONIONS_UNITS]);
-__MSNATIVE_ __MSSTOCK _MS__private static void __export _octonionsMTSum(ityp *restrict, ityp [static MAX_OCTONIONS_UNITS]);
-__MSNATIVE_ __MSSTOCK _MS__private static void __export _octonionsEMTSub(ityp *restrict, ityp [static MAX_OCTONIONS_UNITS]);
-__MSNATIVE_ __MSSTOCK _MS__private static void __export _octonionsMTSub(ityp *restrict, ityp [static MAX_OCTONIONS_UNITS]);
-__MSNATIVE_ __MSSTOCK _MS__private static void __export _octonionsEMTProd(ityp *restrict, ityp [static MAX_OCTONIONS_UNITS]);
-__MSNATIVE_ __MSSTOCK _MS__private static void __export _octonionsMTProd(ityp *restrict, ityp [static MAX_OCTONIONS_UNITS]);
-__MSNATIVE_ __MSSTOCK _MS__private static void __export _octonionsEMTDiv(ityp *restrict, ityp [static MAX_OCTONIONS_UNITS]);
-__MSNATIVE_ __MSSTOCK _MS__private static void __export _octonionsMTDiv(ityp *restrict, ityp [static MAX_OCTONIONS_UNITS]);
-__MSNATIVE_ __MSSTOCK _MS__private static void __export _sedenionsEMTSum(ityp *restrict, ityp [static MAX_SEDENIONS_UNITS]);
-__MSNATIVE_ __MSSTOCK _MS__private static void __export _sedenionsMTSum(ityp *restrict, ityp [static MAX_SEDENIONS_UNITS]);
-__MSNATIVE_ __MSSTOCK _MS__private static void __export _sedenionsEMTSub(ityp *restrict, ityp [static MAX_SEDENIONS_UNITS]);
-__MSNATIVE_ __MSSTOCK _MS__private static void __export _sedenionsMTSub(ityp *restrict, ityp [static MAX_SEDENIONS_UNITS]);
-__MSNATIVE_ __MSSTOCK _MS__private static void __export _sedenionsEMTProd(ityp *restrict, ityp [static MAX_SEDENIONS_UNITS]);
-__MSNATIVE_ __MSSTOCK _MS__private static void __export _sedenionsMTProd(ityp *restrict, ityp [static MAX_SEDENIONS_UNITS]);
-__MSNATIVE_ __MSSTOCK _MS__private static void __export _sedenionsEMTDiv(ityp *restrict, ityp [static MAX_SEDENIONS_UNITS]);
-__MSNATIVE_ __MSSTOCK _MS__private static void __export _sedenionsMTDiv(ityp *restrict, ityp [static MAX_SEDENIONS_UNITS]);
-
 const struct ext_math_type ext_math =
 {
     {
@@ -767,7 +733,7 @@ __MSNATIVE_ inline void __export _quaternionsSub(ityp *restrict quaternions, ity
     return;
 }
 
-__MSNATIVE_ inline void __export _quaternionsMul(ityp *restrict quaternions, ityp quaternionsRes[static MAX_QUATERNIONS_UNITS])
+__MSNATIVE_ void __export _quaternionsMul(ityp *restrict quaternions, ityp quaternionsRes[static MAX_QUATERNIONS_UNITS])
 {
 	#pragma omp parallel num_threads(MAX_QUATERNIONS_UNITS)
 	{
@@ -797,7 +763,7 @@ __MSNATIVE_ inline void __export _quaternionsMul(ityp *restrict quaternions, ity
     return;
 }
 
-__MSNATIVE_ inline void __export _quaternionsDiv(ityp *restrict quaternions, ityp quaternionsRes[static MAX_QUATERNIONS_UNITS])
+__MSNATIVE_ void __export _quaternionsDiv(ityp *restrict quaternions, ityp quaternionsRes[static MAX_QUATERNIONS_UNITS])
 {
 	const register ityp squared_qnorm = exp2(_qabs(quaternions + MAX_QUATERNIONS_UNITS));
 	#pragma omp parallel num_threads(MAX_QUATERNIONS_UNITS)
@@ -827,7 +793,7 @@ __MSNATIVE_ inline void __export _quaternionsDiv(ityp *restrict quaternions, ity
     return;
 }
 
-__MSNATIVE_ __MSSTOCK _MS__private static void __export _octonionsEMTSum(ityp *restrict octonions, ityp octonionsRes[static MAX_OCTONIONS_UNITS])
+__MSNATIVE_ void __export _octonionsAdd(ityp *restrict octonions, ityp octonionsRes[static MAX_OCTONIONS_UNITS])
 {
 	#pragma omp parallel num_threads(MAX_OCTONIONS_UNITS)
 	{
@@ -840,33 +806,10 @@ __MSNATIVE_ __MSSTOCK _MS__private static void __export _octonionsEMTSum(ityp *r
 	    octonionsRes[OCTONIONS_E6PART] = *(octonions + OCTONIONS_E6PART) + *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E6PART);
 	    octonionsRes[OCTONIONS_E7PART] = *(octonions + OCTONIONS_E7PART) + *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E7PART);
 	}
-	return;
-}
-
-__MSNATIVE_ __MSSTOCK _MS__private static void __export _octonionsMTSum(ityp *restrict octonions, ityp octonionsRes[static MAX_OCTONIONS_UNITS])
-{
-	#pragma omp parallel
-	{
-		octonionsRes[OCTONIONS_REALPART] = *(octonions + OCTONIONS_REALPART) + *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_REALPART);
-	    octonionsRes[OCTONIONS_E1PART] = *(octonions + OCTONIONS_E1PART) + *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E1PART);
-	    octonionsRes[OCTONIONS_E2PART] = *(octonions + OCTONIONS_E2PART) + *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E2PART);
-	    octonionsRes[OCTONIONS_E3PART] = *(octonions + OCTONIONS_E3PART) + *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E3PART);
-	    octonionsRes[OCTONIONS_E4PART] = *(octonions + OCTONIONS_E4PART) + *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E4PART);
-	    octonionsRes[OCTONIONS_E5PART] = *(octonions + OCTONIONS_E5PART) + *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E5PART);
-	    octonionsRes[OCTONIONS_E6PART] = *(octonions + OCTONIONS_E6PART) + *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E6PART);
-	    octonionsRes[OCTONIONS_E7PART] = *(octonions + OCTONIONS_E7PART) + *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E7PART);
-	}
-	return;
-}
-
-__MSNATIVE_ inline void __export _octonionsAdd(ityp *restrict octonions, ityp octonionsRes[static MAX_OCTONIONS_UNITS])
-{
-	void (* const omp_func)(ityp *restrict, ityp [static MAX_OCTONIONS_UNITS]) = isSett(BOOLS_EXTENSIVEMULTITHREADING) ? _octonionsEMTSum : _octonionsMTSum;
-	omp_func(octonions, octonionsRes);
     return;
 }
 
-__MSNATIVE_ __MSSTOCK _MS__private static void __export _octonionsEMTSub(ityp *restrict octonions, ityp octonionsRes[static MAX_OCTONIONS_UNITS])
+__MSNATIVE_ void __export _octonionsSub(ityp *restrict octonions, ityp octonionsRes[static MAX_OCTONIONS_UNITS])
 {
 	#pragma omp parallel num_threads(MAX_OCTONIONS_UNITS)
 	{
@@ -879,33 +822,10 @@ __MSNATIVE_ __MSSTOCK _MS__private static void __export _octonionsEMTSub(ityp *r
 	    octonionsRes[OCTONIONS_E6PART] = *(octonions + OCTONIONS_E6PART) - *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E6PART);
 	    octonionsRes[OCTONIONS_E7PART] = *(octonions + OCTONIONS_E7PART) - *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E7PART);
 	}
-	return;
-}
-
-__MSNATIVE_ __MSSTOCK _MS__private static void __export _octonionsMTSub(ityp *restrict octonions, ityp octonionsRes[static MAX_OCTONIONS_UNITS])
-{
-	#pragma omp parallel
-	{
-		octonionsRes[OCTONIONS_REALPART] = *(octonions + OCTONIONS_REALPART) - *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_REALPART);
-	    octonionsRes[OCTONIONS_E1PART] = *(octonions + OCTONIONS_E1PART) - *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E1PART);
-	    octonionsRes[OCTONIONS_E2PART] = *(octonions + OCTONIONS_E2PART) - *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E2PART);
-	    octonionsRes[OCTONIONS_E3PART] = *(octonions + OCTONIONS_E3PART) - *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E3PART);
-	    octonionsRes[OCTONIONS_E4PART] = *(octonions + OCTONIONS_E4PART) - *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E4PART);
-	    octonionsRes[OCTONIONS_E5PART] = *(octonions + OCTONIONS_E5PART) - *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E5PART);
-	    octonionsRes[OCTONIONS_E6PART] = *(octonions + OCTONIONS_E6PART) - *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E6PART);
-	    octonionsRes[OCTONIONS_E7PART] = *(octonions + OCTONIONS_E7PART) - *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E7PART);
-	}
-	return;
-}
-
-__MSNATIVE_ inline void __export _octonionsSub(ityp *restrict octonions, ityp octonionsRes[static MAX_OCTONIONS_UNITS])
-{
-	void (* const omp_func)(ityp *restrict, ityp [static MAX_OCTONIONS_UNITS]) = isSett(BOOLS_EXTENSIVEMULTITHREADING) ? _octonionsEMTSub : _octonionsMTSub;
-	omp_func(octonions, octonionsRes);
     return;
 }
 
-__MSNATIVE_ __MSSTOCK _MS__private static void __export _octonionsEMTProd(ityp *restrict octonions, ityp octonionsRes[static MAX_OCTONIONS_UNITS])
+__MSNATIVE_ void __export _octonionsMul(ityp *restrict octonions, ityp octonionsRes[static MAX_OCTONIONS_UNITS])
 {
 	#pragma omp parallel num_threads(MAX_OCTONIONS_UNITS)
 	{
@@ -984,101 +904,12 @@ __MSNATIVE_ __MSSTOCK _MS__private static void __export _octonionsEMTProd(ityp *
 										   *(octonions + OCTONIONS_E6PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E2PART) +
 										   *(octonions + OCTONIONS_E7PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_REALPART);								   
 	}
-	return;
-}
-
-__MSNATIVE_ __MSSTOCK _MS__private static void __export _octonionsMTProd(ityp *restrict octonions, ityp octonionsRes[static MAX_OCTONIONS_UNITS])
-{
-	#pragma omp parallel
-	{
-		octonionsRes[OCTONIONS_REALPART] = *(octonions + OCTONIONS_REALPART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_REALPART) -
-										   *(octonions + OCTONIONS_E1PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E1PART) -
-										   *(octonions + OCTONIONS_E2PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E2PART) -
-										   *(octonions + OCTONIONS_E3PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E3PART) -
-										   *(octonions + OCTONIONS_E4PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E4PART) -
-										   *(octonions + OCTONIONS_E5PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E5PART) -
-										   *(octonions + OCTONIONS_E6PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E6PART) -
-										   *(octonions + OCTONIONS_E7PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E7PART);
-										   
-		octonionsRes[OCTONIONS_E1PART] = *(octonions + OCTONIONS_REALPART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E1PART) +
-										   *(octonions + OCTONIONS_E1PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_REALPART) +
-										   *(octonions + OCTONIONS_E2PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E4PART) +
-										   *(octonions + OCTONIONS_E3PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E7PART) -
-										   *(octonions + OCTONIONS_E4PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E2PART) +
-										   *(octonions + OCTONIONS_E5PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E6PART) -
-										   *(octonions + OCTONIONS_E6PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E5PART) -
-										   *(octonions + OCTONIONS_E7PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E3PART);
-										   
-		octonionsRes[OCTONIONS_E2PART] = *(octonions + OCTONIONS_REALPART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E2PART) -
-										   *(octonions + OCTONIONS_E1PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E4PART) +
-										   *(octonions + OCTONIONS_E2PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_REALPART) +
-										   *(octonions + OCTONIONS_E3PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E5PART) -
-										   *(octonions + OCTONIONS_E4PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E1PART) -
-										   *(octonions + OCTONIONS_E5PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E3PART) +
-										   *(octonions + OCTONIONS_E6PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E7PART) -
-										   *(octonions + OCTONIONS_E7PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E6PART);
-										   
-		octonionsRes[OCTONIONS_E3PART] = *(octonions + OCTONIONS_REALPART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E3PART) -
-										   *(octonions + OCTONIONS_E1PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E7PART) -
-										   *(octonions + OCTONIONS_E2PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E5PART) +
-										   *(octonions + OCTONIONS_E3PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_REALPART) +
-										   *(octonions + OCTONIONS_E4PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E6PART) +
-										   *(octonions + OCTONIONS_E5PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E2PART) -
-										   *(octonions + OCTONIONS_E6PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E4PART) +
-										   *(octonions + OCTONIONS_E7PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E1PART);								   
-
-	    octonionsRes[OCTONIONS_E4PART] = *(octonions + OCTONIONS_REALPART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E4PART) +
-										   *(octonions + OCTONIONS_E1PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E2PART) -
-										   *(octonions + OCTONIONS_E2PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E1PART) -
-										   *(octonions + OCTONIONS_E3PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E6PART) +
-										   *(octonions + OCTONIONS_E4PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_REALPART) +
-										   *(octonions + OCTONIONS_E5PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E7PART) +
-										   *(octonions + OCTONIONS_E6PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E3PART) -
-										   *(octonions + OCTONIONS_E7PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E5PART);								   
-
-
-	    octonionsRes[OCTONIONS_E5PART] = *(octonions + OCTONIONS_REALPART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E5PART) -
-										   *(octonions + OCTONIONS_E1PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E6PART) +
-										   *(octonions + OCTONIONS_E2PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E3PART) -
-										   *(octonions + OCTONIONS_E3PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E2PART) -
-										   *(octonions + OCTONIONS_E4PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E7PART) +
-										   *(octonions + OCTONIONS_E5PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_REALPART) +
-										   *(octonions + OCTONIONS_E6PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E1PART) +
-										   *(octonions + OCTONIONS_E7PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E4PART);								   
-
-
-	    octonionsRes[OCTONIONS_E6PART] = *(octonions + OCTONIONS_REALPART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E6PART) +
-										   *(octonions + OCTONIONS_E1PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E5PART) -
-										   *(octonions + OCTONIONS_E2PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E7PART) +
-										   *(octonions + OCTONIONS_E3PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E4PART) -
-										   *(octonions + OCTONIONS_E4PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E3PART) -
-										   *(octonions + OCTONIONS_E5PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E1PART) +
-										   *(octonions + OCTONIONS_E6PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_REALPART) +
-										   *(octonions + OCTONIONS_E7PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E2PART);								   
-
-
-	    octonionsRes[OCTONIONS_E7PART] = *(octonions + OCTONIONS_REALPART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E7PART) +
-										   *(octonions + OCTONIONS_E1PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E3PART) +
-										   *(octonions + OCTONIONS_E2PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E6PART) -
-										   *(octonions + OCTONIONS_E3PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E1PART) +
-										   *(octonions + OCTONIONS_E4PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E5PART) -
-										   *(octonions + OCTONIONS_E5PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E4PART) -
-										   *(octonions + OCTONIONS_E6PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E2PART) +
-										   *(octonions + OCTONIONS_E7PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_REALPART);
-	}
-	return;
-}
-
-__MSNATIVE_ inline void __export _octonionsMul(ityp *restrict octonions, ityp octonionsRes[static MAX_OCTONIONS_UNITS])
-{
-	void (* const omp_func)(ityp *restrict, ityp [static MAX_OCTONIONS_UNITS]) = isSett(BOOLS_EXTENSIVEMULTITHREADING) ? _octonionsEMTProd : _octonionsMTProd;
-	omp_func(octonions, octonionsRes);
     return;
 }
 
-__MSNATIVE_ __MSSTOCK _MS__private static void __export _octonionsEMTDiv(ityp *restrict octonions, ityp octonionsRes[static MAX_OCTONIONS_UNITS])
+__MSNATIVE_ void __export _octonionsDiv(ityp *restrict octonions, ityp octonionsRes[static MAX_OCTONIONS_UNITS])
 {
-	const register ityp squared_onorm = exp2(_oabs(octonions + MAX_OCTONIONS_UNITS));
+		const register ityp squared_onorm = exp2(_oabs(octonions + MAX_OCTONIONS_UNITS));
 	#pragma omp parallel num_threads(MAX_OCTONIONS_UNITS)
 	{
 		octonionsRes[OCTONIONS_REALPART] = (*(octonions + OCTONIONS_REALPART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_REALPART) +
@@ -1156,98 +987,10 @@ __MSNATIVE_ __MSSTOCK _MS__private static void __export _octonionsEMTDiv(ityp *r
 										   *(octonions + OCTONIONS_E6PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E2PART) -
 										   *(octonions + OCTONIONS_E7PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_REALPART)) / squared_onorm;
 	}
-}
-
-__MSNATIVE_ __MSSTOCK _MS__private static void __export _octonionsMTDiv(ityp *restrict octonions, ityp octonionsRes[static MAX_OCTONIONS_UNITS])
-{
-	const register ityp squared_onorm = exp2(_oabs(octonions + MAX_OCTONIONS_UNITS));
-	#pragma omp parallel
-	{
-		octonionsRes[OCTONIONS_REALPART] = (*(octonions + OCTONIONS_REALPART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_REALPART) +
-										   *(octonions + OCTONIONS_E1PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E1PART) +
-										   *(octonions + OCTONIONS_E2PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E2PART) +
-										   *(octonions + OCTONIONS_E3PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E3PART) +
-										   *(octonions + OCTONIONS_E4PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E4PART) +
-										   *(octonions + OCTONIONS_E5PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E5PART) +
-										   *(octonions + OCTONIONS_E6PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E6PART) +
-										   *(octonions + OCTONIONS_E7PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E7PART)) / squared_onorm;
-										   
-		octonionsRes[OCTONIONS_E1PART] = (*(octonions + OCTONIONS_REALPART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E1PART) -
-										   *(octonions + OCTONIONS_E1PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_REALPART) -
-										   *(octonions + OCTONIONS_E2PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E4PART) -
-										   *(octonions + OCTONIONS_E3PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E7PART) +
-										   *(octonions + OCTONIONS_E4PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E2PART) -
-										   *(octonions + OCTONIONS_E5PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E6PART) +
-										   *(octonions + OCTONIONS_E6PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E5PART) +
-										   *(octonions + OCTONIONS_E7PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E3PART)) / squared_onorm;
-										   
-		octonionsRes[OCTONIONS_E2PART] = (*(octonions + OCTONIONS_REALPART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E2PART) +
-										   *(octonions + OCTONIONS_E1PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E4PART) -
-										   *(octonions + OCTONIONS_E2PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_REALPART) -
-										   *(octonions + OCTONIONS_E3PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E5PART) +
-										   *(octonions + OCTONIONS_E4PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E1PART) +
-										   *(octonions + OCTONIONS_E5PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E3PART) -
-										   *(octonions + OCTONIONS_E6PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E7PART) +
-										   *(octonions + OCTONIONS_E7PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E6PART)) / squared_onorm;
-										   
-		octonionsRes[OCTONIONS_E3PART] = (*(octonions + OCTONIONS_REALPART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E3PART) +
-										   *(octonions + OCTONIONS_E1PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E7PART) +
-										   *(octonions + OCTONIONS_E2PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E5PART) -
-										   *(octonions + OCTONIONS_E3PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_REALPART) -
-										   *(octonions + OCTONIONS_E4PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E6PART) -
-										   *(octonions + OCTONIONS_E5PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E2PART) +
-										   *(octonions + OCTONIONS_E6PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E4PART) -
-										   *(octonions + OCTONIONS_E7PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E1PART)) / squared_onorm;								   
-
-	    octonionsRes[OCTONIONS_E4PART] = (*(octonions + OCTONIONS_REALPART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E4PART) -
-										   *(octonions + OCTONIONS_E1PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E2PART) +
-										   *(octonions + OCTONIONS_E2PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E1PART) +
-										   *(octonions + OCTONIONS_E3PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E6PART) -
-										   *(octonions + OCTONIONS_E4PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_REALPART) -
-										   *(octonions + OCTONIONS_E5PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E7PART) -
-										   *(octonions + OCTONIONS_E6PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E3PART) +
-										   *(octonions + OCTONIONS_E7PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E5PART)) / squared_onorm;							   
-
-
-	    octonionsRes[OCTONIONS_E5PART] = (*(octonions + OCTONIONS_REALPART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E5PART) +
-										   *(octonions + OCTONIONS_E1PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E6PART) -
-										   *(octonions + OCTONIONS_E2PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E3PART) +
-										   *(octonions + OCTONIONS_E3PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E2PART) +
-										   *(octonions + OCTONIONS_E4PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E7PART) -
-										   *(octonions + OCTONIONS_E5PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_REALPART) -
-										   *(octonions + OCTONIONS_E6PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E1PART) -
-										   *(octonions + OCTONIONS_E7PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E4PART)) / squared_onorm;							   
-
-
-	    octonionsRes[OCTONIONS_E6PART] = (*(octonions + OCTONIONS_REALPART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E6PART) -
-										   *(octonions + OCTONIONS_E1PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E5PART) +
-										   *(octonions + OCTONIONS_E2PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E7PART) -
-										   *(octonions + OCTONIONS_E3PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E4PART) +
-										   *(octonions + OCTONIONS_E4PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E3PART) +
-										   *(octonions + OCTONIONS_E5PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E1PART) -
-										   *(octonions + OCTONIONS_E6PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_REALPART) -
-										   *(octonions + OCTONIONS_E7PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E2PART)) / squared_onorm;								   
-
-
-	    octonionsRes[OCTONIONS_E7PART] = (*(octonions + OCTONIONS_REALPART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E7PART) -
-										   *(octonions + OCTONIONS_E1PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E3PART) -
-										   *(octonions + OCTONIONS_E2PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E6PART) +
-										   *(octonions + OCTONIONS_E3PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E1PART) -
-										   *(octonions + OCTONIONS_E4PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E5PART) +
-										   *(octonions + OCTONIONS_E5PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E4PART) +
-										   *(octonions + OCTONIONS_E6PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_E2PART) -
-										   *(octonions + OCTONIONS_E7PART) * *(octonions + MAX_OCTONIONS_UNITS + OCTONIONS_REALPART)) / squared_onorm;
-	}
-}
-
-__MSNATIVE_ inline void __export _octonionsDiv(ityp *restrict octonions, ityp octonionsRes[static MAX_OCTONIONS_UNITS])
-{
-	void (* const omp_func)(ityp *restrict, ityp [static MAX_OCTONIONS_UNITS]) = isSett(BOOLS_EXTENSIVEMULTITHREADING) ? _octonionsEMTDiv : _octonionsMTDiv;
-	omp_func(octonions, octonionsRes);
     return;
 }
 
-__MSNATIVE_ __MSSTOCK _MS__private static void __export _sedenionsEMTSum(ityp *restrict sedenions, ityp sedenionsRes[static MAX_SEDENIONS_UNITS])
+__MSNATIVE_ void __export _sedenionsAdd(ityp *restrict sedenions, ityp sedenionsRes[static MAX_SEDENIONS_UNITS])
 {
 	#pragma omp parallel num_threads(MAX_SEDENIONS_UNITS)
 	{
@@ -1268,41 +1011,10 @@ __MSNATIVE_ __MSSTOCK _MS__private static void __export _sedenionsEMTSum(ityp *r
 	    sedenionsRes[SEDENIONS_E14PART] = *(sedenions + SEDENIONS_E14PART) + *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART);
 	    sedenionsRes[SEDENIONS_E15PART] = *(sedenions + SEDENIONS_E15PART) + *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART);
 	}
-	return;
-}
-
-__MSNATIVE_ __MSSTOCK _MS__private static void __export _sedenionsMTSum(ityp *restrict sedenions, ityp sedenionsRes[static MAX_SEDENIONS_UNITS])
-{
-	#pragma omp parallel
-	{
-		sedenionsRes[SEDENIONS_REALPART] = *(sedenions + SEDENIONS_REALPART) + *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART);
-	    sedenionsRes[SEDENIONS_E1PART] = *(sedenions + SEDENIONS_E1PART) + *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART);
-	    sedenionsRes[SEDENIONS_E2PART] = *(sedenions + SEDENIONS_E2PART) + *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART);
-	    sedenionsRes[SEDENIONS_E3PART] = *(sedenions + SEDENIONS_E3PART) + *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART);
-	    sedenionsRes[SEDENIONS_E4PART] = *(sedenions + SEDENIONS_E4PART) + *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART);
-	    sedenionsRes[SEDENIONS_E5PART] = *(sedenions + SEDENIONS_E5PART) + *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART);
-	    sedenionsRes[SEDENIONS_E6PART] = *(sedenions + SEDENIONS_E6PART) + *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART);
-	    sedenionsRes[SEDENIONS_E7PART] = *(sedenions + SEDENIONS_E7PART) + *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART);
-	    sedenionsRes[SEDENIONS_E8PART] = *(sedenions + SEDENIONS_E8PART) + *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART);
-	    sedenionsRes[SEDENIONS_E9PART] = *(sedenions + SEDENIONS_E9PART) + *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART);
-	    sedenionsRes[SEDENIONS_E10PART] = *(sedenions + SEDENIONS_E10PART) + *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART);
-	    sedenionsRes[SEDENIONS_E11PART] = *(sedenions + SEDENIONS_E11PART) + *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART);
-	    sedenionsRes[SEDENIONS_E12PART] = *(sedenions + SEDENIONS_E12PART) + *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART);
-	    sedenionsRes[SEDENIONS_E13PART] = *(sedenions + SEDENIONS_E13PART) + *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART);
-	    sedenionsRes[SEDENIONS_E14PART] = *(sedenions + SEDENIONS_E14PART) + *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART);
-	    sedenionsRes[SEDENIONS_E15PART] = *(sedenions + SEDENIONS_E15PART) + *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART);
-	}
-	return;
-}
-
-__MSNATIVE_ inline void __export _sedenionsAdd(ityp *restrict sedenions, ityp sedenionsRes[static MAX_SEDENIONS_UNITS])
-{
-	void (* const omp_func)(ityp *restrict, ityp [static MAX_SEDENIONS_UNITS]) = isSett(BOOLS_EXTENSIVEMULTITHREADING) ? _sedenionsEMTSum : _sedenionsMTSum;
-	omp_func(sedenions, sedenionsRes);
     return;
 }
 
-__MSNATIVE_ __MSSTOCK _MS__private static void __export _sedenionsEMTSub(ityp *restrict sedenions, ityp sedenionsRes[static MAX_SEDENIONS_UNITS])
+__MSNATIVE_ void __export _sedenionsSub(ityp *restrict sedenions, ityp sedenionsRes[static MAX_SEDENIONS_UNITS])
 {
 	#pragma omp parallel num_threads(MAX_SEDENIONS_UNITS)
 	{
@@ -1323,41 +1035,10 @@ __MSNATIVE_ __MSSTOCK _MS__private static void __export _sedenionsEMTSub(ityp *r
 	    sedenionsRes[SEDENIONS_E14PART] = *(sedenions + SEDENIONS_E14PART) - *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART);
 	    sedenionsRes[SEDENIONS_E15PART] = *(sedenions + SEDENIONS_E15PART) - *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART);
 	}
-	return;
-}
-
-__MSNATIVE_ __MSSTOCK _MS__private static void __export _sedenionsMTSub(ityp *restrict sedenions, ityp sedenionsRes[static MAX_SEDENIONS_UNITS])
-{
-	#pragma omp parallel
-	{
-		sedenionsRes[SEDENIONS_REALPART] = *(sedenions + SEDENIONS_REALPART) - *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART);
-	    sedenionsRes[SEDENIONS_E1PART] = *(sedenions + SEDENIONS_E1PART) - *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART);
-	    sedenionsRes[SEDENIONS_E2PART] = *(sedenions + SEDENIONS_E2PART) - *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART);
-	    sedenionsRes[SEDENIONS_E3PART] = *(sedenions + SEDENIONS_E3PART) - *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART);
-	    sedenionsRes[SEDENIONS_E4PART] = *(sedenions + SEDENIONS_E4PART) - *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART);
-	    sedenionsRes[SEDENIONS_E5PART] = *(sedenions + SEDENIONS_E5PART) - *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART);
-	    sedenionsRes[SEDENIONS_E6PART] = *(sedenions + SEDENIONS_E6PART) - *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART);
-	    sedenionsRes[SEDENIONS_E7PART] = *(sedenions + SEDENIONS_E7PART) - *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART);
-	    sedenionsRes[SEDENIONS_E8PART] = *(sedenions + SEDENIONS_E8PART) - *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART);
-	    sedenionsRes[SEDENIONS_E9PART] = *(sedenions + SEDENIONS_E9PART) - *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART);
-	    sedenionsRes[SEDENIONS_E10PART] = *(sedenions + SEDENIONS_E10PART) - *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART);
-	    sedenionsRes[SEDENIONS_E11PART] = *(sedenions + SEDENIONS_E11PART) - *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART);
-	    sedenionsRes[SEDENIONS_E12PART] = *(sedenions + SEDENIONS_E12PART) - *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART);
-	    sedenionsRes[SEDENIONS_E13PART] = *(sedenions + SEDENIONS_E13PART) - *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART);
-	    sedenionsRes[SEDENIONS_E14PART] = *(sedenions + SEDENIONS_E14PART) - *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART);
-	    sedenionsRes[SEDENIONS_E15PART] = *(sedenions + SEDENIONS_E15PART) - *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART);
-	}
-	return;
-}
-
-__MSNATIVE_ inline void __export _sedenionsSub(ityp *restrict sedenions, ityp sedenionsRes[static MAX_SEDENIONS_UNITS])
-{
-	void (* const omp_func)(ityp *restrict, ityp [static MAX_SEDENIONS_UNITS]) = isSett(BOOLS_EXTENSIVEMULTITHREADING) ? _sedenionsEMTSub : _sedenionsMTSub;
-	omp_func(sedenions, sedenionsRes);
     return;
 }
 
-__MSNATIVE_ __MSSTOCK _MS__private static void __export _sedenionsEMTProd(ityp *restrict sedenions, ityp sedenionsRes[static MAX_SEDENIONS_UNITS])
+__MSNATIVE_ void __export _sedenionsMul(ityp *restrict sedenions, ityp sedenionsRes[static MAX_SEDENIONS_UNITS])
 {
 	#pragma omp parallel num_threads(MAX_SEDENIONS_UNITS)
 	{
@@ -1633,298 +1314,10 @@ __MSNATIVE_ __MSSTOCK _MS__private static void __export _sedenionsEMTProd(ityp *
 										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART) +
 										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART);	
 	}
-
-	return;
-}
-
-__MSNATIVE_ __MSSTOCK _MS__private static void __export _sedenionsMTProd(ityp *restrict sedenions, ityp sedenionsRes[static MAX_SEDENIONS_UNITS])
-{
-	#pragma omp parallel
-	{
-		sedenionsRes[SEDENIONS_REALPART] = *(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART) -
-										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART) -
-										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART) -
-										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) -
-										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART) -
-										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART) -
-										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART) -
-										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART) -
-										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART) -
-										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART) -
-										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART) -
-										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART) -
-										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART) -
-										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART) -
-										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART) -
-										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART);
-										   
-		sedenionsRes[SEDENIONS_E1PART] = *(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART) +
-										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART) +
-										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) -
-										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART) +
-										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART) -
-										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART) -
-										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART) +
-										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART) +
-										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART) -
-										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART) -
-										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART) +
-										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART) -
-										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART) +
-										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART) +
-										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART) -
-										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART);							
-
-	    sedenionsRes[SEDENIONS_E2PART] = *(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART) -
-										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) +
-										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART) +
-										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART) +
-										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART) +
-										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART) -
-										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART) -
-										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART) +
-										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART) +
-										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART) -
-										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART) -
-										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART) -
-										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART) -
-										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART) +
-										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART) +
-										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART);	
-
-	    sedenionsRes[SEDENIONS_E3PART] = *(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) +
-										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART) -
-										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART) +
-										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART) +
-										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART) -
-										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART) +
-										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART) -
-										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART) +
-										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART) -
-										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART) +
-										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART) -
-										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART) -
-										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART) +
-										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART) -
-										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART) +
-										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART);	
-
-	    sedenionsRes[SEDENIONS_E4PART] = *(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART) -
-										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART) -
-										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART) -
-										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART) +
-										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART) +
-										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART) +
-										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART) +
-										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) +
-										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART) +
-										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART) +
-										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART) +
-										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART) -
-										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART) -
-										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART) -
-										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART) -
-										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART);	
-
-	    sedenionsRes[SEDENIONS_E5PART] = *(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART) +
-										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART) -
-										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART) +
-										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART) -
-										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART) +
-										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART) -
-										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) +
-										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART) +
-										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART) -
-										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART) +
-										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART) -
-										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART) +
-										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART) -
-										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART) +
-										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART) -
-										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART);	
-
-	    sedenionsRes[SEDENIONS_E6PART] = *(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART) +
-										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART) +
-										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART) -
-										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART) -
-										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART) +
-										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) +
-										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART) -
-										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART) +
-										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART) -
-										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART) -
-										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART) +
-										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART) +
-										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART) -
-										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART) -
-										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART) +
-										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART);	
-
-	    sedenionsRes[SEDENIONS_E7PART] = *(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART) -
-										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART) +
-										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART) +
-										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART) -
-										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) -
-										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART) +
-										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART) +
-										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART) +
-										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART) +
-										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART) -
-										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART) -
-										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART) +
-										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART) +
-										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART) -
-										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART) -
-										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART);	
-
-	    sedenionsRes[SEDENIONS_E8PART] = *(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART) -
-										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART) -
-										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART) -
-										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART) -
-										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART) -
-										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART) -
-										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART) -
-										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART) +
-										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART) +
-										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART) +
-										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART) +
-										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) +
-										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART) +
-										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART) +
-										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART) +
-										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART);
-
-	    sedenionsRes[SEDENIONS_E9PART] = *(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART) +
-										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART) -
-										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART) +
-										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART) -
-										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART) +
-										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART) +
-										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART) -
-										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART) -
-										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART) +
-										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART) -
-										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) +
-										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART) -
-										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART) +
-										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART) +
-										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART) -
-										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART);	
-
-	    sedenionsRes[SEDENIONS_E10PART] = *(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART) +
-										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART) +
-										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART) -
-										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART) -
-										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART) -
-										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART) +
-										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART) +
-										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART) -
-										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART) +
-										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) +
-										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART) -
-										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART) -
-										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART) -
-										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART) +
-										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART) +
-										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART);	
-
-	    sedenionsRes[SEDENIONS_E11PART] = *(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART) -
-										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART) +
-										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART) +
-										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART) -
-										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART) +
-										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART) -
-										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART) +
-										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART) -
-										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) -
-										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART) +
-										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART) +
-										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART) -
-										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART) +
-										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART) -
-										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART) +
-										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART);	
-
-	    sedenionsRes[SEDENIONS_E12PART] = *(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART) +
-										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART) -
-										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART) +
-										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART) +
-										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART) -
-										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART) -
-										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART) -
-										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART) -
-										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART) +
-										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART) +
-										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART) +
-										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART) +
-										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART) -
-										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART) -
-										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART) -
-										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART);	
-
-	    sedenionsRes[SEDENIONS_E13PART] = *(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART) -
-										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART) +
-										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART) -
-										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART) +
-										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART) +
-										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART) +
-										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART) -
-										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART) -
-										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART) -
-										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART) +
-										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART) -
-										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART) +
-										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART) +
-										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART) +
-										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) -
-										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART);	
-
-	    sedenionsRes[SEDENIONS_E14PART] = *(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART) -
-										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART) -
-										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART) +
-										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART) +
-										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART) -
-										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART) +
-										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART) +
-										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART) -
-										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART) -
-										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART) -
-										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) +
-										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART) +
-										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART) -
-										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) +
-										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART) +
-										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART);	
-
-	    sedenionsRes[SEDENIONS_E15PART] = *(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART) +
-										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART) -
-										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART) -
-										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART) +
-										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART) +
-										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART) +
-										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART) +
-										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART) -
-										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) +
-										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART) -
-										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART) -
-										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART) +
-										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) +
-										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART) -
-										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART) +
-										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART);
-	}
-
-	return;
-}
-
-__MSNATIVE_ inline void __export _sedenionsMul(ityp *restrict sedenions, ityp sedenionsRes[static MAX_SEDENIONS_UNITS])
-{
-	void (* const omp_func)(ityp *restrict, ityp [static MAX_SEDENIONS_UNITS]) = isSett(BOOLS_EXTENSIVEMULTITHREADING) ? _sedenionsEMTProd : _sedenionsMTProd;
-	omp_func(sedenions, sedenionsRes);
     return;
 }
 
-__MSNATIVE_ __MSSTOCK _MS__private static void __export _sedenionsEMTDiv(ityp *restrict sedenions, ityp sedenionsRes[static MAX_SEDENIONS_UNITS])
+__MSNATIVE_ void __export _sedenionsDiv(ityp *restrict sedenions, ityp sedenionsRes[static MAX_SEDENIONS_UNITS])
 {
 	const register ityp squared_snorm = exp2(_sabs(sedenions + MAX_SEDENIONS_UNITS));
 	#pragma omp parallel num_threads(MAX_SEDENIONS_UNITS)
@@ -2201,295 +1594,6 @@ __MSNATIVE_ __MSSTOCK _MS__private static void __export _sedenionsEMTDiv(ityp *r
 										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART) -
 										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART)) / squared_snorm;
 	}
-
-	return;
-}
-
-__MSNATIVE_ __MSSTOCK _MS__private static void __export _sedenionsMTDiv(ityp *restrict sedenions, ityp sedenionsRes[static MAX_SEDENIONS_UNITS])
-{
-	const register ityp squared_snorm = exp2(_sabs(sedenions + MAX_SEDENIONS_UNITS));
-	#pragma omp parallel
-	{
-		sedenionsRes[SEDENIONS_REALPART] = (*(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART) +
-										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART) +
-										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART) +
-										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) +
-										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART) +
-										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART) +
-										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART) +
-										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART) +
-										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART) +
-										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART) +
-										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART) +
-										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART) +
-										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART) +
-										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART) +
-										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART) +
-										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART)) / squared_snorm;
-										   
-		sedenionsRes[SEDENIONS_E1PART] = (*(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART) -
-										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART) -
-										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) +
-										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART) -
-										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART) +
-										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART) +
-										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART) -
-										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART) -
-										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART) +
-										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART) +
-										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART) -
-										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART) +
-										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART) -
-										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART) -
-										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART) +
-										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART)) / squared_snorm;							
-
-	    sedenionsRes[SEDENIONS_E2PART] = (*(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART) +
-										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) -
-										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART) -
-										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART) -
-										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART) -
-										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART) +
-										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART) +
-										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART) -
-										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART) -
-										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART) +
-										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART) +
-										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART) +
-										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART) +
-										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART) -
-										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART) -
-										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART)) / squared_snorm;	
-
-	    sedenionsRes[SEDENIONS_E3PART] = (*(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) -
-										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART) +
-										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART) -
-										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART) -
-										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART) +
-										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART) -
-										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART) +
-										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART) -
-										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART) +
-										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART) -
-										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART) +
-										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART) +
-										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART) -
-										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART) +
-										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART) -
-										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART)) / squared_snorm;	
-
-	    sedenionsRes[SEDENIONS_E4PART] = (*(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART) +
-										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART) +
-										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART) +
-										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART) -
-										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART) -
-										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART) -
-										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART) -
-										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) -
-										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART) -
-										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART) -
-										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART) -
-										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART) +
-										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART) +
-										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART) +
-										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART) +
-										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART)) / squared_snorm;	
-
-	    sedenionsRes[SEDENIONS_E5PART] = (*(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART) -
-										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART) +
-										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART) -
-										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART) +
-										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART) -
-										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART) +
-										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) -
-										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART) -
-										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART) +
-										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART) -
-										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART) +
-										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART) -
-										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART) +
-										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART) -
-										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART) +
-										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART)) / squared_snorm;	
-
-	    sedenionsRes[SEDENIONS_E6PART] = (*(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART) -
-										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART) -
-										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART) +
-										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART) +
-										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART) -
-										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) -
-										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART) +
-										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART) -
-										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART) +
-										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART) +
-										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART) -
-										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART) -
-										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART) +
-										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART) +
-										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART) -
-										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART)) / squared_snorm;	
-
-	    sedenionsRes[SEDENIONS_E7PART] = (*(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART) +
-										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART) -
-										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART) -
-										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART) +
-										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) +
-										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART) -
-										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART) -
-										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART) -
-										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART) -
-										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART) +
-										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART) +
-										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART) -
-										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART) -
-										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART) +
-										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART) +
-										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART)) / squared_snorm;
-										   
-		sedenionsRes[SEDENIONS_E8PART] = (*(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART) +
-										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART) +
-										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART) +
-										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART) +
-										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART) +
-										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART) +
-										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART) +
-										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART) -
-										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART) -
-										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART) -
-										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART) -
-										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) -
-										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART) -
-										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART) -
-										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART) -
-										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART)) / squared_snorm;	
-
-	    sedenionsRes[SEDENIONS_E9PART] = (*(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART) -
-										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART) +
-										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART) -
-										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART) +
-										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART) -
-										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART) -
-										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART) +
-										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART) +
-										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART) -
-										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART) +
-										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) -
-										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART) +
-										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART) -
-										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART) -
-										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART) +
-										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART)) / squared_snorm;	
-
-	    sedenionsRes[SEDENIONS_E10PART] = (*(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART) -
-										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART) -
-										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART) +
-										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART) +
-										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART) +
-										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART) -
-										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART) -
-										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART) +
-										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART) -
-										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) -
-										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART) +
-										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART) +
-										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART) +
-										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART) -
-										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART) -
-										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART)) / squared_snorm;	
-
-	    sedenionsRes[SEDENIONS_E11PART] = (*(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART) +
-										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART) -
-										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART) -
-										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART) +
-										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART) -
-										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART) +
-										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART) -
-										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART) +
-										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) +
-										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART) -
-										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART) -
-										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART) +
-										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART) -
-										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART) +
-										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART) -
-										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART)) / squared_snorm;	
-
-	    sedenionsRes[SEDENIONS_E12PART] = (*(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART) -
-										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART) +
-										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART) -
-										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART) -
-										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART) +
-										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART) +
-										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART) +
-										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART) +
-										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART) -
-										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART) -
-										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART) -
-										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART) -
-										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART) +
-										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART) +
-										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART) +
-										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART)) / squared_snorm;	
-
-	    sedenionsRes[SEDENIONS_E13PART] = (*(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART) +
-										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART) -
-										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART) +
-										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART) -
-										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART) -
-										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART) -
-										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART) +
-										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART) +
-										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART) +
-										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART) -
-										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART) +
-										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART) -
-										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART) -
-										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART) -
-										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) +
-										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART)) / squared_snorm;	
-
-	    sedenionsRes[SEDENIONS_E14PART] = (*(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART) +
-										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART) +
-										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART) -
-										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART) -
-										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART) +
-										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART) -
-										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART) -
-										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART) +
-										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART) +
-										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E7PART) +
-										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) -
-										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART) -
-										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART) +
-										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) -
-										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART) -
-										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART)) / squared_snorm;	
-
-	    sedenionsRes[SEDENIONS_E15PART] = (*(sedenions + SEDENIONS_REALPART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E15PART) -
-										   *(sedenions + SEDENIONS_E1PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E14PART) +
-										   *(sedenions + SEDENIONS_E2PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E13PART) +
-										   *(sedenions + SEDENIONS_E3PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E12PART) -
-										   *(sedenions + SEDENIONS_E4PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E11PART) -
-										   *(sedenions + SEDENIONS_E5PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E10PART) -
-										   *(sedenions + SEDENIONS_E6PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E9PART) -
-										   *(sedenions + SEDENIONS_E7PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E8PART) +
-										   *(sedenions + SEDENIONS_E8PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) -
-										   *(sedenions + SEDENIONS_E9PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E6PART) +
-										   *(sedenions + SEDENIONS_E10PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E5PART) +
-										   *(sedenions + SEDENIONS_E11PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E4PART) -
-										   *(sedenions + SEDENIONS_E12PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E3PART) -
-										   *(sedenions + SEDENIONS_E13PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E2PART) +
-										   *(sedenions + SEDENIONS_E14PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_E1PART) -
-										   *(sedenions + SEDENIONS_E15PART) * *(sedenions + MAX_SEDENIONS_UNITS + SEDENIONS_REALPART)) / squared_snorm;
-	}
-
-	return;
-}
-
-__MSNATIVE_ inline void __export _sedenionsDiv(ityp *restrict sedenions, ityp sedenionsRes[static MAX_SEDENIONS_UNITS])
-{
-	void (* const omp_func)(ityp *restrict, ityp [static MAX_SEDENIONS_UNITS]) = isSett(BOOLS_EXTENSIVEMULTITHREADING) ? _sedenionsEMTDiv : _sedenionsMTDiv;
-	omp_func(sedenions, sedenionsRes);
     return;
 }
 
@@ -4682,1601 +3786,6 @@ __MSNATIVE_ sel_typ _MS__private __system __export _simplexMethod(ityp **tableau
     return SIMPLEXMETHOD_FOUNDBFS;
 }
 
-__MSNATIVE_ __MSSTOCK _MS__private static void __system __export _matrixOEMTSum(ityp **matrix1, ityp **matrix2, ityp **matrix_sum, const register dim_typ idx)
-{
-
-	#pragma omp parallel num_threads(MAX_OCTONIONS_UNITS)
-	{
-        matrix_sum[OCTONIONS_REALPART][idx] = matrix1[OCTONIONS_REALPART][idx] + matrix2[OCTONIONS_REALPART][idx];
-        matrix_sum[OCTONIONS_E1PART][idx] = matrix1[OCTONIONS_E1PART][idx] + matrix2[OCTONIONS_E1PART][idx];
-        matrix_sum[OCTONIONS_E2PART][idx] = matrix1[OCTONIONS_E2PART][idx] + matrix2[OCTONIONS_E2PART][idx];
-        matrix_sum[OCTONIONS_E3PART][idx] = matrix1[OCTONIONS_E3PART][idx] + matrix2[OCTONIONS_E3PART][idx];
-        matrix_sum[OCTONIONS_E4PART][idx] = matrix1[OCTONIONS_E4PART][idx] + matrix2[OCTONIONS_E4PART][idx];
-        matrix_sum[OCTONIONS_E5PART][idx] = matrix1[OCTONIONS_E5PART][idx] + matrix2[OCTONIONS_E5PART][idx];
-        matrix_sum[OCTONIONS_E6PART][idx] = matrix1[OCTONIONS_E6PART][idx] + matrix2[OCTONIONS_E6PART][idx];
-        matrix_sum[OCTONIONS_E7PART][idx] = matrix1[OCTONIONS_E7PART][idx] + matrix2[OCTONIONS_E7PART][idx];
-	}
-	return;
-}
-
-__MSNATIVE_ __MSSTOCK _MS__private static void __system __export _matrixOMTSum(ityp **matrix1, ityp **matrix2, ityp **matrix_sum, const register dim_typ idx)
-{
-	#pragma omp parallel
-	{
-        matrix_sum[OCTONIONS_REALPART][idx] = matrix1[OCTONIONS_REALPART][idx] + matrix2[OCTONIONS_REALPART][idx];
-        matrix_sum[OCTONIONS_E1PART][idx] = matrix1[OCTONIONS_E1PART][idx] + matrix2[OCTONIONS_E1PART][idx];
-        matrix_sum[OCTONIONS_E2PART][idx] = matrix1[OCTONIONS_E2PART][idx] + matrix2[OCTONIONS_E2PART][idx];
-        matrix_sum[OCTONIONS_E3PART][idx] = matrix1[OCTONIONS_E3PART][idx] + matrix2[OCTONIONS_E3PART][idx];
-        matrix_sum[OCTONIONS_E4PART][idx] = matrix1[OCTONIONS_E4PART][idx] + matrix2[OCTONIONS_E4PART][idx];
-        matrix_sum[OCTONIONS_E5PART][idx] = matrix1[OCTONIONS_E5PART][idx] + matrix2[OCTONIONS_E5PART][idx];
-        matrix_sum[OCTONIONS_E6PART][idx] = matrix1[OCTONIONS_E6PART][idx] + matrix2[OCTONIONS_E6PART][idx];
-        matrix_sum[OCTONIONS_E7PART][idx] = matrix1[OCTONIONS_E7PART][idx] + matrix2[OCTONIONS_E7PART][idx];
-	}
-	return;
-}
-
-__MSNATIVE_ __MSSTOCK _MS__private static void __system __export _matrixSEMTSum(ityp **matrix1, ityp **matrix2, ityp **matrix_sum, const register dim_typ idx)
-{
-	#pragma omp parallel num_threads(MAX_SEDENIONS_UNITS)
-	{
-		matrix_sum[SEDENIONS_REALPART][idx] = matrix1[SEDENIONS_REALPART][idx] + matrix2[SEDENIONS_REALPART][idx];
-        matrix_sum[SEDENIONS_E1PART][idx] = matrix1[SEDENIONS_E1PART][idx] + matrix2[SEDENIONS_E1PART][idx];
-        matrix_sum[SEDENIONS_E2PART][idx] = matrix1[SEDENIONS_E2PART][idx] + matrix2[SEDENIONS_E2PART][idx];
-        matrix_sum[SEDENIONS_E3PART][idx] = matrix1[SEDENIONS_E3PART][idx] + matrix2[SEDENIONS_E3PART][idx];
-        matrix_sum[SEDENIONS_E4PART][idx] = matrix1[SEDENIONS_E4PART][idx] + matrix2[SEDENIONS_E4PART][idx];
-        matrix_sum[SEDENIONS_E5PART][idx] = matrix1[SEDENIONS_E5PART][idx] + matrix2[SEDENIONS_E5PART][idx];
-        matrix_sum[SEDENIONS_E6PART][idx] = matrix1[SEDENIONS_E6PART][idx] + matrix2[SEDENIONS_E6PART][idx];
-        matrix_sum[SEDENIONS_E7PART][idx] = matrix1[SEDENIONS_E7PART][idx] + matrix2[SEDENIONS_E7PART][idx];
-        matrix_sum[SEDENIONS_E8PART][idx] = matrix1[SEDENIONS_E8PART][idx] + matrix2[SEDENIONS_E8PART][idx];
-        matrix_sum[SEDENIONS_E9PART][idx] = matrix1[SEDENIONS_E9PART][idx] + matrix2[SEDENIONS_E9PART][idx];
-        matrix_sum[SEDENIONS_E10PART][idx] = matrix1[SEDENIONS_E10PART][idx] + matrix2[SEDENIONS_E10PART][idx];
-        matrix_sum[SEDENIONS_E11PART][idx] = matrix1[SEDENIONS_E11PART][idx] + matrix2[SEDENIONS_E11PART][idx];
-        matrix_sum[SEDENIONS_E12PART][idx] = matrix1[SEDENIONS_E12PART][idx] + matrix2[SEDENIONS_E12PART][idx];
-        matrix_sum[SEDENIONS_E13PART][idx] = matrix1[SEDENIONS_E13PART][idx] + matrix2[SEDENIONS_E13PART][idx];
-        matrix_sum[SEDENIONS_E14PART][idx] = matrix1[SEDENIONS_E14PART][idx] + matrix2[SEDENIONS_E14PART][idx];
-        matrix_sum[SEDENIONS_E15PART][idx] = matrix1[SEDENIONS_E15PART][idx] + matrix2[SEDENIONS_E15PART][idx];
-	}
-
-	return;
-}
-
-__MSNATIVE_ __MSSTOCK _MS__private static void __system __export _matrixSMTSum(ityp **matrix1, ityp **matrix2, ityp **matrix_sum, const register dim_typ idx)
-{
-	#pragma omp parallel
-	{
-		matrix_sum[SEDENIONS_REALPART][idx] = matrix1[SEDENIONS_REALPART][idx] + matrix2[SEDENIONS_REALPART][idx];
-        matrix_sum[SEDENIONS_E1PART][idx] = matrix1[SEDENIONS_E1PART][idx] + matrix2[SEDENIONS_E1PART][idx];
-        matrix_sum[SEDENIONS_E2PART][idx] = matrix1[SEDENIONS_E2PART][idx] + matrix2[SEDENIONS_E2PART][idx];
-        matrix_sum[SEDENIONS_E3PART][idx] = matrix1[SEDENIONS_E3PART][idx] + matrix2[SEDENIONS_E3PART][idx];
-        matrix_sum[SEDENIONS_E4PART][idx] = matrix1[SEDENIONS_E4PART][idx] + matrix2[SEDENIONS_E4PART][idx];
-        matrix_sum[SEDENIONS_E5PART][idx] = matrix1[SEDENIONS_E5PART][idx] + matrix2[SEDENIONS_E5PART][idx];
-        matrix_sum[SEDENIONS_E6PART][idx] = matrix1[SEDENIONS_E6PART][idx] + matrix2[SEDENIONS_E6PART][idx];
-        matrix_sum[SEDENIONS_E7PART][idx] = matrix1[SEDENIONS_E7PART][idx] + matrix2[SEDENIONS_E7PART][idx];
-        matrix_sum[SEDENIONS_E8PART][idx] = matrix1[SEDENIONS_E8PART][idx] + matrix2[SEDENIONS_E8PART][idx];
-        matrix_sum[SEDENIONS_E9PART][idx] = matrix1[SEDENIONS_E9PART][idx] + matrix2[SEDENIONS_E9PART][idx];
-        matrix_sum[SEDENIONS_E10PART][idx] = matrix1[SEDENIONS_E10PART][idx] + matrix2[SEDENIONS_E10PART][idx];
-        matrix_sum[SEDENIONS_E11PART][idx] = matrix1[SEDENIONS_E11PART][idx] + matrix2[SEDENIONS_E11PART][idx];
-        matrix_sum[SEDENIONS_E12PART][idx] = matrix1[SEDENIONS_E12PART][idx] + matrix2[SEDENIONS_E12PART][idx];
-        matrix_sum[SEDENIONS_E13PART][idx] = matrix1[SEDENIONS_E13PART][idx] + matrix2[SEDENIONS_E13PART][idx];
-        matrix_sum[SEDENIONS_E14PART][idx] = matrix1[SEDENIONS_E14PART][idx] + matrix2[SEDENIONS_E14PART][idx];
-        matrix_sum[SEDENIONS_E15PART][idx] = matrix1[SEDENIONS_E15PART][idx] + matrix2[SEDENIONS_E15PART][idx];
-	}
-
-	return;
-}
-
-__MSNATIVE_ __MSSTOCK _MS__private static void __system __export _matrixOEMTSub(ityp **matrix1, ityp **matrix2, ityp **matrix_sum, const register dim_typ idx)
-{
-
-	#pragma omp parallel num_threads(MAX_OCTONIONS_UNITS)
-	{
-        matrix_sum[OCTONIONS_REALPART][idx] = matrix1[OCTONIONS_REALPART][idx] + matrix2[OCTONIONS_REALPART][idx];
-        matrix_sum[OCTONIONS_E1PART][idx] = matrix1[OCTONIONS_E1PART][idx] + matrix2[OCTONIONS_E1PART][idx];
-        matrix_sum[OCTONIONS_E2PART][idx] = matrix1[OCTONIONS_E2PART][idx] + matrix2[OCTONIONS_E2PART][idx];
-        matrix_sum[OCTONIONS_E3PART][idx] = matrix1[OCTONIONS_E3PART][idx] + matrix2[OCTONIONS_E3PART][idx];
-        matrix_sum[OCTONIONS_E4PART][idx] = matrix1[OCTONIONS_E4PART][idx] + matrix2[OCTONIONS_E4PART][idx];
-        matrix_sum[OCTONIONS_E5PART][idx] = matrix1[OCTONIONS_E5PART][idx] + matrix2[OCTONIONS_E5PART][idx];
-        matrix_sum[OCTONIONS_E6PART][idx] = matrix1[OCTONIONS_E6PART][idx] + matrix2[OCTONIONS_E6PART][idx];
-        matrix_sum[OCTONIONS_E7PART][idx] = matrix1[OCTONIONS_E7PART][idx] + matrix2[OCTONIONS_E7PART][idx];
-	}
-	return;
-}
-
-__MSNATIVE_ __MSSTOCK _MS__private static void __system __export _matrixOMTSub(ityp **matrix1, ityp **matrix2, ityp **matrix_sum, const register dim_typ idx)
-{
-	#pragma omp parallel
-	{
-        matrix_sum[OCTONIONS_REALPART][idx] = matrix1[OCTONIONS_REALPART][idx] + matrix2[OCTONIONS_REALPART][idx];
-        matrix_sum[OCTONIONS_E1PART][idx] = matrix1[OCTONIONS_E1PART][idx] + matrix2[OCTONIONS_E1PART][idx];
-        matrix_sum[OCTONIONS_E2PART][idx] = matrix1[OCTONIONS_E2PART][idx] + matrix2[OCTONIONS_E2PART][idx];
-        matrix_sum[OCTONIONS_E3PART][idx] = matrix1[OCTONIONS_E3PART][idx] + matrix2[OCTONIONS_E3PART][idx];
-        matrix_sum[OCTONIONS_E4PART][idx] = matrix1[OCTONIONS_E4PART][idx] + matrix2[OCTONIONS_E4PART][idx];
-        matrix_sum[OCTONIONS_E5PART][idx] = matrix1[OCTONIONS_E5PART][idx] + matrix2[OCTONIONS_E5PART][idx];
-        matrix_sum[OCTONIONS_E6PART][idx] = matrix1[OCTONIONS_E6PART][idx] + matrix2[OCTONIONS_E6PART][idx];
-        matrix_sum[OCTONIONS_E7PART][idx] = matrix1[OCTONIONS_E7PART][idx] + matrix2[OCTONIONS_E7PART][idx];
-	}
-	return;
-}
-
-__MSNATIVE_ __MSSTOCK _MS__private static void __system __export _matrixSEMTSub(ityp **matrix1, ityp **matrix2, ityp **matrix_sum, const register dim_typ idx)
-{
-	#pragma omp parallel num_threads(MAX_SEDENIONS_UNITS)
-	{
-		matrix_sum[SEDENIONS_REALPART][idx] = matrix1[SEDENIONS_REALPART][idx] + matrix2[SEDENIONS_REALPART][idx];
-        matrix_sum[SEDENIONS_E1PART][idx] = matrix1[SEDENIONS_E1PART][idx] + matrix2[SEDENIONS_E1PART][idx];
-        matrix_sum[SEDENIONS_E2PART][idx] = matrix1[SEDENIONS_E2PART][idx] + matrix2[SEDENIONS_E2PART][idx];
-        matrix_sum[SEDENIONS_E3PART][idx] = matrix1[SEDENIONS_E3PART][idx] + matrix2[SEDENIONS_E3PART][idx];
-        matrix_sum[SEDENIONS_E4PART][idx] = matrix1[SEDENIONS_E4PART][idx] + matrix2[SEDENIONS_E4PART][idx];
-        matrix_sum[SEDENIONS_E5PART][idx] = matrix1[SEDENIONS_E5PART][idx] + matrix2[SEDENIONS_E5PART][idx];
-        matrix_sum[SEDENIONS_E6PART][idx] = matrix1[SEDENIONS_E6PART][idx] + matrix2[SEDENIONS_E6PART][idx];
-        matrix_sum[SEDENIONS_E7PART][idx] = matrix1[SEDENIONS_E7PART][idx] + matrix2[SEDENIONS_E7PART][idx];
-        matrix_sum[SEDENIONS_E8PART][idx] = matrix1[SEDENIONS_E8PART][idx] + matrix2[SEDENIONS_E8PART][idx];
-        matrix_sum[SEDENIONS_E9PART][idx] = matrix1[SEDENIONS_E9PART][idx] + matrix2[SEDENIONS_E9PART][idx];
-        matrix_sum[SEDENIONS_E10PART][idx] = matrix1[SEDENIONS_E10PART][idx] + matrix2[SEDENIONS_E10PART][idx];
-        matrix_sum[SEDENIONS_E11PART][idx] = matrix1[SEDENIONS_E11PART][idx] + matrix2[SEDENIONS_E11PART][idx];
-        matrix_sum[SEDENIONS_E12PART][idx] = matrix1[SEDENIONS_E12PART][idx] + matrix2[SEDENIONS_E12PART][idx];
-        matrix_sum[SEDENIONS_E13PART][idx] = matrix1[SEDENIONS_E13PART][idx] + matrix2[SEDENIONS_E13PART][idx];
-        matrix_sum[SEDENIONS_E14PART][idx] = matrix1[SEDENIONS_E14PART][idx] + matrix2[SEDENIONS_E14PART][idx];
-        matrix_sum[SEDENIONS_E15PART][idx] = matrix1[SEDENIONS_E15PART][idx] + matrix2[SEDENIONS_E15PART][idx];
-	}
-
-	return;
-}
-
-__MSNATIVE_ __MSSTOCK _MS__private static void __system __export _matrixSMTSub(ityp **matrix1, ityp **matrix2, ityp **matrix_sum, const register dim_typ idx)
-{
-	#pragma omp parallel
-	{
-		matrix_sum[SEDENIONS_REALPART][idx] = matrix1[SEDENIONS_REALPART][idx] + matrix2[SEDENIONS_REALPART][idx];
-        matrix_sum[SEDENIONS_E1PART][idx] = matrix1[SEDENIONS_E1PART][idx] + matrix2[SEDENIONS_E1PART][idx];
-        matrix_sum[SEDENIONS_E2PART][idx] = matrix1[SEDENIONS_E2PART][idx] + matrix2[SEDENIONS_E2PART][idx];
-        matrix_sum[SEDENIONS_E3PART][idx] = matrix1[SEDENIONS_E3PART][idx] + matrix2[SEDENIONS_E3PART][idx];
-        matrix_sum[SEDENIONS_E4PART][idx] = matrix1[SEDENIONS_E4PART][idx] + matrix2[SEDENIONS_E4PART][idx];
-        matrix_sum[SEDENIONS_E5PART][idx] = matrix1[SEDENIONS_E5PART][idx] + matrix2[SEDENIONS_E5PART][idx];
-        matrix_sum[SEDENIONS_E6PART][idx] = matrix1[SEDENIONS_E6PART][idx] + matrix2[SEDENIONS_E6PART][idx];
-        matrix_sum[SEDENIONS_E7PART][idx] = matrix1[SEDENIONS_E7PART][idx] + matrix2[SEDENIONS_E7PART][idx];
-        matrix_sum[SEDENIONS_E8PART][idx] = matrix1[SEDENIONS_E8PART][idx] + matrix2[SEDENIONS_E8PART][idx];
-        matrix_sum[SEDENIONS_E9PART][idx] = matrix1[SEDENIONS_E9PART][idx] + matrix2[SEDENIONS_E9PART][idx];
-        matrix_sum[SEDENIONS_E10PART][idx] = matrix1[SEDENIONS_E10PART][idx] + matrix2[SEDENIONS_E10PART][idx];
-        matrix_sum[SEDENIONS_E11PART][idx] = matrix1[SEDENIONS_E11PART][idx] + matrix2[SEDENIONS_E11PART][idx];
-        matrix_sum[SEDENIONS_E12PART][idx] = matrix1[SEDENIONS_E12PART][idx] + matrix2[SEDENIONS_E12PART][idx];
-        matrix_sum[SEDENIONS_E13PART][idx] = matrix1[SEDENIONS_E13PART][idx] + matrix2[SEDENIONS_E13PART][idx];
-        matrix_sum[SEDENIONS_E14PART][idx] = matrix1[SEDENIONS_E14PART][idx] + matrix2[SEDENIONS_E14PART][idx];
-        matrix_sum[SEDENIONS_E15PART][idx] = matrix1[SEDENIONS_E15PART][idx] + matrix2[SEDENIONS_E15PART][idx];
-	}
-
-	return;
-}
-
-__MSNATIVE_ __MSSTOCK _MS__private static void __system __export _matrixOEMTMultiplication(ityp **matrix1, ityp **matrix2, ityp **matrix_product, const register dim_typ idx1, const register dim_typ idx2, const register dim_typ idx3)
-{
-	#pragma omp parallel num_threads(MAX_OCTONIONS_UNITS)
-	{
-		matrix_product[OCTONIONS_REALPART][idx1] +=  matrix1[OCTONIONS_REALPART][idx2] * matrix2[OCTONIONS_REALPART][idx3] -
-                                                             matrix1[OCTONIONS_E1PART][idx2] * matrix2[OCTONIONS_E1PART][idx3] -
-                                                             matrix1[OCTONIONS_E2PART][idx2] * matrix2[OCTONIONS_E2PART][idx3] -
-                                                             matrix1[OCTONIONS_E3PART][idx2] * matrix2[OCTONIONS_E3PART][idx3] -
-                                                             matrix1[OCTONIONS_E4PART][idx2] * matrix2[OCTONIONS_E4PART][idx3] -
-                                                             matrix1[OCTONIONS_E5PART][idx2] * matrix2[OCTONIONS_E5PART][idx3] -
-                                                             matrix1[OCTONIONS_E6PART][idx2] * matrix2[OCTONIONS_E6PART][idx3] -
-                                                             matrix1[OCTONIONS_E7PART][idx2] * matrix2[OCTONIONS_E7PART][idx3];
-
-        matrix_product[OCTONIONS_E1PART][idx1] +=  matrix1[OCTONIONS_REALPART][idx2] * matrix2[OCTONIONS_E1PART][idx3] +
-                                                   matrix1[OCTONIONS_E1PART][idx2] * matrix2[OCTONIONS_REALPART][idx3] +
-                                                   matrix1[OCTONIONS_E2PART][idx2] * matrix2[OCTONIONS_E4PART][idx3] +
-                                                   matrix1[OCTONIONS_E3PART][idx2] * matrix2[OCTONIONS_E7PART][idx3] -
-                                                   matrix1[OCTONIONS_E4PART][idx2] * matrix2[OCTONIONS_E2PART][idx3] +
-                                                   matrix1[OCTONIONS_E5PART][idx2] * matrix2[OCTONIONS_E6PART][idx3] -
-                                                   matrix1[OCTONIONS_E6PART][idx2] * matrix2[OCTONIONS_E5PART][idx3] -
-                                                   matrix1[OCTONIONS_E7PART][idx2] * matrix2[OCTONIONS_E3PART][idx3];
-
-        matrix_product[OCTONIONS_E2PART][idx1] +=  matrix1[OCTONIONS_REALPART][idx2] * matrix2[OCTONIONS_E2PART][idx3] -
-                                                   matrix1[OCTONIONS_E1PART][idx2] * matrix2[OCTONIONS_E4PART][idx3] +
-                                                   matrix1[OCTONIONS_E2PART][idx2] * matrix2[OCTONIONS_REALPART][idx3] +
-                                                   matrix1[OCTONIONS_E3PART][idx2] * matrix2[OCTONIONS_E5PART][idx3] -
-                                                   matrix1[OCTONIONS_E4PART][idx2] * matrix2[OCTONIONS_E1PART][idx3] -
-                                                   matrix1[OCTONIONS_E5PART][idx2] * matrix2[OCTONIONS_E3PART][idx3] +
-                                                   matrix1[OCTONIONS_E6PART][idx2] * matrix2[OCTONIONS_E7PART][idx3] -
-                                                   matrix1[OCTONIONS_E7PART][idx2] * matrix2[OCTONIONS_E6PART][idx3];
-
-        matrix_product[OCTONIONS_E3PART][idx1] +=  matrix1[OCTONIONS_REALPART][idx2] * matrix2[OCTONIONS_E3PART][idx3] -
-                                                   matrix1[OCTONIONS_E1PART][idx2] * matrix2[OCTONIONS_E7PART][idx3] -
-                                                   matrix1[OCTONIONS_E2PART][idx2] * matrix2[OCTONIONS_E5PART][idx3] +
-                                                   matrix1[OCTONIONS_E3PART][idx2] * matrix2[OCTONIONS_REALPART][idx3] +
-                                                   matrix1[OCTONIONS_E4PART][idx2] * matrix2[OCTONIONS_E6PART][idx3] +
-                                                   matrix1[OCTONIONS_E5PART][idx2] * matrix2[OCTONIONS_E2PART][idx3] -
-                                                   matrix1[OCTONIONS_E6PART][idx2] * matrix2[OCTONIONS_E4PART][idx3] +
-                                                   matrix1[OCTONIONS_E7PART][idx2] * matrix2[OCTONIONS_E1PART][idx3];
-
-        matrix_product[OCTONIONS_E4PART][idx1] +=  matrix1[OCTONIONS_REALPART][idx2] * matrix2[OCTONIONS_E4PART][idx3] +
-                                                   matrix1[OCTONIONS_E1PART][idx2] * matrix2[OCTONIONS_E2PART][idx3] -
-                                                   matrix1[OCTONIONS_E2PART][idx2] * matrix2[OCTONIONS_E1PART][idx3] -
-                                                   matrix1[OCTONIONS_E3PART][idx2] * matrix2[OCTONIONS_E6PART][idx3] +
-                                                   matrix1[OCTONIONS_E4PART][idx2] * matrix2[OCTONIONS_REALPART][idx3] +
-                                                   matrix1[OCTONIONS_E5PART][idx2] * matrix2[OCTONIONS_E7PART][idx3] +
-                                                   matrix1[OCTONIONS_E6PART][idx2] * matrix2[OCTONIONS_E3PART][idx3] -
-                                                   matrix1[OCTONIONS_E7PART][idx2] * matrix2[OCTONIONS_E5PART][idx3];
-
-        matrix_product[OCTONIONS_E5PART][idx1] +=  matrix1[OCTONIONS_REALPART][idx2] * matrix2[OCTONIONS_E5PART][idx3] -
-                                                   matrix1[OCTONIONS_E1PART][idx2] * matrix2[OCTONIONS_E6PART][idx3] +
-                                                   matrix1[OCTONIONS_E2PART][idx2] * matrix2[OCTONIONS_E3PART][idx3] -
-                                                   matrix1[OCTONIONS_E3PART][idx2] * matrix2[OCTONIONS_E2PART][idx3] -
-                                                   matrix1[OCTONIONS_E4PART][idx2] * matrix2[OCTONIONS_E7PART][idx3] +
-                                                   matrix1[OCTONIONS_E5PART][idx2] * matrix2[OCTONIONS_REALPART][idx3] +
-                                                   matrix1[OCTONIONS_E6PART][idx2] * matrix2[OCTONIONS_E1PART][idx3] +
-                                                   matrix1[OCTONIONS_E7PART][idx2] * matrix2[OCTONIONS_E4PART][idx3];
-
-        matrix_product[OCTONIONS_E6PART][idx1] +=  matrix1[OCTONIONS_REALPART][idx2] * matrix2[OCTONIONS_E6PART][idx3] +
-                                                   matrix1[OCTONIONS_E1PART][idx2] * matrix2[OCTONIONS_E5PART][idx3] -
-                                                   matrix1[OCTONIONS_E2PART][idx2] * matrix2[OCTONIONS_E7PART][idx3] +
-                                                   matrix1[OCTONIONS_E3PART][idx2] * matrix2[OCTONIONS_E4PART][idx3] -
-                                                   matrix1[OCTONIONS_E4PART][idx2] * matrix2[OCTONIONS_E3PART][idx3] -
-                                                   matrix1[OCTONIONS_E5PART][idx2] * matrix2[OCTONIONS_E1PART][idx3] +
-                                                   matrix1[OCTONIONS_E6PART][idx2] * matrix2[OCTONIONS_REALPART][idx3] +
-                                                   matrix1[OCTONIONS_E7PART][idx2] * matrix2[OCTONIONS_E2PART][idx3];
-
-        matrix_product[OCTONIONS_E7PART][idx1] +=  matrix1[OCTONIONS_REALPART][idx2] * matrix2[OCTONIONS_E7PART][idx3] +
-                                                   matrix1[OCTONIONS_E1PART][idx2] * matrix2[OCTONIONS_E3PART][idx3] +
-                                                   matrix1[OCTONIONS_E2PART][idx2] * matrix2[OCTONIONS_E6PART][idx3] -
-                                                   matrix1[OCTONIONS_E3PART][idx2] * matrix2[OCTONIONS_E1PART][idx3] +
-                                                   matrix1[OCTONIONS_E4PART][idx2] * matrix2[OCTONIONS_E5PART][idx3] -
-                                                   matrix1[OCTONIONS_E5PART][idx2] * matrix2[OCTONIONS_E4PART][idx3] -
-                                                   matrix1[OCTONIONS_E6PART][idx2] * matrix2[OCTONIONS_E2PART][idx3] +
-                                                   matrix1[OCTONIONS_E7PART][idx2] * matrix2[OCTONIONS_REALPART][idx3];
-	}
-}
-
-__MSNATIVE_ __MSSTOCK _MS__private static void __system __export _matrixOMTMultiplication(ityp **matrix1, ityp **matrix2, ityp **matrix_product, const register dim_typ idx1, const register dim_typ idx2, const register dim_typ idx3)
-{
-	#pragma omp parallel
-	{
-		matrix_product[OCTONIONS_REALPART][idx1] +=  matrix1[OCTONIONS_REALPART][idx2] * matrix2[OCTONIONS_REALPART][idx3] -
-                                                             matrix1[OCTONIONS_E1PART][idx2] * matrix2[OCTONIONS_E1PART][idx3] -
-                                                             matrix1[OCTONIONS_E2PART][idx2] * matrix2[OCTONIONS_E2PART][idx3] -
-                                                             matrix1[OCTONIONS_E3PART][idx2] * matrix2[OCTONIONS_E3PART][idx3] -
-                                                             matrix1[OCTONIONS_E4PART][idx2] * matrix2[OCTONIONS_E4PART][idx3] -
-                                                             matrix1[OCTONIONS_E5PART][idx2] * matrix2[OCTONIONS_E5PART][idx3] -
-                                                             matrix1[OCTONIONS_E6PART][idx2] * matrix2[OCTONIONS_E6PART][idx3] -
-                                                             matrix1[OCTONIONS_E7PART][idx2] * matrix2[OCTONIONS_E7PART][idx3];
-
-        matrix_product[OCTONIONS_E1PART][idx1] +=  matrix1[OCTONIONS_REALPART][idx2] * matrix2[OCTONIONS_E1PART][idx3] +
-                                                   matrix1[OCTONIONS_E1PART][idx2] * matrix2[OCTONIONS_REALPART][idx3] +
-                                                   matrix1[OCTONIONS_E2PART][idx2] * matrix2[OCTONIONS_E4PART][idx3] +
-                                                   matrix1[OCTONIONS_E3PART][idx2] * matrix2[OCTONIONS_E7PART][idx3] -
-                                                   matrix1[OCTONIONS_E4PART][idx2] * matrix2[OCTONIONS_E2PART][idx3] +
-                                                   matrix1[OCTONIONS_E5PART][idx2] * matrix2[OCTONIONS_E6PART][idx3] -
-                                                   matrix1[OCTONIONS_E6PART][idx2] * matrix2[OCTONIONS_E5PART][idx3] -
-                                                   matrix1[OCTONIONS_E7PART][idx2] * matrix2[OCTONIONS_E3PART][idx3];
-
-        matrix_product[OCTONIONS_E2PART][idx1] +=  matrix1[OCTONIONS_REALPART][idx2] * matrix2[OCTONIONS_E2PART][idx3] -
-                                                   matrix1[OCTONIONS_E1PART][idx2] * matrix2[OCTONIONS_E4PART][idx3] +
-                                                   matrix1[OCTONIONS_E2PART][idx2] * matrix2[OCTONIONS_REALPART][idx3] +
-                                                   matrix1[OCTONIONS_E3PART][idx2] * matrix2[OCTONIONS_E5PART][idx3] -
-                                                   matrix1[OCTONIONS_E4PART][idx2] * matrix2[OCTONIONS_E1PART][idx3] -
-                                                   matrix1[OCTONIONS_E5PART][idx2] * matrix2[OCTONIONS_E3PART][idx3] +
-                                                   matrix1[OCTONIONS_E6PART][idx2] * matrix2[OCTONIONS_E7PART][idx3] -
-                                                   matrix1[OCTONIONS_E7PART][idx2] * matrix2[OCTONIONS_E6PART][idx3];
-
-        matrix_product[OCTONIONS_E3PART][idx1] +=  matrix1[OCTONIONS_REALPART][idx2] * matrix2[OCTONIONS_E3PART][idx3] -
-                                                   matrix1[OCTONIONS_E1PART][idx2] * matrix2[OCTONIONS_E7PART][idx3] -
-                                                   matrix1[OCTONIONS_E2PART][idx2] * matrix2[OCTONIONS_E5PART][idx3] +
-                                                   matrix1[OCTONIONS_E3PART][idx2] * matrix2[OCTONIONS_REALPART][idx3] +
-                                                   matrix1[OCTONIONS_E4PART][idx2] * matrix2[OCTONIONS_E6PART][idx3] +
-                                                   matrix1[OCTONIONS_E5PART][idx2] * matrix2[OCTONIONS_E2PART][idx3] -
-                                                   matrix1[OCTONIONS_E6PART][idx2] * matrix2[OCTONIONS_E4PART][idx3] +
-                                                   matrix1[OCTONIONS_E7PART][idx2] * matrix2[OCTONIONS_E1PART][idx3];
-
-        matrix_product[OCTONIONS_E4PART][idx1] +=  matrix1[OCTONIONS_REALPART][idx2] * matrix2[OCTONIONS_E4PART][idx3] +
-                                                   matrix1[OCTONIONS_E1PART][idx2] * matrix2[OCTONIONS_E2PART][idx3] -
-                                                   matrix1[OCTONIONS_E2PART][idx2] * matrix2[OCTONIONS_E1PART][idx3] -
-                                                   matrix1[OCTONIONS_E3PART][idx2] * matrix2[OCTONIONS_E6PART][idx3] +
-                                                   matrix1[OCTONIONS_E4PART][idx2] * matrix2[OCTONIONS_REALPART][idx3] +
-                                                   matrix1[OCTONIONS_E5PART][idx2] * matrix2[OCTONIONS_E7PART][idx3] +
-                                                   matrix1[OCTONIONS_E6PART][idx2] * matrix2[OCTONIONS_E3PART][idx3] -
-                                                   matrix1[OCTONIONS_E7PART][idx2] * matrix2[OCTONIONS_E5PART][idx3];
-
-        matrix_product[OCTONIONS_E5PART][idx1] +=  matrix1[OCTONIONS_REALPART][idx2] * matrix2[OCTONIONS_E5PART][idx3] -
-                                                   matrix1[OCTONIONS_E1PART][idx2] * matrix2[OCTONIONS_E6PART][idx3] +
-                                                   matrix1[OCTONIONS_E2PART][idx2] * matrix2[OCTONIONS_E3PART][idx3] -
-                                                   matrix1[OCTONIONS_E3PART][idx2] * matrix2[OCTONIONS_E2PART][idx3] -
-                                                   matrix1[OCTONIONS_E4PART][idx2] * matrix2[OCTONIONS_E7PART][idx3] +
-                                                   matrix1[OCTONIONS_E5PART][idx2] * matrix2[OCTONIONS_REALPART][idx3] +
-                                                   matrix1[OCTONIONS_E6PART][idx2] * matrix2[OCTONIONS_E1PART][idx3] +
-                                                   matrix1[OCTONIONS_E7PART][idx2] * matrix2[OCTONIONS_E4PART][idx3];
-
-        matrix_product[OCTONIONS_E6PART][idx1] +=  matrix1[OCTONIONS_REALPART][idx2] * matrix2[OCTONIONS_E6PART][idx3] +
-                                                   matrix1[OCTONIONS_E1PART][idx2] * matrix2[OCTONIONS_E5PART][idx3] -
-                                                   matrix1[OCTONIONS_E2PART][idx2] * matrix2[OCTONIONS_E7PART][idx3] +
-                                                   matrix1[OCTONIONS_E3PART][idx2] * matrix2[OCTONIONS_E4PART][idx3] -
-                                                   matrix1[OCTONIONS_E4PART][idx2] * matrix2[OCTONIONS_E3PART][idx3] -
-                                                   matrix1[OCTONIONS_E5PART][idx2] * matrix2[OCTONIONS_E1PART][idx3] +
-                                                   matrix1[OCTONIONS_E6PART][idx2] * matrix2[OCTONIONS_REALPART][idx3] +
-                                                   matrix1[OCTONIONS_E7PART][idx2] * matrix2[OCTONIONS_E2PART][idx3];
-
-        matrix_product[OCTONIONS_E7PART][idx1] +=  matrix1[OCTONIONS_REALPART][idx2] * matrix2[OCTONIONS_E7PART][idx3] +
-                                                   matrix1[OCTONIONS_E1PART][idx2] * matrix2[OCTONIONS_E3PART][idx3] +
-                                                   matrix1[OCTONIONS_E2PART][idx2] * matrix2[OCTONIONS_E6PART][idx3] -
-                                                   matrix1[OCTONIONS_E3PART][idx2] * matrix2[OCTONIONS_E1PART][idx3] +
-                                                   matrix1[OCTONIONS_E4PART][idx2] * matrix2[OCTONIONS_E5PART][idx3] -
-                                                   matrix1[OCTONIONS_E5PART][idx2] * matrix2[OCTONIONS_E4PART][idx3] -
-                                                   matrix1[OCTONIONS_E6PART][idx2] * matrix2[OCTONIONS_E2PART][idx3] +
-                                                   matrix1[OCTONIONS_E7PART][idx2] * matrix2[OCTONIONS_REALPART][idx3];
-	}
-}
-
-__MSNATIVE_ __MSSTOCK _MS__private static void __system __export _matrixSEMTMultiplication(ityp **matrix1, ityp **matrix2, ityp **matrix_product, const register dim_typ idx1, const register dim_typ idx2, const register dim_typ idx3)
-{
-	#pragma omp parallel num_threads(MAX_SEDENIONS_UNITS)
-	{
-		matrix_product[SEDENIONS_REALPART][idx1] +=  matrix1[SEDENIONS_REALPART][idx2] * matrix2[SEDENIONS_REALPART][idx3] -
-                                                             matrix1[SEDENIONS_E1PART][idx2] * matrix2[SEDENIONS_E1PART][idx3] -
-                                                             matrix1[SEDENIONS_E2PART][idx2] * matrix2[SEDENIONS_E2PART][idx3] -
-                                                             matrix1[SEDENIONS_E3PART][idx2] * matrix2[SEDENIONS_E3PART][idx3] -
-                                                             matrix1[SEDENIONS_E4PART][idx2] * matrix2[SEDENIONS_E4PART][idx3] -
-                                                             matrix1[SEDENIONS_E5PART][idx2] * matrix2[SEDENIONS_E5PART][idx3] -
-                                                             matrix1[SEDENIONS_E6PART][idx2] * matrix2[SEDENIONS_E6PART][idx3] -
-                                                             matrix1[SEDENIONS_E7PART][idx2] * matrix2[SEDENIONS_E7PART][idx3] -
-                                                             matrix1[SEDENIONS_E8PART][idx2] * matrix2[SEDENIONS_E8PART][idx3] -
-                                                             matrix1[SEDENIONS_E9PART][idx2] * matrix2[SEDENIONS_E9PART][idx3] -
-                                                             matrix1[SEDENIONS_E10PART][idx2] * matrix2[SEDENIONS_E10PART][idx3] -
-                                                             matrix1[SEDENIONS_E11PART][idx2] * matrix2[SEDENIONS_E11PART][idx3] -
-                                                             matrix1[SEDENIONS_E12PART][idx2] * matrix2[SEDENIONS_E12PART][idx3] -
-                                                             matrix1[SEDENIONS_E13PART][idx2] * matrix2[SEDENIONS_E13PART][idx3] -
-                                                             matrix1[SEDENIONS_E14PART][idx2] * matrix2[SEDENIONS_E14PART][idx3] -
-                                                             matrix1[SEDENIONS_E15PART][idx2] * matrix2[SEDENIONS_E15PART][idx3];
-
-        matrix_product[SEDENIONS_E1PART][idx1] +=  matrix1[SEDENIONS_REALPART][idx2] * matrix2[SEDENIONS_E1PART][idx3] +
-                                                   matrix1[SEDENIONS_E1PART][idx2] * matrix2[SEDENIONS_REALPART][idx3] +
-                                                   matrix1[SEDENIONS_E2PART][idx2] * matrix2[SEDENIONS_E3PART][idx3] -
-                                                   matrix1[SEDENIONS_E3PART][idx2] * matrix2[SEDENIONS_E2PART][idx3] +
-                                                   matrix1[SEDENIONS_E4PART][idx2] * matrix2[SEDENIONS_E5PART][idx3] -
-                                                   matrix1[SEDENIONS_E5PART][idx2] * matrix2[SEDENIONS_E4PART][idx3] -
-                                                   matrix1[SEDENIONS_E6PART][idx2] * matrix2[SEDENIONS_E7PART][idx3] +
-                                                   matrix1[SEDENIONS_E7PART][idx2] * matrix2[SEDENIONS_E6PART][idx3] +
-                                                   matrix1[SEDENIONS_E8PART][idx2] * matrix2[SEDENIONS_E9PART][idx3] -
-                                                   matrix1[SEDENIONS_E9PART][idx2] * matrix2[SEDENIONS_E8PART][idx3] -
-                                                   matrix1[SEDENIONS_E10PART][idx2] * matrix2[SEDENIONS_E11PART][idx3] +
-                                                   matrix1[SEDENIONS_E11PART][idx2] * matrix2[SEDENIONS_E10PART][idx3] -
-                                                   matrix1[SEDENIONS_E12PART][idx2] * matrix2[SEDENIONS_E13PART][idx3] +
-                                                   matrix1[SEDENIONS_E13PART][idx2] * matrix2[SEDENIONS_E12PART][idx3] +
-                                                   matrix1[SEDENIONS_E14PART][idx2] * matrix2[SEDENIONS_E15PART][idx3] -
-                                                   matrix1[SEDENIONS_E15PART][idx2] * matrix2[SEDENIONS_E14PART][idx3];
-
-        matrix_product[SEDENIONS_E2PART][idx1] +=  matrix1[SEDENIONS_REALPART][idx2] * matrix2[SEDENIONS_E2PART][idx3] -
-                                                   matrix1[SEDENIONS_E1PART][idx2] * matrix2[SEDENIONS_E3PART][idx3] +
-                                                   matrix1[SEDENIONS_E2PART][idx2] * matrix2[SEDENIONS_REALPART][idx3] +
-                                                   matrix1[SEDENIONS_E3PART][idx2] * matrix2[SEDENIONS_E1PART][idx3] +
-                                                   matrix1[SEDENIONS_E4PART][idx2] * matrix2[SEDENIONS_E6PART][idx3] +
-                                                   matrix1[SEDENIONS_E5PART][idx2] * matrix2[SEDENIONS_E7PART][idx3] -
-                                                   matrix1[SEDENIONS_E6PART][idx2] * matrix2[SEDENIONS_E4PART][idx3] -
-                                                   matrix1[SEDENIONS_E7PART][idx2] * matrix2[SEDENIONS_E5PART][idx3] +
-                                                   matrix1[SEDENIONS_E8PART][idx2] * matrix2[SEDENIONS_E10PART][idx3] +
-                                                   matrix1[SEDENIONS_E9PART][idx2] * matrix2[SEDENIONS_E11PART][idx3] -
-                                                   matrix1[SEDENIONS_E10PART][idx2] * matrix2[SEDENIONS_E8PART][idx3] -
-                                                   matrix1[SEDENIONS_E11PART][idx2] * matrix2[SEDENIONS_E9PART][idx3] -
-                                                   matrix1[SEDENIONS_E12PART][idx2] * matrix2[SEDENIONS_E14PART][idx3] -
-                                                   matrix1[SEDENIONS_E13PART][idx2] * matrix2[SEDENIONS_E15PART][idx3] +
-                                                   matrix1[SEDENIONS_E14PART][idx2] * matrix2[SEDENIONS_E12PART][idx3] +
-                                                   matrix1[SEDENIONS_E15PART][idx2] * matrix2[SEDENIONS_E13PART][idx3];
-
-        matrix_product[SEDENIONS_E3PART][idx1] +=  matrix1[SEDENIONS_REALPART][idx2] * matrix2[SEDENIONS_E3PART][idx3] +
-                                                   matrix1[SEDENIONS_E1PART][idx2] * matrix2[SEDENIONS_E2PART][idx3] -
-                                                   matrix1[SEDENIONS_E2PART][idx2] * matrix2[SEDENIONS_E1PART][idx3] +
-                                                   matrix1[SEDENIONS_E3PART][idx2] * matrix2[SEDENIONS_REALPART][idx3] +
-                                                   matrix1[SEDENIONS_E4PART][idx2] * matrix2[SEDENIONS_E7PART][idx3] -
-                                                   matrix1[SEDENIONS_E5PART][idx2] * matrix2[SEDENIONS_E6PART][idx3] +
-                                                   matrix1[SEDENIONS_E6PART][idx2] * matrix2[SEDENIONS_E5PART][idx3] -
-                                                   matrix1[SEDENIONS_E7PART][idx2] * matrix2[SEDENIONS_E4PART][idx3] +
-                                                   matrix1[SEDENIONS_E8PART][idx2] * matrix2[SEDENIONS_E11PART][idx3] -
-                                                   matrix1[SEDENIONS_E9PART][idx2] * matrix2[SEDENIONS_E10PART][idx3] +
-                                                   matrix1[SEDENIONS_E10PART][idx2] * matrix2[SEDENIONS_E9PART][idx3] -
-                                                   matrix1[SEDENIONS_E11PART][idx2] * matrix2[SEDENIONS_E8PART][idx3] -
-                                                   matrix1[SEDENIONS_E12PART][idx2] * matrix2[SEDENIONS_E15PART][idx3] +
-                                                   matrix1[SEDENIONS_E13PART][idx2] * matrix2[SEDENIONS_E14PART][idx3] -
-                                                   matrix1[SEDENIONS_E14PART][idx2] * matrix2[SEDENIONS_E13PART][idx3] +
-                                                   matrix1[SEDENIONS_E15PART][idx2] * matrix2[SEDENIONS_E12PART][idx3];
-
-        matrix_product[SEDENIONS_E4PART][idx1] +=   matrix1[SEDENIONS_E1PART][idx2] * matrix2[SEDENIONS_E5PART][idx3] -
-                                                   matrix1[SEDENIONS_E2PART][idx2] * matrix2[SEDENIONS_E6PART][idx3] -
-                                                   matrix1[SEDENIONS_E3PART][idx2] * matrix2[SEDENIONS_E7PART][idx3] +
-                                                   matrix1[SEDENIONS_E4PART][idx2] * matrix2[SEDENIONS_REALPART][idx3] +
-                                                   matrix1[SEDENIONS_E5PART][idx2] * matrix2[SEDENIONS_E1PART][idx3] +
-                                                   matrix1[SEDENIONS_E6PART][idx2] * matrix2[SEDENIONS_E2PART][idx3] +
-                                                   matrix1[SEDENIONS_E7PART][idx2] * matrix2[SEDENIONS_E3PART][idx3] +
-                                                   matrix1[SEDENIONS_E8PART][idx2] * matrix2[SEDENIONS_E12PART][idx3] +
-                                                   matrix1[SEDENIONS_E9PART][idx2] * matrix2[SEDENIONS_E13PART][idx3] +
-                                                   matrix1[SEDENIONS_E10PART][idx2] * matrix2[SEDENIONS_E14PART][idx3] +
-                                                   matrix1[SEDENIONS_E11PART][idx2] * matrix2[SEDENIONS_E15PART][idx3] -
-                                                   matrix1[SEDENIONS_E12PART][idx2] * matrix2[SEDENIONS_E8PART][idx3] -
-                                                   matrix1[SEDENIONS_E13PART][idx2] * matrix2[SEDENIONS_E9PART][idx3] -
-                                                   matrix1[SEDENIONS_E14PART][idx2] * matrix2[SEDENIONS_E10PART][idx3] -
-                                                   matrix1[SEDENIONS_E15PART][idx2] * matrix2[SEDENIONS_E11PART][idx3];
-
-        matrix_product[SEDENIONS_E5PART][idx1] +=  matrix1[SEDENIONS_REALPART][idx2] * matrix2[SEDENIONS_E5PART][idx3] +
-                                                   matrix1[SEDENIONS_E1PART][idx2] * matrix2[SEDENIONS_E4PART][idx3] -
-                                                   matrix1[SEDENIONS_E2PART][idx2] * matrix2[SEDENIONS_E7PART][idx3] +
-                                                   matrix1[SEDENIONS_E3PART][idx2] * matrix2[SEDENIONS_E6PART][idx3] -
-                                                   matrix1[SEDENIONS_E4PART][idx2] * matrix2[SEDENIONS_E1PART][idx3] +
-                                                   matrix1[SEDENIONS_E5PART][idx2] * matrix2[SEDENIONS_REALPART][idx3] -
-                                                   matrix1[SEDENIONS_E6PART][idx2] * matrix2[SEDENIONS_E3PART][idx3] +
-                                                   matrix1[SEDENIONS_E7PART][idx2] * matrix2[SEDENIONS_E2PART][idx3] +
-                                                   matrix1[SEDENIONS_E8PART][idx2] * matrix2[SEDENIONS_E13PART][idx3] -
-                                                   matrix1[SEDENIONS_E9PART][idx2] * matrix2[SEDENIONS_E12PART][idx3] +
-                                                   matrix1[SEDENIONS_E10PART][idx2] * matrix2[SEDENIONS_E15PART][idx3] -
-                                                   matrix1[SEDENIONS_E11PART][idx2] * matrix2[SEDENIONS_E4PART][idx3] +
-                                                   matrix1[SEDENIONS_E12PART][idx2] * matrix2[SEDENIONS_E9PART][idx3] -
-                                                   matrix1[SEDENIONS_E13PART][idx2] * matrix2[SEDENIONS_E8PART][idx3] +
-                                                   matrix1[SEDENIONS_E14PART][idx2] * matrix2[SEDENIONS_E11PART][idx3] -
-                                                   matrix1[SEDENIONS_E15PART][idx2] * matrix2[SEDENIONS_E10PART][idx3];
-                                                   
-        matrix_product[SEDENIONS_E6PART][idx1] +=  matrix1[SEDENIONS_REALPART][idx2] * matrix2[SEDENIONS_E6PART][idx3] +
-                                                   matrix1[SEDENIONS_E1PART][idx2] * matrix2[SEDENIONS_E7PART][idx3] +
-                                                   matrix1[SEDENIONS_E2PART][idx2] * matrix2[SEDENIONS_E4PART][idx3] -
-                                                   matrix1[SEDENIONS_E3PART][idx2] * matrix2[SEDENIONS_E5PART][idx3] -
-                                                   matrix1[SEDENIONS_E4PART][idx2] * matrix2[SEDENIONS_E2PART][idx3] +
-                                                   matrix1[SEDENIONS_E5PART][idx2] * matrix2[SEDENIONS_E3PART][idx3] +
-                                                   matrix1[SEDENIONS_E6PART][idx2] * matrix2[SEDENIONS_REALPART][idx3] -
-                                                   matrix1[SEDENIONS_E7PART][idx2] * matrix2[SEDENIONS_E1PART][idx3] +
-                                                   matrix1[SEDENIONS_E8PART][idx2] * matrix2[SEDENIONS_E14PART][idx3] -
-                                                   matrix1[SEDENIONS_E9PART][idx2] * matrix2[SEDENIONS_E15PART][idx3] -
-                                                   matrix1[SEDENIONS_E10PART][idx2] * matrix2[SEDENIONS_E12PART][idx3] +
-                                                   matrix1[SEDENIONS_E11PART][idx2] * matrix2[SEDENIONS_E13PART][idx3] +
-                                                   matrix1[SEDENIONS_E12PART][idx2] * matrix2[SEDENIONS_E10PART][idx3] -
-                                                   matrix1[SEDENIONS_E13PART][idx2] * matrix2[SEDENIONS_E11PART][idx3] -
-                                                   matrix1[SEDENIONS_E14PART][idx2] * matrix2[SEDENIONS_E8PART][idx3] +
-                                                   matrix1[SEDENIONS_E15PART][idx2] * matrix2[SEDENIONS_E9PART][idx3];
- 
-        matrix_product[SEDENIONS_E7PART][idx1] +=  matrix1[SEDENIONS_REALPART][idx2] * matrix2[SEDENIONS_E7PART][idx3] -
-                                                   matrix1[SEDENIONS_E1PART][idx2] * matrix2[SEDENIONS_E6PART][idx3] +
-                                                   matrix1[SEDENIONS_E2PART][idx2] * matrix2[SEDENIONS_E5PART][idx3] +
-                                                   matrix1[SEDENIONS_E3PART][idx2] * matrix2[SEDENIONS_E4PART][idx3] -
-                                                   matrix1[SEDENIONS_E4PART][idx2] * matrix2[SEDENIONS_E3PART][idx3] -
-                                                   matrix1[SEDENIONS_E5PART][idx2] * matrix2[SEDENIONS_E2PART][idx3] +
-                                                   matrix1[SEDENIONS_E6PART][idx2] * matrix2[SEDENIONS_E1PART][idx3] +
-                                                   matrix1[SEDENIONS_E7PART][idx2] * matrix2[SEDENIONS_REALPART][idx3] +
-                                                   matrix1[SEDENIONS_E8PART][idx2] * matrix2[SEDENIONS_E15PART][idx3] +
-                                                   matrix1[SEDENIONS_E9PART][idx2] * matrix2[SEDENIONS_E14PART][idx3] -
-                                                   matrix1[SEDENIONS_E10PART][idx2] * matrix2[SEDENIONS_E13PART][idx3] -
-                                                   matrix1[SEDENIONS_E11PART][idx2] * matrix2[SEDENIONS_E12PART][idx3] +
-                                                   matrix1[SEDENIONS_E12PART][idx2] * matrix2[SEDENIONS_E11PART][idx3] +
-                                                   matrix1[SEDENIONS_E13PART][idx2] * matrix2[SEDENIONS_E10PART][idx3] -
-                                                   matrix1[SEDENIONS_E14PART][idx2] * matrix2[SEDENIONS_E9PART][idx3] -
-                                                   matrix1[SEDENIONS_E15PART][idx2] * matrix2[SEDENIONS_E8PART][idx3];
-
-        matrix_product[SEDENIONS_E8PART][idx1] +=  matrix1[SEDENIONS_REALPART][idx2] * matrix2[SEDENIONS_E8PART][idx3] -
-                                                   matrix1[SEDENIONS_E1PART][idx2] * matrix2[SEDENIONS_E9PART][idx3] -
-                                                   matrix1[SEDENIONS_E2PART][idx2] * matrix2[SEDENIONS_E10PART][idx3] -
-                                                   matrix1[SEDENIONS_E3PART][idx2] * matrix2[SEDENIONS_E11PART][idx3] -
-                                                   matrix1[SEDENIONS_E4PART][idx2] * matrix2[SEDENIONS_E12PART][idx3] -
-                                                   matrix1[SEDENIONS_E5PART][idx2] * matrix2[SEDENIONS_E13PART][idx3] -
-                                                   matrix1[SEDENIONS_E6PART][idx2] * matrix2[SEDENIONS_E14PART][idx3] -
-                                                   matrix1[SEDENIONS_E7PART][idx2] * matrix2[SEDENIONS_E15PART][idx3] +
-                                                   matrix1[SEDENIONS_E8PART][idx2] * matrix2[SEDENIONS_REALPART][idx3] +
-                                                   matrix1[SEDENIONS_E9PART][idx2] * matrix2[SEDENIONS_E1PART][idx3] +
-                                                   matrix1[SEDENIONS_E10PART][idx2] * matrix2[SEDENIONS_E2PART][idx3] +
-                                                   matrix1[SEDENIONS_E11PART][idx2] * matrix2[SEDENIONS_E3PART][idx3] +
-                                                   matrix1[SEDENIONS_E12PART][idx2] * matrix2[SEDENIONS_E4PART][idx3] +
-                                                   matrix1[SEDENIONS_E13PART][idx2] * matrix2[SEDENIONS_E5PART][idx3] +
-                                                   matrix1[SEDENIONS_E14PART][idx2] * matrix2[SEDENIONS_E6PART][idx3] +
-                                                   matrix1[SEDENIONS_E15PART][idx2] * matrix2[SEDENIONS_E7PART][idx3];
-
-        matrix_product[SEDENIONS_E9PART][idx1] +=  matrix1[SEDENIONS_REALPART][idx2] * matrix2[SEDENIONS_E9PART][idx3] +
-                                                   matrix1[SEDENIONS_E1PART][idx2] * matrix2[SEDENIONS_E8PART][idx3] -
-                                                   matrix1[SEDENIONS_E2PART][idx2] * matrix2[SEDENIONS_E11PART][idx3] +
-                                                   matrix1[SEDENIONS_E3PART][idx2] * matrix2[SEDENIONS_E10PART][idx3] -
-                                                   matrix1[SEDENIONS_E4PART][idx2] * matrix2[SEDENIONS_E13PART][idx3] +
-                                                   matrix1[SEDENIONS_E5PART][idx2] * matrix2[SEDENIONS_E12PART][idx3] +
-                                                   matrix1[SEDENIONS_E6PART][idx2] * matrix2[SEDENIONS_E15PART][idx3] -
-                                                   matrix1[SEDENIONS_E7PART][idx2] * matrix2[SEDENIONS_E14PART][idx3] -
-                                                   matrix1[SEDENIONS_E8PART][idx2] * matrix2[SEDENIONS_E1PART][idx3] +
-                                                   matrix1[SEDENIONS_E9PART][idx2] * matrix2[SEDENIONS_REALPART][idx3] -
-                                                   matrix1[SEDENIONS_E10PART][idx2] * matrix2[SEDENIONS_E3PART][idx3] +
-                                                   matrix1[SEDENIONS_E11PART][idx2] * matrix2[SEDENIONS_E2PART][idx3] -
-                                                   matrix1[SEDENIONS_E12PART][idx2] * matrix2[SEDENIONS_E5PART][idx3] +
-                                                   matrix1[SEDENIONS_E13PART][idx2] * matrix2[SEDENIONS_E4PART][idx3] +
-                                                   matrix1[SEDENIONS_E14PART][idx2] * matrix2[SEDENIONS_E7PART][idx3] -
-                                                   matrix1[SEDENIONS_E15PART][idx2] * matrix2[SEDENIONS_E6PART][idx3];
-
-        matrix_product[SEDENIONS_E10PART][idx1] +=  matrix1[SEDENIONS_REALPART][idx2] * matrix2[SEDENIONS_E10PART][idx3] +
-                                                    matrix1[SEDENIONS_E1PART][idx2] * matrix2[SEDENIONS_E11PART][idx3] +
-                                                    matrix1[SEDENIONS_E2PART][idx2] * matrix2[SEDENIONS_E8PART][idx3] -
-                                                    matrix1[SEDENIONS_E3PART][idx2] * matrix2[SEDENIONS_E9PART][idx3] -
-                                                    matrix1[SEDENIONS_E4PART][idx2] * matrix2[SEDENIONS_E14PART][idx3] -
-                                                    matrix1[SEDENIONS_E5PART][idx2] * matrix2[SEDENIONS_E15PART][idx3] +
-                                                    matrix1[SEDENIONS_E6PART][idx2] * matrix2[SEDENIONS_E12PART][idx3] +
-                                                    matrix1[SEDENIONS_E7PART][idx2] * matrix2[SEDENIONS_E13PART][idx3] -
-                                                    matrix1[SEDENIONS_E8PART][idx2] * matrix2[SEDENIONS_E2PART][idx3] +
-                                                    matrix1[SEDENIONS_E9PART][idx2] * matrix2[SEDENIONS_E3PART][idx3] +
-                                                    matrix1[SEDENIONS_E10PART][idx2] * matrix2[SEDENIONS_REALPART][idx3] -
-                                                    matrix1[SEDENIONS_E11PART][idx2] * matrix2[SEDENIONS_E1PART][idx3] -
-                                                    matrix1[SEDENIONS_E12PART][idx2] * matrix2[SEDENIONS_E6PART][idx3] -
-                                                    matrix1[SEDENIONS_E13PART][idx2] * matrix2[SEDENIONS_E7PART][idx3] +
-                                                    matrix1[SEDENIONS_E14PART][idx2] * matrix2[SEDENIONS_E4PART][idx3] +
-                                                    matrix1[SEDENIONS_E15PART][idx2] * matrix2[SEDENIONS_E5PART][idx3];
-
-        matrix_product[SEDENIONS_E11PART][idx1] +=  matrix1[SEDENIONS_REALPART][idx2] * matrix2[SEDENIONS_E11PART][idx3] -
-                                                    matrix1[SEDENIONS_E1PART][idx2] * matrix2[SEDENIONS_E10PART][idx3] +
-                                                    matrix1[SEDENIONS_E2PART][idx2] * matrix2[SEDENIONS_E9PART][idx3] +
-                                                    matrix1[SEDENIONS_E3PART][idx2] * matrix2[SEDENIONS_E8PART][idx3] -
-                                                    matrix1[SEDENIONS_E4PART][idx2] * matrix2[SEDENIONS_E15PART][idx3] +
-                                                    matrix1[SEDENIONS_E5PART][idx2] * matrix2[SEDENIONS_E14PART][idx3] -
-                                                    matrix1[SEDENIONS_E6PART][idx2] * matrix2[SEDENIONS_E13PART][idx3] +
-                                                    matrix1[SEDENIONS_E7PART][idx2] * matrix2[SEDENIONS_E12PART][idx3] -
-                                                    matrix1[SEDENIONS_E8PART][idx2] * matrix2[SEDENIONS_E3PART][idx3] -
-                                                    matrix1[SEDENIONS_E9PART][idx2] * matrix2[SEDENIONS_E2PART][idx3] +
-                                                    matrix1[SEDENIONS_E10PART][idx2] * matrix2[SEDENIONS_E1PART][idx3] +
-                                                    matrix1[SEDENIONS_E11PART][idx2] * matrix2[SEDENIONS_REALPART][idx3] -
-                                                    matrix1[SEDENIONS_E12PART][idx2] * matrix2[SEDENIONS_E7PART][idx3] +
-                                                    matrix1[SEDENIONS_E13PART][idx2] * matrix2[SEDENIONS_E6PART][idx3] -
-                                                    matrix1[SEDENIONS_E14PART][idx2] * matrix2[SEDENIONS_E5PART][idx3] +
-                                                    matrix1[SEDENIONS_E15PART][idx2] * matrix2[SEDENIONS_E4PART][idx3];
-
-        matrix_product[SEDENIONS_E12PART][idx1] +=  matrix1[SEDENIONS_REALPART][idx2] * matrix2[SEDENIONS_E12PART][idx3] +
-                                                    matrix1[SEDENIONS_E1PART][idx2] * matrix2[SEDENIONS_E13PART][idx3] +
-                                                    matrix1[SEDENIONS_E2PART][idx2] * matrix2[SEDENIONS_E14PART][idx3] +
-                                                    matrix1[SEDENIONS_E3PART][idx2] * matrix2[SEDENIONS_E15PART][idx3] +
-                                                    matrix1[SEDENIONS_E4PART][idx2] * matrix2[SEDENIONS_E8PART][idx3] -
-                                                    matrix1[SEDENIONS_E5PART][idx2] * matrix2[SEDENIONS_E9PART][idx3] -
-                                                    matrix1[SEDENIONS_E6PART][idx2] * matrix2[SEDENIONS_E10PART][idx3] -
-                                                    matrix1[SEDENIONS_E7PART][idx2] * matrix2[SEDENIONS_E11PART][idx3] -
-                                                    matrix1[SEDENIONS_E8PART][idx2] * matrix2[SEDENIONS_E4PART][idx3] +
-                                                    matrix1[SEDENIONS_E9PART][idx2] * matrix2[SEDENIONS_E5PART][idx3] +
-                                                    matrix1[SEDENIONS_E10PART][idx2] * matrix2[SEDENIONS_E6PART][idx3] +
-                                                    matrix1[SEDENIONS_E11PART][idx2] * matrix2[SEDENIONS_E7PART][idx3] +
-                                                    matrix1[SEDENIONS_E12PART][idx2] * matrix2[SEDENIONS_REALPART][idx3] -
-                                                    matrix1[SEDENIONS_E13PART][idx2] * matrix2[SEDENIONS_E1PART][idx3] -
-                                                    matrix1[SEDENIONS_E14PART][idx2] * matrix2[SEDENIONS_E2PART][idx3] -
-                                                    matrix1[SEDENIONS_E15PART][idx2] * matrix2[SEDENIONS_E3PART][idx3];
-
-        matrix_product[SEDENIONS_E13PART][idx1] +=  matrix1[SEDENIONS_REALPART][idx2] * matrix2[SEDENIONS_E13PART][idx3] -
-                                                    matrix1[SEDENIONS_E1PART][idx2] * matrix2[SEDENIONS_E12PART][idx3] +
-                                                    matrix1[SEDENIONS_E2PART][idx2] * matrix2[SEDENIONS_E15PART][idx3] -
-                                                    matrix1[SEDENIONS_E3PART][idx2] * matrix2[SEDENIONS_E14PART][idx3] +
-                                                    matrix1[SEDENIONS_E4PART][idx2] * matrix2[SEDENIONS_E9PART][idx3] +
-                                                    matrix1[SEDENIONS_E5PART][idx2] * matrix2[SEDENIONS_E8PART][idx3] +
-                                                    matrix1[SEDENIONS_E6PART][idx2] * matrix2[SEDENIONS_E11PART][idx3] -
-                                                    matrix1[SEDENIONS_E7PART][idx2] * matrix2[SEDENIONS_E10PART][idx3] -
-                                                    matrix1[SEDENIONS_E8PART][idx2] * matrix2[SEDENIONS_E5PART][idx3] -
-                                                    matrix1[SEDENIONS_E9PART][idx2] * matrix2[SEDENIONS_E4PART][idx3] +
-                                                    matrix1[SEDENIONS_E10PART][idx2] * matrix2[SEDENIONS_E7PART][idx3] -
-                                                    matrix1[SEDENIONS_E11PART][idx2] * matrix2[SEDENIONS_E6PART][idx3] +
-                                                    matrix1[SEDENIONS_E12PART][idx2] * matrix2[SEDENIONS_E1PART][idx3] +
-                                                    matrix1[SEDENIONS_E13PART][idx2] * matrix2[SEDENIONS_REALPART][idx3] +
-                                                    matrix1[SEDENIONS_E14PART][idx2] * matrix2[SEDENIONS_E3PART][idx3] -
-                                                    matrix1[SEDENIONS_E15PART][idx2] * matrix2[SEDENIONS_E2PART][idx3];
-
-        matrix_product[SEDENIONS_E14PART][idx1] +=  matrix1[SEDENIONS_REALPART][idx2] * matrix2[SEDENIONS_E14PART][idx3] -
-                                                    matrix1[SEDENIONS_E1PART][idx2] * matrix2[SEDENIONS_E15PART][idx3] -
-                                                    matrix1[SEDENIONS_E2PART][idx2] * matrix2[SEDENIONS_E12PART][idx3] +
-                                                    matrix1[SEDENIONS_E3PART][idx2] * matrix2[SEDENIONS_E13PART][idx3] +
-                                                    matrix1[SEDENIONS_E4PART][idx2] * matrix2[SEDENIONS_E10PART][idx3] -
-                                                    matrix1[SEDENIONS_E5PART][idx2] * matrix2[SEDENIONS_E11PART][idx3] +
-                                                    matrix1[SEDENIONS_E6PART][idx2] * matrix2[SEDENIONS_E8PART][idx3] +
-                                                    matrix1[SEDENIONS_E7PART][idx2] * matrix2[SEDENIONS_E9PART][idx3] -
-                                                    matrix1[SEDENIONS_E8PART][idx2] * matrix2[SEDENIONS_E6PART][idx3] -
-                                                    matrix1[SEDENIONS_E9PART][idx2] * matrix2[SEDENIONS_E7PART][idx3] -
-                                                    matrix1[SEDENIONS_E10PART][idx2] * matrix2[SEDENIONS_E3PART][idx3] +
-                                                    matrix1[SEDENIONS_E11PART][idx2] * matrix2[SEDENIONS_E5PART][idx3] +
-                                                    matrix1[SEDENIONS_E12PART][idx2] * matrix2[SEDENIONS_E2PART][idx3] -
-                                                    matrix1[SEDENIONS_E13PART][idx2] * matrix2[SEDENIONS_E3PART][idx3] +
-                                                    matrix1[SEDENIONS_E14PART][idx2] * matrix2[SEDENIONS_REALPART][idx3] +
-                                                    matrix1[SEDENIONS_E15PART][idx2] * matrix2[SEDENIONS_E1PART][idx3];
-
-        matrix_product[SEDENIONS_E15PART][idx1] +=  matrix1[SEDENIONS_REALPART][idx2] * matrix2[SEDENIONS_E15PART][idx3] +
-                                                    matrix1[SEDENIONS_E1PART][idx2] * matrix2[SEDENIONS_E14PART][idx3] -
-                                                    matrix1[SEDENIONS_E2PART][idx2] * matrix2[SEDENIONS_E13PART][idx3] -
-                                                    matrix1[SEDENIONS_E3PART][idx2] * matrix2[SEDENIONS_E12PART][idx3] -
-                                                    matrix1[SEDENIONS_E4PART][idx2] * matrix2[SEDENIONS_E11PART][idx3] +
-                                                    matrix1[SEDENIONS_E5PART][idx2] * matrix2[SEDENIONS_E10PART][idx3] +
-                                                    matrix1[SEDENIONS_E6PART][idx2] * matrix2[SEDENIONS_E9PART][idx3] +
-                                                    matrix1[SEDENIONS_E7PART][idx2] * matrix2[SEDENIONS_E8PART][idx3] -
-                                                    matrix1[SEDENIONS_E8PART][idx2] * matrix2[SEDENIONS_E3PART][idx3] +
-                                                    matrix1[SEDENIONS_E9PART][idx2] * matrix2[SEDENIONS_E6PART][idx3] -
-                                                    matrix1[SEDENIONS_E10PART][idx2] * matrix2[SEDENIONS_E5PART][idx3] -
-                                                    matrix1[SEDENIONS_E11PART][idx2] * matrix2[SEDENIONS_E4PART][idx3] +
-                                                    matrix1[SEDENIONS_E12PART][idx2] * matrix2[SEDENIONS_E3PART][idx3] +
-                                                    matrix1[SEDENIONS_E13PART][idx2] * matrix2[SEDENIONS_E2PART][idx3] -
-                                                    matrix1[SEDENIONS_E14PART][idx2] * matrix2[SEDENIONS_E1PART][idx3] +
-                                                    matrix1[SEDENIONS_E15PART][idx2] * matrix2[SEDENIONS_REALPART][idx3];
-	}
-}
-
-__MSNATIVE_ __MSSTOCK _MS__private static void __system __export _matrixSMTMultiplication(ityp **matrix1, ityp **matrix2, ityp **matrix_product, const register dim_typ idx1, const register dim_typ idx2, const register dim_typ idx3)
-{
-	#pragma omp parallel
-	{
-		matrix_product[SEDENIONS_REALPART][idx1] +=  matrix1[SEDENIONS_REALPART][idx2] * matrix2[SEDENIONS_REALPART][idx3] -
-                                                             matrix1[SEDENIONS_E1PART][idx2] * matrix2[SEDENIONS_E1PART][idx3] -
-                                                             matrix1[SEDENIONS_E2PART][idx2] * matrix2[SEDENIONS_E2PART][idx3] -
-                                                             matrix1[SEDENIONS_E3PART][idx2] * matrix2[SEDENIONS_E3PART][idx3] -
-                                                             matrix1[SEDENIONS_E4PART][idx2] * matrix2[SEDENIONS_E4PART][idx3] -
-                                                             matrix1[SEDENIONS_E5PART][idx2] * matrix2[SEDENIONS_E5PART][idx3] -
-                                                             matrix1[SEDENIONS_E6PART][idx2] * matrix2[SEDENIONS_E6PART][idx3] -
-                                                             matrix1[SEDENIONS_E7PART][idx2] * matrix2[SEDENIONS_E7PART][idx3] -
-                                                             matrix1[SEDENIONS_E8PART][idx2] * matrix2[SEDENIONS_E8PART][idx3] -
-                                                             matrix1[SEDENIONS_E9PART][idx2] * matrix2[SEDENIONS_E9PART][idx3] -
-                                                             matrix1[SEDENIONS_E10PART][idx2] * matrix2[SEDENIONS_E10PART][idx3] -
-                                                             matrix1[SEDENIONS_E11PART][idx2] * matrix2[SEDENIONS_E11PART][idx3] -
-                                                             matrix1[SEDENIONS_E12PART][idx2] * matrix2[SEDENIONS_E12PART][idx3] -
-                                                             matrix1[SEDENIONS_E13PART][idx2] * matrix2[SEDENIONS_E13PART][idx3] -
-                                                             matrix1[SEDENIONS_E14PART][idx2] * matrix2[SEDENIONS_E14PART][idx3] -
-                                                             matrix1[SEDENIONS_E15PART][idx2] * matrix2[SEDENIONS_E15PART][idx3];
-
-        matrix_product[SEDENIONS_E1PART][idx1] +=  matrix1[SEDENIONS_REALPART][idx2] * matrix2[SEDENIONS_E1PART][idx3] +
-                                                   matrix1[SEDENIONS_E1PART][idx2] * matrix2[SEDENIONS_REALPART][idx3] +
-                                                   matrix1[SEDENIONS_E2PART][idx2] * matrix2[SEDENIONS_E3PART][idx3] -
-                                                   matrix1[SEDENIONS_E3PART][idx2] * matrix2[SEDENIONS_E2PART][idx3] +
-                                                   matrix1[SEDENIONS_E4PART][idx2] * matrix2[SEDENIONS_E5PART][idx3] -
-                                                   matrix1[SEDENIONS_E5PART][idx2] * matrix2[SEDENIONS_E4PART][idx3] -
-                                                   matrix1[SEDENIONS_E6PART][idx2] * matrix2[SEDENIONS_E7PART][idx3] +
-                                                   matrix1[SEDENIONS_E7PART][idx2] * matrix2[SEDENIONS_E6PART][idx3] +
-                                                   matrix1[SEDENIONS_E8PART][idx2] * matrix2[SEDENIONS_E9PART][idx3] -
-                                                   matrix1[SEDENIONS_E9PART][idx2] * matrix2[SEDENIONS_E8PART][idx3] -
-                                                   matrix1[SEDENIONS_E10PART][idx2] * matrix2[SEDENIONS_E11PART][idx3] +
-                                                   matrix1[SEDENIONS_E11PART][idx2] * matrix2[SEDENIONS_E10PART][idx3] -
-                                                   matrix1[SEDENIONS_E12PART][idx2] * matrix2[SEDENIONS_E13PART][idx3] +
-                                                   matrix1[SEDENIONS_E13PART][idx2] * matrix2[SEDENIONS_E12PART][idx3] +
-                                                   matrix1[SEDENIONS_E14PART][idx2] * matrix2[SEDENIONS_E15PART][idx3] -
-                                                   matrix1[SEDENIONS_E15PART][idx2] * matrix2[SEDENIONS_E14PART][idx3];
-
-        matrix_product[SEDENIONS_E2PART][idx1] +=  matrix1[SEDENIONS_REALPART][idx2] * matrix2[SEDENIONS_E2PART][idx3] -
-                                                   matrix1[SEDENIONS_E1PART][idx2] * matrix2[SEDENIONS_E3PART][idx3] +
-                                                   matrix1[SEDENIONS_E2PART][idx2] * matrix2[SEDENIONS_REALPART][idx3] +
-                                                   matrix1[SEDENIONS_E3PART][idx2] * matrix2[SEDENIONS_E1PART][idx3] +
-                                                   matrix1[SEDENIONS_E4PART][idx2] * matrix2[SEDENIONS_E6PART][idx3] +
-                                                   matrix1[SEDENIONS_E5PART][idx2] * matrix2[SEDENIONS_E7PART][idx3] -
-                                                   matrix1[SEDENIONS_E6PART][idx2] * matrix2[SEDENIONS_E4PART][idx3] -
-                                                   matrix1[SEDENIONS_E7PART][idx2] * matrix2[SEDENIONS_E5PART][idx3] +
-                                                   matrix1[SEDENIONS_E8PART][idx2] * matrix2[SEDENIONS_E10PART][idx3] +
-                                                   matrix1[SEDENIONS_E9PART][idx2] * matrix2[SEDENIONS_E11PART][idx3] -
-                                                   matrix1[SEDENIONS_E10PART][idx2] * matrix2[SEDENIONS_E8PART][idx3] -
-                                                   matrix1[SEDENIONS_E11PART][idx2] * matrix2[SEDENIONS_E9PART][idx3] -
-                                                   matrix1[SEDENIONS_E12PART][idx2] * matrix2[SEDENIONS_E14PART][idx3] -
-                                                   matrix1[SEDENIONS_E13PART][idx2] * matrix2[SEDENIONS_E15PART][idx3] +
-                                                   matrix1[SEDENIONS_E14PART][idx2] * matrix2[SEDENIONS_E12PART][idx3] +
-                                                   matrix1[SEDENIONS_E15PART][idx2] * matrix2[SEDENIONS_E13PART][idx3];
-
-        matrix_product[SEDENIONS_E3PART][idx1] +=  matrix1[SEDENIONS_REALPART][idx2] * matrix2[SEDENIONS_E3PART][idx3] +
-                                                   matrix1[SEDENIONS_E1PART][idx2] * matrix2[SEDENIONS_E2PART][idx3] -
-                                                   matrix1[SEDENIONS_E2PART][idx2] * matrix2[SEDENIONS_E1PART][idx3] +
-                                                   matrix1[SEDENIONS_E3PART][idx2] * matrix2[SEDENIONS_REALPART][idx3] +
-                                                   matrix1[SEDENIONS_E4PART][idx2] * matrix2[SEDENIONS_E7PART][idx3] -
-                                                   matrix1[SEDENIONS_E5PART][idx2] * matrix2[SEDENIONS_E6PART][idx3] +
-                                                   matrix1[SEDENIONS_E6PART][idx2] * matrix2[SEDENIONS_E5PART][idx3] -
-                                                   matrix1[SEDENIONS_E7PART][idx2] * matrix2[SEDENIONS_E4PART][idx3] +
-                                                   matrix1[SEDENIONS_E8PART][idx2] * matrix2[SEDENIONS_E11PART][idx3] -
-                                                   matrix1[SEDENIONS_E9PART][idx2] * matrix2[SEDENIONS_E10PART][idx3] +
-                                                   matrix1[SEDENIONS_E10PART][idx2] * matrix2[SEDENIONS_E9PART][idx3] -
-                                                   matrix1[SEDENIONS_E11PART][idx2] * matrix2[SEDENIONS_E8PART][idx3] -
-                                                   matrix1[SEDENIONS_E12PART][idx2] * matrix2[SEDENIONS_E15PART][idx3] +
-                                                   matrix1[SEDENIONS_E13PART][idx2] * matrix2[SEDENIONS_E14PART][idx3] -
-                                                   matrix1[SEDENIONS_E14PART][idx2] * matrix2[SEDENIONS_E13PART][idx3] +
-                                                   matrix1[SEDENIONS_E15PART][idx2] * matrix2[SEDENIONS_E12PART][idx3];
-
-        matrix_product[SEDENIONS_E4PART][idx1] +=   matrix1[SEDENIONS_E1PART][idx2] * matrix2[SEDENIONS_E5PART][idx3] -
-                                                   matrix1[SEDENIONS_E2PART][idx2] * matrix2[SEDENIONS_E6PART][idx3] -
-                                                   matrix1[SEDENIONS_E3PART][idx2] * matrix2[SEDENIONS_E7PART][idx3] +
-                                                   matrix1[SEDENIONS_E4PART][idx2] * matrix2[SEDENIONS_REALPART][idx3] +
-                                                   matrix1[SEDENIONS_E5PART][idx2] * matrix2[SEDENIONS_E1PART][idx3] +
-                                                   matrix1[SEDENIONS_E6PART][idx2] * matrix2[SEDENIONS_E2PART][idx3] +
-                                                   matrix1[SEDENIONS_E7PART][idx2] * matrix2[SEDENIONS_E3PART][idx3] +
-                                                   matrix1[SEDENIONS_E8PART][idx2] * matrix2[SEDENIONS_E12PART][idx3] +
-                                                   matrix1[SEDENIONS_E9PART][idx2] * matrix2[SEDENIONS_E13PART][idx3] +
-                                                   matrix1[SEDENIONS_E10PART][idx2] * matrix2[SEDENIONS_E14PART][idx3] +
-                                                   matrix1[SEDENIONS_E11PART][idx2] * matrix2[SEDENIONS_E15PART][idx3] -
-                                                   matrix1[SEDENIONS_E12PART][idx2] * matrix2[SEDENIONS_E8PART][idx3] -
-                                                   matrix1[SEDENIONS_E13PART][idx2] * matrix2[SEDENIONS_E9PART][idx3] -
-                                                   matrix1[SEDENIONS_E14PART][idx2] * matrix2[SEDENIONS_E10PART][idx3] -
-                                                   matrix1[SEDENIONS_E15PART][idx2] * matrix2[SEDENIONS_E11PART][idx3];
-
-        matrix_product[SEDENIONS_E5PART][idx1] +=  matrix1[SEDENIONS_REALPART][idx2] * matrix2[SEDENIONS_E5PART][idx3] +
-                                                   matrix1[SEDENIONS_E1PART][idx2] * matrix2[SEDENIONS_E4PART][idx3] -
-                                                   matrix1[SEDENIONS_E2PART][idx2] * matrix2[SEDENIONS_E7PART][idx3] +
-                                                   matrix1[SEDENIONS_E3PART][idx2] * matrix2[SEDENIONS_E6PART][idx3] -
-                                                   matrix1[SEDENIONS_E4PART][idx2] * matrix2[SEDENIONS_E1PART][idx3] +
-                                                   matrix1[SEDENIONS_E5PART][idx2] * matrix2[SEDENIONS_REALPART][idx3] -
-                                                   matrix1[SEDENIONS_E6PART][idx2] * matrix2[SEDENIONS_E3PART][idx3] +
-                                                   matrix1[SEDENIONS_E7PART][idx2] * matrix2[SEDENIONS_E2PART][idx3] +
-                                                   matrix1[SEDENIONS_E8PART][idx2] * matrix2[SEDENIONS_E13PART][idx3] -
-                                                   matrix1[SEDENIONS_E9PART][idx2] * matrix2[SEDENIONS_E12PART][idx3] +
-                                                   matrix1[SEDENIONS_E10PART][idx2] * matrix2[SEDENIONS_E15PART][idx3] -
-                                                   matrix1[SEDENIONS_E11PART][idx2] * matrix2[SEDENIONS_E4PART][idx3] +
-                                                   matrix1[SEDENIONS_E12PART][idx2] * matrix2[SEDENIONS_E9PART][idx3] -
-                                                   matrix1[SEDENIONS_E13PART][idx2] * matrix2[SEDENIONS_E8PART][idx3] +
-                                                   matrix1[SEDENIONS_E14PART][idx2] * matrix2[SEDENIONS_E11PART][idx3] -
-                                                   matrix1[SEDENIONS_E15PART][idx2] * matrix2[SEDENIONS_E10PART][idx3];
-                                                   
-        matrix_product[SEDENIONS_E6PART][idx1] +=  matrix1[SEDENIONS_REALPART][idx2] * matrix2[SEDENIONS_E6PART][idx3] +
-                                                   matrix1[SEDENIONS_E1PART][idx2] * matrix2[SEDENIONS_E7PART][idx3] +
-                                                   matrix1[SEDENIONS_E2PART][idx2] * matrix2[SEDENIONS_E4PART][idx3] -
-                                                   matrix1[SEDENIONS_E3PART][idx2] * matrix2[SEDENIONS_E5PART][idx3] -
-                                                   matrix1[SEDENIONS_E4PART][idx2] * matrix2[SEDENIONS_E2PART][idx3] +
-                                                   matrix1[SEDENIONS_E5PART][idx2] * matrix2[SEDENIONS_E3PART][idx3] +
-                                                   matrix1[SEDENIONS_E6PART][idx2] * matrix2[SEDENIONS_REALPART][idx3] -
-                                                   matrix1[SEDENIONS_E7PART][idx2] * matrix2[SEDENIONS_E1PART][idx3] +
-                                                   matrix1[SEDENIONS_E8PART][idx2] * matrix2[SEDENIONS_E14PART][idx3] -
-                                                   matrix1[SEDENIONS_E9PART][idx2] * matrix2[SEDENIONS_E15PART][idx3] -
-                                                   matrix1[SEDENIONS_E10PART][idx2] * matrix2[SEDENIONS_E12PART][idx3] +
-                                                   matrix1[SEDENIONS_E11PART][idx2] * matrix2[SEDENIONS_E13PART][idx3] +
-                                                   matrix1[SEDENIONS_E12PART][idx2] * matrix2[SEDENIONS_E10PART][idx3] -
-                                                   matrix1[SEDENIONS_E13PART][idx2] * matrix2[SEDENIONS_E11PART][idx3] -
-                                                   matrix1[SEDENIONS_E14PART][idx2] * matrix2[SEDENIONS_E8PART][idx3] +
-                                                   matrix1[SEDENIONS_E15PART][idx2] * matrix2[SEDENIONS_E9PART][idx3];
- 
-        matrix_product[SEDENIONS_E7PART][idx1] +=  matrix1[SEDENIONS_REALPART][idx2] * matrix2[SEDENIONS_E7PART][idx3] -
-                                                   matrix1[SEDENIONS_E1PART][idx2] * matrix2[SEDENIONS_E6PART][idx3] +
-                                                   matrix1[SEDENIONS_E2PART][idx2] * matrix2[SEDENIONS_E5PART][idx3] +
-                                                   matrix1[SEDENIONS_E3PART][idx2] * matrix2[SEDENIONS_E4PART][idx3] -
-                                                   matrix1[SEDENIONS_E4PART][idx2] * matrix2[SEDENIONS_E3PART][idx3] -
-                                                   matrix1[SEDENIONS_E5PART][idx2] * matrix2[SEDENIONS_E2PART][idx3] +
-                                                   matrix1[SEDENIONS_E6PART][idx2] * matrix2[SEDENIONS_E1PART][idx3] +
-                                                   matrix1[SEDENIONS_E7PART][idx2] * matrix2[SEDENIONS_REALPART][idx3] +
-                                                   matrix1[SEDENIONS_E8PART][idx2] * matrix2[SEDENIONS_E15PART][idx3] +
-                                                   matrix1[SEDENIONS_E9PART][idx2] * matrix2[SEDENIONS_E14PART][idx3] -
-                                                   matrix1[SEDENIONS_E10PART][idx2] * matrix2[SEDENIONS_E13PART][idx3] -
-                                                   matrix1[SEDENIONS_E11PART][idx2] * matrix2[SEDENIONS_E12PART][idx3] +
-                                                   matrix1[SEDENIONS_E12PART][idx2] * matrix2[SEDENIONS_E11PART][idx3] +
-                                                   matrix1[SEDENIONS_E13PART][idx2] * matrix2[SEDENIONS_E10PART][idx3] -
-                                                   matrix1[SEDENIONS_E14PART][idx2] * matrix2[SEDENIONS_E9PART][idx3] -
-                                                   matrix1[SEDENIONS_E15PART][idx2] * matrix2[SEDENIONS_E8PART][idx3];
-
-        matrix_product[SEDENIONS_E8PART][idx1] +=  matrix1[SEDENIONS_REALPART][idx2] * matrix2[SEDENIONS_E8PART][idx3] -
-                                                   matrix1[SEDENIONS_E1PART][idx2] * matrix2[SEDENIONS_E9PART][idx3] -
-                                                   matrix1[SEDENIONS_E2PART][idx2] * matrix2[SEDENIONS_E10PART][idx3] -
-                                                   matrix1[SEDENIONS_E3PART][idx2] * matrix2[SEDENIONS_E11PART][idx3] -
-                                                   matrix1[SEDENIONS_E4PART][idx2] * matrix2[SEDENIONS_E12PART][idx3] -
-                                                   matrix1[SEDENIONS_E5PART][idx2] * matrix2[SEDENIONS_E13PART][idx3] -
-                                                   matrix1[SEDENIONS_E6PART][idx2] * matrix2[SEDENIONS_E14PART][idx3] -
-                                                   matrix1[SEDENIONS_E7PART][idx2] * matrix2[SEDENIONS_E15PART][idx3] +
-                                                   matrix1[SEDENIONS_E8PART][idx2] * matrix2[SEDENIONS_REALPART][idx3] +
-                                                   matrix1[SEDENIONS_E9PART][idx2] * matrix2[SEDENIONS_E1PART][idx3] +
-                                                   matrix1[SEDENIONS_E10PART][idx2] * matrix2[SEDENIONS_E2PART][idx3] +
-                                                   matrix1[SEDENIONS_E11PART][idx2] * matrix2[SEDENIONS_E3PART][idx3] +
-                                                   matrix1[SEDENIONS_E12PART][idx2] * matrix2[SEDENIONS_E4PART][idx3] +
-                                                   matrix1[SEDENIONS_E13PART][idx2] * matrix2[SEDENIONS_E5PART][idx3] +
-                                                   matrix1[SEDENIONS_E14PART][idx2] * matrix2[SEDENIONS_E6PART][idx3] +
-                                                   matrix1[SEDENIONS_E15PART][idx2] * matrix2[SEDENIONS_E7PART][idx3];
-
-        matrix_product[SEDENIONS_E9PART][idx1] +=  matrix1[SEDENIONS_REALPART][idx2] * matrix2[SEDENIONS_E9PART][idx3] +
-                                                   matrix1[SEDENIONS_E1PART][idx2] * matrix2[SEDENIONS_E8PART][idx3] -
-                                                   matrix1[SEDENIONS_E2PART][idx2] * matrix2[SEDENIONS_E11PART][idx3] +
-                                                   matrix1[SEDENIONS_E3PART][idx2] * matrix2[SEDENIONS_E10PART][idx3] -
-                                                   matrix1[SEDENIONS_E4PART][idx2] * matrix2[SEDENIONS_E13PART][idx3] +
-                                                   matrix1[SEDENIONS_E5PART][idx2] * matrix2[SEDENIONS_E12PART][idx3] +
-                                                   matrix1[SEDENIONS_E6PART][idx2] * matrix2[SEDENIONS_E15PART][idx3] -
-                                                   matrix1[SEDENIONS_E7PART][idx2] * matrix2[SEDENIONS_E14PART][idx3] -
-                                                   matrix1[SEDENIONS_E8PART][idx2] * matrix2[SEDENIONS_E1PART][idx3] +
-                                                   matrix1[SEDENIONS_E9PART][idx2] * matrix2[SEDENIONS_REALPART][idx3] -
-                                                   matrix1[SEDENIONS_E10PART][idx2] * matrix2[SEDENIONS_E3PART][idx3] +
-                                                   matrix1[SEDENIONS_E11PART][idx2] * matrix2[SEDENIONS_E2PART][idx3] -
-                                                   matrix1[SEDENIONS_E12PART][idx2] * matrix2[SEDENIONS_E5PART][idx3] +
-                                                   matrix1[SEDENIONS_E13PART][idx2] * matrix2[SEDENIONS_E4PART][idx3] +
-                                                   matrix1[SEDENIONS_E14PART][idx2] * matrix2[SEDENIONS_E7PART][idx3] -
-                                                   matrix1[SEDENIONS_E15PART][idx2] * matrix2[SEDENIONS_E6PART][idx3];
-
-        matrix_product[SEDENIONS_E10PART][idx1] +=  matrix1[SEDENIONS_REALPART][idx2] * matrix2[SEDENIONS_E10PART][idx3] +
-                                                    matrix1[SEDENIONS_E1PART][idx2] * matrix2[SEDENIONS_E11PART][idx3] +
-                                                    matrix1[SEDENIONS_E2PART][idx2] * matrix2[SEDENIONS_E8PART][idx3] -
-                                                    matrix1[SEDENIONS_E3PART][idx2] * matrix2[SEDENIONS_E9PART][idx3] -
-                                                    matrix1[SEDENIONS_E4PART][idx2] * matrix2[SEDENIONS_E14PART][idx3] -
-                                                    matrix1[SEDENIONS_E5PART][idx2] * matrix2[SEDENIONS_E15PART][idx3] +
-                                                    matrix1[SEDENIONS_E6PART][idx2] * matrix2[SEDENIONS_E12PART][idx3] +
-                                                    matrix1[SEDENIONS_E7PART][idx2] * matrix2[SEDENIONS_E13PART][idx3] -
-                                                    matrix1[SEDENIONS_E8PART][idx2] * matrix2[SEDENIONS_E2PART][idx3] +
-                                                    matrix1[SEDENIONS_E9PART][idx2] * matrix2[SEDENIONS_E3PART][idx3] +
-                                                    matrix1[SEDENIONS_E10PART][idx2] * matrix2[SEDENIONS_REALPART][idx3] -
-                                                    matrix1[SEDENIONS_E11PART][idx2] * matrix2[SEDENIONS_E1PART][idx3] -
-                                                    matrix1[SEDENIONS_E12PART][idx2] * matrix2[SEDENIONS_E6PART][idx3] -
-                                                    matrix1[SEDENIONS_E13PART][idx2] * matrix2[SEDENIONS_E7PART][idx3] +
-                                                    matrix1[SEDENIONS_E14PART][idx2] * matrix2[SEDENIONS_E4PART][idx3] +
-                                                    matrix1[SEDENIONS_E15PART][idx2] * matrix2[SEDENIONS_E5PART][idx3];
-
-        matrix_product[SEDENIONS_E11PART][idx1] +=  matrix1[SEDENIONS_REALPART][idx2] * matrix2[SEDENIONS_E11PART][idx3] -
-                                                    matrix1[SEDENIONS_E1PART][idx2] * matrix2[SEDENIONS_E10PART][idx3] +
-                                                    matrix1[SEDENIONS_E2PART][idx2] * matrix2[SEDENIONS_E9PART][idx3] +
-                                                    matrix1[SEDENIONS_E3PART][idx2] * matrix2[SEDENIONS_E8PART][idx3] -
-                                                    matrix1[SEDENIONS_E4PART][idx2] * matrix2[SEDENIONS_E15PART][idx3] +
-                                                    matrix1[SEDENIONS_E5PART][idx2] * matrix2[SEDENIONS_E14PART][idx3] -
-                                                    matrix1[SEDENIONS_E6PART][idx2] * matrix2[SEDENIONS_E13PART][idx3] +
-                                                    matrix1[SEDENIONS_E7PART][idx2] * matrix2[SEDENIONS_E12PART][idx3] -
-                                                    matrix1[SEDENIONS_E8PART][idx2] * matrix2[SEDENIONS_E3PART][idx3] -
-                                                    matrix1[SEDENIONS_E9PART][idx2] * matrix2[SEDENIONS_E2PART][idx3] +
-                                                    matrix1[SEDENIONS_E10PART][idx2] * matrix2[SEDENIONS_E1PART][idx3] +
-                                                    matrix1[SEDENIONS_E11PART][idx2] * matrix2[SEDENIONS_REALPART][idx3] -
-                                                    matrix1[SEDENIONS_E12PART][idx2] * matrix2[SEDENIONS_E7PART][idx3] +
-                                                    matrix1[SEDENIONS_E13PART][idx2] * matrix2[SEDENIONS_E6PART][idx3] -
-                                                    matrix1[SEDENIONS_E14PART][idx2] * matrix2[SEDENIONS_E5PART][idx3] +
-                                                    matrix1[SEDENIONS_E15PART][idx2] * matrix2[SEDENIONS_E4PART][idx3];
-
-        matrix_product[SEDENIONS_E12PART][idx1] +=  matrix1[SEDENIONS_REALPART][idx2] * matrix2[SEDENIONS_E12PART][idx3] +
-                                                    matrix1[SEDENIONS_E1PART][idx2] * matrix2[SEDENIONS_E13PART][idx3] +
-                                                    matrix1[SEDENIONS_E2PART][idx2] * matrix2[SEDENIONS_E14PART][idx3] +
-                                                    matrix1[SEDENIONS_E3PART][idx2] * matrix2[SEDENIONS_E15PART][idx3] +
-                                                    matrix1[SEDENIONS_E4PART][idx2] * matrix2[SEDENIONS_E8PART][idx3] -
-                                                    matrix1[SEDENIONS_E5PART][idx2] * matrix2[SEDENIONS_E9PART][idx3] -
-                                                    matrix1[SEDENIONS_E6PART][idx2] * matrix2[SEDENIONS_E10PART][idx3] -
-                                                    matrix1[SEDENIONS_E7PART][idx2] * matrix2[SEDENIONS_E11PART][idx3] -
-                                                    matrix1[SEDENIONS_E8PART][idx2] * matrix2[SEDENIONS_E4PART][idx3] +
-                                                    matrix1[SEDENIONS_E9PART][idx2] * matrix2[SEDENIONS_E5PART][idx3] +
-                                                    matrix1[SEDENIONS_E10PART][idx2] * matrix2[SEDENIONS_E6PART][idx3] +
-                                                    matrix1[SEDENIONS_E11PART][idx2] * matrix2[SEDENIONS_E7PART][idx3] +
-                                                    matrix1[SEDENIONS_E12PART][idx2] * matrix2[SEDENIONS_REALPART][idx3] -
-                                                    matrix1[SEDENIONS_E13PART][idx2] * matrix2[SEDENIONS_E1PART][idx3] -
-                                                    matrix1[SEDENIONS_E14PART][idx2] * matrix2[SEDENIONS_E2PART][idx3] -
-                                                    matrix1[SEDENIONS_E15PART][idx2] * matrix2[SEDENIONS_E3PART][idx3];
-
-        matrix_product[SEDENIONS_E13PART][idx1] +=  matrix1[SEDENIONS_REALPART][idx2] * matrix2[SEDENIONS_E13PART][idx3] -
-                                                    matrix1[SEDENIONS_E1PART][idx2] * matrix2[SEDENIONS_E12PART][idx3] +
-                                                    matrix1[SEDENIONS_E2PART][idx2] * matrix2[SEDENIONS_E15PART][idx3] -
-                                                    matrix1[SEDENIONS_E3PART][idx2] * matrix2[SEDENIONS_E14PART][idx3] +
-                                                    matrix1[SEDENIONS_E4PART][idx2] * matrix2[SEDENIONS_E9PART][idx3] +
-                                                    matrix1[SEDENIONS_E5PART][idx2] * matrix2[SEDENIONS_E8PART][idx3] +
-                                                    matrix1[SEDENIONS_E6PART][idx2] * matrix2[SEDENIONS_E11PART][idx3] -
-                                                    matrix1[SEDENIONS_E7PART][idx2] * matrix2[SEDENIONS_E10PART][idx3] -
-                                                    matrix1[SEDENIONS_E8PART][idx2] * matrix2[SEDENIONS_E5PART][idx3] -
-                                                    matrix1[SEDENIONS_E9PART][idx2] * matrix2[SEDENIONS_E4PART][idx3] +
-                                                    matrix1[SEDENIONS_E10PART][idx2] * matrix2[SEDENIONS_E7PART][idx3] -
-                                                    matrix1[SEDENIONS_E11PART][idx2] * matrix2[SEDENIONS_E6PART][idx3] +
-                                                    matrix1[SEDENIONS_E12PART][idx2] * matrix2[SEDENIONS_E1PART][idx3] +
-                                                    matrix1[SEDENIONS_E13PART][idx2] * matrix2[SEDENIONS_REALPART][idx3] +
-                                                    matrix1[SEDENIONS_E14PART][idx2] * matrix2[SEDENIONS_E3PART][idx3] -
-                                                    matrix1[SEDENIONS_E15PART][idx2] * matrix2[SEDENIONS_E2PART][idx3];
-
-        matrix_product[SEDENIONS_E14PART][idx1] +=  matrix1[SEDENIONS_REALPART][idx2] * matrix2[SEDENIONS_E14PART][idx3] -
-                                                    matrix1[SEDENIONS_E1PART][idx2] * matrix2[SEDENIONS_E15PART][idx3] -
-                                                    matrix1[SEDENIONS_E2PART][idx2] * matrix2[SEDENIONS_E12PART][idx3] +
-                                                    matrix1[SEDENIONS_E3PART][idx2] * matrix2[SEDENIONS_E13PART][idx3] +
-                                                    matrix1[SEDENIONS_E4PART][idx2] * matrix2[SEDENIONS_E10PART][idx3] -
-                                                    matrix1[SEDENIONS_E5PART][idx2] * matrix2[SEDENIONS_E11PART][idx3] +
-                                                    matrix1[SEDENIONS_E6PART][idx2] * matrix2[SEDENIONS_E8PART][idx3] +
-                                                    matrix1[SEDENIONS_E7PART][idx2] * matrix2[SEDENIONS_E9PART][idx3] -
-                                                    matrix1[SEDENIONS_E8PART][idx2] * matrix2[SEDENIONS_E6PART][idx3] -
-                                                    matrix1[SEDENIONS_E9PART][idx2] * matrix2[SEDENIONS_E7PART][idx3] -
-                                                    matrix1[SEDENIONS_E10PART][idx2] * matrix2[SEDENIONS_E3PART][idx3] +
-                                                    matrix1[SEDENIONS_E11PART][idx2] * matrix2[SEDENIONS_E5PART][idx3] +
-                                                    matrix1[SEDENIONS_E12PART][idx2] * matrix2[SEDENIONS_E2PART][idx3] -
-                                                    matrix1[SEDENIONS_E13PART][idx2] * matrix2[SEDENIONS_E3PART][idx3] +
-                                                    matrix1[SEDENIONS_E14PART][idx2] * matrix2[SEDENIONS_REALPART][idx3] +
-                                                    matrix1[SEDENIONS_E15PART][idx2] * matrix2[SEDENIONS_E1PART][idx3];
-
-        matrix_product[SEDENIONS_E15PART][idx1] +=  matrix1[SEDENIONS_REALPART][idx2] * matrix2[SEDENIONS_E15PART][idx3] +
-                                                    matrix1[SEDENIONS_E1PART][idx2] * matrix2[SEDENIONS_E14PART][idx3] -
-                                                    matrix1[SEDENIONS_E2PART][idx2] * matrix2[SEDENIONS_E13PART][idx3] -
-                                                    matrix1[SEDENIONS_E3PART][idx2] * matrix2[SEDENIONS_E12PART][idx3] -
-                                                    matrix1[SEDENIONS_E4PART][idx2] * matrix2[SEDENIONS_E11PART][idx3] +
-                                                    matrix1[SEDENIONS_E5PART][idx2] * matrix2[SEDENIONS_E10PART][idx3] +
-                                                    matrix1[SEDENIONS_E6PART][idx2] * matrix2[SEDENIONS_E9PART][idx3] +
-                                                    matrix1[SEDENIONS_E7PART][idx2] * matrix2[SEDENIONS_E8PART][idx3] -
-                                                    matrix1[SEDENIONS_E8PART][idx2] * matrix2[SEDENIONS_E3PART][idx3] +
-                                                    matrix1[SEDENIONS_E9PART][idx2] * matrix2[SEDENIONS_E6PART][idx3] -
-                                                    matrix1[SEDENIONS_E10PART][idx2] * matrix2[SEDENIONS_E5PART][idx3] -
-                                                    matrix1[SEDENIONS_E11PART][idx2] * matrix2[SEDENIONS_E4PART][idx3] +
-                                                    matrix1[SEDENIONS_E12PART][idx2] * matrix2[SEDENIONS_E3PART][idx3] +
-                                                    matrix1[SEDENIONS_E13PART][idx2] * matrix2[SEDENIONS_E2PART][idx3] -
-                                                    matrix1[SEDENIONS_E14PART][idx2] * matrix2[SEDENIONS_E1PART][idx3] +
-                                                    matrix1[SEDENIONS_E15PART][idx2] * matrix2[SEDENIONS_REALPART][idx3];
-	}
-}
-
-__MSNATIVE_ __MSSTOCK _MS__private static void __system __export _matrixKOEMTProduct(ityp **matrix1, ityp **matrix2, ityp **matrix_product, const register dim_typ dim_cache, const register dim_typ idx1, const register dim_typ idx2)
-{
-	#pragma omp parallel num_threads(MAX_OCTONIONS_UNITS)
-	{
-        matrix_product[OCTONIONS_REALPART][dim_cache] = matrix1[OCTONIONS_REALPART][idx1] * matrix2[OCTONIONS_REALPART][idx2] -
-                                                                                   matrix1[OCTONIONS_E1PART][idx1] * matrix2[OCTONIONS_E1PART][idx2] -
-                                                                                   matrix1[OCTONIONS_E2PART][idx1] * matrix2[OCTONIONS_E2PART][idx2] -
-                                                                                   matrix1[OCTONIONS_E3PART][idx1] * matrix2[OCTONIONS_E3PART][idx2] -
-                                                                                   matrix1[OCTONIONS_E4PART][idx1] * matrix2[OCTONIONS_E4PART][idx2] -
-                                                                                   matrix1[OCTONIONS_E5PART][idx1] * matrix2[OCTONIONS_E5PART][idx2] -
-                                                                                   matrix1[OCTONIONS_E6PART][idx1] * matrix2[OCTONIONS_E6PART][idx2] -
-                                                                                   matrix1[OCTONIONS_E7PART][idx1] * matrix2[OCTONIONS_E7PART][idx2];
-
-        matrix_product[OCTONIONS_E1PART][dim_cache] =  matrix1[OCTONIONS_REALPART][idx1] * matrix2[OCTONIONS_E1PART][idx2] +
-                                                                                 matrix1[OCTONIONS_E1PART][idx1] * matrix2[OCTONIONS_REALPART][idx2] +
-                                                                                 matrix1[OCTONIONS_E2PART][idx1] * matrix2[OCTONIONS_E4PART][idx2] +
-                                                                                 matrix1[OCTONIONS_E3PART][idx1] * matrix2[OCTONIONS_E7PART][idx2] -
-                                                                                 matrix1[OCTONIONS_E4PART][idx1] * matrix2[OCTONIONS_E2PART][idx2] +
-                                                                                 matrix1[OCTONIONS_E5PART][idx1] * matrix2[OCTONIONS_E6PART][idx2] -
-                                                                                 matrix1[OCTONIONS_E6PART][idx1] * matrix2[OCTONIONS_E5PART][idx2] -
-                                                                                 matrix1[OCTONIONS_E7PART][idx1] * matrix2[OCTONIONS_E3PART][idx2];
-
-        matrix_product[OCTONIONS_E2PART][dim_cache] =  matrix1[OCTONIONS_REALPART][idx1] * matrix2[OCTONIONS_E1PART][idx2] -
-                                                                                 matrix1[OCTONIONS_E1PART][idx1] * matrix2[OCTONIONS_E4PART][idx2] +
-                                                                                 matrix1[OCTONIONS_E2PART][idx1] * matrix2[OCTONIONS_REALPART][idx2] +
-                                                                                 matrix1[OCTONIONS_E3PART][idx1] * matrix2[OCTONIONS_E5PART][idx2] -
-                                                                                 matrix1[OCTONIONS_E4PART][idx1] * matrix2[OCTONIONS_E1PART][idx2] -
-                                                                                 matrix1[OCTONIONS_E5PART][idx1] * matrix2[OCTONIONS_E3PART][idx2] +
-                                                                                 matrix1[OCTONIONS_E6PART][idx1] * matrix2[OCTONIONS_E7PART][idx2] -
-                                                                                 matrix1[OCTONIONS_E7PART][idx1] * matrix2[OCTONIONS_E6PART][idx2];
-
-        matrix_product[OCTONIONS_E3PART][dim_cache] =  matrix1[OCTONIONS_REALPART][idx1] * matrix2[OCTONIONS_E3PART][idx2] -
-                                                                                 matrix1[OCTONIONS_E1PART][idx1] * matrix2[OCTONIONS_E7PART][idx2] -
-                                                                                 matrix1[OCTONIONS_E2PART][idx1] * matrix2[OCTONIONS_E5PART][idx2] +
-                                                                                 matrix1[OCTONIONS_E3PART][idx1] * matrix2[OCTONIONS_REALPART][idx2] +
-                                                                                 matrix1[OCTONIONS_E4PART][idx1] * matrix2[OCTONIONS_E6PART][idx2] +
-                                                                                 matrix1[OCTONIONS_E5PART][idx1] * matrix2[OCTONIONS_E2PART][idx2] -
-                                                                                 matrix1[OCTONIONS_E6PART][idx1] * matrix2[OCTONIONS_E4PART][idx2] +
-                                                                                 matrix1[OCTONIONS_E7PART][idx1] * matrix2[OCTONIONS_E1PART][idx2];
-
-        matrix_product[OCTONIONS_E4PART][dim_cache] =  matrix1[OCTONIONS_REALPART][idx1] * matrix2[OCTONIONS_E4PART][idx2] +
-                                                                                 matrix1[OCTONIONS_E1PART][idx1] * matrix2[OCTONIONS_E2PART][idx2] -
-                                                                                 matrix1[OCTONIONS_E2PART][idx1] * matrix2[OCTONIONS_E1PART][idx2] -
-                                                                                 matrix1[OCTONIONS_E3PART][idx1] * matrix2[OCTONIONS_E6PART][idx2] +
-                                                                                 matrix1[OCTONIONS_E4PART][idx1] * matrix2[OCTONIONS_REALPART][idx2] +
-                                                                                 matrix1[OCTONIONS_E5PART][idx1] * matrix2[OCTONIONS_E7PART][idx2] +
-                                                                                 matrix1[OCTONIONS_E6PART][idx1] * matrix2[OCTONIONS_E3PART][idx2] -
-                                                                                 matrix1[OCTONIONS_E7PART][idx1] * matrix2[OCTONIONS_E5PART][idx2];
-
-        matrix_product[OCTONIONS_E5PART][dim_cache] =  matrix1[OCTONIONS_REALPART][idx1] * matrix2[OCTONIONS_E5PART][idx2] -
-                                                                                 matrix1[OCTONIONS_E1PART][idx1] * matrix2[OCTONIONS_E6PART][idx2] +
-                                                                                 matrix1[OCTONIONS_E2PART][idx1] * matrix2[OCTONIONS_E3PART][idx2] -
-                                                                                 matrix1[OCTONIONS_E3PART][idx1] * matrix2[OCTONIONS_E2PART][idx2] -
-                                                                                 matrix1[OCTONIONS_E4PART][idx1] * matrix2[OCTONIONS_E7PART][idx2] +
-                                                                                 matrix1[OCTONIONS_E5PART][idx1] * matrix2[OCTONIONS_REALPART][idx2] +
-                                                                                 matrix1[OCTONIONS_E6PART][idx1] * matrix2[OCTONIONS_E1PART][idx2] +
-                                                                                 matrix1[OCTONIONS_E7PART][idx1] * matrix2[OCTONIONS_E3PART][idx2];
-
-        matrix_product[OCTONIONS_E6PART][dim_cache] =  matrix1[OCTONIONS_REALPART][idx1] * matrix2[OCTONIONS_E6PART][idx2] +
-                                                                                 matrix1[OCTONIONS_E1PART][idx1] * matrix2[OCTONIONS_E5PART][idx2] -
-                                                                                 matrix1[OCTONIONS_E2PART][idx1] * matrix2[OCTONIONS_E7PART][idx2] +
-                                                                                 matrix1[OCTONIONS_E3PART][idx1] * matrix2[OCTONIONS_E4PART][idx2] -
-                                                                                 matrix1[OCTONIONS_E4PART][idx1] * matrix2[OCTONIONS_E3PART][idx2] -
-                                                                                 matrix1[OCTONIONS_E5PART][idx1] * matrix2[OCTONIONS_E1PART][idx2] +
-                                                                                 matrix1[OCTONIONS_E6PART][idx1] * matrix2[OCTONIONS_REALPART][idx2] +
-                                                                                 matrix1[OCTONIONS_E7PART][idx1] * matrix2[OCTONIONS_E2PART][idx2];
-
-        matrix_product[OCTONIONS_E7PART][dim_cache] =  matrix1[OCTONIONS_REALPART][idx1] * matrix2[OCTONIONS_E7PART][idx2] +
-                                                                                 matrix1[OCTONIONS_E1PART][idx1] * matrix2[OCTONIONS_E3PART][idx2] +
-                                                                                 matrix1[OCTONIONS_E2PART][idx1] * matrix2[OCTONIONS_E6PART][idx2] -
-                                                                                 matrix1[OCTONIONS_E3PART][idx1] * matrix2[OCTONIONS_E1PART][idx2] +
-                                                                                 matrix1[OCTONIONS_E4PART][idx1] * matrix2[OCTONIONS_E5PART][idx2] -
-                                                                                 matrix1[OCTONIONS_E5PART][idx1] * matrix2[OCTONIONS_E4PART][idx2] -
-                                                                                 matrix1[OCTONIONS_E6PART][idx1] * matrix2[OCTONIONS_E2PART][idx2] +
-                                                                                 matrix1[OCTONIONS_E7PART][idx1] * matrix2[OCTONIONS_REALPART][idx2];
-	}
-	return;
-}
-
-__MSNATIVE_ __MSSTOCK _MS__private static void __system __export _matrixKOMTProduct(ityp **matrix1, ityp **matrix2, ityp **matrix_product, const register dim_typ dim_cache, const register dim_typ idx1, const register dim_typ idx2)
-{
-	#pragma omp parallel
-	{
-        matrix_product[OCTONIONS_REALPART][dim_cache] = matrix1[OCTONIONS_REALPART][idx1] * matrix2[OCTONIONS_REALPART][idx2] -
-                                                                                   matrix1[OCTONIONS_E1PART][idx1] * matrix2[OCTONIONS_E1PART][idx2] -
-                                                                                   matrix1[OCTONIONS_E2PART][idx1] * matrix2[OCTONIONS_E2PART][idx2] -
-                                                                                   matrix1[OCTONIONS_E3PART][idx1] * matrix2[OCTONIONS_E3PART][idx2] -
-                                                                                   matrix1[OCTONIONS_E4PART][idx1] * matrix2[OCTONIONS_E4PART][idx2] -
-                                                                                   matrix1[OCTONIONS_E5PART][idx1] * matrix2[OCTONIONS_E5PART][idx2] -
-                                                                                   matrix1[OCTONIONS_E6PART][idx1] * matrix2[OCTONIONS_E6PART][idx2] -
-                                                                                   matrix1[OCTONIONS_E7PART][idx1] * matrix2[OCTONIONS_E7PART][idx2];
-
-        matrix_product[OCTONIONS_E1PART][dim_cache] =  matrix1[OCTONIONS_REALPART][idx1] * matrix2[OCTONIONS_E1PART][idx2] +
-                                                                                 matrix1[OCTONIONS_E1PART][idx1] * matrix2[OCTONIONS_REALPART][idx2] +
-                                                                                 matrix1[OCTONIONS_E2PART][idx1] * matrix2[OCTONIONS_E4PART][idx2] +
-                                                                                 matrix1[OCTONIONS_E3PART][idx1] * matrix2[OCTONIONS_E7PART][idx2] -
-                                                                                 matrix1[OCTONIONS_E4PART][idx1] * matrix2[OCTONIONS_E2PART][idx2] +
-                                                                                 matrix1[OCTONIONS_E5PART][idx1] * matrix2[OCTONIONS_E6PART][idx2] -
-                                                                                 matrix1[OCTONIONS_E6PART][idx1] * matrix2[OCTONIONS_E5PART][idx2] -
-                                                                                 matrix1[OCTONIONS_E7PART][idx1] * matrix2[OCTONIONS_E3PART][idx2];
-
-        matrix_product[OCTONIONS_E2PART][dim_cache] =  matrix1[OCTONIONS_REALPART][idx1] * matrix2[OCTONIONS_E1PART][idx2] -
-                                                                                 matrix1[OCTONIONS_E1PART][idx1] * matrix2[OCTONIONS_E4PART][idx2] +
-                                                                                 matrix1[OCTONIONS_E2PART][idx1] * matrix2[OCTONIONS_REALPART][idx2] +
-                                                                                 matrix1[OCTONIONS_E3PART][idx1] * matrix2[OCTONIONS_E5PART][idx2] -
-                                                                                 matrix1[OCTONIONS_E4PART][idx1] * matrix2[OCTONIONS_E1PART][idx2] -
-                                                                                 matrix1[OCTONIONS_E5PART][idx1] * matrix2[OCTONIONS_E3PART][idx2] +
-                                                                                 matrix1[OCTONIONS_E6PART][idx1] * matrix2[OCTONIONS_E7PART][idx2] -
-                                                                                 matrix1[OCTONIONS_E7PART][idx1] * matrix2[OCTONIONS_E6PART][idx2];
-
-        matrix_product[OCTONIONS_E3PART][dim_cache] =  matrix1[OCTONIONS_REALPART][idx1] * matrix2[OCTONIONS_E3PART][idx2] -
-                                                                                 matrix1[OCTONIONS_E1PART][idx1] * matrix2[OCTONIONS_E7PART][idx2] -
-                                                                                 matrix1[OCTONIONS_E2PART][idx1] * matrix2[OCTONIONS_E5PART][idx2] +
-                                                                                 matrix1[OCTONIONS_E3PART][idx1] * matrix2[OCTONIONS_REALPART][idx2] +
-                                                                                 matrix1[OCTONIONS_E4PART][idx1] * matrix2[OCTONIONS_E6PART][idx2] +
-                                                                                 matrix1[OCTONIONS_E5PART][idx1] * matrix2[OCTONIONS_E2PART][idx2] -
-                                                                                 matrix1[OCTONIONS_E6PART][idx1] * matrix2[OCTONIONS_E4PART][idx2] +
-                                                                                 matrix1[OCTONIONS_E7PART][idx1] * matrix2[OCTONIONS_E1PART][idx2];
-
-        matrix_product[OCTONIONS_E4PART][dim_cache] =  matrix1[OCTONIONS_REALPART][idx1] * matrix2[OCTONIONS_E4PART][idx2] +
-                                                                                 matrix1[OCTONIONS_E1PART][idx1] * matrix2[OCTONIONS_E2PART][idx2] -
-                                                                                 matrix1[OCTONIONS_E2PART][idx1] * matrix2[OCTONIONS_E1PART][idx2] -
-                                                                                 matrix1[OCTONIONS_E3PART][idx1] * matrix2[OCTONIONS_E6PART][idx2] +
-                                                                                 matrix1[OCTONIONS_E4PART][idx1] * matrix2[OCTONIONS_REALPART][idx2] +
-                                                                                 matrix1[OCTONIONS_E5PART][idx1] * matrix2[OCTONIONS_E7PART][idx2] +
-                                                                                 matrix1[OCTONIONS_E6PART][idx1] * matrix2[OCTONIONS_E3PART][idx2] -
-                                                                                 matrix1[OCTONIONS_E7PART][idx1] * matrix2[OCTONIONS_E5PART][idx2];
-
-        matrix_product[OCTONIONS_E5PART][dim_cache] =  matrix1[OCTONIONS_REALPART][idx1] * matrix2[OCTONIONS_E5PART][idx2] -
-                                                                                 matrix1[OCTONIONS_E1PART][idx1] * matrix2[OCTONIONS_E6PART][idx2] +
-                                                                                 matrix1[OCTONIONS_E2PART][idx1] * matrix2[OCTONIONS_E3PART][idx2] -
-                                                                                 matrix1[OCTONIONS_E3PART][idx1] * matrix2[OCTONIONS_E2PART][idx2] -
-                                                                                 matrix1[OCTONIONS_E4PART][idx1] * matrix2[OCTONIONS_E7PART][idx2] +
-                                                                                 matrix1[OCTONIONS_E5PART][idx1] * matrix2[OCTONIONS_REALPART][idx2] +
-                                                                                 matrix1[OCTONIONS_E6PART][idx1] * matrix2[OCTONIONS_E1PART][idx2] +
-                                                                                 matrix1[OCTONIONS_E7PART][idx1] * matrix2[OCTONIONS_E3PART][idx2];
-
-        matrix_product[OCTONIONS_E6PART][dim_cache] =  matrix1[OCTONIONS_REALPART][idx1] * matrix2[OCTONIONS_E6PART][idx2] +
-                                                                                 matrix1[OCTONIONS_E1PART][idx1] * matrix2[OCTONIONS_E5PART][idx2] -
-                                                                                 matrix1[OCTONIONS_E2PART][idx1] * matrix2[OCTONIONS_E7PART][idx2] +
-                                                                                 matrix1[OCTONIONS_E3PART][idx1] * matrix2[OCTONIONS_E4PART][idx2] -
-                                                                                 matrix1[OCTONIONS_E4PART][idx1] * matrix2[OCTONIONS_E3PART][idx2] -
-                                                                                 matrix1[OCTONIONS_E5PART][idx1] * matrix2[OCTONIONS_E1PART][idx2] +
-                                                                                 matrix1[OCTONIONS_E6PART][idx1] * matrix2[OCTONIONS_REALPART][idx2] +
-                                                                                 matrix1[OCTONIONS_E7PART][idx1] * matrix2[OCTONIONS_E2PART][idx2];
-
-        matrix_product[OCTONIONS_E7PART][dim_cache] =  matrix1[OCTONIONS_REALPART][idx1] * matrix2[OCTONIONS_E7PART][idx2] +
-                                                                                 matrix1[OCTONIONS_E1PART][idx1] * matrix2[OCTONIONS_E3PART][idx2] +
-                                                                                 matrix1[OCTONIONS_E2PART][idx1] * matrix2[OCTONIONS_E6PART][idx2] -
-                                                                                 matrix1[OCTONIONS_E3PART][idx1] * matrix2[OCTONIONS_E1PART][idx2] +
-                                                                                 matrix1[OCTONIONS_E4PART][idx1] * matrix2[OCTONIONS_E5PART][idx2] -
-                                                                                 matrix1[OCTONIONS_E5PART][idx1] * matrix2[OCTONIONS_E4PART][idx2] -
-                                                                                 matrix1[OCTONIONS_E6PART][idx1] * matrix2[OCTONIONS_E2PART][idx2] +
-                                                                                 matrix1[OCTONIONS_E7PART][idx1] * matrix2[OCTONIONS_REALPART][idx2];
-	}
-	return;
-}
-
-__MSNATIVE_ __MSSTOCK _MS__private static void __system __export _matrixKSEMTProduct(ityp **matrix1, ityp **matrix2, ityp **matrix_product, const register dim_typ dim_cache, const register dim_typ idx1, const register dim_typ idx2)
-{
-	
-	#pragma omp parallel num_threads(MAX_SEDENIONS_UNITS)
-	{
-        matrix_product[SEDENIONS_REALPART][dim_cache] = matrix1[SEDENIONS_REALPART][idx1] * matrix2[SEDENIONS_REALPART][idx2] -
-                                                                                   matrix1[SEDENIONS_E1PART][idx1] * matrix2[SEDENIONS_E1PART][idx2] -
-                                                                                   matrix1[SEDENIONS_E2PART][idx1] * matrix2[SEDENIONS_E2PART][idx2] -
-                                                                                   matrix1[SEDENIONS_E3PART][idx1] * matrix2[SEDENIONS_E3PART][idx2] -
-                                                                                   matrix1[SEDENIONS_E4PART][idx1] * matrix2[SEDENIONS_E4PART][idx2] -
-                                                                                   matrix1[SEDENIONS_E5PART][idx1] * matrix2[SEDENIONS_E5PART][idx2] -
-                                                                                   matrix1[SEDENIONS_E6PART][idx1] * matrix2[SEDENIONS_E6PART][idx2] -
-                                                                                   matrix1[SEDENIONS_E7PART][idx1] * matrix2[SEDENIONS_E7PART][idx2] -
-                                                                                   matrix1[SEDENIONS_E8PART][idx1] * matrix2[SEDENIONS_E8PART][idx2] -
-                                                                                   matrix1[SEDENIONS_E9PART][idx1] * matrix2[SEDENIONS_E9PART][idx2] -
-                                                                                   matrix1[SEDENIONS_E10PART][idx1] * matrix2[SEDENIONS_E10PART][idx2] -
-                                                                                   matrix1[SEDENIONS_E11PART][idx1] * matrix2[SEDENIONS_E11PART][idx2] -
-                                                                                   matrix1[SEDENIONS_E12PART][idx1] * matrix2[SEDENIONS_E12PART][idx2] -
-                                                                                   matrix1[SEDENIONS_E13PART][idx1] * matrix2[SEDENIONS_E13PART][idx2] -
-                                                                                   matrix1[SEDENIONS_E14PART][idx1] * matrix2[SEDENIONS_E14PART][idx2] -
-                                                                                   matrix1[SEDENIONS_E15PART][idx1] * matrix2[SEDENIONS_E15PART][idx2];
-
-        matrix_product[SEDENIONS_E1PART][dim_cache] =  matrix1[SEDENIONS_REALPART][idx1] * matrix2[SEDENIONS_E1PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E1PART][idx1] * matrix2[SEDENIONS_REALPART][idx2] +
-                                                                                 matrix1[SEDENIONS_E2PART][idx1] * matrix2[SEDENIONS_E3PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E3PART][idx1] * matrix2[SEDENIONS_E2PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E4PART][idx1] * matrix2[SEDENIONS_E5PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E5PART][idx1] * matrix2[SEDENIONS_E4PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E6PART][idx1] * matrix2[SEDENIONS_E7PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E7PART][idx1] * matrix2[SEDENIONS_E6PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E8PART][idx1] * matrix2[SEDENIONS_E9PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E9PART][idx1] * matrix2[SEDENIONS_E8PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E10PART][idx1] * matrix2[SEDENIONS_E11PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E11PART][idx1] * matrix2[SEDENIONS_E10PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E12PART][idx1] * matrix2[SEDENIONS_E13PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E13PART][idx1] * matrix2[SEDENIONS_E12PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E14PART][idx1] * matrix2[SEDENIONS_E15PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E15PART][idx1] * matrix2[SEDENIONS_E14PART][idx2];
-
-        matrix_product[SEDENIONS_E2PART][dim_cache] =  matrix1[SEDENIONS_REALPART][idx1] * matrix2[SEDENIONS_E2PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E1PART][idx1] * matrix2[SEDENIONS_E3PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E2PART][idx1] * matrix2[SEDENIONS_REALPART][idx2] +
-                                                                                 matrix1[SEDENIONS_E3PART][idx1] * matrix2[SEDENIONS_E1PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E4PART][idx1] * matrix2[SEDENIONS_E6PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E5PART][idx1] * matrix2[SEDENIONS_E7PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E6PART][idx1] * matrix2[SEDENIONS_E4PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E7PART][idx1] * matrix2[SEDENIONS_E5PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E8PART][idx1] * matrix2[SEDENIONS_E10PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E9PART][idx1] * matrix2[SEDENIONS_E11PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E10PART][idx1] * matrix2[SEDENIONS_E8PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E11PART][idx1] * matrix2[SEDENIONS_E9PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E12PART][idx1] * matrix2[SEDENIONS_E14PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E13PART][idx1] * matrix2[SEDENIONS_E15PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E14PART][idx1] * matrix2[SEDENIONS_E12PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E15PART][idx1] * matrix2[SEDENIONS_E13PART][idx2];
-
-        matrix_product[SEDENIONS_E3PART][dim_cache] =  matrix1[SEDENIONS_REALPART][idx1] * matrix2[SEDENIONS_E3PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E1PART][idx1] * matrix2[SEDENIONS_E2PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E2PART][idx1] * matrix2[SEDENIONS_E1PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E3PART][idx1] * matrix2[SEDENIONS_REALPART][idx2] +
-                                                                                 matrix1[SEDENIONS_E4PART][idx1] * matrix2[SEDENIONS_E7PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E5PART][idx1] * matrix2[SEDENIONS_E6PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E6PART][idx1] * matrix2[SEDENIONS_E5PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E7PART][idx1] * matrix2[SEDENIONS_E4PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E8PART][idx1] * matrix2[SEDENIONS_E11PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E9PART][idx1] * matrix2[SEDENIONS_E10PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E10PART][idx1] * matrix2[SEDENIONS_E9PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E11PART][idx1] * matrix2[SEDENIONS_E8PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E12PART][idx1] * matrix2[SEDENIONS_E15PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E13PART][idx1] * matrix2[SEDENIONS_E14PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E14PART][idx1] * matrix2[SEDENIONS_E13PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E15PART][idx1] * matrix2[SEDENIONS_E12PART][idx2];
-
-        matrix_product[SEDENIONS_E4PART][dim_cache] =  matrix1[SEDENIONS_REALPART][idx1] * matrix2[SEDENIONS_E4PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E1PART][idx1] * matrix2[SEDENIONS_E5PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E2PART][idx1] * matrix2[SEDENIONS_E6PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E3PART][idx1] * matrix2[SEDENIONS_E7PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E4PART][idx1] * matrix2[SEDENIONS_REALPART][idx2] +
-                                                                                 matrix1[SEDENIONS_E5PART][idx1] * matrix2[SEDENIONS_E1PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E6PART][idx1] * matrix2[SEDENIONS_E2PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E7PART][idx1] * matrix2[SEDENIONS_E3PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E8PART][idx1] * matrix2[SEDENIONS_E12PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E9PART][idx1] * matrix2[SEDENIONS_E13PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E10PART][idx1] * matrix2[SEDENIONS_E14PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E11PART][idx1] * matrix2[SEDENIONS_E15PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E12PART][idx1] * matrix2[SEDENIONS_E8PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E13PART][idx1] * matrix2[SEDENIONS_E9PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E14PART][idx1] * matrix2[SEDENIONS_E10PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E15PART][idx1] * matrix2[SEDENIONS_E11PART][idx2];
-
-        matrix_product[SEDENIONS_E5PART][dim_cache] =  matrix1[SEDENIONS_REALPART][idx1] * matrix2[SEDENIONS_E5PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E1PART][idx1] * matrix2[SEDENIONS_E4PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E2PART][idx1] * matrix2[SEDENIONS_E7PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E3PART][idx1] * matrix2[SEDENIONS_E6PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E4PART][idx1] * matrix2[SEDENIONS_E1PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E5PART][idx1] * matrix2[SEDENIONS_REALPART][idx2] -
-                                                                                 matrix1[SEDENIONS_E6PART][idx1] * matrix2[SEDENIONS_E3PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E7PART][idx1] * matrix2[SEDENIONS_E2PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E8PART][idx1] * matrix2[SEDENIONS_E13PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E9PART][idx1] * matrix2[SEDENIONS_E12PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E10PART][idx1] * matrix2[SEDENIONS_E15PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E11PART][idx1] * matrix2[SEDENIONS_E4PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E12PART][idx1] * matrix2[SEDENIONS_E9PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E13PART][idx1] * matrix2[SEDENIONS_E8PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E14PART][idx1] * matrix2[SEDENIONS_E11PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E15PART][idx1] * matrix2[SEDENIONS_E10PART][idx2];
-
-        matrix_product[SEDENIONS_E6PART][dim_cache] =  matrix1[SEDENIONS_REALPART][idx1] * matrix2[SEDENIONS_E6PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E1PART][idx1] * matrix2[SEDENIONS_E7PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E2PART][idx1] * matrix2[SEDENIONS_E4PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E3PART][idx1] * matrix2[SEDENIONS_E5PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E4PART][idx1] * matrix2[SEDENIONS_E2PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E5PART][idx1] * matrix2[SEDENIONS_E3PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E6PART][idx1] * matrix2[SEDENIONS_REALPART][idx2] -
-                                                                                 matrix1[SEDENIONS_E7PART][idx1] * matrix2[SEDENIONS_E1PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E8PART][idx1] * matrix2[SEDENIONS_E14PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E9PART][idx1] * matrix2[SEDENIONS_E15PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E10PART][idx1] * matrix2[SEDENIONS_E12PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E11PART][idx1] * matrix2[SEDENIONS_E13PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E12PART][idx1] * matrix2[SEDENIONS_E10PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E13PART][idx1] * matrix2[SEDENIONS_E11PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E14PART][idx1] * matrix2[SEDENIONS_E8PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E15PART][idx1] * matrix2[SEDENIONS_E9PART][idx2];
-
-        matrix_product[SEDENIONS_E7PART][dim_cache] =  matrix1[SEDENIONS_REALPART][idx1] * matrix2[SEDENIONS_E7PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E1PART][idx1] * matrix2[SEDENIONS_E6PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E2PART][idx1] * matrix2[SEDENIONS_E5PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E3PART][idx1] * matrix2[SEDENIONS_E4PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E4PART][idx1] * matrix2[SEDENIONS_E3PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E5PART][idx1] * matrix2[SEDENIONS_E2PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E6PART][idx1] * matrix2[SEDENIONS_E1PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E7PART][idx1] * matrix2[SEDENIONS_REALPART][idx2] +
-                                                                                 matrix1[SEDENIONS_E8PART][idx1] * matrix2[SEDENIONS_E15PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E9PART][idx1] * matrix2[SEDENIONS_E14PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E10PART][idx1] * matrix2[SEDENIONS_E13PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E11PART][idx1] * matrix2[SEDENIONS_E12PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E12PART][idx1] * matrix2[SEDENIONS_E11PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E13PART][idx1] * matrix2[SEDENIONS_E10PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E14PART][idx1] * matrix2[SEDENIONS_E9PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E15PART][idx1] * matrix2[SEDENIONS_E8PART][idx2];
-
-        matrix_product[SEDENIONS_E8PART][dim_cache] =  matrix1[SEDENIONS_REALPART][idx1] * matrix2[SEDENIONS_E8PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E1PART][idx1] * matrix2[SEDENIONS_E9PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E2PART][idx1] * matrix2[SEDENIONS_E10PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E3PART][idx1] * matrix2[SEDENIONS_E11PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E4PART][idx1] * matrix2[SEDENIONS_E12PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E5PART][idx1] * matrix2[SEDENIONS_E13PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E6PART][idx1] * matrix2[SEDENIONS_E14PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E7PART][idx1] * matrix2[SEDENIONS_E15PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E8PART][idx1] * matrix2[SEDENIONS_REALPART][idx2] +
-                                                                                 matrix1[SEDENIONS_E9PART][idx1] * matrix2[SEDENIONS_E1PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E10PART][idx1] * matrix2[SEDENIONS_E2PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E11PART][idx1] * matrix2[SEDENIONS_E3PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E12PART][idx1] * matrix2[SEDENIONS_E4PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E13PART][idx1] * matrix2[SEDENIONS_E5PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E14PART][idx1] * matrix2[SEDENIONS_E6PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E15PART][idx1] * matrix2[SEDENIONS_E7PART][idx2];
-
-        matrix_product[SEDENIONS_E9PART][dim_cache] =  matrix1[SEDENIONS_REALPART][idx1] * matrix2[SEDENIONS_E9PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E1PART][idx1] * matrix2[SEDENIONS_E8PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E2PART][idx1] * matrix2[SEDENIONS_E11PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E3PART][idx1] * matrix2[SEDENIONS_E10PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E4PART][idx1] * matrix2[SEDENIONS_E13PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E5PART][idx1] * matrix2[SEDENIONS_E12PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E6PART][idx1] * matrix2[SEDENIONS_E15PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E7PART][idx1] * matrix2[SEDENIONS_E14PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E8PART][idx1] * matrix2[SEDENIONS_E1PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E9PART][idx1] * matrix2[SEDENIONS_REALPART][idx2] -
-                                                                                 matrix1[SEDENIONS_E10PART][idx1] * matrix2[SEDENIONS_E3PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E11PART][idx1] * matrix2[SEDENIONS_E2PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E12PART][idx1] * matrix2[SEDENIONS_E5PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E13PART][idx1] * matrix2[SEDENIONS_E4PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E14PART][idx1] * matrix2[SEDENIONS_E7PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E15PART][idx1] * matrix2[SEDENIONS_E6PART][idx2];
-
-        matrix_product[SEDENIONS_E10PART][dim_cache] =  matrix1[SEDENIONS_REALPART][idx1] * matrix2[SEDENIONS_E10PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E1PART][idx1] * matrix2[SEDENIONS_E11PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E2PART][idx1] * matrix2[SEDENIONS_E8PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E3PART][idx1] * matrix2[SEDENIONS_E9PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E4PART][idx1] * matrix2[SEDENIONS_E14PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E5PART][idx1] * matrix2[SEDENIONS_E15PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E6PART][idx1] * matrix2[SEDENIONS_E12PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E7PART][idx1] * matrix2[SEDENIONS_E13PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E8PART][idx1] * matrix2[SEDENIONS_E2PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E9PART][idx1] * matrix2[SEDENIONS_E3PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E10PART][idx1] * matrix2[SEDENIONS_REALPART][idx2] -
-                                                                                  matrix1[SEDENIONS_E11PART][idx1] * matrix2[SEDENIONS_E1PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E12PART][idx1] * matrix2[SEDENIONS_E6PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E13PART][idx1] * matrix2[SEDENIONS_E7PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E14PART][idx1] * matrix2[SEDENIONS_E4PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E15PART][idx1] * matrix2[SEDENIONS_E5PART][idx2];
-
-        matrix_product[SEDENIONS_E11PART][dim_cache] =  matrix1[SEDENIONS_REALPART][idx1] * matrix2[SEDENIONS_E11PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E1PART][idx1] * matrix2[SEDENIONS_E10PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E2PART][idx1] * matrix2[SEDENIONS_E9PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E3PART][idx1] * matrix2[SEDENIONS_E8PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E4PART][idx1] * matrix2[SEDENIONS_E15PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E5PART][idx1] * matrix2[SEDENIONS_E14PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E6PART][idx1] * matrix2[SEDENIONS_E13PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E7PART][idx1] * matrix2[SEDENIONS_E12PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E8PART][idx1] * matrix2[SEDENIONS_E3PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E9PART][idx1] * matrix2[SEDENIONS_E2PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E10PART][idx1] * matrix2[SEDENIONS_E1PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E11PART][idx1] * matrix2[SEDENIONS_REALPART][idx2] -
-                                                                                  matrix1[SEDENIONS_E12PART][idx1] * matrix2[SEDENIONS_E7PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E13PART][idx1] * matrix2[SEDENIONS_E6PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E14PART][idx1] * matrix2[SEDENIONS_E5PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E15PART][idx1] * matrix2[SEDENIONS_E4PART][idx2];
-
-        matrix_product[SEDENIONS_E12PART][dim_cache] =  matrix1[SEDENIONS_REALPART][idx1] * matrix2[SEDENIONS_E12PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E1PART][idx1] * matrix2[SEDENIONS_E13PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E2PART][idx1] * matrix2[SEDENIONS_E14PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E3PART][idx1] * matrix2[SEDENIONS_E15PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E4PART][idx1] * matrix2[SEDENIONS_E8PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E5PART][idx1] * matrix2[SEDENIONS_E9PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E6PART][idx1] * matrix2[SEDENIONS_E10PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E7PART][idx1] * matrix2[SEDENIONS_E11PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E8PART][idx1] * matrix2[SEDENIONS_E4PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E9PART][idx1] * matrix2[SEDENIONS_E5PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E10PART][idx1] * matrix2[SEDENIONS_E6PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E11PART][idx1] * matrix2[SEDENIONS_E7PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E12PART][idx1] * matrix2[SEDENIONS_REALPART][idx2] -
-                                                                                  matrix1[SEDENIONS_E13PART][idx1] * matrix2[SEDENIONS_E1PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E14PART][idx1] * matrix2[SEDENIONS_E2PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E15PART][idx1] * matrix2[SEDENIONS_E3PART][idx2];
-
-        matrix_product[SEDENIONS_E13PART][dim_cache] =  matrix1[SEDENIONS_REALPART][idx1] * matrix2[SEDENIONS_E13PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E1PART][idx1] * matrix2[SEDENIONS_E12PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E2PART][idx1] * matrix2[SEDENIONS_E15PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E3PART][idx1] * matrix2[SEDENIONS_E14PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E4PART][idx1] * matrix2[SEDENIONS_E9PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E5PART][idx1] * matrix2[SEDENIONS_E8PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E6PART][idx1] * matrix2[SEDENIONS_E11PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E7PART][idx1] * matrix2[SEDENIONS_E10PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E8PART][idx1] * matrix2[SEDENIONS_E5PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E9PART][idx1] * matrix2[SEDENIONS_E4PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E10PART][idx1] * matrix2[SEDENIONS_E7PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E11PART][idx1] * matrix2[SEDENIONS_E6PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E12PART][idx1] * matrix2[SEDENIONS_E1PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E13PART][idx1] * matrix2[SEDENIONS_REALPART][idx2] +
-                                                                                  matrix1[SEDENIONS_E14PART][idx1] * matrix2[SEDENIONS_E3PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E15PART][idx1] * matrix2[SEDENIONS_E2PART][idx2];
-
-        matrix_product[SEDENIONS_E14PART][dim_cache] =  matrix1[SEDENIONS_REALPART][idx1] * matrix2[SEDENIONS_E14PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E1PART][idx1] * matrix2[SEDENIONS_E15PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E2PART][idx1] * matrix2[SEDENIONS_E12PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E3PART][idx1] * matrix2[SEDENIONS_E13PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E4PART][idx1] * matrix2[SEDENIONS_E10PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E5PART][idx1] * matrix2[SEDENIONS_E11PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E6PART][idx1] * matrix2[SEDENIONS_E8PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E7PART][idx1] * matrix2[SEDENIONS_E9PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E8PART][idx1] * matrix2[SEDENIONS_E6PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E9PART][idx1] * matrix2[SEDENIONS_E7PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E10PART][idx1] * matrix2[SEDENIONS_E3PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E11PART][idx1] * matrix2[SEDENIONS_E5PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E12PART][idx1] * matrix2[SEDENIONS_E2PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E13PART][idx1] * matrix2[SEDENIONS_E3PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E14PART][idx1] * matrix2[SEDENIONS_REALPART][idx2] +
-                                                                                  matrix1[SEDENIONS_E15PART][idx1] * matrix2[SEDENIONS_E1PART][idx2];
-
-        matrix_product[SEDENIONS_E15PART][dim_cache] =  matrix1[SEDENIONS_REALPART][idx1] * matrix2[SEDENIONS_E15PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E1PART][idx1] * matrix2[SEDENIONS_E14PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E2PART][idx1] * matrix2[SEDENIONS_E13PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E3PART][idx1] * matrix2[SEDENIONS_E12PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E4PART][idx1] * matrix2[SEDENIONS_E11PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E5PART][idx1] * matrix2[SEDENIONS_E10PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E6PART][idx1] * matrix2[SEDENIONS_E9PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E7PART][idx1] * matrix2[SEDENIONS_E8PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E8PART][idx1] * matrix2[SEDENIONS_E3PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E9PART][idx1] * matrix2[SEDENIONS_E6PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E10PART][idx1] * matrix2[SEDENIONS_E5PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E11PART][idx1] * matrix2[SEDENIONS_E4PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E12PART][idx1] * matrix2[SEDENIONS_E3PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E13PART][idx1] * matrix2[SEDENIONS_E2PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E14PART][idx1] * matrix2[SEDENIONS_E1PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E15PART][idx1] * matrix2[SEDENIONS_E14PART][idx2];
-	}
-
-	return;
-}
-
-__MSNATIVE_ __MSSTOCK _MS__private static void __system __export _matrixKSMTProduct(ityp **matrix1, ityp **matrix2, ityp **matrix_product, const register dim_typ dim_cache, const register dim_typ idx1, const register dim_typ idx2)
-{
-	#pragma omp parallel
-	{
-        matrix_product[SEDENIONS_REALPART][dim_cache] = matrix1[SEDENIONS_REALPART][idx1] * matrix2[SEDENIONS_REALPART][idx2] -
-                                                                                   matrix1[SEDENIONS_E1PART][idx1] * matrix2[SEDENIONS_E1PART][idx2] -
-                                                                                   matrix1[SEDENIONS_E2PART][idx1] * matrix2[SEDENIONS_E2PART][idx2] -
-                                                                                   matrix1[SEDENIONS_E3PART][idx1] * matrix2[SEDENIONS_E3PART][idx2] -
-                                                                                   matrix1[SEDENIONS_E4PART][idx1] * matrix2[SEDENIONS_E4PART][idx2] -
-                                                                                   matrix1[SEDENIONS_E5PART][idx1] * matrix2[SEDENIONS_E5PART][idx2] -
-                                                                                   matrix1[SEDENIONS_E6PART][idx1] * matrix2[SEDENIONS_E6PART][idx2] -
-                                                                                   matrix1[SEDENIONS_E7PART][idx1] * matrix2[SEDENIONS_E7PART][idx2] -
-                                                                                   matrix1[SEDENIONS_E8PART][idx1] * matrix2[SEDENIONS_E8PART][idx2] -
-                                                                                   matrix1[SEDENIONS_E9PART][idx1] * matrix2[SEDENIONS_E9PART][idx2] -
-                                                                                   matrix1[SEDENIONS_E10PART][idx1] * matrix2[SEDENIONS_E10PART][idx2] -
-                                                                                   matrix1[SEDENIONS_E11PART][idx1] * matrix2[SEDENIONS_E11PART][idx2] -
-                                                                                   matrix1[SEDENIONS_E12PART][idx1] * matrix2[SEDENIONS_E12PART][idx2] -
-                                                                                   matrix1[SEDENIONS_E13PART][idx1] * matrix2[SEDENIONS_E13PART][idx2] -
-                                                                                   matrix1[SEDENIONS_E14PART][idx1] * matrix2[SEDENIONS_E14PART][idx2] -
-                                                                                   matrix1[SEDENIONS_E15PART][idx1] * matrix2[SEDENIONS_E15PART][idx2];
-
-        matrix_product[SEDENIONS_E1PART][dim_cache] =  matrix1[SEDENIONS_REALPART][idx1] * matrix2[SEDENIONS_E1PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E1PART][idx1] * matrix2[SEDENIONS_REALPART][idx2] +
-                                                                                 matrix1[SEDENIONS_E2PART][idx1] * matrix2[SEDENIONS_E3PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E3PART][idx1] * matrix2[SEDENIONS_E2PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E4PART][idx1] * matrix2[SEDENIONS_E5PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E5PART][idx1] * matrix2[SEDENIONS_E4PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E6PART][idx1] * matrix2[SEDENIONS_E7PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E7PART][idx1] * matrix2[SEDENIONS_E6PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E8PART][idx1] * matrix2[SEDENIONS_E9PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E9PART][idx1] * matrix2[SEDENIONS_E8PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E10PART][idx1] * matrix2[SEDENIONS_E11PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E11PART][idx1] * matrix2[SEDENIONS_E10PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E12PART][idx1] * matrix2[SEDENIONS_E13PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E13PART][idx1] * matrix2[SEDENIONS_E12PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E14PART][idx1] * matrix2[SEDENIONS_E15PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E15PART][idx1] * matrix2[SEDENIONS_E14PART][idx2];
-
-        matrix_product[SEDENIONS_E2PART][dim_cache] =  matrix1[SEDENIONS_REALPART][idx1] * matrix2[SEDENIONS_E2PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E1PART][idx1] * matrix2[SEDENIONS_E3PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E2PART][idx1] * matrix2[SEDENIONS_REALPART][idx2] +
-                                                                                 matrix1[SEDENIONS_E3PART][idx1] * matrix2[SEDENIONS_E1PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E4PART][idx1] * matrix2[SEDENIONS_E6PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E5PART][idx1] * matrix2[SEDENIONS_E7PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E6PART][idx1] * matrix2[SEDENIONS_E4PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E7PART][idx1] * matrix2[SEDENIONS_E5PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E8PART][idx1] * matrix2[SEDENIONS_E10PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E9PART][idx1] * matrix2[SEDENIONS_E11PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E10PART][idx1] * matrix2[SEDENIONS_E8PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E11PART][idx1] * matrix2[SEDENIONS_E9PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E12PART][idx1] * matrix2[SEDENIONS_E14PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E13PART][idx1] * matrix2[SEDENIONS_E15PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E14PART][idx1] * matrix2[SEDENIONS_E12PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E15PART][idx1] * matrix2[SEDENIONS_E13PART][idx2];
-
-        matrix_product[SEDENIONS_E3PART][dim_cache] =  matrix1[SEDENIONS_REALPART][idx1] * matrix2[SEDENIONS_E3PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E1PART][idx1] * matrix2[SEDENIONS_E2PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E2PART][idx1] * matrix2[SEDENIONS_E1PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E3PART][idx1] * matrix2[SEDENIONS_REALPART][idx2] +
-                                                                                 matrix1[SEDENIONS_E4PART][idx1] * matrix2[SEDENIONS_E7PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E5PART][idx1] * matrix2[SEDENIONS_E6PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E6PART][idx1] * matrix2[SEDENIONS_E5PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E7PART][idx1] * matrix2[SEDENIONS_E4PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E8PART][idx1] * matrix2[SEDENIONS_E11PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E9PART][idx1] * matrix2[SEDENIONS_E10PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E10PART][idx1] * matrix2[SEDENIONS_E9PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E11PART][idx1] * matrix2[SEDENIONS_E8PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E12PART][idx1] * matrix2[SEDENIONS_E15PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E13PART][idx1] * matrix2[SEDENIONS_E14PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E14PART][idx1] * matrix2[SEDENIONS_E13PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E15PART][idx1] * matrix2[SEDENIONS_E12PART][idx2];
-
-        matrix_product[SEDENIONS_E4PART][dim_cache] =  matrix1[SEDENIONS_REALPART][idx1] * matrix2[SEDENIONS_E4PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E1PART][idx1] * matrix2[SEDENIONS_E5PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E2PART][idx1] * matrix2[SEDENIONS_E6PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E3PART][idx1] * matrix2[SEDENIONS_E7PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E4PART][idx1] * matrix2[SEDENIONS_REALPART][idx2] +
-                                                                                 matrix1[SEDENIONS_E5PART][idx1] * matrix2[SEDENIONS_E1PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E6PART][idx1] * matrix2[SEDENIONS_E2PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E7PART][idx1] * matrix2[SEDENIONS_E3PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E8PART][idx1] * matrix2[SEDENIONS_E12PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E9PART][idx1] * matrix2[SEDENIONS_E13PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E10PART][idx1] * matrix2[SEDENIONS_E14PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E11PART][idx1] * matrix2[SEDENIONS_E15PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E12PART][idx1] * matrix2[SEDENIONS_E8PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E13PART][idx1] * matrix2[SEDENIONS_E9PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E14PART][idx1] * matrix2[SEDENIONS_E10PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E15PART][idx1] * matrix2[SEDENIONS_E11PART][idx2];
-
-        matrix_product[SEDENIONS_E5PART][dim_cache] =  matrix1[SEDENIONS_REALPART][idx1] * matrix2[SEDENIONS_E5PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E1PART][idx1] * matrix2[SEDENIONS_E4PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E2PART][idx1] * matrix2[SEDENIONS_E7PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E3PART][idx1] * matrix2[SEDENIONS_E6PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E4PART][idx1] * matrix2[SEDENIONS_E1PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E5PART][idx1] * matrix2[SEDENIONS_REALPART][idx2] -
-                                                                                 matrix1[SEDENIONS_E6PART][idx1] * matrix2[SEDENIONS_E3PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E7PART][idx1] * matrix2[SEDENIONS_E2PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E8PART][idx1] * matrix2[SEDENIONS_E13PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E9PART][idx1] * matrix2[SEDENIONS_E12PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E10PART][idx1] * matrix2[SEDENIONS_E15PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E11PART][idx1] * matrix2[SEDENIONS_E4PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E12PART][idx1] * matrix2[SEDENIONS_E9PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E13PART][idx1] * matrix2[SEDENIONS_E8PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E14PART][idx1] * matrix2[SEDENIONS_E11PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E15PART][idx1] * matrix2[SEDENIONS_E10PART][idx2];
-
-        matrix_product[SEDENIONS_E6PART][dim_cache] =  matrix1[SEDENIONS_REALPART][idx1] * matrix2[SEDENIONS_E6PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E1PART][idx1] * matrix2[SEDENIONS_E7PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E2PART][idx1] * matrix2[SEDENIONS_E4PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E3PART][idx1] * matrix2[SEDENIONS_E5PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E4PART][idx1] * matrix2[SEDENIONS_E2PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E5PART][idx1] * matrix2[SEDENIONS_E3PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E6PART][idx1] * matrix2[SEDENIONS_REALPART][idx2] -
-                                                                                 matrix1[SEDENIONS_E7PART][idx1] * matrix2[SEDENIONS_E1PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E8PART][idx1] * matrix2[SEDENIONS_E14PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E9PART][idx1] * matrix2[SEDENIONS_E15PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E10PART][idx1] * matrix2[SEDENIONS_E12PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E11PART][idx1] * matrix2[SEDENIONS_E13PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E12PART][idx1] * matrix2[SEDENIONS_E10PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E13PART][idx1] * matrix2[SEDENIONS_E11PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E14PART][idx1] * matrix2[SEDENIONS_E8PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E15PART][idx1] * matrix2[SEDENIONS_E9PART][idx2];
-
-        matrix_product[SEDENIONS_E7PART][dim_cache] =  matrix1[SEDENIONS_REALPART][idx1] * matrix2[SEDENIONS_E7PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E1PART][idx1] * matrix2[SEDENIONS_E6PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E2PART][idx1] * matrix2[SEDENIONS_E5PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E3PART][idx1] * matrix2[SEDENIONS_E4PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E4PART][idx1] * matrix2[SEDENIONS_E3PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E5PART][idx1] * matrix2[SEDENIONS_E2PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E6PART][idx1] * matrix2[SEDENIONS_E1PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E7PART][idx1] * matrix2[SEDENIONS_REALPART][idx2] +
-                                                                                 matrix1[SEDENIONS_E8PART][idx1] * matrix2[SEDENIONS_E15PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E9PART][idx1] * matrix2[SEDENIONS_E14PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E10PART][idx1] * matrix2[SEDENIONS_E13PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E11PART][idx1] * matrix2[SEDENIONS_E12PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E12PART][idx1] * matrix2[SEDENIONS_E11PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E13PART][idx1] * matrix2[SEDENIONS_E10PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E14PART][idx1] * matrix2[SEDENIONS_E9PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E15PART][idx1] * matrix2[SEDENIONS_E8PART][idx2];
-
-        matrix_product[SEDENIONS_E8PART][dim_cache] =  matrix1[SEDENIONS_REALPART][idx1] * matrix2[SEDENIONS_E8PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E1PART][idx1] * matrix2[SEDENIONS_E9PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E2PART][idx1] * matrix2[SEDENIONS_E10PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E3PART][idx1] * matrix2[SEDENIONS_E11PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E4PART][idx1] * matrix2[SEDENIONS_E12PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E5PART][idx1] * matrix2[SEDENIONS_E13PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E6PART][idx1] * matrix2[SEDENIONS_E14PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E7PART][idx1] * matrix2[SEDENIONS_E15PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E8PART][idx1] * matrix2[SEDENIONS_REALPART][idx2] +
-                                                                                 matrix1[SEDENIONS_E9PART][idx1] * matrix2[SEDENIONS_E1PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E10PART][idx1] * matrix2[SEDENIONS_E2PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E11PART][idx1] * matrix2[SEDENIONS_E3PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E12PART][idx1] * matrix2[SEDENIONS_E4PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E13PART][idx1] * matrix2[SEDENIONS_E5PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E14PART][idx1] * matrix2[SEDENIONS_E6PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E15PART][idx1] * matrix2[SEDENIONS_E7PART][idx2];
-
-        matrix_product[SEDENIONS_E9PART][dim_cache] =  matrix1[SEDENIONS_REALPART][idx1] * matrix2[SEDENIONS_E9PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E1PART][idx1] * matrix2[SEDENIONS_E8PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E2PART][idx1] * matrix2[SEDENIONS_E11PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E3PART][idx1] * matrix2[SEDENIONS_E10PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E4PART][idx1] * matrix2[SEDENIONS_E13PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E5PART][idx1] * matrix2[SEDENIONS_E12PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E6PART][idx1] * matrix2[SEDENIONS_E15PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E7PART][idx1] * matrix2[SEDENIONS_E14PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E8PART][idx1] * matrix2[SEDENIONS_E1PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E9PART][idx1] * matrix2[SEDENIONS_REALPART][idx2] -
-                                                                                 matrix1[SEDENIONS_E10PART][idx1] * matrix2[SEDENIONS_E3PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E11PART][idx1] * matrix2[SEDENIONS_E2PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E12PART][idx1] * matrix2[SEDENIONS_E5PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E13PART][idx1] * matrix2[SEDENIONS_E4PART][idx2] +
-                                                                                 matrix1[SEDENIONS_E14PART][idx1] * matrix2[SEDENIONS_E7PART][idx2] -
-                                                                                 matrix1[SEDENIONS_E15PART][idx1] * matrix2[SEDENIONS_E6PART][idx2];
-
-        matrix_product[SEDENIONS_E10PART][dim_cache] =  matrix1[SEDENIONS_REALPART][idx1] * matrix2[SEDENIONS_E10PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E1PART][idx1] * matrix2[SEDENIONS_E11PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E2PART][idx1] * matrix2[SEDENIONS_E8PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E3PART][idx1] * matrix2[SEDENIONS_E9PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E4PART][idx1] * matrix2[SEDENIONS_E14PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E5PART][idx1] * matrix2[SEDENIONS_E15PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E6PART][idx1] * matrix2[SEDENIONS_E12PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E7PART][idx1] * matrix2[SEDENIONS_E13PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E8PART][idx1] * matrix2[SEDENIONS_E2PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E9PART][idx1] * matrix2[SEDENIONS_E3PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E10PART][idx1] * matrix2[SEDENIONS_REALPART][idx2] -
-                                                                                  matrix1[SEDENIONS_E11PART][idx1] * matrix2[SEDENIONS_E1PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E12PART][idx1] * matrix2[SEDENIONS_E6PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E13PART][idx1] * matrix2[SEDENIONS_E7PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E14PART][idx1] * matrix2[SEDENIONS_E4PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E15PART][idx1] * matrix2[SEDENIONS_E5PART][idx2];
-
-        matrix_product[SEDENIONS_E11PART][dim_cache] =  matrix1[SEDENIONS_REALPART][idx1] * matrix2[SEDENIONS_E11PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E1PART][idx1] * matrix2[SEDENIONS_E10PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E2PART][idx1] * matrix2[SEDENIONS_E9PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E3PART][idx1] * matrix2[SEDENIONS_E8PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E4PART][idx1] * matrix2[SEDENIONS_E15PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E5PART][idx1] * matrix2[SEDENIONS_E14PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E6PART][idx1] * matrix2[SEDENIONS_E13PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E7PART][idx1] * matrix2[SEDENIONS_E12PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E8PART][idx1] * matrix2[SEDENIONS_E3PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E9PART][idx1] * matrix2[SEDENIONS_E2PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E10PART][idx1] * matrix2[SEDENIONS_E1PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E11PART][idx1] * matrix2[SEDENIONS_REALPART][idx2] -
-                                                                                  matrix1[SEDENIONS_E12PART][idx1] * matrix2[SEDENIONS_E7PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E13PART][idx1] * matrix2[SEDENIONS_E6PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E14PART][idx1] * matrix2[SEDENIONS_E5PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E15PART][idx1] * matrix2[SEDENIONS_E4PART][idx2];
-
-        matrix_product[SEDENIONS_E12PART][dim_cache] =  matrix1[SEDENIONS_REALPART][idx1] * matrix2[SEDENIONS_E12PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E1PART][idx1] * matrix2[SEDENIONS_E13PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E2PART][idx1] * matrix2[SEDENIONS_E14PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E3PART][idx1] * matrix2[SEDENIONS_E15PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E4PART][idx1] * matrix2[SEDENIONS_E8PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E5PART][idx1] * matrix2[SEDENIONS_E9PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E6PART][idx1] * matrix2[SEDENIONS_E10PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E7PART][idx1] * matrix2[SEDENIONS_E11PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E8PART][idx1] * matrix2[SEDENIONS_E4PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E9PART][idx1] * matrix2[SEDENIONS_E5PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E10PART][idx1] * matrix2[SEDENIONS_E6PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E11PART][idx1] * matrix2[SEDENIONS_E7PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E12PART][idx1] * matrix2[SEDENIONS_REALPART][idx2] -
-                                                                                  matrix1[SEDENIONS_E13PART][idx1] * matrix2[SEDENIONS_E1PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E14PART][idx1] * matrix2[SEDENIONS_E2PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E15PART][idx1] * matrix2[SEDENIONS_E3PART][idx2];
-
-        matrix_product[SEDENIONS_E13PART][dim_cache] =  matrix1[SEDENIONS_REALPART][idx1] * matrix2[SEDENIONS_E13PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E1PART][idx1] * matrix2[SEDENIONS_E12PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E2PART][idx1] * matrix2[SEDENIONS_E15PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E3PART][idx1] * matrix2[SEDENIONS_E14PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E4PART][idx1] * matrix2[SEDENIONS_E9PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E5PART][idx1] * matrix2[SEDENIONS_E8PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E6PART][idx1] * matrix2[SEDENIONS_E11PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E7PART][idx1] * matrix2[SEDENIONS_E10PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E8PART][idx1] * matrix2[SEDENIONS_E5PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E9PART][idx1] * matrix2[SEDENIONS_E4PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E10PART][idx1] * matrix2[SEDENIONS_E7PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E11PART][idx1] * matrix2[SEDENIONS_E6PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E12PART][idx1] * matrix2[SEDENIONS_E1PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E13PART][idx1] * matrix2[SEDENIONS_REALPART][idx2] +
-                                                                                  matrix1[SEDENIONS_E14PART][idx1] * matrix2[SEDENIONS_E3PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E15PART][idx1] * matrix2[SEDENIONS_E2PART][idx2];
-
-        matrix_product[SEDENIONS_E14PART][dim_cache] =  matrix1[SEDENIONS_REALPART][idx1] * matrix2[SEDENIONS_E14PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E1PART][idx1] * matrix2[SEDENIONS_E15PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E2PART][idx1] * matrix2[SEDENIONS_E12PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E3PART][idx1] * matrix2[SEDENIONS_E13PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E4PART][idx1] * matrix2[SEDENIONS_E10PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E5PART][idx1] * matrix2[SEDENIONS_E11PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E6PART][idx1] * matrix2[SEDENIONS_E8PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E7PART][idx1] * matrix2[SEDENIONS_E9PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E8PART][idx1] * matrix2[SEDENIONS_E6PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E9PART][idx1] * matrix2[SEDENIONS_E7PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E10PART][idx1] * matrix2[SEDENIONS_E3PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E11PART][idx1] * matrix2[SEDENIONS_E5PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E12PART][idx1] * matrix2[SEDENIONS_E2PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E13PART][idx1] * matrix2[SEDENIONS_E3PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E14PART][idx1] * matrix2[SEDENIONS_REALPART][idx2] +
-                                                                                  matrix1[SEDENIONS_E15PART][idx1] * matrix2[SEDENIONS_E1PART][idx2];
-
-        matrix_product[SEDENIONS_E15PART][dim_cache] =  matrix1[SEDENIONS_REALPART][idx1] * matrix2[SEDENIONS_E15PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E1PART][idx1] * matrix2[SEDENIONS_E14PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E2PART][idx1] * matrix2[SEDENIONS_E13PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E3PART][idx1] * matrix2[SEDENIONS_E12PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E4PART][idx1] * matrix2[SEDENIONS_E11PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E5PART][idx1] * matrix2[SEDENIONS_E10PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E6PART][idx1] * matrix2[SEDENIONS_E9PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E7PART][idx1] * matrix2[SEDENIONS_E8PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E8PART][idx1] * matrix2[SEDENIONS_E3PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E9PART][idx1] * matrix2[SEDENIONS_E6PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E10PART][idx1] * matrix2[SEDENIONS_E5PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E11PART][idx1] * matrix2[SEDENIONS_E4PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E12PART][idx1] * matrix2[SEDENIONS_E3PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E13PART][idx1] * matrix2[SEDENIONS_E2PART][idx2] -
-                                                                                  matrix1[SEDENIONS_E14PART][idx1] * matrix2[SEDENIONS_E1PART][idx2] +
-                                                                                  matrix1[SEDENIONS_E15PART][idx1] * matrix2[SEDENIONS_E14PART][idx2];
-	}
-
-	return;
-}
-
 __MSNATIVE_ inline void _MS__private __system __export _matrixSub(ityp **matrix1, ityp **matrix2, ityp **matrix_sum, const register dim_typ dim[static MAX_DIMENSIONS])
 {
 	dim_typ i, j;
@@ -6340,31 +3849,64 @@ __MSNATIVE_ void _MS__private __system __export _matrixQSub(ityp **matrix1, ityp
     return;
 }
 
-__MSNATIVE_ inline void _MS__private __system __export _matrixOSub(ityp **matrix1, ityp **matrix2, ityp **matrix_sum, const register dim_typ dim[static MAX_DIMENSIONS])
+__MSNATIVE_ void _MS__private __system __export _matrixOSub(ityp **matrix1, ityp **matrix2, ityp **matrix_sum, const register dim_typ dim[static MAX_DIMENSIONS])
 {
 	dim_typ i, j;
-    void (* const omp_func)(ityp **, ityp **, ityp **, const register dim_typ) = isSett(BOOLS_EXTENSIVEMULTITHREADING) ? _matrixOEMTSub : _matrixOMTSub;
+	register dim_typ idx;
 
 	#pragma omp parallel for
     for(i=0; i<dim[ROWS]; ++i)
     	#pragma omp parallel for
         for(j=0; j<dim[COLUMNS]; ++j)
-        	omp_func(matrix1, matrix2, matrix_sum, dim[COLUMNS]*i + j);
+    	{
+        	idx = dim[COLUMNS]*i + j;
+        	#pragma omp parallel num_threads(MAX_OCTONIONS_UNITS)
+			{
+				matrix_sum[OCTONIONS_REALPART][idx] = matrix1[OCTONIONS_REALPART][idx] + matrix2[OCTONIONS_REALPART][idx];
+				matrix_sum[OCTONIONS_E1PART][idx] = matrix1[OCTONIONS_E1PART][idx] + matrix2[OCTONIONS_E1PART][idx];
+				matrix_sum[OCTONIONS_E2PART][idx] = matrix1[OCTONIONS_E2PART][idx] + matrix2[OCTONIONS_E2PART][idx];
+				matrix_sum[OCTONIONS_E3PART][idx] = matrix1[OCTONIONS_E3PART][idx] + matrix2[OCTONIONS_E3PART][idx];
+				matrix_sum[OCTONIONS_E4PART][idx] = matrix1[OCTONIONS_E4PART][idx] + matrix2[OCTONIONS_E4PART][idx];
+				matrix_sum[OCTONIONS_E5PART][idx] = matrix1[OCTONIONS_E5PART][idx] + matrix2[OCTONIONS_E5PART][idx];
+				matrix_sum[OCTONIONS_E6PART][idx] = matrix1[OCTONIONS_E6PART][idx] + matrix2[OCTONIONS_E6PART][idx];
+				matrix_sum[OCTONIONS_E7PART][idx] = matrix1[OCTONIONS_E7PART][idx] + matrix2[OCTONIONS_E7PART][idx];
+			}
+		}
 
     return;
 }
 
-__MSNATIVE_ inline void _MS__private __system __export _matrixSSub(ityp **matrix1, ityp **matrix2, ityp **matrix_sum, const register dim_typ dim[static MAX_DIMENSIONS])
+__MSNATIVE_ void _MS__private __system __export _matrixSSub(ityp **matrix1, ityp **matrix2, ityp **matrix_sum, const register dim_typ dim[static MAX_DIMENSIONS])
 {
 	dim_typ i, j;
-	void (* const omp_func)(ityp **, ityp **, ityp **, const register dim_typ) = isSett(BOOLS_EXTENSIVEMULTITHREADING) ? _matrixSEMTSub : _matrixSMTSub;
-
+	register dim_typ idx;
 
 	#pragma omp parallel for
     for(i=0; i<dim[ROWS]; ++i)
     	#pragma omp parallel for
         for(j=0; j<dim[COLUMNS]; ++j)
-        	omp_func(matrix1, matrix2, matrix_sum, dim[COLUMNS]*i + j);
+        {
+	        idx = dim[COLUMNS]*i + j;
+	        #pragma omp parallel num_threads(MAX_SEDENIONS_UNITS)
+			{
+				matrix_sum[SEDENIONS_REALPART][idx] = matrix1[SEDENIONS_REALPART][idx] + matrix2[SEDENIONS_REALPART][idx];
+		        matrix_sum[SEDENIONS_E1PART][idx] = matrix1[SEDENIONS_E1PART][idx] + matrix2[SEDENIONS_E1PART][idx];
+		        matrix_sum[SEDENIONS_E2PART][idx] = matrix1[SEDENIONS_E2PART][idx] + matrix2[SEDENIONS_E2PART][idx];
+		        matrix_sum[SEDENIONS_E3PART][idx] = matrix1[SEDENIONS_E3PART][idx] + matrix2[SEDENIONS_E3PART][idx];
+		        matrix_sum[SEDENIONS_E4PART][idx] = matrix1[SEDENIONS_E4PART][idx] + matrix2[SEDENIONS_E4PART][idx];
+		        matrix_sum[SEDENIONS_E5PART][idx] = matrix1[SEDENIONS_E5PART][idx] + matrix2[SEDENIONS_E5PART][idx];
+		        matrix_sum[SEDENIONS_E6PART][idx] = matrix1[SEDENIONS_E6PART][idx] + matrix2[SEDENIONS_E6PART][idx];
+		        matrix_sum[SEDENIONS_E7PART][idx] = matrix1[SEDENIONS_E7PART][idx] + matrix2[SEDENIONS_E7PART][idx];
+		        matrix_sum[SEDENIONS_E8PART][idx] = matrix1[SEDENIONS_E8PART][idx] + matrix2[SEDENIONS_E8PART][idx];
+		        matrix_sum[SEDENIONS_E9PART][idx] = matrix1[SEDENIONS_E9PART][idx] + matrix2[SEDENIONS_E9PART][idx];
+		        matrix_sum[SEDENIONS_E10PART][idx] = matrix1[SEDENIONS_E10PART][idx] + matrix2[SEDENIONS_E10PART][idx];
+		        matrix_sum[SEDENIONS_E11PART][idx] = matrix1[SEDENIONS_E11PART][idx] + matrix2[SEDENIONS_E11PART][idx];
+		        matrix_sum[SEDENIONS_E12PART][idx] = matrix1[SEDENIONS_E12PART][idx] + matrix2[SEDENIONS_E12PART][idx];
+		        matrix_sum[SEDENIONS_E13PART][idx] = matrix1[SEDENIONS_E13PART][idx] + matrix2[SEDENIONS_E13PART][idx];
+		        matrix_sum[SEDENIONS_E14PART][idx] = matrix1[SEDENIONS_E14PART][idx] + matrix2[SEDENIONS_E14PART][idx];
+		        matrix_sum[SEDENIONS_E15PART][idx] = matrix1[SEDENIONS_E15PART][idx] + matrix2[SEDENIONS_E15PART][idx];
+			}
+		}
 
     return;
 }
@@ -6432,36 +3974,69 @@ __MSNATIVE_ void _MS__private __system __export _matrixQAdd(ityp **matrix1, ityp
     return;
 }
 
-__MSNATIVE_ inline void _MS__private __system __export _matrixOAdd(ityp **matrix1, ityp **matrix2, ityp **matrix_sum, const register dim_typ dim[static MAX_DIMENSIONS])
+__MSNATIVE_ void _MS__private __system __export _matrixOAdd(ityp **matrix1, ityp **matrix2, ityp **matrix_sum, const register dim_typ dim[static MAX_DIMENSIONS])
 {
 	dim_typ i, j;
-    void (* const omp_func)(ityp **, ityp **, ityp **, const register dim_typ) = isSett(BOOLS_EXTENSIVEMULTITHREADING) ? _matrixOEMTSum : _matrixOMTSum;
+	register dim_typ idx;
+	
+	#pragma omp parallel for
+    for(i=0; i<dim[ROWS]; ++i)
+    	#pragma omp parallel for
+        for(j=0; j<dim[COLUMNS]; ++j)
+        {
+	        idx = dim[COLUMNS]*i + j;
+		    #pragma omp parallel num_threads(MAX_OCTONIONS_UNITS)
+			{
+		        matrix_sum[OCTONIONS_REALPART][idx] = matrix1[OCTONIONS_REALPART][idx] + matrix2[OCTONIONS_REALPART][idx];
+		        matrix_sum[OCTONIONS_E1PART][idx] = matrix1[OCTONIONS_E1PART][idx] + matrix2[OCTONIONS_E1PART][idx];
+		        matrix_sum[OCTONIONS_E2PART][idx] = matrix1[OCTONIONS_E2PART][idx] + matrix2[OCTONIONS_E2PART][idx];
+		        matrix_sum[OCTONIONS_E3PART][idx] = matrix1[OCTONIONS_E3PART][idx] + matrix2[OCTONIONS_E3PART][idx];
+		        matrix_sum[OCTONIONS_E4PART][idx] = matrix1[OCTONIONS_E4PART][idx] + matrix2[OCTONIONS_E4PART][idx];
+		        matrix_sum[OCTONIONS_E5PART][idx] = matrix1[OCTONIONS_E5PART][idx] + matrix2[OCTONIONS_E5PART][idx];
+		        matrix_sum[OCTONIONS_E6PART][idx] = matrix1[OCTONIONS_E6PART][idx] + matrix2[OCTONIONS_E6PART][idx];
+		        matrix_sum[OCTONIONS_E7PART][idx] = matrix1[OCTONIONS_E7PART][idx] + matrix2[OCTONIONS_E7PART][idx];
+			}
+		}
+
+    return;
+}
+
+__MSNATIVE_ void _MS__private __system __export _matrixSAdd(ityp **matrix1, ityp **matrix2, ityp **matrix_sum, const register dim_typ dim[static MAX_DIMENSIONS])
+{
+	dim_typ i, j;
+	register dim_typ idx;
 
 	#pragma omp parallel for
     for(i=0; i<dim[ROWS]; ++i)
     	#pragma omp parallel for
         for(j=0; j<dim[COLUMNS]; ++j)
-        	omp_func(matrix1, matrix2, matrix_sum, dim[COLUMNS]*i + j);
+        {
+        	idx = dim[COLUMNS]*i + j;
+	        #pragma omp parallel num_threads(MAX_SEDENIONS_UNITS)
+			{
+				matrix_sum[SEDENIONS_REALPART][idx] = matrix1[SEDENIONS_REALPART][idx] + matrix2[SEDENIONS_REALPART][idx];
+		        matrix_sum[SEDENIONS_E1PART][idx] = matrix1[SEDENIONS_E1PART][idx] + matrix2[SEDENIONS_E1PART][idx];
+		        matrix_sum[SEDENIONS_E2PART][idx] = matrix1[SEDENIONS_E2PART][idx] + matrix2[SEDENIONS_E2PART][idx];
+		        matrix_sum[SEDENIONS_E3PART][idx] = matrix1[SEDENIONS_E3PART][idx] + matrix2[SEDENIONS_E3PART][idx];
+		        matrix_sum[SEDENIONS_E4PART][idx] = matrix1[SEDENIONS_E4PART][idx] + matrix2[SEDENIONS_E4PART][idx];
+		        matrix_sum[SEDENIONS_E5PART][idx] = matrix1[SEDENIONS_E5PART][idx] + matrix2[SEDENIONS_E5PART][idx];
+		        matrix_sum[SEDENIONS_E6PART][idx] = matrix1[SEDENIONS_E6PART][idx] + matrix2[SEDENIONS_E6PART][idx];
+		        matrix_sum[SEDENIONS_E7PART][idx] = matrix1[SEDENIONS_E7PART][idx] + matrix2[SEDENIONS_E7PART][idx];
+		        matrix_sum[SEDENIONS_E8PART][idx] = matrix1[SEDENIONS_E8PART][idx] + matrix2[SEDENIONS_E8PART][idx];
+		        matrix_sum[SEDENIONS_E9PART][idx] = matrix1[SEDENIONS_E9PART][idx] + matrix2[SEDENIONS_E9PART][idx];
+		        matrix_sum[SEDENIONS_E10PART][idx] = matrix1[SEDENIONS_E10PART][idx] + matrix2[SEDENIONS_E10PART][idx];
+		        matrix_sum[SEDENIONS_E11PART][idx] = matrix1[SEDENIONS_E11PART][idx] + matrix2[SEDENIONS_E11PART][idx];
+		        matrix_sum[SEDENIONS_E12PART][idx] = matrix1[SEDENIONS_E12PART][idx] + matrix2[SEDENIONS_E12PART][idx];
+		        matrix_sum[SEDENIONS_E13PART][idx] = matrix1[SEDENIONS_E13PART][idx] + matrix2[SEDENIONS_E13PART][idx];
+		        matrix_sum[SEDENIONS_E14PART][idx] = matrix1[SEDENIONS_E14PART][idx] + matrix2[SEDENIONS_E14PART][idx];
+		        matrix_sum[SEDENIONS_E15PART][idx] = matrix1[SEDENIONS_E15PART][idx] + matrix2[SEDENIONS_E15PART][idx];
+			}
+		}
 
     return;
 }
 
-__MSNATIVE_ inline void _MS__private __system __export _matrixSAdd(ityp **matrix1, ityp **matrix2, ityp **matrix_sum, const register dim_typ dim[static MAX_DIMENSIONS])
-{
-	dim_typ i, j;
-	void (* const omp_func)(ityp **, ityp **, ityp **, const register dim_typ) = isSett(BOOLS_EXTENSIVEMULTITHREADING) ? _matrixSEMTSum : _matrixSMTSum;
-
-
-	#pragma omp parallel for
-    for(i=0; i<dim[ROWS]; ++i)
-    	#pragma omp parallel for
-        for(j=0; j<dim[COLUMNS]; ++j)
-        	omp_func(matrix1, matrix2, matrix_sum, dim[COLUMNS]*i + j);
-
-    return;
-}
-
-__MSNATIVE_ __MSSTOCK inline void __system __call_OSMM(ityp **matrix1, ityp **matrix2, ityp **matrix_product, const register dim_typ dim [static MAX_MATRICES], const register sel_typ algunits,
+__MSNATIVE_ inline void __system __call_OSMM(ityp **matrix1, ityp **matrix2, ityp **matrix_product, const register dim_typ dim [static MAX_MATRICES], const register sel_typ algunits,
 	void (* const prodFunc)(ityp **, ityp **, ityp **, const register dim_typ [static MAX_MATRICES]),
 	void (* const sumFunc)(ityp **, ityp **, ityp **, const register dim_typ [static MAX_DIMENSIONS]),
 	void (* const subFunc)(ityp **, ityp **, ityp **, const register dim_typ [static MAX_DIMENSIONS]))
@@ -6470,7 +4045,7 @@ __MSNATIVE_ __MSSTOCK inline void __system __call_OSMM(ityp **matrix1, ityp **ma
 	return;
 }
 
-__MSNATIVE_ __MSSTOCK inline void __system __call_STRASSENMM(ityp **matrix1, ityp **matrix2, ityp **matrix_product, const register dim_typ dim [static MAX_MATRICES], const register sel_typ algunits,
+__MSNATIVE_ inline void __system __call_STRASSENMM(ityp **matrix1, ityp **matrix2, ityp **matrix_product, const register dim_typ dim [static MAX_MATRICES], const register sel_typ algunits,
 	void (* const prodFunc)(ityp **, ityp **, ityp **, const register dim_typ [static MAX_MATRICES]),
 	void (* const sumFunc)(ityp **, ityp **, ityp **, const register dim_typ [static MAX_DIMENSIONS]),
 	void (* const subFunc)(ityp **, ityp **, ityp **, const register dim_typ [static MAX_DIMENSIONS]))
@@ -6480,7 +4055,7 @@ __MSNATIVE_ __MSSTOCK inline void __system __call_STRASSENMM(ityp **matrix1, ity
 }
 
 
-__MSNATIVE_ __MSSTOCK inline void __system __call_NORMALMM(ityp **matrix1, ityp **matrix2, ityp **matrix_product, const register dim_typ dim [static MAX_MATRICES], const register sel_typ algunits,
+__MSNATIVE_ inline void __system __call_NORMALMM(ityp **matrix1, ityp **matrix2, ityp **matrix_product, const register dim_typ dim [static MAX_MATRICES], const register sel_typ algunits,
 	void (* const prodFunc)(ityp **, ityp **, ityp **, const register dim_typ [static MAX_MATRICES]),
 	void (* const sumFunc)(ityp **, ityp **, ityp **, const register dim_typ [static MAX_DIMENSIONS]),
 	void (* const subFunc)(ityp **, ityp **, ityp **, const register dim_typ [static MAX_DIMENSIONS]))
@@ -6571,26 +4146,15 @@ __MSNATIVE_ __MSUTIL_ void __system __export mmult_fast(const register dim_typ N
 	ityp **T = malloc(sz2); // malloc(sz);
 	ityp **U = malloc(sz2); // malloc(sz);
 	
-	if(algunits <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && algunits > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
-		#pragma omp parallel for num_threads(algunits)
-		for(i=0; i<algunits; ++i)
-		{
-			T[i] = malloc(sz);
-			U[i] = malloc(sz);
-			P[i] = malloc(sz2);
-			for(j=6; j>=0; --j)
-				P[i][j] = malloc(sz);
-		}
-	else
-		#pragma omp parallel for
-		for(i=0; i<algunits; ++i)
-		{
-			T[i] = malloc(sz);
-			U[i] = malloc(sz);
-			P[i] = malloc(sz2);
-			for(j=6; j>=0; --j)
-				P[i][j] = malloc(sz);
-		}
+	#pragma omp parallel for num_threads(algunits)
+	for(i=0; i<algunits; ++i)
+	{
+		T[i] = malloc(sz);
+		U[i] = malloc(sz);
+		P[i] = malloc(sz2);
+		for(j=6; j>=0; --j)
+			P[i][j] = malloc(sz);
+	}
 	
 	dim_typ2 dim =
 	{
@@ -6646,26 +4210,15 @@ __MSNATIVE_ __MSUTIL_ void __system __export mmult_fast(const register dim_typ N
 	matrixSubFunc(T,U,Z+n*(N+1), dim);
 	
 
-	if(algunits <= MIN_EXTENSIVE_MULTITHREADING_CORESNO || (isSett(BOOLS_EXTENSIVEMULTITHREADING) && algunits > MIN_EXTENSIVE_MULTITHREADING_CORESNO))
-		#pragma omp parallel for num_threads(algunits)
-		for(i=0; i<algunits; ++i)
-		{
-			free(U[i]);
-			free(T[i]);
-			for (j = 6; j >= 0; --j)
-				free(P[i][j]);
-			free(P[i]);
-		}
-	else
-		#pragma omp parallel for
-		for(i=0; i<algunits; ++i)
-		{
-			free(U[i]);
-			free(T[i]);
-			for (j = 6; j >= 0; --j)
-				free(P[i][j]);
-			free(P[i]);
-		}
+	#pragma omp parallel for num_threads(algunits)
+	for(i=0; i<algunits; ++i)
+	{
+		free(U[i]);
+		free(T[i]);
+		for (j = 6; j >= 0; --j)
+			free(P[i][j]);
+		free(P[i]);
+	}
 	
 	free(U);  // deallocate temp matrices
 	free(T);
@@ -6752,10 +4305,10 @@ __MSNATIVE_ void _MS__private __system __export _matrixQMultiplication(ityp **ma
     return;
 }
 
-__MSNATIVE_ inline void _MS__private __system __export _matrixOMultiplication(ityp **matrix1, ityp **matrix2, ityp **matrix_product, const register dim_typ dim[static MAX_MATRICES])
+__MSNATIVE_ void _MS__private __system __export _matrixOMultiplication(ityp **matrix1, ityp **matrix2, ityp **matrix_product, const register dim_typ dim[static MAX_MATRICES])
 {
     dim_typ i, j, k;
-	void (* const omp_func)(ityp **, ityp **, ityp **, const register dim_typ, const register dim_typ, const register dim_typ) = isSett(BOOLS_EXTENSIVEMULTITHREADING) ? _matrixOEMTMultiplication : _matrixOMTMultiplication;
+    register dim_typ idx[MAX_MATRICES];
 
 	#pragma omp parallel for
     for(i=0; i<dim[ROWS]; ++i)
@@ -6763,15 +4316,93 @@ __MSNATIVE_ inline void _MS__private __system __export _matrixOMultiplication(it
         for(k=0; k<dim[COLUMNS]; ++k)
     		#pragma omp parallel for
         	for(j=0; j<dim[COLUMNS2]; ++j)
-            	omp_func(matrix1, matrix2, matrix_product, dim[COLUMNS2]*i + j, dim[COLUMNS]*i + k, dim[COLUMNS2]*k + j);
+        	{
+				idx[FIRST_MATRIX] = dim[COLUMNS]*i + k;
+				idx[SECOND_MATRIX] = dim[COLUMNS2]*k + j;
+				idx[MATRIX_PRODUCT] = dim[COLUMNS2]*i + j;
+	        	#pragma omp parallel num_threads(MAX_OCTONIONS_UNITS)
+				{
+					matrix_product[OCTONIONS_REALPART][idx[MATRIX_PRODUCT]] +=  matrix1[OCTONIONS_REALPART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_REALPART][idx[SECOND_MATRIX]] -
+			                                                             matrix1[OCTONIONS_E1PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E1PART][idx[SECOND_MATRIX]] -
+			                                                             matrix1[OCTONIONS_E2PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E2PART][idx[SECOND_MATRIX]] -
+			                                                             matrix1[OCTONIONS_E3PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E3PART][idx[SECOND_MATRIX]] -
+			                                                             matrix1[OCTONIONS_E4PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E4PART][idx[SECOND_MATRIX]] -
+			                                                             matrix1[OCTONIONS_E5PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E5PART][idx[SECOND_MATRIX]] -
+			                                                             matrix1[OCTONIONS_E6PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E6PART][idx[SECOND_MATRIX]] -
+			                                                             matrix1[OCTONIONS_E7PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E7PART][idx[SECOND_MATRIX]];
+			
+			        matrix_product[OCTONIONS_E1PART][idx[MATRIX_PRODUCT]] +=  matrix1[OCTONIONS_REALPART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E1PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[OCTONIONS_E1PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_REALPART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[OCTONIONS_E2PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E4PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[OCTONIONS_E3PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E7PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[OCTONIONS_E4PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E2PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[OCTONIONS_E5PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E6PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[OCTONIONS_E6PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E5PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[OCTONIONS_E7PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E3PART][idx[SECOND_MATRIX]];
+			
+			        matrix_product[OCTONIONS_E2PART][idx[MATRIX_PRODUCT]] +=  matrix1[OCTONIONS_REALPART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E2PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[OCTONIONS_E1PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E4PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[OCTONIONS_E2PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_REALPART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[OCTONIONS_E3PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E5PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[OCTONIONS_E4PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E1PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[OCTONIONS_E5PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E3PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[OCTONIONS_E6PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E7PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[OCTONIONS_E7PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E6PART][idx[SECOND_MATRIX]];
+			
+			        matrix_product[OCTONIONS_E3PART][idx[MATRIX_PRODUCT]] +=  matrix1[OCTONIONS_REALPART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E3PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[OCTONIONS_E1PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E7PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[OCTONIONS_E2PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E5PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[OCTONIONS_E3PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_REALPART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[OCTONIONS_E4PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E6PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[OCTONIONS_E5PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E2PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[OCTONIONS_E6PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E4PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[OCTONIONS_E7PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E1PART][idx[SECOND_MATRIX]];
+			
+			        matrix_product[OCTONIONS_E4PART][idx[MATRIX_PRODUCT]] +=  matrix1[OCTONIONS_REALPART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E4PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[OCTONIONS_E1PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E2PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[OCTONIONS_E2PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E1PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[OCTONIONS_E3PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E6PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[OCTONIONS_E4PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_REALPART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[OCTONIONS_E5PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E7PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[OCTONIONS_E6PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E3PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[OCTONIONS_E7PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E5PART][idx[SECOND_MATRIX]];
+			
+			        matrix_product[OCTONIONS_E5PART][idx[MATRIX_PRODUCT]] +=  matrix1[OCTONIONS_REALPART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E5PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[OCTONIONS_E1PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E6PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[OCTONIONS_E2PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E3PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[OCTONIONS_E3PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E2PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[OCTONIONS_E4PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E7PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[OCTONIONS_E5PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_REALPART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[OCTONIONS_E6PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E1PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[OCTONIONS_E7PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E4PART][idx[SECOND_MATRIX]];
+			
+			        matrix_product[OCTONIONS_E6PART][idx[MATRIX_PRODUCT]] +=  matrix1[OCTONIONS_REALPART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E6PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[OCTONIONS_E1PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E5PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[OCTONIONS_E2PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E7PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[OCTONIONS_E3PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E4PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[OCTONIONS_E4PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E3PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[OCTONIONS_E5PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E1PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[OCTONIONS_E6PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_REALPART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[OCTONIONS_E7PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E2PART][idx[SECOND_MATRIX]];
+			
+			        matrix_product[OCTONIONS_E7PART][idx[MATRIX_PRODUCT]] +=  matrix1[OCTONIONS_REALPART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E7PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[OCTONIONS_E1PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E3PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[OCTONIONS_E2PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E6PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[OCTONIONS_E3PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E1PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[OCTONIONS_E4PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E5PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[OCTONIONS_E5PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E4PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[OCTONIONS_E6PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E2PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[OCTONIONS_E7PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_REALPART][idx[SECOND_MATRIX]];
+				}
+			}
             	
     return;
 }
 
-__MSNATIVE_ inline void _MS__private __system __export _matrixSMultiplication(ityp **matrix1, ityp **matrix2, ityp **matrix_product, const register dim_typ dim[static MAX_ABSTRACT_DIMENSIONS])
+__MSNATIVE_ void _MS__private __system __export _matrixSMultiplication(ityp **matrix1, ityp **matrix2, ityp **matrix_product, const register dim_typ dim[static MAX_ABSTRACT_DIMENSIONS])
 {
     dim_typ i, j, k;
-	void (* const omp_func)(ityp **, ityp **, ityp **, const register dim_typ, const register dim_typ, const register dim_typ) = isSett(BOOLS_EXTENSIVEMULTITHREADING) ? _matrixSEMTMultiplication : _matrixSMTMultiplication;
+	register dim_typ idx[MAX_MATRICES];
 
 	#pragma omp parallel for
     for(i=0; i<dim[ROWS]; ++i)
@@ -6779,7 +4410,285 @@ __MSNATIVE_ inline void _MS__private __system __export _matrixSMultiplication(it
         for(k=0; k<dim[COLUMNS]; ++k)
 			#pragma omp parallel for
         	for(j=0; j<dim[COLUMNS2]; ++j)
-            	omp_func(matrix1, matrix2, matrix_product, dim[COLUMNS2]*i + j, dim[COLUMNS]*i + k, dim[COLUMNS2]*k + j);
+        	{
+				idx[FIRST_MATRIX] = dim[COLUMNS]*i + k;
+				idx[SECOND_MATRIX] = dim[COLUMNS2]*k + j;
+				idx[MATRIX_PRODUCT] = dim[COLUMNS2]*i + j;
+        		#pragma omp parallel num_threads(MAX_SEDENIONS_UNITS)
+				{
+					matrix_product[SEDENIONS_REALPART][idx[MATRIX_PRODUCT]] +=  matrix1[SEDENIONS_REALPART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_REALPART][idx[SECOND_MATRIX]] -
+			                                                             matrix1[SEDENIONS_E1PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E1PART][idx[SECOND_MATRIX]] -
+			                                                             matrix1[SEDENIONS_E2PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E2PART][idx[SECOND_MATRIX]] -
+			                                                             matrix1[SEDENIONS_E3PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E3PART][idx[SECOND_MATRIX]] -
+			                                                             matrix1[SEDENIONS_E4PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E4PART][idx[SECOND_MATRIX]] -
+			                                                             matrix1[SEDENIONS_E5PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E5PART][idx[SECOND_MATRIX]] -
+			                                                             matrix1[SEDENIONS_E6PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E6PART][idx[SECOND_MATRIX]] -
+			                                                             matrix1[SEDENIONS_E7PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E7PART][idx[SECOND_MATRIX]] -
+			                                                             matrix1[SEDENIONS_E8PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E8PART][idx[SECOND_MATRIX]] -
+			                                                             matrix1[SEDENIONS_E9PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E9PART][idx[SECOND_MATRIX]] -
+			                                                             matrix1[SEDENIONS_E10PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E10PART][idx[SECOND_MATRIX]] -
+			                                                             matrix1[SEDENIONS_E11PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E11PART][idx[SECOND_MATRIX]] -
+			                                                             matrix1[SEDENIONS_E12PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E12PART][idx[SECOND_MATRIX]] -
+			                                                             matrix1[SEDENIONS_E13PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E13PART][idx[SECOND_MATRIX]] -
+			                                                             matrix1[SEDENIONS_E14PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E14PART][idx[SECOND_MATRIX]] -
+			                                                             matrix1[SEDENIONS_E15PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E15PART][idx[SECOND_MATRIX]];
+			
+			        matrix_product[SEDENIONS_E1PART][idx[MATRIX_PRODUCT]] +=  matrix1[SEDENIONS_REALPART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E1PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E1PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_REALPART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E2PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E3PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[SEDENIONS_E3PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E2PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E4PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E5PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[SEDENIONS_E5PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E4PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[SEDENIONS_E6PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E7PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E7PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E6PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E8PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E9PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[SEDENIONS_E9PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E8PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[SEDENIONS_E10PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E11PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E11PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E10PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[SEDENIONS_E12PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E13PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E13PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E12PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E14PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E15PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[SEDENIONS_E15PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E14PART][idx[SECOND_MATRIX]];
+			
+			        matrix_product[SEDENIONS_E2PART][idx[MATRIX_PRODUCT]] +=  matrix1[SEDENIONS_REALPART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E2PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[SEDENIONS_E1PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E3PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E2PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_REALPART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E3PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E1PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E4PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E6PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E5PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E7PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[SEDENIONS_E6PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E4PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[SEDENIONS_E7PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E5PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E8PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E10PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E9PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E11PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[SEDENIONS_E10PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E8PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[SEDENIONS_E11PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E9PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[SEDENIONS_E12PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E14PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[SEDENIONS_E13PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E15PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E14PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E12PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E15PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E13PART][idx[SECOND_MATRIX]];
+			
+			        matrix_product[SEDENIONS_E3PART][idx[MATRIX_PRODUCT]] +=  matrix1[SEDENIONS_REALPART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E3PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E1PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E2PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[SEDENIONS_E2PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E1PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E3PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_REALPART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E4PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E7PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[SEDENIONS_E5PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E6PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E6PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E5PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[SEDENIONS_E7PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E4PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E8PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E11PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[SEDENIONS_E9PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E10PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E10PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E9PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[SEDENIONS_E11PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E8PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[SEDENIONS_E12PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E15PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E13PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E14PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[SEDENIONS_E14PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E13PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E15PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E12PART][idx[SECOND_MATRIX]];
+			
+			        matrix_product[SEDENIONS_E4PART][idx[MATRIX_PRODUCT]] +=   matrix1[SEDENIONS_E1PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E5PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[SEDENIONS_E2PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E6PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[SEDENIONS_E3PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E7PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E4PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_REALPART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E5PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E1PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E6PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E2PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E7PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E3PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E8PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E12PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E9PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E13PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E10PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E14PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E11PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E15PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[SEDENIONS_E12PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E8PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[SEDENIONS_E13PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E9PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[SEDENIONS_E14PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E10PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[SEDENIONS_E15PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E11PART][idx[SECOND_MATRIX]];
+			
+			        matrix_product[SEDENIONS_E5PART][idx[MATRIX_PRODUCT]] +=  matrix1[SEDENIONS_REALPART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E5PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E1PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E4PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[SEDENIONS_E2PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E7PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E3PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E6PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[SEDENIONS_E4PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E1PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E5PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_REALPART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[SEDENIONS_E6PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E3PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E7PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E2PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E8PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E13PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[SEDENIONS_E9PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E12PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E10PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E15PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[SEDENIONS_E11PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E4PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E12PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E9PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[SEDENIONS_E13PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E8PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E14PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E11PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[SEDENIONS_E15PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E10PART][idx[SECOND_MATRIX]];
+			                                                   
+			        matrix_product[SEDENIONS_E6PART][idx[MATRIX_PRODUCT]] +=  matrix1[SEDENIONS_REALPART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E6PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E1PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E7PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E2PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E4PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[SEDENIONS_E3PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E5PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[SEDENIONS_E4PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E2PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E5PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E3PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E6PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_REALPART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[SEDENIONS_E7PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E1PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E8PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E14PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[SEDENIONS_E9PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E15PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[SEDENIONS_E10PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E12PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E11PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E13PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E12PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E10PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[SEDENIONS_E13PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E11PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[SEDENIONS_E14PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E8PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E15PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E9PART][idx[SECOND_MATRIX]];
+			 
+			        matrix_product[SEDENIONS_E7PART][idx[MATRIX_PRODUCT]] +=  matrix1[SEDENIONS_REALPART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E7PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[SEDENIONS_E1PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E6PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E2PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E5PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E3PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E4PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[SEDENIONS_E4PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E3PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[SEDENIONS_E5PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E2PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E6PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E1PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E7PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_REALPART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E8PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E15PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E9PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E14PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[SEDENIONS_E10PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E13PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[SEDENIONS_E11PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E12PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E12PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E11PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E13PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E10PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[SEDENIONS_E14PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E9PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[SEDENIONS_E15PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E8PART][idx[SECOND_MATRIX]];
+			
+			        matrix_product[SEDENIONS_E8PART][idx[MATRIX_PRODUCT]] +=  matrix1[SEDENIONS_REALPART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E8PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[SEDENIONS_E1PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E9PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[SEDENIONS_E2PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E10PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[SEDENIONS_E3PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E11PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[SEDENIONS_E4PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E12PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[SEDENIONS_E5PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E13PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[SEDENIONS_E6PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E14PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[SEDENIONS_E7PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E15PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E8PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_REALPART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E9PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E1PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E10PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E2PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E11PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E3PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E12PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E4PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E13PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E5PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E14PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E6PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E15PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E7PART][idx[SECOND_MATRIX]];
+			
+			        matrix_product[SEDENIONS_E9PART][idx[MATRIX_PRODUCT]] +=  matrix1[SEDENIONS_REALPART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E9PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E1PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E8PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[SEDENIONS_E2PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E11PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E3PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E10PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[SEDENIONS_E4PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E13PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E5PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E12PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E6PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E15PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[SEDENIONS_E7PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E14PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[SEDENIONS_E8PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E1PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E9PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_REALPART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[SEDENIONS_E10PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E3PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E11PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E2PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[SEDENIONS_E12PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E5PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E13PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E4PART][idx[SECOND_MATRIX]] +
+			                                                   matrix1[SEDENIONS_E14PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E7PART][idx[SECOND_MATRIX]] -
+			                                                   matrix1[SEDENIONS_E15PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E6PART][idx[SECOND_MATRIX]];
+			
+			        matrix_product[SEDENIONS_E10PART][idx[MATRIX_PRODUCT]] +=  matrix1[SEDENIONS_REALPART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E10PART][idx[SECOND_MATRIX]] +
+			                                                    matrix1[SEDENIONS_E1PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E11PART][idx[SECOND_MATRIX]] +
+			                                                    matrix1[SEDENIONS_E2PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E8PART][idx[SECOND_MATRIX]] -
+			                                                    matrix1[SEDENIONS_E3PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E9PART][idx[SECOND_MATRIX]] -
+			                                                    matrix1[SEDENIONS_E4PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E14PART][idx[SECOND_MATRIX]] -
+			                                                    matrix1[SEDENIONS_E5PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E15PART][idx[SECOND_MATRIX]] +
+			                                                    matrix1[SEDENIONS_E6PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E12PART][idx[SECOND_MATRIX]] +
+			                                                    matrix1[SEDENIONS_E7PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E13PART][idx[SECOND_MATRIX]] -
+			                                                    matrix1[SEDENIONS_E8PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E2PART][idx[SECOND_MATRIX]] +
+			                                                    matrix1[SEDENIONS_E9PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E3PART][idx[SECOND_MATRIX]] +
+			                                                    matrix1[SEDENIONS_E10PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_REALPART][idx[SECOND_MATRIX]] -
+			                                                    matrix1[SEDENIONS_E11PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E1PART][idx[SECOND_MATRIX]] -
+			                                                    matrix1[SEDENIONS_E12PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E6PART][idx[SECOND_MATRIX]] -
+			                                                    matrix1[SEDENIONS_E13PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E7PART][idx[SECOND_MATRIX]] +
+			                                                    matrix1[SEDENIONS_E14PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E4PART][idx[SECOND_MATRIX]] +
+			                                                    matrix1[SEDENIONS_E15PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E5PART][idx[SECOND_MATRIX]];
+			
+			        matrix_product[SEDENIONS_E11PART][idx[MATRIX_PRODUCT]] +=  matrix1[SEDENIONS_REALPART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E11PART][idx[SECOND_MATRIX]] -
+			                                                    matrix1[SEDENIONS_E1PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E10PART][idx[SECOND_MATRIX]] +
+			                                                    matrix1[SEDENIONS_E2PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E9PART][idx[SECOND_MATRIX]] +
+			                                                    matrix1[SEDENIONS_E3PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E8PART][idx[SECOND_MATRIX]] -
+			                                                    matrix1[SEDENIONS_E4PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E15PART][idx[SECOND_MATRIX]] +
+			                                                    matrix1[SEDENIONS_E5PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E14PART][idx[SECOND_MATRIX]] -
+			                                                    matrix1[SEDENIONS_E6PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E13PART][idx[SECOND_MATRIX]] +
+			                                                    matrix1[SEDENIONS_E7PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E12PART][idx[SECOND_MATRIX]] -
+			                                                    matrix1[SEDENIONS_E8PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E3PART][idx[SECOND_MATRIX]] -
+			                                                    matrix1[SEDENIONS_E9PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E2PART][idx[SECOND_MATRIX]] +
+			                                                    matrix1[SEDENIONS_E10PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E1PART][idx[SECOND_MATRIX]] +
+			                                                    matrix1[SEDENIONS_E11PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_REALPART][idx[SECOND_MATRIX]] -
+			                                                    matrix1[SEDENIONS_E12PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E7PART][idx[SECOND_MATRIX]] +
+			                                                    matrix1[SEDENIONS_E13PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E6PART][idx[SECOND_MATRIX]] -
+			                                                    matrix1[SEDENIONS_E14PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E5PART][idx[SECOND_MATRIX]] +
+			                                                    matrix1[SEDENIONS_E15PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E4PART][idx[SECOND_MATRIX]];
+			
+			        matrix_product[SEDENIONS_E12PART][idx[MATRIX_PRODUCT]] +=  matrix1[SEDENIONS_REALPART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E12PART][idx[SECOND_MATRIX]] +
+			                                                    matrix1[SEDENIONS_E1PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E13PART][idx[SECOND_MATRIX]] +
+			                                                    matrix1[SEDENIONS_E2PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E14PART][idx[SECOND_MATRIX]] +
+			                                                    matrix1[SEDENIONS_E3PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E15PART][idx[SECOND_MATRIX]] +
+			                                                    matrix1[SEDENIONS_E4PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E8PART][idx[SECOND_MATRIX]] -
+			                                                    matrix1[SEDENIONS_E5PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E9PART][idx[SECOND_MATRIX]] -
+			                                                    matrix1[SEDENIONS_E6PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E10PART][idx[SECOND_MATRIX]] -
+			                                                    matrix1[SEDENIONS_E7PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E11PART][idx[SECOND_MATRIX]] -
+			                                                    matrix1[SEDENIONS_E8PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E4PART][idx[SECOND_MATRIX]] +
+			                                                    matrix1[SEDENIONS_E9PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E5PART][idx[SECOND_MATRIX]] +
+			                                                    matrix1[SEDENIONS_E10PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E6PART][idx[SECOND_MATRIX]] +
+			                                                    matrix1[SEDENIONS_E11PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E7PART][idx[SECOND_MATRIX]] +
+			                                                    matrix1[SEDENIONS_E12PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_REALPART][idx[SECOND_MATRIX]] -
+			                                                    matrix1[SEDENIONS_E13PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E1PART][idx[SECOND_MATRIX]] -
+			                                                    matrix1[SEDENIONS_E14PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E2PART][idx[SECOND_MATRIX]] -
+			                                                    matrix1[SEDENIONS_E15PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E3PART][idx[SECOND_MATRIX]];
+			
+			        matrix_product[SEDENIONS_E13PART][idx[MATRIX_PRODUCT]] +=  matrix1[SEDENIONS_REALPART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E13PART][idx[SECOND_MATRIX]] -
+			                                                    matrix1[SEDENIONS_E1PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E12PART][idx[SECOND_MATRIX]] +
+			                                                    matrix1[SEDENIONS_E2PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E15PART][idx[SECOND_MATRIX]] -
+			                                                    matrix1[SEDENIONS_E3PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E14PART][idx[SECOND_MATRIX]] +
+			                                                    matrix1[SEDENIONS_E4PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E9PART][idx[SECOND_MATRIX]] +
+			                                                    matrix1[SEDENIONS_E5PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E8PART][idx[SECOND_MATRIX]] +
+			                                                    matrix1[SEDENIONS_E6PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E11PART][idx[SECOND_MATRIX]] -
+			                                                    matrix1[SEDENIONS_E7PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E10PART][idx[SECOND_MATRIX]] -
+			                                                    matrix1[SEDENIONS_E8PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E5PART][idx[SECOND_MATRIX]] -
+			                                                    matrix1[SEDENIONS_E9PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E4PART][idx[SECOND_MATRIX]] +
+			                                                    matrix1[SEDENIONS_E10PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E7PART][idx[SECOND_MATRIX]] -
+			                                                    matrix1[SEDENIONS_E11PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E6PART][idx[SECOND_MATRIX]] +
+			                                                    matrix1[SEDENIONS_E12PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E1PART][idx[SECOND_MATRIX]] +
+			                                                    matrix1[SEDENIONS_E13PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_REALPART][idx[SECOND_MATRIX]] +
+			                                                    matrix1[SEDENIONS_E14PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E3PART][idx[SECOND_MATRIX]] -
+			                                                    matrix1[SEDENIONS_E15PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E2PART][idx[SECOND_MATRIX]];
+			
+			        matrix_product[SEDENIONS_E14PART][idx[MATRIX_PRODUCT]] +=  matrix1[SEDENIONS_REALPART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E14PART][idx[SECOND_MATRIX]] -
+			                                                    matrix1[SEDENIONS_E1PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E15PART][idx[SECOND_MATRIX]] -
+			                                                    matrix1[SEDENIONS_E2PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E12PART][idx[SECOND_MATRIX]] +
+			                                                    matrix1[SEDENIONS_E3PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E13PART][idx[SECOND_MATRIX]] +
+			                                                    matrix1[SEDENIONS_E4PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E10PART][idx[SECOND_MATRIX]] -
+			                                                    matrix1[SEDENIONS_E5PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E11PART][idx[SECOND_MATRIX]] +
+			                                                    matrix1[SEDENIONS_E6PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E8PART][idx[SECOND_MATRIX]] +
+			                                                    matrix1[SEDENIONS_E7PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E9PART][idx[SECOND_MATRIX]] -
+			                                                    matrix1[SEDENIONS_E8PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E6PART][idx[SECOND_MATRIX]] -
+			                                                    matrix1[SEDENIONS_E9PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E7PART][idx[SECOND_MATRIX]] -
+			                                                    matrix1[SEDENIONS_E10PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E3PART][idx[SECOND_MATRIX]] +
+			                                                    matrix1[SEDENIONS_E11PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E5PART][idx[SECOND_MATRIX]] +
+			                                                    matrix1[SEDENIONS_E12PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E2PART][idx[SECOND_MATRIX]] -
+			                                                    matrix1[SEDENIONS_E13PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E3PART][idx[SECOND_MATRIX]] +
+			                                                    matrix1[SEDENIONS_E14PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_REALPART][idx[SECOND_MATRIX]] +
+			                                                    matrix1[SEDENIONS_E15PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E1PART][idx[SECOND_MATRIX]];
+			
+			        matrix_product[SEDENIONS_E15PART][idx[MATRIX_PRODUCT]] +=  matrix1[SEDENIONS_REALPART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E15PART][idx[SECOND_MATRIX]] +
+			                                                    matrix1[SEDENIONS_E1PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E14PART][idx[SECOND_MATRIX]] -
+			                                                    matrix1[SEDENIONS_E2PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E13PART][idx[SECOND_MATRIX]] -
+			                                                    matrix1[SEDENIONS_E3PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E12PART][idx[SECOND_MATRIX]] -
+			                                                    matrix1[SEDENIONS_E4PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E11PART][idx[SECOND_MATRIX]] +
+			                                                    matrix1[SEDENIONS_E5PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E10PART][idx[SECOND_MATRIX]] +
+			                                                    matrix1[SEDENIONS_E6PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E9PART][idx[SECOND_MATRIX]] +
+			                                                    matrix1[SEDENIONS_E7PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E8PART][idx[SECOND_MATRIX]] -
+			                                                    matrix1[SEDENIONS_E8PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E3PART][idx[SECOND_MATRIX]] +
+			                                                    matrix1[SEDENIONS_E9PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E6PART][idx[SECOND_MATRIX]] -
+			                                                    matrix1[SEDENIONS_E10PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E5PART][idx[SECOND_MATRIX]] -
+			                                                    matrix1[SEDENIONS_E11PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E4PART][idx[SECOND_MATRIX]] +
+			                                                    matrix1[SEDENIONS_E12PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E3PART][idx[SECOND_MATRIX]] +
+			                                                    matrix1[SEDENIONS_E13PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E2PART][idx[SECOND_MATRIX]] -
+			                                                    matrix1[SEDENIONS_E14PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E1PART][idx[SECOND_MATRIX]] +
+			                                                    matrix1[SEDENIONS_E15PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_REALPART][idx[SECOND_MATRIX]];
+				}
+			}
+		
     return;
 }
 
@@ -6873,11 +4782,11 @@ __MSNATIVE_ void _MS__private __system __export _matrixKQProduct(ityp **matrix1,
     return;
 }
 
-__MSNATIVE_ inline void _MS__private __system __export _matrixKOProduct(ityp **matrix1, ityp **matrix2, ityp **matrix_product, register dim_typ dim[static MAX_DIMENSIONS][MAX_DIMENSIONS])
+__MSNATIVE_ void _MS__private __system __export _matrixKOProduct(ityp **matrix1, ityp **matrix2, ityp **matrix_product, register dim_typ dim[static MAX_DIMENSIONS][MAX_DIMENSIONS])
 {
     dim_typ i, j, k, l;
+    register dim_typ idx[MAX_MATRICES];
     const register dim_typ pdim = dim[FIRST_MATRIX][COLUMNS]*dim[SECOND_MATRIX][COLUMNS];
-	void (* const omp_func)(ityp **, ityp **, ityp **, const register dim_typ, const register dim_typ, const register dim_typ) = isSett(BOOLS_EXTENSIVEMULTITHREADING) ? _matrixKOEMTProduct : _matrixKOMTProduct;
 
     #pragma omp parallel for
     for(i=0; i<dim[FIRST_MATRIX][ROWS]; ++i)
@@ -6887,16 +4796,95 @@ __MSNATIVE_ inline void _MS__private __system __export _matrixKOProduct(ityp **m
        	 	for(j=0; j<dim[FIRST_MATRIX][COLUMNS]; ++j)
             	#pragma omp parallel for
                 for(l=0; l<dim[SECOND_MATRIX][COLUMNS]; ++l)
-                	omp_func(matrix1, matrix2, matrix_product, pdim*(k+(i*dim[SECOND_MATRIX][ROWS])) + l+(j*dim[SECOND_MATRIX][COLUMNS]), dim[FIRST_MATRIX][COLUMNS]*i + j, dim[SECOND_MATRIX][COLUMNS]*k + l);
+                {
+					idx[FIRST_MATRIX] = dim[FIRST_MATRIX][COLUMNS]*i + j;
+					idx[SECOND_MATRIX] = dim[SECOND_MATRIX][COLUMNS]*k + l;
+					idx[MATRIX_PRODUCT] = pdim*(k+(i*dim[SECOND_MATRIX][ROWS])) + l+(j*dim[SECOND_MATRIX][COLUMNS]);
+                	#pragma omp parallel num_threads(MAX_OCTONIONS_UNITS)
+					{
+				        matrix_product[OCTONIONS_REALPART][idx[MATRIX_PRODUCT]] = matrix1[OCTONIONS_REALPART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_REALPART][idx[SECOND_MATRIX]] -
+				                                                                                   matrix1[OCTONIONS_E1PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E1PART][idx[SECOND_MATRIX]] -
+				                                                                                   matrix1[OCTONIONS_E2PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E2PART][idx[SECOND_MATRIX]] -
+				                                                                                   matrix1[OCTONIONS_E3PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E3PART][idx[SECOND_MATRIX]] -
+				                                                                                   matrix1[OCTONIONS_E4PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E4PART][idx[SECOND_MATRIX]] -
+				                                                                                   matrix1[OCTONIONS_E5PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E5PART][idx[SECOND_MATRIX]] -
+				                                                                                   matrix1[OCTONIONS_E6PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E6PART][idx[SECOND_MATRIX]] -
+				                                                                                   matrix1[OCTONIONS_E7PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E7PART][idx[SECOND_MATRIX]];
+				
+				        matrix_product[OCTONIONS_E1PART][idx[MATRIX_PRODUCT]] =  matrix1[OCTONIONS_REALPART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E1PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[OCTONIONS_E1PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_REALPART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[OCTONIONS_E2PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E4PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[OCTONIONS_E3PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E7PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[OCTONIONS_E4PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E2PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[OCTONIONS_E5PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E6PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[OCTONIONS_E6PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E5PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[OCTONIONS_E7PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E3PART][idx[SECOND_MATRIX]];
+				
+				        matrix_product[OCTONIONS_E2PART][idx[MATRIX_PRODUCT]] =  matrix1[OCTONIONS_REALPART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E1PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[OCTONIONS_E1PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E4PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[OCTONIONS_E2PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_REALPART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[OCTONIONS_E3PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E5PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[OCTONIONS_E4PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E1PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[OCTONIONS_E5PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E3PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[OCTONIONS_E6PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E7PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[OCTONIONS_E7PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E6PART][idx[SECOND_MATRIX]];
+				
+				        matrix_product[OCTONIONS_E3PART][idx[MATRIX_PRODUCT]] =  matrix1[OCTONIONS_REALPART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E3PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[OCTONIONS_E1PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E7PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[OCTONIONS_E2PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E5PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[OCTONIONS_E3PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_REALPART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[OCTONIONS_E4PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E6PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[OCTONIONS_E5PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E2PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[OCTONIONS_E6PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E4PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[OCTONIONS_E7PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E1PART][idx[SECOND_MATRIX]];
+				
+				        matrix_product[OCTONIONS_E4PART][idx[MATRIX_PRODUCT]] =  matrix1[OCTONIONS_REALPART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E4PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[OCTONIONS_E1PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E2PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[OCTONIONS_E2PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E1PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[OCTONIONS_E3PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E6PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[OCTONIONS_E4PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_REALPART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[OCTONIONS_E5PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E7PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[OCTONIONS_E6PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E3PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[OCTONIONS_E7PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E5PART][idx[SECOND_MATRIX]];
+				
+				        matrix_product[OCTONIONS_E5PART][idx[MATRIX_PRODUCT]] =  matrix1[OCTONIONS_REALPART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E5PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[OCTONIONS_E1PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E6PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[OCTONIONS_E2PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E3PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[OCTONIONS_E3PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E2PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[OCTONIONS_E4PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E7PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[OCTONIONS_E5PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_REALPART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[OCTONIONS_E6PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E1PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[OCTONIONS_E7PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E3PART][idx[SECOND_MATRIX]];
+				
+				        matrix_product[OCTONIONS_E6PART][idx[MATRIX_PRODUCT]] =  matrix1[OCTONIONS_REALPART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E6PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[OCTONIONS_E1PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E5PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[OCTONIONS_E2PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E7PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[OCTONIONS_E3PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E4PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[OCTONIONS_E4PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E3PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[OCTONIONS_E5PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E1PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[OCTONIONS_E6PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_REALPART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[OCTONIONS_E7PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E2PART][idx[SECOND_MATRIX]];
+				
+				        matrix_product[OCTONIONS_E7PART][idx[MATRIX_PRODUCT]] =  matrix1[OCTONIONS_REALPART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E7PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[OCTONIONS_E1PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E3PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[OCTONIONS_E2PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E6PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[OCTONIONS_E3PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E1PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[OCTONIONS_E4PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E5PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[OCTONIONS_E5PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E4PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[OCTONIONS_E6PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_E2PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[OCTONIONS_E7PART][idx[FIRST_MATRIX]] * matrix2[OCTONIONS_REALPART][idx[SECOND_MATRIX]];
+					}
+				}
+				
     return;
 }
 
-__MSNATIVE_ inline void _MS__private __system __export _matrixKSProduct(ityp **matrix1, ityp **matrix2, ityp **matrix_product, register dim_typ dim[static MAX_DIMENSIONS][MAX_DIMENSIONS])
+__MSNATIVE_ void _MS__private __system __export _matrixKSProduct(ityp **matrix1, ityp **matrix2, ityp **matrix_product, register dim_typ dim[static MAX_DIMENSIONS][MAX_DIMENSIONS])
 {
 
     dim_typ i, j, k, l;
+    register dim_typ idx[MAX_MATRICES];
     const register dim_typ pdim = dim[FIRST_MATRIX][COLUMNS]*dim[SECOND_MATRIX][COLUMNS];
-	void (* const omp_func)(ityp **, ityp **, ityp **, const register dim_typ, const register dim_typ, const register dim_typ) = isSett(BOOLS_EXTENSIVEMULTITHREADING) ? _matrixKSEMTProduct : _matrixKSMTProduct;
 
 	#pragma omp parallel for
     for(i=0; i<dim[FIRST_MATRIX][ROWS]; ++i)
@@ -6906,7 +4894,285 @@ __MSNATIVE_ inline void _MS__private __system __export _matrixKSProduct(ityp **m
         	for(j=0; j<dim[FIRST_MATRIX][COLUMNS]; ++j)
             	#pragma omp parallel for
                 for(l=0; l<dim[SECOND_MATRIX][COLUMNS]; ++l)
-                	omp_func(matrix1, matrix2, matrix_product, pdim*(k+(i*dim[SECOND_MATRIX][ROWS])) + l+(j*dim[SECOND_MATRIX][COLUMNS]), dim[FIRST_MATRIX][COLUMNS]*i + j, dim[SECOND_MATRIX][COLUMNS]*k + l);
+                {
+                	idx[FIRST_MATRIX] = dim[FIRST_MATRIX][COLUMNS]*i + j;
+					idx[SECOND_MATRIX] = dim[SECOND_MATRIX][COLUMNS]*k + l;
+					idx[MATRIX_PRODUCT] = pdim*(k+(i*dim[SECOND_MATRIX][ROWS])) + l+(j*dim[SECOND_MATRIX][COLUMNS]);
+                	#pragma omp parallel num_threads(MAX_SEDENIONS_UNITS)
+					{
+				        matrix_product[SEDENIONS_REALPART][idx[MATRIX_PRODUCT]] = matrix1[SEDENIONS_REALPART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_REALPART][idx[SECOND_MATRIX]] -
+				                                                                                   matrix1[SEDENIONS_E1PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E1PART][idx[SECOND_MATRIX]] -
+				                                                                                   matrix1[SEDENIONS_E2PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E2PART][idx[SECOND_MATRIX]] -
+				                                                                                   matrix1[SEDENIONS_E3PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E3PART][idx[SECOND_MATRIX]] -
+				                                                                                   matrix1[SEDENIONS_E4PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E4PART][idx[SECOND_MATRIX]] -
+				                                                                                   matrix1[SEDENIONS_E5PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E5PART][idx[SECOND_MATRIX]] -
+				                                                                                   matrix1[SEDENIONS_E6PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E6PART][idx[SECOND_MATRIX]] -
+				                                                                                   matrix1[SEDENIONS_E7PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E7PART][idx[SECOND_MATRIX]] -
+				                                                                                   matrix1[SEDENIONS_E8PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E8PART][idx[SECOND_MATRIX]] -
+				                                                                                   matrix1[SEDENIONS_E9PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E9PART][idx[SECOND_MATRIX]] -
+				                                                                                   matrix1[SEDENIONS_E10PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E10PART][idx[SECOND_MATRIX]] -
+				                                                                                   matrix1[SEDENIONS_E11PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E11PART][idx[SECOND_MATRIX]] -
+				                                                                                   matrix1[SEDENIONS_E12PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E12PART][idx[SECOND_MATRIX]] -
+				                                                                                   matrix1[SEDENIONS_E13PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E13PART][idx[SECOND_MATRIX]] -
+				                                                                                   matrix1[SEDENIONS_E14PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E14PART][idx[SECOND_MATRIX]] -
+				                                                                                   matrix1[SEDENIONS_E15PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E15PART][idx[SECOND_MATRIX]];
+				
+				        matrix_product[SEDENIONS_E1PART][idx[MATRIX_PRODUCT]] =  matrix1[SEDENIONS_REALPART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E1PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E1PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_REALPART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E2PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E3PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[SEDENIONS_E3PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E2PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E4PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E5PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[SEDENIONS_E5PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E4PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[SEDENIONS_E6PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E7PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E7PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E6PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E8PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E9PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[SEDENIONS_E9PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E8PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[SEDENIONS_E10PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E11PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E11PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E10PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[SEDENIONS_E12PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E13PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E13PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E12PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E14PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E15PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[SEDENIONS_E15PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E14PART][idx[SECOND_MATRIX]];
+				
+				        matrix_product[SEDENIONS_E2PART][idx[MATRIX_PRODUCT]] =  matrix1[SEDENIONS_REALPART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E2PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[SEDENIONS_E1PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E3PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E2PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_REALPART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E3PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E1PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E4PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E6PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E5PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E7PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[SEDENIONS_E6PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E4PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[SEDENIONS_E7PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E5PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E8PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E10PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E9PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E11PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[SEDENIONS_E10PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E8PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[SEDENIONS_E11PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E9PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[SEDENIONS_E12PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E14PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[SEDENIONS_E13PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E15PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E14PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E12PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E15PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E13PART][idx[SECOND_MATRIX]];
+				
+				        matrix_product[SEDENIONS_E3PART][idx[MATRIX_PRODUCT]] =  matrix1[SEDENIONS_REALPART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E3PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E1PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E2PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[SEDENIONS_E2PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E1PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E3PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_REALPART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E4PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E7PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[SEDENIONS_E5PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E6PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E6PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E5PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[SEDENIONS_E7PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E4PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E8PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E11PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[SEDENIONS_E9PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E10PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E10PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E9PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[SEDENIONS_E11PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E8PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[SEDENIONS_E12PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E15PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E13PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E14PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[SEDENIONS_E14PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E13PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E15PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E12PART][idx[SECOND_MATRIX]];
+				
+				        matrix_product[SEDENIONS_E4PART][idx[MATRIX_PRODUCT]] =  matrix1[SEDENIONS_REALPART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E4PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[SEDENIONS_E1PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E5PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[SEDENIONS_E2PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E6PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[SEDENIONS_E3PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E7PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E4PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_REALPART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E5PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E1PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E6PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E2PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E7PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E3PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E8PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E12PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E9PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E13PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E10PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E14PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E11PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E15PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[SEDENIONS_E12PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E8PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[SEDENIONS_E13PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E9PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[SEDENIONS_E14PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E10PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[SEDENIONS_E15PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E11PART][idx[SECOND_MATRIX]];
+				
+				        matrix_product[SEDENIONS_E5PART][idx[MATRIX_PRODUCT]] =  matrix1[SEDENIONS_REALPART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E5PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E1PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E4PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[SEDENIONS_E2PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E7PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E3PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E6PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[SEDENIONS_E4PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E1PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E5PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_REALPART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[SEDENIONS_E6PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E3PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E7PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E2PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E8PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E13PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[SEDENIONS_E9PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E12PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E10PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E15PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[SEDENIONS_E11PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E4PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E12PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E9PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[SEDENIONS_E13PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E8PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E14PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E11PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[SEDENIONS_E15PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E10PART][idx[SECOND_MATRIX]];
+				
+				        matrix_product[SEDENIONS_E6PART][idx[MATRIX_PRODUCT]] =  matrix1[SEDENIONS_REALPART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E6PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E1PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E7PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E2PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E4PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[SEDENIONS_E3PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E5PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[SEDENIONS_E4PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E2PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E5PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E3PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E6PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_REALPART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[SEDENIONS_E7PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E1PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E8PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E14PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[SEDENIONS_E9PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E15PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[SEDENIONS_E10PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E12PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E11PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E13PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E12PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E10PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[SEDENIONS_E13PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E11PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[SEDENIONS_E14PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E8PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E15PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E9PART][idx[SECOND_MATRIX]];
+				
+				        matrix_product[SEDENIONS_E7PART][idx[MATRIX_PRODUCT]] =  matrix1[SEDENIONS_REALPART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E7PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[SEDENIONS_E1PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E6PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E2PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E5PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E3PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E4PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[SEDENIONS_E4PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E3PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[SEDENIONS_E5PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E2PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E6PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E1PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E7PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_REALPART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E8PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E15PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E9PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E14PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[SEDENIONS_E10PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E13PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[SEDENIONS_E11PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E12PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E12PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E11PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E13PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E10PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[SEDENIONS_E14PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E9PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[SEDENIONS_E15PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E8PART][idx[SECOND_MATRIX]];
+				
+				        matrix_product[SEDENIONS_E8PART][idx[MATRIX_PRODUCT]] =  matrix1[SEDENIONS_REALPART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E8PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[SEDENIONS_E1PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E9PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[SEDENIONS_E2PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E10PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[SEDENIONS_E3PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E11PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[SEDENIONS_E4PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E12PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[SEDENIONS_E5PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E13PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[SEDENIONS_E6PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E14PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[SEDENIONS_E7PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E15PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E8PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_REALPART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E9PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E1PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E10PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E2PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E11PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E3PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E12PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E4PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E13PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E5PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E14PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E6PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E15PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E7PART][idx[SECOND_MATRIX]];
+				
+				        matrix_product[SEDENIONS_E9PART][idx[MATRIX_PRODUCT]] =  matrix1[SEDENIONS_REALPART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E9PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E1PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E8PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[SEDENIONS_E2PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E11PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E3PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E10PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[SEDENIONS_E4PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E13PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E5PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E12PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E6PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E15PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[SEDENIONS_E7PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E14PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[SEDENIONS_E8PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E1PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E9PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_REALPART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[SEDENIONS_E10PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E3PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E11PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E2PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[SEDENIONS_E12PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E5PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E13PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E4PART][idx[SECOND_MATRIX]] +
+				                                                                                 matrix1[SEDENIONS_E14PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E7PART][idx[SECOND_MATRIX]] -
+				                                                                                 matrix1[SEDENIONS_E15PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E6PART][idx[SECOND_MATRIX]];
+				
+				        matrix_product[SEDENIONS_E10PART][idx[MATRIX_PRODUCT]] =  matrix1[SEDENIONS_REALPART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E10PART][idx[SECOND_MATRIX]] +
+				                                                                                  matrix1[SEDENIONS_E1PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E11PART][idx[SECOND_MATRIX]] +
+				                                                                                  matrix1[SEDENIONS_E2PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E8PART][idx[SECOND_MATRIX]] -
+				                                                                                  matrix1[SEDENIONS_E3PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E9PART][idx[SECOND_MATRIX]] -
+				                                                                                  matrix1[SEDENIONS_E4PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E14PART][idx[SECOND_MATRIX]] -
+				                                                                                  matrix1[SEDENIONS_E5PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E15PART][idx[SECOND_MATRIX]] +
+				                                                                                  matrix1[SEDENIONS_E6PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E12PART][idx[SECOND_MATRIX]] +
+				                                                                                  matrix1[SEDENIONS_E7PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E13PART][idx[SECOND_MATRIX]] -
+				                                                                                  matrix1[SEDENIONS_E8PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E2PART][idx[SECOND_MATRIX]] +
+				                                                                                  matrix1[SEDENIONS_E9PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E3PART][idx[SECOND_MATRIX]] +
+				                                                                                  matrix1[SEDENIONS_E10PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_REALPART][idx[SECOND_MATRIX]] -
+				                                                                                  matrix1[SEDENIONS_E11PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E1PART][idx[SECOND_MATRIX]] -
+				                                                                                  matrix1[SEDENIONS_E12PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E6PART][idx[SECOND_MATRIX]] -
+				                                                                                  matrix1[SEDENIONS_E13PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E7PART][idx[SECOND_MATRIX]] +
+				                                                                                  matrix1[SEDENIONS_E14PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E4PART][idx[SECOND_MATRIX]] +
+				                                                                                  matrix1[SEDENIONS_E15PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E5PART][idx[SECOND_MATRIX]];
+				
+				        matrix_product[SEDENIONS_E11PART][idx[MATRIX_PRODUCT]] =  matrix1[SEDENIONS_REALPART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E11PART][idx[SECOND_MATRIX]] -
+				                                                                                  matrix1[SEDENIONS_E1PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E10PART][idx[SECOND_MATRIX]] +
+				                                                                                  matrix1[SEDENIONS_E2PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E9PART][idx[SECOND_MATRIX]] +
+				                                                                                  matrix1[SEDENIONS_E3PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E8PART][idx[SECOND_MATRIX]] -
+				                                                                                  matrix1[SEDENIONS_E4PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E15PART][idx[SECOND_MATRIX]] +
+				                                                                                  matrix1[SEDENIONS_E5PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E14PART][idx[SECOND_MATRIX]] -
+				                                                                                  matrix1[SEDENIONS_E6PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E13PART][idx[SECOND_MATRIX]] +
+				                                                                                  matrix1[SEDENIONS_E7PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E12PART][idx[SECOND_MATRIX]] -
+				                                                                                  matrix1[SEDENIONS_E8PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E3PART][idx[SECOND_MATRIX]] -
+				                                                                                  matrix1[SEDENIONS_E9PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E2PART][idx[SECOND_MATRIX]] +
+				                                                                                  matrix1[SEDENIONS_E10PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E1PART][idx[SECOND_MATRIX]] +
+				                                                                                  matrix1[SEDENIONS_E11PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_REALPART][idx[SECOND_MATRIX]] -
+				                                                                                  matrix1[SEDENIONS_E12PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E7PART][idx[SECOND_MATRIX]] +
+				                                                                                  matrix1[SEDENIONS_E13PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E6PART][idx[SECOND_MATRIX]] -
+				                                                                                  matrix1[SEDENIONS_E14PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E5PART][idx[SECOND_MATRIX]] +
+				                                                                                  matrix1[SEDENIONS_E15PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E4PART][idx[SECOND_MATRIX]];
+				
+				        matrix_product[SEDENIONS_E12PART][idx[MATRIX_PRODUCT]] =  matrix1[SEDENIONS_REALPART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E12PART][idx[SECOND_MATRIX]] +
+				                                                                                  matrix1[SEDENIONS_E1PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E13PART][idx[SECOND_MATRIX]] +
+				                                                                                  matrix1[SEDENIONS_E2PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E14PART][idx[SECOND_MATRIX]] +
+				                                                                                  matrix1[SEDENIONS_E3PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E15PART][idx[SECOND_MATRIX]] +
+				                                                                                  matrix1[SEDENIONS_E4PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E8PART][idx[SECOND_MATRIX]] -
+				                                                                                  matrix1[SEDENIONS_E5PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E9PART][idx[SECOND_MATRIX]] -
+				                                                                                  matrix1[SEDENIONS_E6PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E10PART][idx[SECOND_MATRIX]] -
+				                                                                                  matrix1[SEDENIONS_E7PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E11PART][idx[SECOND_MATRIX]] -
+				                                                                                  matrix1[SEDENIONS_E8PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E4PART][idx[SECOND_MATRIX]] +
+				                                                                                  matrix1[SEDENIONS_E9PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E5PART][idx[SECOND_MATRIX]] +
+				                                                                                  matrix1[SEDENIONS_E10PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E6PART][idx[SECOND_MATRIX]] +
+				                                                                                  matrix1[SEDENIONS_E11PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E7PART][idx[SECOND_MATRIX]] +
+				                                                                                  matrix1[SEDENIONS_E12PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_REALPART][idx[SECOND_MATRIX]] -
+				                                                                                  matrix1[SEDENIONS_E13PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E1PART][idx[SECOND_MATRIX]] -
+				                                                                                  matrix1[SEDENIONS_E14PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E2PART][idx[SECOND_MATRIX]] -
+				                                                                                  matrix1[SEDENIONS_E15PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E3PART][idx[SECOND_MATRIX]];
+				
+				        matrix_product[SEDENIONS_E13PART][idx[MATRIX_PRODUCT]] =  matrix1[SEDENIONS_REALPART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E13PART][idx[SECOND_MATRIX]] -
+				                                                                                  matrix1[SEDENIONS_E1PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E12PART][idx[SECOND_MATRIX]] +
+				                                                                                  matrix1[SEDENIONS_E2PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E15PART][idx[SECOND_MATRIX]] -
+				                                                                                  matrix1[SEDENIONS_E3PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E14PART][idx[SECOND_MATRIX]] +
+				                                                                                  matrix1[SEDENIONS_E4PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E9PART][idx[SECOND_MATRIX]] +
+				                                                                                  matrix1[SEDENIONS_E5PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E8PART][idx[SECOND_MATRIX]] +
+				                                                                                  matrix1[SEDENIONS_E6PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E11PART][idx[SECOND_MATRIX]] -
+				                                                                                  matrix1[SEDENIONS_E7PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E10PART][idx[SECOND_MATRIX]] -
+				                                                                                  matrix1[SEDENIONS_E8PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E5PART][idx[SECOND_MATRIX]] -
+				                                                                                  matrix1[SEDENIONS_E9PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E4PART][idx[SECOND_MATRIX]] +
+				                                                                                  matrix1[SEDENIONS_E10PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E7PART][idx[SECOND_MATRIX]] -
+				                                                                                  matrix1[SEDENIONS_E11PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E6PART][idx[SECOND_MATRIX]] +
+				                                                                                  matrix1[SEDENIONS_E12PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E1PART][idx[SECOND_MATRIX]] +
+				                                                                                  matrix1[SEDENIONS_E13PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_REALPART][idx[SECOND_MATRIX]] +
+				                                                                                  matrix1[SEDENIONS_E14PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E3PART][idx[SECOND_MATRIX]] -
+				                                                                                  matrix1[SEDENIONS_E15PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E2PART][idx[SECOND_MATRIX]];
+				
+				        matrix_product[SEDENIONS_E14PART][idx[MATRIX_PRODUCT]] =  matrix1[SEDENIONS_REALPART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E14PART][idx[SECOND_MATRIX]] -
+				                                                                                  matrix1[SEDENIONS_E1PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E15PART][idx[SECOND_MATRIX]] -
+				                                                                                  matrix1[SEDENIONS_E2PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E12PART][idx[SECOND_MATRIX]] +
+				                                                                                  matrix1[SEDENIONS_E3PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E13PART][idx[SECOND_MATRIX]] +
+				                                                                                  matrix1[SEDENIONS_E4PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E10PART][idx[SECOND_MATRIX]] -
+				                                                                                  matrix1[SEDENIONS_E5PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E11PART][idx[SECOND_MATRIX]] +
+				                                                                                  matrix1[SEDENIONS_E6PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E8PART][idx[SECOND_MATRIX]] +
+				                                                                                  matrix1[SEDENIONS_E7PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E9PART][idx[SECOND_MATRIX]] -
+				                                                                                  matrix1[SEDENIONS_E8PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E6PART][idx[SECOND_MATRIX]] -
+				                                                                                  matrix1[SEDENIONS_E9PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E7PART][idx[SECOND_MATRIX]] -
+				                                                                                  matrix1[SEDENIONS_E10PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E3PART][idx[SECOND_MATRIX]] +
+				                                                                                  matrix1[SEDENIONS_E11PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E5PART][idx[SECOND_MATRIX]] +
+				                                                                                  matrix1[SEDENIONS_E12PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E2PART][idx[SECOND_MATRIX]] -
+				                                                                                  matrix1[SEDENIONS_E13PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E3PART][idx[SECOND_MATRIX]] +
+				                                                                                  matrix1[SEDENIONS_E14PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_REALPART][idx[SECOND_MATRIX]] +
+				                                                                                  matrix1[SEDENIONS_E15PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E1PART][idx[SECOND_MATRIX]];
+				
+				        matrix_product[SEDENIONS_E15PART][idx[MATRIX_PRODUCT]] =  matrix1[SEDENIONS_REALPART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E15PART][idx[SECOND_MATRIX]] +
+				                                                                                  matrix1[SEDENIONS_E1PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E14PART][idx[SECOND_MATRIX]] -
+				                                                                                  matrix1[SEDENIONS_E2PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E13PART][idx[SECOND_MATRIX]] -
+				                                                                                  matrix1[SEDENIONS_E3PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E12PART][idx[SECOND_MATRIX]] -
+				                                                                                  matrix1[SEDENIONS_E4PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E11PART][idx[SECOND_MATRIX]] +
+				                                                                                  matrix1[SEDENIONS_E5PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E10PART][idx[SECOND_MATRIX]] +
+				                                                                                  matrix1[SEDENIONS_E6PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E9PART][idx[SECOND_MATRIX]] +
+				                                                                                  matrix1[SEDENIONS_E7PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E8PART][idx[SECOND_MATRIX]] -
+				                                                                                  matrix1[SEDENIONS_E8PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E3PART][idx[SECOND_MATRIX]] +
+				                                                                                  matrix1[SEDENIONS_E9PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E6PART][idx[SECOND_MATRIX]] -
+				                                                                                  matrix1[SEDENIONS_E10PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E5PART][idx[SECOND_MATRIX]] -
+				                                                                                  matrix1[SEDENIONS_E11PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E4PART][idx[SECOND_MATRIX]] +
+				                                                                                  matrix1[SEDENIONS_E12PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E3PART][idx[SECOND_MATRIX]] +
+				                                                                                  matrix1[SEDENIONS_E13PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E2PART][idx[SECOND_MATRIX]] -
+				                                                                                  matrix1[SEDENIONS_E14PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E1PART][idx[SECOND_MATRIX]] +
+				                                                                                  matrix1[SEDENIONS_E15PART][idx[FIRST_MATRIX]] * matrix2[SEDENIONS_E14PART][idx[SECOND_MATRIX]];
+					}
+				}
     return;
 }
 
