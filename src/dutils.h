@@ -22,15 +22,14 @@ I do not assume any responsibilities about the use with any other code-scripts.
 #include <errno.h>
 #include <setjmp.h>
 
-#include <windows.h>
-#include <errors.h>
 #include <sys/time.h>
 
 #include <signal.h>
 
 #include <omp.h>
 
-#define WINOS ((defined WIN32) || (defined WINDOWS))
+// just indefine it if you want to compile this on UNIX Archs
+#define WINOS
 
 #define false 0
 #define true 1
@@ -120,7 +119,9 @@ extern "C" {
 
 #define XML_NAME "./settings.xml"
 
-#if WINOS
+#ifdef WINOS
+	#include <windows.h>
+	#include <errors.h>
 	#include <conio.h>
     #define MAX_PATH_LENGTH MAX_PATH
     #define pulisciSchermo system("cls")
@@ -350,9 +351,7 @@ enum
 #define BY_START false
 #define BY_GLOBALVAL true
 
-#if WINOS
-	#define SetDefaultColor() SetColor(COLOR_DEFAULT)
-#endif
+#define SetDefaultColor() SetColor(COLOR_DEFAULT)
 
 #define ROMAN_NUMBER_STRING MIN_STRING<<1
 
@@ -379,7 +378,7 @@ typedef unsigned long long uint64_t;
 
 typedef unsigned char sel_typ; // DEFINING SELECTION TYPE
 typedef unsigned short fsel_typ; // DEFINING FORMATTABLE SELECTION TYPE
-#if WINOS
+#ifdef WINOS
 	typedef sel_typ bool; // DEFINING ASSERT TYPE (like bool vars)
 // but unlike typedefining a { false, true } enumeration, this system
 // combinated to false,true macro definition occupies less memory.
@@ -708,10 +707,10 @@ enum
 // DEFINIZIONE MACRO SOTTO-PROGRAMMI
 //
 
-// Valore di inizializzazione del metadato modalit√†
-// della variabile strutturata suite, definita pi√π sotto
+// Valore di inizializzazione del metadato modalit‡
+// della variabile strutturata suite, definita pi˘ sotto
 #define PROGRAM_BUSY -1
-// o pi√π semplicemente indica che l'utente √® in fase di scelta del subprogram.
+// o pi˘ semplicemente indica che l'utente Ë in fase di scelta del subprogram.
 
 
 // Enumerazione ID Sotto-Programmi
@@ -889,7 +888,7 @@ enum
     BOOLS_AUTOSETCURITEM,
     BOOLS_ITEMSSELECTBYPATH,
     BOOLS_ITEMSAUTOSAVING,
-    #if WINOS
+    #ifdef WINOS
         BOOLS_SYSLOGSECURITYCHECK,
     #endif
     BOOLS_SYSTEMPARSING,
@@ -1093,7 +1092,7 @@ enum
 
 
 // VALORE DI INIZIALIZZAZIONE CARATTERE DI USCITA DAL PROGRAMMA
-#define INITIALIZING_EXIT_CHAR '¬£'
+#define INITIALIZING_EXIT_CHAR '£'
 #define INITIALIZING_DEFAULT_COLOR COLOR_WHITE
 
 #define MAIN_COLOR DEFAULT_COLOR
@@ -1630,7 +1629,7 @@ enum
 
 
 /*
-Dedicati alla modalit√† di funzionamento
+Dedicati alla modalit‡ di funzionamento
 della funzione matrixToVector, per decidere
 in che senso deve essere svolta
 0 -> Normale, 1 -> Viceversa
@@ -1640,7 +1639,7 @@ in che senso deve essere svolta
 #define VECTOR_TO_MATRIX true
 
 /*
-Dedicati alla modalit√† di stampa della matrice
+Dedicati alla modalit‡ di stampa della matrice
 dell'omonima funzione. Come suggeriscono le
 stesse macro, passando 0 si stampa una matrice
 di valori in virgola mobile, altrimenti di interi.
@@ -2175,7 +2174,7 @@ __MSNATIVE_ bool __system _lfCreate(const char [static MAX_PATH_LENGTH]);
 	__MSUTIL_ XMLCALL void __system __export xmlGetString(xmlXPathObject **, xmlXPathContext *, const char *, char [static MAX_XML_FIELDSTRINGS]);
 #endif
 
-#if WINOS
+#ifdef WINOS
     __MSUTIL_ __WINCALL BOOL WINAPI __system __export SetExitButtonState(const bool);
     __MSUTIL_ __WINCALL void __system updInfo(void);
     __MSUTIL_ __WINCALL HWND WINAPI __system __export GetConsoleWindowNT();
@@ -2184,15 +2183,14 @@ __MSNATIVE_ bool __system _lfCreate(const char [static MAX_PATH_LENGTH]);
 
 __MSUTIL_ const char * const __system __export getFilename(const char path[static MAX_PATH_LENGTH]);
 __MSUTIL_ void __system updInfo(void);
-__MSUTIL_ void __system __export SetColor(const sel_typ);
 
+__MSUTIL_ void __system __export SetColor(const sel_typ);
 #ifdef XMLCALL
 	__MSNATIVE_ XMLCALL void __system _backupColFile(void);
 	__MSNATIVE_ XMLCALL void __system _colFileLoader(const char [static MAX_PATH_LENGTH]);
 	__MSNATIVE_ XMLCALL void __system getProgramSettings(dim_typ);
 	__MSNATIVE_ XMLCALL void __system resetProgramSettings(layoutObj * const, const char [static MAX_PATH_LENGTH]);
 #endif
-
 
 __MSNATIVE_ ityp __export MINMAX(const register dim_typ dim, const ityp [static dim], const bool, dim_typ *);
 __MSNATIVE_ __MSUTIL_ ityp __system __export getDiffTime(struct timeval * tvBegin);

@@ -69,7 +69,7 @@ __MSSHELL_WRAPPER_ static void _MS__private __system handleCmdLine(const sel_typ
 __MSSHELL_WRAPPER_ __WINCALL static void _MS__private __system execScriptFiles(const sel_typ argc, char ** argv)
 {
     char path[MAX_PATH_LENGTH];
-    #if WINOS
+    #ifdef WINOS
         if(isnSett(BOOLS_ITEMSSELECTBYPATH))
         {
             const bool wHandler = windowsFileHandler(path,  "MathSuite ScriptFiles (*."DEFAULT_SCRIPTFILES_EXTENSION")\0*."DEFAULT_SCRIPTFILES_EXTENSION"\0Text Documents (*.txt)\0*.txt\0All Files (*.*)\0*.*\0",

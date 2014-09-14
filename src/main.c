@@ -148,7 +148,7 @@ const struct prog_constants suite_c =
         "Set Item as Current at Creation",
         "Items Selection By Path",
         "Lists Items Autosaving",
-        #if WINOS
+        #ifdef WINOS
             "System Log Security Check",
         #endif
         "System INPUT Parser",
@@ -191,7 +191,7 @@ const struct prog_constants suite_c =
             BITMASK_ITEMSAUTOSAVING,
             DEFAULT_ITEMSAUTOSAVING
         },
-        #if WINOS
+        #ifdef WINOS
         {
             BITMASK_SYSLOGSECURITYCHECK,
             DEFAULT_SYSLOGSECURITYCHECK
@@ -568,7 +568,7 @@ int main(int argc, char **argv)
 	    xmlCleanupParser();
     }
 
-	#if WINOS
+	#ifdef WINOS
 		_colFileLoader(access(colors_path));
 	    if(!ShowWindow(GetConsoleWindowNT(), SW_MAXIMIZE))
 	       printErr(22, "ShowWindow SW_MAXIMIZE failed with error: %lu", GetLastError());
@@ -737,7 +737,7 @@ int main(int argc, char **argv)
     operationsGroupMenu(MAX_PROGRAMMI, main_menu, NULL_CHAR, BY_CHARS);
 
     prepareToExit();
-    #if WINOS
+    #ifdef WINOS
     	system("PAUSE"); // if working on Windows Environment...
     #endif
 

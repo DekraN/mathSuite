@@ -36,7 +36,7 @@ sprog lfs_manager[MAX_LFSMANAGER_PROGS] =
 __MSSHELL_WRAPPER_ __WINCALL static void _MS__private __system lfLoader(const sel_typ argc, char ** argv)
 {
     char path[MAX_PATH_LENGTH];
-    #if WINOS
+    #ifdef WINOS
         if(isnSett(BOOLS_ITEMSSELECTBYPATH))
         {
             const bool wHandler = windowsFileHandler(path,  "MathSuite Informations (*."DEFAULT_PATHLIST_FILE_EXTENSION")\0*."DEFAULT_PATHLIST_FILE_EXTENSION"\0Text Document (*.txt)\0*.txt\0All Files (*.*)\0*.*\0",
@@ -95,7 +95,7 @@ __MSSHELL_WRAPPER_ __WINCALL static void _MS__private __system lfLoader(const se
 __MSSHELL_WRAPPER_ __WINCALL static void _MS__private __system lfCreate(const sel_typ argc, char ** argv)
 {
     char path[MAX_PATH_LENGTH];
-    #if WINOS
+    #ifdef WINOS
         if(isnSett(BOOLS_ITEMSSELECTBYPATH))
         {
             const bool wHandler = windowsFileHandler(path,  "MathSuite Informations (*."DEFAULT_PATHLIST_FILE_EXTENSION")\0*."DEFAULT_PATHLIST_FILE_EXTENSION"\0Text Document (*.txt)\0*.txt\0All Files (*.*)\0*.*\0",

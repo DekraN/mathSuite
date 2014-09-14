@@ -240,7 +240,7 @@ __MSSHELL_WRAPPER_ static void _MS__private __lmp_prog editMat(const sel_typ arg
         if(!equalMatrix(&(tmp->matrix), matrix, tmp->dim))
         {
             matrixFree(&matrix);
-            #if WINOS
+            #ifdef WINOS
                 SetExitButtonState(ENABLED);
             #endif
             return;

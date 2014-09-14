@@ -109,21 +109,21 @@ __MSSHELL_WRAPPER_ static void _MS__private __system changeColors(const sel_typ 
 __MSSHELL_WRAPPER_ __WINCALL static void _MS__private __system colFileLoader(const sel_typ argc, char ** argv)
 {
     char path[MAX_PATH_LENGTH];
-    #if WINOS
-        if(isnSett(BOOLS_ITEMSSELECTBYPATH))
-        {
-            const bool wHandler = windowsFileHandler(path,  "Settings Configuration (*."DEFAULT_COLORS_FILE_EXTENSION")\0*."DEFAULT_COLORS_FILE_EXTENSION"\0Text Documents (*.txt)\0*.txt\0All Files (*.*)\0*.*\0",
-                                    DEFAULT_COLORS_FILE_EXTENSION, true);
-            if(wHandler)
-            {
-                _colFileLoader(path);
-                sprint("%s\nFile has been correctly loaded.\n\n", path);
-            }
-            else
-                printErr(14, "Failed to select Colors Settings File");
-        }
-        else
-    #endif
+    #ifdef WINOS
+		if(isnSett(BOOLS_ITEMSSELECTBYPATH))
+		{
+		    const bool wHandler = windowsFileHandler(path,  "Settings Configuration (*."DEFAULT_COLORS_FILE_EXTENSION")\0*."DEFAULT_COLORS_FILE_EXTENSION"\0Text Documents (*.txt)\0*.txt\0All Files (*.*)\0*.*\0",
+		                            DEFAULT_COLORS_FILE_EXTENSION, true);
+		    if(wHandler)
+		    {
+		        _colFileLoader(path);
+		        sprint("%s\nFile has been correctly loaded.\n\n", path);
+		    }
+		    else
+		        printErr(14, "Failed to select Colors Settings File");
+		}
+		else
+	#endif
     {
         if(argc)
         {

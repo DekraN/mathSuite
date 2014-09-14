@@ -132,7 +132,7 @@ __MSSHELL_WRAPPER_ static void _MS__private __system createLog(const sel_typ arg
 {
     char name[MAX_PATH_LENGTH] = NULL_CHAR;
     const bool assert = __pmode__ == SYSLOG_OPEN;
-    #if WINOS
+    #ifdef WINOS
     if(isnSett(BOOLS_ITEMSSELECTBYPATH))
     {
         if(!windowsFileHandler(name,

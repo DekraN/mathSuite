@@ -485,7 +485,7 @@ __MSNATIVE_ __WINCALL void __system __export createItem(const char *string, sel_
     strcpy(iname, suite_c.listsnames[mode]);
 
     // nodelist * item;
-    #if WINOS
+    #ifdef WINOS
     // mustcreatefile = false;
     if(isnSett(BOOLS_ITEMSSELECTBYPATH))
     {

@@ -145,7 +145,7 @@ __MSSHELL_WRAPPER_ static void _MS__private secondGradeEquationSolver(const sel_
     else
     {
 
-        #if WINOS
+        #ifdef WINOS
             SetExitButtonState(DISABLED);
         #endif // WINOS
 
@@ -184,7 +184,7 @@ __MSSHELL_WRAPPER_ static void _MS__private secondGradeEquationSolver(const sel_
     
     matrixFree(&abc);
 
-    #if WINOS
+    #ifdef WINOS
         SetExitButtonState(ENABLED);
     #endif // WINOS
 
@@ -210,7 +210,7 @@ __MSSHELL_WRAPPER_ static void _MS__private complexAdd(const sel_typ argc, char 
     else
     {
 
-        #if WINOS
+        #ifdef WINOS
             SetExitButtonState(DISABLED);
         #endif
 
@@ -290,7 +290,7 @@ __MSSHELL_WRAPPER_ static void _MS__private complexAdd(const sel_typ argc, char 
         PRINTL();
 	}
 
-    #if WINOS
+    #ifdef WINOS
         SetExitButtonState(ENABLED);
     #endif // WINSO
 
@@ -315,7 +315,7 @@ __MSSHELL_WRAPPER_ static void _MS__private complexMul(const sel_typ argc, char 
     }
     else
     {
-        #if WINOS
+        #ifdef WINOS
             SetExitButtonState(DISABLED);
         #endif // WINOS
 
@@ -394,7 +394,7 @@ __MSSHELL_WRAPPER_ static void _MS__private complexMul(const sel_typ argc, char 
         PRINTL();
 	}
 
-    #if WINOS
+    #ifdef WINOS
         SetExitButtonState(ENABLED);
     #endif // WINOS
     return;
@@ -514,7 +514,7 @@ __MSSHELL_WRAPPER_ static void _MS__private simplexMethod(const sel_typ argc, ch
     matrixFree(&constraint_types);
     matrixFree(&bfs);
 
-    #if WINOS
+    #ifdef WINOS
         SetExitButtonState(ENABLED);
     #endif // WINOS
 
@@ -705,7 +705,7 @@ __MSSHELL_WRAPPER_ static void _MS__private lagrangeInterpolation(const sel_typ 
     }
     else
     {
-        #if WINOS
+        #ifdef WINOS
             SetExitButtonState(DISABLED);
         #endif // WINOS
 
@@ -724,7 +724,7 @@ __MSSHELL_WRAPPER_ static void _MS__private lagrangeInterpolation(const sel_typ 
             if(!parse(argv[2], &xp))
             {
                 printUsage(&adv_calc[ADVCALC_LAGRANGEINTERPOLATION]);
-                #if WINOS
+                #ifdef WINOS
                     SetExitButtonState(ENABLED);
                 #endif // WINOS
                 return;
@@ -742,7 +742,7 @@ __MSSHELL_WRAPPER_ static void _MS__private lagrangeInterpolation(const sel_typ 
             if(access(exitHandle) == EXITHANDLE_GETCMD) continue;
             if(exitHandleCheck)
             {
-                #if WINOS
+                #ifdef WINOS
                     SetExitButtonState(ENABLED);
                 #endif // WINOS
                 return;
@@ -783,7 +783,7 @@ __MSSHELL_WRAPPER_ static void _MS__private lagrangeInterpolation(const sel_typ 
 
     matrixFree(&xy);
 
-    #if WINOS
+    #ifdef WINOS
         SetExitButtonState(ENABLED);
     #endif // WINOS
 
@@ -828,7 +828,7 @@ __MSSHELL_WRAPPER_ static void _MS__private greatestEigenValue(const sel_typ arg
         matrixFree(matrix1);
         free(matrix1);
         free(matrix2);
-        #if WINOS
+        #ifdef WINOS
             SetExitButtonState(ENABLED);
         #endif // WINOS
         return;
@@ -854,7 +854,7 @@ __MSSHELL_WRAPPER_ static void _MS__private greatestEigenValue(const sel_typ arg
         free(matrix1);
         free(matrix2);
         free(result);
-        #if WINOS
+        #ifdef WINOS
             SetExitButtonState(ENABLED);
         #endif // WINOS
         return;
@@ -905,7 +905,7 @@ __MSSHELL_WRAPPER_ static void _MS__private greatestEigenValue(const sel_typ arg
     free(matrix2);
     free(result);
 
-    #if WINOS
+    #ifdef WINOS
         SetExitButtonState(ENABLED);
     #endif // WINOS
     return;
@@ -1128,7 +1128,7 @@ __MSSHELL_WRAPPER_ static void _MS__private straightLineFitting(const sel_typ ar
     else
     {
 
-        #if WINOS
+        #ifdef WINOS
             SetExitButtonState(DISABLED);
         #endif // WINOS
 
@@ -1172,7 +1172,7 @@ __MSSHELL_WRAPPER_ static void _MS__private straightLineFitting(const sel_typ ar
 
     matrixFree(&xy);
 
-    #if WINOS
+    #ifdef WINOS
         SetExitButtonState(ENABLED);
     #endif // WINOS
 
@@ -1244,7 +1244,7 @@ __MSSHELL_WRAPPER_ static void _MS__private parabolicCurveFitting(const sel_typ 
     }
     else
     {
-        #if WINOS
+        #ifdef WINOS
             SetExitButtonState(DISABLED);
         #endif // WINOS
 
@@ -1260,7 +1260,7 @@ __MSSHELL_WRAPPER_ static void _MS__private parabolicCurveFitting(const sel_typ 
     if(!matrixAlloc(&matrix, (dim_typ2){MAX_ABSTRACT_DIMENSIONS, 4}))
     {
         matrixFree(&xy);
-        #if WINOS
+        #ifdef WINOS
             SetExitButtonState(ENABLED);
         #endif // WINOS
         return;
@@ -1336,7 +1336,7 @@ __MSSHELL_WRAPPER_ static void _MS__private parabolicCurveFitting(const sel_typ 
 
     matrixFree(&matrix);
 
-    #if WINOS
+    #ifdef WINOS
         SetExitButtonState(ENABLED);
     #endif // WINOS
 
@@ -1417,7 +1417,7 @@ __MSSHELL_WRAPPER_ static void _MS__private linearSystemsSolver(const sel_typ ar
 
     matrixFree(&matrix);
 
-    #if WINOS
+    #ifdef WINOS
         SetExitButtonState(ENABLED);
     #endif // WINOS
 

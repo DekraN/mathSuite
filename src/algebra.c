@@ -349,7 +349,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixSort(const sel_typ argc, char 
     printMatrix(stdout, matrix, dim);
     matrixFree(&matrix);
 
-    #if WINOS
+    #ifdef WINOS
         SetExitButtonState(ENABLED);
     #endif // WINOS
 
@@ -414,7 +414,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixNorm(const sel_typ argc, char 
 
     matrixFree(&matrix);
 
-    #if WINOS
+    #ifdef WINOS
         SetExitButtonState(ENABLED);
     #endif // WINOS
 
@@ -463,7 +463,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixDet(const sel_typ argc, char *
 
     matrixFree(&matrix);
 
-    #if WINOS
+    #ifdef WINOS
         SetExitButtonState(ENABLED);
     #endif // WINOS
 
@@ -510,7 +510,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixTrace(const sel_typ argc, char
 
     matrixFree(&matrix);
 
-    #if WINOS
+    #ifdef WINOS
         SetExitButtonState(ENABLED);
     #endif // WINOS
 
@@ -553,7 +553,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixRank(const sel_typ argc, char 
 
     matrixFree(&matrix);
 
-    #if WINOS
+    #ifdef WINOS
         SetExitButtonState(ENABLED);
     #endif // WINOS
 
@@ -590,7 +590,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixSVD(const sel_typ argc, char *
     {
         free(S);
         matrixFree(&V);
-        #if WINOS
+        #ifdef WINOS
             SetExitButtonState(ENABLED);
         #endif // WINOS
         return;
@@ -614,7 +614,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixSVD(const sel_typ argc, char *
     matrixFree(&V);
     matrixFree(&matrix);
 
-    #if WINOS
+    #ifdef WINOS
         SetExitButtonState(ENABLED);
     #endif // WINOS
 
@@ -671,7 +671,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixInv(const sel_typ argc, char *
     if(!invertMatrix(matrix, dim[ROWS]))
     {
         printErr(1, "You cannot invert SINGULAR Matrices");
-        #if WINOS
+        #ifdef WINOS
             SetExitButtonState(ENABLED);
         #endif // WINOS
         return;
@@ -701,7 +701,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixInv(const sel_typ argc, char *
 
     matrixFree(&matrix);
 
-    #if WINOS
+    #ifdef WINOS
         SetExitButtonState(ENABLED);
     #endif // WINOS
 
@@ -727,7 +727,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixTranspose(const sel_typ argc, 
 
     if(!matrixAlloc(&matrix2, (dim_typ2){dim[COLUMNS], dim[ROWS]}))
     {
-        #if WINOS
+        #ifdef WINOS
             SetExitButtonState(ENABLED);
         #endif // WINOS
         return;
@@ -752,7 +752,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixTranspose(const sel_typ argc, 
     matrixFree(&matrix);
     matrixFree(&matrix2);
 
-    #if WINOS
+    #ifdef WINOS
         SetExitButtonState(ENABLED);
     #endif // WINOS
 
@@ -853,7 +853,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixAdd(const sel_typ argc, char *
                 free(matrix1);
                 return;
             }
-            #if WINOS
+            #ifdef WINOS
                 SetExitButtonState(DISABLED);
             #endif // WINOS
         }
@@ -987,7 +987,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixAdd(const sel_typ argc, char *
 	                
                 free(matrix1);
                 free(matrix2);
-                #if WINOS
+                #ifdef WINOS
                     SetExitButtonState(ENABLED);
                 #endif // WINOS
                 printUsage(&alg_operations[__pmode__]);
@@ -1180,7 +1180,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixAdd(const sel_typ argc, char *
             free(matrix1);
             free(matrix2);
             free(matrix_sum);
-            #if WINOS
+            #ifdef WINOS
                 SetExitButtonState(ENABLED);
             #endif // WINOS
             return;
@@ -1252,7 +1252,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixAdd(const sel_typ argc, char *
     free(matrix_sum);
 
 
-    #if WINOS
+    #ifdef WINOS
         SetExitButtonState(ENABLED);
     #endif // WINOS
 
@@ -1366,7 +1366,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixMultiplication(const sel_typ a
 	                        
                     free(matrix1);
                     free(matrix2);
-                    #if WINOS
+                    #ifdef WINOS
                         SetExitButtonState(ENABLED);
                     #endif // WINOS
                     printUsage(&alg_operations[__pmode__]);
@@ -1380,7 +1380,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixMultiplication(const sel_typ a
                     matrixFree(&matrix1[ii]);
                 free(matrix1);
                 free(matrix2);
-                #if WINOS
+                #ifdef WINOS
                     SetExitButtonState(ENABLED);
                 #endif // WINOS
                 printUsage(&alg_operations[__pmode__]);
@@ -1408,7 +1408,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixMultiplication(const sel_typ a
                         matrixFree(&matrix1[ii]);
                     free(matrix1);
                     free(matrix2);
-                    #if WINOS
+                    #ifdef WINOS
                         SetExitButtonState(ENABLED);
                     #endif // WINOS
                     return;
@@ -1427,7 +1427,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixMultiplication(const sel_typ a
                         matrixFree(&matrix1[ii]);
                     free(matrix1);
                     free(matrix2);
-                    #if WINOS
+                    #ifdef WINOS
                         SetExitButtonState(ENABLED);
                     #endif
                     return;
@@ -1509,7 +1509,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixMultiplication(const sel_typ a
                         matrixFree(matrix2);
                         free(matrix1);
                         free(matrix2);
-                        #if WINOS
+                        #ifdef WINOS
                             SetExitButtonState(ENABLED);
                         #endif // WINOS
                         return;
@@ -1550,7 +1550,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixMultiplication(const sel_typ a
                                 matrixFree(matrix2);
                                 free(matrix1);
                                 free(matrix2);
-                                #if WINOS
+                                #ifdef WINOS
                                     SetExitButtonState(ENABLED);
                                 #endif // WINOS
                                 return;
@@ -1569,7 +1569,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixMultiplication(const sel_typ a
                         matrixFree(&matrix1[ii]);
                     free(matrix1);
                     free(matrix2);
-                    #if WINOS
+                    #ifdef WINOS
                         SetExitButtonState(ENABLED);
                     #endif // WINOS
                     return;
@@ -1584,7 +1584,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixMultiplication(const sel_typ a
                         matrixFree(&matrix1[ii]);
                     free(matrix1);
                     free(matrix2);
-                    #if WINOS
+                    #ifdef WINOS
                         SetExitButtonState(ENABLED);
                     #endif // WINOS
                     return;
@@ -1613,7 +1613,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixMultiplication(const sel_typ a
                         matrixFree(matrix2);
                         free(matrix1);
                         free(matrix2);
-                        #if WINOS
+                        #ifdef WINOS
                             SetExitButtonState(ENABLED);
                         #endif
                         return;
@@ -1647,7 +1647,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixMultiplication(const sel_typ a
                             matrixFree(matrix2);
                             free(matrix1);
                             free(matrix2);
-                            #if WINOS
+                            #ifdef WINOS
                                 SetExitButtonState(ENABLED);
                             #endif // WINOS
                             return;
@@ -1791,7 +1791,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixMultiplication(const sel_typ a
             free(matrix1);
             free(matrix2);
             free(matrix_product);
-            #if WINOS
+            #ifdef WINOS
                 SetExitButtonState(ENABLED);
             #endif // WINOS
             return;
@@ -1856,7 +1856,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixMultiplication(const sel_typ a
     free(matrix_product);
 
 
-    #if WINOS
+    #ifdef WINOS
         SetExitButtonState(ENABLED);
     #endif
 
@@ -1960,7 +1960,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixKProduct(const sel_typ argc, c
                         matrixFree(&matrix1[i]);
                     free(matrix1);
                     free(matrix2);
-                    #if WINOS
+                    #ifdef WINOS
                         SetExitButtonState(ENABLED);
                     #endif // WINOS
                     printUsage(&alg_operations[__pmode__]);
@@ -1974,7 +1974,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixKProduct(const sel_typ argc, c
                     matrixFree(&matrix1[i]);
                 free(matrix1);
                 free(matrix2);
-                #if WINOS
+                #ifdef WINOS
                     SetExitButtonState(ENABLED);
                 #endif // WINOS
                 printUsage(&alg_operations[__pmode__]);
@@ -2002,7 +2002,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixKProduct(const sel_typ argc, c
                         matrixFree(&matrix1[i]);
                     free(matrix1);
                     free(matrix2);
-                    #if WINOS
+                    #ifdef WINOS
                         SetExitButtonState(ENABLED);
                     #endif // WINOS
                     return;
@@ -2021,7 +2021,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixKProduct(const sel_typ argc, c
                         matrixFree(&matrix1[i]);
                     free(matrix1);
                     free(matrix2);
-                    #if WINOS
+                    #ifdef WINOS
                         SetExitButtonState(ENABLED);
                     #endif
                     return;
@@ -2052,7 +2052,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixKProduct(const sel_typ argc, c
                 matrixFree(matrix2);
                 free(matrix1);
                 free(matrix2);
-                #if WINOS
+                #ifdef WINOS
                     SetExitButtonState(ENABLED);
                 #endif // WINOS
                 printUsage(&alg_operations[__pmode__]);
@@ -2181,7 +2181,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixKProduct(const sel_typ argc, c
             free(matrix1);
             free(matrix2);
             free(matrix_product);
-            #if WINOS
+            #ifdef WINOS
                 SetExitButtonState(ENABLED);
             #endif // WINOS
             return;
@@ -2251,7 +2251,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixKProduct(const sel_typ argc, c
     free(matrix2);
     free(matrix_product);
 
-    #if WINOS
+    #ifdef WINOS
         SetExitButtonState(ENABLED);
     #endif // WINOS
 
@@ -2355,7 +2355,7 @@ __MSSHELL_WRAPPER_ static void _MS__private perScalarMultiplication(const sel_ty
         #pragma omp parallel for num_threads(algebra_units)
 		for(ii=0; ii<algebra_units; ++ii)
             matrixFree(&matrix[ii]);
-        #if WINOS
+        #ifdef WINOS
             SetExitButtonState(ENABLED);
         #endif // WINOS
         return;
@@ -2415,7 +2415,7 @@ __MSSHELL_WRAPPER_ static void _MS__private perScalarMultiplication(const sel_ty
         matrixFree(&matrix[ii]);
     }
 
-    #if WINOS
+    #ifdef WINOS
         SetExitButtonState(ENABLED);
     #endif // WINOS
 
@@ -2460,7 +2460,7 @@ __MSSHELL_WRAPPER_ static void _MS__private illConditionChecking(const sel_typ a
     if(!invertMatrix(matrix, dim[ROWS]))
     {
         printErr(1, "You cannot invert SINGULAR Matrices!");
-        #if WINOS
+        #ifdef WINOS
             SetExitButtonState(ENABLED);
         #endif // WINOS
         return;
@@ -2478,7 +2478,7 @@ __MSSHELL_WRAPPER_ static void _MS__private illConditionChecking(const sel_typ a
 
     matrixFree(&matrix);
 
-    #if WINOS
+    #ifdef WINOS
         SetExitButtonState(ENABLED);
     #endif // WINOS
 
@@ -2513,7 +2513,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixFattLU(const sel_typ argc, cha
         matrixFree(&matrix);
         if(assert[LOWER_TRIANGULAR] && !assert[UPPER_TRIANGULAR])
             matrixFree(&L);
-        #if WINOS
+        #ifdef WINOS
             SetExitButtonState(ENABLED);
         #endif // WINOS
         return;
@@ -2543,7 +2543,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixFattLU(const sel_typ argc, cha
     matrixFree(&L);
     matrixFree(&U);
 
-    #if WINOS
+    #ifdef WINOS
         SetExitButtonState(ENABLED);
     #endif // WINOS
 

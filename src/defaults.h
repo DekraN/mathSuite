@@ -87,7 +87,7 @@
 #define DEFAULT_ITEMSSELECTBYPATH 0
 #define DEFAULT_ITEMSAUTOSAVING 1
 
-#if WINOS
+#ifdef WINOS
     #define DEFAULT_SYSLOGSECURITYCHECK 0
 #endif // WINOS
 
@@ -118,7 +118,7 @@
 
 /*
 Cambia il tipo predefinito di elementi delle matrici.
-ATTENZIONE: Ammessi tutti i tipi purchÃ© siano formattabili tramite conversion format,
+ATTENZIONE: Ammessi tutti i tipi purché siano formattabili tramite conversion format,
 ma le modifiche laddove le variabili del suddetto tipo vengano coinvolte in formattazioni
 per funzioni INPUT o OUTPUT, sono assolutamente richieste per il corretto funzionamento
 del programma e devono essere fatte manualmente agendo in maniera diretta

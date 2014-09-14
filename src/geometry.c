@@ -187,7 +187,7 @@ __MSNATIVE_ bool __system printFile(const char path[static MAX_PATH_LENGTH])
 
     char str[MAX_PATH_LENGTH+INFO_STRING];
 
-    #if WINOS
+    #ifdef WINOS
         printf2(COLOR_CREDITS, "Enter Device Name on which you want to print the File:\n%s.\n", path);
         printf2(COLOR_CREDITS, "Enter %c for Back.\n\n", SCANFEXIT_CHAR);
 
@@ -330,7 +330,7 @@ __MSNATIVE_ ityp _matrixTrace(ityp *restrict mat, dim_typ dimq)
 
     return res;
 }
- 
+
 __MSSHELL_WRAPPER_ __MSNATIVE_ ityp carlucci(ityp *restrict mat)
 {
  ityp det = 0.00;
@@ -365,7 +365,7 @@ __MSSHELL_WRAPPER_ __MSNATIVE_ ityp checkStdMat(ityp *restrict a, dim_typ n)
     return det;
 }
 
-__MSSHELL_WRAPPER_ __MSNATIVE_ bool randomMatrix(ityp *restrict matrix, const register dim_typ dim[static MAX_DIMENSIONS])  
+__MSSHELL_WRAPPER_ __MSNATIVE_ bool randomMatrix(ityp *restrict matrix, const register dim_typ dim[static MAX_DIMENSIONS])
 {
     dim_typ range;
     printf2(COLOR_CREDITS, "\n\nEnter a non-negative integer to set pseudo-random numbers Range.\n");
@@ -403,7 +403,7 @@ __MSSHELL_WRAPPER_ __MSNATIVE_ bool randomMatrix(ityp *restrict matrix, const re
     return true;
 }
 
-__MSNATIVE_ void transpose(ityp *restrict matrix, ityp *restrict matrix2, const register dim_typ dim[static MAX_DIMENSIONS])  
+__MSNATIVE_ void transpose(ityp *restrict matrix, ityp *restrict matrix2, const register dim_typ dim[static MAX_DIMENSIONS])
 {
 
     dim_typ i, j;
@@ -475,9 +475,9 @@ __MSUTIL_ bool __export invertMatrix(ityp *restrict matrix, dim_typ n)
 
     dim_typ i, j;
     ityp a;
-    
+
     const register dim_typ n2 = n<<1;
-	
+
 	#pragma omp parallel for
     for(i = 0; i < n; ++i)
    		#pragma omp parallel for
@@ -831,7 +831,7 @@ __MSNATIVE_ inline void __system _flushLogBuf(logObj * const which_log)
 
 __MSNATIVE_ __WINCALL void __system _editLog(const char path[static MAX_PATH_LENGTH])
 {
-    #if (WINOS)
+    #ifdef WINOS
     if(isnSett(BOOLS_SYSLOGSECURITYCHECK))
     {
         char str[PATHCONTAINS_STRING] = NULL_CHAR;
@@ -929,7 +929,7 @@ __MSNATIVE_ void __system fprintf2(FILE *fp, const char *format, ...)
     char str[MAX_BUFSIZ];
     vsprintf(str, format, ap);
 
-	#if WINOS
+	#ifdef WINOS
 	    const bool cond = fp == stdout;
 	    if(cond)
 	        SetColor(COLOR_USER);
@@ -937,7 +937,7 @@ __MSNATIVE_ void __system fprintf2(FILE *fp, const char *format, ...)
 
     fprintf(fp, str);
 
-    #if WINOS
+    #ifdef WINOS
         if(cond)
             SetDefaultColor();
     #endif
@@ -964,8 +964,8 @@ __MSNATIVE_ void __system printf2(const sel_typ col, const char *format, ...)
     static sel_typ col_cache = MAX_COLORS;
     const bool cond = getItemsListNo(LOGS) != STARTING_LOGSNO;
 
-	#if WINOS
-   		SetColor(col);	
+	#ifdef WINOS
+   		SetColor(col);
    	#endif
     vsprintf(str, format, ap);
     if(col != col_cache)
@@ -1008,7 +1008,7 @@ __MSNATIVE_ bool __system scanf2(sel_typ count, const char *format, ...)
     return scanner == count;
 }
 
-__MSNATIVE_ _MS__private void __system printMatrix(FILE *fp, ityp *matrix, const register dim_typ dim[static MAX_DIMENSIONS])  
+__MSNATIVE_ _MS__private void __system printMatrix(FILE *fp, ityp *matrix, const register dim_typ dim[static MAX_DIMENSIONS])
 {
 
     const bool assert = fp == stdout;
@@ -1029,7 +1029,7 @@ __MSNATIVE_ _MS__private void __system printMatrix(FILE *fp, ityp *matrix, const
             fprintf2(fp, "; ");
             if(j >= dim[COLUMNS]-1)
             	fputc('\n', fp);
-               
+
         }
 	}
 
@@ -1037,10 +1037,10 @@ __MSNATIVE_ _MS__private void __system printMatrix(FILE *fp, ityp *matrix, const
     {
         PRINT2N();
         PRINTN();
-        
+
         if(access(lmpMatrix) && access(lmpMatrix)->matrix)
         	matrixFree(&(access(lmpMatrix)->matrix));
-        
+
         if(access(lmpMatrix) && !matrixAlloc(&(access(lmpMatrix)->matrix), dim))
         	resetLmpMatrix();
 
@@ -1195,7 +1195,7 @@ __MSNATIVE_ bool __system __export matrixToken(const char string[], ityp **matri
     /// char str2[MAX_BUFSIZ];
     dim_typ i;
 	dim_typ analog_rows, analog_columns = 1;
-	
+
     line = token = NULL;
 
     for((*righe) = (*colonne) = INIT_DIM, line = strtok(target, TERMINATING_STRING); line != NULL; ++ (*righe), line = strtok (line + strlen (line) + 1, TERMINATING_STRING))
@@ -1314,15 +1314,12 @@ __MSNATIVE_ void __system printUsage(const sprog * const prog)
 __MSNATIVE_ void __system prepareToExit(void)
 {
 	flushAllMemoizersBuffers();
-	
-    #if WINOS
-        _backupColFile();
-    #endif
+    _backupColFile();
 
     if(isSett(BOOLS_ITEMSAUTOSAVING))
         for(dim_typ i=0; i<MAX_LISTS; ++i)
             updAll(i);
-    
+
     printf2(COLOR_CREDITS, EXIT_MESSAGE);
     PRINTL();
     return;
@@ -1477,6 +1474,14 @@ __MSUTIL_ static inline void ftoa(char *string, const float value, const fsel_ty
 }
 #ifdef XMLCALL
 
+	#ifndef WINOS
+		__MSNATIVE_ __MSUTIL_ static inline void itoa(const int val, char string[])
+		{
+			sprintf(string, "%d", val);
+			return;
+		}
+	#endif
+
 	__MSUTIL_ XMLCALL inline xmlDoc * __system __export xmlInit(const char file_name[static XML_FILENAMES_LENGTH], xmlXPathContext ** xpathCtx)
 	{
 		xmlInitParser();
@@ -1485,7 +1490,7 @@ __MSUTIL_ static inline void ftoa(char *string, const float value, const fsel_ty
 		(*xpathCtx) = xmlXPathNewContext( doc );
 		return doc;
 	}
-	
+
 	__MSUTIL_ XMLCALL inline void __system __export xmlExit(const char file_name[static XML_FILENAMES_LENGTH], xmlDoc ** doc, xmlXPathObject ** xpathObj, xmlXPathContext ** xpathCtx)
 	{
 		xmlSaveFileEnc(file_name, (*doc), XML_ENCODING);
@@ -1496,18 +1501,22 @@ __MSUTIL_ static inline void ftoa(char *string, const float value, const fsel_ty
     	(*xpathCtx) = (xmlXPathContext*) NULL;
     	return;
 	}
-	
+
 	__MSUTIL_ XMLCALL inline void __system __export xmlWriteInt(xmlXPathObject ** xpathObj, xmlXPathContext * xpathCtx, const char * nodeAddress, const int value)
 	{
 		(*xpathObj) = xmlXPathEvalExpression( BAD_CAST nodeAddress, xpathCtx );
 		xmlNode * node = (*xpathObj)->nodesetval->nodeTab[0];
 		char tmp[SIGN_STRING] = NULL_CHAR;
-		itoa(value, tmp, sizeof(tmp));
+		#ifdef WINOS
+			itoa(value, tmp, sizeof(tmp));
+		#else
+			itoa(value, tmp);
+		#endif
 		xmlNodeSetContent(node, BAD_CAST tmp);
 		xmlXPathFreeObject((*xpathObj));
 		return;
 	}
-	
+
 	__MSUTIL_ XMLCALL inline void __system __export xmlWriteBool(xmlXPathObject ** xpathObj, xmlXPathContext * xpathCtx, const char * nodeAddress, const bool value)
 	{
 		(*xpathObj) = xmlXPathEvalExpression( BAD_CAST nodeAddress, xpathCtx );
@@ -1516,7 +1525,7 @@ __MSUTIL_ static inline void ftoa(char *string, const float value, const fsel_ty
 		xmlXPathFreeObject((*xpathObj));
 		return;
 	}
-	
+
 	__MSUTIL_ XMLCALL inline void __system __export xmlWriteFloat(xmlXPathObject ** xpathObj, xmlXPathContext * xpathCtx, const char * nodeAddress, const float value)
 	{
 		(*xpathObj) = xmlXPathEvalExpression( BAD_CAST nodeAddress, xpathCtx );
@@ -1527,7 +1536,7 @@ __MSUTIL_ static inline void ftoa(char *string, const float value, const fsel_ty
 		xmlXPathFreeObject((*xpathObj));
 		return;
 	}
-	
+
 	__MSUTIL_ XMLCALL inline void __system __export xmlWriteString(xmlXPathObject ** xpathObj, xmlXPathContext * xpathCtx, const char * nodeAddress, const char string[static MAX_XML_FIELDSTRINGS])
 	{
 		(*xpathObj) = xmlXPathEvalExpression( BAD_CAST nodeAddress, xpathCtx );
@@ -1536,7 +1545,7 @@ __MSUTIL_ static inline void ftoa(char *string, const float value, const fsel_ty
 		xmlXPathFreeObject((*xpathObj));
 		return;
 	}
-	
+
 	__MSUTIL_ XMLCALL inline int __system __export xmlGetInt(xmlXPathObject ** xpathObj, xmlXPathContext * xpathCtx, const char * nodeAddress)
 	{
 		(*xpathObj) = xmlXPathEvalExpression( BAD_CAST nodeAddress, xpathCtx );
@@ -1544,7 +1553,7 @@ __MSUTIL_ static inline void ftoa(char *string, const float value, const fsel_ty
 		xmlXPathFreeObject((*xpathObj));
 		return atoi(xmlNodeGetContent(node));
 	}
-	
+
 	__MSUTIL_ XMLCALL inline bool __system __export xmlGetBool(xmlXPathObject ** xpathObj, xmlXPathContext * xpathCtx, const char * nodeAddress)
 	{
 		(*xpathObj) = xmlXPathEvalExpression( BAD_CAST nodeAddress, xpathCtx );
@@ -1552,7 +1561,7 @@ __MSUTIL_ static inline void ftoa(char *string, const float value, const fsel_ty
 		xmlXPathFreeObject((*xpathObj));
 		return strcmp(xmlNodeGetContent(node), suite_c.bools_identifiers[false]);
 	}
-	
+
 	__MSUTIL_ XMLCALL inline float __system __export xmlGetFloat(xmlXPathObject ** xpathObj, xmlXPathContext * xpathCtx, const char * nodeAddress)
 	{
 		(*xpathObj) = xmlXPathEvalExpression( BAD_CAST nodeAddress, xpathCtx );
@@ -1560,7 +1569,7 @@ __MSUTIL_ static inline void ftoa(char *string, const float value, const fsel_ty
 		xmlXPathFreeObject((*xpathObj));
 		return atof(xmlNodeGetContent(node));
 	}
-	
+
 	__MSUTIL_ XMLCALL inline void __system __export xmlGetString(xmlXPathObject ** xpathObj, xmlXPathContext * xpathCtx, const char * nodeAddress, char string[static MAX_XML_FIELDSTRINGS])
 	{
 		(*xpathObj) = xmlXPathEvalExpression( BAD_CAST nodeAddress, xpathCtx );
@@ -1569,26 +1578,26 @@ __MSUTIL_ static inline void ftoa(char *string, const float value, const fsel_ty
 		xmlXPathFreeObject((*xpathObj));
 		return;
 	}
-	
+
 	__MSNATIVE_ XMLCALL void __system getProgramSettings(dim_typ which_layout)
 	{
 		dim_typ i;
 	    nodelist * const tmp = listNo(which_layout, LAYOUTS);
 	    layoutObj * const cur_layout = (layoutObj *)(tmp->data);
-	    
+
 	    xmlXPathContext * xpathCtx = (xmlXPathContext*) NULL;
 		xmlXPathObject * xpathObj = (xmlXPathObject*) NULL;
 		xmlDoc * doc = xmlInit(tmp->path, &xpathCtx);
 		char ex_char[MAX_XML_FIELDSTRINGS];
 		sprintf(ex_char, "%c", cur_layout->exit_char);
 		xmlWriteString(&xpathObj, xpathCtx, "/settings/generalSettings/exitChar", ex_char);
-		
+
 		xmlWriteInt(&xpathObj, xpathCtx, "/settings/generalSettings/programPrecision", cur_layout->precision);
 		xmlWriteInt(&xpathObj, xpathCtx, "/settings/generalSettings/stabilizerFactor", cur_layout->stabilizer_factor);
 		xmlWriteInt(&xpathObj, xpathCtx, "/settings/generalSettings/minStirlingNumber", cur_layout->min_stirling_number);
 		xmlWriteInt(&xpathObj, xpathCtx, "/settings/generalSettings/algebra", cur_layout->algebra);
 		xmlWriteFloat(&xpathObj, xpathCtx, "/settings/generalSettings/outlierConstant", cur_layout->outlier_constant);
-	
+
 		xmlWriteInt(&xpathObj, xpathCtx, "/settings/matricesOptions/maxRows", cur_layout->matrix_max_rows);
 		xmlWriteInt(&xpathObj, xpathCtx, "/settings/matricesOptions/maxColumns", cur_layout->matrix_max_columns);
 		xmlWriteInt(&xpathObj, xpathCtx, "/settings/matricesOptions/blockSize", cur_layout->block_size);
@@ -1596,8 +1605,8 @@ __MSUTIL_ static inline void ftoa(char *string, const float value, const fsel_ty
 		xmlWriteInt(&xpathObj, xpathCtx, "/settings/matricesOptions/minStrassenDim", cur_layout->min_strassen_dim);
 		xmlWriteInt(&xpathObj, xpathCtx, "/settings/matricesOptions/maxDSVDIterations", cur_layout->max_dsvd_iterations);
 		xmlWriteInt(&xpathObj, xpathCtx, "/settings/matricesOptions/maxSimplexIterations", cur_layout->max_simplex_iterations);
-	
-	
+
+
 		#pragma omp parallel for num_threads(MAX_MEMOIZABLE_FUNCTIONS)
 		for(i=0; i<MAX_MEMOIZABLE_FUNCTIONS; ++i)
 		{
@@ -1608,43 +1617,43 @@ __MSUTIL_ static inline void ftoa(char *string, const float value, const fsel_ty
 			sprintf(str, "/settings/memoizerOptions/max%sMemoizableIndex", strboolized);
 			xmlWriteInt(&xpathObj, xpathCtx, str, cur_layout->max_memoizable_indices[i]);
 		}
-		
+
 		xmlWriteInt(&xpathObj, xpathCtx, "/settings/baseConversions/minBase", cur_layout->basecalc_minbase);
 		xmlWriteInt(&xpathObj, xpathCtx, "/settings/baseConversions/maxBase", cur_layout->basecalc_maxbase);
 		xmlWriteInt(&xpathObj, xpathCtx, "/settings/baseConversions/maxChangebaseBinaryConvnum", cur_layout->max_changebase_binary_convnum);
-	
+
 		xmlWriteInt(&xpathObj, xpathCtx, "/settings/newtonDifferenceTables/minDimension", cur_layout->min_newton_difftables_dim);
 		xmlWriteInt(&xpathObj, xpathCtx, "/settings/newtonDifferenceTables/maxDimension", cur_layout->max_newton_difftables_dim);
-	
+
 	    xmlWriteInt(&xpathObj, xpathCtx, "/settings/romanNumbers/minProcessableNumber", cur_layout->min_roman_number);
 	    xmlWriteInt(&xpathObj, xpathCtx, "/settings/romanNumbers/maxProcessableNumber", cur_layout->max_roman_number);
-	    
+
 	    xmlWriteInt(&xpathObj, xpathCtx, "/settings/pascalsTriangle/minRows", cur_layout->pascal_triangle_min_rows);
 	    xmlWriteInt(&xpathObj, xpathCtx, "/settings/pascalsTriangle/maxRows", cur_layout->pascal_triangle_max_rows);
-	    
+
 	    /// write some stuffs...
-	
+
 		#pragma omp parallel for
 	    for(i=0; i<MAX_BOOL_SETTINGS; ++i)
-	    {   
+	    {
 	    	char name[MIN_STRING<<MAX_DIMENSIONS] = NULL_CHAR;
 			char strboolized[MIN_STRING<<1] = NULL_CHAR;
 			strboolize(suite_c.bools_names[i], strboolized);
 	    	sprintf(name, "/settings/booleanKeys/%s", strboolized);
 	        xmlWriteBool(&xpathObj, xpathCtx, name, (cur_layout->bools & suite_c.bools[i].bmask) == suite_c.bools[i].bmask);
 	    }
-	    
+
 	    xmlExit(tmp->path, &doc, &xpathObj, &xpathCtx);
 	    return;
 	}
-	
+
 	__MSNATIVE_ XMLCALL void __system resetProgramSettings(layoutObj * const tmp, const char path[static MAX_PATH_LENGTH])
 	{
 		dim_typ i;
 		xmlXPathContext * xpathCtx = (xmlXPathContext*) NULL;
 	    xmlXPathObject * xpathObj = (xmlXPathObject*) NULL;
 	    xmlDoc * doc = xmlInit(path, &xpathCtx);
-	
+
 		char ex_char[1];
 		xmlGetString(&xpathObj, xpathCtx, "/settings/generalSettings/exitChar", ex_char);
 		tmp->exit_char = ex_char[0];
@@ -1653,7 +1662,7 @@ __MSUTIL_ static inline void ftoa(char *string, const float value, const fsel_ty
 		tmp->min_stirling_number = xmlGetInt(&xpathObj, xpathCtx, "/settings/generalSettings/minStirlingNumber");
 		tmp->algebra = xmlGetInt(&xpathObj, xpathCtx, "/settings/generalSettings/algebra");
 		tmp->outlier_constant = xmlGetFloat(&xpathObj, xpathCtx, "/settings/generalSettings/outlierConstant");
-			
+
 		tmp->matrix_max_rows = xmlGetInt(&xpathObj, xpathCtx, "/settings/matricesOptions/maxRows");
 		tmp->matrix_max_columns = xmlGetInt(&xpathObj, xpathCtx, "/settings/matricesOptions/maxColumns");
 		tmp->block_size = xmlGetInt(&xpathObj, xpathCtx, "/settings/matricesOptions/blockSize");
@@ -1661,8 +1670,8 @@ __MSUTIL_ static inline void ftoa(char *string, const float value, const fsel_ty
 		tmp->min_strassen_dim = xmlGetInt(&xpathObj, xpathCtx, "/settings/matricesOptions/minStrassenDim");
 		tmp->max_dsvd_iterations = xmlGetInt(&xpathObj, xpathCtx, "/settings/matricesOptions/maxDSVDIterations");
 		tmp->max_simplex_iterations = xmlGetInt(&xpathObj, xpathCtx, "/settings/matricesOptions/maxSimplexIterations");
-	
-		
+
+
 		#pragma omp parallel for num_threads(MAX_MEMOIZABLE_FUNCTIONS)
 		for(i=0; i<MAX_MEMOIZABLE_FUNCTIONS; ++i)
 		{
@@ -1673,23 +1682,23 @@ __MSUTIL_ static inline void ftoa(char *string, const float value, const fsel_ty
 			sprintf(str, "/settings/memoizerOptions/max%sMemoizableIndex", strboolized);
 			tmp->max_memoizable_indices[i] = xmlGetInt(&xpathObj, xpathCtx, str);
 		}
-	
-	
+
+
 		tmp->basecalc_minbase = xmlGetInt(&xpathObj, xpathCtx, "/settings/baseConversions/minBase");
 		tmp->basecalc_maxbase = xmlGetInt(&xpathObj, xpathCtx, "/settings/baseConversions/maxBase");
 		tmp->max_changebase_binary_convnum = xmlGetInt(&xpathObj, xpathCtx, "/settings/baseConversions/maxChangebaseBinaryConvnum");
-		
+
 		tmp->min_newton_difftables_dim = xmlGetInt(&xpathObj, xpathCtx, "/settings/newtonDifferenceTables/minDimension");
 		tmp->max_newton_difftables_dim = xmlGetInt(&xpathObj, xpathCtx, "/settings/newtonDifferenceTables/maxDimension");
-		
+
 		tmp->min_roman_number = xmlGetInt(&xpathObj, xpathCtx, "/settings/romanNumbers/minProcessableNumber");
 		tmp->max_roman_number = xmlGetInt(&xpathObj, xpathCtx, "/settings/romanNumbers/maxProcessableNumber");
-		
+
 		tmp->pascal_triangle_min_rows = xmlGetInt(&xpathObj, xpathCtx, "/settings/pascalsTriangle/minRows");
 		tmp->pascal_triangle_max_rows = xmlGetInt(&xpathObj, xpathCtx, "/settings/pascalsTriangle/maxRows");
-		
+
 	    volatile bool tmp_bool = false;
-		
+
 		#pragma omp parallel for
 	    for(i=0; i<MAX_BOOL_SETTINGS; ++i)
 	    {
@@ -1701,64 +1710,18 @@ __MSUTIL_ static inline void ftoa(char *string, const float value, const fsel_ty
 	        if(tmp_bool)
 	            tmp->bools |= suite_c.bools[i].bmask;
 	    }
-	    
+
 	    xmlExit(path, &doc, &xpathObj, &xpathCtx);
-	
+
 	    return;
 	}
-	
-	
+
+
 #endif
 
 
-#if WINOS
+#ifdef WINOS
 
-	#ifdef XMLCALL
-		__MSNATIVE_ XMLCALL void __system _colFileLoader(const char path[static MAX_PATH_LENGTH])
-	    {
-	        static bool once_executed = false;
-	
-	        if(once_executed)
-			{
-				if(isSett(BOOLS_ITEMSAUTOSAVING))
-	            	_backupColFile();
-			}
-			else
-	        	once_executed = true;
-	        
-	        xmlXPathContext * xpathCtx = (xmlXPathContext*) NULL;
-	        xmlXPathObject * xpathObj = (xmlXPathObject*) NULL;
-	        xmlDoc * doc = xmlInit(access(colors_path), &xpathCtx);
-			        
-	        COLOR_DEFAULT = xmlGetInt(&xpathObj, xpathCtx, "/colors/defaultColor");
-	        COLOR_ERROR = xmlGetInt(&xpathObj, xpathCtx, "/colors/errorsColor");
-	        COLOR_CREDITS = xmlGetInt(&xpathObj, xpathCtx, "/colors/creditsColor");
-	        COLOR_USER = xmlGetInt(&xpathObj, xpathCtx, "/colors/userColor");
-	        COLOR_SYSTEM = xmlGetInt(&xpathObj, xpathCtx, "/colors/systemColor");
-	        COLOR_AUTHOR = xmlGetInt(&xpathObj, xpathCtx, "/colors/authorColor");
-	        
-			xmlExit(access(colors_path), &doc, &xpathObj, &xpathCtx);
-	        return;
-	    }
-	    
-	    __MSNATIVE_ XMLCALL void __system _backupColFile(void)
-		{
-			xmlXPathContext * xpathCtx = (xmlXPathContext*) NULL;
-			xmlXPathObject * xpathObj = (xmlXPathObject*) NULL;
-			xmlDoc * doc = xmlInit(access(colors_path), &xpathCtx);
-			
-			xmlWriteInt(&xpathObj, xpathCtx, "/colors/defaultColor", COLOR_DEFAULT);
-			xmlWriteInt(&xpathObj, xpathCtx, "/colors/errorsColor", COLOR_ERROR);
-			xmlWriteInt(&xpathObj, xpathCtx, "/colors/creditsColor", COLOR_CREDITS);
-			xmlWriteInt(&xpathObj, xpathCtx, "/colors/userColor", COLOR_USER);
-			xmlWriteInt(&xpathObj, xpathCtx, "/colors/systemColor", COLOR_SYSTEM);
-			xmlWriteInt(&xpathObj, xpathCtx, "/colors/authorColor", COLOR_AUTHOR);
-			
-			xmlExit(access(colors_path), &doc, &xpathObj, &xpathCtx);
-		    return;
-		}
-	#endif
-    
     __MSUTIL_ __WINCALL inline BOOL WINAPI __system __export SetExitButtonState(const bool state)
 	{
 		return DeleteMenu(GetSystemMenu(GetConsoleWindowNT(),state),6,MF_BYPOSITION);
@@ -1824,7 +1787,53 @@ __MSUTIL_ static inline void ftoa(char *string, const float value, const fsel_ty
 
         return result;
     }
-    
+
+#endif
+
+#ifdef XMLCALL
+		__MSNATIVE_ XMLCALL void __system _colFileLoader(const char path[static MAX_PATH_LENGTH])
+	    {
+	        static bool once_executed = false;
+
+	        if(once_executed)
+			{
+				if(isSett(BOOLS_ITEMSAUTOSAVING))
+	            	_backupColFile();
+			}
+			else
+	        	once_executed = true;
+
+	        xmlXPathContext * xpathCtx = (xmlXPathContext*) NULL;
+	        xmlXPathObject * xpathObj = (xmlXPathObject*) NULL;
+	        xmlDoc * doc = xmlInit(access(colors_path), &xpathCtx);
+
+	        COLOR_DEFAULT = xmlGetInt(&xpathObj, xpathCtx, "/colors/defaultColor");
+	        COLOR_ERROR = xmlGetInt(&xpathObj, xpathCtx, "/colors/errorsColor");
+	        COLOR_CREDITS = xmlGetInt(&xpathObj, xpathCtx, "/colors/creditsColor");
+	        COLOR_USER = xmlGetInt(&xpathObj, xpathCtx, "/colors/userColor");
+	        COLOR_SYSTEM = xmlGetInt(&xpathObj, xpathCtx, "/colors/systemColor");
+	        COLOR_AUTHOR = xmlGetInt(&xpathObj, xpathCtx, "/colors/authorColor");
+
+			xmlExit(access(colors_path), &doc, &xpathObj, &xpathCtx);
+	        return;
+	    }
+
+	    __MSNATIVE_ XMLCALL void __system _backupColFile(void)
+		{
+			xmlXPathContext * xpathCtx = (xmlXPathContext*) NULL;
+			xmlXPathObject * xpathObj = (xmlXPathObject*) NULL;
+			xmlDoc * doc = xmlInit(access(colors_path), &xpathCtx);
+
+			xmlWriteInt(&xpathObj, xpathCtx, "/colors/defaultColor", COLOR_DEFAULT);
+			xmlWriteInt(&xpathObj, xpathCtx, "/colors/errorsColor", COLOR_ERROR);
+			xmlWriteInt(&xpathObj, xpathCtx, "/colors/creditsColor", COLOR_CREDITS);
+			xmlWriteInt(&xpathObj, xpathCtx, "/colors/userColor", COLOR_USER);
+			xmlWriteInt(&xpathObj, xpathCtx, "/colors/systemColor", COLOR_SYSTEM);
+			xmlWriteInt(&xpathObj, xpathCtx, "/colors/authorColor", COLOR_AUTHOR);
+
+			xmlExit(access(colors_path), &doc, &xpathObj, &xpathCtx);
+		    return;
+		}
 #endif
 
 __MSUTIL_ inline const char * const __system __export getFilename(const char path[static MAX_PATH_LENGTH])
@@ -1841,7 +1850,7 @@ __MSUTIL_ inline void __system updInfo(void)
     sprintf(title, PROG__NAME" - [ %s ] - [ %s ] - [ %s ] - (%s) - [ %s ]", getItemsListNo(ENVS) ? getFilename(listNo(access(lists)[ENVS].cur_item, ENVS)->path) : NULL_CHAR, getItemsListNo(MATRICES) ? getFilename(listNo(access(lists)[MATRICES].cur_item, MATRICES)->path) : NULL_CHAR,
                     getItemsListNo(LOGS) ? getFilename(listNo(access(lists)[LOGS].cur_item, LOGS)->path) : NULL_CHAR, access(sysLogPath), getItemsListNo(LAYOUTS) ? getFilename(listNo(access(lists)[LAYOUTS].cur_item, LAYOUTS)->path) : NULL_CHAR);
 
-	#if WINOS
+	#ifdef WINOS
 	    if(!SetConsoleTitle(title))
 	        printErr(22, "SetConsoleTitle failed with error: %lu", GetLastError());
 	#else
@@ -1853,14 +1862,14 @@ __MSUTIL_ inline void __system updInfo(void)
 
 __MSUTIL_ void __system __export SetColor(const sel_typ ForgC)
 {
-	#if WINOS
+	#ifdef WINOS
 	    const HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
 	    CONSOLE_SCREEN_BUFFER_INFO csbi;
-	
+
 	    if(GetConsoleScreenBufferInfo(hStdOut, &csbi))
 	        SetConsoleTextAttribute(hStdOut, (csbi.wAttributes & 0xF0) + (ForgC & 0x0F));
 	#endif
-	
+
 	// Linux Part WIP
 	// actually this results in a NOP
 
@@ -1898,8 +1907,8 @@ __MSNATIVE_ __MSUTIL_ ityp __system __export getDiffTime(struct timeval * t1)
 {
 	struct timeval result, t2;
 	gettimeofday(&t2, NULL);
-	long int diff = 
-	(t2.tv_usec + 1000000 * t2.tv_sec) - 
+	long int diff =
+	(t2.tv_usec + 1000000 * t2.tv_sec) -
 	(t1->tv_usec + 1000000 * t1->tv_sec);
 	result.tv_sec = diff / 1000000;
 	result.tv_usec = diff % 1000000;
@@ -1940,12 +1949,14 @@ __MSUTIL_ inline bool __system __export checkErrMem(const void * pntr)
 {
     if(!pntr)
     {
-        #if WINOS
+        #ifdef WINOS
             SetExitButtonState(ENABLED);
         #endif // WINOS
         printErr(12, "An error occurred during Heap Dynamic Memory Allocation");
         sprint("\n(Sub)Program Terminating...\n\n");
-        system("PAUSE");
+        #ifdef WINOS
+            system("PAUSE");
+        #endif
         return true;
     }
     return false;
@@ -1974,7 +1985,7 @@ __MSNATIVE_ void __system __export _matrixFree(ityp **matrix, bool mode)
     return;
 }
 
-__MSNATIVE_ bool __system __export equalMatrix(ityp **matrix1, ityp *matrix2, const register dim_typ dim[static MAX_DIMENSIONS])  
+__MSNATIVE_ bool __system __export equalMatrix(ityp **matrix1, ityp *matrix2, const register dim_typ dim[static MAX_DIMENSIONS])
 {
     (*matrix1) = realloc((*matrix1), sizeof(ityp)*dim[ROWS]*dim[COLUMNS]);
     errMem((*matrix1), false);
@@ -2011,7 +2022,7 @@ __MSNATIVE_ inline void __system __export flushAllMemoizersBuffers(void)
 {
 	for(dim_typ i=0; i<MAX_MEMOIZABLE_FUNCTIONS; ++i)
 		_flushMemoizersBuffers(i);
-		
+
 	return;
 }
 
@@ -2301,7 +2312,7 @@ __MSNATIVE_ ityp __system __export requires(const char *cmd_string, const char *
 
     if(assert)
     	gettimeofday(&tvBegin, NULL);
-    	
+
     err = exprEval(e, &val);
 
     if(err != EXPR_ERROR_NOERROR)
@@ -2501,11 +2512,11 @@ __MSSHELL_WRAPPER_ __MSNATIVE_ void showNewtonDifferenceTable(dim_typ n, ityp x[
     return;
 }
 
-__MSNATIVE_ bool __system insertNMMatrix(ityp **matrix, const register dim_typ dim[static MAX_DIMENSIONS])  
+__MSNATIVE_ bool __system insertNMMatrix(ityp **matrix, const register dim_typ dim[static MAX_DIMENSIONS])
 {
     if(!matrixAlloc(matrix, dim))
     {
-        #if WINOS
+        #ifdef WINOS
             SetExitButtonState(ENABLED);
         #endif // WINOS
         return false;
@@ -2530,7 +2541,7 @@ __MSNATIVE_ bool __system insertNMMatrix(ityp **matrix, const register dim_typ d
                     {
                         if(!equalMatrix(matrix, access(curMatrix)->matrix, access(curMatrix)->dim))
                         {
-                            #if WINOS
+                            #ifdef WINOS
                                 SetExitButtonState(DISABLED);
                             #endif // WINOS
                             return false;
@@ -2543,7 +2554,7 @@ __MSNATIVE_ bool __system insertNMMatrix(ityp **matrix, const register dim_typ d
                     if(!i)
                     {
                         matrixFree(matrix);
-                        #if WINOS
+                        #ifdef WINOS
                             SetExitButtonState(ENABLED);
                         #endif // WINOS
                         return false;
@@ -2564,7 +2575,7 @@ __MSNATIVE_ bool __system insertNMMatrix(ityp **matrix, const register dim_typ d
                 else
                 {
                     matrixFree(matrix);
-                    #if WINOS
+                    #ifdef WINOS
                         SetExitButtonState(ENABLED);
                     #endif // WINOS
                     return false;
@@ -2705,7 +2716,7 @@ __MSNATIVE_ bool __system __export enterMatrix(ityp **matrix, dim_typ *righe, di
     tmp = 1;
     start_col_index = 0;
 
-    #if WINOS
+    #ifdef WINOS
         SetExitButtonState(DISABLED);
     #endif // WINOS
 
@@ -2719,7 +2730,7 @@ __MSNATIVE_ bool __system __export enterMatrix(ityp **matrix, dim_typ *righe, di
         errMem((*matrix), false);
 
         (*righe) = 1;
-        
+
         dim_typ analog_rows = MAX_DIMENSIONS;
         dim_typ analog_columns;
 
@@ -2735,7 +2746,7 @@ __MSNATIVE_ bool __system __export enterMatrix(ityp **matrix, dim_typ *righe, di
                 else
                 {
                     matrixFree(matrix);
-                    #if WINOS
+                    #ifdef WINOS
                         SetExitButtonState(ENABLED);
                     #endif
                     return false;
@@ -2743,7 +2754,7 @@ __MSNATIVE_ bool __system __export enterMatrix(ityp **matrix, dim_typ *righe, di
             }
 
             analog_columns = (*colonne)+1;
-            
+
             (*matrix) = realloc((*matrix), sizeof(ityp)*analog_rows*analog_columns);
 
             errMem((*matrix), false);
@@ -2757,7 +2768,7 @@ __MSNATIVE_ bool __system __export enterMatrix(ityp **matrix, dim_typ *righe, di
                 }
                 else
                 {
-                    #if WINOS
+                    #ifdef WINOS
                         SetExitButtonState(ENABLED);
                     #endif
                     if(!equalMatrix(matrix, access(curMatrix)->matrix, access(curMatrix)->dim))
@@ -2799,7 +2810,7 @@ __MSNATIVE_ bool __system __export enterMatrix(ityp **matrix, dim_typ *righe, di
                             printErr(1, "You cannot use Current Matrix because\nit isn't a Quad one");
                         else
                         {
-                            #if WINOS
+                            #ifdef WINOS
                                 SetExitButtonState(ENABLED);
                             #endif
                             if(!equalMatrix(matrix, access(curMatrix)->matrix, access(curMatrix)->dim))
@@ -2829,7 +2840,7 @@ __MSNATIVE_ bool __system __export enterMatrix(ityp **matrix, dim_typ *righe, di
                     else
                     {
                         matrixFree(matrix);
-                        #if WINOS
+                        #ifdef WINOS
                             SetExitButtonState(ENABLED);
                         #endif // WINOS
                         return false;
@@ -2852,7 +2863,7 @@ __MSNATIVE_ bool __system __export enterMatrix(ityp **matrix, dim_typ *righe, di
             if(!insertDim(righe, MAX_DIMENSIONS))
             {
                 matrixFree(matrix);
-                #if WINOS
+                #ifdef WINOS
                     SetExitButtonState(ENABLED);
                 #endif
                 return false;
@@ -2867,7 +2878,7 @@ __MSNATIVE_ bool __system __export enterMatrix(ityp **matrix, dim_typ *righe, di
         if(!matrixAlloc(matrix, (dim_typ2){*righe, *colonne}))
         {
             matrixFree(matrix);
-            #if WINOS
+            #ifdef WINOS
                 SetExitButtonState(ENABLED);
             #endif
             return false;
@@ -2883,7 +2894,7 @@ __MSNATIVE_ bool __system __export enterMatrix(ityp **matrix, dim_typ *righe, di
                         printErr(1, "You cannot use Current Matrix because\nit doesn't have %hu Rows and %hu Columns", righe, colonne);
                     else
                     {
-                        #if WINOS
+                        #ifdef WINOS
                             SetExitButtonState(ENABLED);
                         #endif
                         if(!equalMatrix(matrix, access(curMatrix)->matrix, access(curMatrix)->dim))
@@ -2900,7 +2911,7 @@ __MSNATIVE_ bool __system __export enterMatrix(ityp **matrix, dim_typ *righe, di
             if(!checkBackTracking(tmp, &i))
             {
                 matrixFree(matrix);
-                #if WINOS
+                #ifdef WINOS
                     SetExitButtonState(ENABLED);
                 #endif
                 return false;
@@ -2919,7 +2930,7 @@ __MSNATIVE_ bool __system __export enterMatrix(ityp **matrix, dim_typ *righe, di
                             printErr(1, "You cannot use Current Matrix because\nit doesn't have %hu Rows and %hu Columns", righe, colonne);
                         else
                         {
-                            #if WINOS
+                            #ifdef WINOS
                                 SetExitButtonState(ENABLED);
                             #endif
                             if(!equalMatrix(matrix, access(curMatrix)->matrix, access(curMatrix)->dim))
@@ -2939,7 +2950,7 @@ __MSNATIVE_ bool __system __export enterMatrix(ityp **matrix, dim_typ *righe, di
                 else if(back_tracking == 2)
                 {
                     matrixFree(matrix);
-                    #if WINOS
+                    #ifdef WINOS
                         SetExitButtonState(ENABLED);
                     #endif
                     return false;
@@ -2961,7 +2972,7 @@ __MSNATIVE_ bool __system __export enterMatrix(ityp **matrix, dim_typ *righe, di
                     else
                     {
                         matrixFree(matrix);
-                        #if WINOS
+                        #ifdef WINOS
                             SetExitButtonState(ENABLED);
                         #endif
                         return false;

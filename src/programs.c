@@ -3400,7 +3400,7 @@ __MSSHELL_WRAPPER_ __MSNATIVE_ void _MS__private __system __export operationsGro
 
                     if(file_exists(low_name))
                     {
-                        #if WINOS
+                        #ifdef WINOS
                             sprintf(str, "notepad %s", low_name);
                             system(str);
                         #else

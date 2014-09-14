@@ -2347,7 +2347,7 @@ case BCALC_VARIANZA:
     if(b)
     {
 
-        #if WINOS
+        #ifdef WINOS
             SetExitButtonState(DISABLED);
         #endif // WINOS
 
@@ -2368,7 +2368,7 @@ case BCALC_VARIANZA:
     vector = NULL;
     accumulate = 0;
 
-    #if WINOS
+    #ifdef WINOS
         SetExitButtonState(ENABLED);
     #endif // WINOS
 
@@ -2383,7 +2383,7 @@ case BCALC_STDDEV:
     if(b)
     {
 
-        #if WINOS
+        #ifdef WINOS
             SetExitButtonState(DISABLED);
         #endif // WINOS
 
@@ -2404,7 +2404,7 @@ case BCALC_STDDEV:
     vector = NULL;
     accumulate = 0;
 
-    #if WINOS
+    #ifdef WINOS
         SetExitButtonState(ENABLED);
     #endif // WINOS
 
@@ -2420,7 +2420,7 @@ case BCALC_OUTLIER:
     if(b == outlier_idx || !accumulate)
     {
 
-        #if WINOS
+        #ifdef WINOS
             SetExitButtonState(DISABLED);
         #endif // WINOS
         
@@ -2457,7 +2457,7 @@ case BCALC_OUTLIER:
     outlier_idx = -1,
     accumulate = 0;
 
-    #if WINOS
+    #ifdef WINOS
         SetExitButtonState(ENABLED);
     #endif // WINOS
 
@@ -2473,7 +2473,7 @@ case BCALC_MAP:
     if(b == funcID || !accumulate)
     {
 
-        #if WINOS
+        #ifdef WINOS
             SetExitButtonState(DISABLED);
         #endif // WINOS
         
@@ -2535,7 +2535,7 @@ case BCALC_MAP:
 	funcID = MAX_FIDS;
     accumulate = 0;
 
-    #if WINOS
+    #ifdef WINOS
         SetExitButtonState(ENABLED);
     #endif // WINOS
 
@@ -2617,7 +2617,7 @@ case BCALC_VALORECENTRALE:
     if(a)
     {
 
-        #if WINOS
+        #ifdef WINOS
             SetExitButtonState(DISABLED);
         #endif // WINOS
 
@@ -2638,7 +2638,7 @@ case BCALC_VALORECENTRALE:
     vector = NULL;
     accumulate = 0;
 
-    #if WINOS
+    #ifdef WINOS
         SetExitButtonState(ENABLED);
     #endif // WINOS
 
@@ -2654,7 +2654,7 @@ case BCALC_PRIMOQUARTILE:
     if(a)
     {
 
-        #if WINOS
+        #ifdef WINOS
             SetExitButtonState(DISABLED);
         #endif // WINOS
 
@@ -2675,7 +2675,7 @@ case BCALC_PRIMOQUARTILE:
     free(vector);
     vector = NULL;
 
-    #if WINOS
+    #ifdef WINOS
         SetExitButtonState(ENABLED);
     #endif // WINOS
 
@@ -2692,7 +2692,7 @@ case BCALC_MEDIANA:
     if(a)
     {
 
-        #if WINOS
+        #ifdef WINOS
             SetExitButtonState(DISABLED);
         #endif // WINOS
 
@@ -2713,7 +2713,7 @@ case BCALC_MEDIANA:
     free(vector);
     vector = NULL;
 
-    #if WINOS
+    #ifdef WINOS
         SetExitButtonState(ENABLED);
     #endif // WINOS
 
@@ -2730,7 +2730,7 @@ case BCALC_TERZOQUARTILE:
     if(a)
     {
 
-        #if WINOS
+        #ifdef WINOS
             SetExitButtonState(DISABLED);
         #endif // WINOS
 
@@ -2751,7 +2751,7 @@ case BCALC_TERZOQUARTILE:
     free(vector);
     vector = NULL;
 
-    #if WINOS
+    #ifdef WINOS
         SetExitButtonState(ENABLED);
     #endif // WINOS
 
