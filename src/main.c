@@ -567,13 +567,14 @@ int main(int argc, char **argv)
 	    xmlFreeDoc(doc);
 	    xmlCleanupParser();
     }
+    
+    _colFileLoader(access(colors_path));
+    SetDefaultColor();
 
-	#ifdef WINOS
-		_colFileLoader(access(colors_path));
-	    if(!ShowWindow(GetConsoleWindowNT(), SW_MAXIMIZE))
-	       printErr(22, "ShowWindow SW_MAXIMIZE failed with error: %lu", GetLastError());
-	    SetDefaultColor();
-	#endif
+    #ifdef WINOS
+	if(!ShowWindow(GetConsoleWindowNT(), SW_MAXIMIZE))
+	    printErr(22, "ShowWindow SW_MAXIMIZE failed with error: %lu", GetLastError());
+    #endif
 
     /// SetExitButtonState(DISABLED); // testing handler
 
