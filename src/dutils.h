@@ -708,10 +708,10 @@ enum
 // DEFINIZIONE MACRO SOTTO-PROGRAMMI
 //
 
-// Valore di inizializzazione del metadato modalit‡
-// della variabile strutturata suite, definita pi˘ sotto
+// Valore di inizializzazione del metadato modalit√†
+// della variabile strutturata suite, definita pi√π sotto
 #define PROGRAM_BUSY -1
-// o pi˘ semplicemente indica che l'utente Ë in fase di scelta del subprogram.
+// o pi√π semplicemente indica che l'utente √® in fase di scelta del subprogram.
 
 
 // Enumerazione ID Sotto-Programmi
@@ -1093,7 +1093,7 @@ enum
 
 
 // VALORE DI INIZIALIZZAZIONE CARATTERE DI USCITA DAL PROGRAMMA
-#define INITIALIZING_EXIT_CHAR '£'
+#define INITIALIZING_EXIT_CHAR '¬£'
 #define INITIALIZING_DEFAULT_COLOR COLOR_WHITE
 
 #define MAIN_COLOR DEFAULT_COLOR
@@ -1630,7 +1630,7 @@ enum
 
 
 /*
-Dedicati alla modalit‡ di funzionamento
+Dedicati alla modalit√† di funzionamento
 della funzione matrixToVector, per decidere
 in che senso deve essere svolta
 0 -> Normale, 1 -> Viceversa
@@ -1640,7 +1640,7 @@ in che senso deve essere svolta
 #define VECTOR_TO_MATRIX true
 
 /*
-Dedicati alla modalit‡ di stampa della matrice
+Dedicati alla modalit√† di stampa della matrice
 dell'omonima funzione. Come suggeriscono le
 stesse macro, passando 0 si stampa una matrice
 di valori in virgola mobile, altrimenti di interi.
@@ -2185,9 +2185,14 @@ __MSNATIVE_ bool __system _lfCreate(const char [static MAX_PATH_LENGTH]);
 __MSUTIL_ const char * const __system __export getFilename(const char path[static MAX_PATH_LENGTH]);
 __MSUTIL_ void __system updInfo(void);
 __MSUTIL_ void __system __export SetColor(const sel_typ);
-__MSNATIVE_ XMLCALL void __system _backupColFile(void);
-__MSNATIVE_ XMLCALL void __system getProgramSettings(dim_typ);
-__MSNATIVE_ XMLCALL void __system _colFileLoader(const char [static MAX_PATH_LENGTH]);
+
+#ifdef XMLCALL
+	__MSNATIVE_ XMLCALL void __system _backupColFile(void);
+	__MSNATIVE_ XMLCALL void __system _colFileLoader(const char [static MAX_PATH_LENGTH]);
+	__MSNATIVE_ XMLCALL void __system getProgramSettings(dim_typ);
+	__MSNATIVE_ XMLCALL void __system resetProgramSettings(layoutObj * const, const char [static MAX_PATH_LENGTH]);
+#endif
+
 
 __MSNATIVE_ ityp __export MINMAX(const register dim_typ dim, const ityp [static dim], const bool, dim_typ *);
 __MSNATIVE_ __MSUTIL_ ityp __system __export getDiffTime(struct timeval * tvBegin);
@@ -2203,7 +2208,6 @@ __MSNATIVE_ void __system __export _flushMemoizersBuffers(sel_typ);
 __MSNATIVE_ void __system __export flushAllMemoizersBuffers(void);
 __MSNATIVE_ dim_typ __system __export selectListItem(dim_typ dim, bool, const char *, const char [static dim][MIN_STRING]);
 __MSNATIVE_ void __system viewProgramSettings(dim_typ);
-__MSNATIVE_ XMLCALL void __system resetProgramSettings(layoutObj * const, const char [static MAX_PATH_LENGTH]);
 __MSNATIVE_ void __system setProgramSettings(dim_typ);
 __MSNATIVE_ bool __system __export catchPause();
 __MSNATIVE_ void __system logPrint(logObj * const);
