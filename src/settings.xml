@@ -63,7 +63,7 @@
 	<matricesItemsInsertingParser>true</matricesItemsInsertingParser>
 	<resetConstsListAndFunctionsList>false</resetConstsListAndFunctionsList>
 	<saveLastResults>true</saveLastResults>
-	<showVarlistAfterOperations>false</showVarlistAfterOperations>
+	<showVarlistAfterOperations>true</showVarlistAfterOperations>
 	<showAverageTimeAfterOperations>false</showAverageTimeAfterOperations>	
 <showAverageTimeAfterAdvancedCalculatorOperations>true</showAverageTimeAfterAdvancedCalculatorOperations>	
 <showAverageTimeAfterLinearAlgebraOperations>true</showAverageTimeAfterLinearAlgebraOperations>	<showAverageTimeAfterProgramsExecutions>false</showAverageTimeAfterProgramsExecutions>
