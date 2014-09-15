@@ -469,7 +469,7 @@ or at marcochiarelli.nextgenlab@gmail.com									   ||
 ///that if these conditions are true and the dimension of the matrices is greather than the Min OSMM Dimension    ///
 /// 	     constant, Strassen has the priority upon OSMM algorithm for square matrices. 			  ///
 ///					Fixed minor bugs and Code highly optimized.				  ///
-///                                     CHANGELOG v6.50 (10/09/2014)                                              ///
+///                                     CHANGELOG v6.60 (15/09/2014)                                              ///
 /// Introduced new checks into XML functions. Now if during a writing/parsing operation one field of both two XML ///
 /// files (settings.xml or colors.xml), is missing, then the program will continue its execution and will show    ///
 /// an error message, or eventually, will also set a default value to the interested setting. Fixed a bug into    ///
