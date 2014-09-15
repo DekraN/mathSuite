@@ -1,8 +1,8 @@
 mathSuite
 //-----------------------------------------------------------------------------------------------------------------//
 AUTHOR: Marco Chiarelli aka DekraN aka Wesker013 (FB)								   ||
-CURRENT VERSION: v6.50												   ||
-LAST UPDATE: 17:00 10/09/2014											   ||
+CURRENT VERSION: v6.60												   ||
+LAST UPDATE: 18:00 15/09/2014											   ||
 CONTACT ME at: marco_chiarelli@yahoo.it										   ||
 or at marcochiarelli.nextgenlab@gmail.com									   ||
 //-----------------------------------------------------------------------------------------------------------------//
@@ -469,6 +469,14 @@ or at marcochiarelli.nextgenlab@gmail.com									   ||
 ///that if these conditions are true and the dimension of the matrices is greather than the Min OSMM Dimension    ///
 /// 	     constant, Strassen has the priority upon OSMM algorithm for square matrices. 			  ///
 ///					Fixed minor bugs and Code highly optimized.				  ///
+///                                     CHANGELOG v6.50 (10/09/2014)                                              ///
+/// Introduced new checks into XML functions. Now if during a writing/parsing operation one field of both two XML ///
+/// files (settings.xml or colors.xml), is missing, then the program will continue its execution and will show    ///
+/// an error message, or eventually, will also set a default value to the interested setting. Fixed a bug into    ///
+/// files opening process interface, precisely in Item Selection by Path Modality, that didn't show an error      ///
+/// message if the inserted path referred to a non-existent file, or it didn't exit even if you entered the       ///
+/// special Exit Char for this mansions ("."). Some outputs has been tightly decorated, though not in an excessive///
+/// way. NOTICE: Since this release, the project is completely PORTABLE! It has been compiled under Linux system. ///
 ///    This is not a Final Built or Official Release, but (UPDATE) probably this could be the last release I write///
 ///              in C. A future release could be directly mathSMART Mobile Math Environment.                      ///
 ///                     You can contact me at: marco_chiarelli@yahoo.it or on the secundary mail:                 ///

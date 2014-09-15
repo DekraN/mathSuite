@@ -1,8 +1,8 @@
 /*!////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 //!////////////////////////////////////////////////////////////////////////////////////////////////////////////// ///
 /*!________________________________________________________________________________________________________________*/
-///                         mathSuite v6.50 --- by Marco Chiarelli aka DekraN aka Wesker013                  	  ///
-///        							LAST UPDATE: 18:00 of 10/09/2014 by Myself. 								  ///
+///                         mathSuite v6.60 --- by Marco Chiarelli aka DekraN aka Wesker013                  	  ///
+///        							LAST UPDATE: 18:00 of 15/09/2014 by Myself. 								  ///
 /// 	This program is protected by Creative Commons CC BY-SA 2.0 License. For more informations contact me. 	  ///
 ///                     You can contact me at: marco_chiarelli@yahoo.it or on the secundary mail:                 ///
 /// marcochiarelli.nextgenlab@gmail.com in order to report a bug or simply for sending me an advice that could be ///
@@ -137,12 +137,6 @@ const struct prog_constants suite_c =
         "Log",
         "Layout"
     },
-    #ifdef XMLCALL
-	    {
-	    	STRING_FALSE,
-	    	STRING_TRUE
-	    },
-	#endif
     {
         "Show Programs Descriptions",
         "Set Item as Current at Creation",
@@ -373,54 +367,56 @@ const struct prog_constants suite_c =
         "LUM RED",
         "LUM PURPLE",
         "LUM YELLOW",
-        "WHITEPLUS",
-        UNKNOWN_STRING,
-        UNKNOWN_STRING,
-        UNKNOWN_STRING,
-        UNKNOWN_STRING,
-        UNKNOWN_STRING,
-        UNKNOWN_STRING,
-        UNKNOWN_STRING,
-        UNKNOWN_STRING,
-        UNKNOWN_STRING,
-        UNKNOWN_STRING,
-        UNKNOWN_STRING,
-        UNKNOWN_STRING,
-        UNKNOWN_STRING,
-        UNKNOWN_STRING,
-        UNKNOWN_STRING,
-        UNKNOWN_STRING,
-        UNKNOWN_STRING,
-        UNKNOWN_STRING,
-        UNKNOWN_STRING,
-        UNKNOWN_STRING,
-        UNKNOWN_STRING,
-        UNKNOWN_STRING,
-        UNKNOWN_STRING,
-        "LUM WHITE",
-        UNKNOWN_STRING,
-        UNKNOWN_STRING,
-        UNKNOWN_STRING,
-        "LUM AZURE",
-        UNKNOWN_STRING,
-        UNKNOWN_STRING,
-        UNKNOWN_STRING,
-        UNKNOWN_STRING,
-        UNKNOWN_STRING,
-        UNKNOWN_STRING,
-        UNKNOWN_STRING,
-        UNKNOWN_STRING,
-        UNKNOWN_STRING,
-        UNKNOWN_STRING,
-        UNKNOWN_STRING,
-        UNKNOWN_STRING,
-        UNKNOWN_STRING,
-        UNKNOWN_STRING,
-        UNKNOWN_STRING,
-        UNKNOWN_STRING,
-        UNKNOWN_STRING,
-        UNKNOWN_STRING,
-        UNKNOWN_STRING
+        "WHITEPLUS"
+        #ifdef WINOS
+	        , UNKNOWN_STRING,
+	        UNKNOWN_STRING,
+	        UNKNOWN_STRING,
+	        UNKNOWN_STRING,
+	        UNKNOWN_STRING,
+	        UNKNOWN_STRING,
+	        UNKNOWN_STRING,
+	        UNKNOWN_STRING,
+	        UNKNOWN_STRING,
+	        UNKNOWN_STRING,
+	        UNKNOWN_STRING,
+	        UNKNOWN_STRING,
+	        UNKNOWN_STRING,
+	        UNKNOWN_STRING,
+	        UNKNOWN_STRING,
+	        UNKNOWN_STRING,
+	        UNKNOWN_STRING,
+	        UNKNOWN_STRING,
+	        UNKNOWN_STRING,
+	        UNKNOWN_STRING,
+	        UNKNOWN_STRING,
+	        UNKNOWN_STRING,
+	        UNKNOWN_STRING,
+	        "LUM WHITE",
+	        UNKNOWN_STRING,
+	        UNKNOWN_STRING,
+	        UNKNOWN_STRING,
+	        "LUM AZURE",
+	        UNKNOWN_STRING,
+	        UNKNOWN_STRING,
+	        UNKNOWN_STRING,
+	        UNKNOWN_STRING,
+	        UNKNOWN_STRING,
+	        UNKNOWN_STRING,
+	        UNKNOWN_STRING,
+	        UNKNOWN_STRING,
+	        UNKNOWN_STRING,
+	        UNKNOWN_STRING,
+	        UNKNOWN_STRING,
+	        UNKNOWN_STRING,
+	        UNKNOWN_STRING,
+	        UNKNOWN_STRING,
+	        UNKNOWN_STRING,
+	        UNKNOWN_STRING,
+	        UNKNOWN_STRING,
+	        UNKNOWN_STRING,
+	        UNKNOWN_STRING
+	    #endif
     }
 };
 
@@ -571,12 +567,10 @@ int main(int argc, char **argv)
     _colFileLoader(access(colors_path));
     SetDefaultColor();
 
-    #ifdef WINOS
-	if(!ShowWindow(GetConsoleWindowNT(), SW_MAXIMIZE))
-	    printErr(22, "ShowWindow SW_MAXIMIZE failed with error: %lu", GetLastError());
-    #endif
-
-    /// SetExitButtonState(DISABLED); // testing handler
+	#ifdef WINOS
+	    if(!ShowWindow(GetConsoleWindowNT(), SW_MAXIMIZE))
+	       printErr(22, "ShowWindow SW_MAXIMIZE failed with error: %lu", GetLastError());
+	#endif
 
     setDefaults();
 
@@ -596,7 +590,11 @@ int main(int argc, char **argv)
 
     if((mode != LAYOUTS && !getItemsListNo(LAYOUTS)) || (mode == LAYOUTS && !file_exists(argv[1])))
     {
-
+    	const char bools_identifiers[MAX_DIMENSIONS][SIGN_STRING] =
+    	{
+    		"false",
+    		"true"
+    	};
     	xmlInitParser();
     	LIBXML_TEST_VERSION;
 
@@ -645,7 +643,9 @@ int main(int argc, char **argv)
 
 		node = xmlNewNode(NULL, BAD_CAST "memoizerOptions");
 
-		#pragma omp parallel for num_threads(MAX_MEMOIZABLE_FUNCTIONS)
+		#ifdef WINOS
+			#pragma omp parallel for num_threads(MAX_MEMOIZABLE_FUNCTIONS)
+		#endif
 		for(i=0; i<MAX_MEMOIZABLE_FUNCTIONS; ++i)
 		{
 			char str[DINFO_STRING] = NULL_CHAR;
@@ -653,7 +653,8 @@ int main(int argc, char **argv)
 			strboolize(suite_c.memoizers_names[i], strboolized);
 			strboolized[0] = toupper(strboolized[0]);
 			sprintf(str, "/settings/memoizerOptions/max%sMemoizableIndex", strboolized);
-			xmlNewChild(node, NULL, BAD_CAST str, BAD_CAST suite_c.bools_identifiers[suite_c.max_memoizable_indices[i]]);
+			sprintf(tmp_string, "%hu", suite_c.max_memoizable_indices[i]);
+			xmlNewChild(node, NULL, BAD_CAST str, BAD_CAST tmp_string);
 		}
 
 		xmlAddChild(root_node, node);
@@ -703,14 +704,16 @@ int main(int argc, char **argv)
 
 		node = xmlNewNode(NULL, BAD_CAST "booleanKeys");
 
-		#pragma omp parallel for
+		#ifdef WINOS
+			#pragma omp parallel for
+		#endif
         for(i=0; i<MAX_BOOL_SETTINGS; ++i)
         {
         	char name[MIN_STRING<<MAX_DIMENSIONS] = NULL_CHAR;
 			char strboolized[MIN_STRING<<1] = NULL_CHAR;
 			strboolize(suite_c.bools_names[i], strboolized);
         	sprintf(name, "/settings/booleanKeys/%s", strboolized);
-        	xmlNewChild(node, NULL, BAD_CAST name, BAD_CAST suite_c.bools_identifiers[suite_c.bools[i].default_val]);
+        	xmlNewChild(node, NULL, BAD_CAST name, BAD_CAST bools_identifiers[suite_c.bools[i].default_val]);
         }
 
 		xmlAddChild(root_node, node);
@@ -740,6 +743,8 @@ int main(int argc, char **argv)
     prepareToExit();
     #ifdef WINOS
     	system("PAUSE"); // if working on Windows Environment...
+    #else
+    	printf("\e[0m");
     #endif
 
     return NOERROR_EXIT;

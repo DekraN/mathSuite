@@ -853,7 +853,11 @@ __MSNATIVE_ __WINCALL void __system _editLog(const char path[static MAX_PATH_LEN
         char str[MAX_BUFSIZ] = NULL_CHAR;
         for( ; ; )
         {
-            signal(SIGINT, (__p_sig_fn_t) sigexit);
+        	#ifdef WINOS
+            	signal(SIGINT, (__p_sig_fn_t) sigexit);
+            #else
+            	signal(SIGINT, (__sighandler_t) sigexit);
+            #endif
             gets(str);
             if(access(sigresult))
             {
@@ -904,11 +908,15 @@ __MSNATIVE_ void __system printErr(const int err, const char *format, ...)
 {
     CLEARBUFFER();
     PRINTL();
+    
+    SetColor(COLOR_ERROR);
+    
+    errno = err;
+    perror("\nERRORE");
 
     _sprint(format, COLOR_ERROR);
 
-    errno = err;
-    perror(".\nERRORE");
+    SetDefaultColor();
 
     PRINTL();
 
@@ -929,18 +937,14 @@ __MSNATIVE_ void __system fprintf2(FILE *fp, const char *format, ...)
     char str[MAX_BUFSIZ];
     vsprintf(str, format, ap);
 
-	#ifdef WINOS
-	    const bool cond = fp == stdout;
-	    if(cond)
-	        SetColor(COLOR_USER);
-	#endif
+    const bool cond = fp == stdout;
+    if(cond)
+        SetColor(COLOR_USER);
 
     fprintf(fp, str);
 
-    #ifdef WINOS
-        if(cond)
-            SetDefaultColor();
-    #endif
+    if(cond)
+        SetDefaultColor();
 
 
     if(getItemsListNo(LOGS) != STARTING_LOGSNO)
@@ -964,9 +968,7 @@ __MSNATIVE_ void __system printf2(const sel_typ col, const char *format, ...)
     static sel_typ col_cache = MAX_COLORS;
     const bool cond = getItemsListNo(LOGS) != STARTING_LOGSNO;
 
-	#ifdef WINOS
-   		SetColor(col);
-   	#endif
+    SetColor(col);
     vsprintf(str, format, ap);
     if(col != col_cache)
         prependTimeToString(str, cond);
@@ -994,7 +996,11 @@ __MSNATIVE_ bool __system scanf2(sel_typ count, const char *format, ...)
     va_start(ap, format);
 
     access(exitHandle) = INVALID_EXITHANDLE;
-    signal(SIGINT, (__p_sig_fn_t) sigproc);
+    #ifdef WINOS
+    	signal(SIGINT, (__p_sig_fn_t) sigproc);
+    #else
+    	signal(SIGINT, (__sighandler_t) sigproc);
+    #endif
     scanner = vscanf(format, ap);
 
     va_end(ap);
@@ -1502,81 +1508,126 @@ __MSUTIL_ static inline void ftoa(char *string, const float value, const fsel_ty
     	return;
 	}
 
-	__MSUTIL_ XMLCALL inline void __system __export xmlWriteInt(xmlXPathObject ** xpathObj, xmlXPathContext * xpathCtx, const char * nodeAddress, const int value)
+	__MSUTIL_ XMLCALL inline bool __system __export xmlWriteInt(xmlXPathObject ** xpathObj, xmlXPathContext * xpathCtx, const char * nodeAddress, const int value)
 	{
 		(*xpathObj) = xmlXPathEvalExpression( BAD_CAST nodeAddress, xpathCtx );
 		xmlNode * node = (*xpathObj)->nodesetval->nodeTab[0];
-		char tmp[SIGN_STRING] = NULL_CHAR;
-		#ifdef WINOS
-			itoa(value, tmp, sizeof(tmp));
-		#else
-			itoa(value, tmp);
-		#endif
-		xmlNodeSetContent(node, BAD_CAST tmp);
 		xmlXPathFreeObject((*xpathObj));
-		return;
+		if(node)
+		{
+			char tmp[SIGN_STRING] = NULL_CHAR;
+			#ifdef WINOS
+				itoa(value, tmp, sizeof(tmp));
+			#else
+				itoa(value, tmp);
+			#endif
+			xmlNodeSetContent(node, BAD_CAST tmp);
+			return true;
+		}	
+		return false;
 	}
 
-	__MSUTIL_ XMLCALL inline void __system __export xmlWriteBool(xmlXPathObject ** xpathObj, xmlXPathContext * xpathCtx, const char * nodeAddress, const bool value)
+	__MSUTIL_ XMLCALL inline bool __system __export xmlWriteBool(xmlXPathObject ** xpathObj, xmlXPathContext * xpathCtx, const char * nodeAddress, const bool value)
 	{
+		static const char bools_identifiers[MAX_DIMENSIONS][SIGN_STRING] =
+		{
+			"false",
+			"true"
+		};
 		(*xpathObj) = xmlXPathEvalExpression( BAD_CAST nodeAddress, xpathCtx );
 		xmlNode * node = (*xpathObj)->nodesetval->nodeTab[0];
-		xmlNodeSetContent(node, BAD_CAST suite_c.bools_identifiers[value]);
 		xmlXPathFreeObject((*xpathObj));
-		return;
+		if(node)
+		{
+			xmlNodeSetContent(node, BAD_CAST bools_identifiers[value]);
+			return true;
+		}
+		return false;
 	}
 
-	__MSUTIL_ XMLCALL inline void __system __export xmlWriteFloat(xmlXPathObject ** xpathObj, xmlXPathContext * xpathCtx, const char * nodeAddress, const float value)
+	__MSUTIL_ XMLCALL inline bool __system __export xmlWriteFloat(xmlXPathObject ** xpathObj, xmlXPathContext * xpathCtx, const char * nodeAddress, const float value)
 	{
 		(*xpathObj) = xmlXPathEvalExpression( BAD_CAST nodeAddress, xpathCtx );
 		xmlNode * node = (*xpathObj)->nodesetval->nodeTab[0];
-		char tmp[SIGN_STRING] = NULL_CHAR;
-		ftoa(tmp, value, DEFAULT_PRECISION);
-		xmlNodeSetContent(node, BAD_CAST tmp);
 		xmlXPathFreeObject((*xpathObj));
-		return;
+		if(node)
+		{
+			char tmp[SIGN_STRING] = NULL_CHAR;
+			ftoa(tmp, value, DEFAULT_PRECISION);
+			xmlNodeSetContent(node, BAD_CAST tmp);
+			return true;
+		}
+		return false;
 	}
 
-	__MSUTIL_ XMLCALL inline void __system __export xmlWriteString(xmlXPathObject ** xpathObj, xmlXPathContext * xpathCtx, const char * nodeAddress, const char string[static MAX_XML_FIELDSTRINGS])
+	__MSUTIL_ XMLCALL inline bool __system __export xmlWriteString(xmlXPathObject ** xpathObj, xmlXPathContext * xpathCtx, const char * nodeAddress, const char string[static MAX_XML_FIELDSTRINGS])
 	{
 		(*xpathObj) = xmlXPathEvalExpression( BAD_CAST nodeAddress, xpathCtx );
 		xmlNode * node = (*xpathObj)->nodesetval->nodeTab[0];
-		xmlNodeSetContent(node, BAD_CAST string);
 		xmlXPathFreeObject((*xpathObj));
-		return;
+		if(node)
+		{
+			xmlNodeSetContent(node, BAD_CAST string);
+			return true;
+		}
+		return false;
 	}
 
-	__MSUTIL_ XMLCALL inline int __system __export xmlGetInt(xmlXPathObject ** xpathObj, xmlXPathContext * xpathCtx, const char * nodeAddress)
+	__MSUTIL_ XMLCALL inline bool __system __export xmlGetInt(xmlXPathObject ** xpathObj, xmlXPathContext * xpathCtx, const char * nodeAddress, int * value)
 	{
 		(*xpathObj) = xmlXPathEvalExpression( BAD_CAST nodeAddress, xpathCtx );
 		xmlNode * node = (*xpathObj)->nodesetval->nodeTab[0];
 		xmlXPathFreeObject((*xpathObj));
-		return atoi(xmlNodeGetContent(node));
+		if(node)
+		{
+			(*value) = atoi(xmlNodeGetContent(node));
+			return true;
+		}
+		return false;
 	}
 
-	__MSUTIL_ XMLCALL inline bool __system __export xmlGetBool(xmlXPathObject ** xpathObj, xmlXPathContext * xpathCtx, const char * nodeAddress)
+	__MSUTIL_ XMLCALL inline bool __system __export xmlGetBool(xmlXPathObject ** xpathObj, xmlXPathContext * xpathCtx, const char * nodeAddress, bool * value)
 	{
+		static const char bools_identifiers[MAX_DIMENSIONS][SIGN_STRING] =
+		{
+			"false",
+			"true"
+		};
 		(*xpathObj) = xmlXPathEvalExpression( BAD_CAST nodeAddress, xpathCtx );
 		xmlNode * node = (*xpathObj)->nodesetval->nodeTab[0];
 		xmlXPathFreeObject((*xpathObj));
-		return strcmp(xmlNodeGetContent(node), suite_c.bools_identifiers[false]);
+		if(node)
+		{
+			(*value) = strcmp(xmlNodeGetContent(node), bools_identifiers[false]);
+			return true;
+		}
+		return false;
 	}
 
-	__MSUTIL_ XMLCALL inline float __system __export xmlGetFloat(xmlXPathObject ** xpathObj, xmlXPathContext * xpathCtx, const char * nodeAddress)
+	__MSUTIL_ XMLCALL inline bool __system __export xmlGetFloat(xmlXPathObject ** xpathObj, xmlXPathContext * xpathCtx, const char * nodeAddress, float * value)
 	{
 		(*xpathObj) = xmlXPathEvalExpression( BAD_CAST nodeAddress, xpathCtx );
 		xmlNode * node = (*xpathObj)->nodesetval->nodeTab[0];
 		xmlXPathFreeObject((*xpathObj));
-		return atof(xmlNodeGetContent(node));
+		if(node)
+		{
+			(*value) = atof(xmlNodeGetContent(node));
+			return true;
+		}
+		return false;
 	}
 
-	__MSUTIL_ XMLCALL inline void __system __export xmlGetString(xmlXPathObject ** xpathObj, xmlXPathContext * xpathCtx, const char * nodeAddress, char string[static MAX_XML_FIELDSTRINGS])
+	__MSUTIL_ XMLCALL inline bool __system __export xmlGetString(xmlXPathObject ** xpathObj, xmlXPathContext * xpathCtx, const char * nodeAddress, char string[static MAX_XML_FIELDSTRINGS])
 	{
 		(*xpathObj) = xmlXPathEvalExpression( BAD_CAST nodeAddress, xpathCtx );
 		xmlNode * node = (*xpathObj)->nodesetval->nodeTab[0];
-		strcpy(string, xmlNodeGetContent(node));
 		xmlXPathFreeObject((*xpathObj));
-		return;
+		if(node)
+		{
+			strcpy(string, xmlNodeGetContent(node));
+			return true;
+		}
+		return false;
 	}
 
 	__MSNATIVE_ XMLCALL void __system getProgramSettings(dim_typ which_layout)
@@ -1590,24 +1641,39 @@ __MSUTIL_ static inline void ftoa(char *string, const float value, const fsel_ty
 		xmlDoc * doc = xmlInit(tmp->path, &xpathCtx);
 		char ex_char[MAX_XML_FIELDSTRINGS];
 		sprintf(ex_char, "%c", cur_layout->exit_char);
-		xmlWriteString(&xpathObj, xpathCtx, "/settings/generalSettings/exitChar", ex_char);
+		if(!xmlWriteString(&xpathObj, xpathCtx, "/settings/generalSettings/exitChar", ex_char))
+			printErr(5, "In Writing /settings/generalSettings/exitChar field");
+		if(!xmlWriteInt(&xpathObj, xpathCtx, "/settings/generalSettings/programPrecision", cur_layout->precision))
+			printErr(5, "In Writing /settings/generalSettings/programPrecision field");
+		if(!xmlWriteInt(&xpathObj, xpathCtx, "/settings/generalSettings/stabilizerFactor", cur_layout->stabilizer_factor))
+			printErr(5, "In Writing /settings/generalSettings/stabilizerFactor field");
+		if(!xmlWriteInt(&xpathObj, xpathCtx, "/settings/generalSettings/minStirlingNumber", cur_layout->min_stirling_number))
+			printErr(5, "In Writing /settings/generalSettings/minStirlingNumber field");
+		if(!xmlWriteInt(&xpathObj, xpathCtx, "/settings/generalSettings/algebra", cur_layout->algebra))
+			printErr(5, "In Writing /settings/generalSettings/algebra field");
+		if(!xmlWriteFloat(&xpathObj, xpathCtx, "/settings/generalSettings/outlierConstant", cur_layout->outlier_constant))
+			printErr(5, "In Writing /settings/generalSettings/outlierConstant field");
 
-		xmlWriteInt(&xpathObj, xpathCtx, "/settings/generalSettings/programPrecision", cur_layout->precision);
-		xmlWriteInt(&xpathObj, xpathCtx, "/settings/generalSettings/stabilizerFactor", cur_layout->stabilizer_factor);
-		xmlWriteInt(&xpathObj, xpathCtx, "/settings/generalSettings/minStirlingNumber", cur_layout->min_stirling_number);
-		xmlWriteInt(&xpathObj, xpathCtx, "/settings/generalSettings/algebra", cur_layout->algebra);
-		xmlWriteFloat(&xpathObj, xpathCtx, "/settings/generalSettings/outlierConstant", cur_layout->outlier_constant);
+		if(!xmlWriteInt(&xpathObj, xpathCtx, "/settings/matricesOptions/maxRows", cur_layout->matrix_max_rows))
+			printErr(5, "In Writing /settings/matricesOptions/maxRows field");
+		if(!xmlWriteInt(&xpathObj, xpathCtx, "/settings/matricesOptions/maxColumns", cur_layout->matrix_max_columns))
+			printErr(5, "In Writing /settings/matricesOptions/maxColumns field");
+		if(!xmlWriteInt(&xpathObj, xpathCtx, "/settings/matricesOptions/blockSize", cur_layout->block_size))
+			printErr(5, "In Writing /settings/matricesOptions/blockSize field");
 
-		xmlWriteInt(&xpathObj, xpathCtx, "/settings/matricesOptions/maxRows", cur_layout->matrix_max_rows);
-		xmlWriteInt(&xpathObj, xpathCtx, "/settings/matricesOptions/maxColumns", cur_layout->matrix_max_columns);
-		xmlWriteInt(&xpathObj, xpathCtx, "/settings/matricesOptions/blockSize", cur_layout->block_size);
-		xmlWriteInt(&xpathObj, xpathCtx, "/settings/matricesOptions/minOSMMDim", cur_layout->min_osmm_dim);
-		xmlWriteInt(&xpathObj, xpathCtx, "/settings/matricesOptions/minStrassenDim", cur_layout->min_strassen_dim);
-		xmlWriteInt(&xpathObj, xpathCtx, "/settings/matricesOptions/maxDSVDIterations", cur_layout->max_dsvd_iterations);
-		xmlWriteInt(&xpathObj, xpathCtx, "/settings/matricesOptions/maxSimplexIterations", cur_layout->max_simplex_iterations);
+		if(!xmlWriteInt(&xpathObj, xpathCtx, "/settings/matricesOptions/minOSMMDim", cur_layout->min_osmm_dim))
+			printErr(5, "In Writing /settings/matricesOptions/minOSMMDim field");
+		if(!xmlWriteInt(&xpathObj, xpathCtx, "/settings/matricesOptions/minStrassenDim", cur_layout->min_strassen_dim))
+			printErr(5, "In Writing /settings/matricesOptions/minStrassenDim field");
+		if(!xmlWriteInt(&xpathObj, xpathCtx, "/settings/matricesOptions/maxDSVDIterations", cur_layout->max_dsvd_iterations))
+			printErr(5, "In Writing /settings/matricesOptions/maxDSVDIterations field");
+		if(!xmlWriteInt(&xpathObj, xpathCtx, "/settings/matricesOptions/maxSimplexIterations", cur_layout->max_simplex_iterations))
+			printErr(5, "In Writing /settings/matricesOptions/maxSimplexIterations field");
 
 
-		#pragma omp parallel for num_threads(MAX_MEMOIZABLE_FUNCTIONS)
+		#ifdef WINOS
+			#pragma omp parallel for num_threads(MAX_MEMOIZABLE_FUNCTIONS)
+		#endif
 		for(i=0; i<MAX_MEMOIZABLE_FUNCTIONS; ++i)
 		{
 			char str[DINFO_STRING] = NULL_CHAR;
@@ -1615,32 +1681,45 @@ __MSUTIL_ static inline void ftoa(char *string, const float value, const fsel_ty
 			strboolize(suite_c.memoizers_names[i], strboolized);
 			strboolized[0] = toupper(strboolized[0]);
 			sprintf(str, "/settings/memoizerOptions/max%sMemoizableIndex", strboolized);
-			xmlWriteInt(&xpathObj, xpathCtx, str, cur_layout->max_memoizable_indices[i]);
+			if(!xmlWriteInt(&xpathObj, xpathCtx, str, cur_layout->max_memoizable_indices[i]))
+				printErr(5, "In Writing %s field", str);
 		}
 
-		xmlWriteInt(&xpathObj, xpathCtx, "/settings/baseConversions/minBase", cur_layout->basecalc_minbase);
-		xmlWriteInt(&xpathObj, xpathCtx, "/settings/baseConversions/maxBase", cur_layout->basecalc_maxbase);
-		xmlWriteInt(&xpathObj, xpathCtx, "/settings/baseConversions/maxChangebaseBinaryConvnum", cur_layout->max_changebase_binary_convnum);
+		if(!xmlWriteInt(&xpathObj, xpathCtx, "/settings/baseConversions/minBase", cur_layout->basecalc_minbase))
+			printErr(5, "In Writing /settings/baseConversions/minBase field");
+		if(!xmlWriteInt(&xpathObj, xpathCtx, "/settings/baseConversions/maxBase", cur_layout->basecalc_maxbase))
+			printErr(5, "In Writing /settings/baseConversions/maxBase field");
+		if(!xmlWriteInt(&xpathObj, xpathCtx, "/settings/baseConversions/maxChangebaseBinaryConvnum", cur_layout->max_changebase_binary_convnum))
+			printErr(5, "In Writing /settings/baseConversions/maxChangebaseBinaryConvnum field");
 
-		xmlWriteInt(&xpathObj, xpathCtx, "/settings/newtonDifferenceTables/minDimension", cur_layout->min_newton_difftables_dim);
-		xmlWriteInt(&xpathObj, xpathCtx, "/settings/newtonDifferenceTables/maxDimension", cur_layout->max_newton_difftables_dim);
+		if(!xmlWriteInt(&xpathObj, xpathCtx, "/settings/newtonDifferenceTables/minDimension", cur_layout->min_newton_difftables_dim))
+			printErr(5, "In Writing /settings/newtonDifferenceTables/minDimension field");
+		if(!xmlWriteInt(&xpathObj, xpathCtx, "/settings/newtonDifferenceTables/maxDimension", cur_layout->max_newton_difftables_dim))
+			printErr(5, "In Writing /settings/newtonDifferenceTables/maxDimension field");
 
-	    xmlWriteInt(&xpathObj, xpathCtx, "/settings/romanNumbers/minProcessableNumber", cur_layout->min_roman_number);
-	    xmlWriteInt(&xpathObj, xpathCtx, "/settings/romanNumbers/maxProcessableNumber", cur_layout->max_roman_number);
+	    if(!xmlWriteInt(&xpathObj, xpathCtx, "/settings/romanNumbers/minProcessableNumber", cur_layout->min_roman_number))
+	    	printErr(5, "In Writing /settings/romanNumbers/minProcessableNumber field");
+	    if(!xmlWriteInt(&xpathObj, xpathCtx, "/settings/romanNumbers/maxProcessableNumber", cur_layout->max_roman_number))
+	    	printErr(5, "In Writing /settings/romanNumbers/maxProcessableNumber field");
 
-	    xmlWriteInt(&xpathObj, xpathCtx, "/settings/pascalsTriangle/minRows", cur_layout->pascal_triangle_min_rows);
-	    xmlWriteInt(&xpathObj, xpathCtx, "/settings/pascalsTriangle/maxRows", cur_layout->pascal_triangle_max_rows);
+	    if(!xmlWriteInt(&xpathObj, xpathCtx, "/settings/pascalsTriangle/minRows", cur_layout->pascal_triangle_min_rows))
+	    	printErr(5, "In Writing /settings/pascalsTriangle/minRows field");
+	    if(!xmlWriteInt(&xpathObj, xpathCtx, "/settings/pascalsTriangle/maxRows", cur_layout->pascal_triangle_max_rows))
+	    	printErr(5, "In Writing /settings/pascalsTriangle/maxRows field");
 
 	    /// write some stuffs...
 
-		#pragma omp parallel for
+		#ifdef WINOS
+			#pragma omp parallel for
+		#endif
 	    for(i=0; i<MAX_BOOL_SETTINGS; ++i)
 	    {
 	    	char name[MIN_STRING<<MAX_DIMENSIONS] = NULL_CHAR;
 			char strboolized[MIN_STRING<<1] = NULL_CHAR;
 			strboolize(suite_c.bools_names[i], strboolized);
 	    	sprintf(name, "/settings/booleanKeys/%s", strboolized);
-	        xmlWriteBool(&xpathObj, xpathCtx, name, (cur_layout->bools & suite_c.bools[i].bmask) == suite_c.bools[i].bmask);
+	        if(!xmlWriteBool(&xpathObj, xpathCtx, name, (cur_layout->bools & suite_c.bools[i].bmask) == suite_c.bools[i].bmask))
+	        	printErr(5, "In Writing %s field", name);
 	    }
 
 	    xmlExit(tmp->path, &doc, &xpathObj, &xpathCtx);
@@ -1655,24 +1734,103 @@ __MSUTIL_ static inline void ftoa(char *string, const float value, const fsel_ty
 	    xmlDoc * doc = xmlInit(path, &xpathCtx);
 
 		char ex_char[1];
-		xmlGetString(&xpathObj, xpathCtx, "/settings/generalSettings/exitChar", ex_char);
-		tmp->exit_char = ex_char[0];
-		tmp->precision = xmlGetInt(&xpathObj, xpathCtx, "/settings/generalSettings/programPrecision");
-		tmp->stabilizer_factor = xmlGetInt(&xpathObj, xpathCtx, "/settings/generalSettings/stabilizerFactor");
-		tmp->min_stirling_number = xmlGetInt(&xpathObj, xpathCtx, "/settings/generalSettings/minStirlingNumber");
-		tmp->algebra = xmlGetInt(&xpathObj, xpathCtx, "/settings/generalSettings/algebra");
-		tmp->outlier_constant = xmlGetFloat(&xpathObj, xpathCtx, "/settings/generalSettings/outlierConstant");
+		if(xmlGetString(&xpathObj, xpathCtx, "/settings/generalSettings/exitChar", ex_char))
+			tmp->exit_char = ex_char[0];
+		else
+			printErr(5, "In Parsing /settings/generalSettings/exitChar field");
+		int tmp_int;
+		if(xmlGetInt(&xpathObj, xpathCtx, "/settings/generalSettings/programPrecision", &tmp_int))
+			tmp->precision = tmp_int;
+		else
+		{
+			printErr(5, "In Parsing /settings/generalSettings/programPrecision field");
+			tmp->precision = DEFAULT_PRECISION;
+		}
+		if(xmlGetInt(&xpathObj, xpathCtx, "/settings/generalSettings/stabilizerFactor", &tmp_int))
+			tmp->stabilizer_factor = tmp_int;
+		else
+		{
+			printErr(5, "In Parsing /settings/generalSettings/stabilizerFactor field");
+			tmp->stabilizer_factor = DEFAULT_STABILIZER_FACTOR;
+		}
+		if(xmlGetInt(&xpathObj, xpathCtx, "/settings/generalSettings/minStirlingNumber", &tmp_int))
+			tmp->min_stirling_number = tmp_int;
+		else
+		{
+			printErr(5, "In Parsing /settings/generalSettings/minStirlingNumber field");
+			tmp->min_stirling_number = DEFAULT_MIN_STIRLING_NUMBER;
+		}
+		if(xmlGetInt(&xpathObj, xpathCtx, "/settings/generalSettings/algebra", &tmp_int))
+			tmp->algebra = tmp_int;
+		else
+		{
+			printErr(5, "In Parsing /settings/generalSettings/algebra field");
+			tmp->algebra = DEFAULT_ALGEBRA;
+		}
+		float tmp_float;
+		if(xmlGetFloat(&xpathObj, xpathCtx, "/settings/generalSettings/outlierConstant", &tmp_float))
+			tmp->outlier_constant = tmp_float;
+		else
+		{
+			printErr(5, "In Parsing /settings/generalSettings/outlierConstant field");
+			tmp->outlier_constant = DEFAULT_OUTLIER_CONSTANT;
+		}
 
-		tmp->matrix_max_rows = xmlGetInt(&xpathObj, xpathCtx, "/settings/matricesOptions/maxRows");
-		tmp->matrix_max_columns = xmlGetInt(&xpathObj, xpathCtx, "/settings/matricesOptions/maxColumns");
-		tmp->block_size = xmlGetInt(&xpathObj, xpathCtx, "/settings/matricesOptions/blockSize");
-		tmp->min_osmm_dim = xmlGetInt(&xpathObj, xpathCtx, "/settings/matricesOptions/minOSMMDim");
-		tmp->min_strassen_dim = xmlGetInt(&xpathObj, xpathCtx, "/settings/matricesOptions/minStrassenDim");
-		tmp->max_dsvd_iterations = xmlGetInt(&xpathObj, xpathCtx, "/settings/matricesOptions/maxDSVDIterations");
-		tmp->max_simplex_iterations = xmlGetInt(&xpathObj, xpathCtx, "/settings/matricesOptions/maxSimplexIterations");
+	
+		if(xmlGetInt(&xpathObj, xpathCtx, "/settings/matricesOptions/maxRows", &tmp_int))
+			tmp->matrix_max_rows = tmp_int;
+		else
+		{
+			printErr(5, "In Parsing /settings/matricesOptions/maxRows field");
+			tmp->matrix_max_rows = MAX_RIGHE;
+		}
+		if(xmlGetInt(&xpathObj, xpathCtx, "/settings/matricesOptions/maxColumns", &tmp_int))
+			tmp->matrix_max_columns = tmp_int;
+		else
+		{
+			printErr(5, "In Parsing /settings/matricesOptions/maxColumns field");
+			tmp->matrix_max_columns = MAX_COLONNE;
+		}
+		if(xmlGetInt(&xpathObj, xpathCtx, "/settings/matricesOptions/blockSize", &tmp_int))
+			tmp->block_size = tmp_int;
+		else
+		{
+			printErr(5, "In Parsing /settings/matricesOptions/blockSize field");
+			tmp->block_size = DEFAULT_BLOCKSIZE;
+		}
+		if(xmlGetInt(&xpathObj, xpathCtx, "/settings/matricesOptions/minOSMMDim", &tmp_int))
+			tmp->min_osmm_dim = tmp_int;
+		else
+		{
+			printErr(5, "In Parsing /settings/matricesOptions/minOSMMDim field");
+			tmp->min_osmm_dim = DEFAULT_MINOSMMDIM;
+		}
+		if(xmlGetInt(&xpathObj, xpathCtx, "/settings/matricesOptions/minStrassenDim", &tmp_int))
+			tmp->min_strassen_dim = tmp_int;
+		else
+		{
+			printErr(5, "In Parsing /settings/matricesOptions/minStrassenDim field");
+			tmp->min_strassen_dim = DEFAULT_MINSTRASSENDIM;
+		}
+		if(xmlGetInt(&xpathObj, xpathCtx, "/settings/matricesOptions/maxDSVDIterations", &tmp_int))
+			tmp->max_dsvd_iterations = tmp_int;
+		else
+		{
+			printErr(5, "In Parsing /settings/matricesOptions/maxDSVDIterations field");
+			tmp->max_dsvd_iterations = DEFAULT_MAX_DSVD_ITERATIONS;
+		}
+		if(xmlGetInt(&xpathObj, xpathCtx, "/settings/matricesOptions/maxSimplexIterations", &tmp_int))
+			tmp->max_simplex_iterations = tmp_int;
+		else
+		{
+			printErr(5, "In Parsing /settings/matricesOptions/maxSimplexIterations field");
+			tmp->max_simplex_iterations = DEFAULT_MAX_SIMPLEXMETHOD_ITERATIONS;
+		}
 
 
-		#pragma omp parallel for num_threads(MAX_MEMOIZABLE_FUNCTIONS)
+		#ifdef WINOS
+			#pragma omp parallel for num_threads(MAX_MEMOIZABLE_FUNCTIONS)
+		#endif
 		for(i=0; i<MAX_MEMOIZABLE_FUNCTIONS; ++i)
 		{
 			char str[DINFO_STRING] = NULL_CHAR;
@@ -1680,33 +1838,99 @@ __MSUTIL_ static inline void ftoa(char *string, const float value, const fsel_ty
 			strboolize(suite_c.memoizers_names[i], strboolized);
 			strboolized[0] = toupper(strboolized[0]);
 			sprintf(str, "/settings/memoizerOptions/max%sMemoizableIndex", strboolized);
-			tmp->max_memoizable_indices[i] = xmlGetInt(&xpathObj, xpathCtx, str);
+			if(xmlGetInt(&xpathObj, xpathCtx, str, &tmp_int))
+				tmp->max_memoizable_indices[i] = tmp_int;
+			else
+			{
+				printErr(5, "In Parsing %s field", str);
+				tmp->max_memoizable_indices[i] = suite_c.max_memoizable_indices[i];
+			}
 		}
 
 
-		tmp->basecalc_minbase = xmlGetInt(&xpathObj, xpathCtx, "/settings/baseConversions/minBase");
-		tmp->basecalc_maxbase = xmlGetInt(&xpathObj, xpathCtx, "/settings/baseConversions/maxBase");
-		tmp->max_changebase_binary_convnum = xmlGetInt(&xpathObj, xpathCtx, "/settings/baseConversions/maxChangebaseBinaryConvnum");
+		if(xmlGetInt(&xpathObj, xpathCtx, "/settings/baseConversions/minBase", &tmp_int))
+			tmp->basecalc_minbase = tmp_int;
+		else
+		{
+			printErr(5, "In Parsing /settings/baseConversions/minBase field");
+			tmp->basecalc_minbase = BCALC_CAMBIAMENTODIBASE_MINBASE;
+		}
+		if(xmlGetInt(&xpathObj, xpathCtx, "/settings/baseConversions/maxBase", &tmp_int))
+			tmp->basecalc_maxbase = tmp_int;
+		else
+		{
+			printErr(5, "In Parsing /settings/baseConversions/maxBase field");
+			tmp->basecalc_maxbase = BCALC_CAMBIAMENTODIBASE_MAXBASE;
+		}
+		if(xmlGetInt(&xpathObj, xpathCtx, "/settings/baseConversions/maxChangebaseBinaryConvnum", &tmp_int))
+			tmp->max_changebase_binary_convnum = tmp_int;
+		else
+		{
+			printErr(5, "In Parsing /settings/baseConversions/maxChangebaseBinaryConvnum field");
+			tmp->max_changebase_binary_convnum = MAX_MINBASE_CONVERTIBLE_NUM;
+		}
 
-		tmp->min_newton_difftables_dim = xmlGetInt(&xpathObj, xpathCtx, "/settings/newtonDifferenceTables/minDimension");
-		tmp->max_newton_difftables_dim = xmlGetInt(&xpathObj, xpathCtx, "/settings/newtonDifferenceTables/maxDimension");
+		if(xmlGetInt(&xpathObj, xpathCtx, "/settings/newtonDifferenceTables/minDimension", &tmp_int))
+			tmp->min_newton_difftables_dim = tmp_int;
+		else
+		{
+			printErr(5, "In Parsing /settings/newtonDifferenceTables/minDimension field");
+			tmp->min_newton_difftables_dim = MIN_NEWTON_DIFFTABLES_DIM;
+		}
+		if(xmlGetInt(&xpathObj, xpathCtx, "/settings/newtonDifferenceTables/maxDimension", &tmp_int))
+			tmp->max_newton_difftables_dim = tmp_int;
+		else
+		{
+			printErr(5, "In Parsing /settings/newtonDifferenceTables/maxDimension field");
+			tmp->max_newton_difftables_dim = MAX_NEWTON_DIFFTABLES_DIM;
+		}
 
-		tmp->min_roman_number = xmlGetInt(&xpathObj, xpathCtx, "/settings/romanNumbers/minProcessableNumber");
-		tmp->max_roman_number = xmlGetInt(&xpathObj, xpathCtx, "/settings/romanNumbers/maxProcessableNumber");
+		if(xmlGetInt(&xpathObj, xpathCtx, "/settings/romanNumbers/minProcessableNumber", &tmp_int))
+			tmp->min_roman_number = tmp_int;
+		else
+		{
+			printErr(5, "In Parsing /settings/romanNumbers/minProcessableNumber field");
+			tmp->min_roman_number = MIN_PROCESSABLE_ROMAN_NUMBER;
+		}
+		if(xmlGetInt(&xpathObj, xpathCtx, "/settings/romanNumbers/maxProcessableNumber", &tmp_int))
+			tmp->max_roman_number = tmp_int;
+		else
+		{
+			printErr(5, "In Parsing /settings/romanNumbers/maxProcessableNumber field");
+			tmp->max_roman_number = MAX_PROCESSABLE_ROMAN_NUMBER;
+		}
 
-		tmp->pascal_triangle_min_rows = xmlGetInt(&xpathObj, xpathCtx, "/settings/pascalsTriangle/minRows");
-		tmp->pascal_triangle_max_rows = xmlGetInt(&xpathObj, xpathCtx, "/settings/pascalsTriangle/maxRows");
+		if(xmlGetInt(&xpathObj, xpathCtx, "/settings/pascalsTriangle/minRows", &tmp_int))
+			tmp->pascal_triangle_min_rows = tmp_int;
+		else
+		{
+			printErr(5, "In Parsing /settings/pascalsTriangle/minRows field");
+			tmp->pascal_triangle_min_rows = MIN_PASCALTRIANGLE_ROWS;
+		}
+		if(xmlGetInt(&xpathObj, xpathCtx, "/settings/pascalsTriangle/maxRows", &tmp_int))
+			tmp->pascal_triangle_max_rows = tmp_int;
+		else
+		{
+			printErr(5, "In Parsing /settings/pascalsTriangle/maxRows field");
+			tmp->pascal_triangle_max_rows = MAX_PASCALTRIANGLE_ROWS;
+		}
+		
+		bool tmp_bool = false;                           
 
-	    volatile bool tmp_bool = false;
-
-		#pragma omp parallel for
+		#ifdef WINOS
+			#pragma omp parallel for
+		#endif
 	    for(i=0; i<MAX_BOOL_SETTINGS; ++i)
 	    {
 			char name[MIN_STRING<<MAX_DIMENSIONS] = NULL_CHAR;
 			char strboolized[DINFO_STRING] = NULL_CHAR;
 	        strboolize(suite_c.bools_names[i], strboolized);
 	        sprintf(name, "/settings/booleanKeys/%s", strboolized);
-	        tmp_bool = xmlGetBool(&xpathObj, xpathCtx, name);
+	        if(!xmlGetBool(&xpathObj, xpathCtx, name, &tmp_bool))
+	        {
+	        	printErr(5, "In Parsing %s field", name);
+	        	tmp_bool = suite_c.bools[i].default_val;
+	    	}
 	        if(tmp_bool)
 	            tmp->bools |= suite_c.bools[i].bmask;
 	    }
@@ -1716,6 +1940,92 @@ __MSUTIL_ static inline void ftoa(char *string, const float value, const fsel_ty
 	    return;
 	}
 
+	__MSNATIVE_ XMLCALL void __system _colFileLoader(const char path[static MAX_PATH_LENGTH])
+	    {
+	        static bool once_executed = false;
+
+	        if(once_executed)
+			{
+				if(isSett(BOOLS_ITEMSAUTOSAVING))
+	            	_backupColFile();
+			}
+			else
+	        	once_executed = true;
+
+	        xmlXPathContext * xpathCtx = (xmlXPathContext*) NULL;
+	        xmlXPathObject * xpathObj = (xmlXPathObject*) NULL;
+	        xmlDoc * doc = xmlInit(access(colors_path), &xpathCtx);
+
+			int tmp_int;
+	        if(xmlGetInt(&xpathObj, xpathCtx, "/colors/defaultColor", &tmp_int))
+	        	COLOR_DEFAULT = tmp_int;
+	        else
+	        {
+	        	printf2(_COLOR_ERROR, "In Parsing /colors/defaultColor field");
+	        	COLOR_DEFAULT = DEFAULT_COLOR;
+	        }
+	        if(xmlGetInt(&xpathObj, xpathCtx, "/colors/errorsColor", &tmp_int))
+	        	COLOR_ERROR = tmp_int;
+	        else
+	        {
+	        	printf2(_COLOR_ERROR, "In Parsing /colors/errorsColor field");
+	        	COLOR_ERROR = _COLOR_ERROR;
+	        }
+	        if(xmlGetInt(&xpathObj, xpathCtx, "/colors/creditsColor", &tmp_int))
+	        	COLOR_CREDITS = tmp_int;
+	        else
+	        {
+	        	printf2(_COLOR_ERROR, "In Parsing /colors/creditsColor field");
+	        	COLOR_CREDITS = _COLOR_CREDITS;
+	        }
+	        if(xmlGetInt(&xpathObj, xpathCtx, "/colors/userColor", &tmp_int))
+	        	COLOR_USER = tmp_int;
+	        else
+	        {
+	        	printf2(_COLOR_ERROR, "In Parsing /colors/userColor field");
+	        	COLOR_USER = _COLOR_USER;
+	        }
+	        if(xmlGetInt(&xpathObj, xpathCtx, "/colors/systemColor", &tmp_int))
+	        	COLOR_SYSTEM = tmp_int;
+	        else
+	        {
+	        	printf2(_COLOR_ERROR, "In Parsing /colors/systemColor field");
+	        	COLOR_SYSTEM = _COLOR_SYSTEM;
+	        }
+	        if(xmlGetInt(&xpathObj, xpathCtx, "/colors/authorColor", &tmp_int))
+	        	COLOR_AUTHOR = tmp_int;
+	        else
+	        {
+	        	printf2(_COLOR_ERROR, "In Parsing /colors/authorColor field");
+	        	COLOR_AUTHOR = _COLOR_AUTHOR;
+	        }
+
+			xmlExit(access(colors_path), &doc, &xpathObj, &xpathCtx);
+	        return;
+	    }
+
+	    __MSNATIVE_ XMLCALL void __system _backupColFile(void)
+		{
+			xmlXPathContext * xpathCtx = (xmlXPathContext*) NULL;
+			xmlXPathObject * xpathObj = (xmlXPathObject*) NULL;
+			xmlDoc * doc = xmlInit(access(colors_path), &xpathCtx);
+
+			if(!xmlWriteInt(&xpathObj, xpathCtx, "/colors/defaultColor", COLOR_DEFAULT))
+				printErr(5, "In Writing /colors/defaultColor field");
+			if(!xmlWriteInt(&xpathObj, xpathCtx, "/colors/errorsColor", COLOR_ERROR))
+				printErr(5, "In Writing /colors/errorsColor field");
+			if(!xmlWriteInt(&xpathObj, xpathCtx, "/colors/creditsColor", COLOR_CREDITS))
+				printErr(5, "In Writing /colors/creditsColor field");
+			if(!xmlWriteInt(&xpathObj, xpathCtx, "/colors/userColor", COLOR_USER))
+				printErr(5, "In Writing /colors/userColor field");
+			if(!xmlWriteInt(&xpathObj, xpathCtx, "/colors/systemColor", COLOR_SYSTEM))
+				printErr(5, "In Writing /colors/systemColor field");
+			if(!xmlWriteInt(&xpathObj, xpathCtx, "/colors/authorColor", COLOR_AUTHOR))
+				printErr(5, "In Writing /colors/authorColor field");
+
+			xmlExit(access(colors_path), &doc, &xpathObj, &xpathCtx);
+		    return;
+		}
 
 #endif
 
@@ -1788,52 +2098,20 @@ __MSUTIL_ static inline void ftoa(char *string, const float value, const fsel_ty
         return result;
     }
 
-#endif
-
-#ifdef XMLCALL
-		__MSNATIVE_ XMLCALL void __system _colFileLoader(const char path[static MAX_PATH_LENGTH])
-	    {
-	        static bool once_executed = false;
-
-	        if(once_executed)
-			{
-				if(isSett(BOOLS_ITEMSAUTOSAVING))
-	            	_backupColFile();
-			}
-			else
-	        	once_executed = true;
-
-	        xmlXPathContext * xpathCtx = (xmlXPathContext*) NULL;
-	        xmlXPathObject * xpathObj = (xmlXPathObject*) NULL;
-	        xmlDoc * doc = xmlInit(access(colors_path), &xpathCtx);
-
-	        COLOR_DEFAULT = xmlGetInt(&xpathObj, xpathCtx, "/colors/defaultColor");
-	        COLOR_ERROR = xmlGetInt(&xpathObj, xpathCtx, "/colors/errorsColor");
-	        COLOR_CREDITS = xmlGetInt(&xpathObj, xpathCtx, "/colors/creditsColor");
-	        COLOR_USER = xmlGetInt(&xpathObj, xpathCtx, "/colors/userColor");
-	        COLOR_SYSTEM = xmlGetInt(&xpathObj, xpathCtx, "/colors/systemColor");
-	        COLOR_AUTHOR = xmlGetInt(&xpathObj, xpathCtx, "/colors/authorColor");
-
-			xmlExit(access(colors_path), &doc, &xpathObj, &xpathCtx);
-	        return;
-	    }
-
-	    __MSNATIVE_ XMLCALL void __system _backupColFile(void)
-		{
-			xmlXPathContext * xpathCtx = (xmlXPathContext*) NULL;
-			xmlXPathObject * xpathObj = (xmlXPathObject*) NULL;
-			xmlDoc * doc = xmlInit(access(colors_path), &xpathCtx);
-
-			xmlWriteInt(&xpathObj, xpathCtx, "/colors/defaultColor", COLOR_DEFAULT);
-			xmlWriteInt(&xpathObj, xpathCtx, "/colors/errorsColor", COLOR_ERROR);
-			xmlWriteInt(&xpathObj, xpathCtx, "/colors/creditsColor", COLOR_CREDITS);
-			xmlWriteInt(&xpathObj, xpathCtx, "/colors/userColor", COLOR_USER);
-			xmlWriteInt(&xpathObj, xpathCtx, "/colors/systemColor", COLOR_SYSTEM);
-			xmlWriteInt(&xpathObj, xpathCtx, "/colors/authorColor", COLOR_AUTHOR);
-
-			xmlExit(access(colors_path), &doc, &xpathObj, &xpathCtx);
-		    return;
-		}
+#else
+	__MSUTIL_ __MSNATIVE_ __system __export int getch( )
+    {
+        struct termios oldt,
+             newt;
+        int            ch;
+        tcgetattr( STDIN_FILENO, &oldt );
+        newt = oldt;
+        newt.c_lflag &= ~( ICANON | ECHO );
+        tcsetattr( STDIN_FILENO, TCSANOW, &newt );
+        ch = getchar();
+        tcsetattr( STDIN_FILENO, TCSANOW, &oldt );
+        return ch;
+    }
 #endif
 
 __MSUTIL_ inline const char * const __system __export getFilename(const char path[static MAX_PATH_LENGTH])
@@ -1868,10 +2146,28 @@ __MSUTIL_ void __system __export SetColor(const sel_typ ForgC)
 
 	    if(GetConsoleScreenBufferInfo(hStdOut, &csbi))
 	        SetConsoleTextAttribute(hStdOut, (csbi.wAttributes & 0xF0) + (ForgC & 0x0F));
+	#else
+		static const char xcolors[MAX_COLORS][SIGN_STRING] =
+        {
+	        "\e[0;30m",
+	        "\e[0;34m",
+	        "\e[0;32m",
+	        "\e[0;36m",
+	        "\e[0;31m",
+	        "\e[0;35m",
+	        "\e[0;33m",
+	        "\e[0;37m",
+	        "\e[0;90m",
+	        "\e[0;94m",
+	        "\e[0;92m",
+	        "\e[0;96m",
+	        "\e[0;91m",
+	        "\e[0;95m",
+	        "\e[0;93m",
+	        "\e[0;97m"
+        };
+        printf(xcolors[ForgC]);
 	#endif
-
-	// Linux Part WIP
-	// actually this results in a NOP
 
     return;
 }
@@ -2147,7 +2443,11 @@ __MSNATIVE_ void __system setProgramSettings(dim_typ which_layout)
 
 __MSNATIVE_ inline bool __system __export catchPause()
 {
-    signal(SIGINT, (__p_sig_fn_t) sigexit);
+	#ifdef WINOS
+    	signal(SIGINT, (__p_sig_fn_t) sigexit);
+    #else
+    	signal(SIGINT, (__sighandler_t) sigexit);
+    #endif
     if(access(sigresult))
     {
         printf("\nPress any key to continue Program Action.\n");
@@ -2257,7 +2557,11 @@ __MSNATIVE_ ityp __system __export requires(const char *cmd_string, const char *
     }
 
     access(exitHandle) = INVALID_EXITHANDLE;
-    signal(SIGINT, (__p_sig_fn_t) sigproc); // RIPRISTINO HANDLER ALLA SIG_DFL
+    #ifdef WINOS
+    	signal(SIGINT, (__p_sig_fn_t) sigproc);
+    #else
+    	signal(SIGINT, (__sighandler_t) sigproc);
+    #endif
 
     // To check whether User wants to exit from requiringINPUT or Not.
     if(access(sigresult) || (!strcmp(buf, MATRIXGET_COMMAND)) || (!strcmp(buf, MATRIXSET_COMMAND)) || (!strcmp(buf, MATRIXBACK_COMMAND)) || !buf[0])
@@ -2280,7 +2584,6 @@ __MSNATIVE_ ityp __system __export requires(const char *cmd_string, const char *
             access(exitHandle) = EXITHANDLE_EXIT;
 
         access(sigresult) = false;
-        // signal(SIGINT, (__p_sig_fn_t) sigproc); // REIMPOSTO HANDLER DEL SEGNALE SIGINT ALLA MIA FUNZIONE
         return NULL_VAL;
     }
 
@@ -2360,12 +2663,6 @@ __MSNATIVE_ ityp __system __export requires(const char *cmd_string, const char *
     }
 
     exprFree(e);
-
-
-    /* We are done */
-    // longjmp(jumper, -1);
-
-    // signal(SIGINT, (__p_sig_fn_t) sigproc); // REIMPOSTO HANDLER DEL SEGNALE SIGINT ALLA MIA FUNZIONE
     return val;
 }
 
@@ -2462,7 +2759,6 @@ __MSNATIVE_ bool __system insertDim(dim_typ *dim, bool mode)
 __MSNATIVE_ void __system sigproc(void)
 {
     sigexit();
-    /// signal(SIGINT, (__p_sig_fn_t) sigproc);
     if(getItemsListNo(MATRICES) != STARTING_MATNO && access(curMatrix)->matrix && access(lmpMatrix)->matrix)
     {
         if(isSett(BOOLS_ITEMSAUTOSAVING) && !saveItem(access(lists)[MATRICES].cur_item, MATRICES))

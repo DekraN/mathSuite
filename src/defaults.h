@@ -10,6 +10,9 @@
 // HEADER Guard
 // #pragma once
 
+// just indefine it if you want to compile this on UNIX Archs
+#define WINOS
+
 #define STACKALLOC
 
 #define DEFAULT_AUTHOR "Wesker"
@@ -44,7 +47,11 @@
 
 #define DEFAULT_RANDOM_SEED (unsigned)time(NULL)
 
-#define DEFAULT_COLOR 58 // COLOR_SMARTWHITE
+#ifdef WINOS
+	#define DEFAULT_COLOR 58 // COLOR_SMARTWHITE
+#else
+	#define DEFAULT_COLOR 10
+#endif
 
 #define DEFAULT_PRECISION 2
 #define SHOWTIME_PRECISION 4
@@ -135,7 +142,7 @@ sullo script in questione
 #define DOMAIN_DEFAULT DOMAIN_DBL
 
 
-#define DEFAULT_COLORS_PATH ".\\colors.xml"
+#define DEFAULT_COLORS_PATH "./colors.xml"
 
 
 #define MIN_PRECISION 0

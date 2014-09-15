@@ -561,7 +561,7 @@ __MSNATIVE_ __WINCALL void __system __export createItem(const char *string, sel_
             printf2(COLOR_CREDITS, "or insert %c to exit SubProgram.\n\n", SCANFEXIT_CHAR);
             PRINTL();
 
-            while(scanf("%s", name) != 1 || name[0] == SCANFEXIT_CHAR || (which_item = searchItem(name, mode)) != NULL_ITEM(mode) || (assert && !file_exists(name)));
+            while(scanf("%s", name) != 1 || name[0] == SCANFEXIT_CHAR || (which_item = searchItem(name, mode)) != NULL_ITEM(mode) || (assert && !file_exists(name)))
             {
                 CLEARBUFFER();
                 if(name[0] == SCANFEXIT_CHAR) return;

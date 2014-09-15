@@ -77,7 +77,6 @@ about the use with any other code-scripts.
 	}
 #endif
 
-#ifdef WINOS
 #ifdef ALLOW_COLSMANAGER
 	__MSSHELL_WRAPPER_ static void _MS__private __system __apnt colorsManager(const sel_typ argc, char ** argv);
 	__MSSHELL_WRAPPER_ static void _MS__private __system __apnt colorsManager(const sel_typ argc, char ** argv)
@@ -92,7 +91,6 @@ about the use with any other code-scripts.
 	                        );
 	    return;
 	}
-#endif
 #endif
 	
 #ifdef ALLOW_LFSMANAGER
@@ -1042,7 +1040,6 @@ sprog change_settings[MAX_SETTINGS] =
         FATHER
     },
     #endif
-    #ifdef WINOS
     #ifdef ALLOW_COLSMANAGER
     [SETTINGS_COLORSMANAGER] =
     {
@@ -1053,7 +1050,6 @@ sprog change_settings[MAX_SETTINGS] =
         AUTOMATIC,
         FATHER
     },
-    #endif
     #endif
     #ifdef ALLOW_LFSMANAGER
     [SETTINGS_LFSMANAGER] =

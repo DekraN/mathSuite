@@ -28,9 +28,6 @@ I do not assume any responsibilities about the use with any other code-scripts.
 
 #include <omp.h>
 
-// just indefine it if you want to compile this on UNIX Archs
-#define WINOS
-
 #define false 0
 #define true 1
 
@@ -50,9 +47,6 @@ I do not assume any responsibilities about the use with any other code-scripts.
 	#define XML_ENCODING "UTF-8"
 	
 	#define SETTINGS_FILENAME "./settings.xml"
-	
-	#define STRING_FALSE "false"
-	#define STRING_TRUE "true"
 	
 	#define XML_FILENAMES_LENGTH MINMIN_STRING
 	#define MAX_XML_FIELDSTRINGS SIGN_STRING
@@ -82,9 +76,9 @@ extern "C" {
 #define _MS__private
 
 #define PROG__NAME "mathSuite"
-#define PROG__VERSION "6.50"
+#define PROG__VERSION "6.60"
 #define PROG__AUTHOR "Marco Chiarelli"
-#define PROG__LASTUPDATEDATE "10/09/2014"
+#define PROG__LASTUPDATEDATE "15/09/2014"
 
 
 // INITIALIZING EXPREVAL DEFAULT CONSTANTS
@@ -126,8 +120,8 @@ extern "C" {
     #define MAX_PATH_LENGTH MAX_PATH
     #define pulisciSchermo system("cls")
 #else
+    #include <termios.h>
     #include <unistd.h>
-    #include <curses.h>
     #define MAX_PATH_LENGTH 260
     #define DEFAULT_LINUX_SPOOLFOLDER "/var/spool"
     #define pulisciSchermo system("clear")
@@ -378,11 +372,7 @@ typedef unsigned long long uint64_t;
 
 typedef unsigned char sel_typ; // DEFINING SELECTION TYPE
 typedef unsigned short fsel_typ; // DEFINING FORMATTABLE SELECTION TYPE
-#ifdef WINOS
-	typedef sel_typ bool; // DEFINING ASSERT TYPE (like bool vars)
-// but unlike typedefining a { false, true } enumeration, this system
-// combinated to false,true macro definition occupies less memory.
-#endif
+typedef sel_typ bool;
 
 
 #define COMPARE_STRING_FACTOR MAX_STRING
@@ -403,7 +393,7 @@ typedef tipo_predefinito ityp;
 
 // #include "ExprEval/expreval.h"
 
-#define EXPREVAL_TMPL ".\ExprEval\exprtmpl.html" /// "http://expreval.sourceforge.net/exprtmpl.html"
+#define EXPREVAL_TMPL "./ExprEval/exprtmpl.html" /// "http://expreval.sourceforge.net/exprtmpl.html"
 
 // INCLUDING EXPREVAL STUFFS BY DIRECTLY
 /* Define type of data to use */
@@ -558,6 +548,10 @@ enum
 #define NORMAL_MODE false
 #define NOP_MODE true
 
+#ifndef WINOS
+    #define min(a,b) (((a)<(b))?(a):(b))
+#endif
+
 //
 #define insertMatrix(x,y,z,k) enterMatrix(&x,&y,&z,k,true)
 #define matrixFree(x) _matrixFree(x,NORMAL_MODE)
@@ -572,32 +566,43 @@ enum
 // COLOR Enumerations
 enum
 {
-    _COLOR_BLACK = 0,
-    _COLOR_BLUE,
-    _COLOR_GREEN,
-    _COLOR_AZURE,
-    _COLOR_DARKRED,
-    _COLOR_PURPLE,
-    _COLOR_YELLOW,
-    _COLOR_WHITE,
-    _COLOR_GREY,
-    _COLOR_SMARTBLUE,
-    _COLOR_LUMGREEN,
-    _COLOR_CRYSTAL,
-    _COLOR_SMARTRED,
-    _COLOR_SMARTPURPLE,
-    _COLOR_SMARTYELLOW,
-    _COLOR_WHITEPLUS
+    COLOR_BLACK = 0,
+    COLOR_BLUE,
+    COLOR_GREEN,
+    COLOR_AZURE,
+    COLOR_DARKRED,
+    COLOR_PURPLE,
+    COLOR_YELLOW,
+    COLOR_WHITE,
+    COLOR_GREY,
+    COLOR_SMARTBLUE,
+    COLOR_LUMGREEN,
+    COLOR_CRYSTAL,
+    COLOR_SMARTRED,
+    COLOR_SMARTPURPLE,
+    COLOR_SMARTYELLOW,
+    COLOR_WHITEPLUS
 };
 
 #define COLOR_SMARTWHITE 39
 #define COLOR_LIGHTBLUE 43
 
-#define _COLOR_ERROR 60 // COLOR_SMARTRED
-#define _COLOR_CREDITS 57 // COLOR_LIGHTBLUE // COLOR_CRYSTAL // COLOR_SMARTBLUE
-#define _COLOR_USER 58 // COLOR_LUMGREEN
-#define _COLOR_SYSTEM 60 // COLOR_SMARTYELLOW
-#define _COLOR_AUTHOR 54 // COLOR_SMARTPURPLE
+#ifdef WINOS
+	#define _COLOR_ERROR 60 // COLOR_SMARTRED
+	#define _COLOR_CREDITS 57 // COLOR_LIGHTBLUE // COLOR_CRYSTAL // COLOR_SMARTBLUE
+	#define _COLOR_USER 58 // COLOR_LUMGREEN
+	#define _COLOR_SYSTEM 60 // COLOR_SMARTYELLOW
+	#define _COLOR_AUTHOR 54 // COLOR_SMARTPURPLE
+	#define MAX_COLORS 64
+#else
+	#define _COLOR_ERROR 60 // COLOR_SMARTRED
+    #define _COLOR_CREDITS 57 // COLOR_LIGHTBLUE // COLOR_CRYSTAL // COLOR_SMARTBLUE
+    #define _COLOR_USER 58 // COLOR_LUMGREEN
+    #define _COLOR_SYSTEM 59 // COLOR_SMARTYELLOW
+    #define _COLOR_AUTHOR 60 // COLOR_SMARTPURPLE
+    #define LAST_COLOR COLOR_WHITEPLUS
+    #define MAX_COLORS LAST_COLOR+1
+#endif
 
 enum
 {
@@ -609,11 +614,10 @@ enum
     MEMBER_COLORAUTHOR
 };
 
-#define INIT_COLOR _COLOR_WHITE
+#define INIT_COLOR COLOR_WHITE
 #define LAST_MEMBER_COLOR MEMBER_COLORAUTHOR
 #define MAX_COLOR_TYPES LAST_MEMBER_COLOR+1
 #define COLORS_PATH DEFAULT_COLORS_PATH
-#define MAX_COLORS 64
 
 #define COLOR_DEFAULT access(colors)[MEMBER_DEFAULTCOLOR]
 #define COLOR_ERROR access(colors)[MEMBER_COLORERROR]
@@ -640,7 +644,7 @@ enum
 
 #define PRINTSPACE() printf(" ");
 #define PRINTT() printf("\t");
-#define PRINTL() printf("________________________________________________________________________________\n\n") // enhanced formatting
+#define PRINTL() printf("\n________________________________________________________________________________\n\n") // enhanced formatting
 
 #define PRINTN() printf("\n");
 #define PRINT2N() printf("\n\n");
@@ -919,29 +923,54 @@ enum
 #define BITMASK_AUTOSETCURITEM 2
 #define BITMASK_ITEMSSELECTBYPATH 4
 #define BITMASK_ITEMSAUTOSAVING 8
-#define BITMASK_SYSLOGSECURITYCHECK 16
-#define BITMASK_SYSTEMPARSING 32
-#define BITMASK_BASECALCPARSING 64
-#define BITMASK_ADVCALCPARSING 128
-#define BITMASK_MATRIXPARSING 256
-#define BITMASK_RESETLISTS 512
-#define BITMASK_SAVERESULTS 1024
-#define BITMASK_SHOWVARLIST 2048
-#define BITMASK_SHOWDIFFTIME 4096
-#define BITMASK_SHOWDIFFTIMEADVCALC 8192
-#define BITMASK_SHOWDIFFTIMEALGOPS 16384
-#define BITMASK_SHOWEXECTIME 32768
-#define BITMASK_PRINTTIME 65536
-#define BITMASK_PRINTROWSLABELS 131072
-#define BITMASK_DOMAINCHECK 262144
-#define BITMASK_CHARINSERT 524288
-#define BITMASK_INSERTMODE 1048576
-#define BITMASK_LAZYEXECUTION 2097152
-#define BITMASK_INVERSEOPERATIONS 4194304
-#define BITMASK_AUTOTURNBACK 8388608
-#define BITMASK_DEGREESENTERING 16777216
-#define BITMASK_PROGREPEATCHECK 33554432
-#define BITMASK_STRASSENOPTIMIZATION 67108864
+#ifdef WINOS
+	#define BITMASK_SYSLOGSECURITYCHECK 16
+	#define BITMASK_SYSTEMPARSING 32
+	#define BITMASK_BASECALCPARSING 64
+	#define BITMASK_ADVCALCPARSING 128
+	#define BITMASK_MATRIXPARSING 256
+	#define BITMASK_RESETLISTS 512
+	#define BITMASK_SAVERESULTS 1024
+	#define BITMASK_SHOWVARLIST 2048
+	#define BITMASK_SHOWDIFFTIME 4096
+	#define BITMASK_SHOWDIFFTIMEADVCALC 8192
+	#define BITMASK_SHOWDIFFTIMEALGOPS 16384
+	#define BITMASK_SHOWEXECTIME 32768
+	#define BITMASK_PRINTTIME 65536
+	#define BITMASK_PRINTROWSLABELS 131072
+	#define BITMASK_DOMAINCHECK 262144
+	#define BITMASK_CHARINSERT 524288
+	#define BITMASK_INSERTMODE 1048576
+	#define BITMASK_LAZYEXECUTION 2097152
+	#define BITMASK_INVERSEOPERATIONS 4194304
+	#define BITMASK_AUTOTURNBACK 8388608
+	#define BITMASK_DEGREESENTERING 16777216
+	#define BITMASK_PROGREPEATCHECK 33554432
+	#define BITMASK_STRASSENOPTIMIZATION 67108864
+#else
+	#define BITMASK_SYSTEMPARSING 16
+	#define BITMASK_BASECALCPARSING 32
+	#define BITMASK_ADVCALCPARSING 64
+	#define BITMASK_MATRIXPARSING 128
+	#define BITMASK_RESETLISTS 256
+	#define BITMASK_SAVERESULTS 512
+	#define BITMASK_SHOWVARLIST 1024
+	#define BITMASK_SHOWDIFFTIME 2048
+	#define BITMASK_SHOWDIFFTIMEADVCALC 4096
+	#define BITMASK_SHOWDIFFTIMEALGOPS 8192
+	#define BITMASK_SHOWEXECTIME 16384
+	#define BITMASK_PRINTTIME 32768
+	#define BITMASK_PRINTROWSLABELS 65536
+	#define BITMASK_DOMAINCHECK 131072
+	#define BITMASK_CHARINSERT 262144
+	#define BITMASK_INSERTMODE 524288
+	#define BITMASK_LAZYEXECUTION 1048576
+	#define BITMASK_INVERSEOPERATIONS 2097152
+	#define BITMASK_AUTOTURNBACK 4194304
+	#define BITMASK_DEGREESENTERING 8388608
+	#define BITMASK_PROGREPEATCHECK 16777216
+	#define BITMASK_STRASSENOPTIMIZATION 33554432
+#endif
 
 #define LAST_BOOL_SETTING BOOLS_STRASSENOPTIMIZATION
 #define MAX_BOOL_SETTINGS LAST_BOOL_SETTING+1
@@ -1997,9 +2026,6 @@ struct ext_math_type
 struct prog_constants
 {
     char listsnames[MAX_LISTS][SIGN_STRING];
-    #ifdef XMLCALL
-    	const char bools_identifiers[MAX_DIMENSIONS][SIGN_STRING];
-    #endif
     const char bools_names[MAX_BOOL_SETTINGS][MIN_STRING];
     struct
     {
@@ -2058,7 +2084,11 @@ struct program
 
 extern struct operations operazioni[MAX_OPERATIONS];
 
-_CRTIMP extern int errno;
+#ifdef WINOS
+	_CRTIMP extern int errno;
+#else
+	extern int errno;
+#endif
 
 /// extern struct program suite;
 
@@ -2164,14 +2194,18 @@ __MSNATIVE_ bool __system _lfCreate(const char [static MAX_PATH_LENGTH]);
 #ifdef XMLCALL
 	__MSUTIL_ XMLCALL xmlDoc * __system __export xmlInit(const char [static XML_FILENAMES_LENGTH], xmlXPathContext **);
 	__MSUTIL_ XMLCALL void __system __export xmlExit(const char [static XML_FILENAMES_LENGTH], xmlDoc **, xmlXPathObject **, xmlXPathContext **);
-	__MSUTIL_ XMLCALL void __system __export xmlWriteInt(xmlXPathObject **, xmlXPathContext *, const char *, const int);
-	__MSUTIL_ XMLCALL void __system __export xmlWriteBool(xmlXPathObject **, xmlXPathContext *, const char *, const bool);
-	__MSUTIL_ XMLCALL void __system __export xmlWriteFloat(xmlXPathObject **, xmlXPathContext *, const char *, const float);
-	__MSUTIL_ XMLCALL void __system __export xmlWriteString(xmlXPathObject **, xmlXPathContext *, const char *, const char [static MAX_XML_FIELDSTRINGS]);
-	__MSUTIL_ XMLCALL int __system __export xmlGetInt(xmlXPathObject **, xmlXPathContext *, const char *);
-	__MSUTIL_ XMLCALL bool __system __export xmlGetBool(xmlXPathObject **, xmlXPathContext *, const char *);
-	__MSUTIL_ XMLCALL float __system __export xmlGetFloat(xmlXPathObject **, xmlXPathContext *, const char *);
-	__MSUTIL_ XMLCALL void __system __export xmlGetString(xmlXPathObject **, xmlXPathContext *, const char *, char [static MAX_XML_FIELDSTRINGS]);
+	__MSUTIL_ XMLCALL bool __system __export xmlWriteInt(xmlXPathObject **, xmlXPathContext *, const char *, const int);
+	__MSUTIL_ XMLCALL bool __system __export xmlWriteBool(xmlXPathObject **, xmlXPathContext *, const char *, const bool);
+	__MSUTIL_ XMLCALL bool __system __export xmlWriteFloat(xmlXPathObject **, xmlXPathContext *, const char *, const float);
+	__MSUTIL_ XMLCALL bool __system __export xmlWriteString(xmlXPathObject **, xmlXPathContext *, const char *, const char [static MAX_XML_FIELDSTRINGS]);
+	__MSUTIL_ XMLCALL bool __system __export xmlGetInt(xmlXPathObject **, xmlXPathContext *, const char *, int *);
+	__MSUTIL_ XMLCALL bool __system __export xmlGetBool(xmlXPathObject **, xmlXPathContext *, const char *, bool *);
+	__MSUTIL_ XMLCALL bool __system __export xmlGetFloat(xmlXPathObject **, xmlXPathContext *, const char *, float *);
+	__MSUTIL_ XMLCALL bool __system __export xmlGetString(xmlXPathObject **, xmlXPathContext *, const char *, char [static MAX_XML_FIELDSTRINGS]);
+	__MSNATIVE_ XMLCALL void __system _backupColFile(void);
+	__MSNATIVE_ XMLCALL void __system _colFileLoader(const char [static MAX_PATH_LENGTH]);
+	__MSNATIVE_ XMLCALL void __system getProgramSettings(dim_typ);
+	__MSNATIVE_ XMLCALL void __system resetProgramSettings(layoutObj * const, const char [static MAX_PATH_LENGTH]);
 #endif
 
 #ifdef WINOS
@@ -2179,18 +2213,14 @@ __MSNATIVE_ bool __system _lfCreate(const char [static MAX_PATH_LENGTH]);
     __MSUTIL_ __WINCALL void __system updInfo(void);
     __MSUTIL_ __WINCALL HWND WINAPI __system __export GetConsoleWindowNT();
     __MSUTIL_ __WINCALL bool __system __export windowsFileHandler(char *, const char *, const char [static MAX_EXTENSION_LENGTH], bool);
+#else
+	__MSUTIL_ __MSNATIVE_ __system __export int getch( );
 #endif
 
 __MSUTIL_ const char * const __system __export getFilename(const char path[static MAX_PATH_LENGTH]);
 __MSUTIL_ void __system updInfo(void);
 
 __MSUTIL_ void __system __export SetColor(const sel_typ);
-#ifdef XMLCALL
-	__MSNATIVE_ XMLCALL void __system _backupColFile(void);
-	__MSNATIVE_ XMLCALL void __system _colFileLoader(const char [static MAX_PATH_LENGTH]);
-	__MSNATIVE_ XMLCALL void __system getProgramSettings(dim_typ);
-	__MSNATIVE_ XMLCALL void __system resetProgramSettings(layoutObj * const, const char [static MAX_PATH_LENGTH]);
-#endif
 
 __MSNATIVE_ ityp __export MINMAX(const register dim_typ dim, const ityp [static dim], const bool, dim_typ *);
 __MSNATIVE_ __MSUTIL_ ityp __system __export getDiffTime(struct timeval * tvBegin);

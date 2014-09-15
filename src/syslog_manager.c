@@ -163,7 +163,7 @@ __MSSHELL_WRAPPER_ static void _MS__private __system createLog(const sel_typ arg
             printf2(COLOR_CREDITS, "Enter desired System Log Path.\n");
             printf2(COLOR_CREDITS, "or insert %c to exit SubProgram.\n\n", SCANFEXIT_CHAR);
             PRINTL();
-            while(scanf("%s", name) != 1 || name[0] == SCANFEXIT_CHAR || (assert && !file_exists(name)));
+            while(scanf("%s", name) != 1 || name[0] == SCANFEXIT_CHAR || (assert && !file_exists(name)))
             {
                 CLEARBUFFER();
                 if(name[0] == SCANFEXIT_CHAR) return;
