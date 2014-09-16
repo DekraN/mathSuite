@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<!-- settings.xml for mathSuite v6.60 -->
+<!-- settings.xml for mathSuite v6.70 -->
 <!-- Settings Configuration File -->
 <settings>
 
@@ -18,7 +18,7 @@
 	<maxColumns>100</maxColumns>
 	<blockSize>41</blockSize>
 	<minOSMMDim>4</minOSMMDim>	<minStrassenDim>16</minStrassenDim>
-	<maxDSVDIterations>30000</maxDSVDIterations>
+	<maxEigenValuesIterations>50000</maxEigenValuesIterations>	<maxDSVDIterations>30000</maxDSVDIterations>
 	<maxSimplexIterations>500</maxSimplexIterations>
     </matricesOptions>
 

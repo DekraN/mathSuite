@@ -1,4 +1,4 @@
-// algebra.c 10/09/2014 Marco Chiarelli aka DekraN
+// algebra.c 16/09/2014 Marco Chiarelli aka DekraN
 /*
 WARNING!!! This program is intended to be used, so linked at the compilation,
 exclusively with main.c of my suite program! I do not assume any responsibilities
@@ -26,6 +26,7 @@ __MSSHELL_WRAPPER_ static void _MS__private __apnt matrixManager(const sel_typ a
 #endif
 
 __MSSHELL_WRAPPER_ static void _MS__private matrixSort(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private matrixEigenValues(const sel_typ argc, char ** argv);
 __MSSHELL_WRAPPER_ static void _MS__private matrixNorm(const sel_typ argc, char ** argv);
 __MSSHELL_WRAPPER_ static void _MS__private matrixDet(const sel_typ argc, char ** argv);
 __MSSHELL_WRAPPER_ static void _MS__private matrixTrace(const sel_typ argc, char ** argv);
@@ -61,6 +62,15 @@ sprog alg_operations[MAX_ALGEBRA_OPERATIONS] =
         matrixSort,
         BY_USER,
         CHILD
+    },
+    [ALGOPS_MATRIXEIGVALUES] =
+    {
+    	"Matrix Eigen Values",
+    	CMD_MATRIXEIGVALUES,
+    	USAGE_MATRIXEIGVALUES,
+    	matrixEigenValues,
+    	BY_USER,
+    	CHILD
     },
     [ALGOPS_NORMCALCULATOR] =
     {
@@ -353,6 +363,88 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixSort(const sel_typ argc, char 
         SetExitButtonState(ENABLED);
     #endif // WINOS
 
+    return;
+}
+
+__MSSHELL_WRAPPER_ static void _MS__private matrixEigenValues(const sel_typ argc, char ** argv)
+{
+
+    ityp *matrix = NULL;
+    dim_typ dim[MAX_DIMENSIONS];
+
+    if(argc)
+    {
+        if((!matrixToken(argv[0], &matrix, dim, &dim[COLUMNS])) || dim[ROWS] != dim[COLUMNS])
+        {
+            matrixFree(&matrix);
+            printUsage(&adv_calc[ALGOPS_MATRIXEIGVALUES]);
+            return;
+        }
+    }
+    else if(!enterMatrix(&matrix, dim, &dim[COLUMNS], true, true))
+        return;
+        
+    ityp *eigenValues = NULL;
+    dim_typ2 dim2 =
+    {
+    	1,
+    	dim[ROWS]
+    };
+    
+    if(!matrixAlloc(&eigenValues, dim2))
+    {
+    	matrixFree(&matrix);
+    	#ifdef WINOS
+    		SetExitButtonState(ENABLED);
+    	#endif
+    	return;
+    }
+    
+    ityp *eigenVectors = NULL;
+    
+    if(!matrixAlloc(&eigenVectors, dim))
+    {
+    	matrixFree(&matrix);
+    	matrixFree(&eigenValues);
+    	#ifdef WINOS
+    		SetExitButtonState(ENABLED);
+    	#endif
+    	return;
+    }
+    
+    sel_typ exit_state;
+    
+    struct timeval tvBegin;
+	const bool difftime = isSett(BOOLS_SHOWDIFFTIMEADVCALC);
+	
+	if(difftime)
+		gettimeofday(&tvBegin, NULL);
+    
+    if((exit_state = _matrixEigenValues(matrix, eigenValues, eigenVectors, dim[ROWS])) == EIGVALUES_INFEVS_ERROR)
+    	printErr(33, "No convergence after %hu iterations! Probably Complex EigenValues", access(curLayout)->max_eigvalues_iterations);
+    else if(exit_state == EIGVALUES_ALLOC_ERROR)
+    	printErr(12, "Eigen Vectors Processing Heap Dynamic Memory Allocation Problem");
+    else
+    {
+    	printf2(COLOR_USER, "\nMatrix EigenValues are: ");
+    	printMatrix(stdout, eigenValues, dim2);
+    	printf2(COLOR_USER, "\nand its EigenVectors Matrix is: ");
+    	printMatrix(stdout, eigenVectors, dim);
+    	
+    	if(difftime)
+		{
+			PRINTL();
+		    printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, getDiffTime(&tvBegin));
+		}
+    }
+    
+    matrixFree(&matrix);
+    matrixFree(&eigenValues);
+    matrixFree(&eigenVectors);
+    
+    #ifdef WINOS
+    	SetExitButtonState(ENABLED);
+    #endif
     return;
 }
 

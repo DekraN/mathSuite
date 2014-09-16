@@ -1,6 +1,6 @@
 // ext_math.h
 // as External Math Library
-// 10/09/2014 Marco Chiarelli aka DekraN
+// 16/09/2014 Marco Chiarelli aka DekraN
 /*
 WARNING!!! This program is intended to be included
 exclusively by main.c, geometry.c, programs.c, algebra.c and settings.c project files of my suite program!
@@ -3725,7 +3725,7 @@ __MSNATIVE_ sel_typ _MS__private __system __export _simplexMethod(ityp **tableau
 
     for(dim_typ control=0; ; )
     {
-        if(control++ > access(curLayout)->max_simplex_iterations)
+        if(++control >= access(curLayout)->max_simplex_iterations)
             return SIMPLEXMETHOD_FARBFS_ERROR;
 
         // vector reversing operation...
@@ -3784,6 +3784,81 @@ __MSNATIVE_ sel_typ _MS__private __system __export _simplexMethod(ityp **tableau
     }
 
     return SIMPLEXMETHOD_FOUNDBFS;
+}
+
+__MSNATIVE_ __MSUTIL_ sel_typ _MS__private __system __export _matrixEigenValues(ityp *restrict m, ityp *restrict l, ityp *restrict vc, const register dim_typ n)
+{
+	ityp *m2 = NULL;
+	if(!matrixAlloc(&m2, (dim_typ2){n,n}))
+		return EIGVALUES_ALLOC_ERROR; 
+	{
+		register dim_typ i=n;
+		while(i--)
+		{
+			register dim_typ j=n;
+			while(j--)
+			{
+				*(m2 + n*i + j) = *(m + n*i + j);
+				*(vc + n*i + j) = i==j;
+			}
+		}
+	}
+	register dim_typ cnt = 0;
+	while(true)
+	{
+		if(++cnt >= access(curLayout)->max_eigvalues_iterations)
+			return EIGVALUES_INFEVS_ERROR;
+		ityp mod = 0;
+		register dim_typ i=0, j=0;
+		{
+			register dim_typ k=n;
+			while(k--)
+			{
+				register dim_typ m=n;
+				while((--m)>k)
+				{
+					ityp q = fabs(*(m2 + n*k + m));
+  					if(q > mod)
+					{
+						mod=q; 
+						i=k;
+						j=m;
+					}
+				}
+			}
+		}
+		if(mod < EIGENVALUES_PREC) break;
+		ityp th = 0.5*atan(MAX_DIMENSIONS* *(m2 + n*i + j)/(*(m2 + n*i + i) - *(m2 + n*j + j)));
+		{
+			ityp c = cos(th), s = sin(th);
+			void twst(ityp *restrict m)
+			{
+				register dim_typ k=n;
+				while(k--)
+				{
+					ityp t = (c* *(m + n*i + k)) + (s* *(m+ n*j + k));
+   					*(m + n*j + k) = -(s* *(m + n*i + k))+(c* *(m + n*j + k));
+					*(m + n*i + k) = t;
+				}
+			}
+			{
+				register dim_typ k=n;
+				while(k--)
+				{
+					ityp t = (c* *(m2 + n*k + i)) + (s* *(m2 + n*k + j));
+					*(m2 + n*k + j) = -(s* *(m2 + n*k + i)) + (c* *(m2 + n*k + j));
+					*(m2 + n*k + i) = t;
+				}
+			}
+			twst(m2);
+			twst(vc);
+		}
+	}
+	{
+		register dim_typ j=n;
+		while(j--) l[j] = *(m2 + n*j + j);
+	}
+	return EIGVALUES_FOUNDEVS;		
 }
 
 __MSNATIVE_ inline void _MS__private __system __export _matrixSub(ityp **matrix1, ityp **matrix2, ityp **matrix_sum, const register dim_typ dim[static MAX_DIMENSIONS])

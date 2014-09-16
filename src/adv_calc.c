@@ -1,4 +1,4 @@
-// adv_calc.c 10/09/2014 Marco Chiarelli aka DekraN
+// adv_calc.c 16/09/2014 Marco Chiarelli aka DekraN
 /*
 WARNING!!! This program is intended to be used, so linked at the compilation,
 exclusively with main.c of my suite program! I do not assume any responsibilities
@@ -15,7 +15,6 @@ __MSSHELL_WRAPPER_ static void _MS__private getDate(const sel_typ argc, char ** 
 __MSSHELL_WRAPPER_ static void _MS__private simplexMethod(const sel_typ argc, char ** argv);
 __MSSHELL_WRAPPER_ static void _MS__private newtonDifferenceTables(const sel_typ argc, char ** argv);
 __MSSHELL_WRAPPER_ static void _MS__private lagrangeInterpolation(const sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ static void _MS__private greatestEigenValue(const sel_typ argc, char ** argv);
 __MSSHELL_WRAPPER_ static void _MS__private funcIntegration(const sel_typ argc, char ** argv);
 __MSSHELL_WRAPPER_ static void _MS__private straightLineFitting(const sel_typ argc, char ** argv);
 __MSSHELL_WRAPPER_ static void _MS__private parabolicCurveFitting(const sel_typ argc, char ** argv);
@@ -75,15 +74,6 @@ sprog adv_calc[MAX_ADVCALC_PROGS] =
         CMD_LAGRANGEINTERPOLATION,
         USAGE_LAGRANGEINTERPOLATION,
         lagrangeInterpolation,
-        BY_USER,
-        CHILD
-    },
-    [ADVCALC_GREATESTEIGENVALUE] =
-    {
-        "Greatest Eigen Value",
-        CMD_GREATESTEIGENVALUE,
-        USAGE_GREATESTEIGENVALUE,
-        greatestEigenValue,
         BY_USER,
         CHILD
     },
@@ -179,7 +169,6 @@ __MSSHELL_WRAPPER_ static void _MS__private secondGradeEquationSolver(const sel_
     {
     	PRINTL();
         printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, getDiffTime(&tvBegin));
-        PRINTL();
 	}
     
     matrixFree(&abc);
@@ -287,7 +276,6 @@ __MSSHELL_WRAPPER_ static void _MS__private complexAdd(const sel_typ argc, char 
     {
     	PRINTL();
         printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, atime);
-        PRINTL();
 	}
 
     #ifdef WINOS
@@ -391,7 +379,6 @@ __MSSHELL_WRAPPER_ static void _MS__private complexMul(const sel_typ argc, char 
     {
     	PRINTL();
         printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, atime);
-        PRINTL();
 	}
 
     #ifdef WINOS
@@ -501,14 +488,12 @@ __MSSHELL_WRAPPER_ static void _MS__private simplexMethod(const sel_typ argc, ch
     {
         printf2(COLOR_USER, "\nRelaxed Problem BFS with Artificial Variables is: ");
         printMatrix(stdout, bfs, (dim_typ2){1,dim[ROWS]+dim[COLUMNS]-2});
+        if(difftime)
+	    {
+	    	PRINTL();
+	        printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, getDiffTime(&tvBegin));
+		}
     }
-    
-    if(difftime)
-    {
-    	PRINTL();
-        printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, getDiffTime(&tvBegin));
-        PRINTL();
-	}
 
     matrixFree(&tableau);
     matrixFree(&constraint_types);
@@ -648,7 +633,6 @@ __MSSHELL_WRAPPER_ static void _MS__private newtonDifferenceTables(const sel_typ
     {
     	PRINTL();
         printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, getDiffTime(&tvBegin));
-        PRINTL();
 	}
 
     return;
@@ -778,7 +762,6 @@ __MSSHELL_WRAPPER_ static void _MS__private lagrangeInterpolation(const sel_typ 
     {
     	PRINTL();
         printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, getDiffTime(&tvBegin));
-        PRINTL();
 	}
 
     matrixFree(&xy);
@@ -791,123 +774,6 @@ __MSSHELL_WRAPPER_ static void _MS__private lagrangeInterpolation(const sel_typ 
     printf2(COLOR_USER, OUTPUT_CONVERSION_FORMAT, yp);
     printf2(COLOR_USER, ".\n\n");
 
-    return;
-}
-
-__MSSHELL_WRAPPER_ static void _MS__private greatestEigenValue(const sel_typ argc, char ** argv)
-{
-
-    ityp **matrix1 = NULL;
-    dim_typ dim[MAX_DIMENSIONS];
-
-    matrix1 = malloc(sizeof(ityp*));
-    errMem(matrix1, VSPACE);
-
-    if(argc)
-    {
-        if((!matrixToken(argv[0], matrix1, dim, &dim[COLUMNS])) || dim[ROWS] != dim[COLUMNS])
-        {
-            matrixFree(matrix1);
-            free(matrix1);
-            printUsage(&adv_calc[ADVCALC_GREATESTEIGENVALUE]);
-            return;
-        }
-    }
-    else if(!enterMatrix(matrix1, dim, &dim[COLUMNS], true, true))
-    {
-        free(matrix1);
-        return;
-    }
-
-    ityp **matrix2 = NULL;
-    matrix2 = malloc(sizeof(ityp*));
-    errMem(matrix2, (matrixFree(matrix1), free(matrix1)));
-
-    if(!matrixAlloc(matrix2, (dim_typ2){dim[ROWS], 1}))
-    {
-        matrixFree(matrix1);
-        free(matrix1);
-        free(matrix2);
-        #ifdef WINOS
-            SetExitButtonState(ENABLED);
-        #endif // WINOS
-        return;
-    }
-
-    ityp eigenValue;
-
-    dim_typ i;
-
-    #pragma omp parallel for
-	for(i=0; i<dim[ROWS]; ++i)
-        *((*matrix2) + i) = 1.00;
-
-    ityp **result = NULL;
-    
-    result = malloc(sizeof(ityp*));
-    errMem(result, (matrixFree(matrix1), matrixFree(matrix2), free(matrix1), free(matrix2)));
-
-    if(!matrixAlloc(result, (dim_typ2){dim[ROWS], 1}))
-    {
-        matrixFree(matrix1);
-        matrixFree(matrix2);
-        free(matrix1);
-        free(matrix2);
-        free(result);
-        #ifdef WINOS
-            SetExitButtonState(ENABLED);
-        #endif // WINOS
-        return;
-    }
-
-    ityp resultVector[dim[ROWS]];
-	struct timeval tvBegin;
-	const bool difftime = isSett(BOOLS_SHOWDIFFTIMEADVCALC);
-	
-	if(difftime)
-		gettimeofday(&tvBegin, NULL);
-
-    for( ;; )
-    {
-        _matrixMultiplication(matrix1, matrix2, result, (dim_typ3){dim[ROWS], dim[ROWS], 1});
-        // matrixToVector((*result), (dim_typ2){dim[ROWS], 1}, resultVector, MATRIX_TO_VECTOR);
-        eigenValue = MAX(3, resultVector);
-
-        #pragma omp parallel for
-		for(i=0; i<dim[ROWS]; ++i)
-            *((*result) + i) /= eigenValue;
-
-        if(isEqualMatrix((*matrix2), (*result), (dim_typ2){dim[ROWS], 1}))
-            break;
-	
-		#pragma omp parallel for
-        for(i=0; i<dim[ROWS]; ++i)
-            *((*matrix2) + i) = *((*result) + i);
-    }
-    
-    if(difftime)
-    {
-    	PRINTL();
-        printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, getDiffTime(&tvBegin));
-	}
-
-    printf2(COLOR_USER, "\nGreatest EIGEN Value is: ");
-    printf2(COLOR_USER, OUTPUT_CONVERSION_FORMAT, eigenValue);
-    printf2(COLOR_USER, ".\nAn EIGEN Vector is:\n\n");
-
-    printMatrix(stdout, (*result), (dim_typ2){dim[ROWS],1});
-
-    matrixFree(matrix1);
-    matrixFree(matrix2);
-    matrixFree(result);
-
-    free(matrix1);
-    free(matrix2);
-    free(result);
-
-    #ifdef WINOS
-        SetExitButtonState(ENABLED);
-    #endif // WINOS
     return;
 }
 

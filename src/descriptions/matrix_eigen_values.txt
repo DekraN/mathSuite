@@ -1,0 +1,5 @@
+Program calculates the Eigen Values and the Eigen Vectors
+of a given square nXn matrix. The Eigen Values will be shown
+by an n-dimensional vector, whilst the Eigen Vectors
+will be shown by a nXn matrix where each row represents
+an Eigen Vector

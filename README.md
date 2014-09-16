@@ -1,8 +1,8 @@
 mathSuite
 //-----------------------------------------------------------------------------------------------------------------//
 AUTHOR: Marco Chiarelli aka DekraN aka Wesker013 (FB)								   ||
-CURRENT VERSION: v6.60												   ||
-LAST UPDATE: 18:00 15/09/2014											   ||
+CURRENT VERSION: v6.70											   	   ||
+LAST UPDATE: 21:00 16/09/2014											   ||
 CONTACT ME at: marco_chiarelli@yahoo.it										   ||
 or at marcochiarelli.nextgenlab@gmail.com									   ||
 //-----------------------------------------------------------------------------------------------------------------//
@@ -477,6 +477,10 @@ or at marcochiarelli.nextgenlab@gmail.com									   ||
 /// message if the inserted path referred to a non-existent file, or it didn't exit even if you entered the       ///
 /// special Exit Char for this mansions ("."). Some outputs has been tightly decorated, though not in an excessive///
 /// way. NOTICE: Since this release, the project is completely PORTABLE! It has been compiled under Linux system. ///
+///                                     CHANGELOG v6.70 (16/09/2014)                                              ///
+/// Replaced the deprecated subprogram "Greatest Eigen Value" of Advanced Calculator section, with the new more   ///
+/// performant "Matrix Eigen Values", now placed into Linear Algebra Operations section. This program, as the name///
+/// suggests, calculates Eigen Values and Eigen Vectors of a given square matrix. Fixed some minor bugs and C.O.  ///
 ///    This is not a Final Built or Official Release, but (UPDATE) probably this could be the last release I write///
 ///              in C. A future release could be directly mathSMART Mobile Math Environment.                      ///
 ///                     You can contact me at: marco_chiarelli@yahoo.it or on the secundary mail:                 ///
@@ -507,6 +511,7 @@ or at marcochiarelli.nextgenlab@gmail.com									   ||
 /// Thanks to W. Cochran  wcochran@vancouver.wsu.edu for his Strassen Algorithm Implementation, which I renamed,  ///
 /// adapted and modified to this program. Thanks also to: Computer Science Division | EECS at UC Berkeley for     ///
 /// some notions about Matrix Multiplication Optimizations Techniques: www.cs.berkeley.edu/~knight/cs267/hw1.html ///
+/// 	Thanks to: http://cap-lore.com/MathPhys/eigen/j.c for the actual _matrixEigenValues function.		  ///
 /// Massive thanks to Brian Allen Vanderburg II for his fabulous C parser and inline functions solver, EXPREVAL,  ///
 /// which elegantly gave in theory infinite functionalities and potential to my program. That's the project link  ///
 /// with Online Documentation: http://expreval.sourceforge.net/ Thanks to: http://www.cprogramming.com/tips/ and  ///

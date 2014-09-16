@@ -1,5 +1,5 @@
 // dutils.h
-// 10/09/2014 Marco Chiarelli aka DekraN
+// 16/09/2014 Marco Chiarelli aka DekraN
 /*
 WARNING!!! This program is intended to be included
 exclusively by main.c, geometry.c, programs.c, algebra.c and settings.c project files of my suite program!
@@ -76,9 +76,9 @@ extern "C" {
 #define _MS__private
 
 #define PROG__NAME "mathSuite"
-#define PROG__VERSION "6.60"
+#define PROG__VERSION "6.70"
 #define PROG__AUTHOR "Marco Chiarelli"
-#define PROG__LASTUPDATEDATE "15/09/2014"
+#define PROG__LASTUPDATEDATE "16/09/2014"
 
 
 // INITIALIZING EXPREVAL DEFAULT CONSTANTS
@@ -331,6 +331,20 @@ enum
 #define MAX_SIMPLEXMETHOD_ITERATIONS DEFAULT_MAX_SIMPLEXMETHOD_ITERATIONS
 //
 
+// EigenValues and EigenVectors MACROS
+
+enum
+{
+	EIGVALUES_FOUNDEVS = 0,
+	EIGVALUES_ALLOC_ERROR,
+	EIGVALUES_INFEVS_ERROR
+};
+
+#define EIGENVALUES_PREC 0.00000000001
+
+#define MAX_EIGVALUES_ITERATIONS DEFAULT_MAX_EIGVALUES_ITERATIONS
+
+// DSVD Max Iterations MACRO
 #define MAX_DSVD_ITERATIONS DEFAULT_MAX_DSVD_ITERATIONS
 
 
@@ -763,7 +777,6 @@ enum
     ADVCALC_SIMPLEXMETHOD,
     ADVCALC_NEWTONDIFFTABLES,
     ADVCALC_LAGRANGEINTERPOLATION,
-    ADVCALC_GREATESTEIGENVALUE,
     ADVCALC_FUNCTIONINTEGRATION,
     ADVCALC_STRAIGHTLINEFITTING,
     ADVCALC_PARABOLICCURVEFITTING,
@@ -777,8 +790,11 @@ enum
 //
 enum
 {
-    ALGOPS_MATRICESMANAGER = 0,
+	#ifdef ALLOW_MATMANAGER
+    	ALGOPS_MATRICESMANAGER = 0,
+    #endif
     ALGOPS_MATRIXSORT,
+    ALGOPS_MATRIXEIGVALUES,
     ALGOPS_NORMCALCULATOR,
     ALGOPS_DETERMINANTCALCULATOR,
     ALGOPS_TRACECALCULATOR,
@@ -1940,6 +1956,7 @@ typedef struct
     dim_typ block_size;
     dim_typ min_osmm_dim;
     dim_typ min_strassen_dim;
+    dim_typ max_eigvalues_iterations;
     dim_typ max_dsvd_iterations;
     dim_typ max_simplex_iterations;
     dim_typ max_memoizable_indices[MAX_MEMOIZABLE_FUNCTIONS];
@@ -2606,6 +2623,7 @@ __MSNATIVE_ __MSUTIL_ ityp __system __export norms(ityp *, dim_typ);
 __MSNATIVE_ __MSUTIL_ ityp __system __export norm(ityp *, dim_typ, bool);
 __MSNATIVE_ __MSUTIL_ void __export newtonDifferenceTable(dim_typ, ityp [access(curLayout)->max_newton_difftables_dim][access(curLayout)->max_newton_difftables_dim], bool);
 __MSNATIVE_ sel_typ _MS__private __system __export _simplexMethod(ityp **, ityp **, const register dim_typ dim [static MAX_DIMENSIONS], ityp *, bool);
+__MSNATIVE_ __MSUTIL_ sel_typ _MS__private __system __export _matrixEigenValues(ityp *restrict, ityp *restrict, ityp *restrict, const register dim_typ);
 __MSNATIVE_ void _MS__private __system __export _matrixAdd(ityp **, ityp **, ityp **, const register dim_typ [static MAX_DIMENSIONS]);
 __MSNATIVE_ void _MS__private __system __export _matrixCAdd(ityp **, ityp **, ityp **, const register dim_typ [static MAX_DIMENSIONS]);
 __MSNATIVE_ void _MS__private __system __export _matrixQAdd(ityp **, ityp **, ityp **, const register dim_typ [static MAX_DIMENSIONS]);

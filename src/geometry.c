@@ -1,4 +1,4 @@
-// geometry.c 10/09/2014 Marco Chiarelli aka DekraN
+// geometry.c 16/09/2014 Marco Chiarelli aka DekraN
 /*
 WARNING!!! This program is intended to be used, so linked at the compilation,
 exclusively with main.c of my suite program! I do not assume any responsibilities
@@ -1665,6 +1665,8 @@ __MSUTIL_ static inline void ftoa(char *string, const float value, const fsel_ty
 			printErr(5, "In Writing /settings/matricesOptions/minOSMMDim field");
 		if(!xmlWriteInt(&xpathObj, xpathCtx, "/settings/matricesOptions/minStrassenDim", cur_layout->min_strassen_dim))
 			printErr(5, "In Writing /settings/matricesOptions/minStrassenDim field");
+		if(!xmlWriteInt(&xpathObj, xpathCtx, "/settings/matricesOptions/maxEigenValuesIterations", cur_layout->max_eigvalues_iterations))
+			printErr(5, "In Writing /settings/matricesOptions/maxEigenValuesIterations field");
 		if(!xmlWriteInt(&xpathObj, xpathCtx, "/settings/matricesOptions/maxDSVDIterations", cur_layout->max_dsvd_iterations))
 			printErr(5, "In Writing /settings/matricesOptions/maxDSVDIterations field");
 		if(!xmlWriteInt(&xpathObj, xpathCtx, "/settings/matricesOptions/maxSimplexIterations", cur_layout->max_simplex_iterations))
@@ -1811,6 +1813,13 @@ __MSUTIL_ static inline void ftoa(char *string, const float value, const fsel_ty
 		{
 			printErr(5, "In Parsing /settings/matricesOptions/minStrassenDim field");
 			tmp->min_strassen_dim = DEFAULT_MINSTRASSENDIM;
+		}
+		if(xmlGetInt(&xpathObj, xpathCtx, "/settings/matricesOptions/maxEigenValuesIterations", &tmp_int))
+			tmp->max_eigvalues_iterations = tmp_int;
+		else
+		{
+			printErr(5, "In Parsing /settings/matricesOptions/maxEigenValuesIterations field");
+			tmp->max_eigvalues_iterations = DEFAULT_MAX_EIGVALUES_ITERATIONS;
 		}
 		if(xmlGetInt(&xpathObj, xpathCtx, "/settings/matricesOptions/maxDSVDIterations", &tmp_int))
 			tmp->max_dsvd_iterations = tmp_int;
@@ -2390,6 +2399,7 @@ __MSNATIVE_ void __system viewProgramSettings(dim_typ which_layout)
     sprint("- Matrices BLOCK SIZE: %hu;\n", cur_layout->block_size);
     sprint("- Matrices Min OSMM Dimension: %hu;\n", cur_layout->min_osmm_dim);
     sprint("- Matrices Min Strassen Dimension: %hu;\n", cur_layout->min_strassen_dim);
+    sprint("- Max EIGENVALUES FINDER Iterations: %hu;\n", cur_layout->max_eigvalues_iterations);
     sprint("- Max DSVD Iterations: %hu;\n", cur_layout->max_dsvd_iterations);
     sprint("- Max SIMPLEX METHOD Iterations: %hu;\n", cur_layout->max_simplex_iterations);
 
@@ -2753,7 +2763,7 @@ __MSNATIVE_ bool __system insertDim(dim_typ *dim, bool mode)
 // La seguente funzione sarebbe stata la funzione Handler
 // del segnale SIGINT. Il problema e' che dovrebbe essere
 // sempre e continuamente richiamata la funzione signal
-// per far sÃ¬ che funzioni correttamente. Meglio evitare.
+// per far sì che funzioni correttamente. Meglio evitare.
 
 
 __MSNATIVE_ void __system sigproc(void)

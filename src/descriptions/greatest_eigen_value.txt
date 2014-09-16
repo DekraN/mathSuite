@@ -1,2 +1,0 @@
-Program calculates the Greatest Eigen Value of a given matrix, showing
-also a random Eigen Vector

@@ -1,8 +1,8 @@
 /*!////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 //!////////////////////////////////////////////////////////////////////////////////////////////////////////////// ///
 /*!________________________________________________________________________________________________________________*/
-///                         mathSuite v6.60 --- by Marco Chiarelli aka DekraN aka Wesker013                  	  ///
-///        							LAST UPDATE: 18:00 of 15/09/2014 by Myself. 								  ///
+///                         mathSuite v6.70 --- by Marco Chiarelli aka DekraN aka Wesker013                  	  ///
+///        							LAST UPDATE: 21:00 of 16/09/2014 by Myself. 								  ///
 /// 	This program is protected by Creative Commons CC BY-SA 2.0 License. For more informations contact me. 	  ///
 ///                     You can contact me at: marco_chiarelli@yahoo.it or on the secundary mail:                 ///
 /// marcochiarelli.nextgenlab@gmail.com in order to report a bug or simply for sending me an advice that could be ///
@@ -22,6 +22,7 @@
 /// Thanks to W. Cochran  wcochran@vancouver.wsu.edu for his Strassen Algorithm Implementation, which I renamed,  ///
 /// adapted and modified to this program. Thanks also to: Computer Science Division | EECS at UC Berkeley for     ///
 /// some notions about Matrix Multiplication Optimizations Techniques: www.cs.berkeley.edu/~knight/cs267/hw1.html ///
+/// 	Thanks to: http://cap-lore.com/MathPhys/eigen/j.c for the actual _matrixEigenValues function.			  ///
 /// Massive thanks to Brian Allen Vanderburg II for his fabulous C parser and inline functions solver, EXPREVAL,  ///
 /// which elegantly gave in theory infinite functionalities and potential to my program. That's the project link  ///
 /// with Online Documentation: http://expreval.sourceforge.net/ Thanks to: http://www.cprogramming.com/tips/ and  ///
