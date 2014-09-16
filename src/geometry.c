@@ -1961,42 +1961,42 @@ __MSUTIL_ static inline void ftoa(char *string, const float value, const fsel_ty
 	        	COLOR_DEFAULT = tmp_int;
 	        else
 	        {
-	        	printf2(_COLOR_ERROR, "In Parsing /colors/defaultColor field");
+	        	printf2(_COLOR_ERROR, "ERROR: In Parsing /colors/defaultColor field");
 	        	COLOR_DEFAULT = DEFAULT_COLOR;
 	        }
 	        if(xmlGetInt(&xpathObj, xpathCtx, "/colors/errorsColor", &tmp_int))
 	        	COLOR_ERROR = tmp_int;
 	        else
 	        {
-	        	printf2(_COLOR_ERROR, "In Parsing /colors/errorsColor field");
+	        	printf2(_COLOR_ERROR, "ERROR: In Parsing /colors/errorsColor field");
 	        	COLOR_ERROR = _COLOR_ERROR;
 	        }
 	        if(xmlGetInt(&xpathObj, xpathCtx, "/colors/creditsColor", &tmp_int))
 	        	COLOR_CREDITS = tmp_int;
 	        else
 	        {
-	        	printf2(_COLOR_ERROR, "In Parsing /colors/creditsColor field");
+	        	printf2(_COLOR_ERROR, "ERROR: In Parsing /colors/creditsColor field");
 	        	COLOR_CREDITS = _COLOR_CREDITS;
 	        }
 	        if(xmlGetInt(&xpathObj, xpathCtx, "/colors/userColor", &tmp_int))
 	        	COLOR_USER = tmp_int;
 	        else
 	        {
-	        	printf2(_COLOR_ERROR, "In Parsing /colors/userColor field");
+	        	printf2(_COLOR_ERROR, "ERROR: In Parsing /colors/userColor field");
 	        	COLOR_USER = _COLOR_USER;
 	        }
 	        if(xmlGetInt(&xpathObj, xpathCtx, "/colors/systemColor", &tmp_int))
 	        	COLOR_SYSTEM = tmp_int;
 	        else
 	        {
-	        	printf2(_COLOR_ERROR, "In Parsing /colors/systemColor field");
+	        	printf2(_COLOR_ERROR, "ERROR: In Parsing /colors/systemColor field");
 	        	COLOR_SYSTEM = _COLOR_SYSTEM;
 	        }
 	        if(xmlGetInt(&xpathObj, xpathCtx, "/colors/authorColor", &tmp_int))
 	        	COLOR_AUTHOR = tmp_int;
 	        else
 	        {
-	        	printf2(_COLOR_ERROR, "In Parsing /colors/authorColor field");
+	        	printf2(_COLOR_ERROR, "ERROR: In Parsing /colors/authorColor field");
 	        	COLOR_AUTHOR = _COLOR_AUTHOR;
 	        }
 
@@ -2753,7 +2753,7 @@ __MSNATIVE_ bool __system insertDim(dim_typ *dim, bool mode)
 // La seguente funzione sarebbe stata la funzione Handler
 // del segnale SIGINT. Il problema e' che dovrebbe essere
 // sempre e continuamente richiamata la funzione signal
-// per far sì che funzioni correttamente. Meglio evitare.
+// per far sÃ¬ che funzioni correttamente. Meglio evitare.
 
 
 __MSNATIVE_ void __system sigproc(void)
