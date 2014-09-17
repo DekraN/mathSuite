@@ -207,6 +207,12 @@ __MSSHELL_WRAPPER_ static void _MS__private __system showUsage(const sel_typ arg
         _showUsage(&lfs_manager[i]);
         if(catchPause()) return;
     }
+    
+    for(i=0; i<MAX_MSSMANAGER_PROGS; ++i)
+    {
+        _showUsage(&mss_manager[i]);
+        if(catchPause()) return;
+    }
 
     return;
 }
