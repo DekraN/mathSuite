@@ -725,10 +725,10 @@ enum
 // DEFINIZIONE MACRO SOTTO-PROGRAMMI
 //
 
-// Valore di inizializzazione del metadato modalit‡
-// della variabile strutturata suite, definita pi˘ sotto
+// Valore di inizializzazione del metadato modalit√†
+// della variabile strutturata suite, definita pi√π sotto
 #define PROGRAM_BUSY -1
-// o pi˘ semplicemente indica che l'utente Ë in fase di scelta del subprogram.
+// o pi√π semplicemente indica che l'utente √® in fase di scelta del subprogram.
 
 
 // Enumerazione ID Sotto-Programmi
@@ -1137,7 +1137,7 @@ enum
 
 
 // VALORE DI INIZIALIZZAZIONE CARATTERE DI USCITA DAL PROGRAMMA
-#define INITIALIZING_EXIT_CHAR '£'
+#define INITIALIZING_EXIT_CHAR '¬£'
 #define INITIALIZING_DEFAULT_COLOR COLOR_WHITE
 
 #define MAIN_COLOR DEFAULT_COLOR
@@ -1674,7 +1674,7 @@ enum
 
 
 /*
-Dedicati alla modalit‡ di funzionamento
+Dedicati alla modalit√† di funzionamento
 della funzione matrixToVector, per decidere
 in che senso deve essere svolta
 0 -> Normale, 1 -> Viceversa
@@ -1684,7 +1684,7 @@ in che senso deve essere svolta
 #define VECTOR_TO_MATRIX true
 
 /*
-Dedicati alla modalit‡ di stampa della matrice
+Dedicati alla modalit√† di stampa della matrice
 dell'omonima funzione. Come suggeriscono le
 stesse macro, passando 0 si stampa una matrice
 di valori in virgola mobile, altrimenti di interi.
@@ -2312,8 +2312,6 @@ __MSNATIVE_ void __export _sedenionsSub(ityp *restrict, ityp [static MAX_SEDENIO
 __MSNATIVE_ void __export _sedenionsMul(ityp *restrict, ityp [static MAX_SEDENIONS_UNITS]);
 __MSNATIVE_ void __export _sedenionsDiv(ityp *restrict, ityp [static MAX_SEDENIONS_UNITS]);
 __MSNATIVE_ bool __export _secondGradeEquationSolver(ityp *restrict, ityp [static MAX_DIMENSIONS]);
-__MSUTIL_ const char * const __export getDayName(sel_typ);
-__MSUTIL_ const char * const __export getMonthName(sel_typ);
 __MSUTIL_ void __export getRomanNumber(dim_typ, char [static ROMAN_NUMBER_STRING]);
 __MSUTIL_ int64_t _MS__private __export powi(register int64_t, register int64_t);
 __MSUTIL_ ityp __export mpow(ityp, int64_t);
