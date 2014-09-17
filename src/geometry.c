@@ -1293,6 +1293,10 @@ __MSSHELL_WRAPPER_ __MSNATIVE_ const sprog * const __system searchProgram(const 
     for(i=0; i<MAX_LFSMANAGER_PROGS; ++i)
         if(!strcmp(cmdname, lfs_manager[i].cmdname))
             return &lfs_manager[i];
+            
+    for(i=0; i<MAX_MSSMANAGER_PROGS; ++i)
+    	if(!strcmp(cmdname, mss_manager[i].cmdname))
+    	    return &mss_manager[i];
 
     return NULL;
 
