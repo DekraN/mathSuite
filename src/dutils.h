@@ -2227,7 +2227,6 @@ __MSNATIVE_ bool __system _lfCreate(const char [static MAX_PATH_LENGTH]);
 
 #ifdef WINOS
     __MSUTIL_ __WINCALL BOOL WINAPI __system __export SetExitButtonState(const bool);
-    __MSUTIL_ __WINCALL void __system updInfo(void);
     __MSUTIL_ __WINCALL HWND WINAPI __system __export GetConsoleWindowNT();
     __MSUTIL_ __WINCALL bool __system __export windowsFileHandler(char *, const char *, const char [static MAX_EXTENSION_LENGTH], bool);
 #else
