@@ -1473,11 +1473,6 @@ __MSNATIVE_ bool __system _lfCreate(const char path[static MAX_PATH_LENGTH])
     return true;
 }
 
-__MSUTIL_ static inline void ftoa(char *string, const float value, const fsel_typ prec)
-{
-	sprintf(string, "%.*f", prec, value);
-	return;
-}
 #ifdef XMLCALL
 
 	#ifndef WINOS
@@ -1487,6 +1482,12 @@ __MSUTIL_ static inline void ftoa(char *string, const float value, const fsel_ty
 			return;
 		}
 	#endif
+	
+	__MSUTIL_ static inline void ftoa(char *string, const float value, const fsel_typ prec)
+	{
+	    sprintf(string, "%.*f", prec, value);
+	    return;
+	}
 
 	__MSUTIL_ XMLCALL inline xmlDoc * __system __export xmlInit(const char file_name[static XML_FILENAMES_LENGTH], xmlXPathContext ** xpathCtx)
 	{
@@ -2763,7 +2764,7 @@ __MSNATIVE_ bool __system insertDim(dim_typ *dim, bool mode)
 // La seguente funzione sarebbe stata la funzione Handler
 // del segnale SIGINT. Il problema e' che dovrebbe essere
 // sempre e continuamente richiamata la funzione signal
-// per far sì che funzioni correttamente. Meglio evitare.
+// per far sÃ¬ che funzioni correttamente. Meglio evitare.
 
 
 __MSNATIVE_ void __system sigproc(void)
