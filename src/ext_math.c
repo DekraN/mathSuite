@@ -3831,7 +3831,7 @@ __MSNATIVE_ __MSUTIL_ sel_typ _MS__private __system __export _matrixEigenValues(
 		ityp th = 0.5*atan(MAX_DIMENSIONS* *(m2 + n*i + j)/(*(m2 + n*i + i) - *(m2 + n*j + j)));
 		{
 			ityp c = cos(th), s = sin(th);
-			void twst(ityp *restrict m)
+			inline void twst(ityp *restrict m)
 			{
 				register dim_typ k=n;
 				while(k--)
