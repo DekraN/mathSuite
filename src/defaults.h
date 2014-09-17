@@ -90,13 +90,13 @@
 #define DEFAULT_MAX_STABFACT 25
 
 // DEFINIZIONE MACRO VARIABILI BOOLEANE
-#define DEFAULT_SHOWDESCRIPTION 0
-#define DEFAULT_AUTOSETCURITEM 1
-#define DEFAULT_ITEMSSELECTBYPATH 0
-#define DEFAULT_ITEMSAUTOSAVING 1
+#define DEFAULT_SHOWDESCRIPTION false
+#define DEFAULT_AUTOSETCURITEM true
+#define DEFAULT_ITEMSSELECTBYPATH false
+#define DEFAULT_ITEMSAUTOSAVING true
 
 #ifdef WINOS
-    #define DEFAULT_SYSLOGSECURITYCHECK 0
+    #define DEFAULT_SYSLOGSECURITYCHECK false
 #endif // WINOS
 
 #define DEFAULT_SYSTEMPARSING true
@@ -126,7 +126,7 @@
 
 /*
 Cambia il tipo predefinito di elementi delle matrici.
-ATTENZIONE: Ammessi tutti i tipi purché siano formattabili tramite conversion format,
+ATTENZIONE: Ammessi tutti i tipi purchÃ© siano formattabili tramite conversion format,
 ma le modifiche laddove le variabili del suddetto tipo vengano coinvolte in formattazioni
 per funzioni INPUT o OUTPUT, sono assolutamente richieste per il corretto funzionamento
 del programma e devono essere fatte manualmente agendo in maniera diretta
