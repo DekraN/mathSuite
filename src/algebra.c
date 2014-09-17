@@ -415,7 +415,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixEigenValues(const sel_typ argc
     sel_typ exit_state;
     
     struct timeval tvBegin;
-	const bool difftime = isSett(BOOLS_SHOWDIFFTIMEADVCALC);
+	const bool difftime = isSett(BOOLS_SHOWDIFFTIMEALGOPS);
 	
 	if(difftime)
 		gettimeofday(&tvBegin, NULL);
