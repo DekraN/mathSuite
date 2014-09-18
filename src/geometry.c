@@ -2737,6 +2737,8 @@ __MSNATIVE_ bool __system insertDim(dim_typ *dim, bool mode)
         max_dim = mode ? access(curLayout)->matrix_max_columns : access(curLayout)->matrix_max_rows;
         printf2(COLOR_CREDITS, "Enter Matrix %s.", mode ? "COLUMNS":"ROWS");
     }
+    
+    PRINTN();
 
     if(PARSING_SYSTEM_ALLOWED)
         PRINTHOWTOBACKMESSAGE();
