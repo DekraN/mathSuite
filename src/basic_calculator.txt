@@ -207,6 +207,15 @@ These functions are provided instead by Marco Chiarelli:
 |stabfact(sf) 		  				    |     |   |    |    |
 |Shows the Stabilizer Factor or set it at sf value.         |  0  | 1 |  0 |  0 |
 |___________________________________________________________|_____|___|____|____|
+|bsiz(bs)		  				    |     |   |    |    |
+|Shows the Block Size or set it at bs value.         	    |  0  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|mosmm(mod)		  				    |     |   |    |    |
+|Shows the Min OSMM Dimension or set it at mod value.       |  0  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|mstr(msd)		  				    |     |   |    |    |
+|Shows the Min Strassen Dimension or set it at msd value.   |  0  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
 |msrn(m) 		  			    	    |     |   |    |    |
 |Shows the Min Stirling-Requires Number or set it at sf m.  |  0  | 1 |  0 |  0 |
 |___________________________________________________________|_____|___|____|____|

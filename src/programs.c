@@ -1,4 +1,4 @@
-// programs.c 10/09/2014 Marco Chiarelli aka DekraN
+// programs.c 16/09/2014 Marco Chiarelli aka DekraN
 /*
 WARNING!!! This program is intended to be used, so linked at the compilation,
 exclusively with main.c of my suite program! I do not assume any responsibilities
@@ -630,6 +630,38 @@ static const struct operations default_operazioni[MAX_OPERATIONS] =
         DOMAIN_USHRT,
         DOMAIN_NULL,
         unary_function
+    },
+    {
+    	"Change Block Size",
+    	NULL_CHAR,
+    	{
+    		IDENTIFIER_BLOCKSIZE
+    	},
+    	DOMAIN_USHRT,
+    	DOMAIN_NULL,
+    	unary_function
+    },
+    {
+    	"Change Min OSMM Dimension",
+    	NULL_CHAR,
+    	{
+    		IDENTIFIER_MINOSMMDIM,
+    		IDENTIFIER_ALIAS_MINOSMMDIM
+    	},
+    	DOMAIN_USHRT,
+    	DOMAIN_NULL,
+    	unary_function
+    },
+    {
+    	"Change Min Strassen Dimension",
+    	NULL_CHAR,
+    	{
+    		IDENTIFIER_MINSTRASSENDIM,
+    		IDENTIFIER_ALIAS_MINSTRASSENDIM
+    	},
+    	DOMAIN_USHRT,
+    	DOMAIN_NULL,
+    	unary_function
     },
     {
     	"Change Min Stirling Number",

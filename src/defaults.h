@@ -126,7 +126,7 @@
 
 /*
 Cambia il tipo predefinito di elementi delle matrici.
-ATTENZIONE: Ammessi tutti i tipi purchÃ© siano formattabili tramite conversion format,
+ATTENZIONE: Ammessi tutti i tipi purché siano formattabili tramite conversion format,
 ma le modifiche laddove le variabili del suddetto tipo vengano coinvolte in formattazioni
 per funzioni INPUT o OUTPUT, sono assolutamente richieste per il corretto funzionamento
 del programma e devono essere fatte manualmente agendo in maniera diretta
@@ -298,7 +298,7 @@ sullo script in questione
 	#define USAGE_CHANGEBLOCKSIZE "[EXPR]"
 #endif
 #ifdef ALLOW_MINOSMMDIMEDIT
-	#define CMD_CHANGEMINOSMMDIM "mosmmd"
+	#define CMD_CHANGEMINOSMMDIM "mosmm"
 	#define USAGE_CHANGEMINOSMMDIM "[EXPR]"
 #endif
 #ifdef ALLOW_MINSTRASSENDIMEDIT
@@ -654,6 +654,11 @@ sullo script in questione
 #define IDENTIFIER_STABFACT "sf"
 #define IDENTIFIER_ALIAS_STABFACT "stabfact"
 #define IDENTIFIER_ALIAS2_STABFACT "stbfct"
+#define IDENTIFIER_BLOCKSIZE "bsiz"
+#define IDENTIFIER_MINOSMMDIM "mosmmd"
+#define IDENTIFIER_ALIAS_MINOSMMDIM "mosmm"
+#define IDENTIFIER_MINSTRASSENDIM "msd"
+#define IDENTIFIER_ALIAS_MINSTRASSENDIM "mstr"
 #define IDENTIFIER_MINSRNUMBER "msrn"
 #define IDENTIFIER_ALIAS_MINSRNUMBER "minsrn"
 #define IDENTIFIER_ALIAS2_MINSRNUMBER "msrnumber"

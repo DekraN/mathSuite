@@ -250,6 +250,60 @@ case EXPR_NODEFUNC_STABFACT:
             (*val) = access(curLayout)->stabilizer_factor;
     break;
     }
+    
+/* bsiz */
+case EXPR_NODEFUNC_BLOCKSIZE:
+    {
+    if(nodes->data.function.nodecount)
+        {
+        err = exprEvalNode(obj, nodes->data.function.nodes, 0, val);
+        if(!err)
+            {
+            if((*val) < MIN_BLOCKSIZE)
+                return err;
+            access(curLayout)->block_size = *val;
+            }
+        }
+        else
+            (*val) = access(curLayout)->block_size;
+    break;
+    }
+    
+/* mosmm */
+case EXPR_NODEFUNC_MINOSMMDIM:
+    {
+    if(nodes->data.function.nodecount)
+        {
+        err = exprEvalNode(obj, nodes->data.function.nodes, 0, val);
+        if(!err)
+            {
+            if((*val) < MIN_OSMM_DIM)
+                return err;
+            access(curLayout)->min_osmm_dim = *val;
+            }
+        }
+        else
+            (*val) = access(curLayout)->min_osmm_dim;
+    break;
+    }
+    
+/* mstr */
+case EXPR_NODEFUNC_MINSTRASSENDIM:
+    {
+    if(nodes->data.function.nodecount)
+        {
+        err = exprEvalNode(obj, nodes->data.function.nodes, 0, val);
+        if(!err)
+            {
+            if((*val) < MIN_STRASSEN_DIM)
+                return err;
+            access(curLayout)->min_strassen_dim = *val;
+            }
+        }
+        else
+            (*val) = access(curLayout)->min_strassen_dim;
+    break;
+    }
 
 /* msrn */
 case EXPR_NODEFUNC_MINSRNUMBER:
