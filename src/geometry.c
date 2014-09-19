@@ -1934,7 +1934,7 @@ __MSNATIVE_ bool __system _lfCreate(const char path[static MAX_PATH_LENGTH])
 		#ifdef WINOS
 			#pragma omp parallel for
 		#endif
-	    for(i=0; i<MAX_BOOL_SETTINGS; ++i)
+	    for(i=tmp->bools=0; i<MAX_BOOL_SETTINGS; ++i)
 	    {
 			char name[MIN_STRING<<MAX_DIMENSIONS] = NULL_CHAR;
 			char strboolized[DINFO_STRING] = NULL_CHAR;
