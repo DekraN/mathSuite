@@ -1,2 +1,2 @@
 Program offers to you a simple interface in order to easily manage
-.msinf startup files
+.lf startup files

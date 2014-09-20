@@ -1,1 +1,1 @@
-Program allows you to save the current Colors Settings .INI File
+Program allows you to save the current Colors Settings .xml File

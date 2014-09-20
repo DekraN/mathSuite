@@ -1,4 +1,0 @@
-Program allows you to execute .msinf startup files, which are files that
-contain on each line a Program Lists Item Filename that have as extensions:
-.msvl for varlists (environments), .msmat for matrixes, .LOG for logs and
-.INI for Layouts. Other extensions may led to undefined behavior

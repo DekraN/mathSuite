@@ -1,1 +1,0 @@
-Program allows you to save as the Current Matrix file with .msmat extension
