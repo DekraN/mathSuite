@@ -694,6 +694,8 @@ case EXPR_NODEFUNC_ASIN:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && !(TRIGONOMETRIC_DOMAIN(d1)))
+        	return(err = EXPR_ERROR_OUTOFRANGE);
         *val = asin(d1);
         if(isSett(BOOLS_DEGREESENTERING)) *val = deg(*val);
         EXPR_CHECK_ERR();
@@ -729,6 +731,8 @@ case EXPR_NODEFUNC_ACSC:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && d1 > -1 && d1 < 1)
+        	return(err = EXPR_ERROR_OUTOFRANGE);
         *val = acsc(d1);
         if(isSett(BOOLS_DEGREESENTERING)) *val = deg(*val);
         EXPR_CHECK_ERR();
@@ -836,6 +840,8 @@ case EXPR_NODEFUNC_ACOS:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && !(TRIGONOMETRIC_DOMAIN(d1)))
+        	return(err = EXPR_ERROR_OUTOFRANGE);
         *val = acos(d1);
         if(isSett(BOOLS_DEGREESENTERING)) *val = deg(*val);
         EXPR_CHECK_ERR();
@@ -854,6 +860,8 @@ case EXPR_NODEFUNC_ACOSH:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && d1 < 1)
+        	return(err = EXPR_ERROR_OUTOFRANGE);
         *val = acosh(d1);
         EXPR_CHECK_ERR();
         }
@@ -871,6 +879,8 @@ case EXPR_NODEFUNC_ASEC:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && d1 > -1 && d1 < 1)
+        	return(err = EXPR_ERROR_OUTOFRANGE);
         *val = asec(d1);
         if(isSett(BOOLS_DEGREESENTERING)) *val = deg(*val);
         EXPR_CHECK_ERR();
@@ -889,6 +899,8 @@ case EXPR_NODEFUNC_ASECH:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && (d1 < 0 || d1 >= 1))
+        	return(err = EXPR_ERROR_OUTOFRANGE);
         *val = asech(d1);
         EXPR_CHECK_ERR();
         }
@@ -1000,6 +1012,8 @@ case EXPR_NODEFUNC_ATANH:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && !(TRIGONOMETRIC_DOMAIN(d1)))
+        	return(err = EXPR_ERROR_OUTOFRANGE);
         *val = atanh(d1);
         if(isSett(BOOLS_DEGREESENTERING)) *val = deg(*val);
         EXPR_CHECK_ERR();
@@ -1036,6 +1050,8 @@ case EXPR_NODEFUNC_ACOTH:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && TRIGONOMETRIC_DOMAIN(d1))
+        	return(err = EXPR_ERROR_OUTOFRANGE);
         *val = acoth(d1);
         if(isSett(BOOLS_DEGREESENTERING)) *val = deg(*val);
         EXPR_CHECK_ERR();
