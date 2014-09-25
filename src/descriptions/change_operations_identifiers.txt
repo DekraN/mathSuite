@@ -1,2 +1,0 @@
-Program allows you to change operations identifier located
-into base calculator subprogram

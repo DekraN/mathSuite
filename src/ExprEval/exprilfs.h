@@ -656,6 +656,8 @@ case EXPR_NODEFUNC_CSC:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && !trigonometric_domain(d1, 0, M_PI))
+        	return(err = EXPR_ERROR_DIVBYZERO);
         *val = csc(d1);
         EXPR_CHECK_ERR();
         }
@@ -673,6 +675,8 @@ case EXPR_NODEFUNC_CSCH:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && (!d1))
+        	return(err = EXPR_ERROR_DIVBYZERO);
         *val = csch(d1);
         EXPR_CHECK_ERR();
         }
@@ -796,6 +800,8 @@ case EXPR_NODEFUNC_SEC:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && !trigonometric_domain(d1, M_PI_2, M_PI))
+        	return(err = EXPR_ERROR_DIVBYZERO);
         *val = sec(d1);
         EXPR_CHECK_ERR();
         }
@@ -901,6 +907,8 @@ case EXPR_NODEFUNC_TAN:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && !trigonometric_domain(d1, M_PI_2, M_PI))
+        	return(err = EXPR_ERROR_DIVBYZERO);
         *val = tan(d1);
         EXPR_CHECK_ERR();
         }
@@ -936,6 +944,8 @@ case EXPR_NODEFUNC_COT:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && !trigonometric_domain(d1, 0, M_PI))
+        	return(err = EXPR_ERROR_DIVBYZERO);
         *val = cot(d1);
         EXPR_CHECK_ERR();
         }
@@ -953,6 +963,8 @@ case EXPR_NODEFUNC_COTH:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && !d1)
+        	return(err = EXPR_ERROR_DIVBYZERO);
         *val = coth(d1);
         EXPR_CHECK_ERR();
         }
@@ -1183,6 +1195,8 @@ case EXPR_NODEFUNC_HSEC:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && !trigonometric_domain(d1, M_PI_2, M_PI))
+        	return(err = EXPR_ERROR_DIVBYZERO);
         *val = hsec(d1);
         EXPR_CHECK_ERR();
         }
@@ -1218,6 +1232,8 @@ case EXPR_NODEFUNC_QSEC:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && !trigonometric_domain(d1, M_PI_2, M_PI))
+        	return(err = EXPR_ERROR_DIVBYZERO);
         *val = qsec(d1);
         EXPR_CHECK_ERR();
         }
@@ -1253,6 +1269,8 @@ case EXPR_NODEFUNC_HCSC:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && !trigonometric_domain(d1, 0, M_PI))
+        	return(err = EXPR_ERROR_DIVBYZERO);
         *val = hcsc(d1);
         EXPR_CHECK_ERR();
         }
@@ -1288,6 +1306,8 @@ case EXPR_NODEFUNC_QCSC:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && !trigonometric_domain(d1, 0, M_PI))
+        	return(err = EXPR_ERROR_DIVBYZERO);
         *val = qcsc(d1);
         EXPR_CHECK_ERR();
         }
@@ -1323,6 +1343,8 @@ case EXPR_NODEFUNC_HTAN:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && !trigonometric_domain(d1, M_PI_2, M_PI))
+        	return(err = EXPR_ERROR_DIVBYZERO);
         *val = htan(d1);
         EXPR_CHECK_ERR();
         }
@@ -1358,6 +1380,8 @@ case EXPR_NODEFUNC_QTAN:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && !trigonometric_domain(d1, M_PI_2, M_PI))
+        	return(err = EXPR_ERROR_DIVBYZERO);
         *val = qtan(d1);
         EXPR_CHECK_ERR();
         }
@@ -1393,6 +1417,8 @@ case EXPR_NODEFUNC_HCOT:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && !trigonometric_domain(d1, 0, M_PI))
+        	return(err = EXPR_ERROR_DIVBYZERO);
         *val = hcot(d1);
         EXPR_CHECK_ERR();
         }
@@ -1410,6 +1436,8 @@ case EXPR_NODEFUNC_HCOTH:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && !d1)
+        	return(err = EXPR_ERROR_DIVBYZERO);
         *val = hcoth(d1);
         EXPR_CHECK_ERR();
         }
@@ -1428,6 +1456,8 @@ case EXPR_NODEFUNC_QCOT:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && !trigonometric_domain(d1, 0, M_PI))
+        	return(err = EXPR_ERROR_DIVBYZERO);
         *val = qcot(d1);
         EXPR_CHECK_ERR();
         }
@@ -1445,6 +1475,8 @@ case EXPR_NODEFUNC_QCOTH:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && !d1)
+        	return(err = EXPR_ERROR_DIVBYZERO);
         *val = qcoth(d1);
         EXPR_CHECK_ERR();
         }
@@ -1884,6 +1916,8 @@ case EXPR_NODEFUNC_ESEC:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && !trigonometric_domain(d1, M_PI_2, M_PI))
+        	return(err = EXPR_ERROR_DIVBYZERO);
         *val = esec(d1);
         EXPR_CHECK_ERR();
         }
@@ -1919,6 +1953,8 @@ case EXPR_NODEFUNC_ECSC:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && !trigonometric_domain(d1, 0, M_PI))
+        	return(err = EXPR_ERROR_DIVBYZERO);
         *val = ecsc(d1);
         EXPR_CHECK_ERR();
         }
@@ -1954,6 +1990,8 @@ case EXPR_NODEFUNC_HESEC:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && !trigonometric_domain(d1, M_PI_2, M_PI))
+        	return(err = EXPR_ERROR_DIVBYZERO);
         *val = hesec(d1);
         EXPR_CHECK_ERR();
         }
@@ -1989,6 +2027,8 @@ case EXPR_NODEFUNC_HECSC:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && !trigonometric_domain(d1, 0, M_PI))
+        	return(err = EXPR_ERROR_DIVBYZERO);
         *val = hecsc(d1);
         EXPR_CHECK_ERR();
         }
@@ -2024,6 +2064,8 @@ case EXPR_NODEFUNC_QESEC:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && !trigonometric_domain(d1, M_PI_2, M_PI))
+        	return(err = EXPR_ERROR_DIVBYZERO);
         *val = qesec(d1);
         EXPR_CHECK_ERR();
         }
@@ -2059,6 +2101,8 @@ case EXPR_NODEFUNC_QECSC:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && !trigonometric_domain(d1, 0, M_PI))
+        	return(err = EXPR_ERROR_DIVBYZERO);
         *val = qecsc(d1);
         EXPR_CHECK_ERR();
         }
@@ -2199,6 +2243,8 @@ case EXPR_NODEFUNC_COSC:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && !d1)
+        	return(err = EXPR_ERROR_DIVBYZERO);
         *val = cosc(d1);
         EXPR_CHECK_ERR();
         }
@@ -2234,6 +2280,8 @@ case EXPR_NODEFUNC_HCOSC:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && !d1)
+        	return(err = EXPR_ERROR_DIVBYZERO);
         *val = hcosc(d1);
         EXPR_CHECK_ERR();
         }
@@ -2269,6 +2317,8 @@ case EXPR_NODEFUNC_QCOSC:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && !d1)
+        	return(err = EXPR_ERROR_DIVBYZERO);
         *val = qcosc(d1);
         EXPR_CHECK_ERR();
         }
@@ -2304,6 +2354,8 @@ case EXPR_NODEFUNC_SECC:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && (!d1 || !trigonometric_domain(d1, M_PI_2, M_PI)))
+        	return(err = EXPR_ERROR_DIVBYZERO);
         *val = secc(d1);
         EXPR_CHECK_ERR();
         }
@@ -2339,6 +2391,8 @@ case EXPR_NODEFUNC_HSECC:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && (!d1 || !trigonometric_domain(d1, M_PI_2, M_PI)))
+        	return(err = EXPR_ERROR_DIVBYZERO);
         *val = hsecc(d1);
         EXPR_CHECK_ERR();
         }
@@ -2374,6 +2428,8 @@ case EXPR_NODEFUNC_QSECC:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && (!d1 || !trigonometric_domain(d1, M_PI_2, M_PI)))
+        	return(err = EXPR_ERROR_DIVBYZERO);
         *val = qsecc(d1);
         EXPR_CHECK_ERR();
         }
@@ -2409,6 +2465,8 @@ case EXPR_NODEFUNC_CSCC:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && (!d1 || !trigonometric_domain(d1, 0, M_PI)))
+        	return(err = EXPR_ERROR_DIVBYZERO);
         *val = cscc(d1);
         EXPR_CHECK_ERR();
         }
@@ -2444,6 +2502,8 @@ case EXPR_NODEFUNC_HCSCC:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && (!d1 || !trigonometric_domain(d1, 0, M_PI)))
+        	return(err = EXPR_ERROR_DIVBYZERO);
         *val = hcscc(d1);
         EXPR_CHECK_ERR();
         }
@@ -2479,6 +2539,8 @@ case EXPR_NODEFUNC_QCSCC:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && (!d1 || !trigonometric_domain(d1, 0, M_PI)))
+        	return(err = EXPR_ERROR_DIVBYZERO);
         *val = qcscc(d1);
         EXPR_CHECK_ERR();
         }
@@ -2514,6 +2576,8 @@ case EXPR_NODEFUNC_TANC:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && (!d1 || !trigonometric_domain(d1, M_PI_2, M_PI)))
+        	return(err = EXPR_ERROR_DIVBYZERO);
         *val = tanc(d1);
         EXPR_CHECK_ERR();
         }
@@ -2549,6 +2613,8 @@ case EXPR_NODEFUNC_HTANC:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && (!d1 || !trigonometric_domain(d1, M_PI_2, M_PI)))
+        	return(err = EXPR_ERROR_DIVBYZERO);
         *val = htanc(d1);
         EXPR_CHECK_ERR();
         }
@@ -2584,6 +2650,8 @@ case EXPR_NODEFUNC_QTANC:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && (!d1 || !trigonometric_domain(d1, M_PI_2, M_PI)))
+        	return(err = EXPR_ERROR_DIVBYZERO);
         *val = qtanc(d1);
         EXPR_CHECK_ERR();
         }
@@ -2619,6 +2687,8 @@ case EXPR_NODEFUNC_COTC:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && !trigonometric_domain(d1, 0, M_PI))
+        	return(err = EXPR_ERROR_DIVBYZERO);
         *val = cotc(d1);
         EXPR_CHECK_ERR();
         }
@@ -2636,6 +2706,8 @@ case EXPR_NODEFUNC_COTCH:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && !d1)
+        	return(err = EXPR_ERROR_DIVBYZERO);
         *val = cotch(d1);
         EXPR_CHECK_ERR();
         }
@@ -2654,6 +2726,8 @@ case EXPR_NODEFUNC_HCOTC:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && !trigonometric_domain(d1, 0, M_PI))
+        	return(err = EXPR_ERROR_DIVBYZERO);
         *val = hcotc(d1);
         EXPR_CHECK_ERR();
         }
@@ -2671,6 +2745,8 @@ case EXPR_NODEFUNC_HCOTCH:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && !d1)
+        	return(err = EXPR_ERROR_DIVBYZERO);
         *val = hcotch(d1);
         EXPR_CHECK_ERR();
         }
@@ -2689,6 +2765,8 @@ case EXPR_NODEFUNC_QCOTC:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && !trigonometric_domain(d1, 0, M_PI))
+        	return(err = EXPR_ERROR_DIVBYZERO);
         *val = qcotc(d1);
         EXPR_CHECK_ERR();
         }
@@ -2706,6 +2784,8 @@ case EXPR_NODEFUNC_QCOTCH:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && !d1)
+        	return(err = EXPR_ERROR_DIVBYZERO);
         *val = qcotch(d1);
         EXPR_CHECK_ERR();
         }
@@ -2877,6 +2957,8 @@ case EXPR_NODEFUNC_CTAN:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && (!d2) && (!trigonometric_domain(d1, M_PI_2, M_PI)))
+        	return(err = EXPR_ERROR_DIVBYZERO);
         const register double complex result = ctan(d1+d2*I);
         *val = creal(result);
         if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
@@ -2939,6 +3021,8 @@ case EXPR_NODEFUNC_CCSC:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && (!d2) && (!trigonometric_domain(d1, 0, M_PI)))
+        	return(err = EXPR_ERROR_DIVBYZERO);
         const register double complex result = ccsc(d1+d2*I);
         *val = creal(result);
         if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
@@ -2967,6 +3051,8 @@ case EXPR_NODEFUNC_CCSCH:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && (!d1) && !d2)
+        	return(err = EXPR_ERROR_DIVBYZERO);
         const register double complex result = ccsch(d1+d2*I);
         *val = creal(result);
         if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
@@ -3001,6 +3087,8 @@ case EXPR_NODEFUNC_CSEC:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && (!d2) && (!trigonometric_domain(d1, M_PI_2, M_PI)))
+        	return(err = EXPR_ERROR_DIVBYZERO);
         const register double complex result = csec(d1+d2*I);
         *val = creal(result);
         if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
@@ -3063,6 +3151,8 @@ case EXPR_NODEFUNC_CCOT:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && (!d2) && (!trigonometric_domain(d1, 0, M_PI)))
+        	return(err = EXPR_ERROR_DIVBYZERO);
         const register double complex result = ccot(d1+d2*I);
         *val = creal(result);
         if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
@@ -3091,6 +3181,8 @@ case EXPR_NODEFUNC_CCOTH:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && (!d1) && !d2)
+        	return(err = EXPR_ERROR_DIVBYZERO);
         const register double complex result = ccoth(d1+d2*I);
         *val = creal(result);
         if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
@@ -3374,6 +3466,8 @@ case EXPR_NODEFUNC_CHSEC:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && (!d2) && (!trigonometric_domain(d1, M_PI_2, M_PI)))
+        	return(err = EXPR_ERROR_DIVBYZERO);
         const register double complex result = chsec(d1+d2*I);
         *val = creal(result);
         if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
@@ -3436,6 +3530,8 @@ case EXPR_NODEFUNC_CQSEC:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && (!d2) && (!trigonometric_domain(d1, M_PI_2, M_PI)))
+        	return(err = EXPR_ERROR_DIVBYZERO);
         const register double complex result = cqsec(d1+d2*I);
         *val = creal(result);
         if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
@@ -3498,6 +3594,8 @@ case EXPR_NODEFUNC_CHCSC:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && (!d2) && (!trigonometric_domain(d1, 0, M_PI)))
+        	return(err = EXPR_ERROR_DIVBYZERO);
         const register double complex result = chcsc(d1+d2*I);
         *val = creal(result);
         if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
@@ -3560,6 +3658,8 @@ case EXPR_NODEFUNC_CQCSC:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && (!d2) && (!trigonometric_domain(d1, 0, M_PI)))
+        	return(err = EXPR_ERROR_DIVBYZERO);
         const register double complex result = cqcsc(d1+d2*I);
         *val = creal(result);
         if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
@@ -3622,6 +3722,8 @@ case EXPR_NODEFUNC_CHTAN:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && (!d2) && (!trigonometric_domain(d1, M_PI_2, M_PI)))
+        	return(err = EXPR_ERROR_DIVBYZERO);
         const register double complex result = chtan(d1+d2*I);
         *val = creal(result);
         if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
@@ -3684,6 +3786,8 @@ case EXPR_NODEFUNC_CQTAN:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && (!d2) && (!trigonometric_domain(d1, M_PI_2, M_PI)))
+        	return(err = EXPR_ERROR_DIVBYZERO);
         const register double complex result = cqtan(d1+d2*I);
         *val = creal(result);
         if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
@@ -3746,6 +3850,8 @@ case EXPR_NODEFUNC_CHCOT:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && (!d2) && (!trigonometric_domain(d1, 0, M_PI)))
+        	return(err = EXPR_ERROR_DIVBYZERO);
         const register double complex result = chcot(d1+d2*I);
         *val = creal(result);
         if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
@@ -3774,6 +3880,8 @@ case EXPR_NODEFUNC_CHCOTH:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && (!d1) && !d2)
+        	return(err = EXPR_ERROR_DIVBYZERO);
         const register double complex result = chcoth(d1+d2*I);
         *val = creal(result);
         if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
@@ -3808,6 +3916,8 @@ case EXPR_NODEFUNC_CQCOT:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && (!d2) && (!trigonometric_domain(d1, 0, M_PI)))
+        	return(err = EXPR_ERROR_DIVBYZERO);
         const register double complex result = cqcot(d1+d2*I);
         *val = creal(result);
         if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
@@ -3836,6 +3946,8 @@ case EXPR_NODEFUNC_CQCOTH:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && (!d1) && !d2)
+        	return(err = EXPR_ERROR_DIVBYZERO);
         const register double complex result = cqcoth(d1+d2*I);
         *val = creal(result);
         if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
@@ -4606,6 +4718,8 @@ case EXPR_NODEFUNC_CESEC:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && (!d2) && (!trigonometric_domain(d1, M_PI_2, M_PI)))
+        	return(err = EXPR_ERROR_DIVBYZERO);
         const register double complex result = cesec(d1+d2*I);
         *val = creal(result);
         if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
@@ -4668,6 +4782,8 @@ case EXPR_NODEFUNC_CECSC:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && (!d2) && (!trigonometric_domain(d1, 0, M_PI)))
+        	return(err = EXPR_ERROR_DIVBYZERO);
         const register double complex result = cecsc(d1+d2*I);
         *val = creal(result);
         if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
@@ -4730,6 +4846,8 @@ case EXPR_NODEFUNC_CHESEC:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && (!d2) && (!trigonometric_domain(d1, M_PI_2, M_PI)))
+        	return(err = EXPR_ERROR_DIVBYZERO);
         const register double complex result = chesec(d1+d2*I);
         *val = creal(result);
         if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
@@ -4792,6 +4910,8 @@ case EXPR_NODEFUNC_CHECSC:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && (!d2) && (!trigonometric_domain(d1, 0, M_PI)))
+        	return(err = EXPR_ERROR_DIVBYZERO);
         const register double complex result = checsc(d1+d2*I);
         *val = creal(result);
         if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
@@ -4854,6 +4974,8 @@ case EXPR_NODEFUNC_CQESEC:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && (!d2) && (!trigonometric_domain(d1, M_PI_2, M_PI)))
+        	return(err = EXPR_ERROR_DIVBYZERO);
         const register double complex result = cqesec(d1+d2*I);
         *val = creal(result);
         if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
@@ -4916,6 +5038,8 @@ case EXPR_NODEFUNC_CQECSC:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && (!d2) && (!trigonometric_domain(d1, 0, M_PI)))
+        	return(err = EXPR_ERROR_DIVBYZERO);
         const register double complex result = cqecsc(d1+d2*I);
         *val = creal(result);
         if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
@@ -5164,6 +5288,8 @@ case EXPR_NODEFUNC_CCOSC:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && (!d1) && !d2)
+        	return(err = EXPR_ERROR_DIVBYZERO);
         const register double complex result = ccosc(d1+d2*I);
         *val = creal(result);
         if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
@@ -5226,6 +5352,8 @@ case EXPR_NODEFUNC_CHCOSC:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && (!d1) && !d2)
+        	return(err = EXPR_ERROR_DIVBYZERO);
         const register double complex result = chcosc(d1+d2*I);
         *val = creal(result);
         if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
@@ -5288,6 +5416,8 @@ case EXPR_NODEFUNC_CQCOSC:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && (!d1) && !d2)
+        	return(err = EXPR_ERROR_DIVBYZERO);
         const register double complex result = cqcosc(d1+d2*I);
         *val = creal(result);
         if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
@@ -5350,6 +5480,8 @@ case EXPR_NODEFUNC_CSECC:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && (!d2) && ((!d1) || !trigonometric_domain(d1, M_PI_2, M_PI)))
+        	return(err = EXPR_ERROR_DIVBYZERO);
         const register double complex result = csecc(d1+d2*I);
         *val = creal(result);
         if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
@@ -5412,6 +5544,8 @@ case EXPR_NODEFUNC_CHSECC:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && (!d2) && ((!d1) || !trigonometric_domain(d1, M_PI_2, M_PI)))
+        	return(err = EXPR_ERROR_DIVBYZERO);
         const register double complex result = chsecc(d1+d2*I);
         *val = creal(result);
         if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
@@ -5474,6 +5608,8 @@ case EXPR_NODEFUNC_CQSECC:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && (!d2) && ((!d1) || !trigonometric_domain(d1, M_PI_2, M_PI)))
+        	return(err = EXPR_ERROR_DIVBYZERO);
         const register double complex result = cqsecc(d1+d2*I);
         *val = creal(result);
         if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
@@ -5536,6 +5672,8 @@ case EXPR_NODEFUNC_CCSCC:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && (!d2) && (!trigonometric_domain(d1, 0, M_PI)))
+        	return(err = EXPR_ERROR_DIVBYZERO);
         const register double complex result = ccscc(d1+d2*I);
         *val = creal(result);
         if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
@@ -5598,6 +5736,8 @@ case EXPR_NODEFUNC_CHCSCC:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && (!d2) && (!trigonometric_domain(d1, 0, M_PI)))
+        	return(err = EXPR_ERROR_DIVBYZERO);
         const register double complex result = chcscc(d1+d2*I);
         *val = creal(result);
         if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
@@ -5660,6 +5800,8 @@ case EXPR_NODEFUNC_CQCSCC:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && (!d2) && (!trigonometric_domain(d1, 0, M_PI)))
+        	return(err = EXPR_ERROR_DIVBYZERO);
         const register double complex result = cqcscc(d1+d2*I);
         *val = creal(result);
         if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
@@ -5722,6 +5864,8 @@ case EXPR_NODEFUNC_CTANC:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && (!d2) && ((!d1) || !trigonometric_domain(d1, M_PI_2, M_PI)))
+        	return(err = EXPR_ERROR_DIVBYZERO);
         const register double complex result = ctanc(d1+d2*I);
         *val = creal(result);
         if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
@@ -5784,6 +5928,8 @@ case EXPR_NODEFUNC_CHTANC:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && (!d2) && ((!d1) || !trigonometric_domain(d1, M_PI_2, M_PI)))
+        	return(err = EXPR_ERROR_DIVBYZERO);
         const register double complex result = chtanc(d1+d2*I);
         *val = creal(result);
         if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
@@ -5846,6 +5992,8 @@ case EXPR_NODEFUNC_CQTANC:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && (!d2) && ((!d1) || !trigonometric_domain(d1, M_PI_2, M_PI)))
+        	return(err = EXPR_ERROR_DIVBYZERO);
         const register double complex result = cqtanc(d1+d2*I);
         *val = creal(result);
         if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
@@ -5908,6 +6056,8 @@ case EXPR_NODEFUNC_CCOTC:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && (!d2) && (!trigonometric_domain(d1, 0, M_PI)))
+        	return(err = EXPR_ERROR_DIVBYZERO);
         const register double complex result = ccotc(d1+d2*I);
         *val = creal(result);
         if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
@@ -5936,6 +6086,8 @@ case EXPR_NODEFUNC_CCOTCH:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && (!d1) && !d2)
+        	return(err = EXPR_ERROR_DIVBYZERO);
         const register double complex result = ccotch(d1+d2*I);
         *val = creal(result);
         if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
@@ -5970,6 +6122,8 @@ case EXPR_NODEFUNC_CHCOTC:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && (!d2) && (!trigonometric_domain(d1, 0, M_PI)))
+        	return(err = EXPR_ERROR_DIVBYZERO);
         const register double complex result = chcotc(d1+d2*I);
         *val = creal(result);
         if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
@@ -5998,6 +6152,8 @@ case EXPR_NODEFUNC_CHCOTCH:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && (!d1) && !d2)
+        	return(err = EXPR_ERROR_DIVBYZERO);
         const register double complex result = chcotch(d1+d2*I);
         *val = creal(result);
         if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
@@ -6032,6 +6188,8 @@ case EXPR_NODEFUNC_CQCOTC:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && (!d2) && (!trigonometric_domain(d1, 0, M_PI)))
+        	return(err = EXPR_ERROR_DIVBYZERO);
         const register double complex result = cqcotc(d1+d2*I);
         *val = creal(result);
         if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
@@ -6060,6 +6218,8 @@ case EXPR_NODEFUNC_CQCOTCH:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && (!d1) && !d2)
+        	return(err = EXPR_ERROR_DIVBYZERO);
         const register double complex result = cqcotch(d1+d2*I);
         *val = creal(result);
         if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
@@ -6094,6 +6254,8 @@ case EXPR_NODEFUNC_CASIN:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck &&  (!d2) && !(TRIGONOMETRIC_DOMAIN(d1)))
+        	return(err = EXPR_ERROR_OUTOFRANGE);
         const register double complex result = casin(d1+d2*I);
         *val = creal(result);
         if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
@@ -6156,6 +6318,8 @@ case EXPR_NODEFUNC_CACOS:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck &&  (!d2) && !(TRIGONOMETRIC_DOMAIN(d1)))
+        	return(err = EXPR_ERROR_OUTOFRANGE);
         const register double complex result = cacos(d1+d2*I);
         *val = creal(result);
         if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
@@ -6184,6 +6348,8 @@ case EXPR_NODEFUNC_CACOSH:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck &&  (!d2) && d1 < 1)
+        	return(err = EXPR_ERROR_OUTOFRANGE);
         const register double complex result = cacosh(d1+d2*I);
         *val = creal(result);
         if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
@@ -6246,6 +6412,8 @@ case EXPR_NODEFUNC_CATANH:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck &&  (!d2) && !(TRIGONOMETRIC_DOMAIN(d1)))
+        	return(err = EXPR_ERROR_OUTOFRANGE);
         const register double complex result = catanh(d1+d2*I);
         *val = creal(result);
         if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
@@ -6280,6 +6448,8 @@ case EXPR_NODEFUNC_CACSC:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck &&  (!d2) && d1 > -1 && d1 < 1)
+        	return(err = EXPR_ERROR_OUTOFRANGE);
         const register double complex result = cacsc(d1+d2*I);
         *val = creal(result);
         if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
@@ -6342,6 +6512,8 @@ case EXPR_NODEFUNC_CASEC:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck &&  (!d2) && d1 > -1 && d1 < 1)
+        	return(err = EXPR_ERROR_OUTOFRANGE);
         const register double complex result = casec(d1+d2*I);
         *val = creal(result);
         if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
@@ -6370,6 +6542,8 @@ case EXPR_NODEFUNC_CASECH:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck &&  (!d2) && (d1 < 0 || d1 >= 1))
+        	return(err = EXPR_ERROR_OUTOFRANGE);
         const register double complex result = casech(d1+d2*I);
         *val = creal(result);
         if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
@@ -6432,6 +6606,8 @@ case EXPR_NODEFUNC_CACOTH:
     if(!err)
         {
         EXPR_RESET_ERR();
+        if(dcheck && (!d2) && TRIGONOMETRIC_DOMAIN(d1))
+        	return(err = EXPR_ERROR_OUTOFRANGE);
         const register double complex result = cacoth(d1+d2*I);
         *val = creal(result);
         if(nodes->data.function.refcount == MAX_COMPLEX_UNITS)
@@ -9014,6 +9190,31 @@ case EXPR_NODEFUNC_MEDIA:
                 return err;
             }
         *val = math_media(nodes->data.function.nodecount, args);
+        }
+    else
+        return err;
+
+    break;
+    }
+    
+/* mode */
+case EXPR_NODEFUNC_MODE:
+    {
+    err = exprEvalNode(obj, nodes->data.function.nodes, 0, &d1);
+
+    if(!err)
+        {
+        ityp args[nodes->data.function.nodecount];
+        args[0] = d1;
+        for(pos = 0; ++pos < nodes->data.function.nodecount; )
+            {
+            err = exprEvalNode(obj, nodes->data.function.nodes, pos, &d2);
+            if(!err)
+                args[pos] = d2;
+            else
+                return err;
+            }
+        *val = math_mode(nodes->data.function.nodecount, args);
         }
     else
         return err;

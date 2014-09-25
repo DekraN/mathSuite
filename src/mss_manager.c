@@ -1,4 +1,4 @@
-// mss_manager.c 10/09/2014 Marco Chiarelli aka DekraN
+// mss_manager.c 16/09/2014 Marco Chiarelli aka DekraN
 /*
 WARNING!!! This program is intended to be used, so linked at the compilation,
 exclusively with main.c of my suite program! I do not assume any responsibilities
@@ -210,8 +210,8 @@ __MSSHELL_WRAPPER_ static void _MS__private __system showUsage(const sel_typ arg
     
     for(i=0; i<MAX_MSSMANAGER_PROGS; ++i)
     {
-        _showUsage(&mss_manager[i]);
-        if(catchPause()) return;
+    	_showUsage(&mss_manager[i]);
+    	if(catchPause()) return;
     }
 
     return;

@@ -58,7 +58,7 @@
 	<!-- SLSC is a Windows only feature -->
 	<systemLogSecurityCheck>false</systemLogSecurityCheck>
         <systemINPUTParser>true</systemINPUTParser>
-	<baseCalculatorParser>true</baseCalculatorParser>
+
 	<advancedCalculatorParser>true</advancedCalculatorParser>
 	<matricesItemsInsertingParser>true</matricesItemsInsertingParser>
 	<resetConstsListAndFunctionsList>false</resetConstsListAndFunctionsList>

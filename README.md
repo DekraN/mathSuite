@@ -1,8 +1,8 @@
 mathSuite
 //-----------------------------------------------------------------------------------------------------------------//
 AUTHOR: Marco Chiarelli aka DekraN aka Wesker013 (FB)								   ||
-CURRENT VERSION: v6.70											   	   ||
-LAST UPDATE: 21:00 16/09/2014											   ||
+CURRENT VERSION: v6.80											   	   ||
+LAST UPDATE: 16:00 25/09/2014											   ||
 CONTACT ME at: marco_chiarelli@yahoo.it										   ||
 or at marcochiarelli.nextgenlab@gmail.com									   ||
 //-----------------------------------------------------------------------------------------------------------------//
@@ -481,6 +481,12 @@ or at marcochiarelli.nextgenlab@gmail.com									   ||
 /// Replaced the deprecated subprogram "Greatest Eigen Value" of Advanced Calculator section, with the new more   ///
 /// performant "Matrix Eigen Values", now placed into Linear Algebra Operations section. This program, as the name///
 /// suggests, calculates Eigen Values and Eigen Vectors of a given square matrix. Fixed some minor bugs and C.O.  ///
+///                                     CHANGELOG v6.80 (25/09/2014)                                              ///
+/// Fixed a bug into the productory(...) ext_math.c function, whose ExprEval inline identifier is "product", which///
+/// didn't calculate correctly the result due to a bad initialization of a counter variable. Now this function and///
+/// all the functions which was using it, work perfectly. Eliminated the old User Interface related to the Basic  ///
+/// Calculator with the Parser Modality disabled. So, reduced the executable size of the 41.5%. Introduced a new  ///
+/// 	   statistical function, the "mode", and the code optimized in some critical parts.			  ///
 ///    This is not a Final Built or Official Release, but (UPDATE) probably this could be the last release I write///
 ///              in C. A future release could be directly mathSMART Mobile Math Environment.                      ///
 ///                     You can contact me at: marco_chiarelli@yahoo.it or on the secundary mail:                 ///

@@ -2138,7 +2138,7 @@ __MSNATIVE_ inline ityp __export summation(uint64_t dim, bool mode, ityp vector[
 // PRODUTTORIA
 __MSNATIVE_ inline ityp __export productory(uint64_t dim, bool mode, ityp vector[static dim])
 {
-    ityp res = 0.00;
+    ityp res = 1.00;
     const register sel_typ mode_binder = 1-(mode<<1);
 
 	#pragma omp parallel for
@@ -2151,6 +2151,20 @@ __MSNATIVE_ inline ityp __export productory(uint64_t dim, bool mode, ityp vector
 __MSNATIVE_ inline ityp __export math_media(uint64_t dim, ityp vector[static dim])
 {
     return (summation(dim, SUMMATION_SUM, vector)/dim);
+}
+
+__MSNATIVE_ inline ityp __export math_mode(uint64_t dim, ityp vector[static dim])
+{
+	ityp vmoda[dim];
+	dim_typ moda;
+	register uint64_t i, j;
+	#pragma omp parallel for
+	for(i=0; i<dim; ++i)
+		for(j=vmoda[i]=0; j!=i && j<dim; ++j)
+			if(vector[j] == vector[i])
+				++ vmoda[i];
+	(void) MINMAX(dim, vmoda, MAX_MODE, &moda);
+	return vector[moda];
 }
 
 __MSNATIVE_ inline ityp __export math_variance(uint64_t dim, ityp vector[static dim])
@@ -3736,7 +3750,7 @@ __MSNATIVE_ sel_typ _MS__private __system __export _simplexMethod(ityp **tableau
         if(!another_iteration)
             break;
 
-        MINMAX(vardims, func_vector, mode, &bestvaltax_idx);
+        (void) MINMAX(vardims, func_vector, mode, &bestvaltax_idx);
 
         for(i=itemcheck=0; i<dim_minus1[ROWS]; ++i)
         {
@@ -3750,7 +3764,7 @@ __MSNATIVE_ sel_typ _MS__private __system __export _simplexMethod(ityp **tableau
                 min_ratios_vector[i] = *((*tableau) + vardims*i + vardims-1)/ *((*tableau) + vardims*i + bestvaltax_idx); // ((*tableau)[i][vardims-1])/((*tableau)[i][bestvaltax_idx]);
         }
 
-        MINMAX(dim_minus1[ROWS], min_ratios_vector, MIN_MODE, &leaving_var_idx);
+        (void) MINMAX(dim_minus1[ROWS], min_ratios_vector, MIN_MODE, &leaving_var_idx);
 
         const ityp pivot = *((*tableau) + vardims*leaving_var_idx + bestvaltax_idx);
 

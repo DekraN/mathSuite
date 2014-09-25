@@ -1296,7 +1296,7 @@ __MSSHELL_WRAPPER_ __MSNATIVE_ const sprog * const __system searchProgram(const 
             
     for(i=0; i<MAX_MSSMANAGER_PROGS; ++i)
     	if(!strcmp(cmdname, mss_manager[i].cmdname))
-    	    return &mss_manager[i];
+    		return &mss_manager[i];
 
     return NULL;
 
@@ -1489,8 +1489,8 @@ __MSNATIVE_ bool __system _lfCreate(const char path[static MAX_PATH_LENGTH])
 	
 	__MSUTIL_ static inline void ftoa(char *string, const float value, const fsel_typ prec)
 	{
-	    sprintf(string, "%.*f", prec, value);
-	    return;
+		sprintf(string, "%.*f", prec, value);
+		return;
 	}
 
 	__MSUTIL_ XMLCALL inline xmlDoc * __system __export xmlInit(const char file_name[static XML_FILENAMES_LENGTH], xmlXPathContext ** xpathCtx)
@@ -2737,9 +2737,9 @@ __MSNATIVE_ bool __system insertDim(dim_typ *dim, bool mode)
         max_dim = mode ? access(curLayout)->matrix_max_columns : access(curLayout)->matrix_max_rows;
         printf2(COLOR_CREDITS, "Enter Matrix %s.", mode ? "COLUMNS":"ROWS");
     }
-    
-    PRINTN();
 
+	PRINTN();
+	
     if(PARSING_SYSTEM_ALLOWED)
         PRINTHOWTOBACKMESSAGE();
 
@@ -2770,7 +2770,7 @@ __MSNATIVE_ bool __system insertDim(dim_typ *dim, bool mode)
 // La seguente funzione sarebbe stata la funzione Handler
 // del segnale SIGINT. Il problema e' che dovrebbe essere
 // sempre e continuamente richiamata la funzione signal
-// per far sÃ¬ che funzioni correttamente. Meglio evitare.
+// per far sì che funzioni correttamente. Meglio evitare.
 
 
 __MSNATIVE_ void __system sigproc(void)
@@ -2945,7 +2945,7 @@ __MSNATIVE_ volatile char __system insertElement(ityp *restrict matrix, const re
 
 
         tmp = PARSING_SYSTEM_ALLOWED ? (!((*(matrix + columns*dim[ROWS] + dim[COLUMNS]) = requires(NULL, NULL_CHAR, str, PARSER_SHOWRESULT)) == NULL_VAL)) :
-                scanf2(1, INPUT_CONVERSION_FORMAT, matrix + columns*dim[ROWS] + dim[COLUMNS]);// , printf("%s: ", str), printf(OUTPUT_CONVERSION_FORMAT, matrix[riga][colonna]), printf(".\n\n");
+                scanf2(1, INPUT_CONVERSION_FORMAT, matrix + columns*dim[ROWS] + dim[COLUMNS]);
 
 
 

@@ -1352,6 +1352,9 @@ These functions are provided instead by Marco Chiarelli:
 |media(v,...) 	  					    |     |   |    |    |
 |The arithmetic media of passed numbers.		    |  1  |N/A|  0 |  0 |
 |___________________________________________________________|_____|___|____|____|
+|mode(v,...) 	  					    |     |   |    |    |
+|The mode of passed numbers.		   		    |  1  |N/A|  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
 |var(v,...) 	  				    	    |     |   |    |    |
 |The variance of passed numbers.		            |  1  |N/A|  0 |  0 |
 |___________________________________________________________|_____|___|____|____|

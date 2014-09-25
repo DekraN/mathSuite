@@ -1,4 +1,4 @@
-// settings.c 10/09/2014 Marco Chiarelli aka DekraN
+// settings.c 16/09/2014 Marco Chiarelli aka DekraN
 /*
 WARNING!!! This program is intended to be used, so linked at the compilation,
 exclusively with main.c of my suite program! I do not assume any responsibilities
@@ -631,7 +631,6 @@ about the use with any other code-scripts.
 	        *(access(exprVars)->e_ANS) = access(random_seed);
 	
 	    srand(access(random_seed));
-	    /// setDefaults();
 	    sprint("Program RandomSeed Value has been correctly changed from: %hu to: %hu.\n", old_random_seed, access(random_seed));
 	
 	    return;
@@ -668,51 +667,6 @@ about the use with any other code-scripts.
 	    access(curLayout)->bools ^= suite_c.bools[i].bmask;
 	    sprint("%s Boolean Settings\nhas been correctly %s.\n\n", suite_c.bools_names[i], isSett(i) ? "ENABLED":"DISABLED");
 	
-	    return;
-	}
-#endif
-
-#ifdef ALLOW_OPERIDSEDIT
-	__MSSHELL_WRAPPER_ static void _MS__private __system changeOpersIdentifiers(const sel_typ argc, char ** argv);
-	__MSSHELL_WRAPPER_ static void _MS__private __system changeOpersIdentifiers(const sel_typ argc, char ** argv)
-	{
-	
-	    char identifier[MAX_IDENTIFIER_LENGTH] = NULL_CHAR;
-	    char identifier2[MAX_IDENTIFIER_LENGTH] = NULL_CHAR;
-	
-	    fsel_typ output_ID[MAX_DIMENSIONS];
-	
-	    if(argc)
-	    {
-	        if(argc == 2)
-	        {
-	            if((!doesExistOperIdentifier(argv[0], output_ID)) || doesExistOperIdentifier(argv[1], (fsel_typ[MAX_DIMENSIONS]){BCALC_INFORMAZIONI, 0}))
-	            {
-	                printErr(1, "Invalid inserted Identifier\nor not correspondent to any Operation");
-	                printUsage(&change_settings[SETTINGS_CHANGEOPERATIONSIDENTIFIERS]);
-	                return;
-	            }
-	        }
-	        else
-	        {
-	            printUsage(&change_settings[SETTINGS_CHANGEOPERATIONSIDENTIFIERS]);
-	            return;
-	        }
-	    }
-	    else
-	    {
-	        printf("\nEnter new Operations Identifier\n");
-	        printf("by using expected syntax: (and by respecting white spaces):\n[old_identifier] [new_identifier].\n\n");
-	        while(scanf(" %s %s", identifier, identifier2) != 2 || (!doesExistOperIdentifier(identifier, output_ID)) || doesExistOperIdentifier(identifier2, (fsel_typ[MAX_DIMENSIONS]){BCALC_INFORMAZIONI, 0}))
-	            printErr(1, "Invalid inserted Identifier\nor not correspondent to any Operation");
-	    }
-	
-	    const fsel_typ oprID = output_ID[OPERATION_ID];
-	
-	    CLEARBUFFER();
-	    sprint("%s Operations Identifier has been correctly changed from: %s a %s.\n", operazioni[oprID].name, identifier, identifier2);
-	
-	    strcpy(operazioni[oprID].identifiers[output_ID[ALIAS_ID]], identifier2);
 	    return;
 	}
 #endif
@@ -1174,17 +1128,6 @@ sprog change_settings[MAX_SETTINGS] =
         CMD_CHANGEBOOLVALUES,
         USAGE_CHANGEBOOLVALUES,
         changeBoolValues,
-        AUTOMATIC,
-        CHILD
-    },
-    #endif
-    #ifdef ALLOW_OPERIDSEDIT
-    [SETTINGS_CHANGEOPERATIONSIDENTIFIERS] =
-    {
-        "Change Operations Identifiers",
-        CMD_CHANGEOPERATIONSIDS,
-        USAGE_CHANGEOPERATIONSIDS,
-        changeOpersIdentifiers,
         AUTOMATIC,
         CHILD
     },
