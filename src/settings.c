@@ -936,13 +936,8 @@ about the use with any other code-scripts.
 	{
 	    setDefaults();
 	    printf2(COLOR_USER, "Default Settings has been correctly loaded:\n");
-	
 	    viewProgramSettings(access(lists)[LAYOUTS].cur_item);
-	    
 	    flushAllMemoizersBuffers();
-	
-	    sprint("DEFAULT OPERATIONS Identifiers Set.\n");
-	
 	    PRINTL();
 	    return;
 	}
