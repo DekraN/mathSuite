@@ -10,7 +10,7 @@ about the use with any other code-scripts.
 #include "dutils.h"
 
 // Settings Function Declarations and Definitions
-
+//
 
 #ifdef ALLOW_VARLISTMANAGER
 	__MSSHELL_WRAPPER_ static void _MS__private __system __apnt envsManager(const sel_typ argc, char ** argv);

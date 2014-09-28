@@ -118,13 +118,13 @@ extern "C" {
 	#include <errors.h>
 	#include <conio.h>
     #define MAX_PATH_LENGTH MAX_PATH
-    #define pulisciSchermo system("cls")
+    #define pulisciSchermo (void)system("cls")
 #else
     #include <termios.h>
     #include <unistd.h>
     #define MAX_PATH_LENGTH 260
     #define DEFAULT_LINUX_SPOOLFOLDER "/var/spool"
-    #define pulisciSchermo system("clear")
+    #define pulisciSchermo (void)system("clear")
 #endif
 
 #define getItemsListNo(mode) access(lists)[mode].itemsno

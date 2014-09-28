@@ -203,7 +203,7 @@ __MSNATIVE_ bool __system printFile(const char path[static MAX_PATH_LENGTH])
         sprintf(str, "lpr -#1 -h -sP "DEFAULT_LINUX_SPOOLFOLDER" %s", path);
     #endif
 
-    system(str);
+    (void) system(str);
 
     return true;
 }
@@ -836,7 +836,7 @@ __MSNATIVE_ __WINCALL void __system _editLog(const char path[static MAX_PATH_LEN
     {
         char str[PATHCONTAINS_STRING] = NULL_CHAR;
         sprintf(str, "notepad.txt %s", path);
-        system(str);
+        (void) system(str);
     }
     else
     #endif
@@ -858,7 +858,7 @@ __MSNATIVE_ __WINCALL void __system _editLog(const char path[static MAX_PATH_LEN
             #else
             	signal(SIGINT, (__sighandler_t) sigexit);
             #endif
-            gets(str);
+            (void) gets(str);
             if(access(sigresult))
             {
                 fclose(fp);
@@ -2265,7 +2265,7 @@ __MSUTIL_ inline bool __system __export checkErrMem(const void * pntr)
         printErr(12, "An error occurred during Heap Dynamic Memory Allocation");
         sprint("\n(Sub)Program Terminating...\n\n");
         #ifdef WINOS
-            system("PAUSE");
+            (void) system("PAUSE");
         #endif
         return true;
     }
@@ -2568,7 +2568,7 @@ __MSNATIVE_ ityp __system __export requires(const char *cmd_string, const char *
     {
         printf2(COLOR_CREDITS, string);
         PRINT2N();
-        gets(buf);
+        (void) gets(buf);
     }
 
     access(exitHandle) = INVALID_EXITHANDLE;

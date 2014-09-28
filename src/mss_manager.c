@@ -51,7 +51,7 @@ __MSSHELL_WRAPPER_ static void _MS__private __system handleCmdLine(const sel_typ
 
     char str[INFO_STRING];
 
-    gets(str);
+    (void) gets(str);
 
     if(!str[0])
         return;

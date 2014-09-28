@@ -160,7 +160,7 @@ __MSSHELL_WRAPPER_ __MSNATIVE_ void _MS__private __system __export operationsGro
                 {
                     #ifdef WINOS
                         sprintf(str, "notepad %s", low_name);
-                        system(str);
+                        (void) system(str);
                     #else
                         readFile(low_name);
                     #endif
@@ -181,7 +181,7 @@ __MSSHELL_WRAPPER_ __MSNATIVE_ void _MS__private __system __export operationsGro
                     if(selection == 'Y')
                     {
                         sprintf(str, "START %s", EXPREVAL_TMPL);
-                        system(str);
+                        (void) system(str);
                     }
 
                     PRINTN();

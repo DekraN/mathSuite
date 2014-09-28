@@ -738,7 +738,7 @@ int main(int argc, char **argv)
 
     prepareToExit();
     #ifdef WINOS
-    	system("PAUSE"); // if working on Windows Environment...
+    	(void) system("PAUSE"); // if working on Windows Environment...
     #else
     	printf("\e[0m");
     #endif
