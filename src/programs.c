@@ -508,6 +508,18 @@ __MSNATIVE_ inline void __system __export setCurrentMatrix(dim_typ which_mat)
     return;
 }
 
+__MSNATIVE_ inline void __system __export setCurrentLog(dim_typ which_log)
+{
+	logObj * const tmp = malloc(sizeof(logObj));
+    errMem(tmp, VSPACE);
+    tmp->buffer = malloc(sizeof(char)*DEFAULT_BUFSIZE);
+    errMem(tmp->buffer, VSPACE);
+    strcpy(tmp->buffer, NULL_CHAR); // initializing log buffer
+	tmp->buflen = DEFAULT_BUFSIZE;
+    listNo(which_log, LOGS)->data = tmp;
+    return;
+}
+
 
 __MSSHELL_WRAPPER_ __MSNATIVE_ void __system setDefaults()
 {

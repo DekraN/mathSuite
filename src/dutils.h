@@ -1962,6 +1962,7 @@ __MSUTIL_ void __system __export freeExprEvalLists();
 __MSUTIL_ void __system __export refreshExprEvalVarList(dim_typ);
 __MSUTIL_ void __system __export refreshExprEvalLists();
 __MSNATIVE_ void __system __export setCurrentMatrix(dim_typ);
+__MSNATIVE_ void __system __export setCurrentLog(dim_typ);
 __MSSHELL_WRAPPER_ __MSNATIVE_ void __system setDefaults();
 
 

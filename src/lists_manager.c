@@ -230,33 +230,17 @@ __MSNATIVE_ bool __system __export listDelete(dim_typ which_item, sel_typ mode)
 __MSNATIVE_ dim_typ __system __export itemSelect(sel_typ mode)
 {
 
-    char access_point[MIN_STRING];
-
-    switch(mode)
+    //char access_point[MIN_STRING];
+    
+    static const char *access_points_names[MAX_LISTS] =
     {
-        #ifdef ALLOW_VARLISTMANAGER
-        case ENVS:
-            strcpy(access_point, change_settings[SETTINGS_ENVSMANAGER].name);
-            break;
-        #endif
-        #ifdef ALLOW_MATMANAGER
-        case MATRICES:
-            strcpy(access_point, alg_operations[ALGOPS_MATRICESMANAGER].name);
-            break;
-        #endif
-        #ifdef ALLOW_LOGSMANAGER
-        case LOGS:
-            strcpy(access_point, change_settings[SETTINGS_LOGSMANAGER].name);
-            break;
-        #endif
-        #ifdef ALLOW_LAYOUTSMANAGER
-        case LAYOUTS:
-            strcpy(access_point, change_settings[SETTINGS_LAYOUTSMANAGER].name);
-            break;
-        #endif
-
-        default: return NULL_ITEM(mode);
-    }
+		change_settings[SETTINGS_ENVSMANAGER].name,
+		alg_operations[ALGOPS_MATRICESMANAGER].name,
+		change_settings[SETTINGS_LOGSMANAGER].name,
+		change_settings[SETTINGS_LAYOUTSMANAGER].name
+    };
+    	
+    const char * const access_point = access_points_names[mode];
 
     PRINTN();
 
@@ -443,34 +427,15 @@ __MSNATIVE_ void __system __export setCurItem(const dim_typ itemID, sel_typ mode
 
 __MSNATIVE_ void __system __export createItemData(dim_typ which_item, sel_typ mode)
 {
-    switch(mode)
-    {
-        case ENVS:
-            refreshExprEvalVarList(which_item);
-            break;
-
-        case MATRICES:
-            setCurrentMatrix(which_item);
-            break;
-
-        case LOGS:
-        {
-            logObj * const tmp = malloc(sizeof(logObj));
-            errMem(tmp, VSPACE);
-            tmp->buffer = malloc(sizeof(char)*DEFAULT_BUFSIZE);
-            errMem(tmp->buffer, VSPACE);
-            strcpy(tmp->buffer, NULL_CHAR); // initializing log buffer
-            tmp->buflen = DEFAULT_BUFSIZE;
-            listNo(which_item, LOGS)->data = tmp;
-            break;
-        }
-
-        case LAYOUTS:
-            setProgramSettings(which_item);
-            break;
-
-    }
-
+	static void (* const func_data[MAX_LISTS])(dim_typ) =
+	{
+		refreshExprEvalVarList,
+		setCurrentMatrix,
+		setCurrentLog,
+		setProgramSettings
+	};
+	
+	func_data[mode](which_item);
     return;
 }
 
@@ -909,22 +874,17 @@ __MSNATIVE_ void __system __export renItem(const char *string, const dim_typ ite
         while(assert);
 
     CLEARBUFFER();
-
-    switch(mode)
+    
+    static const char *init_string[MAX_LISTS] =
     {
-        case ENVS:
-            strcat(newname, EXTENSION_DOT NULL_CHAR DEFAULT_VARLIST_FILE_EXTENSION);
-            break;
-        case MATRICES:
-            strcat(newname, EXTENSION_DOT NULL_CHAR DEFAULT_MATRIX_FILE_EXTENSION);
-            break;
-        case LOGS:
-            strcat(newname, EXTENSION_DOT NULL_CHAR DEFAULT_LOG_FILE_EXTENSION);
-            break;
-        case LAYOUTS:
-            strcat(newname, EXTENSION_DOT NULL_CHAR DEFAULT_LAYOUT_FILE_EXTENSION);
-            break;
-    }
+    	DEFAULT_VARLIST_FILE_EXTENSION,
+    	DEFAULT_MATRIX_FILE_EXTENSION,
+    	DEFAULT_LOG_FILE_EXTENSION,
+    	DEFAULT_LAYOUT_FILE_EXTENSION
+    };
+    
+    strcat(newname, EXTENSION_DOT NULL_CHAR);
+    strcat(newname, init_string[mode]);
 
     if(frename(name, newname))
     {
