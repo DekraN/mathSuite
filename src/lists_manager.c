@@ -232,7 +232,7 @@ __MSNATIVE_ dim_typ __system __export itemSelect(sel_typ mode)
 
     //char access_point[MIN_STRING];
     
-    static const char *access_points_names[MAX_LISTS] =
+    static const char *access_points_names[INFO_STRING] =
     {
 		change_settings[SETTINGS_ENVSMANAGER].name,
 		alg_operations[ALGOPS_MATRICESMANAGER].name,
@@ -875,7 +875,7 @@ __MSNATIVE_ void __system __export renItem(const char *string, const dim_typ ite
 
     CLEARBUFFER();
     
-    static const char *init_string[MAX_LISTS] =
+    static const char *init_string[INFO_STRING] =
     {
     	DEFAULT_VARLIST_FILE_EXTENSION,
     	DEFAULT_MATRIX_FILE_EXTENSION,
