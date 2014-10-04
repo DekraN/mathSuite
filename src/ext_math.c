@@ -1,6 +1,6 @@
 // ext_math.h
 // as External Math Library
-// 16/09/2014 Marco Chiarelli aka DekraN
+// 04/10/2014 Marco Chiarelli aka DekraN
 /*
 WARNING!!! This program is intended to be included
 exclusively by main.c, geometry.c, programs.c, algebra.c and settings.c project files of my suite program!

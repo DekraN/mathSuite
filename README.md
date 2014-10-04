@@ -1,8 +1,8 @@
 mathSuite
 //-----------------------------------------------------------------------------------------------------------------//
 AUTHOR: Marco Chiarelli aka DekraN aka Wesker013 (FB)								   ||
-CURRENT VERSION: v6.80											   	   ||
-LAST UPDATE: 16:00 25/09/2014											   ||
+CURRENT VERSION: v6.85											   	   ||
+LAST UPDATE: 15:00 04/10/2014											   ||
 CONTACT ME at: marco_chiarelli@yahoo.it										   ||
 or at marcochiarelli.nextgenlab@gmail.com									   ||
 //-----------------------------------------------------------------------------------------------------------------//
@@ -487,6 +487,11 @@ or at marcochiarelli.nextgenlab@gmail.com									   ||
 /// all the functions which was using it, work perfectly. Eliminated the old User Interface related to the Basic  ///
 /// Calculator with the Parser Modality disabled. So, reduced the executable size of the 41.5%. Introduced a new  ///
 /// 	   statistical function, the "mode", and the code optimized in some critical parts.			  ///
+///                                     CHANGELOG v6.85 (04/10/2014)                                              ///
+/// Re-written some critical parts of the Lists Items Manager Engine, by using static arrays of functions or vals ///
+/// instead of using long cascades of switches. Introduced the CoFactor Matrix subProgram and the related Adjoint ///
+/// program, which, as the names suggest, calculate respectively the CoFactor and the Adjount Matrices of a given ///
+/// 						  real square matrix.						  ///
 ///    This is not a Final Built or Official Release, but (UPDATE) probably this could be the last release I write///
 ///              in C. A future release could be directly mathSMART Mobile Math Environment.                      ///
 ///                     You can contact me at: marco_chiarelli@yahoo.it or on the secundary mail:                 ///
@@ -514,6 +519,8 @@ or at marcochiarelli.nextgenlab@gmail.com									   ||
 /// http://elite.polito.it/files/courses/12BHD/progr/Esercizi-C-v2_01.pdf for some of their scripts.              ///
 /// Thanks to Bibek Subedi, for his invertMatrix function, which I renamed, modified and adapted to this program. ///
 /// Link Source: http://programming-technique.blogspot.it/2011/09/numerical-methods-inverse-of-nxn-matrix.html    ///
+/// Thanks to Paul Bourke:https://www.cs.rochester.edu/u/brown/Crypto/assts/projects/adj.html for his CoFactor fnc///
+/// 	   		     which I modified and adapted to this program.					  ///
 /// Thanks to W. Cochran  wcochran@vancouver.wsu.edu for his Strassen Algorithm Implementation, which I renamed,  ///
 /// adapted and modified to this program. Thanks also to: Computer Science Division | EECS at UC Berkeley for     ///
 /// some notions about Matrix Multiplication Optimizations Techniques: www.cs.berkeley.edu/~knight/cs267/hw1.html ///

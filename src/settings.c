@@ -1,4 +1,4 @@
-// settings.c 16/09/2014 Marco Chiarelli aka DekraN
+// settings.c 04/10/2014 Marco Chiarelli aka DekraN
 /*
 WARNING!!! This program is intended to be used, so linked at the compilation,
 exclusively with main.c of my suite program! I do not assume any responsibilities
@@ -17,14 +17,7 @@ about the use with any other code-scripts.
 	__MSSHELL_WRAPPER_ static void _MS__private __system __apnt envsManager(const sel_typ argc, char ** argv)
 	{
 	
-	    operationsGroupMenu(MAX_ENVSMANAGER_PROGS,
-	                        envs_manager, change_settings[SETTINGS_ENVSMANAGER].name,
-	                        #if MAX_ENVSMANAGER_PROGS > MAX_CASEINSENSITIVE_CHARS_ALPHABET
-	                            BY_NUMBERS
-	                        #else
-	                            BY_CHARS
-	                        #endif
-	                        );
+	    operationsGroupMenu(MAX_ENVSMANAGER_PROGS, envs_manager, change_settings[SETTINGS_ENVSMANAGER].name, MAX_ENVSMANAGER_PROGS+MAX_OMNIPRESENT_ELEMENTS<MAX_CASEINSENSITIVE_CHARS_ALPHABET);
 	    return;
 	}
 #endif
@@ -33,14 +26,7 @@ about the use with any other code-scripts.
 	__MSSHELL_WRAPPER_ static void _MS__private __system __apnt logsManager(const sel_typ argc, char ** argv);
 	__MSSHELL_WRAPPER_ static void _MS__private __system __apnt logsManager(const sel_typ argc, char ** argv)
 	{
-	    operationsGroupMenu(MAX_LOGSMANAGER_PROGS,
-	                        logs_manager, change_settings[SETTINGS_LOGSMANAGER].name,
-	                        #if MAX_LOGSMANAGER_PROGS > MAX_CASEINSENSITIVE_CHARS_ALPHABET
-	                            BY_NUMBERS
-	                        #else
-	                            BY_CHARS
-	                        #endif
-	                        );
+	    operationsGroupMenu(MAX_LOGSMANAGER_PROGS, logs_manager, change_settings[SETTINGS_LOGSMANAGER].name, MAX_LOGSMANAGER_PROGS+MAX_OMNIPRESENT_ELEMENTS<MAX_CASEINSENSITIVE_CHARS_ALPHABET);
 	    return;
 	}
 #endif
@@ -49,14 +35,7 @@ about the use with any other code-scripts.
 	__MSSHELL_WRAPPER_ static void _MS__private __system __apnt sysLogManager(const sel_typ argc, char ** argv);
 	__MSSHELL_WRAPPER_ static void _MS__private __system __apnt sysLogManager(const sel_typ argc, char ** argv)
 	{
-	    operationsGroupMenu(MAX_SYSLOGMANAGER_PROGS,
-	                        syslog_manager, change_settings[SETTINGS_SYSLOGMANAGER].name,
-	                        #if MAX_SYSLOGMANAGER_PROGS > MAX_CASEINSENSITIVE_CHARS_ALPHABET
-	                            BY_NUMBERS
-	                        #else
-	                            BY_CHARS
-	                        #endif
-	                        );
+	    operationsGroupMenu(MAX_SYSLOGMANAGER_PROGS, syslog_manager, change_settings[SETTINGS_SYSLOGMANAGER].name, MAX_SYSLOGMANAGER_PROGS+MAX_OMNIPRESENT_ELEMENTS<MAX_CASEINSENSITIVE_CHARS_ALPHABET);
 	    return;
 	}
 #endif
@@ -65,14 +44,7 @@ about the use with any other code-scripts.
 	__MSSHELL_WRAPPER_ static void _MS__private __system __apnt layoutsManager(const sel_typ argc, char ** argv);
 	__MSSHELL_WRAPPER_ static void _MS__private __system __apnt layoutsManager(const sel_typ argc, char ** argv)
 	{
-	    operationsGroupMenu(MAX_LAYOUTSMANAGER_PROGS,
-	                        layouts_manager, change_settings[SETTINGS_LAYOUTSMANAGER].name,
-	                        #if MAX_LAYOUTSMANAGER_PROGS > MAX_CASEINSENSITIVE_CHARS_ALPHABET
-	                            BY_NUMBERS
-	                        #else
-	                            BY_CHARS
-	                        #endif
-	                        );
+	    operationsGroupMenu(MAX_LAYOUTSMANAGER_PROGS, layouts_manager, change_settings[SETTINGS_LAYOUTSMANAGER].name, MAX_LAYOUTSMANAGER_PROGS+MAX_OMNIPRESENT_ELEMENTS<MAX_CASEINSENSITIVE_CHARS_ALPHABET);
 	    return;
 	}
 #endif
@@ -81,14 +53,7 @@ about the use with any other code-scripts.
 	__MSSHELL_WRAPPER_ static void _MS__private __system __apnt colorsManager(const sel_typ argc, char ** argv);
 	__MSSHELL_WRAPPER_ static void _MS__private __system __apnt colorsManager(const sel_typ argc, char ** argv)
 	{
-	    operationsGroupMenu(MAX_COLSMANAGER_PROGS,
-	                        cols_manager, change_settings[SETTINGS_COLORSMANAGER].name,
-	                        #if MAX_COLSMANAGER_PROGS > MAX_CASEINSENSITIVE_CHARS_ALPHABET
-	                            BY_NUMBERS
-	                        #else
-	                            BY_CHARS
-	                        #endif
-	                        );
+	    operationsGroupMenu(MAX_COLSMANAGER_PROGS, cols_manager, change_settings[SETTINGS_COLORSMANAGER].name, MAX_COLSMANAGER_PROGS+MAX_OMNIPRESENT_ELEMENTS<MAX_CASEINSENSITIVE_CHARS_ALPHABET);
 	    return;
 	}
 #endif
@@ -97,14 +62,7 @@ about the use with any other code-scripts.
 	__MSSHELL_WRAPPER_ static void _MS__private __system __apnt lfsManager(const sel_typ argc, char ** argv);
 	__MSSHELL_WRAPPER_ static void _MS__private __system __apnt lfsManager(const sel_typ argc, char ** argv)
 	{
-	    operationsGroupMenu(MAX_LFSMANAGER_PROGS,
-	                    lfs_manager, change_settings[SETTINGS_LFSMANAGER].name,
-	                    #if MAX_COLSMANAGER_PROGS > MAX_CASEINSENSITIVE_CHARS_ALPHABET
-	                        BY_NUMBERS
-	                    #else
-	                        BY_CHARS
-	                    #endif
-	                    );
+	    operationsGroupMenu(MAX_LFSMANAGER_PROGS, lfs_manager, change_settings[SETTINGS_LFSMANAGER].name, MAX_LFSMANAGER_PROGS+MAX_OMNIPRESENT_ELEMENTS<MAX_CASEINSENSITIVE_CHARS_ALPHABET);
 	    return;
 	}
 #endif

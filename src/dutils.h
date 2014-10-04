@@ -1,5 +1,5 @@
 // dutils.h
-// 16/09/2014 Marco Chiarelli aka DekraN
+// 04/10/2014 Marco Chiarelli aka DekraN
 /*
 WARNING!!! This program is intended to be included
 exclusively by main.c, geometry.c, programs.c, algebra.c and settings.c project files of my suite program!
@@ -76,9 +76,9 @@ extern "C" {
 #define _MS__private
 
 #define PROG__NAME "mathSuite"
-#define PROG__VERSION "6.80"
+#define PROG__VERSION "6.85"
 #define PROG__AUTHOR "Marco Chiarelli"
-#define PROG__LASTUPDATEDATE "25/09/2014"
+#define PROG__LASTUPDATEDATE "04/10/2014"
 
 
 // INITIALIZING EXPREVAL DEFAULT CONSTANTS
@@ -92,7 +92,6 @@ extern "C" {
 
 #define NOERROR_EXIT 0
 #define HEAPALLOC_ERROR -1
-#define MSINF_FAULT_ERROR -2
 
 
 /// MINMAX powerful macros
@@ -801,6 +800,8 @@ enum
     ALGOPS_RANKCALCULATOR,
     ALGOPS_MATRIXSVD,
     ALGOPS_INVERSEMATRIX,
+    ALGOPS_MATRIXCOFACTOR,
+    ALGOPS_MATRIXADJOINT,
     ALGOPS_MATRIXTRANSPOSE,
     ALGOPS_MATRIXADD,
     ALGOPS_TENSORSSUM,
@@ -1118,6 +1119,8 @@ enum
 #define MAX_LFSMANAGER_PROGS LAST_LFSMANAGER_PROG+1
 
 #define MAX_CASEINSENSITIVE_CHARS_ALPHABET 26
+#define _MAX_OMNIPRESENT_ELEMENTS 3
+#define MAX_OMNIPRESENT_ELEMENTS _MAX_OMNIPRESENT_ELEMENTS-1
 
 // Macro per alcune variabili booleane del programma
 #define dcheck isSett(BOOLS_DOMAINCHECK)
@@ -1860,6 +1863,8 @@ __MSSHELL_WRAPPER_ __MSNATIVE_ bool randomMatrix(ityp *restrict, const register 
 __MSNATIVE_ void transpose(ityp *restrict, ityp *restrict, const register dim_typ [static MAX_DIMENSIONS]);
 __MSUTIL_ bool __export FattLU(dim_typ, ityp *restrict, ityp *restrict, ityp *);
 __MSUTIL_ bool __export invertMatrix(ityp *restrict, dim_typ);
+__MSUTIL_ bool __export CoFactor(ityp *restrict, ityp *restrict, dim_typ);
+__MSUTIL_ bool _MS__private __export adjoint(ityp *restrict, ityp *restrict, dim_typ);
 __MSUTIL_ bool __export dsvd(ityp *restrict, const register dim_typ [static MAX_DIMENSIONS], ityp *restrict, ityp *restrict);
 __MSNATIVE_ dim_typ __export rank(ityp *restrict, const register dim_typ [static MAX_DIMENSIONS]);
 __MSNATIVE_ void __system _flushLogBuf(logObj * const);

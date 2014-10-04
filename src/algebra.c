@@ -1,4 +1,4 @@
-// algebra.c 16/09/2014 Marco Chiarelli aka DekraN
+// algebra.c 04/10/2014 Marco Chiarelli aka DekraN
 /*
 WARNING!!! This program is intended to be used, so linked at the compilation,
 exclusively with main.c of my suite program! I do not assume any responsibilities
@@ -13,14 +13,7 @@ about the use with any other code-scripts.
 __MSSHELL_WRAPPER_ static void _MS__private __apnt matrixManager(const sel_typ argc, char ** argv);
 __MSSHELL_WRAPPER_ static void _MS__private __apnt matrixManager(const sel_typ argc, char ** argv)
 {
-    operationsGroupMenu(MAX_MATMANAGER_PROGS,
-                        mat_manager, alg_operations[ALGOPS_MATRICESMANAGER].name,
-                        #if MAX_MATMANAGER_PROGS > MAX_CASEINSENSITIVE_CHARS_ALPHABET
-                            BY_NUMBERS
-                        #else
-                            BY_CHARS
-                        #endif
-                        );
+    operationsGroupMenu(MAX_MATMANAGER_PROGS, mat_manager, alg_operations[ALGOPS_MATRICESMANAGER].name, MAX_MATMANAGER_PROGS+MAX_OMNIPRESENT_ELEMENTS<MAX_CASEINSENSITIVE_CHARS_ALPHABET);
     return;
 }
 #endif
@@ -33,6 +26,7 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixTrace(const sel_typ argc, char
 __MSSHELL_WRAPPER_ static void _MS__private matrixRank(const sel_typ argc, char ** argv);
 __MSSHELL_WRAPPER_ static void _MS__private matrixSVD(const sel_typ argc, char ** argv);
 __MSSHELL_WRAPPER_ static void _MS__private matrixInv(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private matrixCoFactor(const sel_typ argc, char ** argv);
 __MSSHELL_WRAPPER_ static void _MS__private matrixTranspose(const sel_typ argc, char ** argv);
 __MSSHELL_WRAPPER_ static void _MS__private matrixAdd(const sel_typ argc, char ** argv);
 __MSSHELL_WRAPPER_ static void _MS__private matrixMultiplication(const sel_typ argc, char ** argv);
@@ -125,6 +119,24 @@ sprog alg_operations[MAX_ALGEBRA_OPERATIONS] =
         matrixInv,
         BY_USER,
         CHILD
+    },
+    [ALGOPS_MATRIXCOFACTOR] =
+    {
+    	"CoFactor Matrix",
+    	CMD_MATRIXCOFACTOR,
+    	USAGE_MATRIXCOFACTOR,
+    	matrixCoFactor,
+    	BY_USER,
+    	CHILD
+    },
+    [ALGOPS_MATRIXADJOINT] =
+    {
+    	"Adjoint Matrix",
+    	CMD_MATRIXADJOINT,
+    	USAGE_MATRIXADJOINT,
+    	matrixCoFactor,
+    	BY_USER,
+    	CHILD
     },
     [ALGOPS_MATRIXTRANSPOSE] =
     {
@@ -792,6 +804,75 @@ __MSSHELL_WRAPPER_ static void _MS__private matrixInv(const sel_typ argc, char *
     }
 
     matrixFree(&matrix);
+
+    #ifdef WINOS
+        SetExitButtonState(ENABLED);
+    #endif // WINOS
+
+    return;
+}
+
+__MSSHELL_WRAPPER_ static void _MS__private matrixCoFactor(const sel_typ argc, char ** argv)
+{
+    ityp *matrix = NULL;
+    dim_typ dim[MAX_DIMENSIONS];
+
+    if(argc)
+    {
+        if((!matrixToken(argv[0], &matrix, dim, &dim[COLUMNS])) || dim[ROWS] != dim[COLUMNS])
+        {
+            matrixFree(&matrix);
+            printUsage(&alg_operations[ALGOPS_INVERSEMATRIX]);
+            return;
+        }
+    }
+    else if(!insertMatrix(matrix, dim[ROWS], dim[COLUMNS], true))
+        return;
+        
+    ityp *matrix2 = NULL;
+
+    if(!matrixAlloc(&matrix2, (dim_typ2){dim[ROWS], dim[ROWS]}))
+    {
+        #ifdef WINOS
+            SetExitButtonState(ENABLED);
+        #endif // WINOS
+        return;
+    }
+
+	struct timeval tvBegin;
+	const bool difftime = isSett(BOOLS_SHOWDIFFTIMEALGOPS);
+	
+	static bool (* const cof_funcs[MAX_DIMENSIONS])(ityp *restrict, ityp *restrict, dim_typ) =
+	{
+		CoFactor,
+		adjoint
+	};
+	
+	const bool which_prog = __pmode__-ALGOPS_MATRIXCOFACTOR;
+	bool (* const cof_func)(ityp *restrict, ityp *restrict, dim_typ) = cof_funcs[which_prog];
+	
+	if(difftime)
+		gettimeofday(&tvBegin, NULL);
+		
+	if(!cof_func(matrix, matrix2, dim[ROWS]))
+	{
+		printErr(12, "CoFactor Matrix Evaluating Process Heap Dynamic Memory Allocation Problem");
+		matrixFree(&matrix);
+		matrixFree(&matrix2);
+		return;
+	}
+
+    if(difftime)
+    {
+    	PRINTL();
+        printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, getDiffTime(&tvBegin));
+	}
+	
+	printf2(COLOR_SYSTEM, "\%s MATRIX of Inserted Matrix is:\n\n", which_prog?"ADJOINT":"COFACTOR");
+    printMatrix(stdout, which_prog?matrix:matrix2, (dim_typ2){dim[ROWS], dim[ROWS]});
+
+    matrixFree(&matrix);
+    matrixFree(&matrix2);
 
     #ifdef WINOS
         SetExitButtonState(ENABLED);

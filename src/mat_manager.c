@@ -1,4 +1,4 @@
-// mat_manager.c 16/09/2014 Marco Chiarelli aka DekraN
+// mat_manager.c 04/10/2014 Marco Chiarelli aka DekraN
 /*
 WARNING!!! This program is intended to be used, so linked at the compilation,
 exclusively with main.c of my suite program! I do not assume any responsibilities

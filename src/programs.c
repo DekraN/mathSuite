@@ -1,4 +1,4 @@
-// programs.c 16/09/2014 Marco Chiarelli aka DekraN
+// programs.c 04/10/2014 Marco Chiarelli aka DekraN
 /*
 WARNING!!! This program is intended to be used, so linked at the compilation,
 exclusively with main.c of my suite program! I do not assume any responsibilities
@@ -17,27 +17,13 @@ __MSSHELL_WRAPPER_ void basicCalculator(const sel_typ argc, char ** argv)
 
 __MSSHELL_WRAPPER_ void __apnt calcolatoreAvanzato(const sel_typ argc, char ** argv)
 {
-    operationsGroupMenu(MAX_ADVCALC_PROGS, adv_calc,
-                        main_menu[MAIN_ADVANCEDCALCULATOR].name,
-                        #if MAX_ADVCALC_PROGS > MAX_CASEINSENSITIVE_CHARS_ALPHABET
-                            BY_NUMBERS
-                        #else
-                            BY_CHARS
-                        #endif // MAX_SETTINGS
-                        );
+    operationsGroupMenu(MAX_ADVCALC_PROGS, adv_calc, main_menu[MAIN_ADVANCEDCALCULATOR].name, MAX_ADVCALC_PROGS+MAX_OMNIPRESENT_ELEMENTS<MAX_CASEINSENSITIVE_CHARS_ALPHABET);
     return ;
 }
 
 __MSSHELL_WRAPPER_ void __apnt mssManager(const sel_typ argc, char ** argv)
 {
-    operationsGroupMenu(MAX_MSSMANAGER_PROGS, mss_manager,
-                        main_menu[MAIN_MSSMANAGER].name,
-                        #if MAX_MSSMANAGER_PROGS > MAX_CASEINSENSITIVE_CHARS_ALPHABET
-                            BY_NUMBERS
-                        #else
-                            BY_CHARS
-                        #endif // MAX_SETTINGS
-                        );
+    operationsGroupMenu(MAX_MSSMANAGER_PROGS, mss_manager, main_menu[MAIN_MSSMANAGER].name, MAX_MSSMANAGER_PROGS+MAX_OMNIPRESENT_ELEMENTS<MAX_CASEINSENSITIVE_CHARS_ALPHABET);
     return ;
 }
 
@@ -249,27 +235,13 @@ __MSSHELL_WRAPPER_ __MSNATIVE_ void _MS__private __system __export operationsGro
 //
 __MSSHELL_WRAPPER_ void __apnt algebraOperations(const sel_typ argc, char ** argv)
 {
-    operationsGroupMenu(MAX_ALGEBRA_OPERATIONS,
-                        alg_operations, main_menu[MAIN_ALGEBRAOPERATIONS].name,
-                        #if MAX_ALGEBRA_OPERATIONS > MAX_CASEINSENSITIVE_CHARS_ALPHABET
-                            BY_NUMBERS
-                        #else
-                            BY_CHARS
-                        #endif // MAX_ALGEBRA_OPERATIONS
-                        );
+    operationsGroupMenu(MAX_ALGEBRA_OPERATIONS, alg_operations, main_menu[MAIN_ALGEBRAOPERATIONS].name, MAX_ALGEBRA_OPERATIONS+MAX_OMNIPRESENT_ELEMENTS<MAX_CASEINSENSITIVE_CHARS_ALPHABET);
     return;
 }
 
 __MSSHELL_WRAPPER_ void __apnt changeProgramSettings(const sel_typ argc, char ** argv)
 {
-    operationsGroupMenu(MAX_SETTINGS, change_settings,
-                        main_menu[MAIN_CHANGESETTINGS].name,
-                        #if MAX_SETTINGS > MAX_CASEINSENSITIVE_CHARS_ALPHABET
-                            BY_NUMBERS
-                        #else
-                            BY_CHARS
-                        #endif // MAX_SETTINGS
-                        );
+    operationsGroupMenu(MAX_SETTINGS, change_settings, main_menu[MAIN_CHANGESETTINGS].name, MAX_SETTINGS+MAX_OMNIPRESENT_ELEMENTS<MAX_CASEINSENSITIVE_CHARS_ALPHABET);
     return;
 }
 
