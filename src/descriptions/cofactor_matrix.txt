@@ -1,0 +1,2 @@
+Program calculates the CoFactor Matrix
+of a given real square matrix

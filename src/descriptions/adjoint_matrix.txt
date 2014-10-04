@@ -1,0 +1,3 @@
+Program calculates the Adjoint Matrix
+of a given real square matrix, which is
+the transpose of the CoFactor Matrix
