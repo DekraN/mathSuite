@@ -59,7 +59,7 @@ sprog alg_operations[MAX_ALGEBRA_OPERATIONS] =
     },
     [ALGOPS_MATRIXEIGVALUES] =
     {
-    	"Matrix Eigen Values",
+    	"Square Matrix Eigen Values",
     	CMD_MATRIXEIGVALUES,
     	USAGE_MATRIXEIGVALUES,
     	matrixEigenValues,
@@ -122,7 +122,7 @@ sprog alg_operations[MAX_ALGEBRA_OPERATIONS] =
     },
     [ALGOPS_MATRIXCOFACTOR] =
     {
-    	"CoFactor Matrix",
+    	"Square CoFactor Matrix",
     	CMD_MATRIXCOFACTOR,
     	USAGE_MATRIXCOFACTOR,
     	matrixCoFactor,
@@ -131,7 +131,7 @@ sprog alg_operations[MAX_ALGEBRA_OPERATIONS] =
     },
     [ALGOPS_MATRIXADJOINT] =
     {
-    	"Adjoint Matrix",
+    	"Square Adjoint Matrix",
     	CMD_MATRIXADJOINT,
     	USAGE_MATRIXADJOINT,
     	matrixCoFactor,
