@@ -38,64 +38,6 @@ __MSNATIVE_ static double complex __system __export math_csub(register double co
 const struct ext_math_type ext_math =
 {
     {
-        {
-            false,
-            true
-        },
-        {
-        	0,
-        	UCHAR_MAX
-        },
-        {
-            SCHAR_MIN,
-            SCHAR_MAX
-        },
-        {
-            INT_MIN,
-            INT_MAX
-        },
-        {
-            SHRT_MIN,
-            SHRT_MAX
-        },
-        {
-            LONG_MIN,
-            LONG_MAX,
-        },
-        {
-            LLONG_MIN,
-            LLONG_MAX
-        },
-        {
-            0,
-            UINT_MAX
-        },
-        {
-            0,
-            USHRT_MAX
-        },
-        {
-            0,
-            ULONG_MAX
-        },
-        {
-            0,
-            ULLONG_MAX
-        },
-        {
-            -FLT_MAX,
-            FLT_MAX
-        },
-        {
-            -DBL_MAX,
-            DBL_MAX
-        },
-        {
-            -LDBL_MAX,
-            LDBL_MAX
-        }
-    },
-    {
         IDENTIFIER_SINANDSINH,
         IDENTIFIER_COSANDCOSH,
         IDENTIFIER_SINANDSINH"h",
@@ -643,8 +585,7 @@ __MSNATIVE_ char * const __system __export binNumComp(ityp a)
 
     rComplement(c);
 
-    printf2(COLOR_USER, "\nInserted DECIMAL NUMBER: %lld;\nIts BINARY Conversion is: %s.\n\
-Il suo COMPLEMENTO a DUE e': %s.\n", num, bin_num, c);
+    printf2(COLOR_USER, "\nInserted DECIMAL NUMBER: %lld;\nIts BINARY Conversion is: %s.\nIts TWO's COMPLEMENT is: %s.\n", num, bin_num, c);
 
     toBinary(~num, c);
 
