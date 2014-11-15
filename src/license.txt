@@ -1,5 +1,5 @@
 mathSuite - Powerful Calculus Environment and Matrices Handling Engine
-Version 6.85
+Version 7.00
 
 
 Copyright (C) 2014 Marco Chiarelli

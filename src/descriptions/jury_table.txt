@@ -1,0 +1,3 @@
+Program give you the possibility to calculate the Jury Matrix
+of a given n>2 dimensioned Row Matrix filled with the
+coefficients of the polynom to which you want to apply the Criterion.

@@ -1,0 +1,4 @@
+Program give you the possibility to calculate the Routh Matrix
+of a given n>2 dimensioned Row Matrix filled with the
+coefficients of the polynom to which you want to apply the Criterion.
+It will also inform you about the Permanences and the Variations.

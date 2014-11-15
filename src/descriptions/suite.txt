@@ -24,6 +24,12 @@ for some of their scripts. Thanks to Bibek Subedi, for his invertMatrix function
 http://programming-technique.blogspot.it/2011/09/numerical-methods-inverse-of
 -nxn-matrix.html
 
+Thanks to Paul Bourke:https://www.cs.rochester.edu/u/brown/Crypto/assts/projects/adj.html
+for his CoFactor function, which I modified and adapted to this program.
+								  
+Thanks to my University friends: Dino Sbarro, Gabriele Accarino and Giampiero d'Autilia
+for inspiring me the implementation of some functions and for the everyday support.  
+
 Thanks to W. Cochran  wcochran@vancouver.wsu.edu for his
 Strassen Algorithm Implementation, which I renamed, adapted and modified to this program.
 Thanks also to: Computer Science Division | EECS at UC Berkeley for some notions

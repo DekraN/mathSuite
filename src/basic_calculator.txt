@@ -1159,8 +1159,6 @@ These functions are provided instead by Marco Chiarelli:
 |exp2c(a)	  					    |     |   |	   |    |
 |Cardinal base 2 exponential of a.			    |  1  | 1 |  0 |  0 |
 |___________________________________________________________|_____|___|____|____|
-
-
 |clog(a,b,&rpres,&ipres)	  			    |     |   |	   |    |
 |The complex logarithm of (a+i(b))			    |  2  | 2 |  1 |  2 |
 |It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
@@ -1266,7 +1264,7 @@ These functions are provided instead by Marco Chiarelli:
 |The absolute value of the octonion number:	 	    |  4  | 4 |  0 |  0 |
 |(a+e1(b)+e2(c)+e3(d)+e4(e)+e5(f)+e6(g)+e7(h)).	 	    |     |   |	   |    |
 |___________________________________________________________|_____|___|____|____|
-|oabs(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p)	  		    |     |   |	   |    |
+|sabs(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p)	  		    |     |   |	   |    |
 |The absolute value of the sedenion number:	 	    |  4  | 4 |  0 |  0 |
 |(a+e1(b)+e2(c)+e3(d)+e4(e)+e5(f)+e6(g)+e7(h)+e8(i)+e9(j)+  |     |   |	   |    |
 |e10(k)+e11(l)+e12(m)+e13(n)+e14(o)+e15(p)).		    |     |   |    |    |
@@ -1437,7 +1435,7 @@ The following constants are provided with ExprEval:
 | M_1_SQRT2  | 	1/sqrt(2)   |	0.70710678118654752440 |
 |____________|______________|__________________________|
 
-NOTE: These Constants has not been implemented yet!
+NOTE: These Constants have not been implemented yet!
 .______________________________________________________.
 | 	     [ FUNCTIONS IDENTIFIERS ]		       |
 |______________________________________________________|

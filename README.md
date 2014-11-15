@@ -1,8 +1,8 @@
-mathSuite
+mathSuite
 //-----------------------------------------------------------------------------------------------------------------//
 AUTHOR: Marco Chiarelli aka DekraN aka Wesker013 (FB)								   ||
-CURRENT VERSION: v6.85											   	   ||
-LAST UPDATE: 15:00 04/10/2014											   ||
+CURRENT VERSION: v7.00											   	   ||
+LAST UPDATE: 16:00 15/11/2014											   ||
 CONTACT ME at: marco_chiarelli@yahoo.it										   ||
 or at marcochiarelli.nextgenlab@gmail.com									   ||
 //-----------------------------------------------------------------------------------------------------------------//
@@ -492,6 +492,10 @@ or at marcochiarelli.nextgenlab@gmail.com									   ||
 /// instead of using long cascades of switches. Introduced the CoFactor Matrix subProgram and the related Adjoint ///
 /// program, which, as the names suggest, calculate respectively the CoFactor and the Adjount Matrices of a given ///
 /// 						  real square matrix.						  ///
+///                                     CHANGELOG v7.00 (15/11/2014)                                              ///
+/// Introduced the possibility to calculate both the Routh Table and the Jury Table of a n>2 dimensioned RowMatrix///
+/// 	 whose elements are the coefficients of the polynom to which you want to apply those Criterions.	  ///
+/// 					Fixed some bugs and Code optimized.					  ///
 ///    This is not a Final Built or Official Release, but (UPDATE) probably this could be the last release I write///
 ///              in C. A future release could be directly mathSMART Mobile Math Environment.                      ///
 ///                     You can contact me at: marco_chiarelli@yahoo.it or on the secundary mail:                 ///

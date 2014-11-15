@@ -76,9 +76,9 @@ extern "C" {
 #define _MS__private
 
 #define PROG__NAME "mathSuite"
-#define PROG__VERSION "6.85"
+#define PROG__VERSION "7.00"
 #define PROG__AUTHOR "Marco Chiarelli"
-#define PROG__LASTUPDATEDATE "04/10/2014"
+#define PROG__LASTUPDATEDATE "15/11/2014"
 
 
 // INITIALIZING EXPREVAL DEFAULT CONSTANTS
@@ -313,6 +313,13 @@ enum
 #define MATRIXES_SEPERATOR_CHAR BLANK_CHAR
 
 #define MIN_EXTENSIVE_MULTITHREADING_CORESNO DEFAULT_MIN_EXTENSIVE_MULTITHREADING_CORESNO
+
+// Routh Criterion METHOD MACROS
+
+#define ROUTHTABLE_EPSILON 0.0000000001
+#define ROUTHTABLE_ALLOC_ERROR -1
+
+#define JURYTABLE_ALLOC_ERROR false
 
 // Simplex METHOD MACROS
 
@@ -724,10 +731,10 @@ enum
 // DEFINIZIONE MACRO SOTTO-PROGRAMMI
 //
 
-// Valore di inizializzazione del metadato modalitÃ 
-// della variabile strutturata suite, definita piÃ¹ sotto
+// Valore di inizializzazione del metadato modalità
+// della variabile strutturata suite, definita più sotto
 #define PROGRAM_BUSY -1
-// o piÃ¹ semplicemente indica che l'utente Ã¨ in fase di scelta del subprogram.
+// o più semplicemente indica che l'utente è in fase di scelta del subprogram.
 
 
 // Enumerazione ID Sotto-Programmi
@@ -774,6 +781,8 @@ enum
     ADVCALC_COMPLEXNUMBERSSUM,
     ADVCALC_COMPLEXNUMBERSPROD,
     ADVCALC_SIMPLEXMETHOD,
+    ADVCALC_ROUTHTABLE,
+    ADVCALC_JURYTABLE,
     ADVCALC_NEWTONDIFFTABLES,
     ADVCALC_LAGRANGEINTERPOLATION,
     ADVCALC_FUNCTIONINTEGRATION,
@@ -1134,7 +1143,7 @@ enum
 
 
 // VALORE DI INIZIALIZZAZIONE CARATTERE DI USCITA DAL PROGRAMMA
-#define INITIALIZING_EXIT_CHAR 'Â£'
+#define INITIALIZING_EXIT_CHAR '£'
 #define INITIALIZING_DEFAULT_COLOR COLOR_WHITE
 
 #define MAIN_COLOR DEFAULT_COLOR
@@ -1360,7 +1369,7 @@ enum
 
 
 /*
-Dedicati alla modalitÃ  di funzionamento
+Dedicati alla modalità di funzionamento
 della funzione matrixToVector, per decidere
 in che senso deve essere svolta
 0 -> Normale, 1 -> Viceversa
@@ -1370,7 +1379,7 @@ in che senso deve essere svolta
 #define VECTOR_TO_MATRIX true
 
 /*
-Dedicati alla modalitÃ  di stampa della matrice
+Dedicati alla modalità di stampa della matrice
 dell'omonima funzione. Come suggeriscono le
 stesse macro, passando 0 si stampa una matrice
 di valori in virgola mobile, altrimenti di interi.
@@ -2305,6 +2314,8 @@ __MSNATIVE_ bool __system __export isEqualMatrix(ityp *, ityp *, const register 
 __MSNATIVE_ __MSUTIL_ ityp __system __export norms(ityp *, dim_typ);
 __MSNATIVE_ __MSUTIL_ ityp __system __export norm(ityp *, dim_typ, bool);
 __MSNATIVE_ __MSUTIL_ void __export newtonDifferenceTable(dim_typ, ityp [access(curLayout)->max_newton_difftables_dim][access(curLayout)->max_newton_difftables_dim], bool);
+__MSNATIVE_ short _MS__private __system __export _routhTable(ityp **, const register dim_typ, fsel_typ *);
+__MSNATIVE_ bool _MS__private __system __export _juryTable(ityp **, const register dim_typ);
 __MSNATIVE_ sel_typ _MS__private __system __export _simplexMethod(ityp **, ityp **, const register dim_typ dim [static MAX_DIMENSIONS], ityp *, bool);
 __MSNATIVE_ __MSUTIL_ sel_typ _MS__private __system __export _matrixEigenValues(ityp *restrict, ityp *restrict, ityp *restrict, const register dim_typ);
 __MSNATIVE_ void _MS__private __system __export _matrixAdd(ityp **, ityp **, ityp **, const register dim_typ [static MAX_DIMENSIONS]);

@@ -2386,7 +2386,8 @@ __MSNATIVE_ inline void __system __export _flushMemoizersBuffers(sel_typ mode)
 __MSNATIVE_ inline void __system __export flushAllMemoizersBuffers(void)
 {
 	for(dim_typ i=0; i<MAX_MEMOIZABLE_FUNCTIONS; ++i)
-		_flushMemoizersBuffers(i);
+		if(access(sysMem)[i].current_max_index)
+			_flushMemoizersBuffers(i);
 
 	return;
 }

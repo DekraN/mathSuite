@@ -1,8 +1,8 @@
 /*!////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 //!////////////////////////////////////////////////////////////////////////////////////////////////////////////// ///
 /*!________________________________________________________________________________________________________________*/
-///                         mathSuite v6.85 --- by Marco Chiarelli aka DekraN aka Wesker013                  	  ///
-///        							LAST UPDATE: 15:00 of 04/10/2014 by Myself. 								  ///
+///                         mathSuite v7.00 --- by Marco Chiarelli aka DekraN aka Wesker013                  	  ///
+///        							LAST UPDATE: 16:00 of 15/11/2014 by Myself. 								  ///
 /// 	This program is protected by Creative Commons CC BY-SA 2.0 License. For more informations contact me. 	  ///
 ///                     You can contact me at: marco_chiarelli@yahoo.it or on the secundary mail:                 ///
 /// marcochiarelli.nextgenlab@gmail.com in order to report a bug or simply for sending me an advice that could be ///
@@ -21,6 +21,8 @@
 /// Link Source: http://programming-technique.blogspot.it/2011/09/numerical-methods-inverse-of-nxn-matrix.html    ///
 /// Thanks to Paul Bourke:https://www.cs.rochester.edu/u/brown/Crypto/assts/projects/adj.html for his CoFactor fnc///
 /// 								 which I modified and adapted to this program.								  ///
+/// 		Thanks to my University friends: Dino Sbarro, Gabriele Accarino and Giampiero d'Autilia				  ///
+/// 			for inspiring me the implementation of some functions and for the everyday support. 			  /// 
 /// Thanks to W. Cochran  wcochran@vancouver.wsu.edu for his Strassen Algorithm Implementation, which I renamed,  ///
 /// adapted and modified to this program. Thanks also to: Computer Science Division | EECS at UC Berkeley for     ///
 /// some notions about Matrix Multiplication Optimizations Techniques: www.cs.berkeley.edu/~knight/cs267/hw1.html ///

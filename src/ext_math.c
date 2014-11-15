@@ -3627,6 +3627,163 @@ __MSNATIVE_ inline ityp __system __export math_div(register ityp a, register ity
     return (a/b);
 }
 
+__MSNATIVE_ short _MS__private __system __export _routhTable(ityp **table, const register dim_typ dim, fsel_typ *nullrow)
+{
+	dim_typ i, j;
+	(*table) = realloc((*table), sizeof(ityp)*dim*dim);
+	errMem((*table), ROUTHTABLE_ALLOC_ERROR);
+	
+	// cleaning before filling
+	#pragma omp parallel for
+	for(i=1; i<dim; ++i)
+		#pragma omp parallel for
+		for(j=0; j<dim; ++j)
+			*((*table) + dim*i + j) = 0.00;
+			
+	const register dim_typ columns = ((dim_typ)((dim*0.5) + 1));
+
+			
+	ityp *tmp = NULL;
+	
+	if(!matrixAlloc(&tmp, (dim_typ2){1, columns}))
+		return ROUTHTABLE_ALLOC_ERROR;
+	
+	for(j=0,i=1; i<dim; i+=2,++j)
+		*(tmp + j) = *((*table) + i);
+		// *((*table) + dim + j) = *((*table) + i);
+		
+	// works!!!
+	for(j=1,i=2; i<dim; i+=2,++j)
+		*((*table) + j) = *((*table) + i);
+		
+	// cleaning eventual residuals
+	#pragma omp parallel for
+	for(i=j; i<dim; ++i)
+		*((*table) + i) = 0.00;
+	
+		
+	(*table) = realloc((*table), sizeof(ityp)*dim*columns);
+	errMem((*table), ROUTHTABLE_ALLOC_ERROR);
+	
+	#pragma omp parallel for
+	for(i=0; i<columns; ++i)
+		*((*table) + columns + i) = *(tmp + i);
+	
+	tmp = realloc(tmp, MAX_DIMENSIONS<<1);
+	errMem(tmp, ROUTHTABLE_ALLOC_ERROR);
+		
+	register ityp pivot;
+	register dim_typ q;
+		
+	for(i=2; i<dim; ++i)
+	{
+		if(!(*((*table) + columns*(i-1))))
+			for(j=1; j<columns; ++j)
+				if(*((*table) + columns*(i-1) + j))
+				{
+					*((*table) + columns*(i-1)) = ROUTHTABLE_EPSILON; // 0.0000000001;
+					break;
+				}
+				else if(j == columns-1)
+				{
+					if(nullrow)
+						(*nullrow) = i-1;
+						
+					q = dim-i+1;
+					for(dim_typ k=0; k<columns-1; ++k)
+					{
+						*((*table) + columns*(i-1) + k) = q * *((*table) + columns*(i-2) + k);
+						q -= 2;
+						// shifting derivative of the [i-2] polynom into the substaying nullrow
+						// by indexing the polynoms terms with the k variable
+					}
+				}
+									
+		pivot = -1/(*((*table) + columns*(i-1)));
+		*tmp = *((*table) + columns*(i-2)); 
+		*(tmp + MAX_DIMENSIONS) = *((*table)  + columns*(i-1));
+		for(j=0; j<columns-1; ++j)
+		{
+			*(tmp + 1) = *((*table) + columns*(i-2) + j+1);
+			*(tmp + MAX_DIMENSIONS +1) = *((*table) + columns*(i-1) + j+1);
+			*((*table) + columns*i + j) = pivot * det(tmp, MAX_DIMENSIONS, NULL);
+		}
+	}
+	
+	matrixFree(&tmp);
+		
+	register short permanences = 0;
+	
+	#pragma omp parallel for
+	for(i=0; i<dim-1; ++i)
+		if((*((*table) + columns*i) * *((*table) + columns*(i+1))) > 0)
+			++ permanences;
+	
+	return permanences;
+	
+}
+
+__MSNATIVE_ bool _MS__private __system __export _juryTable(ityp **table, const register dim_typ dim)
+{
+	dim_typ i, j;
+	const register dim_typ deg = dim-1;
+	const register dim_typ rows = (deg<<1)-3;
+	
+	(*table) = realloc((*table), sizeof(ityp)*dim*rows);
+	errMem((*table), JURYTABLE_ALLOC_ERROR);
+	
+	// cleaning before filling
+	#pragma omp parallel for
+	for(i=1; i<rows; ++i)
+		for(j=0; j<dim; ++j)
+			*((*table) + dim*i + j) = 0.00;
+	
+	#pragma omp parallel for
+	for(i=0; i<dim; ++i)
+		*((*table) + dim + i) = *((*table) + i);
+	
+	#pragma omp parallel for
+	for(i=0; i<dim; ++i)
+		*((*table) + i) = *((*table) + (dim<<1) -1-i);
+		
+	ityp *tmp = NULL;
+	
+	if(!matrixAlloc(&tmp, (dim_typ2){MAX_DIMENSIONS, MAX_DIMENSIONS}))
+		return JURYTABLE_ALLOC_ERROR;
+
+	dim_typ k;
+	// unrolled optimized loop
+	for(k=1,i=3; i<rows; i+=2,++k)
+	{
+		*tmp = *((*table) + dim*(i-3));
+		*(tmp + MAX_DIMENSIONS) = *((*table) + dim*(i-2));
+		#pragma omp parallel for
+		for(j=0; j<dim-k; ++j)
+		{
+			*(tmp + 1) = *((*table) + dim*(i-3) + j+1);
+			*(tmp + MAX_DIMENSIONS +1) = *((*table) + dim*(i-2) + j+1);
+			*((*table) + (dim*i) + j) = det(tmp, MAX_DIMENSIONS, NULL);
+			// if(i != rows-1)
+				*((*table) + (dim*(i-1)) + dim-k-j-1) = *((*table) + (dim*i) + j);
+		}
+	}
+
+	
+	*tmp = *((*table) + dim*(rows-3));
+	*(tmp + MAX_DIMENSIONS) = *((*table) + dim*(rows-2));
+	#pragma omp parallel for
+	for(i=0; i<MAX_ABSTRACT_DIMENSIONS; ++i)
+	{
+		*(tmp + 1) = *((*table) + dim*(rows-3) + i+1);
+		*(tmp + MAX_DIMENSIONS +1) = *((*table) + dim*(rows-2) + i+1);
+		*((*table) + dim*(rows-1) + 2-i) = det(tmp, MAX_DIMENSIONS, NULL);
+	}
+
+	
+	matrixFree(&tmp);	
+	return true;	
+}
+
 // It works only with PL Problems with non-negative variables
 __MSNATIVE_ sel_typ _MS__private __system __export _simplexMethod(ityp **tableau, ityp **bfs, const register dim_typ dim[static MAX_DIMENSIONS], ityp *constraint_types, bool mode)
 {
