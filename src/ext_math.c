@@ -3627,6 +3627,30 @@ __MSNATIVE_ inline ityp __system __export math_div(register ityp a, register ity
     return (a/b);
 }
 
+__MSNATIVE_ inline ityp __system __export eval(ityp *restrict a, const register dim_typ dim, const ityp val)
+{
+	ityp res = *(a + dim-1);
+	#pragma omp parallel for
+	for(dim_typ i=0; i<dim-1; ++i) 
+		res += *(a + i) * pow(val, dim-1-i);
+	return res;
+}
+
+__MSNATIVE_ inline ityp __system __export deval(ityp *restrict a, const register dim_typ dim, const ityp val)
+{
+	ityp tmp = *a;
+	ityp tmp2;
+	*a = 0.00;
+	#pragma omp parallel for
+	for(dim_typ i=1; i<dim; ++i)
+	{
+		tmp2 = *(a + i);
+		*(a + i) = (dim-i)*tmp;
+		tmp = tmp2;
+	}
+	return eval(a, dim, val);
+}
+
 __MSNATIVE_ short _MS__private __system __export _routhTable(ityp **table, const register dim_typ dim, fsel_typ *nullrow)
 {
 	dim_typ i, j;
@@ -3723,7 +3747,7 @@ __MSNATIVE_ short _MS__private __system __export _routhTable(ityp **table, const
 	
 }
 
-__MSNATIVE_ bool _MS__private __system __export _juryTable(ityp **table, const register dim_typ dim)
+__MSNATIVE_ sel_typ _MS__private __system __export _juryTable(ityp **table, const register dim_typ dim)
 {
 	dim_typ i, j;
 	const register dim_typ deg = dim-1;
@@ -3750,6 +3774,11 @@ __MSNATIVE_ bool _MS__private __system __export _juryTable(ityp **table, const r
 	
 	if(!matrixAlloc(&tmp, (dim_typ2){MAX_DIMENSIONS, MAX_DIMENSIONS}))
 		return JURYTABLE_ALLOC_ERROR;
+		
+	sel_typ jtest=0;
+	
+	if(fabs(*(*table)) < *((*table) + dim))
+		++ jtest;
 
 	dim_typ k;
 	// unrolled optimized loop
@@ -3766,6 +3795,8 @@ __MSNATIVE_ bool _MS__private __system __export _juryTable(ityp **table, const r
 			// if(i != rows-1)
 				*((*table) + (dim*(i-1)) + dim-k-j-1) = *((*table) + (dim*i) + j);
 		}
+		if(fabs(*((*table) + (dim*(i-1)))) > fabs(*((*table) + dim*i)))
+			++ jtest;
 	}
 
 	
@@ -3778,10 +3809,12 @@ __MSNATIVE_ bool _MS__private __system __export _juryTable(ityp **table, const r
 		*(tmp + MAX_DIMENSIONS +1) = *((*table) + dim*(rows-2) + i+1);
 		*((*table) + dim*(rows-1) + 2-i) = det(tmp, MAX_DIMENSIONS, NULL);
 	}
-
 	
-	matrixFree(&tmp);	
-	return true;	
+	if(fabs(*((*table) + dim*(rows-1))) > fabs(*((*table) + dim*(rows-1) + MAX_DIMENSIONS)))
+		++ jtest;
+
+	matrixFree(&tmp);
+	return jtest == deg-1 && eval(*table, dim, 1.00) > 0 && eval(*table, dim, -1.00)*(1-(((deg%2)!=0)<<1)) > 0 ? JURYTABLE_SATISFIED : JURYTABLE_NOTSATISFIED;
 }
 
 // It works only with PL Problems with non-negative variables

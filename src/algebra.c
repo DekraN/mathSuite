@@ -2494,8 +2494,6 @@ __MSSHELL_WRAPPER_ static void _MS__private perScalarMultiplication(const sel_ty
         }
     }
 
-    printf2(COLOR_CREDITS, "Enter a double floating-point Scalar Number.\n");
-
     if(PARSING_SYSTEM_ALLOWED)
         PRINTHOWTOBACKMESSAGE();
 
@@ -2519,7 +2517,7 @@ __MSSHELL_WRAPPER_ static void _MS__private perScalarMultiplication(const sel_ty
             scal = strtod(argv[argv_pos], NULL);
     }
     else
-        while(PARSING_SYSTEM_ALLOWED ? ((!(scal = requires(NULL, NULL_CHAR, "Inserted Scalar", PARSER_SHOWRESULT))) && dcheck && INVERSE_OPS) :
+        while(PARSING_SYSTEM_ALLOWED ? ((!(scal = requires(NULL, "Enter a double floating-point Scalar Number.\n", "Inserted Scalar", PARSER_SHOWRESULT))) && dcheck && INVERSE_OPS) :
         scanf(INPUT_CONVERSION_FORMAT, &scal) != 1 || (dcheck && INVERSE_OPS && !scal))
         printErr(22, "Invalid inserted Value");
 

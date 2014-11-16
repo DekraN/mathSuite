@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<!-- settings.xml for mathSuite v7.00 -->
+<!-- settings.xml for mathSuite v7.10 -->
 <!-- Settings Configuration File -->
 <settings>
 
@@ -65,7 +65,7 @@
 	<saveLastResults>true</saveLastResults>
 	<showVarlistAfterOperations>true</showVarlistAfterOperations>
 	<showAverageTimeAfterOperations>false</showAverageTimeAfterOperations>	
-<showAverageTimeAfterAdvancedCalculatorOperations>true</showAverageTimeAfterAdvancedCalculatorOperations>	
+<showAverageTimeAfterAdvancedCalculatorOperations>false</showAverageTimeAfterAdvancedCalculatorOperations>	
 <showAverageTimeAfterLinearAlgebraOperations>true</showAverageTimeAfterLinearAlgebraOperations>	<showAverageTimeAfterProgramsExecutions>false</showAverageTimeAfterProgramsExecutions>
 	<showDateAndTimeInTextline>false</showDateAndTimeInTextline>
 	<printRowsLabels>true</printRowsLabels>
@@ -77,7 +77,7 @@
 	<inverseOperationsAutomaticDeactivator>true</inverseOperationsAutomaticDeactivator>
 	<degreesEnteringOnTrigonometricOperations>false</degreesEnteringOnTrigonometricOperations>
 	<requestProgramsRepetitions>true</requestProgramsRepetitions>
-	<strassenOptimization>true</strassenOptimization>
+	<strassenOptimization>false</strassenOptimization>
     </booleanKeys>
 
 </settings>

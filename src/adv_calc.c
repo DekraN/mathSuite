@@ -12,6 +12,7 @@ __MSSHELL_WRAPPER_ static void _MS__private secondGradeEquationSolver(const sel_
 __MSSHELL_WRAPPER_ static void _MS__private complexAdd(const sel_typ argc, char ** argv);
 __MSSHELL_WRAPPER_ static void _MS__private complexMul(const sel_typ argc, char ** argv);
 __MSSHELL_WRAPPER_ static void _MS__private getDate(const sel_typ argc, char ** argv);
+__MSSHELL_WRAPPER_ static void _MS__private polynomEval(const sel_typ argc, char ** argv);
 __MSSHELL_WRAPPER_ static void _MS__private simplexMethod(const sel_typ argc, char ** argv);
 __MSSHELL_WRAPPER_ static void _MS__private routhTable(const sel_typ argc, char ** argv);
 __MSSHELL_WRAPPER_ static void _MS__private juryTable(const sel_typ argc, char ** argv);
@@ -51,6 +52,24 @@ sprog adv_calc[MAX_ADVCALC_PROGS] =
         complexMul,
         BY_USER,
         CHILD
+    },
+    [ADVCALC_POLYNOMEVALUATOR] =
+    {
+    	"Polynom Evaluator",
+    	CMD_POLYNOMEVALUATOR,
+    	USAGE_POLYNOMEVALUATOR,
+    	polynomEval,
+    	BY_USER,
+    	CHILD
+    },
+    [ADVCALC_POLYNOMDEVALUATOR] =
+    {
+    	"Polynom Derivative Evaluator",
+    	CMD_POLYNOMDEVALUATOR,
+    	USAGE_POLYNOMDEVALUATOR,
+    	polynomEval,
+    	BY_USER,
+    	CHILD
     },
     [ADVCALC_SIMPLEXMETHOD] =
     {
@@ -407,6 +426,95 @@ __MSSHELL_WRAPPER_ static void _MS__private complexMul(const sel_typ argc, char 
     return;
 }
 
+__MSSHELL_WRAPPER_ static void _MS__private polynomEval(const sel_typ argc, char ** argv)
+{
+	ityp *table = NULL;
+	dim_typ dim[MAX_DIMENSIONS];
+	
+	if(argc)
+    {
+        if((!matrixToken(argv[0], &table, dim, &dim[COLUMNS])))
+        {
+            matrixFree(&table);
+            printUsage(&adv_calc[ADVCALC_POLYNOMEVALUATOR]);
+            return;
+        }
+    }
+    else
+    {
+        printf2(COLOR_CREDITS, "\nEnter the Polynom n-dimensioned Row-Matrix.\n\n");
+        if(!insertMatrix(table, dim[ROWS], dim[COLUMNS], false))
+            return;
+    }
+    
+    ityp scal = 0.00;
+
+    if(PARSING_SYSTEM_ALLOWED)
+        PRINTHOWTOBACKMESSAGE();
+
+    PRINTN();
+    
+    if(argc > 1)
+    {
+        if(PARSING_SYSTEM_ALLOWED)
+        {
+            if(!parse(argv[1], &scal))
+            {
+            	matrixFree(&table);
+            	#ifdef WINOS
+            		SetExitButtonState(ENABLED);
+            	#endif
+                return;
+            }
+        }
+        else
+            scal = strtod(argv[1], NULL);
+    }
+    else if(isNullVal((scal = requires(NULL, "Enter a double floating-point Scalar Number.\n", "Inserted Scalar", PARSER_SHOWRESULT))))
+    {
+    	matrixFree(&table);
+    	#ifdef WINOS
+        	SetExitButtonState(ENABLED);
+    	#endif
+        return;
+    }
+    
+    struct timeval tvBegin;
+	const bool difftime = isSett(BOOLS_SHOWDIFFTIMEADVCALC);
+	const bool dermode = __pmode__ == ADVCALC_POLYNOMDEVALUATOR;
+	
+	if(difftime)
+		gettimeofday(&tvBegin, NULL);
+		
+	ityp (* const ev_func)(ityp *restrict, const register dim_typ, const ityp) = dermode ? deval:eval;
+	const register ityp result = ev_func(table, dim[COLUMNS], scal);
+	
+	if(dermode)
+	{
+		printf2(COLOR_USER, "The Derivative of the inserted POLYNOM is the POLYNOM: \n");
+		printMatrix(stdout, table, dim);
+	}
+    
+	printf2(COLOR_USER, "\nInserted POLYNOM %sEvaluated in: ", dermode ? "Derivative ":NULL_CHAR);
+	printf2(COLOR_USER, OUTPUT_CONVERSION_FORMAT, scal);
+	printf2(COLOR_USER, " RESULT is: ");
+	printf2(COLOR_USER, OUTPUT_CONVERSION_FORMAT, result);
+	printf2(COLOR_USER, ".\n\n");
+	
+	if(difftime)
+    {
+    	PRINTL();
+        printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, getDiffTime(&tvBegin));
+	}
+    
+    matrixFree(&table);
+    
+    #ifdef WINOS
+        SetExitButtonState(ENABLED);
+    #endif // WINOS
+	return;
+}
+
 __MSSHELL_WRAPPER_ static void _MS__private simplexMethod(const sel_typ argc, char ** argv)
 {
 
@@ -617,8 +725,10 @@ __MSSHELL_WRAPPER_ static void _MS__private juryTable(const sel_typ argc, char *
 	
 	if(difftime)
 		gettimeofday(&tvBegin, NULL);
+		
+	sel_typ result;
     
-    if(!_juryTable(&table, dim[COLUMNS]))
+    if((result = _juryTable(&table, dim[COLUMNS])) == JURYTABLE_ALLOC_ERROR)
     	printErr(12, "Jury Table Evaluator Dynamic Memory Allocation Problem");
     else
     {
@@ -629,7 +739,8 @@ __MSSHELL_WRAPPER_ static void _MS__private juryTable(const sel_typ argc, char *
 	    	PRINTL();
 	        printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, getDiffTime(&tvBegin));
 		}
-    }
+		printf2(COLOR_USER, "JURY Criterion is: %s.\n", result == JURYTABLE_SATISFIED?"SATISFIED":"NOT SATISFIED");
+	}
     
     matrixFree(&table);
     

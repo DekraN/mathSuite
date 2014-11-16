@@ -76,9 +76,9 @@ extern "C" {
 #define _MS__private
 
 #define PROG__NAME "mathSuite"
-#define PROG__VERSION "7.00"
+#define PROG__VERSION "7.10"
 #define PROG__AUTHOR "Marco Chiarelli"
-#define PROG__LASTUPDATEDATE "15/11/2014"
+#define PROG__LASTUPDATEDATE "16/11/2014"
 
 
 // INITIALIZING EXPREVAL DEFAULT CONSTANTS
@@ -319,7 +319,16 @@ enum
 #define ROUTHTABLE_EPSILON 0.0000000001
 #define ROUTHTABLE_ALLOC_ERROR -1
 
-#define JURYTABLE_ALLOC_ERROR false
+// Jury Criterion METHOD MACROS
+
+enum
+{
+	JURYTABLE_ALLOC_ERROR = 0,
+	JURYTABLE_NOTSATISFIED,
+	JURYTABLE_SATISFIED
+};
+
+/// #define JURYTABLE_ALLOC_ERROR false
 
 // Simplex METHOD MACROS
 
@@ -780,6 +789,8 @@ enum
     ADVCALC_SECONDGRADEEQUATIONSOLVER = 0,
     ADVCALC_COMPLEXNUMBERSSUM,
     ADVCALC_COMPLEXNUMBERSPROD,
+    ADVCALC_POLYNOMEVALUATOR,
+    ADVCALC_POLYNOMDEVALUATOR,
     ADVCALC_SIMPLEXMETHOD,
     ADVCALC_ROUTHTABLE,
     ADVCALC_JURYTABLE,
@@ -2314,8 +2325,10 @@ __MSNATIVE_ bool __system __export isEqualMatrix(ityp *, ityp *, const register 
 __MSNATIVE_ __MSUTIL_ ityp __system __export norms(ityp *, dim_typ);
 __MSNATIVE_ __MSUTIL_ ityp __system __export norm(ityp *, dim_typ, bool);
 __MSNATIVE_ __MSUTIL_ void __export newtonDifferenceTable(dim_typ, ityp [access(curLayout)->max_newton_difftables_dim][access(curLayout)->max_newton_difftables_dim], bool);
+__MSNATIVE_ ityp __system __export eval(ityp *restrict, const register dim_typ, const ityp);
+__MSNATIVE_ ityp __system __export deval(ityp *restrict, const register dim_typ, const ityp);
 __MSNATIVE_ short _MS__private __system __export _routhTable(ityp **, const register dim_typ, fsel_typ *);
-__MSNATIVE_ bool _MS__private __system __export _juryTable(ityp **, const register dim_typ);
+__MSNATIVE_ sel_typ _MS__private __system __export _juryTable(ityp **, const register dim_typ);
 __MSNATIVE_ sel_typ _MS__private __system __export _simplexMethod(ityp **, ityp **, const register dim_typ dim [static MAX_DIMENSIONS], ityp *, bool);
 __MSNATIVE_ __MSUTIL_ sel_typ _MS__private __system __export _matrixEigenValues(ityp *restrict, ityp *restrict, ityp *restrict, const register dim_typ);
 __MSNATIVE_ void _MS__private __system __export _matrixAdd(ityp **, ityp **, ityp **, const register dim_typ [static MAX_DIMENSIONS]);

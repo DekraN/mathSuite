@@ -1,8 +1,8 @@
 /*!////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 //!////////////////////////////////////////////////////////////////////////////////////////////////////////////// ///
 /*!________________________________________________________________________________________________________________*/
-///                         mathSuite v7.00 --- by Marco Chiarelli aka DekraN aka Wesker013                  	  ///
-///        							LAST UPDATE: 16:00 of 15/11/2014 by Myself. 								  ///
+///                         mathSuite v7.10 --- by Marco Chiarelli aka DekraN aka Wesker013                  	  ///
+///        							LAST UPDATE: 16:00 of 16/11/2014 by Myself. 								  ///
 /// 	This program is protected by Creative Commons CC BY-SA 2.0 License. For more informations contact me. 	  ///
 ///                     You can contact me at: marco_chiarelli@yahoo.it or on the secundary mail:                 ///
 /// marcochiarelli.nextgenlab@gmail.com in order to report a bug or simply for sending me an advice that could be ///

@@ -1,8 +1,8 @@
-mathSuite
+mathSuite
 //-----------------------------------------------------------------------------------------------------------------//
 AUTHOR: Marco Chiarelli aka DekraN aka Wesker013 (FB)								   ||
-CURRENT VERSION: v7.00											   	   ||
-LAST UPDATE: 16:00 15/11/2014											   ||
+CURRENT VERSION: v7.10											   	   ||
+LAST UPDATE: 16:00 16/11/2014											   ||
 CONTACT ME at: marco_chiarelli@yahoo.it										   ||
 or at marcochiarelli.nextgenlab@gmail.com									   ||
 //-----------------------------------------------------------------------------------------------------------------//
@@ -496,6 +496,10 @@ or at marcochiarelli.nextgenlab@gmail.com									   ||
 /// Introduced the possibility to calculate both the Routh Table and the Jury Table of a n>2 dimensioned RowMatrix///
 /// 	 whose elements are the coefficients of the polynom to which you want to apply those Criterions.	  ///
 /// 					Fixed some bugs and Code optimized.					  ///
+///                                     CHANGELOG v7.10 (16/11/2014)                                              ///
+/// Introduced the possibility to evaluate both a Polynom both its Derivative, whose coefficients are stored into ///
+/// an n-dimensioned Row Matrix inserted by the User, into a particular value. Now the Jury Table Calcultor tells ///
+///        you whether effectively the inserted Polynom satisfty or not the homononymous Criterion.		  ///
 ///    This is not a Final Built or Official Release, but (UPDATE) probably this could be the last release I write///
 ///              in C. A future release could be directly mathSMART Mobile Math Environment.                      ///
 ///                     You can contact me at: marco_chiarelli@yahoo.it or on the secundary mail:                 ///
