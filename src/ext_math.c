@@ -3638,17 +3638,17 @@ __MSNATIVE_ inline ityp __system __export eval(ityp *restrict a, const register 
 
 __MSNATIVE_ inline ityp __system __export deval(ityp *restrict a, const register dim_typ dim, const ityp val)
 {
+	ityp res = 0.00;
 	ityp tmp = *a;
 	ityp tmp2;
 	*a = 0.00;
-	#pragma omp parallel for
 	for(dim_typ i=1; i<dim; ++i)
 	{
 		tmp2 = *(a + i);
-		*(a + i) = (dim-i)*tmp;
+		res += (*(a + i) = (dim-i)*tmp) * pow(val, dim-1-i);
 		tmp = tmp2;
 	}
-	return eval(a, dim, val);
+	return res;
 }
 
 __MSNATIVE_ short _MS__private __system __export _routhTable(ityp **table, const register dim_typ dim, fsel_typ *nullrow)
