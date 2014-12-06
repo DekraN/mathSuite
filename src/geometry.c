@@ -2826,7 +2826,7 @@ __MSNATIVE_ bool __system insertDim(dim_typ *dim, bool mode)
 // La seguente funzione sarebbe stata la funzione Handler
 // del segnale SIGINT. Il problema e' che dovrebbe essere
 // sempre e continuamente richiamata la funzione signal
-// per far sì che funzioni correttamente. Meglio evitare.
+// per far sÃ¬ che funzioni correttamente. Meglio evitare.
 
 
 __MSNATIVE_ void __system sigproc(void)
@@ -2911,7 +2911,7 @@ __MSNATIVE_ bool __system insertNMMatrix(ityp **matrix, const register dim_typ d
                         if(!equalMatrix(matrix, access(curMatrix)->matrix, access(curMatrix)->dim))
                         {
                             #ifdef WINOS
-                                SetExitButtonState(DISABLED);
+                                SetExitButtonState(ENABLED);
                             #endif // WINOS
                             return false;
                         }
