@@ -191,7 +191,7 @@ __MSSHELL_WRAPPER_ static void _MS__private secondGradeEquationSolver(const sel_
     ityp root[MAX_DIMENSIONS];
     struct timeval tvBegin;
     const bool difftime = isSett(BOOLS_SHOWDIFFTIMEADVCALC);
-    
+
     if(difftime)
     	gettimeofday(&tvBegin, NULL);
 
@@ -203,13 +203,13 @@ __MSSHELL_WRAPPER_ static void _MS__private secondGradeEquationSolver(const sel_
         printf2(COLOR_USER, OUTPUT_CONVERSION_FORMAT, root[ROOT_X2]);
         printf2(COLOR_USER, ".\n\n");
     }
-    
+
     if(difftime)
     {
     	PRINTL();
         printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, getDiffTime(&tvBegin));
 	}
-    
+
     matrixFree(&abc);
 
     #ifdef WINOS
@@ -249,7 +249,7 @@ __MSSHELL_WRAPPER_ static void _MS__private complexAdd(const sel_typ argc, char 
     }
 
     ityp complexRes[algebra_units];
-    
+
     static void (* const complexAddFunc[_MAX_ALGEBRA][MAX_DIMENSIONS])(ityp *restrict, ityp [static MAX_SEDENIONS_UNITS]) =
 	{
 		{
@@ -269,21 +269,21 @@ __MSSHELL_WRAPPER_ static void _MS__private complexAdd(const sel_typ argc, char 
 			_sedenionsSub
 		}
 	};
-	
+
 	struct timeval tvBegin;
 	ityp atime;
 	const bool difftime = isSett(BOOLS_SHOWDIFFTIMEADVCALC);
-	
+
 	if(difftime)
 		gettimeofday(&tvBegin, NULL);
-		
+
 	complexAddFunc[((access(curLayout)->algebra == ALGEBRA_COMPLEXNUMBERS || !access(curLayout)->algebra) ? ALGEBRA_COMPLEXNUMBERS : access(curLayout)->algebra)-1][INVERSE_OPS](cpx, complexRes);
-    
+
 	if(difftime)
 		atime = getDiffTime(&tvBegin);
-    
+
 	printf2(COLOR_USER, "\nRESULT of Operation: (");
-	
+
     dim_typ i;
 
     PRINT2N();
@@ -293,7 +293,7 @@ __MSSHELL_WRAPPER_ static void _MS__private complexAdd(const sel_typ argc, char 
         printf2(COLOR_USER, OUTPUT_CONVERSION_FORMAT, *(cpx + i));
         printf2(COLOR_USER, "%s%s ", suite_c.algebra_imaginary_units_names[algebra_units][i], i==algebra_units-1 ? ") ":" +");
     }
-    
+
     static char oprchar[MAX_DIMENSIONS] = "+-";
     printf("%c\n", oprchar[INVERSE_OPS]);
 
@@ -310,7 +310,7 @@ __MSSHELL_WRAPPER_ static void _MS__private complexAdd(const sel_typ argc, char 
     }
 
     matrixFree(&cpx);
-    
+
     if(difftime)
     {
     	PRINTL();
@@ -353,7 +353,7 @@ __MSSHELL_WRAPPER_ static void _MS__private complexMul(const sel_typ argc, char 
     }
 
     ityp complexRes[algebra_units];
-    
+
     static void (* const complexMulFunc[_MAX_ALGEBRA][MAX_DIMENSIONS])(ityp *restrict, ityp [static MAX_SEDENIONS_UNITS]) =
 	{
 		{
@@ -373,22 +373,22 @@ __MSSHELL_WRAPPER_ static void _MS__private complexMul(const sel_typ argc, char 
 			_sedenionsDiv
 		}
 	};
-	
+
 	struct timeval tvBegin;
 	ityp atime;
 	const bool difftime = isSett(BOOLS_SHOWDIFFTIMEADVCALC);
-	
+
 	if(difftime)
 		gettimeofday(&tvBegin, NULL);
-	
+
 	complexMulFunc[((access(curLayout)->algebra == ALGEBRA_COMPLEXNUMBERS || !access(curLayout)->algebra) ? ALGEBRA_COMPLEXNUMBERS : access(curLayout)->algebra)-1][INVERSE_OPS](cpx, complexRes);
     if(difftime)
     	atime = getDiffTime(&tvBegin);
-    	
+
 	printf2(COLOR_USER, "\nRESULT of Operation: (");
 
     dim_typ i;
-    
+
     PRINT2N();
 
     for(i=0; i<algebra_units; ++i)
@@ -396,7 +396,7 @@ __MSSHELL_WRAPPER_ static void _MS__private complexMul(const sel_typ argc, char 
         printf2(COLOR_USER, OUTPUT_CONVERSION_FORMAT, *(cpx + (algebra_units*FIRST_NUMBER) + i));
         printf2(COLOR_USER, "%s%s ", suite_c.algebra_imaginary_units_names[algebra_units][i], i==algebra_units-1 ? ") ":" +");
     }
-    
+
     static char oprchar[MAX_DIMENSIONS] = "*/";
     printf("%c\n", oprchar[INVERSE_OPS]);
 
@@ -413,7 +413,7 @@ __MSSHELL_WRAPPER_ static void _MS__private complexMul(const sel_typ argc, char 
     }
 
     matrixFree(&cpx);
-    
+
     if(difftime)
     {
     	PRINTL();
@@ -430,7 +430,7 @@ __MSSHELL_WRAPPER_ static void _MS__private polynomEval(const sel_typ argc, char
 {
 	ityp *table = NULL;
 	dim_typ dim[MAX_DIMENSIONS];
-	
+
 	if(argc)
     {
         if((!matrixToken(argv[0], &table, dim, &dim[COLUMNS])))
@@ -446,14 +446,14 @@ __MSSHELL_WRAPPER_ static void _MS__private polynomEval(const sel_typ argc, char
         if(!insertMatrix(table, dim[ROWS], dim[COLUMNS], false))
             return;
     }
-    
+
     ityp scal = 0.00;
 
     if(PARSING_SYSTEM_ALLOWED)
         PRINTHOWTOBACKMESSAGE();
 
     PRINTN();
-    
+
     if(argc > 1)
     {
         if(PARSING_SYSTEM_ALLOWED)
@@ -461,54 +461,104 @@ __MSSHELL_WRAPPER_ static void _MS__private polynomEval(const sel_typ argc, char
             if(!parse(argv[1], &scal))
             {
             	matrixFree(&table);
-            	#ifdef WINOS
-            		SetExitButtonState(ENABLED);
-            	#endif
                 return;
             }
         }
         else
             scal = strtod(argv[1], NULL);
     }
-    else if(isNullVal((scal = requires(NULL, "Enter a double floating-point Scalar Number.\n", "Inserted Scalar", PARSER_SHOWRESULT))))
-    {
-    	matrixFree(&table);
-    	#ifdef WINOS
-        	SetExitButtonState(ENABLED);
-    	#endif
-        return;
-    }
-    
+    else
+	{
+		while((PARSING_ADVCALC_ALLOWED ? (isNullVal((scal = requires(NULL, "Enter a double floating-point Scalar Number.\n", "Inserted Scalar", PARSER_NOSETTINGS)))) : (!scanf2(1, INPUT_CONVERSION_FORMAT, &scal))))
+        {
+            CLEARBUFFER();
+            if(access(exitHandle) == EXITHANDLE_GETCMD) continue;
+            if(exitHandleCheck)
+			{
+				matrixFree(&table);
+				#ifdef WINOS
+			    	SetExitButtonState(ENABLED);
+			    #endif
+				return;
+			}
+		}
+	}
+
+    // dim_typ times = 1;
     struct timeval tvBegin;
 	const bool difftime = isSett(BOOLS_SHOWDIFFTIMEADVCALC);
-	const bool dermode = __pmode__ == ADVCALC_POLYNOMDEVALUATOR;
+	dim_typ times = __pmode__ == ADVCALC_POLYNOMDEVALUATOR;
+	//	const bool dermode = __pmode__ == ADVCALC_POLYNOMDEVALUATOR;
 	
 	if(difftime)
 		gettimeofday(&tvBegin, NULL);
 		
-	ityp (* const ev_func)(ityp *restrict, const register dim_typ, const ityp) = dermode ? deval:eval;
-	const register ityp result = ev_func(table, dim[COLUMNS], scal);
+	// ityp (* const ev_func)(ityp *restrict, const register dim_typ, const ityp) = dermode ? deval:eval;
+	register ityp result;
+	char der_order[MINMIN_STRING] = NULL_CHAR;
 	
-	if(dermode)
+	if(times)
 	{
+		ityp tmp = 0.00;
+		if(argc > MAX_DIMENSIONS)
+		{
+			if(PARSING_SYSTEM_ALLOWED)
+	        {
+	            if(!parse(argv[1], &tmp))
+	            {
+	            	matrixFree(&table);
+					#ifdef WINOS
+				    	SetExitButtonState(ENABLED);
+				    #endif
+	                return;
+	            }
+	            times = tmp;
+	        }
+	        else
+	            times = strtod(argv[1], NULL);
+	    }
+	    else
+		{
+			while((PARSING_ADVCALC_ALLOWED ? (isNullVal((tmp = requires(NULL, "Enter a non-zero positive integer representative of the Derivative Order.\n", "Inserted Derivative Order:", PARSER_NOSETTINGS)))) :
+                (!scanf2(1, INPUT_CONVERSION_FORMAT, &tmp))) || tmp != (times = (dim_typ)tmp) || times < 1 || times > dim[COLUMNS])
+	        {
+	            CLEARBUFFER();
+	            if(access(exitHandle) == EXITHANDLE_GETCMD) continue;
+	            if(exitHandleCheck)
+				{
+					#ifdef WINOS
+				    	SetExitButtonState(ENABLED);
+				    #endif
+				    return;
+				}
+	            printErr(5, "Invalid inserted Value.\nMust be a non-zero integer between 1 and %hu", dim[COLUMNS]);
+
+			}
+		}
+		
+	    for(dim_typ i=0; i<times; ++i)
+			result = deval(table, dim[COLUMNS], scal);
 		printf2(COLOR_USER, "The Derivative of the inserted POLYNOM is the POLYNOM: \n");
 		printMatrix(stdout, table, dim);
+		sprintf(der_order, "%hu-Derivative ", times);
 	}
-    
-	printf2(COLOR_USER, "\nInserted POLYNOM %sEvaluated in: ", dermode ? "Derivative ":NULL_CHAR);
+	else
+        result = eval(table, dim[COLUMNS], scal);
+
+	printf2(COLOR_USER, "\nInserted POLYNOM %sEvaluated in: ", der_order);
 	printf2(COLOR_USER, OUTPUT_CONVERSION_FORMAT, scal);
 	printf2(COLOR_USER, " RESULT is: ");
 	printf2(COLOR_USER, OUTPUT_CONVERSION_FORMAT, result);
 	printf2(COLOR_USER, ".\n\n");
-	
+
 	if(difftime)
     {
     	PRINTL();
         printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, getDiffTime(&tvBegin));
 	}
-    
+
     matrixFree(&table);
-    
+
     #ifdef WINOS
         SetExitButtonState(ENABLED);
     #endif // WINOS
@@ -566,7 +616,7 @@ __MSSHELL_WRAPPER_ static void _MS__private simplexMethod(const sel_typ argc, ch
 
     ityp *constraint_types = NULL;
 
-    if(argc > 2)
+    if(argc > MAX_DIMENSIONS)
     {
         if((!matrixToken(argv[2], &constraint_types, dimc, &dimc[COLUMNS])) || dimc[ROWS] != 1 || dimc[COLUMNS] != dim[ROWS])
         {
@@ -602,10 +652,10 @@ __MSSHELL_WRAPPER_ static void _MS__private simplexMethod(const sel_typ argc, ch
 
 	struct timeval tvBegin;
 	const bool difftime = isSett(BOOLS_SHOWDIFFTIMEADVCALC);
-	
+
 	if(difftime)
 		gettimeofday(&tvBegin, NULL);
-		
+
     if((exit_state = _simplexMethod(&tableau, &bfs, dim, constraint_types, mode)) == SIMPLEXMETHOD_INFBFS_ERROR)
         printErr(33, "This Problem has a Solution whose limit is Infinite");
     else if(exit_state == SIMPLEXMETHOD_FARBFS_ERROR)
@@ -638,7 +688,7 @@ __MSSHELL_WRAPPER_ static void _MS__private routhTable(const sel_typ argc, char 
 {
 	ityp *table = NULL;
 	dim_typ dim[MAX_DIMENSIONS];
-	
+
 	if(argc)
     {
         if((!matrixToken(argv[0], &table, dim, &dim[COLUMNS])) || dim[COLUMNS] <= 2)
@@ -660,15 +710,15 @@ __MSSHELL_WRAPPER_ static void _MS__private routhTable(const sel_typ argc, char 
             return;
         }
     }
-    
+
     short permanences;
     struct timeval tvBegin;
     fsel_typ nullrow = 0; // could not be null-row-ed the first row
 	const bool difftime = isSett(BOOLS_SHOWDIFFTIMEADVCALC);
-	
+
 	if(difftime)
 		gettimeofday(&tvBegin, NULL);
-    
+
     if((permanences = _routhTable(&table, dim[COLUMNS], &nullrow)) == ROUTHTABLE_ALLOC_ERROR)
     	printErr(12, "Routh Table Evaluator Dynamic Memory Allocation Problem");
     else
@@ -684,9 +734,9 @@ __MSSHELL_WRAPPER_ static void _MS__private routhTable(const sel_typ argc, char 
 	        printf2(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, getDiffTime(&tvBegin));
 		}
     }
-    
+
     matrixFree(&table);
-    
+
     #ifdef WINOS
         SetExitButtonState(ENABLED);
     #endif // WINOS
@@ -697,7 +747,7 @@ __MSSHELL_WRAPPER_ static void _MS__private juryTable(const sel_typ argc, char *
 {
 	ityp *table = NULL;
 	dim_typ dim[MAX_DIMENSIONS];
-	
+
 	if(argc)
     {
         if((!matrixToken(argv[0], &table, dim, &dim[COLUMNS])) || dim[COLUMNS] <= 2)
@@ -719,15 +769,15 @@ __MSSHELL_WRAPPER_ static void _MS__private juryTable(const sel_typ argc, char *
             return;
         }
     }
-    
+
     struct timeval tvBegin;
 	const bool difftime = isSett(BOOLS_SHOWDIFFTIMEADVCALC);
-	
+
 	if(difftime)
 		gettimeofday(&tvBegin, NULL);
-		
+
 	sel_typ result;
-    
+
     if((result = _juryTable(&table, dim[COLUMNS])) == JURYTABLE_ALLOC_ERROR)
     	printErr(12, "Jury Table Evaluator Dynamic Memory Allocation Problem");
     else
@@ -741,9 +791,9 @@ __MSSHELL_WRAPPER_ static void _MS__private juryTable(const sel_typ argc, char *
 		}
 		printf2(COLOR_USER, "JURY Criterion is: %s.\n", result == JURYTABLE_SATISFIED?"SATISFIED":"NOT SATISFIED");
 	}
-    
+
     matrixFree(&table);
-    
+
     #ifdef WINOS
         SetExitButtonState(ENABLED);
     #endif // WINOS
@@ -864,15 +914,15 @@ __MSSHELL_WRAPPER_ static void _MS__private newtonDifferenceTables(const sel_typ
 
 	struct timeval tvBegin;
 	const bool difftime = isSett(BOOLS_SHOWDIFFTIMEADVCALC);
-	
+
 	if(difftime)
 		gettimeofday(&tvBegin, NULL);
-		
+
     newtonDifferenceTable(n, y, FORWARD_DIFFTAB);
     showNewtonDifferenceTable(n, x, y, FORWARD_DIFFTAB);
     newtonDifferenceTable(n, y, BACKWARD_DIFFTAB);
     showNewtonDifferenceTable(n, x, y, BACKWARD_DIFFTAB);
-    
+
     if(difftime)
     {
     	PRINTL();
@@ -946,20 +996,21 @@ __MSSHELL_WRAPPER_ static void _MS__private lagrangeInterpolation(const sel_typ 
 
     ityp xp;
 
-    if(argc > 2)
+    if(argc > MAX_DIMENSIONS)
         if(PARSING_ADVCALC_ALLOWED)
         {
-            if(!parse(argv[2], &xp))
+            if(!parse(argv[MAX_DIMENSIONS], &xp))
             {
+            	matrixFree(&xy);
                 printUsage(&adv_calc[ADVCALC_LAGRANGEINTERPOLATION]);
                 #ifdef WINOS
-                    SetExitButtonState(ENABLED);
-                #endif // WINOS
+		        	SetExitButtonState(ENABLED);
+		   		#endif // WINOS
                 return;
             }
         }
         else
-            xp = strtod(argv[2], NULL);
+            xp = strtod(argv[MAX_DIMENSIONS], NULL);
     else
     {
         printf2(COLOR_CREDITS, "Enter X VALUE to find Y one.\n");
@@ -970,6 +1021,7 @@ __MSSHELL_WRAPPER_ static void _MS__private lagrangeInterpolation(const sel_typ 
             if(access(exitHandle) == EXITHANDLE_GETCMD) continue;
             if(exitHandleCheck)
             {
+            	matrixFree(&xy);
                 #ifdef WINOS
                     SetExitButtonState(ENABLED);
                 #endif // WINOS
@@ -984,10 +1036,10 @@ __MSSHELL_WRAPPER_ static void _MS__private lagrangeInterpolation(const sel_typ 
 
 	struct timeval tvBegin;
 	const bool difftime = isSett(BOOLS_SHOWDIFFTIMEADVCALC);
-	
+
 	if(difftime)
 		gettimeofday(&tvBegin, NULL);
-		
+
 	for(i = 0; i < dim; ++i)
     {
 
@@ -1001,7 +1053,7 @@ __MSSHELL_WRAPPER_ static void _MS__private lagrangeInterpolation(const sel_typ 
 
         yp += nr/dr*(*(xy + (dim*YROW) + i));
     }
-    
+
     if(difftime)
     {
     	PRINTL();
@@ -1127,10 +1179,10 @@ __MSSHELL_WRAPPER_ static void _MS__private funcIntegration(const sel_typ argc, 
     h = (xn - x0) / n;
 
     ityp (* const y)(register ityp) = ext_math.functions[funcID];
-    
+
     struct timeval tvBegin;
     const bool difftime = isSett(BOOLS_SHOWDIFFTIMEADVCALC);
-    
+
     if(difftime)
     	gettimeofday(&tvBegin, NULL);
 
@@ -1169,7 +1221,7 @@ __MSSHELL_WRAPPER_ static void _MS__private funcIntegration(const sel_typ argc, 
             result = (h*0.5)*s;
             break;
     }
-    
+
     if(difftime)
     {
     	PRINTL();
@@ -1252,19 +1304,19 @@ __MSSHELL_WRAPPER_ static void _MS__private straightLineFitting(const sel_typ ar
     ityp sum_x, sum_xy, sum_x2, sum_y;
 
     sum_x = sum_xy = sum_x2 = sum_y = 0.00;
-    
+
     const register dim_typ cache[MAX_DIMENSIONS] =
     {
     	dim*XROW,
     	dim*YROW
     };
-    
+
     struct timeval tvBegin;
     const bool difftime = isSett(BOOLS_SHOWDIFFTIMEADVCALC);
-    
+
     if(difftime)
     	gettimeofday(&tvBegin, NULL);
-    	
+
 	for(i = 0; i < dim; ++i)
     {
 
@@ -1273,7 +1325,7 @@ __MSSHELL_WRAPPER_ static void _MS__private straightLineFitting(const sel_typ ar
         sum_xy += *(xy + cache[XROW] + i) * *(xy + cache[YROW] + i);
         sum_x2 += pow(*(xy + cache[XROW] + i), 2);
     }
-    
+
     if(difftime)
     {
     	PRINTL();
@@ -1375,20 +1427,20 @@ __MSSHELL_WRAPPER_ static void _MS__private parabolicCurveFitting(const sel_typ 
         #endif // WINOS
         return;
     }
-    
+
     *(matrix) = dim;
 
     dim_typ i;
-    
+
     const register dim_typ cache[MAX_DIMENSIONS] =
     {
     	dim*XROW,
     	dim*YROW
     };
-    
+
     struct timeval tvBegin;
     const bool difftime = isSett(BOOLS_SHOWDIFFTIMEADVCALC);
-    
+
     if(difftime)
     	gettimeofday(&tvBegin, NULL);
 
@@ -1397,13 +1449,13 @@ __MSSHELL_WRAPPER_ static void _MS__private parabolicCurveFitting(const sel_typ 
     {
         *(matrix + 1) = (*(matrix + 4) += *(xy + cache[XROW] + i));
         *(matrix + 3) += *(xy + cache[YROW] + i);
-        *(matrix + 2) = (*(matrix + 8) += pow(*(xy + cache[XROW] + i), 2)); 
+        *(matrix + 2) = (*(matrix + 8) += pow(*(xy + cache[XROW] + i), 2));
         *(matrix + 6) = (*(matrix + 9) += pow(*(xy + cache[XROW] + i), 3));
-        *(matrix + 10) += pow(*(xy + cache[XROW] + i), 4); 
+        *(matrix + 10) += pow(*(xy + cache[XROW] + i), 4);
         *(matrix + 7) += (*(xy + cache[XROW] + i) * *(xy + cache[YROW] * i));
         *(matrix + 11) += (pow(*(xy + cache[XROW] + i), 2) * *(xy + cache[YROW]*i));
     }
-    
+
     if(difftime)
     {
     	PRINTL();
@@ -1484,10 +1536,10 @@ __MSSHELL_WRAPPER_ static void _MS__private linearSystemsSolver(const sel_typ ar
 
     dim_typ i, j, k;
     ityp a, b;
-    
+
     struct timeval tvBegin;
     const bool difftime = isSett(BOOLS_SHOWDIFFTIMEADVCALC);
-    
+
     if(difftime)
     	gettimeofday(&tvBegin, NULL);
 
@@ -1508,7 +1560,7 @@ __MSSHELL_WRAPPER_ static void _MS__private linearSystemsSolver(const sel_typ ar
         for(j = 0; j < dim[COLUMNS]; ++j)
             *(matrix + (dim[COLUMNS]*i) + j) /= c;
     }
-    
+
     if(difftime)
     {
     	PRINTL();
