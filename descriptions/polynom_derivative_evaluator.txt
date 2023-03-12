@@ -1,0 +1,3 @@
+Program evaluates the derivative of a Polynom,
+whose coefficients are stored in a row n-dimensioned Matrix
+that you will insert, in a value.

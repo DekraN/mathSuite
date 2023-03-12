@@ -1,0 +1,2 @@
+Program offers to you a simple interface in order to easily manage
+.lf startup files

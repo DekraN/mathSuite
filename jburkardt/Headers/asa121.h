@@ -1,0 +1,10 @@
+#ifndef WRAPPER_ASA121_H_INCLUDED
+#define WRAPPER_ASA121_H_INCLUDED
+
+#define trigamma(a) R_DBL(FUNCNAME_TRIGAMMA(C_SDBL(a)))
+#define trigamma_values(a,b,c) FUNCNAME_TRIGAMMAVALUES(C_PDT2PIT(a,b,c))
+
+__MATHSUITE __JBURKARDT void * FUNCNAME_TRIGAMMA(void *);
+__MATHSUITE __JBURKARDT void * FUNCNAME_TRIGAMMAVALUES(void *);
+
+#endif

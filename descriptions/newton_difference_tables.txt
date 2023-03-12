@@ -1,0 +1,1 @@
+Program shows you the Newton Difference Tables of a given series of data

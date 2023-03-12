@@ -1,0 +1,2 @@
+Program performs a straight line fitting by a series of inserted values
+which approximates a bit the final pattern

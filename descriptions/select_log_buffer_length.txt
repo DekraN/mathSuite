@@ -1,0 +1,2 @@
+Program allows you to select the buffer length of a log previously loaded
+into logs list

@@ -1,0 +1,3 @@
+Program allows you to create a new matrix, whose extension is highly recommended
+to set as the matrices default one: mf. Matrix will be set as current if the
+boolean vars AUTOSET_CURITEM is enabled

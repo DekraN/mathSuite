@@ -1,0 +1,2 @@
+Program performs a parabolic curve fitting by a given series of
+values inserted that approximates a bit the final pattern

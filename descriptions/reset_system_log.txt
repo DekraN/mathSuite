@@ -1,0 +1,2 @@
+Program allows you to reset the syslog current file content, overwriting
+the existant data

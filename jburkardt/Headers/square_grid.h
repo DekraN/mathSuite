@@ -1,0 +1,8 @@
+#ifndef WRAPPER_SQUARE_GRID_H_INCLUDED
+#define WRAPPER_SQUARE_GRID_H_INCLUDED
+
+#define square_grid(a,b,c,d,e) FUNCNAME_SQUAREGRID(C_DTPI2PITPI(a,b,c,d,e))
+
+__MATHSUITE __JBURKARDT void * FUNCNAME_SQUAREGRID(void *);
+
+#endif

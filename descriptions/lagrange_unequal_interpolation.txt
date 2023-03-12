@@ -1,0 +1,2 @@
+Program performs Lagrange Unequal Interpolation and requests in input
+the respective numeric data chunk

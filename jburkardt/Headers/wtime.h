@@ -1,0 +1,8 @@
+#ifndef WRAPPER_WTIME_H_INCLUDED
+#define WRAPPER_WTIME_H_INCLUDED
+
+#define wtime() R_DBL(FUNCNAME_WTIME(NULL))
+
+__MATHSUITE __JBURKARDT void * FUNCNAME_WTIME(void *);
+
+#endif

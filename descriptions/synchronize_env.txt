@@ -1,0 +1,2 @@
+Program allows you to synchronize the Current Environment with an env
+previously loaded into current vars list

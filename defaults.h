@@ -1,0 +1,8129 @@
+// Project Default Settings Configuration
+// WARNING!!! Assure to know what you're doing by managing this vars!!
+
+// START
+
+
+// Directives and Initializing some elements...
+// Absolutely Don't touch this!!
+
+// HEADER Guard
+// #pragma once
+
+// just indefine it if you want to compile this on UNIX Archs
+#define WINOS
+
+#define STACKALLOC
+
+#define DEFAULT_AUTHOR "Wesker"
+#define DEFAULT_SECNDAUTHOR "DekraN"
+
+#define DEFAULT_MATRIXSET_COMMAND "set"
+#define DEFAULT_MATRIXLET_COMMAND "let"
+#define DEFAULT_MATRIXBACK_COMMAND "back"
+
+#define DEFAULT_DESCRIPTIONS_FOLDER "./"
+
+#define DEFAULT_HELP_FILE_EXTENSION "txt"
+
+#define DEFAULT_SCRIPTFILES_EXTENSION "mss"
+#define DEFAULT_VARLIST_FILE_EXTENSION "vlf"
+#define DEFAULT_MATRIX_FILE_EXTENSION "mf"
+#define DEFAULT_LOG_FILE_EXTENSION "log"
+#define DEFAULT_SYSLOG_FILE_EXTENSION "log"
+#define DEFAULT_LAYOUT_FILE_EXTENSION "xml"
+#define DEFAULT_COLORS_FILE_EXTENSION DEFAULT_LAYOUT_FILE_EXTENSION
+#define DEFAULT_PATHLIST_FILE_EXTENSION "lf"
+#define DEFAULT_MAIN_PATH "autorun"
+#define DEFAULT_ENVS_ANSVALNAME "ANS"
+#define DEFAULT_MAIN_ITEM 0
+
+#define TEST_MATRIX_NAME "tmat"
+
+#define DEFAULT_EXIT_MESSAGE "\n\n\nThank you for using this program.\n"
+
+
+#define DEFAULT_RANDOM_SEED (unsigned)time(NULL)
+
+#ifdef WINOS
+	#define DEFAULT_COLOR 58 // COLOR_SMARTWHITE
+#else
+	#define DEFAULT_COLOR 10
+#endif
+
+#define DEFAULT_PRECISION 2
+#define SHOWTIME_PRECISION 4
+#define DEFAULT_STABILIZER_FACTOR 10
+#define DEFAULT_ALGEBRA 0
+#define DEFAULT_BASE 10
+
+#define DEFAULT_MAX_DSVD_ITERATIONS 30000
+#define DEFAULT_MAX_EIGVALUES_ITERATIONS 50000
+
+#define DEFAULT_GLOBALVAL 27.200
+
+#define DEFAULT_MAX_FIBONACCI_MEMOIZABLE_INDEX 25
+#define DEFAULT_MAX_FACTORIAL_MEMOIZABLE_INDEX 40
+#define DEFAULT_MAX_DOUBLEFACTORIAL_MEMOIZABLE_INDEX 80
+
+
+#define DEFAULT_MAX_EVEN_DOUBLEFACTORIAL_MEMOIZABLE_INDEX DEFAULT_MAX_DOUBLEFACTORIAL_MEMOIZABLE_INDEX
+#define DEFAULT_MAX_ODD_DOUBLEFACTORIAL_MEMOIZABLE_INDEX DEFAULT_MAX_EVEN_DOUBLEFACTORIAL_MEMOIZABLE_INDEX-1
+
+
+#define DEFAULT_MIN_OUTLIER_CONSTANT 1.00
+#define DEFAULT_MAX_OUTLIER_CONSTANT 10.00
+
+#define DEFAULT_OUTLIER_CONSTANT 1.50
+
+#define DEFAULT_MIN_STIRLING_NUMBER DEFAULT_MAX_FACTORIAL_MEMOIZABLE_INDEX
+
+#define DEFAULT_BLOCKSIZE 41
+#define DEFAULT_MINOSMMDIM 2
+#define DEFAULT_MINSTRASSENDIM 16
+
+#define DEFAULT_MAX_ALIAS 5
+
+#define DEFAULT_MAX_STABFACT 25
+
+// DEFINIZIONE MACRO VARIABILI BOOLEANE
+#define DEFAULT_AUTOSETCURITEM true
+#define DEFAULT_ITEMSSELECTBYPATH false
+#define DEFAULT_ITEMSAUTOSAVING true
+#define DEFAULT_SAVERESULTS true
+#define DEFAULT_SHOWVARLIST true
+#define DEFAULT_SHOWDIFFTIME false
+#define DEFAULT_RUNMUTCODEAFTERCOMP true
+#define DEFAULT_EXITAFTERMUTCODEXEC true
+#define DEFAULT_SHOWEXECTIME false
+#define DEFAULT_PRINTROWSLABELS true
+#define DEFAULT_DOMAINCHECK true
+#define DEFAULT_LAZYEXECUTION true
+#define DEFAULT_INVERSEOPERATIONS false
+#define DEFAULT_DEGREESENTERING false
+#define DEFAULT_PROGREPEATCHECK false
+#define DEFAULT_ARRAYSAUTORESET true
+#define DEFAULT_ADJUSTARRAYSINDEX false
+
+#define EXIT_CHAR 'C'
+
+/*
+Cambia il tipo predefinito di elementi delle matrici.
+ATTENZIONE: Ammessi tutti i tipi purché siano formattabili tramite conversion format,
+ma le modifiche laddove le variabili del suddetto tipo vengano coinvolte in formattazioni
+per funzioni INPUT o OUTPUT, sono assolutamente richieste per il corretto funzionamento
+del programma e devono essere fatte manualmente agendo in maniera diretta
+sullo script in questione
+*/
+//
+
+
+#define tipo_predefinito double
+#define MIN_VAL -DBL_MAX
+#define MAX_VAL DBL_MAX
+#define tipo_random_seed time_t
+#define TYPE_DOMAIN(x) (mpfr_cmp_d(x, MIN_VAL) < 0 || mpfr_cmp_d(x, MAX_VAL) > 0)
+#define DOMAIN_DEFAULT DOMAIN_DBL
+
+
+#define DEFAULT_COLORS_PATH "./colors.xml"
+
+
+#define MIN_PRECISION 0
+#define MAX_PRECISION DBL_DIG
+
+
+#define OUTPUT_CONVERSION_FORMAT "%Rf"//,access(curLayout)->precision
+#define INPUT_CONVERSION_FORMAT "%lf"
+
+
+// Maximum Definitions Dimensions
+//
+#define MAX_ROWS 100
+#define MAX_COLUMNS 100
+
+// Conditional Compilations STUFFS...
+/*
+#define __DISABLE_MSSMANAGER
+#define __DISABLE_VARLISTMANAGER
+#define __DISABLE_MATMANAGER
+#define __DISABLE_LOGSMANAGER
+#define __DISABLE_SYSLOGMANAGER
+#define __DISABLE_LAYOUTSMANAGER
+#define __DISABLE_LFSMANAGER
+
+#define __DISABLE_PRECEDIT
+#define __DISABLE_STABFACTEDIT
+#define __DISABLE_BLOCKSIZEEDIT
+#define __DISABLE_MINOSMMDIMEDIT
+#define __DISABLE_MINSTRASSENDIMEDIT
+#define __DISABLE_OUTLIERCONSTEDIT
+#define __DISABLE_MINSRNUMBEREDIT
+#define __DISABLE_ALGEBRAEDIT
+#define __DISABLE_OUTLIERCONSTEDIT
+#define __DISABLE_BOOLVARSEDIT
+#define __DISABLE_MMIEDIT
+#define __DISABLE_EXITCHAREDIT
+#define __DISABLE_COLSMANAGER
+#define __DISABLE_RANDOMSEEDEDIT
+#define __DISABLE_BUFFERSEDIT
+#define __DISABLE_SETDEFAULTS
+*/
+// END
+
+// Only for experts.
+// START
+
+// Default SubPrograms CmdNames
+
+#define NAME_BCALC "Basic Calculator"
+#define NAME_ADVCALC "Advanced Calculator"
+#define NAME_LINEARALGEBRAOPERATIONS "Linear Algebra Operations"
+#define NAME_MULTIUSER "MultiUser and Network Programs"
+#define NAME_MSSMANAGER "PROGRAM Scripts Manager"
+#define NAME_CHANGESETTINGS "Edit PROGRAM Settings"
+#define CMD_BCALC "calc"
+#define CMD_ADVCALC "aclc"
+#define CMD_LINEARALGEBRAOPERATIONS "laop"
+#define CMD_MULTIUSER "mu"
+#define CMD_CHANGESETTINGS "settings"
+#define CMD_MSSMANAGER DEFAULT_SCRIPTFILES_EXTENSION
+#define USAGE_BCALC "[[EXPR]]"
+#define USAGE_ADVCALC NULL_CHAR
+#define USAGE_LINEARALGEBRAOPERATIONS NULL_CHAR
+#define USAGE_MULTIUSER NULL_CHAR
+#define USAGE_CHANGESETTINGS NULL_CHAR
+#define USAGE_MSSMANAGER NULL_CHAR
+#define LEVEL_BCALC LEVEL_USER
+#define LEVEL_ADVCALC LEVEL_USER
+#define LEVEL_LINEARALGEBRAOPERATIONS LEVEL_USER
+#define LEVEL_MULTIUSER LEVEL_ADMIN
+#define LEVEL_MSSMANAGER LEVEL_ADMIN
+#define LEVEL_CHANGESETTINGS LEVEL_ADMIN
+#define ARGC_BCALC ONEARG_ARGC
+#define ARGC_ADVCALC INVALID_ARGC
+#define ARGC_LINEARALGEBRAOPERATIONS INVALID_ARGC
+#define ARGC_MULTIUSER INVALID_ARGC
+#define ARGC_MSSMANAGER INVALID_ARGC
+#define ARGC_CHANGESETTINGS INVALID_ARGC
+
+#ifndef __DISABLE_SYSTEM
+	#define NAME_SYSMANAGER "System Manager"
+	#define CMD_SYSMANAGER "sys"
+	#define USAGE_SYSMANAGER NULL_CHAR
+	#define LEVEL_SYSMANAGER LEVEL_ADMIN
+	#define ARGC_SYSMANAGER INVALID_ARGC
+
+	#define NAME_SCRIPTINGMODE "Enter Scripting Mode"
+	#define NAME_EXIT "Exit Program"
+	#define NAME_MUTANT "Execute Mutant Code"
+	#define NAME_COMMIT "Commit Object Files"
+	#define NAME_CHECKOUT "CheckOut Object Files"
+	#define NAME_CLEAN "Clear Mutant Files"
+	#define NAME_PURGE "Purge Object Files"
+	#define NAME_PURGEDEEP "Purge Heavy Object Files"
+	#define NAME_PURGEFAST "Purge Light Object Files"
+	#define CMD_SCRIPTINGMODE DEFAULT_SCRIPTFILES_EXTENSION
+	#define CMD_EXIT "exit"
+	#define CMD_MUTANT "mutant"
+	#define CMD_COMMIT "commit"
+	#define CMD_CHECKOUT "checkout"
+	#define CMD_CLEAN "clean"
+	#define CMD_PURGE "purge"
+	#define CMD_PURGEDEEP "purge-deep"
+	#define CMD_PURGEFAST "purge-fast"
+	#define USAGE_SCRIPTINGMODE NULL_CHAR
+	#define USAGE_EXIT "[VALUE]"
+	#define USAGE_MUTANT NULL_CHAR
+	#define USAGE_COMMIT NULL_CHAR
+	#define USAGE_CHECKOUT NULL_CHAR
+	#define USAGE_CLEAN NULL_CHAR
+	#define USAGE_PURGE NULL_CHAR
+	#define USAGE_PURGE NULL_CHAR
+	#define USAGE_PURGEDEEP NULL_CHAR
+	#define USAGE_PURGEFAST NULL_CHAR
+	#define LEVEL_SCRIPTINGMODE LEVEL_USER
+	#define LEVEL_EXIT LEVEL_ADMIN
+	#define LEVEL_MUTANT LEVEL_DEVELOPER
+	#define LEVEL_COMMIT LEVEL_DEVELOPER
+	#define LEVEL_CHECKOUT LEVEL_DEVELOPER
+	#define LEVEL_CLEAN LEVEL_DEVELOPER
+	#define LEVEL_PURGE LEVEL_DEVELOPER
+	#define LEVEL_PURGEDEEP LEVEL_DEVELOPER
+	#define LEVEL_PURGEFAST LEVEL_DEVELOPER
+	#define ARGC_SCRIPTINGMODE 0
+	#define ARGC_EXIT 0
+	#define ARGC_MUTANT 0
+	#define ARGC_COMMIT 0
+	#define ARGC_CHECKOUT 0
+	#define ARGC_CLEAN 0
+	#define ARGC_PURGE 0
+	#define ARGC_PURGEDEEP 0
+	#define ARGC_PURGEFAST 0
+#endif
+
+#ifndef __DISABLE_SERVER
+	#define NAME_SERVERMODE "Enable SERVER Mode"
+	#define CMD_SERVERMODE "server"
+	#define USAGE_SERVERMODE "[STRING] [VALUE] [VALUE] [VALUE] [VALUE]"
+	#define LEVEL_SERVERMODE LEVEL_ADMIN
+	#define ARGC_SERVERMODE INVALID_ARGC
+#endif
+
+#ifndef __DISABLE_DATABASE
+	#define NAME_DATABASE "Connect to DATABASE"
+	#define NAME_LOGIN "Login"
+	#define NAME_REGISTER "Register"
+	#define NAME_EDITUSER "Edit User"
+	#define NAME_PERMIT "Permit Own Items"
+	#define NAME_REMPERMIT "Remove Permits"
+	#define CMD_DATABASE "database"
+	#define CMD_LOGIN "login"
+	#define CMD_REGISTER "register"
+	#define CMD_EDITUSER "uedit"
+	#define CMD_PERMIT "perm"
+	#define CMD_REMPERMIT "rperm"
+	#define USAGE_DATABASE "[STRING] [STRING] [STRING] [STRING]"
+	#define USAGE_LOGIN "[45-STRING] [1000-STRING]"
+	#define USAGE_REGISTER "[45-STRING] [254-STRING] [1000-STRING] [1000-STRING] (45-STRING) (45-STRING)"
+	#define USAGE_EDITUSER "[45-STRING] [254-STRING] [1000-STRING] [1000-STRING] [1000-STRING] (45-STRING) (45-STRING)"
+	#define USAGE_PERMIT "[STRING] [254-STRING] (VALUE)"
+	#define USAGE_REMPERMIT "[STRING] [254-STRING] (VALUE)"
+	#define LEVEL_DATABASE LEVEL_ADMIN
+	#define LEVEL_LOGIN LEVEL_GUEST
+	#define LEVEL_REGISTER LEVEL_GUEST
+	#define LEVEL_EDITUSER LEVEL_GUEST
+	#define LEVEL_PERMIT LEVEL_USER
+	#define LEVEL_REMPERMIT LEVEL_USER
+	#define ARGC_DATABASE 0
+	#define ARGC_LOGIN 2
+	#define ARGC_REGISTER 4
+	#define ARGC_EDITUSER 5
+	#define ARGC_PERMIT 2
+	#define ARGC_REMPERMIT 2
+#endif
+
+#define NAME_CRYPTOGRAPHICHASH "Cryptographic Hash Functions"
+#define NAME_SECONDGRADEQSOLVER "Second Grade Equations Solver"
+#define NAME_COMPLEXADD "Complex and HyperComplex Numbers Addition"
+#define NAME_COMPLEXMUL "Complex and HyperComplex Numbers Multiplication"
+#define NAME_POLYNOMEVALUATOR "Polynom Evaluator"
+#define NAME_POLYNOMDEVALUATOR "Polynom Derivative Evaluator"
+#define NAME_GETDATE "Formatted Date by Numeric One"
+#define NAME_ABSOLUTEORIENTATION "Absolute Orientation"
+#define NAME_ROUTHTABLE "Routh Table"
+#define NAME_JURYTABLE "Jury Table"
+#define NAME_NEWTONDIFFTABLES "Newton Difference Tables"
+#define NAME_LAGRANGEINTERPOLATION "Lagrange Unequal Interpolation"
+#define NAME_FID "Function Integration"
+#define NAME_STRAIGHTLINEFITTING "Straight Line Fitting"
+#define NAME_PARABOLICCURVEFITTING "Parabolic Curve Fitting"
+#define NAME_LINEARSYSTEMSSOLVER "Linear Systems Solver"
+#define CMD_CRYPTOGRAPHICHASH "crypto"
+#define CMD_SECONDGRADEQSOLVER "secgreqs"
+#define CMD_COMPLEXADD "cadd"
+#define CMD_COMPLEXMUL "cmul"
+#define CMD_GETDATE "date"
+#define CMD_POLYNOMEVALUATOR "eval"
+#define CMD_POLYNOMDEVALUATOR "deval"
+#define CMD_ABSOLUTEORIENTATION "absor"
+#define CMD_ROUTHTABLE "rtab"
+#define CMD_JURYTABLE "jtab"
+#define CMD_NEWTONDIFFTABLES "dftables"
+#define CMD_LAGRANGEINTERPOLATION "intrpl"
+#define CMD_FID "fint"
+#define CMD_STRAIGHTLINEFITTING "slinef"
+#define CMD_PARABOLICCURVEFITTING "pcurvef"
+#define CMD_LINEARSYSTEMSSOLVER "meqslvr"
+#define USAGE_CRYPTOGRAPHICHASH NULL_CHAR
+#define USAGE_SECONDGRADEQSOLVER "[1X3MATRIX]"
+#define USAGE_COMPLEXADD "[2X2MATRIX]"
+#define USAGE_COMPLEXMUL "[2X2MATRIX]"
+#define USAGE_GETDATE "[EXPR] [EXPR] [EXPR]"
+#define USAGE_POLYNOMEVALUATOR "[1xnMATRIX] [EXPR]"
+#define USAGE_POLYNOMDEVALUATOR "[1xnMATRIX] [EXPR]"
+#define USAGE_ABSOLUTEORIENTATION "[nX3MATRIX] [nX3MATRIX]"
+#define USAGE_ROUTHTABLE "[1x(n>2)MATRIX]"
+#define USAGE_JURYTABLE "[1x(n>2)MATRIX]"
+#define USAGE_NEWTONDIFFTABLES "[EXPR] [[EXPR]-(EXPR EXPR)COUPLES]"
+#define USAGE_LAGRANGEINTERPOLATION "[EXPR] [2X[EXPR]MATRIX] [EXPR]"
+#define USAGE_FID "[STRING] [EXPR] [EXPR] [EXPR] EXPR"
+#define USAGE_STRAIGHTLINEFITTING "[EXPR] [2X(EXPR)MATRIX]"
+#define USAGE_PARABOLICCURVEFITTING "[EXPR] [2X(EXPR)MATRIX]"
+#define USAGE_LINEARSYSTEMSSOLVER "[MATRIX]"
+#define LEVEL_CRYPTOGRAPHICHASH LEVEL_USER
+#define LEVEL_SECONDGRADEQSOLVER LEVEL_USER
+#define LEVEL_COMPLEXADD LEVEL_USER
+#define LEVEL_COMPLEXMUL LEVEL_USER
+#define LEVEL_GETDATE LEVEL_USER
+#define LEVEL_POLYNOMEVALUATOR LEVEL_USER
+#define LEVEL_POLYNOMDEVALUATOR LEVEL_USER
+#define LEVEL_ABSOLUTEORIENTATION LEVEL_USER
+#define LEVEL_ROUTHTABLE LEVEL_USER
+#define LEVEL_JURYTABLE LEVEL_USER
+#define LEVEL_NEWTONDIFFTABLES LEVEL_USER
+#define LEVEL_LAGRANGEINTERPOLATION LEVEL_USER
+#define LEVEL_FID LEVEL_USER
+#define LEVEL_STRAIGHTLINEFITTING LEVEL_USER
+#define LEVEL_PARABOLICCURVEFITTING LEVEL_USER
+#define LEVEL_LINEARSYSTEMSSOLVER LEVEL_USER
+#define ARGC_CRYPTOGRAPHICHASH INVALID_ARGC
+#define ARGC_SECONDGRADEQSOLVER 1
+#define ARGC_COMPLEXADD 1
+#define ARGC_COMPLEXMUL 1
+#define ARGC_GETDATE 3
+#define ARGC_POLYNOMEVALUATOR 2
+#define ARGC_POLYNOMDEVALUATOR 2
+#define ARGC_ABSOLUTEORIENTATION 2
+#define ARGC_ROUTHTABLE 1
+#define ARGC_JURYTABLE 1
+#define ARGC_NEWTONDIFFTABLES 2
+#define ARGC_LAGRANGEINTERPOLATION 3
+#define ARGC_FID 4
+#define ARGC_STRAIGHTLINEFITTING 2
+#define ARGC_PARABOLICCURVEFITTING 2
+#define ARGC_LINEARSYSTEMSSOLVER 1
+
+#define NAME_MDC2 "MDC-2"
+// #define NAME_MD2 "MD-2"
+#define NAME_MD4 "MD-4"
+#define NAME_MD5 "MD-5"
+#define NAME_RIPEMD160 "RIPEMD-160"
+#define NAME_WHIRLPOOL "WHIRLPOOL"
+#define NAME_SHA1 "SHA-1"
+#define NAME_SHA224 "SHA-224"
+#define NAME_SHA256 "SHA-256"
+#define NAME_SHA384 "SHA-384"
+#define NAME_SHA512 "SHA-512"
+#define CMD_MDC2 "mdc2"
+// #define CMD_MD2 "md2"
+#define CMD_MD4 "md4"
+#define CMD_MD5 "md5"
+#define CMD_RIPEMD160 "rmd160"
+#define CMD_WHIRLPOOL "whrlpl"
+#define CMD_SHA1 "sha1"
+#define CMD_SHA224 "sha224"
+#define CMD_SHA256 "sha256"
+#define CMD_SHA384 "sha384" 
+#define CMD_SHA512 "sha512"
+#define USAGE_MDC2 "[STRING]"
+// #define USAGE_MD2 "[STRING]"
+#define USAGE_MD4 "[STRING]"
+#define USAGE_MD5 "[STRING]"
+#define USAGE_RIPEMD160 "[STRING]"
+#define USAGE_WHIRLPOOL "[STRING]"
+#define USAGE_SHA1 "[STRING]"
+#define USAGE_SHA224 "[STRING]"
+#define USAGE_SHA256 "[STRING]"
+#define USAGE_SHA384 "[STRING]"
+#define USAGE_SHA512 "[STRING]"
+#define LEVEL_MDC2 LEVEL_USER
+// #define LEVEL_MD2 LEVEL_USER
+#define LEVEL_MD4 LEVEL_USER
+#define LEVEL_MD5 LEVEL_USER
+#define LEVEL_RIPEMD160 LEVEL_USER
+#define LEVEL_WHIRLPOOL LEVEL_USER
+#define LEVEL_SHA1 LEVEL_USER
+#define LEVEL_SHA224 LEVEL_USER
+#define LEVEL_SHA256 LEVEL_USER
+#define LEVEL_SHA384 LEVEL_USER
+#define LEVEL_SHA512 LEVEL_USER
+#define ARGC_MDC2 ONEARG_ARGC
+// #define ARGC_MD2 ONEARG_ARGC
+#define ARGC_MD4 ONEARG_ARGC
+#define ARGC_MD5 ONEARG_ARGC
+#define ARGC_RIPEMD160 ONEARG_ARGC
+#define ARGC_WHIRLPOOL ONEARG_ARGC
+#define ARGC_SHA1 ONEARG_ARGC
+#define ARGC_SHA224 ONEARG_ARGC
+#define ARGC_SHA256 ONEARG_ARGC
+#define ARGC_SHA384 ONEARG_ARGC
+#define ARGC_SHA512 ONEARG_ARGC
+
+
+// Remov the comment tag below to Add FIDs (Functions Identifiers) to the program
+/// #define ADDFIDCONSTANTS
+
+#ifndef __DISABLE_MSSMANAGER
+	#define NAME_CMDLINE "CmdLine Prompt Interpreter"
+	#define NAME_EXECMSSFILES "Execute Scriptfile ("DEFAULT_SCRIPTFILES_EXTENSION")"
+	#define NAME_SHOWUSAGES "CmdLine Informations"
+    #define CMD_CMDLINE "cmd"
+    #define CMD_EXECMSSFILES "exec"
+    #define CMD_SHOWUSAGES "info"
+    #define USAGE_CMDLINE NULL_CHAR
+    #define USAGE_EXECMSSFILES "[STRING]"
+    #define USAGE_SHOWUSAGES "[STRING]"
+    #define LEVEL_CMDLINE LEVEL_USER
+    #define LEVEL_EXECMSSFILES LEVEL_USER
+    #define LEVEL_SHOWUSAGES LEVEL_USER
+    #define ARGC_CMDLINE INVALID_ARGC
+    #define ARGC_EXECMSSFILES 1
+    #define ARGC_SHOWUSAGES 0
+#endif // ALLOW_MSSMANAGER
+
+#ifndef __DISABLE_SPECIALMATRICES
+	#define NAME_SPECIALMATRICES "Special Matrices Manager"
+	#define CMD_SPECIALMATRICES "smat"
+	#define USAGE_SPECIALMATRICES NULL_CHAR
+	#define LEVEL_SPECIALMATRICES LEVEL_USER
+	#define ARGC_SPECIALMATRICES INVALID_ARGC
+	
+	#define NAME_PRINTLMPMATRIX "Print Last Matrix Printed"
+	#define NAME_PRINTMATRIXLIST "Print Matrix List"
+	#define NAME_PRINTCURRENTMLMATRIX "Print Current MatrixList Matrix"
+	#define NAME_SETCURRENTMLMATRIX "Set Current MatrixList Matrix"
+	#define NAME_GETCURRENTMATRIX "Equal Current Matrix to LMP Matrix"
+	#define NAME_LETSPECIALMATRIX "Equal Special Matrices"
+	#define NAME_DELMATRIXLIST "Delete Matrix List"
+	#define CMD_PRINTLMPMATRIX "lmp"
+	#define CMD_PRINTMATRIXLIST "mlp"
+	#define CMD_PRINTCURRENTMLMATRIX "cmlp"
+	#define CMD_SETCURRENTMLMATRIX "ml"
+	#define CMD_GETCURRENTMATRIX "get"
+	#define CMD_LETSPECIALMATRIX "let" 
+	#define CMD_DELMATRIXLIST "dml"
+	#define USAGE_PRINTLMPMATRIX NULL_CHAR
+	#define USAGE_PRINTMATRIXLIST NULL_CHAR
+	#define USAGE_PRINTCURRENTMLMATRIX NULL_CHAR
+	#define USAGE_SETCURRENTMLMATRIX "[VALUE]"
+	#define USAGE_GETCURRENTMATRIX NULL_CHAR
+	#define USAGE_LETSPECIALMATRIX "[VALUE] [VALUE]"
+	#define USAGE_DELMATRIXLIST NULL_CHAR
+	#define LEVEL_PRINTLMPMATRIX LEVEL_USER
+	#define LEVEL_PRINTMATRIXLIST LEVEL_USER
+	#define LEVEL_PRINTCURRENTMLMATRIX LEVEL_USER
+	#define LEVEL_SETCURRENTMLMATRIX LEVEL_USER
+	#define LEVEL_GETCURRENTMATRIX LEVEL_USER
+	#define LEVEL_LETSPECIALMATRIX LEVEL_USER
+	#define LEVEL_DELMATRIXLIST LEVEL_USER
+	#define ARGC_PRINTLMPMATRIX 0
+	#define ARGC_PRINTMATRIXLIST 0
+	#define ARGC_PRINTCURRENTMLMATRIX 0
+	#define ARGC_SETCURRENTMLMATRIX 1
+	#define ARGC_GETCURRENTMATRIX 0
+	#define ARGC_LETSPECIALMATRIX 2
+	#define ARGC_DELMATRIXLIST 0
+#endif
+
+// linear algebra operations cmd
+#define NAME_MATRIXSORT "Matrix Sort"
+#define NAME_MATRIXEIGVALUES "Square Matrix Eigen Values"
+#define NAME_MATRIXNORM "Square Matrix Norm Calculator"
+#define NAME_MATRIXDET "Square Matrix Determinant Calculator"
+#define NAME_MATRIXTRACE "Square Matrix Trace Calculator"
+#define NAME_MATRIXRANK "Matrix Rank Calculator"
+#define NAME_MATRIXSVD "Matrix SVD"
+#define NAME_MATRIXINV "Square Matrix Inversion"
+#define NAME_MATRIXCOFACTOR "Square CoFactor Matrix"
+#define NAME_MATRIXADJOINT "Square Adjoint Matrix"
+#define NAME_MATRIXTRANSPOSE "Matrix Transposition"
+#define NAME_MATRIXADD "Matrix Addition"
+#define NAME_TENSORADD "Tensors Addition"
+#define NAME_MATRIXMULTIPLICATION "Matrix Multiplication"
+#define NAME_MATRIXKPRODUCT "Kronecker Product"
+#define NAME_MATRIXPOWER "Square Matrix N Power"
+#define NAME_MATRIXKPOWER "Matrix Kronecker N Power"
+#define NAME_MATRIXPERVECTOR "Matrix per Vector Multiplication"
+#define NAME_DOTPRODUCT "Vectors Dot Product"
+#define NAME_PERSCALARMULTIPLICATION "Matrix per Scalar Multiplication"
+#define NAME_SCALARDIVISIONMATRIX "Scalar Division Matrix"
+#define NAME_ILLCONDITIONCHECKING "Square Matrix Ill Condition Checking"
+#define NAME_MATRIXFATTLU "Square Matrix LU-Decomposition"
+#define NAME_FASTMATRIXINV "Fast Square Matrix Inversion"
+#define CMD_MATRIXSORT "sort"
+#define CMD_MATRIXEIGVALUES "evs"
+#define CMD_MATRIXNORM "norm"
+#define CMD_MATRIXDET "det"
+#define CMD_MATRIXTRACE "trace"
+#define CMD_MATRIXRANK "rank"
+#define CMD_MATRIXSVD "svd"
+#define CMD_MATRIXINV "inv"
+#define CMD_MATRIXCOFACTOR "cfct"
+#define CMD_MATRIXADJOINT "adj"
+#define CMD_MATRIXTRANSPOSE "tran"
+#define CMD_MATRIXADD "add"
+#define CMD_TENSORADD "tadd"
+#define CMD_MATRIXMULTIPLICATION "mul"
+#define CMD_MATRIXKPRODUCT "kprod"
+// #define CMD_MATRIXKPRODUCT "kron"
+#define CMD_MATRIXPOWER "pow"
+#define CMD_MATRIXKPOWER "kpow"
+#define CMD_MATRIXPERVECTOR "mpv"
+#define CMD_DOTPRODUCT "dot"
+#define CMD_PERSCALARMULTIPLICATION "psmul"
+#define CMD_SCALARDIVISIONMATRIX "sdmat"
+#define CMD_ILLCONDITIONCHECKING "ichk"
+#define CMD_MATRIXFATTLU "flu"
+#define CMD_FASTMATRIXINV "finv"
+#define USAGE_MATRIXSORT "[VALUE] [MATRIX]"
+#define USAGE_MATRIXEIGVALUES "[MATRIX]"
+#define USAGE_MATRIXNORM "[MATRIX]"
+#define USAGE_MATRIXDET "[MATRIX]"
+#define USAGE_MATRIXTRACE "[MATRIX]"
+#define USAGE_MATRIXRANK "[MATRIX]"
+#define USAGE_MATRIXSVD "[MATRIX]"
+#define USAGE_MATRIXINV "[MATRIX]"
+#define USAGE_MATRIXCOFACTOR "[MATRIX]"
+#define USAGE_MATRIXADJOINT "[MATRIX]"
+#define USAGE_MATRIXTRANSPOSE "[MATRIX]"
+#define USAGE_MATRIXADD "[nXmMATRIX] [nXmMATRIX]"
+#define USAGE_TENSORADD "[lx[nXmMATRIX]] [lx[nXmMATRIX]]"
+#define USAGE_MATRIXMULTIPLICATION "[iXjMATRIX] [jXkMATRIX]"
+#define USAGE_MATRIXKPRODUCT "[iXjMATRIX] [kXlMATRIX]"
+#define USAGE_MATRIXPOWER "[MATRIX] [EXPR]"
+#define USAGE_MATRIXKPOWER "[MATRIX] [EXPR]"
+#define USAGE_MATRIXPERVECTOR "[nXmMATRIX] [mX1MATRIX]"
+#define USAGE_DOTPRODUCT "[1XnMATRIX] [nX1MATRIX]"
+#define USAGE_PERSCALARMULTIPLICATION "[MATRIX] [EXPR]"
+#define USAGE_SCALARDIVISIONMATRIX "[MATRIX] [EXPR]"
+#define USAGE_ILLCONDITIONCHECKING "[MATRIX]"
+#define USAGE_MATRIXFATTLU "[MATRIX]"
+#define USAGE_FASTMATRIXINV "[MATRIX]"
+#define LEVEL_MATRIXSORT LEVEL_USER
+#define LEVEL_MATRIXEIGVALUES LEVEL_USER
+#define LEVEL_MATRIXNORM LEVEL_USER
+#define LEVEL_MATRIXDET LEVEL_USER
+#define LEVEL_MATRIXTRACE LEVEL_USER
+#define LEVEL_MATRIXRANK LEVEL_USER
+#define LEVEL_MATRIXSVD LEVEL_USER
+#define LEVEL_MATRIXINV LEVEL_USER
+#define LEVEL_MATRIXCOFACTOR LEVEL_USER
+#define LEVEL_MATRIXADJOINT LEVEL_USER
+#define LEVEL_MATRIXTRANSPOSE LEVEL_USER
+#define LEVEL_MATRIXADD LEVEL_USER
+#define LEVEL_TENSORADD LEVEL_USER
+#define LEVEL_MATRIXMULTIPLICATION LEVEL_USER
+#define LEVEL_MATRIXKPRODUCT LEVEL_USER
+#define LEVEL_MATRIXPOWER LEVEL_USER
+#define LEVEL_MATRIXKPOWER LEVEL_USER
+#define LEVEL_MATRIXPERVECTOR LEVEL_USER
+#define LEVEL_DOTPRODUCT LEVEL_USER
+#define LEVEL_PERSCALARMULTIPLICATION LEVEL_USER
+#define LEVEL_SCALARDIVISIONMATRIX LEVEL_USER
+#define LEVEL_ILLCONDITIONCHECKING LEVEL_USER
+#define LEVEL_MATRIXFATTLU LEVEL_USER
+#define LEVEL_FASTMATRIXINV LEVEL_USER
+#define ARGC_MATRIXSORT 2
+#define ARGC_MATRIXEIGVALUES 1
+#define ARGC_MATRIXNORM 1
+#define ARGC_MATRIXDET 1
+#define ARGC_MATRIXTRACE 1
+#define ARGC_MATRIXRANK 1
+#define ARGC_MATRIXSVD 1
+#define ARGC_MATRIXINV 1
+#define ARGC_MATRIXCOFACTOR 1
+#define ARGC_MATRIXADJOINT 1
+#define ARGC_MATRIXTRANSPOSE 1
+#define ARGC_MATRIXADD 2
+#define ARGC_TENSORADD 2
+#define ARGC_MATRIXMULTIPLICATION 2
+#define ARGC_MATRIXKPRODUCT 2
+#define ARGC_MATRIXPOWER 2
+#define ARGC_MATRIXKPOWER 2
+#define ARGC_MATRIXPERVECTOR 2
+#define ARGC_DOTPRODUCT 2
+#define ARGC_PERSCALARMULTIPLICATION 2
+#define ARGC_SCALARDIVISIONMATRIX 2
+#define ARGC_ILLCONDITIONCHECKING 2
+#define ARGC_MATRIXFATTLU 1
+#define ARGC_FASTMATRIXINV 1
+
+#ifndef __DISABLE_PRECEDIT
+	#define NAME_CHANGEPRECISION "Change Program Precision"
+    #define CMD_CHANGEPRECISION "prec"
+    #define USAGE_CHANGEPRECISION "[EXPR]"
+    #define LEVEL_CHANGEPRECISION LEVEL_ADMIN
+    #define ARGC_CHANGEPRECISION 1
+#endif
+#ifndef __DISABLE_STABFACTEDIT
+	#define NAME_CHANGESTABFACT "Change Stabilizer Factor"
+    #define CMD_CHANGESTABFACT "stabfact"
+    #define USAGE_CHANGESTABFACT "[EXPR]"
+    #define LEVEL_CHANGESTABFACT LEVEL_ADMIN
+    #define ARGC_CHANGESTABFACT 1
+#endif
+#ifndef __DISABLE_BLOCKSIZEEDIT
+	#define NAME_CHANGEBLOCKSIZE "Change Block Size"
+	#define CMD_CHANGEBLOCKSIZE "bsiz"
+	#define USAGE_CHANGEBLOCKSIZE "[EXPR]"
+	#define LEVEL_CHANGEBLOCKSIZE LEVEL_ADMIN
+	#define ARGC_CHANGEBLOCKSIZE 1
+#endif
+#ifndef __DISABLE_MINOSMMDIMEDIT
+	#define NAME_CHANGEMINOSMMDIM "Change Min OSMM Dimension"
+	#define CMD_CHANGEMINOSMMDIM "mosmm"
+	#define USAGE_CHANGEMINOSMMDIM "[EXPR]"
+	#define LEVEL_CHANGEMINOSMMDIM LEVEL_ADMIN
+	#define ARGC_CHANGEMINOSMMDIM 2
+#endif
+#ifndef __DISABLE_MINSTRASSENDIMEDIT
+	#define NAME_CHANGEMINSTRASSENDIM "Change Min Strassen Dimension"
+	#define CMD_CHANGEMINSTRASSENDIM "msd"
+	#define USAGE_CHANGEMINSTRASSENDIM "[EXPR]"
+	#define LEVEL_CHANGEMINSTRASSENDIM LEVEL_ADMIN
+	#define ARGC_CHANGEMINSTRASSENDIM 1
+#endif
+#ifndef __DISABLE_MINSRNUMBEREDIT
+	#define NAME_CHANGEMINSRNUMBER "Change Min Stirling Number"
+	#define CMD_CHANGEMINSRNUMBER "msrn"
+	#define USAGE_CHANGEMINSRNUMBER "[EXPR]"
+	#define LEVEL_CHANGEMINSRNUMBER LEVEL_ADMIN
+	#define ARGC_CHANGEMINSRNUMBER 1
+#endif
+#ifndef __DISABLE_ALGEBRAEDIT
+	#define NAME_CHANGEALGEBRA "Change Algebra"
+    #define CMD_CHANGEALGEBRA "alg"
+    #define USAGE_CHANGEALGEBRA "[EXPR]"
+    #define LEVEL_CHANGEALGEBRA LEVEL_USER
+    #define ARGC_CHANGEALGEBRA 1
+#endif
+#ifndef __DISABLE_OUTLIERCONSTEDIT
+	#define NAME_CHANGEOUTLIERCONST "Change Outlier Constant"
+	#define CMD_CHANGEOUTLIERCONST "oc"
+	#define USAGE_CHANGEOUTLIERCONST "[EXPR]"
+	#define LEVEL_CHANGEOUTLIERCONST LEVEL_ADMIN
+	#define LEVEL_CHANGEEXITCHAR LEVEL_ADMIN
+	#define ARGC_CHANGEOUTLIERCONST 1
+#endif
+#ifndef __DISABLE_EXITCHAREDIT
+	#define NAME_CHANGEEXITCHAR "Change Exit Char"
+    #define CMD_CHANGEEXITCHAR "echar"
+    #define USAGE_CHANGEEXITCHAR "[CHAR]"
+    #define LEVEL_CHANGEEXITCHAR LEVEL_ADMIN
+    #define ARGC_CHANGEEXITCHAR 1
+#endif
+#ifndef __DISABLE_RANDOMSEEDEDIT
+	#define NAME_CHANGERANDOMSEED "Change Random Seed"
+    #define CMD_CHANGERANDOMSEED "rseed"
+    #define USAGE_CHANGERANDOMSEED "[EXPR]"
+    #define LEVEL_CHANGERANDOMSEED LEVEL_ADMIN
+    #define ARGC_CHANGERANDOMSEED 1
+#endif
+#ifndef __DISABLE_BOOLVARSEDIT
+	#define NAME_CHANGEBOOLVALUES "Enable-Disable Bool Settings"
+    #define CMD_CHANGEBOOLVALUES "bools"
+    #define USAGE_CHANGEBOOLVALUES "[EXPR]"
+    #define LEVEL_CHANGEBOOLVALUES LEVEL_ADMIN
+    #define ARGC_CHANGEBOOLVALUES 1
+#endif
+#ifndef __DISABLE_MMIEDIT
+	#define NAME_CHANGEMAXMEMIDX "Change Max Memoizable Indices"
+	#define NAME_EMPTYMEMOIZERSBUFFERS "Flush Memoizers Buffers"
+    #define CMD_CHANGEMAXMEMIDX "mmidx"
+    #define CMD_EMPTYMEMOIZERSBUFFERS "embuf"
+    #define USAGE_CHANGEMAXMEMIDX "[EXPR] [EXPR] [EXPR]"
+    #define USAGE_EMPTYMEMOIZERSBUFFERS "[VALUE]"
+    #define LEVEL_CHANGEMAXMEMIDX LEVEL_ADMIN
+    #define LEVEL_EMPTYMEMOIZERSBUFFERS LEVEL_ADMIN
+    #define ARGC_CHANGEMAXMEMIDX 3
+    #define ARGC_EMPTYMEMOIZERSBUFFERS 1
+#endif
+#ifndef __DISABLE_BUFFERSEDIT
+	#define NAME_EMPTYBUFFERS "Flush Buffers"
+    #define CMD_EMPTYBUFFERS "ebufs"
+    #define USAGE_EMPTYBUFFERS "[VALUE]"
+    #define LEVEL_EMPTYBUFFERS LEVEL_ADMIN
+    #define ARGC_EMPTYBUFFERS 1
+#endif
+#ifndef __DISABLE_SETDEFAULTS
+	#define NAME_SETDEFAULTS "Restore Default Settings"
+    #define CMD_SETDEFAULTS "def"
+    #define USAGE_SETDEFAULTS NULL_CHAR
+    #define LEVEL_SETDEFAULTS LEVEL_ADMIN
+    #define ARGC_SETDEFAULTS 0
+#endif
+
+#ifndef __DISABLE_VARLISTMANAGER
+	#define NAME_ENVSMANAGER "Variables Environments Manager"
+    #define CMD_ENVSMANAGER "envs"
+    #define USAGE_ENVSMANAGER NULL_CHAR
+    #define LEVEL_ENVSMANAGER LEVEL_ADMIN
+    #define ARGC_ENVSMANAGER INVALID_ARGC
+    #define NAME_SETCURENV "Select Current Env"
+    #define NAME_OPENENV "Open Env ("DEFAULT_VARLIST_FILE_EXTENSION")"
+    #define NAME_CREATEENV "Create new Env ("DEFAULT_VARLIST_FILE_EXTENSION")"
+    #define NAME_READENV "View Env"
+    #define NAME_PRTENV "Print Env"
+    #define NAME_UPDENV "Save Env"
+    #define NAME_UPDALLENVS "Save all Envs"
+    #define NAME_SAVEENV "Save Env as ("DEFAULT_VARLIST_FILE_EXTENSION")"
+    #define NAME_DELENV "Delete Env"
+    #define NAME_DELENV2 "Delete Physical Env"
+    #define NAME_DELALLENVS "Delete all Envs"
+    #define NAME_DELALLENVS2 "Delete all Physical Envs"
+    #define NAME_RESETENV "Reset Env"
+    #define NAME_RENENV "Rename Env ("DEFAULT_VARLIST_FILE_EXTENSION")"
+    #define NAME_SYNCENV "Synchronize Env"
+    #define NAME_PERSISTENV "Persist Env"
+    #define NAME_RETRIEVEENV "Retrieve Env"
+    #define CMD_SETCURENV "cenv"
+    #define CMD_OPENENV "eopen"
+    #define CMD_CREATEENV "ecreate"
+    #define CMD_READENV "eread"
+    #define CMD_PRTENV "eprt"
+    #define CMD_UPDENV "eupd"
+    #define CMD_UPDALLENVS "eupdall"
+    #define CMD_SAVEENV "esave"
+    #define CMD_DELENV "edel"
+    #define CMD_DELENV2 "edel2"
+    #define CMD_DELALLENVS "edelall"
+    #define CMD_DELALLENVS2 "edelall2"
+    #define CMD_RESETENV "erel"
+    #define CMD_RENENV "eren"
+    #define CMD_SYNCENV "sync"
+    #define CMD_PERSISTENV "eper"
+    #define CMD_RETRIEVEENV "eret"
+    #define USAGE_SETCURENV "[VALUE]"
+    #define USAGE_OPENENV "[STRING]"
+    #define USAGE_CREATEENV "[STRING]"
+    #define USAGE_READENV "[VALUE]"
+    #define USAGE_PRTENV "[VALUE]"
+    #define USAGE_UPDENV NULL_CHAR
+    #define USAGE_UPDALLENVS NULL_CHAR
+    #define USAGE_SAVEENV "[STRING]"
+    #define USAGE_DELENV "[VALUE]"
+    #define USAGE_DELENV2 "[VALUE]"
+    #define USAGE_DELALLENVS NULL_CHAR
+    #define USAGE_DELALLENVS2 NULL_CHAR
+    #define USAGE_RESETENV "[VALUE]"
+    #define USAGE_RENENV "[VALUE] [STRING]"
+    #define USAGE_SYNCENV "[VALUE]"
+    #define USAGE_PERSISTENV "[VALUE]"
+    #define USAGE_RETRIEVEENV "[VALUE]"
+    #define LEVEL_SETCURENV LEVEL_USER
+    #define LEVEL_OPENENV LEVEL_USER
+    #define LEVEL_CREATEENV LEVEL_USER
+    #define LEVEL_READENV LEVEL_USER
+    #define LEVEL_PRTENV LEVEL_USER
+    #define LEVEL_UPDENV LEVEL_USER
+    #define LEVEL_UPDALLENVS LEVEL_ADMIN
+    #define LEVEL_SAVEENV LEVEL_USER
+    #define LEVEL_DELENV LEVEL_USER
+    #define LEVEL_DELENV2 LEVEL_USER
+    #define LEVEL_DELALLENVS LEVEL_ADMIN
+    #define LEVEL_DELALLENVS2 LEVEL_ADMIN
+    #define LEVEL_RESETENV LEVEL_USER
+    #define LEVEL_RENENV LEVEL_USER
+    #define LEVEL_SYNCENV LEVEL_USER
+    #define LEVEL_PERSISTENV LEVEL_USER
+    #define LEVEL_RETRIEVEENV LEVEL_USER
+    #define ARGC_SETCURENV 1
+    #define ARGC_OPENENV 1
+    #define ARGC_CREATEENV 1
+    #define ARGC_READENV 1
+    #define ARGC_PRTENV 1
+    #define ARGC_UPDENV 0
+    #define ARGC_UPDALLENVS 0
+    #define ARGC_SAVEENV 1
+    #define ARGC_DELENV 1
+    #define ARGC_DELENV2 1
+    #define ARGC_DELALLENVS 0
+    #define ARGC_DELALLENVS2 0
+    #define ARGC_RESETENV 1
+    #define ARGC_RENENV 2
+    #define ARGC_SYNCENV 1
+    #define ARGC_PERSISTENV 1
+    #define ARGC_RETRIEVEENV 1
+#endif // modifica_ambienti_variabili
+
+#ifndef __DISABLE_MATMANAGER
+	#define NAME_MATRIXMANAGER "Matrices Manager"
+	#define NAME_SETCURMAT "Select Current Matrix"
+	#define NAME_OPENMAT "Open Matrix ("DEFAULT_MATRIX_FILE_EXTENSION")"
+	#define NAME_CREATEMAT "Create new Matrix ("DEFAULT_MATRIX_FILE_EXTENSION")"
+	#define NAME_READMAT "View Matrix"
+	#define NAME_PRTMAT "Print Matrix"
+	#define NAME_UPDMAT "Save Matrix"
+	#define NAME_UPDALLMAT "Save all Matrices"
+	#define NAME_SAVEMAT "Save Matrix as ("DEFAULT_MATRIX_FILE_EXTENSION")"
+	#define NAME_DELMAT "Delete Matrix"
+	#define NAME_DELMAT2 "Delete Physical Matrix"
+	#define NAME_DELALLMATS "Delete all Matrices"
+	#define NAME_DELALLMATS2 "Delete all Physical Matrices"
+	#define NAME_RENMAT "Rename Matrix ("DEFAULT_MATRIX_FILE_EXTENSION")"
+	#define NAME_EDITMAT "Edit Matrix"
+	#define NAME_PERSISTMAT "Persist Matrix"
+	#define NAME_RETRIEVEMAT "Retrieve Matrix"
+    #define CMD_MATRIXMANAGER "mat"
+    #define USAGE_MATRIXMANAGER NULL_CHAR
+    #define LEVEL_MATRIXMANAGER LEVEL_ADMIN
+    #define ARGC_MATRIXMANAGER INVALID_ARGC
+    #define CMD_SETCURMAT "cmat"
+    #define CMD_OPENMAT "mopen"
+    #define CMD_CREATEMAT "mcreate"
+    #define CMD_READMAT "mread"
+    #define CMD_PRTMAT "mprt"
+    #define CMD_UPDMAT "mupd"
+    #define CMD_UPDALLMAT "mupdall"
+    #define CMD_SAVEMAT "msave"
+    #define CMD_DELMAT "mdel"
+    #define CMD_DELMAT2 "mdel2"
+    #define CMD_DELALLMATS "mdelall"
+    #define CMD_DELALLMATS2 "mdelall2"
+    #define CMD_RESETMAT "mrel"
+    #define CMD_RENMAT "mren"
+    #define CMD_EDITMAT "medit"
+    #define CMD_PERSISTMAT "mper"
+    #define CMD_RETRIEVEMAT "mret"
+    #define USAGE_SETCURMAT "[VALUE]"
+    #define USAGE_OPENMAT "[STRING]"
+    #define USAGE_CREATEMAT "[STRING]"
+    #define USAGE_READMAT "[VALUE]"
+    #define USAGE_PRTMAT "[VALUE]"
+    #define USAGE_UPDMAT NULL_CHAR
+    #define USAGE_UPDALLMAT NULL_CHAR
+    #define USAGE_SAVEMAT "[STRING]"
+    #define USAGE_DELMAT "[VALUE]"
+    #define USAGE_DELMAT2 "[VALUE]"
+    #define USAGE_DELALLMATS NULL_CHAR
+    #define USAGE_DELALLMATS2 NULL_CHAR
+    #define USAGE_RESETMAT "[VALUE]"
+    #define USAGE_RENMAT "[VALUE] [STRING]"
+    #define USAGE_EDITMAT "[VALUE] [MATRIX]"
+    #define USAGE_PERSISTMAT "[VALUE]"
+    #define USAGE_RETRIEVEMAT "[VALUE]"
+    #define LEVEL_SETCURMAT LEVEL_USER
+    #define LEVEL_OPENMAT LEVEL_USER
+    #define LEVEL_CREATEMAT LEVEL_USER
+    #define LEVEL_READMAT LEVEL_USER
+    #define LEVEL_PRTMAT LEVEL_USER
+    #define LEVEL_UPDMAT LEVEL_USER
+    #define LEVEL_UPDALLMAT LEVEL_ADMIN
+    #define LEVEL_SAVEMAT LEVEL_USER
+    #define LEVEL_DELMAT LEVEL_USER
+    #define LEVEL_DELMAT2 LEVEL_USER
+    #define LEVEL_DELALLMATS LEVEL_ADMIN
+    #define LEVEL_DELALLMATS2 LEVEL_ADMIN
+    #define LEVEL_RESETMAT LEVEL_USER
+    #define LEVEL_RENMAT LEVEL_USER
+    #define LEVEL_EDITMAT LEVEL_USER
+    #define LEVEL_PERSISTMAT LEVEL_USER
+    #define LEVEL_RETRIEVEMAT LEVEL_USER
+    #define ARGC_SETCURMAT 1
+    #define ARGC_OPENMAT 1
+    #define ARGC_CREATEMAT 1
+    #define ARGC_READMAT 1
+    #define ARGC_PRTMAT 1
+    #define ARGC_UPDMAT 0
+    #define ARGC_UPDALLMAT 0
+    #define ARGC_SAVEMAT 1
+    #define ARGC_DELMAT 1
+    #define ARGC_DELMAT2 1
+    #define ARGC_DELALLMATS 0
+    #define ARGC_DELALLMATS2 0
+    #define ARGC_RESETMAT 1
+    #define ARGC_RENMAT 2
+    #define ARGC_EDITMAT 2
+    #define ARGC_PERSISTMAT 1
+    #define ARGC_RETRIEVEMAT 1
+#endif // modifica_matrici
+
+#ifndef __DISABLE_LOGSMANAGER
+	#define NAME_LOGSMANAGER "Logs Manager"
+	#define NAME_SETCURLOG "Select Current Log"
+	#define NAME_OPENLOG "Open Log ("DEFAULT_LOG_FILE_EXTENSION")"
+	#define NAME_CREATELOG "Create new Log ("DEFAULT_LOG_FILE_EXTENSION")"
+	#define NAME_READLOG "View Log"
+	#define NAME_PRTLOG "Print Log"
+	#define NAME_UPDLOG "Save Log"
+	#define NAME_UPDALLLOGS "Save all Logs"
+	#define NAME_SAVELOG "Save Log as ("DEFAULT_LOG_FILE_EXTENSION")"
+	#define NAME_DELLOG "Delete Log"
+	#define NAME_DELLOG2 "Delete Physical Log"
+	#define NAME_DELALLLOGS "Delete all Logs"
+	#define NAME_DELALLLOGS2 "Delete all Physical Logs"
+	#define NAME_RESETLOG "Reset Log"
+	#define NAME_RENLOG "Rename Log ("DEFAULT_LOG_FILE_EXTENSION")"
+	#define NAME_EDITLOG "Edit Log ("DEFAULT_LOG_FILE_EXTENSION")"
+	#define NAME_SETLOGBUFLEN "Select Log Buffer Length"
+	#define NAME_EMPTYLOGBUF "Flush Log Buffer"
+    #define CMD_LOGSMANAGER "logs"
+    #define USAGE_LOGSMANAGER NULL_CHAR
+    #define LEVEL_LOGSMANAGER LEVEL_ADMIN
+    #define ARGC_LOGSMANAGER INVALID_ARGC
+    #define CMD_SETCURLOG "clog"
+    #define CMD_OPENLOG "lopen"
+    #define CMD_CREATELOG "lcreate"
+    #define CMD_READLOG "lread"
+    #define CMD_PRTLOG "lprt"
+    #define CMD_UPDLOG "lupd"
+    #define CMD_UPDALLLOGS "lupdall"
+    #define CMD_SAVELOG "lsave"
+    #define CMD_DELLOG "ldel"
+    #define CMD_DELLOG2 "ldel2"
+    #define CMD_DELALLLOGS "ldelall"
+    #define CMD_DELALLLOGS2 "ldelall2"
+    #define CMD_RESETLOG "lrel"
+    #define CMD_RENLOG "lren"
+    #define CMD_EDITLOG "ledit"
+    #define CMD_SETLOGBUFLEN "slblen"
+    #define CMD_EMPTYLOGBUF "elbuf"
+    #define USAGE_SETCURLOG "[VALUE]"
+    #define USAGE_OPENLOG "[STRING]"
+    #define USAGE_CREATELOG "[STRING]"
+    #define USAGE_READLOG "[VALUE]"
+    #define USAGE_PRTLOG "[VALUE]"
+    #define USAGE_UPDLOG NULL_CHAR
+    #define USAGE_UPDALLLOGS NULL_CHAR
+    #define USAGE_SAVELOG "[STRING]"
+    #define USAGE_DELLOG "[VALUE]"
+    #define USAGE_DELLOG2 "[VALUE]"
+    #define USAGE_DELALLLOGS NULL_CHAR
+    #define USAGE_DELALLLOGS2 NULL_CHAR
+    #define USAGE_RESETLOG "[VALUE]"
+    #define USAGE_RENLOG "[VALUE] [STRING]"
+    #define USAGE_EDITLOG "[VALUE]"
+    #define USAGE_SETLOGBUFLEN "[VALUE] [EXPR]"
+    #define USAGE_EMPTYLOGBUF "[VALUE]"
+    #define LEVEL_SETCURLOG LEVEL_ADMIN
+    #define LEVEL_OPENLOG LEVEL_ADMIN
+    #define LEVEL_CREATELOG LEVEL_ADMIN
+    #define LEVEL_READLOG LEVEL_ADMIN
+    #define LEVEL_PRTLOG LEVEL_ADMIN
+    #define LEVEL_UPDLOG LEVEL_ADMIN
+    #define LEVEL_UPDALLLOGS LEVEL_ADMIN
+    #define LEVEL_SAVELOG LEVEL_ADMIN
+    #define LEVEL_DELLOG LEVEL_ADMIN
+    #define LEVEL_DELLOG2 LEVEL_ADMIN
+    #define LEVEL_DELALLLOGS LEVEL_ADMIN
+    #define LEVEL_DELALLLOGS2 LEVEL_ADMIN
+    #define LEVEL_RESETLOG LEVEL_ADMIN
+    #define LEVEL_RENLOG LEVEL_ADMIN
+    #define LEVEL_EDITLOG LEVEL_ADMIN
+    #define LEVEL_SETLOGBUFLEN LEVEL_ADMIN
+    #define LEVEL_EMPTYLOGBUF LEVEL_ADMIN
+    #define ARGC_SETCURLOG 1
+    #define ARGC_OPENLOG 1
+    #define ARGC_CREATELOG 1
+    #define ARGC_READLOG 1
+    #define ARGC_PRTLOG 1
+    #define ARGC_UPDLOG 0
+    #define ARGC_UPDALLLOGS 0
+    #define ARGC_SAVELOG 1
+    #define ARGC_DELLOG 1
+    #define ARGC_DELLOG2 1
+    #define ARGC_DELALLLOGS 0
+    #define ARGC_DELALLLOGS2 0
+    #define ARGC_RESETLOG 1
+    #define ARGC_RENLOG 2
+    #define ARGC_EDITLOG INVALID_ARGC
+    #define ARGC_SETLOGBUFLEN 2
+    #define ARGC_EMPTYLOGBUF 1
+#endif // modifica_log
+
+#ifndef __DISABLE_SYSLOGMANAGER
+	#define NAME_SYSLOGMANAGER "System Log Manager"
+	#define NAME_OPENSYSLOG "Open System Log ("DEFAULT_SYSLOG_FILE_EXTENSION")"
+	#define NAME_CREATESYSLOG "Create new System Log ("DEFAULT_SYSLOG_FILE_EXTENSION")"
+	#define NAME_READSYSLOG "View System Log"
+	#define NAME_PRTSYSLOG "Print System Log"
+	#define NAME_EDITSYSLOG "Edit System Log ("DEFAULT_SYSLOG_FILE_EXTENSION")"
+	#define NAME_UPDSYSLOG "Save System Log"
+	#define NAME_SAVESYSLOG "Save System Log as ("DEFAULT_SYSLOG_FILE_EXTENSION")"
+	#define NAME_RESETSYSLOG "Reset System Log"
+	#define NAME_SETSYSLOGBUFLEN "Select System Log Buffer Length"
+	#define NAME_EMPTYSYSLOGBUF "Flush System Log Buffer"
+	#define NAME_RENSYSLOG "Rename System Log ("DEFAULT_SYSLOG_FILE_EXTENSION")"
+    #define CMD_SYSLOGMANAGER "slog"
+    #define USAGE_SYSLOGMANAGER NULL_CHAR
+    #define LEVEL_SYSLOGMANAGER LEVEL_ADMIN
+    #define ARGC_SYSLOGMANAGER INVALID_ARGC
+    #define CMD_OPENSYSLOG "sopen"
+    #define CMD_CREATESYSLOG "screate"
+    #define CMD_READSYSLOG "sread"
+    #define CMD_PRTSYSLOG "sprt"
+    #define CMD_EDITSYSLOG "sedit"
+    #define CMD_UPDSYSLOG "supd"
+    #define CMD_SAVESYSLOG "ssave"
+    #define CMD_RESETSYSLOG "srel"
+    #define CMD_SETSYSLOGBUFLEN "sslblen"
+    #define CMD_EMPTYSYSLOGBUF "eslbuf"
+    #define CMD_RENSYSLOG "sren"
+    #define USAGE_OPENSYSLOG "[STRING]"
+    #define USAGE_CREATESYSLOG "[STRING]"
+    #define USAGE_READSYSLOG NULL_CHAR
+    #define USAGE_PRTSYSLOG NULL_CHAR
+    #define USAGE_EDITSYSLOG NULL_CHAR
+    #define USAGE_UPDSYSLOG NULL_CHAR
+    #define USAGE_SAVESYSLOG "[STRING]"
+    #define USAGE_RESETSYSLOG NULL_CHAR
+    #define USAGE_SETSYSLOGBUFLEN "[EXPR]"
+    #define USAGE_EMPTYSYSLOGBUF NULL_CHAR
+    #define USAGE_RENSYSLOG "[STRING]"
+    #define LEVEL_OPENSYSLOG LEVEL_ADMIN
+    #define LEVEL_CREATESYSLOG LEVEL_ADMIN
+    #define LEVEL_READSYSLOG LEVEL_ADMIN
+    #define LEVEL_PRTSYSLOG LEVEL_ADMIN
+    #define LEVEL_EDITSYSLOG LEVEL_ADMIN
+    #define LEVEL_UPDSYSLOG LEVEL_ADMIN
+    #define LEVEL_SAVESYSLOG LEVEL_ADMIN
+    #define LEVEL_RESETSYSLOG LEVEL_ADMIN
+    #define LEVEL_SETSYSLOGBUFLEN LEVEL_ADMIN
+    #define LEVEL_EMPTYSYSLOGBUF LEVEL_ADMIN
+    #define LEVEL_RENSYSLOG LEVEL_ADMIN
+    #define ARGC_OPENSYSLOG 1
+    #define ARGC_CREATESYSLOG 1
+    #define ARGC_READSYSLOG 0
+    #define ARGC_PRTSYSLOG 0
+    #define ARGC_EDITSYSLOG INVALID_ARGC
+    #define ARGC_UPDSYSLOG 0
+    #define ARGC_SAVESYSLOG 1
+    #define ARGC_RESETSYSLOG 0
+    #define ARGC_SETSYSLOGBUFLEN 1
+    #define ARGC_EMPTYSYSLOGBUF 0
+    #define ARGC_RENSYSLOG 1
+#endif // modifica_syslog
+
+#ifndef __DISABLE_LAYOUTSMANAGER
+	#define NAME_LAYOUTSMANAGER "Layouts Manager"
+	#define NAME_SETCURLAYOUT "Select Current Layout"
+	#define NAME_OPENLAYOUT "Open Layout ("DEFAULT_LAYOUT_FILE_EXTENSION")"
+	#define NAME_CREATELAYOUT "Create new Layout ("DEFAULT_LAYOUT_FILE_EXTENSION")"
+	#define NAME_READLAYOUT "View Layout"
+	#define NAME_PRTLAYOUT "Print Layout"
+	#define NAME_UPDLAYOUT "Save Layout"
+	#define NAME_UPDALLLAYOUTS "Save all Layouts"
+	#define NAME_SAVELAYOUT "Save Layout as ("DEFAULT_LAYOUT_FILE_EXTENSION")"
+	#define NAME_DELLAYOUT "Delete Layout"
+	#define NAME_DELLAYOUT2 "Delete Physical Layout"
+	#define NAME_DELALLLAYOUTS "Delete all Layouts"
+	#define NAME_DELALLLAYOUTS2 "Delete all Physical Layouts"
+	#define NAME_RESETLAYOUT "Reset Layout"
+	#define NAME_RENLAYOUT "Rename Layout ("DEFAULT_LAYOUT_FILE_EXTENSION")"
+    #define CMD_LAYOUTSMANAGER "layts"
+    #define USAGE_LAYOUTSMANAGER NULL_CHAR
+    #define LEVEL_LAYOUTSMANAGER LEVEL_ADMIN
+    #define ARGC_LAYOUTSMANAGER INVALID_ARGC
+    #define CMD_SETCURLAYOUT "clyt"
+    #define CMD_OPENLAYOUT "lyopen"
+    #define CMD_CREATELAYOUT "lycreate"
+    #define CMD_READLAYOUT "lyread"
+    #define CMD_PRTLAYOUT "lyprt"
+    #define CMD_UPDLAYOUT "lyupd"
+    #define CMD_UPDALLLAYOUTS "lyupdall"
+    #define CMD_SAVELAYOUT "lysave"
+    #define CMD_DELLAYOUT "lydel"
+    #define CMD_DELLAYOUT2 "lydel2"
+    #define CMD_DELALLLAYOUTS "lydelall"
+    #define CMD_DELALLLAYOUTS2 "lydelall2"
+    #define CMD_RESETLAYOUT "lyrel"
+    #define CMD_RENLAYOUT "lyren"
+    #define USAGE_SETCURLAYOUT "[VALUE]"
+    #define USAGE_OPENLAYOUT "[STRING]"
+    #define USAGE_CREATELAYOUT "[STRING]"
+    #define USAGE_READLAYOUT "[VALUE]"
+    #define USAGE_PRTLAYOUT "[VALUE]"
+    #define USAGE_UPDLAYOUT NULL_CHAR
+    #define USAGE_UPDALLLAYOUTS NULL_CHAR
+    #define USAGE_SAVELAYOUT "[STRING]"
+    #define USAGE_DELLAYOUT "[VALUE]"
+    #define USAGE_DELLAYOUT2 "[VALUE]"
+    #define USAGE_DELALLLAYOUTS NULL_CHAR
+    #define USAGE_DELALLLAYOUTS2 NULL_CHAR
+    #define USAGE_RESETLAYOUT "[VALUE]"
+    #define USAGE_RENLAYOUT "[VALUE] [STRING]"
+    #define LEVEL_SETCURLAYOUT LEVEL_ADMIN
+    #define LEVEL_OPENLAYOUT LEVEL_ADMIN
+    #define LEVEL_CREATELAYOUT LEVEL_ADMIN
+    #define LEVEL_READLAYOUT LEVEL_ADMIN
+    #define LEVEL_PRTLAYOUT LEVEL_ADMIN
+    #define LEVEL_UPDLAYOUT LEVEL_ADMIN
+    #define LEVEL_UPDALLLAYOUTS LEVEL_ADMIN
+    #define LEVEL_SAVELAYOUT LEVEL_ADMIN
+    #define LEVEL_DELLAYOUT LEVEL_ADMIN
+    #define LEVEL_DELLAYOUT2 LEVEL_ADMIN
+    #define LEVEL_DELALLLAYOUTS LEVEL_ADMIN
+    #define LEVEL_DELALLLAYOUTS2 LEVEL_ADMIN
+    #define LEVEL_RESETLAYOUT LEVEL_ADMIN
+    #define LEVEL_RENLAYOUT LEVEL_ADMIN
+    #define ARGC_SETCURLAYOUT 1
+    #define ARGC_OPENLAYOUT 1
+    #define ARGC_CREATELAYOUT 1
+    #define ARGC_READLAYOUT 1
+    #define ARGC_PRTLAYOUT 1
+    #define ARGC_UPDLAYOUT 0
+    #define ARGC_UPDALLLAYOUTS 0
+    #define ARGC_SAVELAYOUT 1
+    #define ARGC_DELLAYOUT 1
+    #define ARGC_DELLAYOUT2 1
+    #define ARGC_DELALLLAYOUTS 0
+    #define ARGC_DELALLLAYOUTS2 0
+    #define ARGC_RESETLAYOUT 1
+    #define ARGC_RENLAYOUT 2
+#endif // modifica_layouts
+
+#ifndef __DISABLE_COLSMANAGER
+	#define NAME_COLORSMANAGER "Program Colors Manager"
+	#define NAME_CHANGECOLORS "Edit Program Colors"
+	#define NAME_COLORSFILESLOADER "Load Colors Settings File ("DEFAULT_COLORS_FILE_EXTENSION")"
+	#define NAME_BACKUPCOLORSFILES "Save Colors Settings File"
+    #define CMD_COLORSMANAGER "cols"
+    #define USAGE_COLORSMANAGER NULL_CHAR
+    #define LEVEL_COLORSMANAGER LEVEL_ADMIN
+    #define ARGC_COLORSMANAGER INVALID_ARGC
+    #define CMD_CHANGECOLORS "ccol"
+    #define CMD_COLORSFILESLOADER "cload"
+    #define CMD_BACKUPCOLORSFILES "cupd"
+    #define USAGE_CHANGECOLORS "[VALUE] [VALUE]"
+    #define USAGE_COLORSFILESLOADER "[STRING]"
+    #define USAGE_BACKUPCOLORSFILES NULL_CHAR
+    #define LEVEL_CHANGECOLORS LEVEL_ADMIN
+    #define LEVEL_COLORSFILESLOADER LEVEL_ADMIN
+    #define LEVEL_BACKUPCOLORSFILES LEVEL_ADMIN
+    #define ARGC_CHANGECOLORS 2
+    #define ARGC_COLORSFILESLOADER 1
+    #define ARGC_BACKUPCOLORSFILES 0
+#endif // modifica_colori
+
+#ifndef __DISABLE_LFSMANAGER
+	#define NAME_LFSMANAGER "Startup Files Manager"
+	#define NAME_LFLOADER "Load Startup File ("DEFAULT_PATHLIST_FILE_EXTENSION")"
+	#define NAME_LFCREATE "Create new Startup File ("DEFAULT_PATHLIST_FILE_EXTENSION")"
+    #define CMD_LFSMANAGER DEFAULT_PATHLIST_FILE_EXTENSION
+    #define USAGE_LFSMANAGER NULL_CHAR
+    #define LEVEL_LFSMANAGER LEVEL_ADMIN
+    #define ARGC_LFSMANAGER INVALID_ARGC
+    #define CMD_LFLOADER "msload"
+    #define CMD_LFCREATE "mscreate"
+    #define USAGE_LFLOADER "[STRING]"
+    #define USAGE_LFCREATE "[STRING]"
+    #define LEVEL_LFLOADER LEVEL_ADMIN
+    #define LEVEL_LFCREATE LEVEL_ADMIN
+    #define ARGC_LFLOADER 1
+    #define ARGC_LFCREATE 1
+#endif
+
+// Default Operations Identifiers
+
+#define IDENTIFIER_BINSUM "badd"
+#define IDENTIFIER_BINSUB "bsub"
+#define IDENTIFIER_COMPLEMENT "comp"
+#define IDENTIFIER_POW "pow"
+#define IDENTIFIER_EXP "exp"
+#define IDENTIFIER_EXPC IDENTIFIER_EXP"c"
+#define IDENTIFIER_EXP10 "exp10"
+#define IDENTIFIER_EXP10C IDENTIFIER_EXP10"c"
+#define IDENTIFIER_EXP2 "exp2"
+#define IDENTIFIER_EXP2C IDENTIFIER_EXP2"c"
+#define IDENTIFIER_NTHROOT "root"
+#define IDENTIFIER_LN "ln"
+#define IDENTIFIER_LNC IDENTIFIER_LN"c"
+#define IDENTIFIER_LOG "log"
+#define IDENTIFIER_LOG2 "log2"
+#define IDENTIFIER_LOGN "logn"
+#define IDENTIFIER_LOGC "logc"
+#define IDENTIFIER_LOG2C "log2c"
+#define IDENTIFIER_LOG1P "log1p"
+#define IDENTIFIER_LOG1PC "log1pc"
+#define IDENTIFIER_LOG101P "log101p"
+#define IDENTIFIER_LOG101PC "log101pc"
+#define IDENTIFIER_LOG21P "log21p"
+#define IDENTIFIER_LOG21PC "log21pc"
+#define IDENTIFIER_MPFREXPM1 "mpfr_expm1"
+#define IDENTIFIER_MPFREINT "mpfr_eint"
+#define IDENTIFIER_MPFRLI2 "mpfr_li2" 
+#define IDENTIFIER_MPFRGAMMA "mpfr_gamma"
+#define IDENTIFIER_MPFRLNGAMMA "mpfr_lngamma"
+#define IDENTIFIER_MPFRDIGAMMA "mpfr_digamma"  
+#define IDENTIFIER_MPFRZETA "mpfr_zeta"
+#define IDENTIFIER_MPFRERF "mpfr_erf"
+#define IDENTIFIER_MPFRERFC "mpfr_erfc"
+#define IDENTIFIER_MPFRJ0 "mpfr_j0"
+#define IDENTIFIER_MPFRJ1 "mpfr_j1"
+#define IDENTIFIER_MPFRJN "mpfr_jn"
+#define IDENTIFIER_MPFRY0 "mpfr_y0"
+#define IDENTIFIER_MPFRY1 "mpfr_y1"
+#define IDENTIFIER_MPFRYN "mpfr_yn"
+#define IDENTIFIER_MPFRFMA "mpfr_fma"
+#define IDENTIFIER_MPFRFMS "mpfr_fms"
+#define IDENTIFIER_MPFRAGM "mpfr_agm"
+#define IDENTIFIER_MPFRHYPOT "mpfr_hypot"
+#define IDENTIFIER_MPFRAI "mpfr_ai"
+#define IDENTIFIER_CELFAH "cel_fah"
+#define IDENTIFIER_FAHCEL "fah_cel"
+#define IDENTIFIER_CELKEL "cel_kel"
+#define IDENTIFIER_KELCEL "kel_cel"
+#define IDENTIFIER_CELRANK "cel_rank"
+#define IDENTIFIER_RANKCEL "rank_cel"
+#define IDENTIFIER_CELREA "cel_rea"
+#define IDENTIFIER_REACEL "rea_cel"
+#define IDENTIFIER_CELNEW "cel_new"
+#define IDENTIFIER_NEWCEL "new_cel"
+#define IDENTIFIER_CELDEL "cel_del"
+#define IDENTIFIER_DELCEL "del_cel"
+#define IDENTIFIER_CELROM "cel_rom"   
+#define IDENTIFIER_ROMCEL "rom_cel"
+#define IDENTIFIER_FAHKEL "fah_kel"
+#define IDENTIFIER_KELFAH "kel_fah" 
+#define IDENTIFIER_FAHRANK "fah_rank"
+#define IDENTIFIER_RANKFAH "rank_fah"
+#define IDENTIFIER_FAHREA "fah_rea"
+#define IDENTIFIER_REAFAH "rea_fah"
+#define IDENTIFIER_REARANK "rea_rank"
+#define IDENTIFIER_RANKREA "rank_rea"
+#define IDENTIFIER_CEXP "cexp"
+#define IDENTIFIER_CEXPC IDENTIFIER_CEXP"c"
+#define IDENTIFIER_CEXP10 "cexp10"
+#define IDENTIFIER_CEXP10C IDENTIFIER_CEXP10"c"
+#define IDENTIFIER_CEXP2 "cexp2"
+#define IDENTIFIER_CEXP2C IDENTIFIER_CEXP2"c"
+#define IDENTIFIER_CPOW "cpow"
+#define IDENTIFIER_CROOT "croot"
+#define IDENTIFIER_CLOGN "clogn"
+#define IDENTIFIER_CLN "cln"
+#define IDENTIFIER_CLNC IDENTIFIER_CLN"c"
+#define IDENTIFIER_CLOG "clog"
+#define IDENTIFIER_CLOGC IDENTIFIER_CLOG"c"
+#define IDENTIFIER_CLOG10 "clog10"
+#define IDENTIFIER_CLOG10C IDENTIFIER_CLOG10"c"
+#define IDENTIFIER_CLOG2 "clog2"
+#define IDENTIFIER_CLOG2C IDENTIFIER_CLOG2"c"
+#define IDENTIFIER_CLOG1P "clog1p"
+#define IDENTIFIER_CLOG1PC IDENTIFIER_CLOG1P"c"
+#define IDENTIFIER_CLOG101P "clog101p"
+#define IDENTIFIER_CLOG101PC IDENTIFIER_CLOG101P"c"
+#define IDENTIFIER_CLOG21P "clog21p"
+#define IDENTIFIER_CLOG21PC IDENTIFIER_CLOG21P"c"
+#define IDENTIFIER_CARG "carg"
+#define IDENTIFIER_CABS "cabs"
+#define IDENTIFIER_QABS "qabs"
+#define IDENTIFIER_OABS "oabs"
+#define IDENTIFIER_SABS "sabs"
+#define IDENTIFIER_BITCOUNTER "bcnt"
+#define IDENTIFIER_MGET "mget"
+#define IDENTIFIER_MLET "mlet"
+#define IDENTIFIER_MDEL "mdel"
+#define IDENTIFIER_MOFF "moff"
+#define IDENTIFIER_SOL "sol"
+#define IDENTIFIER_UBITCOUNTER "ubcnt"
+#define IDENTIFIER_VERSION "vers"
+#define IDENTIFIER_PREC "prec"
+#define IDENTIFIER_EXITCHAR "ec"
+#define IDENTIFIER_STABFACT "sf"
+#define IDENTIFIER_BLOCKSIZE "bsiz"
+#define IDENTIFIER_MINOSMMDIM "mosmm"
+#define IDENTIFIER_MINSTRASSENDIM "mstr"
+#define IDENTIFIER_MINSRNUMBER "msrn"
+#define IDENTIFIER_ALGEBRA "alg"
+#define IDENTIFIER_OUTLIERCONST "oc"
+#define IDENTIFIER_RSEED "rseed"
+#define IDENTIFIER_MMIFIBO "mmi_fibo"
+#define IDENTIFIER_MMIEVENSFACT "mmi_esfact"
+#define IDENTIFIER_MMIODDSFACT "mmi_osfact"
+#define IDENTIFIER_TRASFORMAANGOLI "angles"
+#define IDENTIFIER_SIN "sin"
+#define IDENTIFIER_SINH IDENTIFIER_SIN"h"
+#define IDENTIFIER_COS "cos"
+#define IDENTIFIER_COSH IDENTIFIER_COS"h"
+#define IDENTIFIER_TAN "tan"
+#define IDENTIFIER_TANH IDENTIFIER_TAN"h"
+#define IDENTIFIER_CSC "csc"
+#define IDENTIFIER_CSCH IDENTIFIER_CSC"h"
+#define IDENTIFIER_SEC "sec"
+#define IDENTIFIER_SECH IDENTIFIER_SEC"h"
+#define IDENTIFIER_COT "cot"
+#define IDENTIFIER_COTH IDENTIFIER_COT"h"
+#define IDENTIFIER_ASIN "asin"
+#define IDENTIFIER_ASINH IDENTIFIER_ASIN"h"
+#define IDENTIFIER_ACOS "acos"
+#define IDENTIFIER_ACOSH IDENTIFIER_ACOS"h"
+#define IDENTIFIER_ATAN "atan"
+#define IDENTIFIER_ATANH IDENTIFIER_ATAN"h"
+#define IDENTIFIER_ATAN2 "atan2"
+#define IDENTIFIER_ACSC "acsc"
+#define IDENTIFIER_ACSCH IDENTIFIER_ACSC"h"
+#define IDENTIFIER_ASEC "asec"
+#define IDENTIFIER_ASECH IDENTIFIER_ASEC"h"
+#define IDENTIFIER_ACOT "acot"
+#define IDENTIFIER_ACOTH IDENTIFIER_ACOT"h"
+#define IDENTIFIER_HSIN "hsin"
+#define IDENTIFIER_HSINH IDENTIFIER_HSIN"h"
+#define IDENTIFIER_QSIN "qsin"
+#define IDENTIFIER_QSINH IDENTIFIER_QSIN"h"
+#define IDENTIFIER_HCOS "hcos"
+#define IDENTIFIER_HCOSH IDENTIFIER_HCOS"h"
+#define IDENTIFIER_QCOS "qcos"
+#define IDENTIFIER_QCOSH IDENTIFIER_QCOS"h"
+#define IDENTIFIER_HSEC "hsec"
+#define IDENTIFIER_HSECH IDENTIFIER_HSEC"h"
+#define IDENTIFIER_QSEC "qsec"
+#define IDENTIFIER_QSECH IDENTIFIER_QSEC"h"
+#define IDENTIFIER_HCSC "hcsc"
+#define IDENTIFIER_HCSCH IDENTIFIER_HCSC"h"
+#define IDENTIFIER_QCSC "qcsc"
+#define IDENTIFIER_QCSCH IDENTIFIER_QCSC"h"
+#define IDENTIFIER_HTAN "htan"
+#define IDENTIFIER_HTANH IDENTIFIER_HTAN"h"
+#define IDENTIFIER_QTAN "qtan"
+#define IDENTIFIER_QTANH IDENTIFIER_QTAN"h"
+#define IDENTIFIER_HCOT "hcot"
+#define IDENTIFIER_HCOTH IDENTIFIER_HCOT"h"
+#define IDENTIFIER_QCOT "qcot"
+#define IDENTIFIER_QCOTH IDENTIFIER_QCOT"h"
+#define IDENTIFIER_VSIN "vsin"
+#define IDENTIFIER_VSINH IDENTIFIER_VSIN"h"
+#define IDENTIFIER_CVSIN "cvsin"
+#define IDENTIFIER_CVSINH IDENTIFIER_CVSIN"h"
+#define IDENTIFIER_VCOS "vcos"
+#define IDENTIFIER_VCOSH IDENTIFIER_VCOS"h"
+#define IDENTIFIER_CVCOS "cvcos"
+#define IDENTIFIER_CVCOSH IDENTIFIER_CVCOS"h"
+#define IDENTIFIER_HVSIN "hvsin"
+#define IDENTIFIER_HVSINH IDENTIFIER_HVSIN"h"
+#define IDENTIFIER_HCVSIN "hcvsin"
+#define IDENTIFIER_HCVSINH IDENTIFIER_HCVSIN"h"
+#define IDENTIFIER_HVCOS "hvcos"
+#define IDENTIFIER_HVCOSH IDENTIFIER_HVCOS"h"
+#define IDENTIFIER_HCVCOS "hcvcos"
+#define IDENTIFIER_HCVCOSH IDENTIFIER_HCVCOS"h"
+#define IDENTIFIER_QVSIN "qvsin"
+#define IDENTIFIER_QVSINH IDENTIFIER_QVSIN"h"
+#define IDENTIFIER_QCVSIN "qcvsin"
+#define IDENTIFIER_QCVSINH IDENTIFIER_QCVSIN"h"
+#define IDENTIFIER_QVCOS "qvcos"
+#define IDENTIFIER_QVCOSH IDENTIFIER_QVCOS"h"
+#define IDENTIFIER_QCVCOS "qcvcos"
+#define IDENTIFIER_QCVCOSH IDENTIFIER_QCVCOS"h"
+#define IDENTIFIER_ESEC "esec"
+#define IDENTIFIER_ESECH IDENTIFIER_ESEC"h"
+#define IDENTIFIER_ECSC "ecsc"
+#define IDENTIFIER_ECSCH IDENTIFIER_ECSC"h"
+#define IDENTIFIER_HESEC "hesec"
+#define IDENTIFIER_HESECH IDENTIFIER_HESEC"h"
+#define IDENTIFIER_HECSC "hecsc"
+#define IDENTIFIER_HECSCH IDENTIFIER_HECSC"h"
+#define IDENTIFIER_QESEC "qesec"
+#define IDENTIFIER_QESECH IDENTIFIER_QESEC"h"
+#define IDENTIFIER_QECSC "qecsc"
+#define IDENTIFIER_QECSCH IDENTIFIER_QECSC"h"
+#define IDENTIFIER_SINC "sinc"
+#define IDENTIFIER_SINCH IDENTIFIER_SINC"h"
+#define IDENTIFIER_HSINC "hsinc"
+#define IDENTIFIER_HSINCH IDENTIFIER_HSINC"h"
+#define IDENTIFIER_QSINC "qsinc"
+#define IDENTIFIER_QSINCH IDENTIFIER_QSINC"h"
+#define IDENTIFIER_COSC "cosc"
+#define IDENTIFIER_COSCH IDENTIFIER_COSC"h"
+#define IDENTIFIER_HCOSC "hcosc"
+#define IDENTIFIER_HCOSCH IDENTIFIER_HCOSC"h"
+#define IDENTIFIER_QCOSC "qcosc"
+#define IDENTIFIER_QCOSCH IDENTIFIER_QCOSC"h"
+#define IDENTIFIER_SECC "secc"
+#define IDENTIFIER_SECCH IDENTIFIER_SECC"h"
+#define IDENTIFIER_HSECC "hsecc"
+#define IDENTIFIER_HSECCH IDENTIFIER_HSECC"h"
+#define IDENTIFIER_QSECC "qsecc"
+#define IDENTIFIER_QSECCH IDENTIFIER_QSECC"h"
+#define IDENTIFIER_CSCC "cscc"
+#define IDENTIFIER_CSCCH IDENTIFIER_CSCC"h"
+#define IDENTIFIER_HCSCC "hcscc"
+#define IDENTIFIER_HCSCCH IDENTIFIER_HCSCC"h"
+#define IDENTIFIER_QCSCC "qcscc"
+#define IDENTIFIER_QCSCCH IDENTIFIER_QCSCC"h"
+#define IDENTIFIER_TANC "tanc"
+#define IDENTIFIER_TANCH IDENTIFIER_TANC"h"
+#define IDENTIFIER_HTANC "htanc"
+#define IDENTIFIER_HTANCH IDENTIFIER_HTANC"h"
+#define IDENTIFIER_QTANC "qtanc"
+#define IDENTIFIER_QTANCH IDENTIFIER_QTANC"h"
+#define IDENTIFIER_COTC "cotc"
+#define IDENTIFIER_COTCH IDENTIFIER_COTC"h"
+#define IDENTIFIER_HCOTC "hcotc"
+#define IDENTIFIER_HCOTCH IDENTIFIER_HCOTC"h"
+#define IDENTIFIER_QCOTC "qcotc"
+#define IDENTIFIER_QCOTCH IDENTIFIER_QCOTC"h"
+#define IDENTIFIER_CSIN "csin"
+#define IDENTIFIER_CSINH IDENTIFIER_CSIN"h"
+#define IDENTIFIER_CCOS "ccos"
+#define IDENTIFIER_CCOSH IDENTIFIER_CCOS"h"
+#define IDENTIFIER_CTAN "ctan"
+#define IDENTIFIER_CTANH IDENTIFIER_CTAN"h"
+#define IDENTIFIER_CCSC "ccsc"
+#define IDENTIFIER_CCSCH IDENTIFIER_CCSC"h"
+#define IDENTIFIER_CSEC "csec"
+#define IDENTIFIER_CSECH IDENTIFIER_CSEC"h"
+#define IDENTIFIER_CCOT "ccot"
+#define IDENTIFIER_CCOTH IDENTIFIER_CCOT"h"
+#define IDENTIFIER_CASIN "casin"
+#define IDENTIFIER_CASINH IDENTIFIER_CASIN"h"
+#define IDENTIFIER_CACOS "cacos"
+#define IDENTIFIER_CACOSH IDENTIFIER_CACOS"h"
+#define IDENTIFIER_CATAN "catan"
+#define IDENTIFIER_CATANH IDENTIFIER_CATAN"h"
+#define IDENTIFIER_CACSC "cacsc"
+#define IDENTIFIER_CACSCH IDENTIFIER_CACSC"h"
+#define IDENTIFIER_CASEC "casec"
+#define IDENTIFIER_CASECH IDENTIFIER_CASEC"h"
+#define IDENTIFIER_CACOT "cacot"
+#define IDENTIFIER_CACOTH IDENTIFIER_CACOT"h"
+#define IDENTIFIER_CHSIN "chsin"
+#define IDENTIFIER_CHSINH IDENTIFIER_CHSIN"h"
+#define IDENTIFIER_CQSIN "cqsin"
+#define IDENTIFIER_CQSINH IDENTIFIER_CQSIN"h"
+#define IDENTIFIER_CHCOS "chcos"
+#define IDENTIFIER_CHCOSH IDENTIFIER_CHCOS"h"
+#define IDENTIFIER_CQCOS "cqcos"
+#define IDENTIFIER_CQCOSH IDENTIFIER_CQCOS"h"
+#define IDENTIFIER_CHSEC "chsec"
+#define IDENTIFIER_CHSECH IDENTIFIER_CHSEC"h"
+#define IDENTIFIER_CQSEC "cqsec"
+#define IDENTIFIER_CQSECH IDENTIFIER_CQSEC"h"
+#define IDENTIFIER_CHCSC "chcsc"
+#define IDENTIFIER_CHCSCH IDENTIFIER_CHCSC"h"
+#define IDENTIFIER_CQCSC "cqcsc"
+#define IDENTIFIER_CQCSCH IDENTIFIER_CQCSC"h"
+#define IDENTIFIER_CHTAN "chtan"
+#define IDENTIFIER_CHTANH IDENTIFIER_CHTAN"h"
+#define IDENTIFIER_CQTAN "cqtan"
+#define IDENTIFIER_CQTANH IDENTIFIER_CQTAN"h"
+#define IDENTIFIER_CHCOT "chcot"
+#define IDENTIFIER_CHCOTH IDENTIFIER_CHCOT"h"
+#define IDENTIFIER_CQCOT "cqcot"
+#define IDENTIFIER_CQCOTH IDENTIFIER_CQCOT"h"
+#define IDENTIFIER_CPXVSIN "cpxvsin"
+#define IDENTIFIER_CPXVSINH IDENTIFIER_CPXVSIN"h"
+#define IDENTIFIER_CCVSIN "ccvsin"
+#define IDENTIFIER_CCVSINH IDENTIFIER_CCVSIN"h"
+#define IDENTIFIER_CPXVCOS "cpxvcos"
+#define IDENTIFIER_CPXVCOSH IDENTIFIER_CPXVCOS"h"
+#define IDENTIFIER_CCVCOS "ccvcos"
+#define IDENTIFIER_CCVCOSH IDENTIFIER_CCVCOS"h"
+#define IDENTIFIER_CHVSIN "chvsin"
+#define IDENTIFIER_CHVSINH IDENTIFIER_CHVSIN"h"
+#define IDENTIFIER_CHCVSIN "chcvsin"
+#define IDENTIFIER_CHCVSINH IDENTIFIER_CHCVSIN"h"
+#define IDENTIFIER_CHVCOS "chvcos"
+#define IDENTIFIER_CHVCOSH IDENTIFIER_CHVCOS"h"
+#define IDENTIFIER_CHCVCOS "chcvcos"
+#define IDENTIFIER_CHCVCOSH IDENTIFIER_CHCVCOS"h"
+#define IDENTIFIER_CQVSIN "cqvsin"
+#define IDENTIFIER_CQVSINH IDENTIFIER_CQVSIN"h"
+#define IDENTIFIER_CQCVSIN "cqcvsin"
+#define IDENTIFIER_CQCVSINH IDENTIFIER_CQCVSIN"h"
+#define IDENTIFIER_CQVCOS "cqvcos"
+#define IDENTIFIER_CQVCOSH IDENTIFIER_CQVCOS"h"
+#define IDENTIFIER_CQCVCOS "cqcvcos"
+#define IDENTIFIER_CQCVCOSH IDENTIFIER_CQCVCOS"h"
+#define IDENTIFIER_CESEC "cesec"
+#define IDENTIFIER_CESECH IDENTIFIER_CESEC"h"
+#define IDENTIFIER_CECSC "cecsc"
+#define IDENTIFIER_CECSCH IDENTIFIER_CECSC"h"
+#define IDENTIFIER_CHESEC "chesec"
+#define IDENTIFIER_CHESECH IDENTIFIER_CHESEC"h"
+#define IDENTIFIER_CHECSC "checsc"
+#define IDENTIFIER_CHECSCH IDENTIFIER_CHECSC"h"
+#define IDENTIFIER_CQESEC "cqesec"
+#define IDENTIFIER_CQESECH IDENTIFIER_CQESEC"h"
+#define IDENTIFIER_CQECSC "cqecsc"
+#define IDENTIFIER_CQECSCH IDENTIFIER_CQECSC"h"
+#define IDENTIFIER_CSINC "csinc"
+#define IDENTIFIER_CSINCH IDENTIFIER_CSINC"h"
+#define IDENTIFIER_CHSINC "chsinc"
+#define IDENTIFIER_CHSINCH IDENTIFIER_CHSINC"h"
+#define IDENTIFIER_CQSINC "cqsinc"
+#define IDENTIFIER_CQSINCH IDENTIFIER_CQSINC"h"
+#define IDENTIFIER_CCOSC "ccosc"
+#define IDENTIFIER_CCOSCH IDENTIFIER_CCOSC"h"
+#define IDENTIFIER_CHCOSC "chcosc"
+#define IDENTIFIER_CHCOSCH IDENTIFIER_CHCOSC"h"
+#define IDENTIFIER_CQCOSC "cqcosc"
+#define IDENTIFIER_CQCOSCH IDENTIFIER_CQCOSC"h"
+#define IDENTIFIER_CSECC "csecc"
+#define IDENTIFIER_CSECCH IDENTIFIER_CSECC"h"
+#define IDENTIFIER_CHSECC "chsecc"
+#define IDENTIFIER_CHSECCH IDENTIFIER_CHSECC"h"
+#define IDENTIFIER_CQSECC "cqsecc"
+#define IDENTIFIER_CQSECCH IDENTIFIER_CQSECC"h"
+#define IDENTIFIER_CCSCC "ccscc"
+#define IDENTIFIER_CCSCCH IDENTIFIER_CCSCC"h"
+#define IDENTIFIER_CHCSCC "chcscc"
+#define IDENTIFIER_CHCSCCH IDENTIFIER_CHCSCC"h"
+#define IDENTIFIER_CQCSCC "cqcscc"
+#define IDENTIFIER_CQCSCCH IDENTIFIER_CQCSCC"h"
+#define IDENTIFIER_CTANC "ctanc"
+#define IDENTIFIER_CTANCH IDENTIFIER_CTANC"h"
+#define IDENTIFIER_CHTANC "chtanc"
+#define IDENTIFIER_CHTANCH IDENTIFIER_CHTANC"h"
+#define IDENTIFIER_CQTANC "cqtanc"
+#define IDENTIFIER_CQTANCH IDENTIFIER_CQTANC"h"
+#define IDENTIFIER_CCOTC "ccotc"
+#define IDENTIFIER_CCOTCH IDENTIFIER_CCOTC"h"
+#define IDENTIFIER_CHCOTC "chcotc"
+#define IDENTIFIER_CHCOTCH IDENTIFIER_CHCOTC"h"
+#define IDENTIFIER_CQCOTC "cqcotc"
+#define IDENTIFIER_CQCOTCH IDENTIFIER_CQCOTC"h"
+
+#define IDENTIFIER_ALOG "a_log"
+#define IDENTIFIER_APOWER "a_power"
+#define IDENTIFIER_AREGULAR "a_regular"
+#define IDENTIFIER_JLOG "j_log"
+#define IDENTIFIER_JPOWER "j_power"
+#define IDENTIFIER_JREGULAR "j_regular"
+#define IDENTIFIER_NUMLOG "num_log"
+#define IDENTIFIER_NUMPOWER "num_power"
+#define IDENTIFIER_NUMREGULAR "num_regular"
+#define IDENTIFIER_ORDERLOG "order_log"
+#define IDENTIFIER_ORDERPOWER "order_power"
+#define IDENTIFIER_ORDERREGULAR "order_regular"
+#define IDENTIFIER_RULELOG "rule_log"
+#define IDENTIFIER_RULEPOWER "rule_power"
+#define IDENTIFIER_RULEREGULAR "rule_regular"
+#define IDENTIFIER_ALNORM "alnorm"
+#define IDENTIFIER_PRNCST "prncst"
+#define IDENTIFIER_TFN "tfn"
+#define IDENTIFIER_CHOLESKY "cholesky"
+#define IDENTIFIER_SUBCHL "subchl"
+#define IDENTIFIER_GAMMAINC "gamma_inc"
+#define IDENTIFIER_GAMMAINCVALUES "gamma_inc_values"
+#define IDENTIFIER_CLUSTR "clustr"
+#define IDENTIFIER_BETAIN "betain"
+#define IDENTIFIER_BETAINCVALUES "beta_inc_values"
+#define IDENTIFIER_R8NORMAL01CDFINVERSE "r8_normal_01_cdf_inverse"
+#define IDENTIFIER_OWENVALUES "owen_values"
+#define IDENTIFIER_THA "tha"
+#define IDENTIFIER_GAMMAD "gammad"
+#define IDENTIFIER_PPCHI2 "ppchi2"
+#define IDENTIFIER_DIGAMA "digama"
+#define IDENTIFIER_PSIVALUES "psi_values"
+#define IDENTIFIER_XINBTA "xinbta"
+#define IDENTIFIER_PPND "ppnd"
+#define IDENTIFIER_TRIGAMMA "trigamma"
+#define IDENTIFIER_TRIGAMMAVALUES "_trigamma_values"
+#define IDENTIFIER_RCONT "rcont"
+#define IDENTIFIER_GAMMDS "gammds"
+#define IDENTIFIER_ALNFAC "alnfac"
+#define IDENTIFIER_CHYPER "chyper"
+#define IDENTIFIER_HYPERGEOMETRICCDFVALUES "hypergeometric_cdf_values"
+#define IDENTIFIER_HYPERGEOMETRICPDFVALUES "hypergeometric_pdf_values"
+#define IDENTIFIER_REVERS "revers"
+#define IDENTIFIER_SIMDO "simdo"
+#define IDENTIFIER_R8RANDOM "r8_random"
+#define IDENTIFIER_R8UNI "r8_uni"
+#define IDENTIFIER_BETANC "betanc"
+#define IDENTIFIER_BETANONCENTRALCDFVALUES "beta_noncentral_cdf_values"
+#define IDENTIFIER_TNC "tnc"
+#define IDENTIFIER_ALNGAM "alngam"
+#define IDENTIFIER_GAMMALOGVALUES "gamma_log_values"
+#define IDENTIFIER_ALOGAM "alogam"
+#define IDENTIFIER_GAMAIN "gamain"
+#define IDENTIFIER_R8COLMEAN "r8col_mean"
+#define IDENTIFIER_NCBETA "ncbeta"
+#define IDENTIFIER_INVMOD "invmod"
+#define IDENTIFIER_MSORT "msort"
+#define IDENTIFIER_MUSORT "musort"
+#define IDENTIFIER_I4VECUNIFORMAB "i4vec_uniform_ab"
+#define IDENTIFIER_R8GAMMA "r8_gamma"
+#define IDENTIFIER_R8UNIFORM01 "r8_uniform_01"
+#define IDENTIFIER_R8VECNORMAL01 "r8vec_normal_01"
+#define IDENTIFIER_BERNSTEINMATRIX "bernstein_matrix"
+#define IDENTIFIER_BERNSTEINMATRIXINVERSE "bernstein_matrix_inverse"
+#define IDENTIFIER_BERNSTEINPOLY01 "bernstein_poly_01"
+#define IDENTIFIER_BERNSTEINPOLYAB "bernstein_poly_ab"
+#define IDENTIFIER_BERNSTEINPOLY01VALUES "bernstein_poly_01_values"
+#define IDENTIFIER_R8CHOOSE "r8_choose"
+#define IDENTIFIER_R8SIGN "r8_sign"
+#define IDENTIFIER_R8VECLINSPACENEW "r8vec_linspace_new"
+#define IDENTIFIER_BESSJ0 "bessj0"
+#define IDENTIFIER_BESSJ "bessj"
+#define IDENTIFIER_BESSJ1 "bessj1"
+#define IDENTIFIER_BESSY0 "bessy0"
+#define IDENTIFIER_BESSY1 "bessy1"
+#define IDENTIFIER_BESSY "bessy"
+#define IDENTIFIER_BESSI0 "bessi0"
+#define IDENTIFIER_BESSI1 "bessi1"
+#define IDENTIFIER_BESSI "bessi"
+#define IDENTIFIER_BESSK0 "bessk0"
+#define IDENTIFIER_BESSK1 "bessk1"
+#define IDENTIFIER_BESSK "bessk"
+#define IDENTIFIER_DAXPY "daxpy"
+#define IDENTIFIER_DDOT "ddot"
+#define IDENTIFIER_DNRM2 "dnrm2"
+#define IDENTIFIER_DROT "drot"
+#define IDENTIFIER_DROTG "drotg"
+#define IDENTIFIER_DSCAL "dscal"
+#define IDENTIFIER_DSWAP "dswap"
+#define IDENTIFIER_GLOMIN "glomin"
+#define IDENTIFIER_LOCALMIN "local_min"
+#define IDENTIFIER_R8EPSILON "r8_epsilon"
+#define IDENTIFIER_ZERO "zero"
+#define IDENTIFIER_BROWNIANMOTIONSIMULATION "brownian_motion_simulation"
+#define IDENTIFIER_BURGERSVISCOUSTIMEEXACT1 "_burgers_viscous_time_exact1"
+#define IDENTIFIER_HERMITEEKCOMPUTE "hermite_ek_compute"
+#define IDENTIFIER_IMTQLX "imtqlx"
+#define IDENTIFIER_R8VECEVENNEW "r8vec_even_new"
+#define IDENTIFIER_CCNCOMPUTEPOINTSNEW "ccn_compute_points_new"
+#define IDENTIFIER_RESCALE "rescale"
+#define IDENTIFIER_ALGDIV "algdiv"
+#define IDENTIFIER_ALNREL "alnrel"
+#define IDENTIFIER_APSER "apser"
+#define IDENTIFIER_BCORR "bcorr"
+#define IDENTIFIER_BETA "beta"
+#define IDENTIFIER_BETAASYM "beta_asym"
+#define IDENTIFIER_BETAFRAC "beta_frac"
+#define IDENTIFIER_BETAGRAT "beta_grat"
+#define IDENTIFIER_BETAINC "beta_inc"
+#define IDENTIFIER_BETALOG "beta_log"
+#define IDENTIFIER_BETAPSER "beta_pser"
+#define IDENTIFIER_BETARCOMP "beta_rcomp"
+#define IDENTIFIER_BETARCOMP1 "beta_rcomp1"
+#define IDENTIFIER_BETAUP "beta_up"
+#define IDENTIFIER_CDFBET "cdfbet"
+#define IDENTIFIER_CDFBIN "cdfbin"
+#define IDENTIFIER_CDFCHI "cdfchi"
+#define IDENTIFIER_CDFCHN "cdfchn"
+#define IDENTIFIER_CDFF "cdff"
+#define IDENTIFIER_CDFFNC "cdffnc"
+#define IDENTIFIER_CDFGAM "cdfgam"
+#define IDENTIFIER_CDFNBN "cdfnbn"
+#define IDENTIFIER_CDFNOR "cdfnor"
+#define IDENTIFIER_CDFPOI "cdfpoi"
+#define IDENTIFIER_CDFT "cdft"
+#define IDENTIFIER_CUMBET "cumbet"
+#define IDENTIFIER_CUMBIN "cumbin"
+#define IDENTIFIER_CUMCHI "cumchi"
+#define IDENTIFIER_CUMCHN "cumchn"
+#define IDENTIFIER_CUMF "cumf"
+#define IDENTIFIER_CUMFNC "cumfnc"
+#define IDENTIFIER_CUMGAM "cumgam"
+#define IDENTIFIER_CUMNBN "cumnbn"
+#define IDENTIFIER_CUMNOR "cumnor"
+#define IDENTIFIER_CUMPOI "cumpoi"
+#define IDENTIFIER_CUMT "cumt"
+#define IDENTIFIER_DBETRM "dbetrm"
+#define IDENTIFIER_DEXPM1 "dexpm1"
+#define IDENTIFIER_DINVNR "dinvnr"
+#define IDENTIFIER_DINVR "dinvr"
+#define IDENTIFIER_DLANOR "dlanor"
+#define IDENTIFIER_DPMPAR "dpmpar"
+#define IDENTIFIER_DSTINV "dstinv"
+#define IDENTIFIER_DSTREM "dstrem"
+#define IDENTIFIER_DSTZR "dstzr"
+#define IDENTIFIER_DT1 "dt1"
+#define IDENTIFIER_DZROR "dzror"
+#define IDENTIFIER_E0000 "E0000"
+#define IDENTIFIER_E0001 "E0001"
+#define IDENTIFIER_ERRORF "error_f"
+#define IDENTIFIER_ERRORFC "error_fc"
+#define IDENTIFIER_ESUM "esum"
+#define IDENTIFIER_EVALPOL "eval_pol"
+#define IDENTIFIER_EXPARG "exparg"
+#define IDENTIFIER_FIFDINT "fifdint"
+#define IDENTIFIER_FIFDMAX1 "fifdmax1"
+#define IDENTIFIER_FIFDMIN1 "fifdmin1"
+#define IDENTIFIER_FIFDSIGN "fifdsign"
+#define IDENTIFIER_FIFIDINT "fifidint"
+#define IDENTIFIER_FIFMOD "fifmod"
+#define IDENTIFIER_FPSER "fpser"
+#define IDENTIFIER_GAM1 "gam1"
+#define IDENTIFIER_GAMMAINCINV "gamma_inc_inv"
+#define IDENTIFIER_GAMMALN1 "gamma_ln1"
+#define IDENTIFIER_GAMMALOG "gamma_log"
+#define IDENTIFIER_GAMMARAT1 "gamma_rat1"
+#define IDENTIFIER_GAMMAX "gamma_x"
+#define IDENTIFIER_GSUMLN "gsumln"
+#define IDENTIFIER_IPMPAR "ipmpar"
+#define IDENTIFIER_PSI "psi"
+#define IDENTIFIER_RCOMP "rcomp"
+#define IDENTIFIER_REXP "rexp"
+#define IDENTIFIER_RLOG "rlog"
+#define IDENTIFIER_RLOG1 "rlog1"
+#define IDENTIFIER_STVALN "stvaln"
+#define IDENTIFIER_BINOMIALCDFVALUES "binomial_cdf_values"
+#define IDENTIFIER_CHINONCENTRALCDFVALUES "chi_noncentral_cdf_values"
+#define IDENTIFIER_CHISQUARECDFVALUES "chi_square_cdf_values"
+#define IDENTIFIER_ERFCDFVALUES "erf_values"
+#define IDENTIFIER_FCDFVALUES "f_cdf_values"
+#define IDENTIFIER_FNONCENTRALCDFVALUES "f_noncentral_cdf_values"
+#define IDENTIFIER_NEGATIVEBINOMIALCDFVALUES "negative_binomial_cdf_values"
+#define IDENTIFIER_NORMALCDFVALUES "normal_cdf_values"
+#define IDENTIFIER_POISSONCDFVALUES "poisson_cdf_values"
+#define IDENTIFIER_STUDENTCDFVALUES "student_cdf_values"
+#define IDENTIFIER_I4UNIFORM "i4_uniform"
+#define IDENTIFIER_R8MATCOPYNEW "r8mat_copy_new"
+#define IDENTIFIER_R8VECUNIFORM01NEW "r8vec_uniform_01_new"
+#define IDENTIFIER_TDOUBLEPRODUCTINTEGRAL "t_double_product_integral"
+#define IDENTIFIER_TINTEGRAL "t_integral"
+#define IDENTIFIER_TPOLYNOMIAL "t_polynomial"
+#define IDENTIFIER_TPOLYNOMIALAB "t_polynomial_ab"
+#define IDENTIFIER_TPOLYNOMIALCOEFFICIENTS "t_polynomial_coefficients"
+#define IDENTIFIER_TPOLYNOMIALZEROS "t_polynomial_zeros"
+#define IDENTIFIER_TPROJECTCOEFFICIENTS "t_project_coefficients"
+#define IDENTIFIER_TPROJECTCOEFFICIENTSAB "t_project_coefficients_ab"
+#define IDENTIFIER_TPROJECTVALUE "t_project_value"
+#define IDENTIFIER_TPROJECTVALUEAB "t_project_value_ab"
+#define IDENTIFIER_TQUADRATURERULE "t_quadrature_rule"
+#define IDENTIFIER_TTRIPLEPRODUCTINTEGRAL "t_triple_product_integral"
+#define IDENTIFIER_UDOUBLEPRODUCTINTEGRAL "u_double_product_integral"
+#define IDENTIFIER_UINTEGRAL "u_integral"
+#define IDENTIFIER_UPOLYNOMIAL "u_polynomial"
+#define IDENTIFIER_UPOLYNOMIALCOEFFICIENTS "u_polynomial_coefficients"
+#define IDENTIFIER_UPOLYNOMIALZEROS "u_polynomial_zeros"
+#define IDENTIFIER_UQUADRATURERULE "u_quadrature_rule"
+#define IDENTIFIER_VDOUBLEPRODUCTINTEGRAL "v_double_product_integral"
+#define IDENTIFIER_VPOLYNOMIAL "v_polynomial"
+#define IDENTIFIER_VPOLYNOMIALZEROS "v_polynomial_zeros"
+#define IDENTIFIER_WDOUBLEPRODUCTINTEGRAL "w_double_product_integral"
+#define IDENTIFIER_WPOLYNOMIAL "w_polynomial"
+#define IDENTIFIER_WPOLYNOMIALZEROS "w_polynomial_zeros"
+#define IDENTIFIER_ECHEBSER0 "echebser0"
+#define IDENTIFIER_ECHEBSER1 "echebser1"
+#define IDENTIFIER_ECHEBSER2 "echebser2"
+#define IDENTIFIER_ECHEBSER3 "echebser3"
+#define IDENTIFIER_ECHEBSER4 "echebser4"
+#define IDENTIFIER_EVENCHEBSER0 "evenchebser0"
+#define IDENTIFIER_EVENCHEBSER1 "evenchebser1"
+#define IDENTIFIER_EVENCHEBSER2 "evenchebser2"
+#define IDENTIFIER_ODDCHEBSER0 "oddchebser0"
+#define IDENTIFIER_ODDCHEBSER1 "oddchebser1"
+#define IDENTIFIER_ODDCHEBSER2 "oddchebser2"
+#define IDENTIFIER_ATOI4 "a_to_i4"
+#define IDENTIFIER_CIRCLEARCGRID "circle_arc_grid"
+#define IDENTIFIER_CIRCLE01LENGTH "circle_arc_grid"
+#define IDENTIFIER_CIRCLE01MONOMIALINTEGRAL "circle01_monomial_integral"
+#define IDENTIFIER_CIRCLE01SAMPLE "circle01_sample"
+#define IDENTIFIER_R8VECUNIFORM01 "r8vec_uniform_01"
+#define IDENTIFIER_CIRCLERULE "circle_rule"
+#define IDENTIFIER_CIRCLESEGMENTANGLEFROMCHORD "circle_segment_angle_from_chord"
+#define IDENTIFIER_CIRCLESEGMENTANGLEFROMCHORDANGLES "circle_segment_angle_from_chord_angles"
+#define IDENTIFIER_CIRCLESEGMENTANGLEFROMHEIGHT "circle_segment_angle_from_height"
+#define IDENTIFIER_CIRCLESEGMENTAREAFROMANGLE "circle_segment_area_from_angle"
+#define IDENTIFIER_CIRCLESEGMENTAREAFROMCHORD "circle_segment_area_from_chord"
+#define IDENTIFIER_CIRCLESEGMENTAREAFROMHEIGHT "circle_segment_area_from_height"
+#define IDENTIFIER_CIRCLESEGMENTAREAFROMSAMPLE "circle_segment_area_from_sample"
+#define IDENTIFIER_CIRCLESEGMENTCDF "circle_segment_cdf"
+#define IDENTIFIER_CIRCLESEGMENTCENTROIDFROMCHORD "circle_segment_centroid_from_chord"
+#define IDENTIFIER_CIRCLESEGMENTCENTROIDFROMHEIGHT "circle_segment_centroid_from_height"
+#define IDENTIFIER_CIRCLESEGMENTCENTROIDFROMSAMPLE "circle_segment_centroid_from_sample"
+#define IDENTIFIER_CIRCLESEGMENTCONTAINSPOINT "circle_segment_contains_point"
+#define IDENTIFIER_CIRCLESEGMENTHEIGHTFROMANGLE "circle_segment_height_from_angle"
+#define IDENTIFIER_CIRCLESEGMENTHEIGHTFROMAREA "circle_segment_height_from_area"
+#define IDENTIFIER_CIRCLESEGMENTHEIGHTFROMCHORD "circle_segment_height_from_chord"
+#define IDENTIFIER_CIRCLESEGMENTROTATIONFROMCHORD "circle_segment_rotation_from_chord"
+#define IDENTIFIER_CIRCLESEGMENTSAMPLEFROMCHORD "circle_segment_sample_from_chord"
+#define IDENTIFIER_CIRCLESEGMENTSAMPLEFROMHEIGHT "circle_segment_sample_from_height"
+#define IDENTIFIER_CIRCLESEGMENTWIDTHFROMHEIGHT "circle_segment_width_from_height"
+#define IDENTIFIER_CLENSHAWCURTISCOMPUTE "clenshaw_curtis_compute"
+#define IDENTIFIER_FALPHA "f_alpha"
+#define IDENTIFIER_BICYCLELOCK "bicycle_lock"
+#define IDENTIFIER_COMBINATIONLOCK "combination_lock"
+#define IDENTIFIER_COMBINATIONNEXT "combination_next"
+#define IDENTIFIER_BELLVALUES "bell_values"
+#define IDENTIFIER_I4VECSEARCHBINARYA "i4vec_search_binary_a"
+#define IDENTIFIER_I4VECSEARCHBINARYD "i4vec_search_binary_d"
+#define IDENTIFIER_I4VECSORTINSERTA "i4vec_sort_insert_a"
+#define IDENTIFIER_I4VECSORTINSERTD "i4vec_sort_insert_d"
+#define IDENTIFIER_I4VECBACKTRACK "i4vec_backtrack"
+#define IDENTIFIER_I4VECSUM "i4vec_sum"
+#define IDENTIFIER_KNAPSACK01 "knapsack_01"
+#define IDENTIFIER_PERMCHECK "perm_check"
+#define IDENTIFIER_PERMINV "perm_inv"
+#define IDENTIFIER_PERMLEXRANK "perm_lex_rank"
+#define IDENTIFIER_PERMLEXUNRANK "perm_lex_unrank"
+#define IDENTIFIER_ANGLESHIFT "angle_shift"
+#define IDENTIFIER_ACOSCORDIC "acos_cordic"
+#define IDENTIFIER_ASINCORDIC "asin_cordic"
+#define IDENTIFIER_ATANCORDIC "asin_cordic"
+#define IDENTIFIER_CBRTCORDIC "cbrt_cordic"
+#define IDENTIFIER_EXPCORDIC "exp_cordic"
+#define IDENTIFIER_LNCORDIC "ln_cordic"
+#define IDENTIFIER_SQRTCORDIC "sqrt_cordic"
+#define IDENTIFIER_TANCORDIC "tan_cordic"
+#define IDENTIFIER_ACOSVALUES "acos_values"
+#define IDENTIFIER_ARCSINVALUES "arcsin_values"
+#define IDENTIFIER_ARCTANVALUES "arctan_values"
+#define IDENTIFIER_CBRTVALUES "cbrt_values"
+#define IDENTIFIER_COSVALUES "cos_values"
+#define IDENTIFIER_EXPVALUES "exp_values"
+#define IDENTIFIER_LNVALUES "ln_values"
+#define IDENTIFIER_SINVALUES "sin_values"
+#define IDENTIFIER_SQRTVALUES "sqrt_values"
+#define IDENTIFIER_TANVALUES "tan_values"
+#define IDENTIFIER_CORRELATIONBESSELJ "correlation_besselj"
+#define IDENTIFIER_CORRELATIONBESSELK "correlation_besselk"
+#define IDENTIFIER_CORRELATIONCONSTANT "correlation_constant"
+#define IDENTIFIER_CORRELATIONCUBIC "correlation_cubic"
+#define IDENTIFIER_CORRELATIONDAMPEDCOSINE "correlation_damped_cosine"
+#define IDENTIFIER_CORRELATIONDAMPEDSINE "correlation_damped_sine"
+#define IDENTIFIER_CORRELATIONEXPONENTIAL "correlation_exponential"
+#define IDENTIFIER_CORRELATIONGAUSSIAN "correlation_gaussian"
+#define IDENTIFIER_CORRELATIONHOLE "correlation_hole"
+#define IDENTIFIER_CORRELATIONLINEAR "correlation_linear"
+#define IDENTIFIER_CORRELATIONMATERN "correlation_matern"
+#define IDENTIFIER_CORRELATIONPENTASPHERICAL "correlation_pentaspherical"
+#define IDENTIFIER_CORRELATIONPOWER "correlation_power"
+#define IDENTIFIER_CORRELATIONRATIONALQUADRATIC "correlation_rational_quadratic"
+#define IDENTIFIER_CORRELATIONSPHERICAL "correlation_spherical"
+#define IDENTIFIER_CORRELATIONWHITENOISE "correlation_white_noise"
+#define IDENTIFIER_R8B0MP "r8_b0mp"
+#define IDENTIFIER_R8BESI1 "r8_besi1"
+#define IDENTIFIER_R8BESI1E "r8_besi1e"
+#define IDENTIFIER_R8BESJ0 "r8_besj0"
+#define IDENTIFIER_R8BESK "r8_besk"
+#define IDENTIFIER_R8BESK1 "r8_besk1"
+#define IDENTIFIER_R8BESK1E "r8_besk1e"
+#define IDENTIFIER_R8BESKES "r8_beskes"
+#define IDENTIFIER_R8BESKS "r8_besks"
+#define IDENTIFIER_R8CSEVL "r8_csevl"
+#define IDENTIFIER_R8GAML "r8_gaml"
+#define IDENTIFIER_R8INITS "r8_inits"
+#define IDENTIFIER_R8KNUS "r8_knus"
+#define IDENTIFIER_R8LGMC "r8_lgmc"
+#define IDENTIFIER_R8MACH "r8_mach"
+#define IDENTIFIER_R8VECLINSPACE "r8vec_linspace"
+#define IDENTIFIER_COSINETRANSFORMDATA "cosine_transform_data"
+#define IDENTIFIER_COSINETRANSFORMINVERSE "cosine_transform_inverse"
+#define IDENTIFIER_CPV "cpv"
+#define IDENTIFIER_CUBEARBQ "cube_arbq"
+#define IDENTIFIER_CUBEARBQSIZE "cube_arbq_size"
+#define IDENTIFIER_CUBERULE01 "cube_rule01"
+#define IDENTIFIER_CUBERULE02 "cube_rule02"
+#define IDENTIFIER_CUBERULE03 "cube_rule03"
+#define IDENTIFIER_CUBERULE04 "cube_rule04"
+#define IDENTIFIER_CUBERULE05 "cube_rule05"
+#define IDENTIFIER_CUBERULE06 "cube_rule06"
+#define IDENTIFIER_CUBERULE07 "cube_rule07"
+#define IDENTIFIER_CUBERULE08 "cube_rule08"
+#define IDENTIFIER_CUBERULE09 "cube_rule09"
+#define IDENTIFIER_CUBERULE10 "cube_rule10"
+#define IDENTIFIER_CUBERULE11 "cube_rule11"
+#define IDENTIFIER_CUBERULE12 "cube_rule12"
+#define IDENTIFIER_CUBERULE13 "cube_rule13"
+#define IDENTIFIER_CUBERULE14 "cube_rule14"
+#define IDENTIFIER_CUBERULE15 "cube_rule15"
+#define IDENTIFIER_LEGENDRE3DMONOMIALINTEGRAL "legendre_3d_monomial_integral"
+#define IDENTIFIER_CUBEVOLUME "cube_volume"
+#define IDENTIFIER_I4VECPRODUCT "i4vec_product"
+#define IDENTIFIER_LINEUNITO01 "line_unit_o01"
+#define IDENTIFIER_LINEUNITO02 "line_unit_o02"
+#define IDENTIFIER_LINEUNITO03 "line_unit_o03"
+#define IDENTIFIER_LINEUNITO04 "line_unit_o04"
+#define IDENTIFIER_LINEUNITO05 "line_unit_o05"
+#define IDENTIFIER_R8VECDIRECTPRODUCT "r8vec_direct_product"
+#define IDENTIFIER_R8VECDIRECTPRODUCT2 "r8vec_direct_product2"
+#define IDENTIFIER_SUBCOMPNEXT "subcomp_next"
+#define IDENTIFIER_CYCLEBRENT "cycle_brent"
+#define IDENTIFIER_CYCLEFLOYD "Cycle_floyd"
+#define IDENTIFIER_KRONROD "kronrod"
+#define IDENTIFIER_KRONRODADJUST "kronrod_adjust"
+#define IDENTIFIER_DIFFERBACKWARD "differ_backward"
+#define IDENTIFIER_DIFFERCENTRAL "differ_central"
+#define IDENTIFIER_DIFFERFORWARD "differ_forward"
+#define IDENTIFIER_DIFFERINVERSE "differ_inverse"
+#define IDENTIFIER_DIFFERMATRIX "differ_matrix"
+#define IDENTIFIER_DIFFERSOLVE "differ_solve"
+#define IDENTIFIER_DIFFERSTENCIL "differ_stencil"
+#define IDENTIFIER_R8FACTORIAL "r8_factorial"
+#define IDENTIFIER_R8MATFSNEW "r8mat_fs_new"
+#define IDENTIFIER_R8MATSUBNEW "r8mat_sub_new"
+#define IDENTIFIER_R8VMSL "r8vm_sl"
+#define IDENTIFIER_R8VMSLNEW "r8vm_sl_new"
+#define IDENTIFIER_R8MATMMNEW "r8mat_mm_new"
+#define IDENTIFIER_DISK01AREA "disk01_area"
+#define IDENTIFIER_DISK01MONOMIALINTEGRAL "disk01_monomial_integral"
+#define IDENTIFIER_DISK01SAMPLE "disk01_sample"
+#define IDENTIFIER_CHEBYTZERO "cheby_t_zero"
+#define IDENTIFIER_CHEBYUZERO "cheby_u_zero"
+#define IDENTIFIER_DATATODIF "data_to_dif"
+#define IDENTIFIER_DATATOR8POLY "data_to_r8poly"
+#define IDENTIFIER_DIFANTIDERIV "dif_antideriv"
+#define IDENTIFIER_DIFAPPEND "dif_append"
+#define IDENTIFIER_DIFBASIS "dif_basis"
+#define IDENTIFIER_DIFBASISDERIV "dif_basis_deriv"
+#define IDENTIFIER_DIFBASISDERIVK "dif_basis_derivk"
+#define IDENTIFIER_DIFBASISI "dif_basis_i"
+#define IDENTIFIER_DIFDERIVTABLE "dif_deriv_table"
+#define IDENTIFIER_DIFDERIVKTABLE "dif_derivk_table"
+#define IDENTIFIER_DIFVAL "dif_val"
+#define IDENTIFIER_LAGRANGERULE "lagrange_rule"
+#define IDENTIFIER_LAGRANGESUM "lagrange_sum"
+#define IDENTIFIER_LAGRANGEVAL "lagrange_val"
+#define IDENTIFIER_NCRULE "nc_rule"
+#define IDENTIFIER_NCCRULE "ncc_rule"
+#define IDENTIFIER_NCORULE "nco_rule"
+#define IDENTIFIER_R8SWAP "r8_swap"
+#define IDENTIFIER_R8POLYANTCOF "r8poly_ant_cof"
+#define IDENTIFIER_R8POLYBASIS "r8poly_basis"
+#define IDENTIFIER_R8POLYBASIS1 "r8poly_basis_1"
+#define IDENTIFIER_R8POLYDERCOF "r8poly_der_cof"
+#define IDENTIFIER_R8POLYDERVAL "r8poly_der_val"
+#define IDENTIFIER_R8POLYORDER "r8poly_order"
+#define IDENTIFIER_R8POLYSHIFT "r8poly_shift"
+#define IDENTIFIER_R8POLYVALHORNER "r8poly_val_horner"
+#define IDENTIFIER_R8VECINDICATOR "r8vec_indicator"
+#define IDENTIFIER_ROOTSTODIF "roots_to_dif"
+#define IDENTIFIER_ROOTSTOR8POLY "roots_to_r8poly"
+#define IDENTIFIER_DUELRESULT "duel_result"
+#define IDENTIFIER_RANDOMDOUBLE "random_double"
+#define IDENTIFIER_ELLIPSEGRID "ellipse_grid"
+#define IDENTIFIER_ELLIPSEGRIDCOUNT "ellipse_grid_count"
+#define IDENTIFIER_I4CEILING "i4_ceiling"
+#define IDENTIFIER_ELLIPSEAREA1 "ellipse_area1"
+#define IDENTIFIER_ELLIPSEAREA2 "ellipse_area2"
+#define IDENTIFIER_ELLIPSESAMPLE "ellipse_sample"
+#define IDENTIFIER_R8POFA "r8po_fa"
+#define IDENTIFIER_R8POSL "r8po_sl"
+#define IDENTIFIER_UNIFORMINSPHERE01MAP "uniform_in_sphere01_map"
+#define IDENTIFIER_ELLIPSOIDSAMPLE "ellipsoid_sample"
+#define IDENTIFIER_ELLIPSOIDVOLUME "ellipsoid_volume"
+#define IDENTIFIER_HYPERSPHEREUNITVOLUME "hypersphere_unit_volume"
+#define IDENTIFIER_R8POFACTOR "r8po_factor"
+#define IDENTIFIER_HERMITEEXACTNESS "hermite_exactness"
+#define IDENTIFIER_HERMITEINTEGRAL "hermite_integral"
+#define IDENTIFIER_LAGUERREEXACTNESS "laguerre_exactness"
+#define IDENTIFIER_LAGUERREINTEGRAL "laguerre_integral"
+#define IDENTIFIER_LEGENDREEXACTNESS "legendre_exactness"
+#define IDENTIFIER_LEGENDREINTEGRAL "legendre_integral"
+#define IDENTIFIER_LEGENDREMONOMIALQUADRATURE "legendre_monomial_quadrature"
+#define IDENTIFIER_FD1DBVP "fd1d_bvp"
+#define IDENTIFIER_R83NPFS "r83np_fs"
+#define IDENTIFIER_R8VECEVEN "r8vec_even"
+#define IDENTIFIER_I4VECZERONEW "i4vec_zero_new"
+#define IDENTIFIER_FEM1DBVPLINEAR "fem1d_bvp_linear"
+#define IDENTIFIER_H1SERRORLINEAR "h1s_error_linear"
+#define IDENTIFIER_L1ERROR "l1_error"
+#define IDENTIFIER_L2ERRORLINEAR "l2_error_linear"
+#define IDENTIFIER_MAXERRORLINEAR "max_error_linear"
+#define IDENTIFIER_R8MATSOLVE2 "r8mat_solve2"
+#define IDENTIFIER_R8VECZERONEW "r8vec_zero_new"
+#define IDENTIFIER_FEM1DBVPQUADRATIC "fem1d_bvp_quadratic"
+#define IDENTIFIER_FEM1DHEATSTEADY "fem1d_heat_steady"
+#define IDENTIFIER_R8MATZERONEW "r8mat_zero_new"
+#define IDENTIFIER_FEM1DLAGRANGESTIFFNESS "fem1d_lagrange_stiffness"
+#define IDENTIFIER_LAGRANGEDERIVATIVE "lagrange_derivative"
+#define IDENTIFIER_LEGENDRESET "legendre_set"
+#define IDENTIFIER_BANDWIDTHMESH "bandwidth_mesh"
+#define IDENTIFIER_PIECEWISELINEARPRODUCTQUAD "piecewise_linear_product_quad"
+#define IDENTIFIER_R8VECBRACKET3 "r8vec_bracket3"
+#define IDENTIFIER_BASISSERENE "basis_serene"
+#define IDENTIFIER_BASISDXSERENE "basis_dx_serene"
+#define IDENTIFIER_BASISDYSERENE "basis_dy_serene"
+#define IDENTIFIER_FEM2DBVPSERENENODENUM "fem2d_bvp_serene_node_num"
+#define IDENTIFIER_NOT1 "not1"
+#define IDENTIFIER_NOT1D "not1d"
+#define IDENTIFIER_NOT2 "not2"
+#define IDENTIFIER_NOT2DX "not2dx"
+#define IDENTIFIER_NOT2DY "not2dy"
+#define IDENTIFIER_FEMBASIS1D "fem_basis_1d"
+#define IDENTIFIER_FEMBASIS2D "fem_basis_2d"
+#define IDENTIFIER_FEMBASIS3D "fem_basis_3d"
+#define IDENTIFIER_FEMBASISMD "fem_basis_md"
+#define IDENTIFIER_FEMBASISPRISMTRIANGLE "fem_basis_prism_triangle"
+#define IDENTIFIER_R8FRACTION "r8_fraction"
+#define IDENTIFIER_FILONTABCOS "filon_tab_cos"
+#define IDENTIFIER_FILONTABSIN "filon_tab_sin"
+#define IDENTIFIER_DQRANK "dqrank"
+#define IDENTIFIER_DQRLS "dqrls"
+#define IDENTIFIER_DQRLSS "dqrlss"
+#define IDENTIFIER_R8MATAMAX "r8mat_amax"
+#define IDENTIFIER_QRSOLVE "qr_solve"
+#define IDENTIFIER_R8MATSOLVE "r8mat_solve"
+#define IDENTIFIER_ANGLEBOX2D "angle_box_2d"
+#define IDENTIFIER_ANGLECONTAINSRAY2D "angle_contains_ray_2d"
+#define IDENTIFIER_ANGLEDEG2D "angle_deg_2d"
+#define IDENTIFIER_ANGLEHALF2D "angle_half_2d"
+#define IDENTIFIER_ANGLERAD2D "angle_rad_2d"
+#define IDENTIFIER_ANGLERAD3D "angle_rad_3d"
+#define IDENTIFIER_ANGLERADND "angle_rad_nd"
+#define IDENTIFIER_ANGLETURN2D "angle_turn_2d"
+#define IDENTIFIER_ANGLEIDEG2D "anglei_deg_2d"
+#define IDENTIFIER_ANGLEIRAD2D "anglei_rad_2d"
+#define IDENTIFIER_ANNULUSAREA2D "annulus_area_2d"
+#define IDENTIFIER_ANNULUSSECTORAREA2D "annulus_sector_area_2d"
+#define IDENTIFIER_ANNULUSSECTORCENTROID2D "annulus_sector_centroid_2d"
+#define IDENTIFIER_BALLUNITSAMPLE2D "ball_unit_sample_2d"
+#define IDENTIFIER_BALLUNITSAMPLE3D "ball_unit_sample_3d"
+#define IDENTIFIER_BALLUNITSAMPLEND "ball_unit_sample_nd"
+#define IDENTIFIER_BASISMAP3D "basis_map_3d"
+#define IDENTIFIER_BOX01CONTAINSPOINT2D "box_01_contains_point_2d"
+#define IDENTIFIER_BOX01CONTAINSPOINTND "box_01_contains_point_nd"
+#define IDENTIFIER_BOXCONTAINSPOINT2D "box_contains_point_2d"
+#define IDENTIFIER_BOXCONTAINSPOINTND "box_contains_point_nd"
+#define IDENTIFIER_BOXRAYINT2D "box_ray_int_2d"
+#define IDENTIFIER_BOXSEGMENTCLIP2D "box_segment_clip_2d"
+#define IDENTIFIER_CIRCLEARCPOINTNEAR2D "circle_arc_point_near_2d"
+#define IDENTIFIER_CIRCLEAREA2D "circle_area_2d"
+#define IDENTIFIER_CIRCLEDIA2IMP2D "circle_dia2imp_2d"
+#define IDENTIFIER_CIRCLEEXPCONTAINSPOINT2D "circle_exp_contains_point_2d"
+#define IDENTIFIER_CIRCLEEXP2IMP2D "circle_exp2imp_2d"
+#define IDENTIFIER_CIRCLEIMPCONTAINSPOINT2D "circle_imp_contains_point_2d"
+#define IDENTIFIER_CIRCLEIMPLINEPARINT2D "circle_imp_line_par_int_2d"
+#define IDENTIFIER_CIRCLEIMPPOINTDIST2D "circle_imp_point_dist_2d"
+#define IDENTIFIER_CIRCLEIMPPOINTDISTSIGNED2D "circle_imp_point_dist_signed_2d"
+#define IDENTIFIER_CIRCLEIMPPOINTNEAR2D "circle_imp_point_near_2d"
+#define IDENTIFIER_CIRCLEIMPPOINTS2D "circle_imp_points_2d"
+#define IDENTIFIER_CIRCLEIMPPOINTS3D "circle_imp_points_3d"
+#define IDENTIFIER_CIRCLEIMPPOINTSARC2D "circle_imp_points_arc_2d"
+#define IDENTIFIER_CIRCLEIMP2EXP2D "circle_imp2exp_2d"
+#define IDENTIFIER_CIRCLELLR2IMP2D "circle_llr2imp_2d"
+#define IDENTIFIER_CIRCLELUNEAREA2D "circle_lune_area_2d"
+#define IDENTIFIER_CIRCLELUNECENTROID2D "circle_lune_centroid_2d"
+#define IDENTIFIER_CIRCLEPPPR2IMP3D "circle_pppr2imp_3d"
+#define IDENTIFIER_CIRCLEPPR2IMP2D "circle_ppr2imp_2d"
+#define IDENTIFIER_CIRCLESECTORAREA2D "circle_sector_area_2d"
+#define IDENTIFIER_CIRCLESECTORCENTROID2D "circle_sector_centroid_2d"
+#define IDENTIFIER_CIRCLESECTORCONTAINSPOINT2D "circle_sector_contains_point_2d"
+#define IDENTIFIER_CIRCLETRIANGLEAREA2D "circle_triangle_area_2d"
+#define IDENTIFIER_CIRCLETRIPLEANGLES2D "circle_triple_angles_2d"
+#define IDENTIFIER_CIRCLESIMPINT2D "circles_imp_int_2d"
+#define IDENTIFIER_CONEAREA3D "cone_area_3d"
+#define IDENTIFIER_CONECENTROID3D "cone_centroid_3d"
+#define IDENTIFIER_CONEVOLUME3D "cone_volume_3d"
+#define IDENTIFIER_CONV3D "conv3d"
+#define IDENTIFIER_COTRAD "cot_rad"
+#define IDENTIFIER_CUBESHAPE3D "cube_shape_3d"
+#define IDENTIFIER_CUBESIZE3D "cube_size_3d"
+#define IDENTIFIER_CYLINDERPOINTDIST3D "cylinder_point_dist_3d"
+#define IDENTIFIER_CYLINDERPOINTDISTSIGNED3D "cylinder_point_dist_signed_3d"
+#define IDENTIFIER_CYLINDERPOINTINSIDE3D "cylinder_point_inside_3d"
+#define IDENTIFIER_CYLINDERPOINTNEAR3D "cylinder_point_near_3d"
+#define IDENTIFIER_CYLINDERSAMPLE3D "cylinder_sample_3d"
+#define IDENTIFIER_CYLINDERVOLUME3D "cylinder_volume_3d"
+#define IDENTIFIER_DEGREESTORADIANS "degrees_to_radians"
+#define IDENTIFIER_DGEDET "dge_det"
+#define IDENTIFIER_DGE0FA "dge_fa"
+#define IDENTIFIER_DGE0SL "dge_sl"
+#define IDENTIFIER_DIRECTIONPERT3D "direction_pert_3d"
+#define IDENTIFIER_DIRECTIONUNIFORM2D "direction_uniform_2d"
+#define IDENTIFIER_DIRECTIONUNIFORM3D "direction_uniform_3d"
+#define IDENTIFIER_DIRECTIONUNIFORMND "direction_uniform_nd"
+#define IDENTIFIER_DISKPOINTDIST3D "disk_point_dist_3d"
+#define IDENTIFIER_DMSTORADIANS "dms_to_radians"
+#define IDENTIFIER_DODECSHAPE3D "dodec_shape_3d"
+#define IDENTIFIER_DUALSHAPE3D "dual_shape_3d"
+#define IDENTIFIER_DUALSIZE3D "dual_size_3d"
+#define IDENTIFIER_ELLIPSEAREA2D "ellipse_area_2d"
+#define IDENTIFIER_ELLIPSEPOINTDIST2D "ellipse_point_dist_2d"
+#define IDENTIFIER_ELLIPSEPOINTNEAR2D "ellipse_point_near_2d"
+#define IDENTIFIER_ELLIPSEPOINTS2D "ellipse_points_2d"
+#define IDENTIFIER_ELLIPSEPOINTSARC2D "ellipse_points_arc_2d"
+#define IDENTIFIER_ENORM0ND "enorm0_nd"
+#define IDENTIFIER_GETSEED "get_seed"
+#define IDENTIFIER_GLOB2LOC3D "glob2loc_3d"
+#define IDENTIFIER_HALFPLANECONTAINSPOINT2D "halfplane_contains_point_2d"
+#define IDENTIFIER_HALFSPACEIMPTTRIANGLEINT3D "halfspace_imp_triangle_int_3d"
+#define IDENTIFIER_HALFSPACENORMTRIANGLEINT3D "halfspace_norm_triangle_int_3d"
+#define IDENTIFIER_HALFSPACETRIANGLEINT3D "halfspace_triangle_int_3d"
+#define IDENTIFIER_HAVERSINE "haversine"
+#define IDENTIFIER_HELIXSHAPE3D "helix_shape_3d"
+#define IDENTIFIER_HEXAGONAREA2D "hexagon_area_2d"
+#define IDENTIFIER_HEXAGONCONTAINSPOINT2D "hexagon_contains_point_2d"
+#define IDENTIFIER_HEXAGONSHAPE2D "hexagon_shape_2d"
+#define IDENTIFIER_HEXAGONUNITAREA2D "hexagon_unit_area_2d"
+#define IDENTIFIER_HEXAGONVERTICES2D "hexagon_vertices_2d"
+#define IDENTIFIER_I4DEDEKINDFACTOR "i4_dedekind_factor"
+#define IDENTIFIER_I4DEDEKINDSUM "i4_dedekind_sum"
+#define IDENTIFIER_I4FACTORIAL "i4_factorial"
+#define IDENTIFIER_I4FACTORIAL2 "i4_factorial2"
+#define IDENTIFIER_I4GCD "i4_gcd"
+#define IDENTIFIER_I4MODP "i4_modp"
+#define IDENTIFIER_I4SIGN "i4_sign"
+#define IDENTIFIER_I4SWAP "i4_swap"
+#define IDENTIFIER_ICOSSHAPE "icos_shape"
+#define IDENTIFIER_ICOSSIZE "icos_size"
+#define IDENTIFIER_LINEEXPISDEGENERATEND "line_exp_is_degenerate_nd"
+#define IDENTIFIER_LINEEXPNORMAL2D "line_exp_normal_2d"
+#define IDENTIFIER_LINEEXPPERP2D "line_exp_perp_2d"
+#define IDENTIFIER_LINEEXPPOINTDIST2D "line_exp_point_dist_2d"
+#define IDENTIFIER_LINEEXPPOINTDIST3D "line_exp_point_dist_3d"
+#define IDENTIFIER_LINEEXPPOINTDISTSIGNED2D "line_exp_point_dist_signed_2d"
+#define IDENTIFIER_LINEEXPPOINTNEAR2D "line_exp_point_near_2d"
+#define IDENTIFIER_LINEEXPPOINTNEAR3D "line_exp_point_near_3d"
+#define IDENTIFIER_LINEEXP2IMP2D "line_exp2imp_2d"
+#define IDENTIFIER_LINEEXP2PAR2D "line_exp2par_2d"
+#define IDENTIFIER_LINEEXP2PAR3D "line_exp2par_3d"
+#define IDENTIFIER_LINEIMPISDEGENERATE2D "line_imp_is_degenerate_2d"
+#define IDENTIFIER_LINEIMPPOINTDIST2D "line_imp_point_dist_2d"
+#define IDENTIFIER_LINEIMPPOINTDISTSIGNED2D "line_imp_point_dist_signed_2d"
+#define IDENTIFIER_LINEIMP2EXP2D "line_imp2exp_2d"
+#define IDENTIFIER_LINEIMP2PAR2D "line_imp2par_2d"
+#define IDENTIFIER_LINEPARPOINTDIST2D "line_par_point_dist_2d"
+#define IDENTIFIER_LINEPARPOINTDIST3D "line_par_point_dist_3d"
+#define IDENTIFIER_LINEPARPOINTNEAR2D "line_par_point_near_2d"
+#define IDENTIFIER_LINEPARPOINTNEAR3D "line_par_point_near_3d"
+#define IDENTIFIER_LINEPAR2EXP2D "line_par2exp_2d"
+#define IDENTIFIER_LINEPAR2EXP3D "line_par2exp_3d"
+#define IDENTIFIER_LINEPAR2IMP2D "line_par2imp_2d"
+#define IDENTIFIER_LINESEXPANGLE3D "lines_exp_angle_3d"
+#define IDENTIFIER_LINESEXPANGLEND "lines_exp_angle_nd"
+#define IDENTIFIER_LINESEXPDIST3D "lines_exp_dist_3d"
+#define IDENTIFIER_LINESEXPDIST3D2 "lines_exp_dist_3d_2"
+#define IDENTIFIER_LINESEXPEQUAL2D "lines_exp_equal_2d"
+#define IDENTIFIER_LINESEXPINT2D "lines_exp_int_2d"
+#define IDENTIFIER_LINESEXPNEAR3D "lines_exp_near_3d"
+#define IDENTIFIER_LINESEXPPARALLEL2D "lines_exp_parallel_2d"
+#define IDENTIFIER_LINESEXPPARALLEL3D "lines_exp_parallel_3d"
+#define IDENTIFIER_LINESIMPANGLE2D "lines_imp_angle_2d"
+#define IDENTIFIER_LINESIMPDIST2D "lines_imp_dist_2d"
+#define IDENTIFIER_LINESIMPINT2D "lines_imp_int_2d"
+#define IDENTIFIER_LINESPARANGLE3D "lines_par_angle_2d"
+#define IDENTIFIER_LINESPARDIST3D "lines_par_dist_3d"
+#define IDENTIFIER_LINESPARINT2D "lines_par_int_2d"
+#define IDENTIFIER_LOC2GLOB3D "loc2glob_3d"
+#define IDENTIFIER_MINABS "minabs"
+#define IDENTIFIER_MINQUAD "minquad"
+#define IDENTIFIER_OCTAHEDRONSHAPE3D "octahedron_shape_3d"
+#define IDENTIFIER_OCTAHEDRONSIZE3D "octahedron_size_3d"
+#define IDENTIFIER_PARABOLAEX "parabola_ex"
+#define IDENTIFIER_PARABOLAEX2 "parabola_ex2"
+#define IDENTIFIER_PARALLELOGRAMAREA2D "parallelogram_area_2d"
+#define IDENTIFIER_PARALLELOGRAMAREA3D "parallelogram_area_3d"
+#define IDENTIFIER_PARALLELOGRAMCONTAINSPOINT2D "parallelogram_contains_point_2d"
+#define IDENTIFIER_PARALLELOGRAMCONTAINSPOINT3D "parallelogram_contains_point_3d"
+#define IDENTIFIER_PARALLELOGRAMPOINTDIST3D "parallelogram_point_dist_3d"
+#define IDENTIFIER_PARALLEPIPEDCONTAINSPOINT3D "parallelepiped_contains_point_3d"
+#define IDENTIFIER_PARALLEPIPEDPOINTDIST3D "parallelepiped_point_dist_3d"
+#define IDENTIFIER_PLANEEXPPOINTDIST3D "plane_exp_point_dist_3d"
+#define IDENTIFIER_PLANEEXPNORMAL3D "plane_exp_normal_3d"
+#define IDENTIFIER_PLANEEXPPRO2 "plane_exp_pro2"
+#define IDENTIFIER_PLANEEXPPRO3 "plane_exp_pro3"
+#define IDENTIFIER_PLANEEXPPROJECT3D "plane_exp_project_3d"
+#define IDENTIFIER_PLANEEXP2IMP3D "plane_exp2imp_3d"
+#define IDENTIFIER_PLANEEXP2NORMAL3D "plane_exp2normal_3d"
+#define IDENTIFIER_PLANEIMPISDEGENERATE3D "plane_imp_is_degenerate_3d"
+#define IDENTIFIER_PLANEIMPLINEPARINT3D "plane_imp_line_par_int_3d"
+#define IDENTIFIER_PLANEIMPPOINTDIST3D "plane_imp_point_dist_3d"
+#define IDENTIFIER_PLANEIMPPOINTDISTSIGNED3D "plane_imp_point_dist_signed_3d"
+#define IDENTIFIER_PLANEIMPPOINTNEAR3D "plane_imp_point_near_3d"
+#define IDENTIFIER_PLANEIMPSEGMENTNEAR3D "plane_imp_segment_near_3d"
+#define IDENTIFIER_PLANEIMPTRIANGLEINT3D "plane_imp_triangle_int_3d"
+#define IDENTIFIER_PLANEIMPTRIANGLEINTADD3D "plane_imp_triangle_int_add_3d"
+#define IDENTIFIER_PLANEIMPTRIANGLENEAR3D "plane_imp_triangle_near_3d"
+#define IDENTIFIER_PLANEIMP2EXP3D "plane_imp2exp_3d"
+#define IDENTIFIER_PLANEIMP2NORMAL3D "plane_imp2normal_3d"
+#define IDENTIFIER_PLANENORMALBASIS3D "plane_normal_basis_3d"
+#define IDENTIFIER_PLANENORMALLINEEXPINT3D "plane_normal_line_exp_int_3d"
+#define IDENTIFIER_PLANENORMALQRTOXYZ "plane_normal_qr_to_xyz"
+#define IDENTIFIER_PLANENORMALTETRAHEDRONINTERSECT "plane_normal_tetrahedron_intersect"
+#define IDENTIFIER_PLANENORMALTRIANGLEINT3D "plane_normal_triangle_int_3d"
+#define IDENTIFIER_PLANENORMALUNIFORM3D "plane_normal_uniform_3d"
+#define IDENTIFIER_PLANENORMALUNIFORMND "plane_normal_uniform_nd"
+#define IDENTIFIER_PLANENORMAL2EXP3D "plane_normal2exp_3d"
+#define IDENTIFIER_PLANENORMAL2IMP3D "plane_normal2imp_3d"
+#define IDENTIFIER_PLANESIMPANGLE3D "planes_imp_angle_3d"
+#define IDENTIFIER_POINTSAVOIDPOINTNAIVE2D "points_avoid_point_naive_2d"
+#define IDENTIFIER_POINTSBISECTLINEIMP2D "points_bisect_line_imp_2d"
+#define IDENTIFIER_POINTSBISECTLINEPAR2D "points_bisect_line_par_2d"
+#define IDENTIFIER_POINTSCENTROID2D "points_centroid_2d"
+#define IDENTIFIER_POINTSCOLIN2D "points_colin_2d"
+#define IDENTIFIER_POINTSCOLIN3D "points_colin_3d"
+#define IDENTIFIER_POINTSDIST2D "points_dist_2d"
+#define IDENTIFIER_POINTSDIST3D "points_dist_3d"
+#define IDENTIFIER_POINTSDISTND "points_dist_nd"
+#define IDENTIFIER_POINTSHULL2D "points_hull_2d"
+#define IDENTIFIER_POINTSPOINTNEARNAIVE2D "points_point_near_naive_2d"
+#define IDENTIFIER_POINTSPOINTNEARNAIVE3D "points_point_near_naive_3d"
+#define IDENTIFIER_POINTSPOINTNEARNAIVEND "points_point_near_naive_nd"
+#define IDENTIFIER_POINTSPOINTSNEARNAIVE2D "points_points_near_naive_2d"
+#define IDENTIFIER_POINTSPOINTSNEARNAIVE3D "points_points_near_naive_3d"
+#define IDENTIFIER_POLARTOXY "polar_to_xy"
+#define IDENTIFIER_POLYGON12D "polygon_1_2d"
+#define IDENTIFIER_POLYGONANGLES2D "polygon_angles_2d"
+#define IDENTIFIER_POLYGONAREA2D "polygon_area_2d"
+#define IDENTIFIER_POLYGONAREA2D2 "polygon_area_2d_2"
+#define IDENTIFIER_POLYGONAREA3D "polygon_area_3d"
+#define IDENTIFIER_POLYGONAREA3D2 "polygon_area_3d_2"
+#define IDENTIFIER_POLYGONCENTROID2D "polygon_centroid_2d"
+#define IDENTIFIER_POLYGONCENTROID2D2 "polygon_centroid_2d_2"
+#define IDENTIFIER_POLYGONCENTROID3D "polygon_centroid_3d"
+#define IDENTIFIER_POLYGONCONTAINSPOINT2D "polygon_contains_point_2d"
+#define IDENTIFIER_POLYGONCONTAINSPOINT2D2 "polygon_contains_point_2d_2"
+#define IDENTIFIER_POLYGONDIAMETER2D "polygon_diameter_2d"
+#define IDENTIFIER_POLYGONEXPAND2D "polygon_expand_2d"
+#define IDENTIFIER_POLYGONINRADDATA2D "polygon_inrad_data_2d"
+#define IDENTIFIER_POLYGONISCONVEX "polygon_is_convex"
+#define IDENTIFIER_POLYGONLATTICEAREA2D "polygon_lattice_area_2d"
+#define IDENTIFIER_POLYGONNORMAL3D "polygon_normal_3d"
+#define IDENTIFIER_POLYGONOUTRADDATA2D "polygon_outrad_data_2d"
+#define IDENTIFIER_POLYGONSIDEDATA2D "polygon_side_data_2d"
+#define IDENTIFIER_POLYGONSOLIDANGLE3D "polygon_solid_angle_3d"
+#define IDENTIFIER_POLYGONX2D "polygon_x_2d"
+#define IDENTIFIER_POLYGONY2D "polygon_y_2d"
+#define IDENTIFIER_POLYGONXX2D "polygon_xx_2d"
+#define IDENTIFIER_POLYGONXY2D "polygon_xy_2d"
+#define IDENTIFIER_POLYGONYY2D "polygon_yy_2d"
+#define IDENTIFIER_POLYHEDRONAREA3D "polyhedron_area_3d"
+#define IDENTIFIER_POLYHEDRONCENTROID3D "polyhedron_centroid_3d"
+#define IDENTIFIER_POLYHEDRONCONTAINSPOINT3D "polyhedron_contains_point_3d"
+#define IDENTIFIER_POLYHEDRONVOLUME3D "polyhedron_volume_3d"
+#define IDENTIFIER_POLYHEDRONVOLUME3D2 "polyhedron_volume_3d_2"
+#define IDENTIFIER_POLYLINEARCLENGTHND "polyline_arclength_nd"
+#define IDENTIFIER_POLYLINEINDEXPOINTND "polyline_index_point_nd"
+#define IDENTIFIER_POLYLINELENGTHND "polyline_length_nd"
+#define IDENTIFIER_POLYLINEPOINTSND "polyline_points_nd"
+#define IDENTIFIER_POLYLOOPARCLENGTHND "polyloop_arclength_nd"
+#define IDENTIFIER_POLYLOOPPOINTSND "polyloop_points_nd"
+#define IDENTIFIER_PROVEC "provec"
+#define IDENTIFIER_PYRAMIDVOLUME3D "pyramid_volume_3d"
+#define IDENTIFIER_QUADAREA2D "quad_area_2d"
+#define IDENTIFIER_QUADAREA2D2 "quad_area2_2d"
+#define IDENTIFIER_QUADAREA3D "quad_area_3d"
+#define IDENTIFIER_QUADCONTAINSPOINT2D "quad_contains_point_2d"
+#define IDENTIFIER_QUADPOINTDIST2D "quad_point_dist_2d"
+#define IDENTIFIER_QUADPOINTDISTSIGNED2D "quad_point_dist_signed_2d"
+#define IDENTIFIER_QUADPOINTNEAR2D "quad_point_near_2d"
+#define IDENTIFIER_QUATCONJ "quat_conj"
+#define IDENTIFIER_QUATINV "quat_inv"
+#define IDENTIFIER_QUATMUL "quat_mul"
+#define IDENTIFIER_QUATNORM "quat_norm"
+#define IDENTIFIER_R8MATMVNEW "r8mat_mv_new"
+#define IDENTIFIER_R8MATSOLVE2D "r8mat_solve_2d"
+#define IDENTIFIER_R8VECANGLE3D "r8vec_angle_3d"
+#define IDENTIFIER_R8VECBRACKET "r8vec_bracket"
+#define IDENTIFIER_RADECDISTANCE3D "radec_distance_3d"
+#define IDENTIFIER_RADECTOXYZ "radec_to_xyz"
+#define IDENTIFIER_RADIANSTODEGREES "radians_to_degrees"
+#define IDENTIFIER_RADIANSTODMS "radians_to_dms"
+#define IDENTIFIER_ROTATIONAXISVECTOR3D "rotation_axis_vector_3d"
+#define IDENTIFIER_ROTATIONAXIS2MAT3D "rotation_axis2mat_3d"
+#define IDENTIFIER_ROTATIONMATVECTOR3D "rotation_mat_vector_3d"
+#define IDENTIFIER_ROTATIONMAT2AXIS3D "rotation_mat2axis_3d"
+#define IDENTIFIER_ROTATIONMAT2QUAT3D "rotation_mat2quat_3d"
+#define IDENTIFIER_ROTATIONQUATVECTOR3D "rotation_quat_vector_3d"
+#define IDENTIFIER_ROTATIONQUAT2AXIS3D "rotation_quat2axis_3d"
+#define IDENTIFIER_ROTATIONQUAT2MAT3D "rotation_quat2mat_3d"
+#define IDENTIFIER_RTPTOXYZ "rtp_to_xyz"
+#define IDENTIFIER_SEGMENTCONTAINSPOINT1D "segment_contains_point_1d"
+#define IDENTIFIER_SEGMENTCONTAINSPOINT2D "segment_contains_point_2d"
+#define IDENTIFIER_SEGMENTPOINTCOORDS2D "segment_point_coords_2d"
+#define IDENTIFIER_SEGMENTPOINTCOORDS3D "segment_point_coords_3d"
+#define IDENTIFIER_SEGMENTPOINTDIST2D "segment_point_dist_2d"
+#define IDENTIFIER_SEGMENTPOINTDIST3D "segment_point_dist_3d"
+#define IDENTIFIER_SEGMENTPOINTNEAR2D "segment_point_near_2d"
+#define IDENTIFIER_SEGMENTPOINTNEAR3D "segment_point_near_3d"
+#define IDENTIFIER_SEGMENTSCURVATURE2D "segments_curvature_2d"
+#define IDENTIFIER_SEGMENTSDIST2D "segments_dist_2d"
+#define IDENTIFIER_SEGMENTSDIST3D "segments_dist_3d"
+#define IDENTIFIER_SEGMENTSDIST3DOLD "segments_dist_3d_old"
+#define IDENTIFIER_SEGMENTSINT1D "segments_int_1d"
+#define IDENTIFIER_SEGMENTSINT2D "segments_int_2d"
+#define IDENTIFIER_SHAPEPOINTDIST2D "shape_point_dist_2d"
+#define IDENTIFIER_SHAPEPOINTNEAR2D "shape_point_near_2d"
+#define IDENTIFIER_SHAPERAYINT2D "shape_ray_int_2d"
+#define IDENTIFIER_SIMPLEXLATTICELAYERPOINTNEXT "simplex_lattice_layer_point_next"
+#define IDENTIFIER_SIMPLEXLATTICEPOINTNEXT "simplex_lattice_point_next"
+#define IDENTIFIER_SIMPLEXUNITLATTICEPOINTND "simplex_unit_lattice_point_nd"
+#define IDENTIFIER_SIMPLEXUNITVOLUMEND "simplex_unit_volume_nd"
+#define IDENTIFIER_SIMPLEXVOLUMEND "simplex_volume_nd"
+#define IDENTIFIER_SOCCERSIZE3D "soccer_size_3d"
+#define IDENTIFIER_SPHERECAPAREA2D "sphere_cap_area_2d"
+#define IDENTIFIER_SPHERECAPAREA3D "sphere_cap_area_3d"
+#define IDENTIFIER_SPHERECAPAREAND "sphere_cap_area_nd"
+#define IDENTIFIER_SPHERECAPVOLUME2D "sphere_cap_volume_2d"
+#define IDENTIFIER_SPHERECAPVOLUME3D "sphere_cap_volume_3d"
+#define IDENTIFIER_SPHEREDISTANCE1 "sphere_distance1"
+#define IDENTIFIER_SPHEREDISTANCE2 "sphere_distance2"
+#define IDENTIFIER_SPHEREDISTANCE3 "sphere_distance3"
+#define IDENTIFIER_SPHEREEXPCONTAINSPOINT3D "sphere_exp_contains_point_3d"
+#define IDENTIFIER_SPHEREEXPPOINTNEAR3D "sphere_exp_point_near_3d"
+#define IDENTIFIER_SPHEREEXP2IMP3D "sphere_exp2imp_3d"
+#define IDENTIFIER_SPHEREEXP2IMPND "sphere_exp2imp_nd"
+#define IDENTIFIER_SPHEREIMPAREA3D "sphere_imp_area_3d"
+#define IDENTIFIER_SPHEREIMPAREAND "sphere_imp_area_nd"
+#define IDENTIFIER_SPHEREIMPCONTAINSPOINT3D "sphere_imp_contains_point_3d"
+#define IDENTIFIER_SPHEREIMPGRIDICOSSIZE "sphere_imp_grid_icos_size"
+#define IDENTIFIER_SPHEREIMPGRIDFACES3D "sphere_imp_gridfaces_3d"
+#define IDENTIFIER_SPHEREIMPGRIDLINES3D "sphere_imp_gridlines_3d"
+#define IDENTIFIER_SPHEREIMPGRIDPOINTS3D "sphere_imp_gridpoints_3d"
+#define IDENTIFIER_SPHEREIMPGRIDPOINTSICOS1 "sphere_imp_gridpoints_icos1"
+#define IDENTIFIER_SPHEREIMPGRIDPOINTSICOS2 "sphere_imp_gridpoints_icos2"
+#define IDENTIFIER_SPHEREIMPLINEPROJECT3D "sphere_imp_line_project_3d"
+#define IDENTIFIER_SPHEREIMPLOCAL2XYZ3D "sphere_imp_local2xyz_3d"
+#define IDENTIFIER_SPHEREIMPPOINTNEAR3D "sphere_imp_point_near_3d"
+#define IDENTIFIER_SPHEREIMPPOINTPROJECT3D "sphere_imp_point_project_3d"
+#define IDENTIFIER_SPHEREIMPSPIRALPOINTS3D "sphere_imp_spiralpoints_3d"
+#define IDENTIFIER_SPHEREIMPVOLUME3D "sphere_imp_volume_3d"
+#define IDENTIFIER_SPHEREIMPVOLUMEND "sphere_imp_volume_nd"
+#define IDENTIFIER_SPHEREIMPZONEAREA3D "sphere_imp_zone_area_3d"
+#define IDENTIFIER_SPHEREIMPZONEVOLUME3D "sphere_imp_zone_volume_3d"
+#define IDENTIFIER_SPHEREIMP2EXP3D "sphere_imp2exp_3d"
+#define IDENTIFIER_SPHEREK "sphere_k"
+#define IDENTIFIER_SPHERETRIANGLEANGLESTOAREA "sphere_triangle_angles_to_area"
+#define IDENTIFIER_SPHERETRIANGLESIDESTOANGLES "sphere_triangle_sides_to_angles"
+#define IDENTIFIER_SPHERETRIANGLEVERTICESTOANGLES "sphere_triangle_vertices_to_angles"
+#define IDENTIFIER_SPHERETRIANGLEVERTICESTOAREA "sphere_triangle_vertices_to_area"
+#define IDENTIFIER_SPHERETRIANGLEVERTICESTOCENTROID "sphere_triangle_vertices_to_centroid"
+#define IDENTIFIER_SPHERETRIANGLEVERTICESTOORIENTATION "sphere_triangle_vertices_to_orientation"
+#define IDENTIFIER_SPHERETRIANGLEVERTICESTOSIDES "sphere_triangle_vertices_to_sides"
+#define IDENTIFIER_SPHEREUNITAREAND "sphere_unit_area_nd"
+#define IDENTIFIER_SPHEREUNITAREAVALUES "sphere_unit_area_values"
+#define IDENTIFIER_SPHEREUNITSAMPLE2D "sphere_unit_sample_2d"
+#define IDENTIFIER_SPHEREUNITSAMPLE3D "sphere_unit_sample_3d"
+#define IDENTIFIER_SPHEREUNITSAMPLE3D2 "sphere_unit_sample_3d_2"
+#define IDENTIFIER_SPHEREUNITSAMPLEND "sphere_unit_sample_nd"
+#define IDENTIFIER_SPHEREUNITSAMPLEND2 "sphere_unit_sample_nd_2"
+#define IDENTIFIER_SPHEREUNITSAMPLEND3 "sphere_unit_sample_nd_3"
+#define IDENTIFIER_SPHEREUNITVOLUMEND "sphere_unit_volume_nd"
+#define IDENTIFIER_SPHEREUNITVOLUMEVALUES "sphere_unit_volume_values"
+#define IDENTIFIER_SPHERE01DISTANCEXYZ "sphere01_distance_xyz"
+#define IDENTIFIER_SPHERE01POLYGONAREA "sphere01_polygon_area"
+#define IDENTIFIER_STRING2D "string_2d"
+#define IDENTIFIER_SUPERELLIPSEPOINT2D "super_ellipse_points_2d"
+#define IDENTIFIER_TETRAHEDRONBARYCENTRIC3D "tetrahedron_barycentric_3d"
+#define IDENTIFIER_TETRAHEDRONCENTROID3D "tetrahedron_centroid_3d"
+#define IDENTIFIER_TETRAHEDRONCIRCUMSPHERE3D "tetrahedron_circumsphere_3d"
+#define IDENTIFIER_TETRAHEDRONCONTAINSPOINT3D "tetrahedron_contains_point_3d"
+#define IDENTIFIER_TETRAHEDRONDIHEDRALANGLES3D "tetrahedron_dihedral_angles_3d"
+#define IDENTIFIER_TETRAHEDRONEDGELENGTH3D "tetrahedron_edge_length_3d"
+#define IDENTIFIER_TETRAHEDRONFACEANGLES3D "tetrahedron_face_angles_3d"
+#define IDENTIFIER_TETRAHEDRONFACEAREAS3D "tetrahedron_face_areas_3d"
+#define IDENTIFIER_TETRAHEDRONINSPHERE3D "tetrahedron_insphere_3d"
+#define IDENTIFIER_TETRAHEDRONLATTICELAYERPOINTNEXT "tetrahedron_lattice_layer_point_next"
+#define IDENTIFIER_TETRAHEDRONLATTICEPOINTNEXT "tetrahedron_lattice_point_next"
+#define IDENTIFIER_TETRAHEDRONQUALITY13D "tetrahedron_quality1_3d"
+#define IDENTIFIER_TETRAHEDRONQUALITY23D "tetrahedron_quality2_3d"
+#define IDENTIFIER_TETRAHEDRONQUALITY33D "tetrahedron_quality3_3d"
+#define IDENTIFIER_TETRAHEDRONQUALITY43D "tetrahedron_quality4_3d"
+#define IDENTIFIER_TETRAHEDRONRHOMBICSHAPE3D "tetrahedron_rhombic_shape_3d"
+#define IDENTIFIER_TETRAHEDRONRHOMBICSIZE3D "tetrahedron_rhombic_size_3d"
+#define IDENTIFIER_TETRAHEDRONSAMPLE3D "tetrahedron_sample_3d"
+#define IDENTIFIER_TETRAHEDRONSHAPE3D "tetrahedron_shape_3d"
+#define IDENTIFIER_TETRAHEDRONSIZE3D "tetrahedron_size_3d"
+#define IDENTIFIER_TETRAHEDRONSOLIDANGLES3D "tetrahedron_solid_angles_3d"
+#define IDENTIFIER_TETRAHEDRONUNITLATTICEPOINTNUM3D "tetrahedron_unit_lattice_point_num_3d"
+#define IDENTIFIER_TETRAHEDRONVOLUME3D "tetrahedron_volume_3d"
+#define IDENTIFIER_THETA2ADJUST "theta2_adjust"
+#define IDENTIFIER_THETA3ADJUST "theta3_adjust"
+#define IDENTIFIER_TMATINIT "tmat_init"
+#define IDENTIFIER_TMATMXM "tmat_mxm"
+#define IDENTIFIER_TMATMXP "tmat_mxp"
+#define IDENTIFIER_TMATMXP2 "tmat_mxp2"
+#define IDENTIFIER_TMATMXV "tmat_mxv"
+#define IDENTIFIER_TMATROTAXIS "tmat_rot_axis"
+#define IDENTIFIER_TMATROTVECTOR "tmat_rot_vector"
+#define IDENTIFIER_TMATSCALE "tmat_scale"
+#define IDENTIFIER_TMATSHEAR "tmat_shear"
+#define IDENTIFIER_TMATTRANS "tmat_trans"
+#define IDENTIFIER_TORUSAREA3D "torus_area_3d"
+#define IDENTIFIER_TORUSVOLUME3D "torus_volume_3d"
+#define IDENTIFIER_TPTOXYZ "tp_to_xyz"
+#define IDENTIFIER_TRIANGLEANGLES2D "triangle_angles_2d"
+#define IDENTIFIER_TRIANGLEANGLES2DNEW "triangle_angles_2d_new"
+#define IDENTIFIER_TRIANGLEANGLES3D "triangle_angles_3d"
+#define IDENTIFIER_TRIANGLEANGLES3DNEW "triangle_angles_3d_new"
+#define IDENTIFIER_TRIANGLEAREA2D "triangle_area_2d"
+#define IDENTIFIER_TRIANGLEAREA3D "triangle_area_3d"
+#define IDENTIFIER_TRIANGLEAREA3D2 "triangle_area_3d_2"
+#define IDENTIFIER_TRIANGLEAREA3D3 "triangle_area_3d_3"
+#define IDENTIFIER_TRIANGLEAREAHERON "triangle_area_heron"
+#define IDENTIFIER_TRIANGLEAREAVECTOR3D "triangle_area_vector_3d"
+#define IDENTIFIER_TRIANGLEBARYCENTRIC2D "triangle_barycentric_2d"
+#define IDENTIFIER_TRIANGLECENTROID2D "triangle_centroid_2d"
+#define IDENTIFIER_TRIANGLECENTROID3D "triangle_centroid_3d"
+#define IDENTIFIER_TRIANGLECIRCUMCENTER2D "triangle_circumcenter_2d"
+#define IDENTIFIER_TRIANGLECIRCUMCENTER2D2 "triangle_circumcenter_2d_2"
+#define IDENTIFIER_TRIANGLECIRCUMCENTER "triangle_circumcenter"
+#define IDENTIFIER_TRIANGLECIRCUMCIRCLE2D "triangle_circumcircle_2d"
+#define IDENTIFIER_TRIANGLECIRCUMCIRCLE2D2 "triangle_circumcircle_2d_2"
+#define IDENTIFIER_TRIANGLECIRCUMRADIUS2D "triangle_circumradius_2d"
+#define IDENTIFIER_TRIANGLECONTAINSLINEEXP3D "triangle_contains_line_exp_3d"
+#define IDENTIFIER_TRIANGLECONTAINSLINEPAR3D "triangle_contains_line_par_3d"
+#define IDENTIFIER_TRIANGLECONTAINSPOINT2D1 "triangle_contains_point_2d_1"
+#define IDENTIFIER_TRIANGLECONTAINSPOINT2D2 "triangle_contains_point_2d_2"
+#define IDENTIFIER_TRIANGLECONTAINSPOINT2D3 "triangle_contains_point_2d_3"
+#define IDENTIFIER_TRIANGLEDIAMETER2D "triangle_diameter_2d"
+#define IDENTIFIER_TRIANGLEEDGELENGTH2D "triangle_edge_length_2d"
+#define IDENTIFIER_TRIANGLEGRIDPOINTS2D "triangle_gridpoints_2d"
+#define IDENTIFIER_TRIANGLEINCENTER2D "triangle_incenter_2d"
+#define IDENTIFIER_TRIANGLEINCIRCLE2D "triangle_incircle_2d"
+#define IDENTIFIER_TRIANGLEINRADIUS2D "triangle_inradius_2d"
+#define IDENTIFIER_TRIANGLEISDEGENERATEND "triangle_is_degenerate_nd"
+#define IDENTIFIER_TRIANGLELATTICELAYERPOINTNEXT "triangle_lattice_layer_point_next"
+#define IDENTIFIER_TRIANGLELATTICEPOINTNEXT "triangle_lattice_point_next"
+#define IDENTIFIER_TRIANGLELINEIMPINT2D "triangle_line_imp_int_2d"
+#define IDENTIFIER_TRIANGLEORIENTATION2D "triangle_orientation_2d"
+#define IDENTIFIER_TRIANGLEORTHOCENTER2D "triangle_orthocenter_2d"
+#define IDENTIFIER_TRIANGLEPOINTDIST2D "triangle_point_dist_2d"
+#define IDENTIFIER_TRIANGLEPOINTDIST3D "triangle_point_dist_3d"
+#define IDENTIFIER_TRIANGLEPOINTDISTSIGNED2D "triangle_point_dist_signed_2d"
+#define IDENTIFIER_TRIANGLEPOINTNEAR2D "triangle_point_near_2d"
+#define IDENTIFIER_TRIANGLEQUALITY2D "triangle_quality_2d"
+#define IDENTIFIER_TRIANGLERIGHTLATTICEPOINTNUM2D "triangle_right_lattice_point_num_2d"
+#define IDENTIFIER_TRIANGLESAMPLE "triangle_sample"
+#define IDENTIFIER_TRIANGLEUNITLATTICEPOINTNUM2D "triangle_unit_lattice_point_num_2d"
+#define IDENTIFIER_TRIANGLEXSITOXY2D "triangle_xsi_to_xy_2d"
+#define IDENTIFIER_TRIANGLEXYTOXSI2D "triangle_xy_to_xsi_2d"
+#define IDENTIFIER_TRUNCATEDOCTAHEDRONSHAPE3D "truncated_octahedron_shape_3d"
+#define IDENTIFIER_TRUNCATEDOCTAHEDRONSIZE3D "truncated_octahedron_size_3d"
+#define IDENTIFIER_TUBE2D "tube_2d"
+#define IDENTIFIER_TUPLENEXT2 "tuple_next2"
+#define IDENTIFIER_VECTORDIRECTIONSND "vector_directions_nd"
+#define IDENTIFIER_VECTORROTATE2D "vector_rotate_2d"
+#define IDENTIFIER_VECTORROTATE3D "vector_rotate_3d"
+#define IDENTIFIER_VECTORROTATEBASE2D "vector_rotate_base_2d"
+#define IDENTIFIER_VECTORSEPARATION2D "vector_separation_2d"
+#define IDENTIFIER_VECTORSEPARATION3D "vector_separation_3d"
+#define IDENTIFIER_VECTORSEPARATIONND "vector_separation_nd"
+#define IDENTIFIER_VECTORUNITND "vector_unit_nd"
+#define IDENTIFIER_VOXELSDISTL13D "voxels_dist_l1_3d"
+#define IDENTIFIER_VOXELSDISTL1ND "voxels_dist_l1_nd"
+#define IDENTIFIER_dim_ty "voxels_dist_l1_nd"
+#define IDENTIFIER_VOXELSLINE3D "voxels_line_3d"
+#define IDENTIFIER_VOXELSREGION3D "voxels_region_3d"
+#define IDENTIFIER_VOXELSSTEP3D "voxels_step_3d"
+#define IDENTIFIER_XYTOPOLAR "xy_to_polar"
+#define IDENTIFIER_XYZTORADEC "xyz_to_radec"
+#define IDENTIFIER_XYZTORTP "xyz_to_rtp"
+#define IDENTIFIER_XYZTOTP "xyz_to_tp"
+#define IDENTIFIER_HAAR1D "haar_1d"
+#define IDENTIFIER_HAAR1DINVERSE "haar_1d_inverse"
+#define IDENTIFIER_HAAR2D "haar_2d"
+#define IDENTIFIER_HAAR2DINVERSE "haar_2d_inverse"
+#define IDENTIFIER_DIFDERIV "dif_deriv"
+#define IDENTIFIER_R8VECCOPYNEW "r8vec_copy_new"
+#define IDENTIFIER_R8VECONESNEW "r8vec_ones_new"
+#define IDENTIFIER_DIFSHIFTX "dif_shift_x"
+#define IDENTIFIER_DIFSHIFTZERO "dif_shift_zero"
+#define IDENTIFIER_DIFTOR8POLY "dif_to_r8poly"
+#define IDENTIFIER_DIFVALS "dif_vals"
+#define IDENTIFIER_HERMITEBASIS0 "hermite_basis_0"
+#define IDENTIFIER_HERMITEBASIS1 "hermite_basis_1"
+#define IDENTIFIER_HERMITEINTERPOLANT "hermite_interpolant"
+#define IDENTIFIER_HERMITEINTERPOLANTRULE "hermite_interpolant_rule"
+#define IDENTIFIER_HERMITEINTERPOLANTVALUE "hermite_interpolant_value"
+#define IDENTIFIER_R8POLYANTVAL "r8poly_ant_val"
+#define IDENTIFIER_R8POLYDEGREE "r8poly_degree"
+#define IDENTIFIER_R8VECCHEBYSHEVNEW "r8vec_chebyshev_new"
+#define IDENTIFIER_HINTEGRAL "h_integral"
+#define IDENTIFIER_HPOLYNOMIALCOEFFICIENTS "h_polynomial_coefficients"
+#define IDENTIFIER_HPOLYNOMIALVALUE "h_polynomial_value"
+#define IDENTIFIER_HPOLYNOMIALZEROS "h_polynomial_zeros"
+#define IDENTIFIER_HQUADRATURERULE "h_quadrature_rule"
+#define IDENTIFIER_HEDOUBLEPRODUCTINTEGRAL "he_double_product_integral"
+#define IDENTIFIER_HEINTEGRAL "he_integral"
+#define IDENTIFIER_HEPOLYNOMIALCOEFFICIENTS "he_polynomial_coefficients"
+#define IDENTIFIER_HEPOLYNOMIALVALUE "he_polynomial_value"
+#define IDENTIFIER_HEPOLYNOMIALZEROS "he_polynomial_zeros"
+#define IDENTIFIER_HEQUADRATURERULE "he_quadrature_rule"
+#define IDENTIFIER_HETRIPLEPRODUCTINTEGRAL "he_triple_product_integral"
+#define IDENTIFIER_HENPOLYNOMIALVALUE "hen_polynomial_value"
+#define IDENTIFIER_HFFUNCTIONVALUE "hf_function_value"
+#define IDENTIFIER_HFQUADRATURERULE "hf_quadrature_rule"
+#define IDENTIFIER_HNPOLYNOMIALVALUE "hn_polynomial_value"
+#define IDENTIFIER_COMPNEXTGRLEX "comp_next_grlex"
+#define IDENTIFIER_COMPRANDOMGRLEX "comp_random_grlex"
+#define IDENTIFIER_COMPRANKGRLEX "comp_rank_grlex"
+#define IDENTIFIER_COMPUNRANKGRLEX "comp_unrank_grlex"
+#define IDENTIFIER_HEPCOEFFICIENTS "hep_coefficients"
+#define IDENTIFIER_HEPVALUE "hep_value"
+#define IDENTIFIER_HEPPTOPOLYNOMIAL "hepp_to_polynomial"
+#define IDENTIFIER_HEPPVALUE "hepp_value"
+#define IDENTIFIER_I4UNIFORMAB "i4_uniform_ab"
+#define IDENTIFIER_POLYNOMIALCOMPRESS "polynomial_compress"
+#define IDENTIFIER_POLYNOMIALSORT "polynomial_sort"
+#define IDENTIFIER_POLYNOMIALVALUE "polynomial_value"
+#define IDENTIFIER_CDGQF "cdgqf"
+#define IDENTIFIER_CGQF "cgqf"
+#define IDENTIFIER_CLASSMATRIX "class_matrix"
+#define IDENTIFIER_SCQF "scqf"
+#define IDENTIFIER_SGQF "sgqf"
+#define IDENTIFIER_HIGHCARDPROBABILITY "high_card_probability"
+#define IDENTIFIER_HIGHCARDSHUFFLE "high_card_shuffle"
+#define IDENTIFIER_HIGHCARDSIMULATION "high_card_simulation"
+#define IDENTIFIER_PERMUNIFORMNEW "perm_uniform_new"
+#define IDENTIFIER_R8MATNORMAL01NEW "r8mat_normal_01_new"
+#define IDENTIFIER_HYPERBALL01MONOMIALINTEGRAL "hyperball01_monomial_integral"
+#define IDENTIFIER_HYPERBALL01SAMPLE "hyperball01_sample"
+#define IDENTIFIER_HYPERBALL01VOLUME "hyperball01_volume"
+#define IDENTIFIER_HYPERCUBEGRID "hypercube_grid"
+#define IDENTIFIER_HYPERSPHERE01AREA "hypersphere01_area"
+#define IDENTIFIER_HYPERSPHERE01MONOMIALINTEGRAL "hypersphere01_monomial_integral"
+#define IDENTIFIER_HYPERSPHERE01SAMPLE "hypersphere01_sample"
+#define IDENTIFIER_CARTESIANTOHYPERSPHERE "cartesian_to_hypersphere"
+#define IDENTIFIER_HYPERSPHERE01INTERIORUNIFORM "hypersphere_01_interior_uniform"
+#define IDENTIFIER_HYPERSPHERE01SURFACEUNIFORM "hypersphere_01_surface_uniform"
+#define IDENTIFIER_HYPERSPHERE01VOLUME "hypersphere_01_volume"
+#define IDENTIFIER_HYPERSPHERE001AREA "hypersphere_01_area"
+#define IDENTIFIER_HYPERSPHEREAREA "hypersphere_area"
+#define IDENTIFIER_HYPERSPHERESTEREOGRAPH "hypersphere_stereograph"
+#define IDENTIFIER_HYPERSPHERESTEREOGRAPHINVERSE "hypersphere_stereograph_inverse"
+#define IDENTIFIER_HYPERSPHERESURFACEUNIFORM "hypersphere_surface_uniform"
+#define IDENTIFIER_HYPERSPHERETOCARTESIAN "hypersphere_to_cartesian"
+#define IDENTIFIER_HYPERSPHEREVOLUME "hypersphere_volume"
+#define IDENTIFIER_SPHERESTEREOGRAPH "sphere_stereograph"
+#define IDENTIFIER_SPHERESTEREOGRAPHINVERSE "sphere_stereograph_inverse"
+#define IDENTIFIER_I4ABS "i4_abs"
+#define IDENTIFIER_I4MACH "i4_mach"
+#define IDENTIFIER_I4POW "i4_pow"
+#define IDENTIFIER_I4BITHI1 "i4_bit_hi1"
+#define IDENTIFIER_I4BITLO0 "i4_bit_lo0"
+#define IDENTIFIER_I4BITLO1 "i4_bit_lo1"
+#define IDENTIFIER_I4BITREVERSE "i4_bit_reverse"
+#define IDENTIFIER_I4CHARACTERISTIC "i4_characteristic"
+#define IDENTIFIER_I4CHOOSE "i4_choose"
+#define IDENTIFIER_I4DIVROUNDED "i4_div_rounded"
+#define IDENTIFIER_I4DIVISION "i4_division"
+#define IDENTIFIER_I4DIVP "i4_divp"
+#define IDENTIFIER_I4FALL "i4_fall"
+#define IDENTIFIER_I4FLOOR "i4_floor"
+#define IDENTIFIER_I4FRACTION "i4_fraction"
+#define IDENTIFIER_I4GCDB "i4_gcdb"
+#define IDENTIFIER_I4HUGENORMALIZER "i4_huge_normalizer"
+#define IDENTIFIER_I4ISEVEN "i4_is_even"
+#define IDENTIFIER_I4ISODD "i4_is_odd"
+#define IDENTIFIER_I4ISPOWEROF2 "i4_is_power_of_2"
+#define IDENTIFIER_I4ISPRIME "i4_is_prime"
+#define IDENTIFIER_I4LCM "i4_lcm"
+#define IDENTIFIER_I4LOG10 "i4_log_10"
+#define IDENTIFIER_I4LOG2 "i4_log_2"
+#define IDENTIFIER_I4LOGI4 "i4_log_i4"
+#define IDENTIFIER_I4LOGR8 "i4_log_r8"
+#define IDENTIFIER_I4MANT "i4_mant"
+#define IDENTIFIER_I4MODINV "i4_mod_inv"
+#define IDENTIFIER_I4MODDIV "i4_moddiv"
+#define IDENTIFIER_I4REVERSEBYTES "i4_reverse_bytes"
+#define IDENTIFIER_I4RISE "i4_rise"
+#define IDENTIFIER_I4SIGN3 "i4_sign3"
+#define IDENTIFIER_I4SWAP3 "i4_swap3"
+#define IDENTIFIER_I4TOANGLE "i4_to_angle"
+#define IDENTIFIER_I4TODIGITSBINARY "i4_to_digits_binary"
+#define IDENTIFIER_I4TODIGITSDECIMAL "i4_to_digits_decimal"
+#define IDENTIFIER_I4TOFAC "i4_to_fac"
+#define IDENTIFIER_I4TOHALTON "i4_to_halton"
+#define IDENTIFIER_I4TOISBN "i4_to_isbn"
+#define IDENTIFIER_I4TOL4 "i4_to_l4"
+#define IDENTIFIER_I4TOPASCAL "i4_to_pascal"
+#define IDENTIFIER_I4TOPASCALDEGREE "i4_to_pascal_degree"
+#define IDENTIFIER_I4TOTRIANGLE "i4_to_triangle"
+#define IDENTIFIER_I4UNSWAP3 "i4_unswap3"
+#define IDENTIFIER_I4WALSH1D "i4_walsh_1d"
+#define IDENTIFIER_I4WIDTH "i4_width"
+#define IDENTIFIER_I4WRAP "i4_wrap"
+#define IDENTIFIER_I4XOR "i4_xor"
+#define IDENTIFIER_I43MATFLIPCOLS "i43mat_flip_cols"
+#define IDENTIFIER_I43MATFLIPROWS "i43mat_flip_rows"
+#define IDENTIFIER_I4BLOCKDELETE "i4block_delete"
+#define IDENTIFIER_I4BLOCKNEW "i4block_new"
+#define IDENTIFIER_I4BLOCKZEROSNEW "i4block_zeros_new"
+#define IDENTIFIER_I4CMATDELETE "i4cmat_delete"
+#define IDENTIFIER_I4CMATNEW "i4cmat_new"
+#define IDENTIFIER_I4COLCOMPARE "i4col_compare"
+#define IDENTIFIER_I4COLFIND "i4col_find"
+#define IDENTIFIER_I4COLFINDITEM "i4col_find_item"
+#define IDENTIFIER_I4COLFINDPAIRWRAP "i4col_find_pair_wrap"
+#define IDENTIFIER_I4COLFIRSTINDEX "i4col_first_index"
+#define IDENTIFIER_I4COLSORTA "i4col_sort_a"
+#define IDENTIFIER_I4COLSORTD "i4col_sort_d"
+#define IDENTIFIER_I4COLSORT2A "i4col_sort2_a"
+#define IDENTIFIER_I4COLSORT2D "i4col_sort2_d"
+#define IDENTIFIER_I4COLSORTEDSINGLETONCOUNT "i4col_sorted_singleton_count"
+#define IDENTIFIER_I4COLSORTEDUNIQUE "i4col_sorted_unique"
+#define IDENTIFIER_I4COLSORTEDUNIQUECOUNT "i4col_sorted_unique_count"
+#define IDENTIFIER_I4COLSWAP "i4col_swap"
+#define IDENTIFIER_I4COLUNIQUEINDEX "i4col_unique_index"
+#define IDENTIFIER_I4I4SORTA "i4i4_sort_a"
+#define IDENTIFIER_I4I4I4SORTA "i4i4i4_sort_a"
+#define IDENTIFIER_I4INTTOR4INT "i4int_to_r4int"
+#define IDENTIFIER_I4INTTOR8INT "i4int_to_r8int"
+#define IDENTIFIER_I4MATBORDERADD "i4mat_border_add"
+#define IDENTIFIER_I4MATBORDERCUT "i4mat_border_cut"
+#define IDENTIFIER_I4MATCOPY "i4mat_copy"
+#define IDENTIFIER_I4MATCOPYNEW "i4mat_copy_new"
+#define IDENTIFIER_I4MATELIM "i4mat_elim"
+#define IDENTIFIER_I4MATFLIPCOLS "i4mat_flip_cols"
+#define IDENTIFIER_I4MATFLIPROWS "i4mat_flip_rows"
+#define IDENTIFIER_I4MATHISTOGRAM "i4mat_histogram"
+#define IDENTIFIER_I4MATINDICATORNEW "i4mat_indicator_new"
+#define IDENTIFIER_I4MATL1INVERSE "i4mat_l1_inverse"
+#define IDENTIFIER_I4MATMAX "i4mat_max"
+#define IDENTIFIER_I4MATMAXINDEX "i4mat_max_index"
+#define IDENTIFIER_I4MATMIN "i4mat_min"
+#define IDENTIFIER_I4MATMININDEX "i4mat_min_index"
+#define IDENTIFIER_I4MATMM "i4mat_mm"
+#define IDENTIFIER_I4MATPERMUNIFORM "i4mat_perm_uniform"
+#define IDENTIFIER_I4MATPERM2UNIFORM "i4mat_perm2_uniform"
+#define IDENTIFIER_I4MATRED "i4mat_red"
+#define IDENTIFIER_I4MATU1INVERSE "i4mat_u1_inverse"
+#define IDENTIFIER_I4MATUNIFORMAB "i4mat_uniform_ab"
+#define IDENTIFIER_I4MATUNIFORMABNEW "i4mat_uniform_ab_new"
+#define IDENTIFIER_I4RMATDELETE "i4rmat_delete"
+#define IDENTIFIER_I4RMATNEW "i4rmat_new"
+#define IDENTIFIER_I4ROWCOMPARE "i4row_compare"
+#define IDENTIFIER_I4ROWFINDITEM "i4row_find_item"
+#define IDENTIFIER_I4ROWMAX "i4row_max"
+#define IDENTIFIER_I4ROWMEAN "i4row_mean"
+#define IDENTIFIER_I4ROWMIN "i4row_min"
+#define IDENTIFIER_I4ROWSORTA "i4row_sort_a"
+#define IDENTIFIER_I4ROWSORTD "i4row_sort_d"
+#define IDENTIFIER_I4ROWSORT2D "i4row_sort2_d"
+#define IDENTIFIER_I4ROWSUM "i4row_sum"
+#define IDENTIFIER_I4ROWSWAP "i4row_swap"
+#define IDENTIFIER_I4ROWVARIANCE "i4row_variance"
+#define IDENTIFIER_I4VECADD "i4vec_add"
+#define IDENTIFIER_I4VECADDNEW "i4vec_add_new"
+#define IDENTIFIER_I4VECALLNONPOSITIVE "i4vec_all_nonpositive"
+#define IDENTIFIER_I4VECAMAX "i4vec_amax"
+#define IDENTIFIER_I4VECAMAXINDEX "i4vec_amax_index"
+#define IDENTIFIER_I4VECAMIN "i4vec_amin"
+#define IDENTIFIER_I4VECAMININDEX "i4vec_amin_index"
+#define IDENTIFIER_I4VECAMINZ "i4vec_aminz"
+#define IDENTIFIER_I4VECAMINZINDEX "i4vec_aminz_index"
+#define IDENTIFIER_I4VECANYLT "i4vec_any_lt"
+#define IDENTIFIER_I4VECANYNEGATIVE "i4vec_any_negative"
+#define IDENTIFIER_I4VECANYNONZERO "i4vec_any_nonzero"
+#define IDENTIFIER_I4VECASCENDSUB "i4vec_ascend_sub"
+#define IDENTIFIER_I4VECASCENDS "i4vec_ascends"
+#define IDENTIFIER_I4VECAXPY "i4vec_axpy"
+#define IDENTIFIER_I4VECBRACKET "i4vec_bracket"
+#define IDENTIFIER_I4VECCOMPARE "i4vec_compare"
+#define IDENTIFIER_I4VECCONCATENATE "i4vec_concatenate"
+#define IDENTIFIER_I4VECCONCATENATENEW "i4vec_concatenate_new"
+#define IDENTIFIER_I4VECCOPY "i4vec_copy"
+#define IDENTIFIER_I4VECCOPYNEW "i4vec_copy_new"
+#define IDENTIFIER_I4VECCUMNEW "i4vec_cum_new"
+#define IDENTIFIER_I4VECCUM0NEW "i4vec_cum0_new"
+#define IDENTIFIER_I4VECDECREMENT "i4vec_decrement"
+#define IDENTIFIER_I4VECDESCENDS "i4vec_descends"
+#define IDENTIFIER_I4VECDIRECTPRODUCT "i4vec_direct_product"
+#define IDENTIFIER_I4VECDIRECTPRODUCT2 "i4vec_direct_product2"
+#define IDENTIFIER_I4VECDOTPRODUCT "i4vec_dot_product"
+#define IDENTIFIER_I4VECEQ "i4vec_eq"
+#define IDENTIFIER_I4VECEVENALL "i4vec_even_all"
+#define IDENTIFIER_I4VECEVENANY "i4vec_even_any"
+#define IDENTIFIER_I4VECFIND "i4vec_find"
+#define IDENTIFIER_I4VECFIRSTINDEX "i4vec_first_index"
+#define IDENTIFIER_I4VECFRAC "i4vec_frac"
+#define IDENTIFIER_I4VECGCD "i4vec_gcd"
+#define IDENTIFIER_I4VECHEAPA "i4vec_heap_a"
+#define IDENTIFIER_I4VECHEAPD "i4vec_heap_d"
+#define IDENTIFIER_I4VECHEAPDEXTRACT "i4vec_heap_d_extract"
+#define IDENTIFIER_I4VECHEAPDINSERT "i4vec_heap_d_insert"
+#define IDENTIFIER_I4VECHEAPDMAX "i4vec_heap_d_max"
+#define IDENTIFIER_I4VECHISTOGRAM "i4vec_histogram"
+#define IDENTIFIER_I4VECHISTOGRAMMASKED "i4vec_histogram_masked"
+#define IDENTIFIER_I4VECINCREMENT "i4vec_increment"
+#define IDENTIFIER_I4VECINDEX "i4vec_index"
+#define IDENTIFIER_I4VECINDEXDELETEALL "i4vec_index_delete_all"
+#define IDENTIFIER_I4VECINDEXDELETEDUPES "i4vec_index_delete_dupes"
+#define IDENTIFIER_I4VECINDEXDELETEONE "i4vec_index_delete_one"
+#define IDENTIFIER_I4VECINDEXINSERT "i4vec_index_insert"
+#define IDENTIFIER_I4VECINDEXINSERTUNIQUE "i4vec_index_insert_unique"
+#define IDENTIFIER_I4VECINDEXORDER "i4vec_index_order"
+#define IDENTIFIER_I4VECINDEXSEARCH "i4vec_index_search"
+#define IDENTIFIER_I4VECINDEXSORTUNIQUE "i4vec_index_sort_unique"
+#define IDENTIFIER_I4VECINDEXEDHEAPD "i4vec_indexed_heap_d"
+#define IDENTIFIER_I4VECINDEXEDHEAPDEXTRACT "i4vec_indexed_heap_d_extract"
+#define IDENTIFIER_I4VECINDEXEDHEAPDINSERT "i4vec_indexed_heap_d_insert"
+#define IDENTIFIER_I4VECINDEXEDHEAPDMAX "i4vec_indexed_heap_d_max"
+#define IDENTIFIER_I4VECINDICATOR0 "i4vec_indicator0"
+#define IDENTIFIER_I4VECINDICATOR0NEW "i4vec_indicator0_new"
+#define IDENTIFIER_I4VECINDICATOR1 "i4vec_indicator1"
+#define IDENTIFIER_I4VECINDICATOR1NEW "i4vec_indicator1_new"
+#define IDENTIFIER_I4VECINSERT "i4vec_insert"
+#define IDENTIFIER_I4VECLCM "i4vec_lcm"
+#define IDENTIFIER_I4VECMAX "i4vec_max"
+#define IDENTIFIER_I4VECMAXINDEX "i4vec_max_index"
+#define IDENTIFIER_I4VECMAXINDEXLAST "i4vec_max_index_last"
+#define IDENTIFIER_I4VECMEAN "i4vec_mean"
+#define IDENTIFIER_I4VECMEDIAN "i4vec_median"
+#define IDENTIFIER_I4VECMERGEA "i4vec_merge_a"
+#define IDENTIFIER_I4VECMIN "i4vec_min"
+#define IDENTIFIER_I4VECMININDEX "i4vec_min_index"
+#define IDENTIFIER_I4VECMINMV "i4vec_min_mv"
+#define IDENTIFIER_I4VECNEGONE "i4vec_negone"
+#define IDENTIFIER_I4VECNEGONENEW "i4vec_negone_new"
+#define IDENTIFIER_I4VECNONZEROCOUNT "i4vec_nonzero_count"
+#define IDENTIFIER_I4VECNONZEROFIRST "i4vec_nonzero_first"
+#define IDENTIFIER_I4VECNORML0 "i4vec_norm_l0"
+#define IDENTIFIER_I4VECODDALL "i4vec_odd_all"
+#define IDENTIFIER_I4VECODDANY "i4vec_odd_any"
+#define IDENTIFIER_I4VECONENEW "i4vec_one_new"
+#define IDENTIFIER_I4VECORDERTYPE "i4vec_order_type"
+#define IDENTIFIER_I4VECPAIRWISEPRIME "i4vec_pairwise_prime"
+#define IDENTIFIER_I4VECPART "i4vec_part"
+#define IDENTIFIER_I4VECPARTQUICKA "i4vec_part_quick_a"
+#define IDENTIFIER_I4VECPERMUTE "i4vec_permute"
+#define IDENTIFIER_I4VECPERMUTEUNIFORM "i4vec_permute_uniform"
+#define IDENTIFIER_I4VECRED "i4vec_red"
+#define IDENTIFIER_I4VECREVERSE "i4vec_reverse"
+#define IDENTIFIER_I4VECROTATE "i4vec_rotate"
+#define IDENTIFIER_I4VECRUNCOUNT "i4vec_run_count"
+#define IDENTIFIER_I4VECSORTBUBBLEA "i4vec_sort_bubble_a"
+#define IDENTIFIER_I4VECSORTBUBBLED "i4vec_sort_bubble_d"
+#define IDENTIFIER_I4VECSORTHEAPA "i4vec_sort_heap_a"
+#define IDENTIFIER_I4VECSORTHEAPD "i4vec_sort_heap_d"
+#define IDENTIFIER_I4VECSORTHEAPINDEXA "i4vec_sort_heap_index_a"
+#define IDENTIFIER_I4VECSORTHEAPINDEXD "i4vec_sort_heap_index_d"
+#define IDENTIFIER_I4VECSORTQUICKA "i4vec_sort_quick_a"
+#define IDENTIFIER_I4VECSORTSHELLA "i4vec_sort_shell_a"
+#define IDENTIFIER_I4VECSORTEDUNDEX "i4vec_sorted_undex"
+#define IDENTIFIER_I4VECSORTEDUNIQUE "i4vec_sorted_unique"
+#define IDENTIFIER_I4VECSORTEDUNIQUECOUNT "i4vec_sorted_unique_count"
+#define IDENTIFIER_I4VECSORTEDUNIQUEHIST "i4vec_sorted_unique_hist"
+#define IDENTIFIER_I4VECSPLIT "i4vec_split"
+#define IDENTIFIER_I4VECSTD "i4vec_std"
+#define IDENTIFIER_I4VECSWAP "i4vec_swap"
+#define IDENTIFIER_I4VECUNDEX "i4vec_undex"
+#define IDENTIFIER_I4VECUNIQUECOUNT "i4vec_unique_count"
+#define IDENTIFIER_I4VECUNIQUEINDEX "i4vec_unique_index"
+#define IDENTIFIER_I4VECVALUEINDEX "i4vec_value_index"
+#define IDENTIFIER_I4VECVALUENUM "i4vec_value_num"
+#define IDENTIFIER_I4VECVARIANCE "i4vec_variance"
+#define IDENTIFIER_I4VECWIDTH "i4vec_width"
+#define IDENTIFIER_I4VECZEROS "i4vec_zeros"
+#define IDENTIFIER_I4VECZEROSNEW "i4vec_zeros_new"
+#define IDENTIFIER_I4VEC2COMPARE "i4vec2_compare"
+#define IDENTIFIER_I4VEC2SORTA "i4vec2_sort_a"
+#define IDENTIFIER_I4VEC2SORTD "i4vec2_sort_d"
+#define IDENTIFIER_I4VEC2SORTEDUNIQUE "i4vec2_sorted_unique"
+#define IDENTIFIER_I4VEC2SORTEDUNIQUECOUNT "i4vec2_sorted_unique_count"
+#define IDENTIFIER_L4TOI4 "l4_to_i4"
+#define IDENTIFIER_L4XOR "l4_xor"
+#define IDENTIFIER_PASCALTOI4 "pascal_to_i4"
+#define IDENTIFIER_PERMCYCLE "perm_cycle"
+#define IDENTIFIER_PERM0CHECK "perm0_check"
+#define IDENTIFIER_PERM0UNIFORMNEW "perm0_uniform_new"
+#define IDENTIFIER_PERM1CHECK "perm1_check"
+#define IDENTIFIER_PERM1UNIFORMNEW "perm1_uniform_new"
+#define IDENTIFIER_PRIME "prime"
+#define IDENTIFIER_SORTHEAPEXTERNAL "sort_heap_external"
+#define IDENTIFIER_TRIANGLETOI4 "triangle_to_i4"
+#define IDENTIFIER_I4TOBVEC "i4_to_bvec"
+#define IDENTIFIER_I4BLOCKCOMPONENTS "i4block_components"
+#define IDENTIFIER_I4MATCOMPONENTS "i4mat_components"
+#define IDENTIFIER_I4VECCOMPONENTS "i4vec_components"
+#define IDENTIFIER_GRAYMEDIANNEWS "gray_median_news"
+#define IDENTIFIER_CCABSCISSAS "cc_abscissas"
+#define IDENTIFIER_CCABSCISSASAB "cc_abscissas_ab"
+#define IDENTIFIER_F1ABSCISSAS "f1_abscissas"
+#define IDENTIFIER_F1ABSCISSASAB "f1_abscissas_ab"
+#define IDENTIFIER_F2ABSCISSAS "f2_abscissas"
+#define IDENTIFIER_F2ABSCISSASAB "f2_abscissas_ab"
+#define IDENTIFIER_INTERPLAGRANGE "interp_lagrange"
+#define IDENTIFIER_INTERPLINEAR "interp_linear"
+#define IDENTIFIER_INTERPNEAREST "interp_nearest"
+#define IDENTIFIER_LAGRANGEVALUE "lagrange_value"
+#define IDENTIFIER_NCCABSCISSAS "ncc_abscissas"
+#define IDENTIFIER_NCCABSCISSASAB "ncc_abscissas_ab"
+#define IDENTIFIER_NCOABSCISSAS "nco_abscissas"
+#define IDENTIFIER_NCOABSCISSASAB "nco_abscissas_ab"
+#define IDENTIFIER_PARAMETERIZEARCLENGTH "parameterize_arc_length"
+#define IDENTIFIER_PARAMETERIZEINDEX "parameterize_index"
+#define IDENTIFIER_R8MATEXPANDLINEAR2 "r8mat_expand_linear2"
+#define IDENTIFIER_R8VECASCENDSSTRICTLY "r8vec_ascends_strictly"
+#define IDENTIFIER_R8VECBRACKET0 "r8vec_bracket0"
+#define IDENTIFIER_R8VECEXPANDLINEAR2 "r8vec_expand_linear2"
+#define IDENTIFIER_CHISDIGIT "ch_is_digit"
+#define IDENTIFIER_CHTODIGIT "ch_to_digit"
+#define IDENTIFIER_STODIGITS "s_to_digits"
+#define IDENTIFIER_ISING2DAGREE "ising_2d_agree"
+#define IDENTIFIER_ISING2DINITIALIZE "ising_2d_initialize"
+#define IDENTIFIER_R8MATUNIFORM01 "r8mat_uniform_01"
+#define IDENTIFIER_DIF2 "dif2"
+#define IDENTIFIER_R8MATRESIDUALNORM "r8mat_residual_norm"
+#define IDENTIFIER_JACOBIEIGENVALUE "jacobi_eigenvalue"
+#define IDENTIFIER_R8MATDIAGGETVECTOR "r8mat_diag_get_vector"
+#define IDENTIFIER_R8MATIDENTITY "r8mat_identity"
+#define IDENTIFIER_R8MATISEIGENRIGHT "r8mat_is_eigen_right"
+#define IDENTIFIER_JDOUBLEPRODUCTINTEGRAL "j_double_product_integral"
+#define IDENTIFIER_JINTEGRAL "j_integral"
+#define IDENTIFIER_JPOLYNOMIAL "j_polynomial"
+#define IDENTIFIER_JPOLYNOMIALZEROS "j_polynomial_zeros"
+#define IDENTIFIER_JQUADRATURERULE "j_quadrature_rule"
+#define IDENTIFIER_R8POLYVALUE "r8poly_value"
+#define IDENTIFIER_PPOLYNOMIALPRIME2 "p_polynomial_prime2"
+#define IDENTIFIER_PPOLYNOMIALVALUE "p_polynomial_value"
+#define IDENTIFIER_PMPOLYNOMIALVALUE "pm_polynomial_value"
+#define IDENTIFIER_PMNPOLYNOMIALVALUE "pmn_polynomial_value"
+#define IDENTIFIER_PMNSPOLYNOMIALVALUE "pmns_polynomial_value"
+#define IDENTIFIER_PNPOLYNOMIALVALUE "pn_polynomial_value"
+#define IDENTIFIER_PNPOLYNOMIALCOEFFICIENTS "pn_polynomial_coefficients"
+#define IDENTIFIER_R8VECNORMAL01NEW "r8vec_normal_01_new"
+#define IDENTIFIER_I4VECUNIFORMABNEW "i4vec_uniform_ab_new"
+#define IDENTIFIER_GAUSS "gauss"
+#define IDENTIFIER_RJACOBI "r_jacobi"
+#define IDENTIFIER_DIAPHONYCOMPUTE "diaphony_compute"
+#define IDENTIFIER_R8MODP "r8_modp"
+#define IDENTIFIER_INVERSEERROR "inverse_error"
+#define IDENTIFIER_R8POSL2 "r8po_sl2"
+#define IDENTIFIER_CHEBYSHEV1EXACTNESS "chebyshev1_exactness"
+#define IDENTIFIER_CHEBYSHEV1INTEGRAL "chebyshev1_integral"
+#define IDENTIFIER_CHEBYSHEV2EXACTNESS "chebyshev2_exactness"
+#define IDENTIFIER_CHEBYSHEV2INTEGRAL "chebyshev2_integral"
+#define IDENTIFIER_R8COSD "r8_cosd"
+#define IDENTIFIER_COTD "cotd"
+#define IDENTIFIER_R8CSCD "r8_cscd"
+#define IDENTIFIER_R8SECD "r8_secd"
+#define IDENTIFIER_R8SIND "r8_sind"
+#define IDENTIFIER_R8TAND "r8_tand"
+#define IDENTIFIER_C4COS "c4_cos"
+#define IDENTIFIER_C4SIN "c4_sin"
+#define IDENTIFIER_R8RAND "r8_rand"
+#define IDENTIFIER_R8RANDGS "r8_randgs"
+#define IDENTIFIER_R8ADMP "r8_admp"
+#define IDENTIFIER_R8AI "r8_ai"
+#define IDENTIFIER_R8AID "r8_aid"
+#define IDENTIFIER_R8AIDE "r8_aide"
+#define IDENTIFIER_R8AIE "r8_aie"
+#define IDENTIFIER_R8AIMP "r8_aimp"
+#define IDENTIFIER_R8AINT "r8_aint"
+#define IDENTIFIER_R8ASINH "r8_asinh"
+#define IDENTIFIER_R8B1MP "r8_b1mp"
+#define IDENTIFIER_R8BI "r8_bi"
+#define IDENTIFIER_R8BID "r8_bid"
+#define IDENTIFIER_R8BIDE "r8_bide"
+#define IDENTIFIER_R8BIE "r8_bie"
+#define IDENTIFIER_R8BINOM "r8_binom"
+#define IDENTIFIER_R8CHI "r8_chi"
+#define IDENTIFIER_R8CHU "r8_chu"
+#define IDENTIFIER_R8CHUSCALED "r8_chu_scaled"
+#define IDENTIFIER_R8CI "r8_ci"
+#define IDENTIFIER_R8CIN "r8_cin"
+#define IDENTIFIER_R8CINH "r8_cinh"
+#define IDENTIFIER_R8COSDEG "r8_cos_deg"
+#define IDENTIFIER_R8DAWSON "r8_dawson"
+#define IDENTIFIER_R8E1 "r8_e1"
+#define IDENTIFIER_R8EI "r8_ei"
+#define IDENTIFIER_R8ERF "r8_erf"
+#define IDENTIFIER_R8ERFC "r8_erfc"
+#define IDENTIFIER_R8EXPREL "r8_exprel"
+#define IDENTIFIER_R8FAC "r8_fac"
+#define IDENTIFIER_R8GAMI "r8_gami"
+#define IDENTIFIER_R8GAMIC "r8_gamic"
+#define IDENTIFIER_R8GAMIT "r8_gamit"
+#define IDENTIFIER_R8GAMR "r8_gamr"
+#define IDENTIFIER_R8GMIC "r8_gmic"
+#define IDENTIFIER_R8GMIT "r8_gmit"
+#define IDENTIFIER_R8INT "r8_int"
+#define IDENTIFIER_R8LBETA "r8_lbeta"
+#define IDENTIFIER_R8LGAMS "r8_lgams"
+#define IDENTIFIER_R8LGIC "r8_lgic"
+#define IDENTIFIER_R8LGIT "r8_lgit"
+#define IDENTIFIER_R8LI "r8_li"
+#define IDENTIFIER_R8LNGAM "r8_lngam"
+#define IDENTIFIER_R8LNREL "r8_lnrel"
+#define IDENTIFIER_R8MOD "r8_mod"
+#define IDENTIFIER_R8PAK "r8_pak"
+#define IDENTIFIER_R8POCH "r8_poch"
+#define IDENTIFIER_COMPNEXT "comp_next"
+#define IDENTIFIER_R8POCH1 "r8_poch1"
+#define IDENTIFIER_R8REN "r8_ren"
+#define IDENTIFIER_R8SHI "r8_shi"
+#define IDENTIFIER_R8SI "r8_si"
+#define IDENTIFIER_R8SIFG "r8_sifg"
+#define IDENTIFIER_R8SINDEG "r8_sin_deg"
+#define IDENTIFIER_R8SPENCE "r8_spence"
+#define IDENTIFIER_R8SQRT "r8_sqrt"
+#define IDENTIFIER_R8TAN "r8_tan"
+#define IDENTIFIER_R8TANH "r8_tanh"
+#define IDENTIFIER_R8UPAK "r8_upak"
+#define IDENTIFIER_R8VECUNIFORMABNEW "r8vec_uniform_ab_new"
+#define IDENTIFIER_R8VECSORTEDNEAREST0 "r8vec_sorted_nearest0"
+#define IDENTIFIER_JACOBI1 "jacobi1"
+#define IDENTIFIER_LAGRANGEBASISFUNCTION1D "lagrange_basis_function_1d"
+#define IDENTIFIER_LAGRANGEINTERP2D "lagrange_interp_2d"
+#define IDENTIFIER_LAGUERREMONOMIALQUADRATURE "laguerre_monomial_quadrature"
+#define IDENTIFIER_LUERROR "lu_error"
+#define IDENTIFIER_R8VECLINSPACE2 "r8vec_linspace2"
+#define IDENTIFIER_R8MACHAR "r8_machar"
+#define IDENTIFIER_EXPLODE "explode"
+#define IDENTIFIER_GRID2D "grid_2d"
+#define IDENTIFIER_POLYGONTRIANGULATE "polygon_triangulate"
+#define IDENTIFIER_POLYGONINTEGRALXX "polygon_integral_xx"
+#define IDENTIFIER_POLYGONINTEGRALY "polygon_integral_y"
+#define IDENTIFIER_POLYGONINTEGRALYY "polygon_integral_yy"
+#define IDENTIFIER_DIAEDG "diaedg"
+#define IDENTIFIER_LRLINE "lrline"
+#define IDENTIFIER_PWLINTERP2DSCATTEREDVALUE "pwl_interp_2d_scattered_value"
+#define IDENTIFIER_R8TRIS2 "r8tris2"
+#define IDENTIFIER_SWAPEC "swapec"
+#define IDENTIFIER_VBEDG "vbedg"
+#define IDENTIFIER_R8VECSWTB "r8vec_swtb"
+#define IDENTIFIER_R8VECSWTF "r8vec_swtf"
+#define IDENTIFIER_SPARSEGRIDCFNSIZE "sparse_grid_cfn_size"
+#define IDENTIFIER_SQUAREMONOMIAL "square_monomial"
+#define IDENTIFIER_SQUARERULE "square_rule"
+#define IDENTIFIER_SQUAREVOLUME "square_volume"
+#define IDENTIFIER_ANGLESHIFTDEG "angle_shift_deg"
+#define IDENTIFIER_ANGLETORGB "angle_to_rgb"
+#define IDENTIFIER_AXISLIMITS "axis_limits"
+#define IDENTIFIER_BARCHECK "bar_check"
+#define IDENTIFIER_BARCODE "bar_code"
+#define IDENTIFIER_BARDIGITCODELEFT "bar_digit_code_left"
+#define IDENTIFIER_BARDIGITCODERIGHT "bar_digit_code_right"
+#define IDENTIFIER_BMIENGLISH "bmi_english"
+#define IDENTIFIER_BMIMETRIC "bmi_metric"
+#define IDENTIFIER_EULERCONSTANT "euler_constant"
+#define IDENTIFIER_FEETTOMETERS "feet_to_meters"
+#define IDENTIFIER_GAUSSSUM "gauss_sum"
+#define IDENTIFIER_GRID1 "grid1"
+#define IDENTIFIER_GRID1N "grid1n"
+#define IDENTIFIER_GRID2 "grid2"
+#define IDENTIFIER_GRID2N "grid2n"
+#define IDENTIFIER_GRID3 "grid3"
+#define IDENTIFIER_GRID3N "grid3n"
+#define IDENTIFIER_GRID4 "grid4"
+#define IDENTIFIER_GRID4N "grid4n"
+#define IDENTIFIER_I2REVERSEBYTES "i2_reverse_bytes"
+#define IDENTIFIER_POUNDSTOKILOGRAMS "pounds_to_kilograms"
+#define IDENTIFIER_VERSINEPULSE "versine_pulse"
+#define IDENTIFIER_ASMENUM "asm_enum"
+#define IDENTIFIER_ASMTRIANGLE "asm_triangle"
+#define IDENTIFIER_BELL "bell"
+#define IDENTIFIER_CHANGEGREEDY "change_greedy"
+#define IDENTIFIER_CHANGENEXT "change_next"
+#define IDENTIFIER_CHINESECHECK "chinese_check"
+#define IDENTIFIER_CONGRUENCE "congruence"
+#define IDENTIFIER_COUNTPOSERANDOM "count_pose_random"
+#define IDENTIFIER_DEBRUIJN "debruijn"
+#define IDENTIFIER_DERANGEENUM "derange_enum"
+#define IDENTIFIER_DERANGEENUM2 "derange_enum2"
+#define IDENTIFIER_DERANGEENUM3 "derange_enum3"
+#define IDENTIFIER_DERANGE0BACKCANDIDATE "derange0_back_candidate"
+#define IDENTIFIER_DERANGE0BACKNEXT "derange0_back_next"
+#define IDENTIFIER_DERANGE0CHECK "derange0_check"
+#define IDENTIFIER_DERANGE0WEEDNEXT "derange0_weed_next"
+#define IDENTIFIER_DIGRAPHARCEULER "digraph_arc_euler"
+#define IDENTIFIER_DIOPHANTINE "diophantine"
+#define IDENTIFIER_DIOPHANTINESOLUTIONMINIMIZE "diophantine_solution_minimize"
+#define IDENTIFIER_EQUIVNEXT "equiv_next"
+#define IDENTIFIER_EQUIVNEXT2 "equiv_next2"
+#define IDENTIFIER_EQUIVRANDOM "equiv_random"
+#define IDENTIFIER_EULERROW "euler_row"
+#define IDENTIFIER_FROBENIUSNUMBERORDER2 "frobenius_number_order2"
+#define IDENTIFIER_GRAYNEXT "gray_next"
+#define IDENTIFIER_GRAYRANK "gray_rank"
+#define IDENTIFIER_GRAYRANK2 "gray_rank2"
+#define IDENTIFIER_GRAYUNRANK "gray_unrank"
+#define IDENTIFIER_GRAYUNRANK2 "gray_unrank2"
+#define IDENTIFIER_I4PARTITIONRANDOM "i4_partition_random"
+#define IDENTIFIER_JOSEPHUS "josephus"
+#define IDENTIFIER_MATRIXPRODUCTOPT "matrix_product_opt"
+#define IDENTIFIER_MOEBIUSMATRIX "moebius_matrix"
+#define IDENTIFIER_NIMSUM "nim_sum"
+#define IDENTIFIER_PADOVAN "padovan"
+#define IDENTIFIER_PELLBASIC "pell_basic"
+#define IDENTIFIER_PELLNEXT "pell_next"
+#define IDENTIFIER_PERRIN "perrin"
+#define IDENTIFIER_PORDCHECK "pord_check"
+#define IDENTIFIER_POWERSERIES1 "power_series1"
+#define IDENTIFIER_POWERSERIES2 "power_series2"
+#define IDENTIFIER_POWERSERIES3 "power_series3"
+#define IDENTIFIER_POWERSERIES4 "power_series4"
+#define IDENTIFIER_R8MATPERMANENT "r8mat_permanent"
+#define IDENTIFIER_R8VECBACKTRACK "r8vec_backtrack"
+#define IDENTIFIER_RATFAREY "rat_farey"
+#define IDENTIFIER_RATFAREY2 "rat_farey2"
+#define IDENTIFIER_SCHROEDER "schroeder"
+#define IDENTIFIER_SUBSETGRAYRANK "subset_gray_rank"
+#define IDENTIFIER_SUBSETGRAYUNRANK "subset_gray_unrank"
+#define IDENTIFIER_SUBSETLEXNEXT "subset_lex_next"
+#define IDENTIFIER_SUBSETRANDOM "subset_random"
+#define IDENTIFIER_THUEBINARYNEXT "thue_binary_next"
+#define IDENTIFIER_THUETERNARYNEXT "thue_ternary_next"
+#define IDENTIFIER_VECTORCONSTRAINEDNEXT "vector_constrained_next"
+#define IDENTIFIER_VECTORCONSTRAINEDNEXT2 "vector_constrained_next2"
+#define IDENTIFIER_VECTORCONSTRAINEDNEXT3 "vector_constrained_next3"
+#define IDENTIFIER_VECTORCONSTRAINEDNEXT4 "vector_constrained_next4"
+#define IDENTIFIER_VECTORCONSTRAINEDNEXT5 "vector_constrained_next5"
+#define IDENTIFIER_VECTORCONSTRAINEDNEXT6 "vector_constrained_next6"
+#define IDENTIFIER_VECTORCONSTRAINEDNEXT7 "vector_constrained_next7"
+#define IDENTIFIER_VECTORNEXT "vector_next"
+#define IDENTIFIER_YTBENUM "ytb_enum"
+#define IDENTIFIER_YTBNEXT "ytb_next"
+#define IDENTIFIER_YTBRANDOM "ytb_random"
+#define IDENTIFIER_SIMPLEF "simple_f"
+#define IDENTIFIER_CBTTRAVERSE "cbt_traverse"
+#define IDENTIFIER_TRIANGLEORDER6PHYSICALTOREFERENCE "triangle_order6_physical_to_reference"
+#define IDENTIFIER_TRIANGLEORDER6REFERENCETOPHYSICAL "triangle_order6_reference_to_physical"
+#define IDENTIFIER_VAND1 "vand1"
+#define IDENTIFIER_VANDERMONDEVALUE1D "vandermonde_value_1d"
+#define IDENTIFIER_CGGB "cg_gb"
+#define IDENTIFIER_CGGE "cg_ge"
+#define IDENTIFIER_RNORM "rnorm"
+#define IDENTIFIER_WSHRT "wshrt"
+#define IDENTIFIER_SUBSETGRAYNEXT "subset_gray_next"
+#define IDENTIFIER_ABWE1 "_abwe1"
+#define IDENTIFIER_ABWE2 "_abwe2"
+#define IDENTIFIER_LAGRANGEAPPROX1D "lagrange_approx_1d"
+#define IDENTIFIER_LAGRANGEBASIS1D "lagrange_basis_1d"
+#define IDENTIFIER_LAGRANGEVALUE1D "lagrange_value_1d"
+#define IDENTIFIER_CCCOMPUTEPOINTS "cc_compute_points"
+#define IDENTIFIER_LAGRANGEINTERPNDGRID "lagrange_interp_nd_grid"
+#define IDENTIFIER_LAGRANGEINTERPNDGRID2 "lagrange_interp_nd_grid2"
+#define IDENTIFIER_LAGRANGEINTERPNDSIZE "lagrange_interp_nd_size"
+#define IDENTIFIER_LAGRANGEINTERPNDSIZE2 "lagrange_interp_nd_size2"
+#define IDENTIFIER_LAGRANGEINTERPNDVALUE "lagrange_interp_nd_value"
+#define IDENTIFIER_LAGRANGEINTERPNDVALUE2 "lagrange_interp_nd_value2"
+#define IDENTIFIER_ORDERFROMLEVEL135 "order_from_level_135"
+#define IDENTIFIER_LPOLYNOMIAL "l_polynomial"
+#define IDENTIFIER_LPOLYNOMIALCOEFFICIENTS "l_polynomial_coefficients"
+#define IDENTIFIER_LMPOLYNOMIAL "lm_polynomial"
+#define IDENTIFIER_LMPOLYNOMIALCOEFFICIENTS "lm_polynomial_coefficients"
+#define IDENTIFIER_LFFUNCTION "lf_function"
+#define IDENTIFIER_LQUADRATURERULE "l_quadrature_rule"
+#define IDENTIFIER_LFQUADRATURERULE "lf_quadrature_rule"
+#define IDENTIFIER_LMQUADRATURERULE "lm_quadrature_rule"
+#define IDENTIFIER_LINTEGRAL "l_integral"
+#define IDENTIFIER_LFINTEGRAL "lf_integral"
+#define IDENTIFIER_LMINTEGRAL "lm_integral"
+#define IDENTIFIER_LPOLYNOMIALZEROS "l_polynomial_zeros"
+#define IDENTIFIER_LFFUNCTIONZEROS "lf_function_zeros"
+#define IDENTIFIER_LMPOLYNOMIALZEROS "lm_polynomial_zeros"
+#define IDENTIFIER_LMPOLYNOMIALVALUES "lm_polynomial_values"
+#define IDENTIFIER_CHOLESKYUPPERERROR "cholesky_upper_error"
+#define IDENTIFIER_R8MATMTMNEW "r8mat_mtm_new"
+#define IDENTIFIER_EIGENERROR "eigen_error"
+#define IDENTIFIER_L1DDAPPLY "l1dd_apply"
+#define IDENTIFIER_L1DDCHOLESKY "l1dd_cholesky"
+#define IDENTIFIER_L1DDEIGEN "l1dd_eigen"
+#define IDENTIFIER_L1DD "l1dd"
+#define IDENTIFIER_L1DDINVERSE "l1dd_inverse"
+#define IDENTIFIER_L1DDLU "l1dd_lu"
+#define IDENTIFIER_L1DNAPPLY "l1dn_apply"
+#define IDENTIFIER_L1DNCHOLESKY "l1dn_cholesky"
+#define IDENTIFIER_L1DNEIGEN "l1dn_eigen"
+#define IDENTIFIER_L1DN "l1dn"
+#define IDENTIFIER_L1DNINVERSE "l1dn_inverse"
+#define IDENTIFIER_L1DNLU "l1dn_lu"
+#define IDENTIFIER_L1NDAPPLY "l1nd_apply"
+#define IDENTIFIER_L1NDCHOLESKY "l1nd_cholesky"
+#define IDENTIFIER_L1NDEIGEN "l1nd_eigen"
+#define IDENTIFIER_L1ND "l1nd"
+#define IDENTIFIER_L1NDINVERSE "l1nd_inverse"
+#define IDENTIFIER_L1NDLU "l1nd_lu"
+#define IDENTIFIER_L1NNAPPLY "l1nn_apply"
+#define IDENTIFIER_L1NNCHOLESKY "l1nn_cholesky"
+#define IDENTIFIER_L1NNEIGEN "l1nn_eigen"
+#define IDENTIFIER_L1NN "l1nn"
+#define IDENTIFIER_L1NNLU "l1nn_lu"
+#define IDENTIFIER_L1PPAPPLY "l1pp_apply"
+#define IDENTIFIER_L1PPCHOLESKY "l1pp_cholesky"
+#define IDENTIFIER_L1PPEIGEN "l1pp_eigen"
+#define IDENTIFIER_L1PP "l1pp"
+#define IDENTIFIER_L1PPLU "l1pp_lu"
+#define IDENTIFIER_R8MATLATINIZE "r8mat_latinize"
+#define IDENTIFIER_LATINCOVER "latin_cover"
+#define IDENTIFIER_LATINCOVER2D "latin_cover_2d"
+#define IDENTIFIER_LATINCOVER3D "latin_cover_3d"
+#define IDENTIFIER_R8MATUNIFORM01NEW "r8mat_uniform_01_new"
+#define IDENTIFIER_LATINRANDOMNEW "latin_random_new"
+#define IDENTIFIER_CHEBYSHEV1 "chebyshev1"
+#define IDENTIFIER_CHEBYSHEV2 "chebyshev2"
+#define IDENTIFIER_CHEBYSHEV3 "chebyshev3"
+#define IDENTIFIER_CHEBYSHEV4 "chebyshev4"
+#define IDENTIFIER_EQUIDISTANT1 "equidistant1"
+#define IDENTIFIER_EQUIDISTANT2 "equidistant2"
+#define IDENTIFIER_EQUIDISTANT3 "equidistant3"
+#define IDENTIFIER_FEJER1 "fejer1"
+#define IDENTIFIER_FEJER2 "fejer2"
+#define IDENTIFIER_LEBESGUECONSTANT "lebesgue_constant"
+#define IDENTIFIER_LEBESGUEFUNCTION "lebesgue_function"
+#define IDENTIFIER_PINTEGRAL "p_integral"
+#define IDENTIFIER_PQUADRATURERULE "p_quadrature_rule"
+#define IDENTIFIER_PPOLYNOMIALZEROS "p_polynomial_zeros"
+#define IDENTIFIER_PPOLYNOMIALPRIME "p_polynomial_prime"
+#define IDENTIFIER_PPOLYNOMIALCOEFFICIENTS "p_polynomial_coefficients"
+#define IDENTIFIER_LEGENDREFUNCTIONQVALUES "legendre_function_q_values"
+#define IDENTIFIER_PPOLYNOMIALVALUES "p_polynomial_values"
+#define IDENTIFIER_PMPOLYNOMIALVALUES "pm_polynomial_values"
+#define IDENTIFIER_LIFEINIT "life_init"
+#define IDENTIFIER_LIFEUPDATE "life_update"
+#define IDENTIFIER_LINECCVTLLOYDSTEP "line_ccvt_lloyd_step"
+#define IDENTIFIER_LINECVTENERGY "line_cvt_energy"
+#define IDENTIFIER_CHEBVYVAN1 "cheby_van1"
+#define IDENTIFIER_LEGENDREVAN "legendre_van"
+#define IDENTIFIER_LINEFEKETECHEBYSHEV "line_fekete_chebyshev"
+#define IDENTIFIER_LINEFEKETELEGENDRE "line_fekete_legendre"
+#define IDENTIFIER_LINEFEKETEMONOMIAL "line_fekete_monomial"
+#define IDENTIFIER_LINEMONOMIALMOMENTS "line_monomial_moments"
+#define IDENTIFIER_LINEGRID "line_grid"
+#define IDENTIFIER_LINE01LENGTH "line01_length"
+#define IDENTIFIER_LINE01MONOMIALINTEGRAL "line01_monomial_integral"
+#define IDENTIFIER_LINE01SAMPLE "line01_sample"
+#define IDENTIFIER_MONOMIALVALUE1D "monomial_value_1d"
+#define IDENTIFIER_LINENCCRULE "line_ncc_rule"
+#define IDENTIFIER_LINENCORULE "line_nco_rule"
+#define IDENTIFIER_DCOPY "dcopy"
+#define IDENTIFIER_DASUM "dasum"
+#define IDENTIFIER_IDAMAX "idamax"
+#define IDENTIFIER_DCHDC "dchdc"
+#define IDENTIFIER_DCHDD "dchdd"
+#define IDENTIFIER_DCHEX "dchex"
+#define IDENTIFIER_DCHUD "dchud"
+#define IDENTIFIER_DGBCO "dgbco"
+#define IDENTIFIER_DGBDI "dgbdi"
+#define IDENTIFIER_DGBFA "dgbfa"
+#define IDENTIFIER_DGBSL "dgbsl"
+#define IDENTIFIER_DGECO "dgeco"
+#define IDENTIFIER_DGEDI "dgedi"
+#define IDENTIFIER_DGEFA "dgefa"
+#define IDENTIFIER_DGESL "dgesl"
+#define IDENTIFIER_DGTSL "dgtsl"
+#define IDENTIFIER_DPBCO "dpbco"
+#define IDENTIFIER_DPBDI "dpbdi"
+#define IDENTIFIER_DPBFA "dpbfa"
+#define IDENTIFIER_DPBSL "dpbsl"
+#define IDENTIFIER_DPOCO "dpoco"
+#define IDENTIFIER_DPODI "dpodi"
+#define IDENTIFIER_DPOFA "dpofa"
+#define IDENTIFIER_DPOSL "dposl"
+#define IDENTIFIER_DPPCO "dppco"
+#define IDENTIFIER_DPPDI "dppdi"
+#define IDENTIFIER_DPPFA "dppfa"
+#define IDENTIFIER_DPPSL "dppsl"
+#define IDENTIFIER_DPTSL "dptsl"
+#define IDENTIFIER_DQRDC "dqrdc"
+#define IDENTIFIER_DQRSL "dqrsl"
+#define IDENTIFIER_DSICO "dsico"
+#define IDENTIFIER_DSIDI "dsidi"
+#define IDENTIFIER_DSIFA "dsifa"
+#define IDENTIFIER_DSISL "dsisl"
+#define IDENTIFIER_DSPCO "dspco"
+#define IDENTIFIER_DSPDI "dspdi"
+#define IDENTIFIER_DSPFA "dspfa"
+#define IDENTIFIER_DSPSL "dspsl"
+#define IDENTIFIER_DSVDC "dsvdc"
+#define IDENTIFIER_DTRCO "dtrco"
+#define IDENTIFIER_DTRSL "dtrsl"
+#define IDENTIFIER_LLSQ "llsq"
+#define IDENTIFIER_LOBATTOPOLYNOMIALVALUE "lobatto_polynomial_value"
+#define IDENTIFIER_LOBATTOPOLYNOMIALDERIVATIVE "lobatto_polynomial_derivative"
+#define IDENTIFIER_LORENZRHS "lorenz_rhs"
+#define IDENTIFIER_R8MATNORMLI "r8mat_norm_li"
+#define IDENTIFIER_R8MATFSSNEW "r8mat_fss_new"
+#define IDENTIFIER_C8MATCOPYNEW "c8mat_copy"
+#define IDENTIFIER_C8MATFSS "c8mat_fss"
+#define IDENTIFIER_C8MATFSSNEW "c8mat_fss_new"
+#define IDENTIFIER_R8MATSIGNIFICANT "r8mat_significant"
+#define IDENTIFIER_R8MATMINVM "r8mat_minvm"
+#define IDENTIFIER_R8MATADD "r8mat_add"
+#define IDENTIFIER_R8MATSCALE "r8mat_scale"
+#define IDENTIFIER_C8MATMINVM "c8mat_minvm"
+#define IDENTIFIER_C8MATMM "c8mat_mm"
+#define IDENTIFIER_C8MATADDR8 "c8mat_add_r8"
+#define IDENTIFIER_C8MATIDENTITYNEW "c8mat_identity_new"
+#define IDENTIFIER_C8MATSCALER8 "c8mat_scale_r8"
+#define IDENTIFIER_C8MATNORMLI "c8mat_norm_li"
+#define IDENTIFIER_C8MATCOPYNEW "c8mat_copy"
+#define IDENTIFIER_C8MATEXPM1 "c8mat_expm1"
+#define IDENTIFIER_R8MATEXPM1 "r8mat_expm1"
+#define IDENTIFIER_R8MATEXPM2 "r8mat_expm2"
+#define IDENTIFIER_MDCOMPUTE "md_compute"
+#define IDENTIFIER_MDDIST "md_dist"
+#define IDENTIFIER_MDINITIALIZE "md_initialize"
+#define IDENTIFIER_MDUPDATE "md_update"
+#define IDENTIFIER_MGS "mgs"
+#define IDENTIFIER_MONOBETWEENENUM "mono_between_enum"
+#define IDENTIFIER_MONOBETWEENNEXTGREVLEX "mono_between_next_grevlex"
+#define IDENTIFIER_MONOBETWEENNEXTGRLEX "mono_between_next_grlex"
+#define IDENTIFIER_MONOBETWEENRANDOM "mono_between_random"
+#define IDENTIFIER_MONONEXTGREVLEX "mono_next_grevlex"
+#define IDENTIFIER_MONONEXTGRLEX "mono_next_grlex"
+#define IDENTIFIER_MONORANKGRLEX "mono_rank_grlex"
+#define IDENTIFIER_MONOTOTALENUM "mono_total_enum"
+#define IDENTIFIER_MONOTOTALNEXTGREVLEX "mono_total_next_grevlex"
+#define IDENTIFIER_MONOTOTALNEXTGRLEX "mono_total_next_grlex"
+#define IDENTIFIER_MONOTOTALRANDOM "mono_total_random"
+#define IDENTIFIER_MONOUNRANKGRLEX "mono_unrank_grlex"
+#define IDENTIFIER_MONOUPTOENUM "mono_upto_enum"
+#define IDENTIFIER_MONOUPTONEXTGREVLEX "mono_upto_next_grevlex"
+#define IDENTIFIER_MONOUPTONEXTGRLEX "mono_upto_next_grlex"
+#define IDENTIFIER_MONOUPTORANDOM "mono_upto_random"
+#define IDENTIFIER_MONOVALUE "mono_value"
+#define IDENTIFIER_CTOF "ctof"
+#define IDENTIFIER_FTOC "ftoc"
+#define IDENTIFIER_GAUSSSEIDEL "gauss_seidel"
+#define IDENTIFIER_MONOGRIDPOISSON1D "monogrid_poisson_1d"
+#define IDENTIFIER_MULTIGRIDPOISSON1D "multigrid_poisson_1d"
+#define IDENTIFIER_NACA4CAMBERED "naca4_cambered"
+#define IDENTIFIER_NACA4SYMMETRIC "naca4_symmetric"
+#define IDENTIFIER_RESIDLUCAS "resid_lucas"
+#define IDENTIFIER_RESIDPOISEUILLE "resid_poiseuille"
+#define IDENTIFIER_RESIDSPIRAL "resid_spiral"
+#define IDENTIFIER_RESIDTAYLOR "resid_taylor"
+#define IDENTIFIER_RESIDVORTEX "resid_vortex"
+#define IDENTIFIER_RHSLUCAS "rhs_lucas"
+#define IDENTIFIER_RHSPOISEUILLE "rhs_poiseuille"
+#define IDENTIFIER_RHSSPIRAL "rhs_spiral"
+#define IDENTIFIER_RHSTAYLOR "rhs_taylor"
+#define IDENTIFIER_RHSVORTEX "rhs_vortex"
+#define IDENTIFIER_RESIDBURGERS "resid_burgers"
+#define IDENTIFIER_RESIDETHIER "resid_ethier"
+#define IDENTIFIER_NEARESTINTERP1D "nearest_interp_1d"
+#define IDENTIFIER_NEWTONCOEF1D "newton_coef_1d"
+#define IDENTIFIER_NEWTONVALUE1D "newton_value_1d"
+#define IDENTIFIER_TUPLENEXT "tuple_next"
+#define IDENTIFIER_ODEINTRP "ode_intrp"
+#define IDENTIFIER_PADUAPOINTSSET "padua_points_set"
+#define IDENTIFIER_PADUAPOINTS "padua_points"
+#define IDENTIFIER_PADUAWEIGHTSSET "padua_weights_set"
+#define IDENTIFIER_PADUAWEIGHTS "padua_weights"
+#define IDENTIFIER_PARTITIONBRUTE "partition_brute"
+#define IDENTIFIER_PARTITIONCOUNT "partition_count"
+#define IDENTIFIER_PARTITIONSUBSETNEXT "partition_subset_next"
+#define IDENTIFIER_PATTERSONSET "patterson_set"
+#define IDENTIFIER_PCEODEHERMITE "pce_ode_hermite"
+#define IDENTIFIER_R8GAMMALOG "r8_gamma_log"
+#define IDENTIFIER_R8CHIPDF "r8_chi_pdf"
+#define IDENTIFIER_R8EXPONENTIALPDF "r8_exponential_pdf"
+#define IDENTIFIER_R8EXPONENTIAL01PDF "r8_exponential_01_pdf"
+#define IDENTIFIER_R8INVCHIPDF "r8_invchi_pdf"
+#define IDENTIFIER_R8NORMALPDF "r8_normal_pdf"
+#define IDENTIFIER_R8SCINVCHIPDF "r8_scinvchi_pdf"
+#define IDENTIFIER_R8UNIFORMPDF "r8_uniform_pdf"
+#define IDENTIFIER_PIECEWISELINEARPRODUCTINTEGRAL "piecewise_linear_product_integral"
+#define IDENTIFIER_CDELAY2 "cdelay2"
+#define IDENTIFIER_CORR "corr"
+#define IDENTIFIER_CROSSCORR "cross_corr"
+#define IDENTIFIER_RAN1F "ran1f"
+#define IDENTIFIER_RANH "ranh"
+#define IDENTIFIER_WRAP2 "wrap2"
+#define IDENTIFIER_SWEEP "sweep"
+#define IDENTIFIER_UEXACT "u_exact"
+#define IDENTIFIER_UXXYYEXACT "uxxyy_exact"
+#define IDENTIFIER_FIBONACCIFLOOR "fibonacci_floor"
+#define IDENTIFIER_LEGENDREASSOCIATEDNORMALIZED "legendre_associated_normalized"
+#define IDENTIFIER_I4ISTRIANGULAR "i4_is_triangular"
+#define IDENTIFIER_CHEBYTPOLY "cheby_t_poly"
+#define IDENTIFIER_AGUD "agud"
+#define IDENTIFIER_ALIGNENUM "align_enum"
+#define IDENTIFIER_BENFORD "benford"
+#define IDENTIFIER_BERNOULLINUMBER "bernoulli_number"
+#define IDENTIFIER_BERNOULLINUMBER2 "bernoulli_number2"
+#define IDENTIFIER_BERNOULLINUMBER3 "bernoulli_number3"
+#define IDENTIFIER_BERNOULLIPOLY "bernoulli_poly"
+#define IDENTIFIER_BERNOULLIPOLY2 "bernoulli_poly2"
+#define IDENTIFIER_CARDANPOLY "cardan_poly"
+#define IDENTIFIER_CARDANPOLYCOEF "cardan_poly_coef"
+#define IDENTIFIER_CARDINALCOS "cardinal_cos"
+#define IDENTIFIER_CARDINALSIN "cardinal_sin"
+#define IDENTIFIER_CATALAN "catalan"
+#define IDENTIFIER_CATALANROWNEXT "catalan_row_next"
+#define IDENTIFIER_CHARLIER "charlier"
+#define IDENTIFIER_CHEBYSHEVDISCRETE "chebyshev_discrete"
+#define IDENTIFIER_COLLATZCOUNT "collatz_count"
+#define IDENTIFIER_COLLATZCOUNTMAX "collatz_count_max"
+#define IDENTIFIER_COMBROWNEXT "comb_row_next"
+#define IDENTIFIER_COMMUL "commul"
+#define IDENTIFIER_COMPLETESYMMETRICPOLY "complete_symmetric_poly"
+#define IDENTIFIER_COSPOWERINT "cos_power_int"
+#define IDENTIFIER_EULERNUMBER "euler_number"
+#define IDENTIFIER_EULERNUMBER2 "euler_number2"
+#define IDENTIFIER_EULERPOLY "euler_poly"
+#define IDENTIFIER_EULERIAN "eulerian"
+#define IDENTIFIER_FHOFSTADTER "f_hofstadter"
+#define IDENTIFIER_GHOFSTADTER "g_hofstadter"
+#define IDENTIFIER_GEGENBAUERPOLY "gegenbauer_poly"
+#define IDENTIFIER_GUD "gud"
+#define IDENTIFIER_HHOFSTADTER "h_hofstadter"
+#define IDENTIFIER_HAIL "hail"
+#define IDENTIFIER_I4PARTITIONDISTINCTCOUNT "i4_partition_distinct_count"
+#define IDENTIFIER_KRAWTCHOUK "krawtchouk"
+#define IDENTIFIER_LERCH "lerch"
+#define IDENTIFIER_MEIXNER "meixner"
+#define IDENTIFIER_MERTENS "mertens"
+#define IDENTIFIER_MOEBIUS "moebius"
+#define IDENTIFIER_MOTZKIN "motzkin"
+#define IDENTIFIER_OMEGA "omega"
+#define IDENTIFIER_PENTAGONNUM "pentagon_num"
+#define IDENTIFIER_PHI "phi"
+#define IDENTIFIER_PLANEPARTITIONNUM "plane_partition_num"
+#define IDENTIFIER_PYRAMIDNUM "pyramid_num"
+#define IDENTIFIER_PYRAMIDSQUARENUM "pyramid_square_num"
+#define IDENTIFIER_R8AGM "r8_agm"
+#define IDENTIFIER_R8FACTORIALLOG "r8_factorial_log"
+#define IDENTIFIER_R8HYPER2F1 "r8_hyper_2f1"
+#define IDENTIFIER_R8PSI "r8_psi"
+#define IDENTIFIER_R8POLYVALUEHORNER "r8poly_value_horner"
+#define IDENTIFIER_SIGMA "sigma"
+#define IDENTIFIER_SIMPLEXNUM "simplex_num"
+#define IDENTIFIER_SINPOWERINT "sin_power_int"
+#define IDENTIFIER_SLICE "slice"
+#define IDENTIFIER_SPHERICALHARMONIC "spherical_harmonic"
+#define IDENTIFIER_TAU "tau"
+#define IDENTIFIER_TETRAHEDRONNUM "tetrahedron_num"
+#define IDENTIFIER_TRIANGLENUM "triangle_num"
+#define IDENTIFIER_TRINOMIAL "trinomial"
+#define IDENTIFIER_VHOFSTADTER "v_hofstadter"
+#define IDENTIFIER_VIBONACCI "vibonacci"
+#define IDENTIFIER_ZECKENDORF "zeckendorf"
+#define IDENTIFIER_ZERNIKEPOLY "zernike_poly"
+#define IDENTIFIER_ZETA "zeta"
+#define IDENTIFIER_I4FACTOR "i4_factor"
+#define IDENTIFIER_FIBONACCIDIRECT "fibonacci_direct"
+#define IDENTIFIER_POLYGONGRIDPOINTS "polygon_grid_points"
+#define IDENTIFIER_MOMENT "moment"
+#define IDENTIFIER_MOMENTCENTRAL "moment_central"
+#define IDENTIFIER_MOMENTNORMALIZED "moment_normalized"
+#define IDENTIFIER_BETWEEN "between"
+#define IDENTIFIER_COLLINEAR "collinear"
+#define IDENTIFIER_DIAGONAL "diagonal"
+#define IDENTIFIER_DIAGONALIE "diagonalie"
+#define IDENTIFIER_INCONE "in_cone"
+#define IDENTIFIER_INTERSECT "intersect"
+#define IDENTIFIER_INTERSECTPROP "intersect_prop"
+#define IDENTIFIER_TRIANGLEAREAPTRIANG "triangle_area_ptriang"
+#define IDENTIFIER_POWERMETHOD "power_method"
+#define IDENTIFIER_POWERRULESET "power_rule_set"
+#define IDENTIFIER_POWERRULESIZE "power_rule_size"
+#define IDENTIFIER_ZIPFCDF "zipf_cdf"
+#define IDENTIFIER_ZIPFPDF "zipf_pdf"
+#define IDENTIFIER_BUFFONLAPLACEPDF "buffon_laplace_pdf"
+#define IDENTIFIER_LAPLACECDF "laplace_cdf"
+#define IDENTIFIER_LAPLACECDFINV "laplace_cdf_inv"
+#define IDENTIFIER_LAPLACEPDF "laplace_pdf"
+#define IDENTIFIER_LOGNORMALCDF "log_normal_cdf"
+#define IDENTIFIER_NORMALCDF "normal_cdf"
+#define IDENTIFIER_LOGNORMALPDF "log_normal_pdf"
+#define IDENTIFIER_LOGSERIESPDF "log_series_pdf"
+#define IDENTIFIER_GENLOGISTICCDF "genlogistic_cdf"
+#define IDENTIFIER_LOGISTICCDF "logistic_cdf"
+#define IDENTIFIER_BINOMIALCOEF "binomial_coef"
+#define IDENTIFIER_NEGATIVEBINOMIALCDF "negative_binomial_cdf"
+#define IDENTIFIER_NEGATIVEBINOMIALPDF "negative_binomial_pdf"
+#define IDENTIFIER_POISSONPDF "poisson_pdf"
+#define IDENTIFIER_RAYLEIGHCDF "rayleigh_cdf"
+#define IDENTIFIER_RAYLEIGHPDF "rayleigh_pdf"
+#define IDENTIFIER_VONMISESPDF "von_mises_pdf"
+#define IDENTIFIER_BESSELI0 "bessel_i0"
+#define IDENTIFIER_WEIBULLCDF "weibull_cdf"
+#define IDENTIFIER_WEIBULLPDF "weibull_pdf"
+#define IDENTIFIER_PWLAPPROX1D "pwl_approx_1d"
+#define IDENTIFIER_PWLAPPROX1DMATRIX "pwl_approx_1d_matrix"
+#define IDENTIFIER_PWLINTERP1D "pwl_interp_1d"
+#define IDENTIFIER_PWLBASIS1D "pwl_basis_1d"
+#define IDENTIFIER_PWLVALUE1D "pwl_value_1d"
+#define IDENTIFIER_R8VECBRACKET5 "r8vec_bracket5"
+#define IDENTIFIER_PWLINTERP2D "pwl_interp_2d"
+#define IDENTIFIER_PYRAUNITMONOMIAL "pyra_unit_monomial"
+#define IDENTIFIER_PYRAMIDUNITGRID "pyramid_unit_grid"
+#define IDENTIFIER_PYRAMIDUNITVERTICES "pyramid_unit_vertices"
+#define IDENTIFIER_MOMENTMETHOD "moment_method"
+#define IDENTIFIER_MOMENTSLAGUERRE "moments_laguerre"
+#define IDENTIFIER_MOMENTSLEGENDRE "moments_legendre"
+#define IDENTIFIER_MOMENTSNORMAL "moments_normal"
+#define IDENTIFIER_MOMENTSTRUNCATEDNORMALAB "moments_truncated_normal_ab"
+#define IDENTIFIER_MOMENTSTRUNCATEDNORMALA "moments_truncated_normal_a"
+#define IDENTIFIER_MOMENTSTRUNCATEDNORMALB "moments_truncated_normal_b"
+#define IDENTIFIER_NORMAL01CDF "normal_01_cdf"
+#define IDENTIFIER_NORMAL01PDF "normal_01_pdf"
+#define IDENTIFIER_TRUNCATEDNORMALABMOMENT "truncated_normal_ab_moment"
+#define IDENTIFIER_TRUNCATEDNORMALAMOMENT "truncated_normal_a_moment"
+#define IDENTIFIER_TRUNCATEDNORMALBMOMENT "truncated_normal_b_moment"
+#define IDENTIFIER_R8MATCHOLESKYFATTORUPPER "r8mat_cholesky_factor_upper"
+#define IDENTIFIER_R8FACTORIAL2 "r8_factorial2"
+#define IDENTIFIER_R8FRACTIONAL "r8_fractional"
+#define IDENTIFIER_R8IN01 "r8_in_01"
+#define IDENTIFIER_R8ISINT "r8_is_int"
+#define IDENTIFIER_R8MANT "r8_mant"
+#define IDENTIFIER_R8NINT "r8_nint"
+#define IDENTIFIER_R8NORMAL01 "r8_normal_01"
+#define IDENTIFIER_R8MOP "r8_mop"
+#define IDENTIFIER_R8NORMALAB "r8_normal_ab"
+#define IDENTIFIER_R8POWERFAST "r8_power_fast"
+#define IDENTIFIER_R8PYTHAG "r8_pythag"
+#define IDENTIFIER_R8REVERSEBYTES "r8_reverse_bytes"
+#define IDENTIFIER_R8ROUNDI4 "r8_round_i4"
+#define IDENTIFIER_R8ROUND2 "r8_round2"
+#define IDENTIFIER_R8ROUNDB "r8_roundb"
+#define IDENTIFIER_R8ROUNDX "r8_roundx"
+#define IDENTIFIER_R8SIGNOPPOSITESTRICT "r8_sign_opposite_strict"
+#define IDENTIFIER_R8TINY "r8_tiny"
+#define IDENTIFIER_R8TODHMS "r8_to_dhms"
+#define IDENTIFIER_R8TOI4 "r8_to_i4"
+#define IDENTIFIER_R8TOR8DISCRETE "r8_to_r8_discrete"
+#define IDENTIFIER_R8UNIFORMAB "r8_uniform_ab"
+#define IDENTIFIER_R8UNSWAP3 "r8_unswap3"
+#define IDENTIFIER_R8WALSH1D "r8_walsh_1d"
+#define IDENTIFIER_R82VECORDERTYPE "r82vec_order_type"
+#define IDENTIFIER_R82VECPERMUTE "r82vec_permute"
+#define IDENTIFIER_R82VECSORTHEAPINDEXA "r82vec_sort_heap_index_a"
+#define IDENTIFIER_R8BLOCKZERONEW "r8block_zero_new"
+#define IDENTIFIER_R8COLCOMPARE "r8col_compare"
+#define IDENTIFIER_R8COLDUPLICATES "r8col_duplicates"
+#define IDENTIFIER_R8COLFIND "r8col_find"
+#define IDENTIFIER_R8COLFIRSTINDEX "r8col_first_index"
+#define IDENTIFIER_R8COLINSERT "r8col_insert"
+#define IDENTIFIER_R8COLMAX "r8col_max"
+#define IDENTIFIER_R8COLMAXINDEX "r8col_max_index"
+#define IDENTIFIER_R8COLMAXONE "r8col_max_one"
+#define IDENTIFIER_R8COLMIN "r8col_min"
+#define IDENTIFIER_R8COLMININDEX "r8col_min_index"
+#define IDENTIFIER_R8COLPARTQUICKA "r8col_part_quick_a"
+#define IDENTIFIER_R8COLPERMUTE "r8col_permute"
+#define IDENTIFIER_R8COLSORTHEAPA "r8col_sort_heap_a"
+#define IDENTIFIER_R8COLSORTHEAPINDEXA "r8col_sort_heap_index_a"
+#define IDENTIFIER_R8COLSORTQUICKA "r8col_sort_quick_a"
+#define IDENTIFIER_R8COLSORTEDTOLUNDEX "r8col_sorted_tol_undex"
+#define IDENTIFIER_R8COLSORTEDTOLUNIQUE "r8col_sorted_tol_unique"
+#define IDENTIFIER_R8COLSORTEDTOLUNIQUECOUNT "r8col_sorted_tol_unique_count"
+#define IDENTIFIER_R8COLSORTEDUNDEX "r8col_sorted_undex"
+#define IDENTIFIER_R8COLSORTEDUNIQUE "r8col_sorted_unique"
+#define IDENTIFIER_R8COLSORTEDUNIQUECOUNT "r8col_sorted_unique_count"
+#define IDENTIFIER_R8COLSORTRA "r8col_sortr_a"
+#define IDENTIFIER_R8COLSUM "r8col_sum"
+#define IDENTIFIER_R8COLSWAP "r8col_swap"
+#define IDENTIFIER_R8COLTOR8VEC "r8col_to_r8vec"
+#define IDENTIFIER_R8COLTOLUNDEX "r8col_tol_undex"
+#define IDENTIFIER_R8MATCOPY "r8mat_copy"
+#define IDENTIFIER_R8MATDELETE "r8mat_delete"
+#define IDENTIFIER_R8MATDET "r8mat_det"
+#define IDENTIFIER_R8MATDET2D "r8mat_det_2d"
+#define IDENTIFIER_R8MATDET3D "r8mat_det_3d"
+#define IDENTIFIER_R8MATDET4D "r8mat_det_4d"
+#define IDENTIFIER_R8MATDET5D "r8mat_det_5d"
+#define IDENTIFIER_R8MATFLIPCOLS "r8mat_flip_cols"
+#define IDENTIFIER_R8MATFLIPROWS "r8mat_flip_rows"
+#define IDENTIFIER_R8MATIDENTITYNEW "r8mat_identity_new"
+#define IDENTIFIER_R8MATIN01 "r8mat_in_01"
+#define IDENTIFIER_R8MATINDICATORNEW "r8mat_indicator_new"
+#define IDENTIFIER_R8MATINVERSE2D "r8mat_inverse_2d"
+#define IDENTIFIER_R8MATINVERSE3D "r8mat_inverse_3d"
+#define IDENTIFIER_R8MATINVERSE4D "r8mat_inverse_4d"
+#define IDENTIFIER_R8MATINVERSE5D "r8mat_inverse_5d"
+#define IDENTIFIER_R8MATLINVERSE "r8mat_l_inverse"
+#define IDENTIFIER_R8MATLSOLVE "r8mat_l_solve"
+#define IDENTIFIER_R8MATLTSOLVE "r8mat_lt_solve"
+#define IDENTIFIER_R8MATMAX "r8mat_max"
+#define IDENTIFIER_R8MATMIN "r8mat_min"
+#define IDENTIFIER_R8MATMM "r8mat_mm"
+#define IDENTIFIER_R8MATMV "r8mat_mv"
+#define IDENTIFIER_R8MATNEW "r8mat_new"
+#define IDENTIFIER_R8MATNORMEIS "r8mat_norm_eis"
+#define IDENTIFIER_R8MATNORMFRO "r8mat_norm_fro"
+#define IDENTIFIER_R8MATMXM "r8mat_mxm"
+#define IDENTIFIER_R8MATNULLSPACE "r8mat_nullspace"
+#define IDENTIFIER_R8MATNULLSPACESIZE "r8mat_nullspace_size"
+#define IDENTIFIER_R8MATREF "r8mat_ref"
+#define IDENTIFIER_R8MATRREF "r8mat_rref"
+#define IDENTIFIER_R8MATSYMMEIGEN "r8mat_symm_eigen"
+#define IDENTIFIER_R8MATSYMMJACOBI "r8mat_symm_jacobi"
+#define IDENTIFIER_R8MATTOR8PLU "r8mat_to_r8plu"
+#define IDENTIFIER_R8MATTRACE "r8mat_trace"
+#define IDENTIFIER_R8MATTRANSPOSE "r8mat_transpose"
+#define IDENTIFIER_R8MATTRANSPOSEINPLACE "r8mat_transpose_in_place"
+#define IDENTIFIER_R8MATZERO "r8mat_zero"
+#define IDENTIFIER_R8PLUDET "r8plu_det"
+#define IDENTIFIER_R8PPDELETE "r8pp_delete"
+#define IDENTIFIER_R8PPNEW "r8pp_new"
+#define IDENTIFIER_R8R8COMPARE "r8r8_compare"
+#define IDENTIFIER_R8R8R8COMPARE "r8r8r8_compare"
+#define IDENTIFIER_R8ROWMAX "r8row_max"
+#define IDENTIFIER_R8ROWMEAN "r8row_mean"
+#define IDENTIFIER_R8ROWMIN "r8row_min"
+#define IDENTIFIER_R8ROWSUM "r8row_sum"
+#define IDENTIFIER_R8ROWSWAP "r8row_swap"
+#define IDENTIFIER_R8ROWTOR8VEC "r8row_to_r8vec"
+#define IDENTIFIER_R8VEC01TOAB "r8vec_01_to_ab"
+#define IDENTIFIER_R8VECABTO01 "r8vec_ab_to_01"
+#define IDENTIFIER_R8VECABTOCD "r8vec_ab_to_cd"
+#define IDENTIFIER_R8VECAMAX "r8vec_amax"
+#define IDENTIFIER_R8VECAMAXINDEX "r8vec_amax_index"
+#define IDENTIFIER_R8VECAMIN "r8vec_amin"
+#define IDENTIFIER_R8VECAMININDEX "r8vec_amin_index"
+#define IDENTIFIER_R8VECANYNORMAL "r8vec_any_normal"
+#define IDENTIFIER_R8VECCIRCULARVARIANCE "r8vec_circular_variance"
+#define IDENTIFIER_R8VECCOMPARE "r8vec_compare"
+#define IDENTIFIER_R8VECCONVOLVECIRC "r8vec_convolve_circ"
+#define IDENTIFIER_R8VECCORRELATION "r8vec_correlation"
+#define IDENTIFIER_R8VECCOVAR "r8vec_covar"
+#define IDENTIFIER_R8VECCROSSPRODUCT2D "r8vec_cross_product_2d"
+#define IDENTIFIER_R8VECCROSSPRODUCTAFFINE2D "r8vec_cross_product_affine_2d"
+#define IDENTIFIER_R8VECCROSSPRODUCT3D "r8vec_cross_product_3d"
+#define IDENTIFIER_R8VECCROSSPRODUCTAFFINE3D "r8vec_cross_product_affine_3d"
+#define IDENTIFIER_R8VECDIF "r8vec_dif"
+#define IDENTIFIER_R8VECDIFFNORM "r8vec_diff_norm"
+#define IDENTIFIER_R8VECDIFFNORML1 "r8vec_diff_norm_l1"
+#define IDENTIFIER_R8VECDIFFNORML2 "r8vec_diff_norm_l2"
+#define IDENTIFIER_R8VECDIFFNORMLI "r8vec_diff_norm_li"
+#define IDENTIFIER_R8VECDIFFNORMSQUARED "r8vec_diff_norm_squared"
+#define IDENTIFIER_R8VECDISTANCE "r8vec_distance"
+#define IDENTIFIER_R8VECDISTINCT "r8vec_distinct"
+#define IDENTIFIER_R8VECDIVIDE "r8vec_divide"
+#define IDENTIFIER_R8VECDOTPRODUCT "r8vec_dot_product"
+#define IDENTIFIER_R8VECDOTPRODUCTAFFINE "r8vec_dot_product_affine"
+#define IDENTIFIER_R8VECEQ "r8vec_eq"
+#define IDENTIFIER_R8VECEVENSELECT "r8vec_even_select"
+#define IDENTIFIER_R8VECEVEN2 "r8vec_even2"
+#define IDENTIFIER_R8VECEVEN3 "r8vec_even3"
+#define IDENTIFIER_R8VECEXPANDLINEAR "r8vec_expand_linear"
+#define IDENTIFIER_R8VECFIRSTINDEX "r8vec_first_index"
+#define IDENTIFIER_R8VECFRAC "r8vec_frac"
+#define IDENTIFIER_R8VECFRACTION "r8vec_fraction"
+#define IDENTIFIER_R8VECGT "r8vec_gt"
+#define IDENTIFIER_R8VECHEAPA "r8vec_heap_a"
+#define IDENTIFIER_R8VECHEAPD "r8vec_heap_d"
+#define IDENTIFIER_I4VECZERO "i4vec_zero"
+#define IDENTIFIER_R8VECHISTOGRAM "r8vec_histogram"
+#define IDENTIFIER_R8VECHOUSECOLUMN "r8vec_house_column"
+#define IDENTIFIER_R8VECI4VECDOTPRODUCT "r8vec_i4vec_dot_product"
+#define IDENTIFIER_R8VECIN01 "r8vec_in_01"
+#define IDENTIFIER_R8VECINDEXDELETEALL "r8vec_index_delete_all"
+#define IDENTIFIER_R8VECINDEXDELETEDUPES "r8vec_index_delete_dupes"
+#define IDENTIFIER_R8VECINDEXDELETEONE "r8vec_index_delete_one"
+#define IDENTIFIER_R8VECINDEXINSERT "r8vec_index_insert"
+#define IDENTIFIER_R8VECINDEXINSERTUNIQUE "r8vec_index_insert_unique"
+#define IDENTIFIER_R8VECINDEXORDER "r8vec_index_order"
+#define IDENTIFIER_R8VECINDEXSEARCH "r8vec_index_search"
+#define IDENTIFIER_R8VECINDEXSORTUNIQUE "r8vec_index_sort_unique"
+#define IDENTIFIER_R8VECINDEXSORTEDRANGE "r8vec_index_sorted_range"
+#define IDENTIFIER_R8VECINDEXEDHEAPD "r8vec_indexed_heap_d"
+#define IDENTIFIER_R8VECINDEXEDHEAPDEXTRACT "r8vec_indexed_heap_d_extract"
+#define IDENTIFIER_R8VECINDEXEDHEAPDINSERT "r8vec_indexed_heap_d_insert"
+#define IDENTIFIER_R8VECINDEXEDHEAPDMAX "r8vec_indexed_heap_d_max"
+#define IDENTIFIER_R8VECINDICATOR0 "r8vec_indicator0"
+#define IDENTIFIER_R8VECINDICATOR0NEW "r8vec_indicator0_new"
+#define IDENTIFIER_R8VECINDICATOR1 "r8vec_indicator1"
+#define IDENTIFIER_R8VECINDICATOR1NEW "r8vec_indicator1_new"
+#define IDENTIFIER_R8VECINSERT "r8vec_insert"
+#define IDENTIFIER_R8VECISINT "r8vec_is_int"
+#define IDENTIFIER_R8VECISNONNEGATIVE "r8vec_is_nonnegative"
+#define IDENTIFIER_R8VECISZERO "r8vec_is_zero"
+#define IDENTIFIER_R8VECLT "r8vec_lt"
+#define IDENTIFIER_R8VECMAXINDEX "r8vec_max_index"
+#define IDENTIFIER_R8VECMININDEX "r8vec_min_index"
+#define IDENTIFIER_R8VECMINPOS "r8vec_min_pos"
+#define IDENTIFIER_R8VECMIRRORNEXT "r8vec_mirror_next"
+#define IDENTIFIER_R8VECNEGATIVESTRICT "r8vec_negative_strict"
+#define IDENTIFIER_R8VECNINT "r8vec_nint"
+#define IDENTIFIER_R8VECNORM "r8vec_norm"
+#define IDENTIFIER_R8VECNORMAFFINE "r8vec_norm_affine"
+#define IDENTIFIER_R8VECNORML1 "r8vec_norm_l1"
+#define IDENTIFIER_R8VECNORML2 "r8vec_norm_l2"
+#define IDENTIFIER_R8VECNORMLI "r8vec_norm_li"
+#define IDENTIFIER_R8VECNORMLP "r8vec_norm_lp"
+#define IDENTIFIER_R8VECNORMALIZE "r8vec_normalize"
+#define IDENTIFIER_R8VECNORMALIZEL1 "r8vec_normalize_l1"
+#define IDENTIFIER_R8VECNORMSQ "r8vec_normsq"
+#define IDENTIFIER_R8VECNORMSQAFFINE "r8vec_normsq_affine"
+#define IDENTIFIER_R8VECORDERTYPE "r8vec_order_type"
+#define IDENTIFIER_R8VECPARTQUICKA "r8vec_part_quick_a"
+#define IDENTIFIER_R8VECPERMUTE "r8vec_permute"
+#define IDENTIFIER_R8VECPERMUTECYCLIC "r8vec_permute_cyclic"
+#define IDENTIFIER_R8VECPERMUTEUNIFORM "r8vec_permute_uniform"
+#define IDENTIFIER_R8VECPOLARIZE "r8vec_polarize"
+#define IDENTIFIER_R8VECPOSITIVESTRICT "r8vec_positive_strict"
+#define IDENTIFIER_R8VECRANGE "r8vec_range"
+#define IDENTIFIER_R8VECRANGE2 "r8vec_range_2"
+#define IDENTIFIER_R8VECREVERSE "r8vec_reverse"
+#define IDENTIFIER_R8VECROTATE "r8vec_rotate"
+#define IDENTIFIER_R8VECSCALARTRIPLEPRODUCT "r8vec_scalar_triple_product"
+#define IDENTIFIER_R8VECSEARCHBINARYA "r8vec_search_binary_a"
+#define IDENTIFIER_R8VECSHIFT "r8vec_shift"
+#define IDENTIFIER_R8VECSHIFTCIRCULAR "r8vec_shift_circular"
+#define IDENTIFIER_R8VECSORTBUBBLEA "r8vec_sort_bubble_a"
+#define IDENTIFIER_R8VECSORTBUBBLED "r8vec_sort_bubble_d"
+#define IDENTIFIER_R8VECSORTHEAPA "r8vec_sort_heap_a"
+#define IDENTIFIER_R8VECSORTHEAPD "r8vec_sort_heap_d"
+#define IDENTIFIER_R8VECSORTHEAPINDEXA "r8vec_sort_heap_index_a"
+#define IDENTIFIER_R8VECSORTHEAPINDEXANEW "r8vec_sort_heap_index_a_new"
+#define IDENTIFIER_R8VECSORTHEAPINDEXD "r8vec_sort_heap_index_d"
+#define IDENTIFIER_R8VECSORTHEAPINDEXDNEW "r8vec_sort_heap_index_d_new"
+#define IDENTIFIER_R8VECSORTHEAPMASKA "r8vec_sort_heap_mask_a"
+#define IDENTIFIER_R8VECSORTINSERTA "r8vec_sort_insert_a"
+#define IDENTIFIER_R8VECSORTINSERTINDEXA "r8vec_sort_insert_index_a"
+#define IDENTIFIER_R8VECSORTQUICKA "r8vec_sort_quick_a"
+#define IDENTIFIER_R8VECSORTSHELLA "r8vec_sort_shell_a"
+#define IDENTIFIER_R8VECSORTEDMERGEA "r8vec_sorted_merge_a"
+#define IDENTIFIER_R8VECSORTEDNEAREST "r8vec_sorted_nearest"
+#define IDENTIFIER_R8VECSORTEDRANGE "r8vec_sorted_range"
+#define IDENTIFIER_R8VECSORTEDSPLIT "r8vec_sorted_split"
+#define IDENTIFIER_R8VECSORTEDUNDEX "r8vec_sorted_undex"
+#define IDENTIFIER_R8VECSORTEDUNIQUE "r8vec_sorted_unique"
+#define IDENTIFIER_R8VECSORTEDUNIQUECOUNT "r8vec_sorted_unique_count"
+#define IDENTIFIER_R8VECSORTEDUNIQUEHIST "r8vec_sorted_unique_hist"
+#define IDENTIFIER_R8VECSPLIT "r8vec_split"
+#define IDENTIFIER_R8VECSTUTTER "r8vec_stutter"
+#define IDENTIFIER_R8VECSTUTTERNEW "r8vec_stutter_new"
+#define IDENTIFIER_R8VECSWAP "r8vec_swap"
+#define IDENTIFIER_R8VECUNDEX "r8vec_undex"
+#define IDENTIFIER_R8VECUNIFORMAB "r8vec_uniform_ab"
+#define IDENTIFIER_R8VECUNIQUECOUNT "r8vec_unique_count"
+#define IDENTIFIER_R8VECUNIQUEINDEX "r8vec_unique_index"
+#define IDENTIFIER_R8VECVECTORTRIPLEPRODUCT "r8vec_vector_triple_product"
+#define IDENTIFIER_R8VECZERO "r8vec_zero"
+#define IDENTIFIER_R8VEC2COMPARE "r8vec2_compare"
+#define IDENTIFIER_R8VEC2SORTA "r8vec2_sort_a"
+#define IDENTIFIER_R8VEC2SORTD "r8vec2_sort_d"
+#define IDENTIFIER_R8VEC2SORTHEAPINDEXA "r8vec2_sort_heap_index_a"
+#define IDENTIFIER_R8VEC2SORTEDUNIQUE "r8vec2_sorted_unique"
+#define IDENTIFIER_R8VEC2SORTEDUNIQUEINDEX "r8vec2_sorted_unique_index"
+#define IDENTIFIER_R8VEC2SUMMAXINDEX "r8vec2_sum_max_index"
+#define IDENTIFIER_PHI1 "phi1"
+#define IDENTIFIER_PHI2 "phi2"
+#define IDENTIFIER_PHI3 "phi3"
+#define IDENTIFIER_PHI4 "phi4"
+#define IDENTIFIER_R8MATSOLVESVD "r8mat_solve_svd"
+#define IDENTIFIER_CIRCUITVALUE "circuit_value"
+#define IDENTIFIER_C8VECSFTB "c8vec_sftb"
+#define IDENTIFIER_C8VECSFTF "c8vec_sftf"
+#define IDENTIFIER_R8VECSCT "r8vec_sct"
+#define IDENTIFIER_R8VECSFTB "r8vec_sftb"
+#define IDENTIFIER_R8VECSFTF "r8vec_sftf"
+#define IDENTIFIER_R8VECSHT "r8vec_sht"
+#define IDENTIFIER_R8VECSQCTB "r8vec_sqctb"
+#define IDENTIFIER_R8VECSQCTF "r8vec_sqctf"
+#define IDENTIFIER_R8VECSQSTB "r8vec_sqstb"
+#define IDENTIFIER_R8VECSQSTF "r8vec_sqstf"
+#define IDENTIFIER_R8VECSST "r8vec_sst"
+#define IDENTIFIER_R8VECCOPY "r8vec_copy"
+#define IDENTIFIER_BINARYVECTORNEXT "binary_vector_next"
+#define IDENTIFIER_VECCOLEXNEXT3 "vec_colex_next3"
+#define IDENTIFIER_POINTUNIQUEINDEX "point_unique_index"
+#define IDENTIFIER_CLENSHAWCURTISCOMPUTEWEIGHTS "clenshaw_curtis_compute_weights"
+#define IDENTIFIER_FEJER2COMPUTEWEIGHTS "fejer2_compute_weights"
+#define IDENTIFIER_FEJER2COMPUTEWEIGHTSNP "fejer2_compute_weights_np"
+#define IDENTIFIER_GENHERMITECOMPUTEWEIGHTS "gen_hermite_compute_weights"
+#define IDENTIFIER_GENHERMITECOMPUTEWEIGHTSNP "gen_hermite_compute_weights_np"
+#define IDENTIFIER_GENLAGUERRECOMPUTEWEIGHTS "gen_laguerre_compute_weights"
+#define IDENTIFIER_GENLAGUERRECOMPUTEWEIGHTSNP "gen_laguerre_compute_weights_np"
+#define IDENTIFIER_HERMITECOMPUTEWEIGHTS "hermite_compute_weights"
+#define IDENTIFIER_HERMITECOMPUTEWEIGHTSNP "hermite_compute_weights_np"
+#define IDENTIFIER_JACOBICOMPUTEWEIGHTS "jacobi_compute_weights"
+#define IDENTIFIER_JACOBICOMPUTEWEIGHTSNP "jacobi_compute_weights_np"
+#define IDENTIFIER_LAGUERRECOMPUTEWEIGHTS "laguerre_compute_weights"
+#define IDENTIFIER_LAGUERRECOMPUTEWEIGHTSNP "laguerre_compute_weights_np"
+#define IDENTIFIER_LEGENDRECOMPUTEWEIGHTS "legendre_compute_weights"
+#define IDENTIFIER_LEGENDRECOMPUTEWEIGHTSNP "legendre_compute_weights_np"
+#define IDENTIFIER_CLENSHAWCURTISCOMPUTEWEIGHTSNP "clenshaw_curtis_compute_weights_np"
+#define IDENTIFIER_FEJER2COMPUTE "fejer2_compute"
+#define IDENTIFIER_FEJER2COMPUTEPOINTS "fejer2_compute_points"
+#define IDENTIFIER_FEJER2COMPUTEPOINTSNP "fejer2_compute_points_np"
+#define IDENTIFIER_PATTERSONLOOKUPWEIGHTS "patterson_lookup_weights"
+#define IDENTIFIER_PATTERSONLOOKUPWEIGHTSNP "patterson_lookup_weights_np"
+#define IDENTIFIER_PATTERSONLOOKUP "patterson_lookup"
+#define IDENTIFIER_PATTERSONLOOKUPPOINTS "patterson_lookup_points"
+#define IDENTIFIER_PATTERSONLOOKUPPOINTSNP "patterson_lookup_points_np"
+#define IDENTIFIER_JACOBICOMPUTE "jacobi_compute"
+#define IDENTIFIER_JACOBICOMPUTEPOINTS "jacobi_compute_points"
+#define IDENTIFIER_JACOBICOMPUTEPOINTSNP "jacobi_compute_points_np"
+#define IDENTIFIER_GENLAGUERRECOMPUTE "gen_laguerre_compute"
+#define IDENTIFIER_GENLAGUERRECOMPUTEPOINTS "gen_laguerre_compute_points"
+#define IDENTIFIER_GENLAGUERRECOMPUTEPOINTSNP "gen_laguerre_compute_points_np"
+#define IDENTIFIER_LAGUERRECOMPUTE "laguerre_compute"
+#define IDENTIFIER_LAGUERRECOMPUTEPOINTS "laguerre_compute_points"
+#define IDENTIFIER_LAGUERRECOMPUTEPOINTSNP "laguerre_compute_points_np"
+#define IDENTIFIER_HERMITECOMPUTE "hermite_compute"
+#define IDENTIFIER_HERMITECOMPUTEPOINTS "hermite_compute_points"
+#define IDENTIFIER_HERMITECOMPUTEPOINTSNP "hermite_compute_points_np"
+#define IDENTIFIER_GENHERMITECOMPUTE "gen_hermite_compute"
+#define IDENTIFIER_GENHERMITECOMPUTEPOINTS "gen_hermite_compute_points"
+#define IDENTIFIER_GENHERMITECOMPUTEPOINTSNP "gen_hermite_compute_points_np"
+#define IDENTIFIER_LEGENDRECOMPUTE "legendre_compute"
+#define IDENTIFIER_LEGENDRECOMPUTEPOINTS "legendre_compute_points"
+#define IDENTIFIER_LEGENDRECOMPUTEPOINTSNP "legendre_compute_points_np"
+#define IDENTIFIER_CLENSHAWCURTISCOMPUTEPOINTS "clenshaw_curtis_compute_points"
+#define IDENTIFIER_CLENSHAWCURTISCOMPUTEPOINTSNP "clenshaw_curtis_compute_points_np"
+#define IDENTIFIER_SGMGAANISONORMALIZE "sgmga_aniso_normalize"
+#define IDENTIFIER_SGMGAIMPORTANCETOANISO "sgmga_importance_to_aniso"
+#define IDENTIFIER_SGMGAVCN "sgmga_vcn"
+#define IDENTIFIER_SGMGAVCNCOEF "sgmga_vcn_coef"
+#define IDENTIFIER_SGMGAVCNORDERED "sgmga_vcn_ordered"
+#define IDENTIFIER_SHEPARDBASIS1D "shepard_basis_1d"
+#define IDENTIFIER_SHEPARDVALUE1D "shepard_value_1d"
+#define IDENTIFIER_SHEPARDINTERP2D "shepard_interp_2d"
+#define IDENTIFIER_SHEPARDINTERPND "shepard_interp_nd"
+#define IDENTIFIER_SIMPLEXCOORDINATES1 "simplex_coordinates1"
+#define IDENTIFIER_SIMPLEXCOORDINATES2 "simplex_coordinates2"
+#define IDENTIFIER_SIMPLEXVOLUME "simplex_volume"
+#define IDENTIFIER_SIMPLEXUNITVOLUME "simplex_unit_volume"
+#define IDENTIFIER_MONOMIALVALUE "monomial_value"
+#define IDENTIFIER_GMRULESET "gm_rule_set"
+#define IDENTIFIER_GMRULESIZE "gm_rule_size"
+#define IDENTIFIER_SIMPLEXUNITMONOMIALINT "simplex_unit_monomial_int"
+#define IDENTIFIER_SIMPLEXUNITMONOMIALQUADRATURE "simplex_unit_monomial_quadrature"
+#define IDENTIFIER_SIMPLEXUNITSAMPLE "simplex_unit_sample"
+#define IDENTIFIER_SIMPLEXUNITTOGENERAL "simplex_unit_to_general"
+#define IDENTIFIER_KSUBRANDOMNEW "ksub_random_new"
+#define IDENTIFIER_COMPRANDOMNEW "comp_random_new"
+#define IDENTIFIER_SIMPLEXGRIDINDEXALL "simplex_grid_index_all"
+#define IDENTIFIER_SIMPLEXGRIDINDEXNEXT "simplex_grid_index_next"
+#define IDENTIFIER_SIMPLEXGRIDINDEXSAMPLE "simplex_grid_index_sample"
+#define IDENTIFIER_SIMPLEXGRIDINDEXTOPOINT "simplex_grid_index_to_point"
+#define IDENTIFIER_SIMPLEXGRIDSIZE "simplex_grid_size"
+#define IDENTIFIER_SINETRANSFORMDATA "sine_transform_data"
+#define IDENTIFIER_SINETRANSFORMFUNCTION "sine_transform_function"
+#define IDENTIFIER_SINETRANSFORMINTERPOLANT "sine_transform_interpolant"
+#define IDENTIFIER_I4MOP "i4_mop"
+#define IDENTIFIER_CCABSCISSA "cc_abscissa"
+#define IDENTIFIER_CCWEIGHTS "cc_weights"
+#define IDENTIFIER_ABSCISSALEVELCLOSEDND "abscissa_level_closed_nd"
+#define IDENTIFIER_INDEXTOLEVELCLOSED "index_to_level_closed"
+#define IDENTIFIER_LEVELTOORDERCLOSED "level_to_order_closed"
+#define IDENTIFIER_MULTIGRIDINDEX0 "multigrid_index0"
+#define IDENTIFIER_MULTIGRIDSCALECLOSED "multigrid_scale_closed"
+#define IDENTIFIER_PRODUCTWEIGHTSCC "product_weights_cc"
+#define IDENTIFIER_SPARSEGRIDCC "sparse_grid_cc"
+#define IDENTIFIER_SPARSEGRIDCCINDEX "sparse_grid_cc_index"
+#define IDENTIFIER_SPARSEGRIDCCSIZEOLD "sparse_grid_cc_size_old"
+#define IDENTIFIER_SPARSEGRIDCCWEIGHTS "sparse_grid_cc_weights"
+#define IDENTIFIER_SPARSEGRIDCCSSIZE "sparse_grid_ccs_size"
+#define IDENTIFIER_VECCOLEXNEXT2 "vec_colex_next2"
+#define IDENTIFIER_R8CVVOFFSET "r8cvv_offset"
+#define IDENTIFIER_R8CVVRGETNEW "r8cvv_rget_new"
+#define IDENTIFIER_R8CVVRSET "r8cvv_rset"
+#define IDENTIFIER_CCEORDER "cce_order"
+#define IDENTIFIER_CCLORDER "ccl_order"
+#define IDENTIFIER_CCSORDER "ccs_order"
+#define IDENTIFIER_FNINTEGRAL "fn_integral"
+#define IDENTIFIER_FNVALUE "fn_value"
+#define IDENTIFIER_FUINTEGRAL "fu_integral"
+#define IDENTIFIER_FUVALUE "fu_value"
+#define IDENTIFIER_GETSEQ "get_seq"
+#define IDENTIFIER_GQN "gqn"
+#define IDENTIFIER_GQNORDER "gqn_order"
+#define IDENTIFIER_GQN2ORDER "gqn2_order"
+#define IDENTIFIER_GQU "gqu"
+#define IDENTIFIER_GQUORDER "gqu_order"
+#define IDENTIFIER_KPN "kpn"
+#define IDENTIFIER_KPU "kpu"
+#define IDENTIFIER_KPUORDER "kpu_order"
+#define IDENTIFIER_NUMSEQ "num_seq"
+#define IDENTIFIER_RULEADJUST "rule_adjust"
+#define IDENTIFIER_RULESORT "rule_sort"
+#define IDENTIFIER_SYMMETRICSPARSESIZE "symmetric_sparse_size"
+#define IDENTIFIER_TENSORPRODUCT "tensor_product"
+#define IDENTIFIER_TENSORPRODUCTCELL "tensor_product_cell"
+#define IDENTIFIER_SMOLYAKCOEFFICIENTS "smolyak_coefficients"
+#define IDENTIFIER_SPHEREFIBONACCIGRIDPOINTS "sphere_fibonacci_grid_points"
+#define IDENTIFIER_ATAN4 "atan4"
+#define IDENTIFIER_ICOSNUM "icos_num"
+#define IDENTIFIER_SPHEREDISTANCEXYZ "sphere_distance_xyz"
+#define IDENTIFIER_SPHERECUBEDIJKTOXYZ "sphere_cubed_ijk_to_xyz"
+#define IDENTIFIER_SPHERECUBEDLINENUM "sphere_cubed_line_num"
+#define IDENTIFIER_SPHERECUBEDLINES "sphere_cubed_lines"
+#define IDENTIFIER_SPHERECUBEDPOINTS "sphere_cubed_points"
+#define IDENTIFIER_SPHERECUBEDPOINTSFACE "sphere_cubed_points_face"
+#define IDENTIFIER_SPHERECUBEDPOINTNUM "sphere_cubed_point_num"
+#define IDENTIFIER_SPHEREGRIDQ4 "sphere_grid_q4"
+#define IDENTIFIER_SPHEREGRIDT3 "sphere_grid_t3"
+#define IDENTIFIER_SPHEREICOSEDGENUM "sphere_icos_edge_num"
+#define IDENTIFIER_SPHEREICOSFACENUM "sphere_icos_face_num"
+#define IDENTIFIER_SPHEREICOSPOINTNUM "sphere_icos_point_num"
+#define IDENTIFIER_SPHEREICOS1POINTS "sphere_icos1_points"
+#define IDENTIFIER_SPHEREICOS2POINTS "sphere_icos2_points"
+#define IDENTIFIER_SPHERELINEPROJECT "sphere_line_project"
+#define IDENTIFIER_SPHERELLLINES "sphere_ll_lines"
+#define IDENTIFIER_SPHERELLLINENUM "sphere_ll_line_num"
+#define IDENTIFIER_SPHERELLPOINTS "sphere_ll_points"
+#define IDENTIFIER_SPHERELLPOINTNUM "sphere_ll_point_num"
+#define IDENTIFIER_SPHERELLQLINES "sphere_llq_lines"
+#define IDENTIFIER_SPHERELLQLINENUM "sphere_llq_line_num"
+#define IDENTIFIER_SPHERSPIRALPOINTS "sphere_spiralpoints"
+#define IDENTIFIER_SPHEREUNITSAMPLE "sphere_unit_sample"
+#define IDENTIFIER_SPHERE01MONOMIALINTEGRAL "sphere01_monomial_integral"
+#define IDENTIFIER_SPHERE01SAMPLE "sphere01_sample"
+#define IDENTIFIER_SPHERE01MONOMIALQUADRATURE "sphere01_monomial_quadrature"
+#define IDENTIFIER_AVAILABLETABLE "available_table"
+#define IDENTIFIER_GENOH "gen_oh"
+#define IDENTIFIER_LDBYORDER "ld_by_order"
+#define IDENTIFIER_LD0006 "ld0006"
+#define IDENTIFIER_LD0014 "ld0014"
+#define IDENTIFIER_LD0026 "ld0026"
+#define IDENTIFIER_LD0038 "ld0038"
+#define IDENTIFIER_LD0050 "ld0050"
+#define IDENTIFIER_LD0074 "ld0074"
+#define IDENTIFIER_LD0086 "ld0086"
+#define IDENTIFIER_LD0110 "ld0110"
+#define IDENTIFIER_LD0146 "ld0146"
+#define IDENTIFIER_LD0170 "ld0170"
+#define IDENTIFIER_LD0194 "ld0194"
+#define IDENTIFIER_LD0230 "ld0230"
+#define IDENTIFIER_LD0266 "ld0266"
+#define IDENTIFIER_LD0302 "ld0302"
+#define IDENTIFIER_LD0350 "ld0350"
+#define IDENTIFIER_LD0434 "ld0434"
+#define IDENTIFIER_LD0590 "ld0590"
+#define IDENTIFIER_LD0770 "ld0770"
+#define IDENTIFIER_LD0974 "ld0974"
+#define IDENTIFIER_LD1202 "ld1202"
+#define IDENTIFIER_LD1454 "ld1454"
+#define IDENTIFIER_LD1730 "ld1730"
+#define IDENTIFIER_LD2030 "ld2030"
+#define IDENTIFIER_LD2354 "ld2354"
+#define IDENTIFIER_LD2702 "ld2702"
+#define IDENTIFIER_LD3074 "ld3074"
+#define IDENTIFIER_LD3470 "ld3470"
+#define IDENTIFIER_LD3890 "ld3890"
+#define IDENTIFIER_LD4334 "ld4334"
+#define IDENTIFIER_LD4802 "ld4802"
+#define IDENTIFIER_LD5294 "ld5294"
+#define IDENTIFIER_LD5810 "ld5810"
+#define IDENTIFIER_ORDERTABLE "order_table"
+#define IDENTIFIER_PRECISIONTABLE "precision_table"
+#define IDENTIFIER_SPHERELLQGRIDPOINTCOUNT "sphere_llq_grid_point_count"
+#define IDENTIFIER_SPHERELLQGRIDPOINTS "sphere_llq_grid_points"
+#define IDENTIFIER_SPHERELLTGRIDLINECOUNT "sphere_llt_grid_line_count"
+#define IDENTIFIER_SPHERELLTGRIDLINES "sphere_llt_grid_lines"
+#define IDENTIFIER_SPHERELLTGRIDPOINTCOUNT "sphere_llt_grid_point_count"
+#define IDENTIFIER_SPHERELLTGRIDPOINTS "sphere_llt_grid_points"
+#define IDENTIFIER_SPHERE01QUADMCSIZE "sphere01_quad_mc_size"
+#define IDENTIFIER_SPHERE01TRIANGLEANGLESTOAREA "sphere01_triangle_angles_to_area"
+#define IDENTIFIER_SPHERE01TRIANGLEPROJECTS "sphere01_triangle_project"
+#define IDENTIFIER_SPHERE01TRIANGLEPROJECTS2 "sphere01_triangle_project2"
+#define IDENTIFIER_SPHERE01TRIANGLESAMPLE "sphere01_triangle_sample"
+#define IDENTIFIER_SPHERE01TRIANGLESIDESTOANGLES "sphere01_triangle_sides_to_angles"
+#define IDENTIFIER_SPHERE01TRIANGLEVERTICESTOANGLES "sphere01_triangle_vertices_to_angles"
+#define IDENTIFIER_SPHERE01TRIANGLEVERTICESTOAREA "sphere01_triangle_vertices_to_area"
+#define IDENTIFIER_SPHERE01TRIANGLEVERTICESTOCENTROID "sphere01_triangle_vertices_to_centroid"
+#define IDENTIFIER_SPHERE01TRIANGLEVERTICESTOMIDPOINTS "sphere01_triangle_vertices_to_midpoints"
+#define IDENTIFIER_SPHERE01TRIANGLEVERTICESTOSIDES "sphere01_triangle_vertices_to_sides"
+#define IDENTIFIER_SPHERESTEREOGRAPH2 "sphere_stereograph2"
+#define IDENTIFIER_SPHERESTEREOGRAPH2INVERSE "sphere_stereograph2_inverse"
+#define IDENTIFIER_LEGE2EVA "lege2eva"
+#define IDENTIFIER_LLEGEPOLS1 "llegepols1"
+#define IDENTIFIER_SQUAREARBQRULE01 "squarearbq_rule01"
+#define IDENTIFIER_SQUAREARBQRULE02 "squarearbq_rule02"
+#define IDENTIFIER_SQUAREARBQRULE03 "squarearbq_rule03"
+#define IDENTIFIER_SQUAREARBQRULE04 "squarearbq_rule04"
+#define IDENTIFIER_SQUAREARBQRULE05 "squarearbq_rule05"
+#define IDENTIFIER_SQUAREARBQRULE06 "squarearbq_rule06"
+#define IDENTIFIER_SQUAREARBQRULE07 "squarearbq_rule07"
+#define IDENTIFIER_SQUAREARBQRULE08 "squarearbq_rule08"
+#define IDENTIFIER_SQUAREARBQRULE09 "squarearbq_rule09"
+#define IDENTIFIER_SQUAREARBQRULE10 "squarearbq_rule10"
+#define IDENTIFIER_SQUAREARBQRULE11 "squarearbq_rule11"
+#define IDENTIFIER_SQUAREARBQRULE12 "squarearbq_rule12"
+#define IDENTIFIER_SQUAREARBQRULE13 "squarearbq_rule13"
+#define IDENTIFIER_SQUAREARBQRULE14 "squarearbq_rule14"
+#define IDENTIFIER_SQUAREARBQRULE15 "squarearbq_rule15"
+#define IDENTIFIER_SQUAREARBQRULE16 "squarearbq_rule16"
+#define IDENTIFIER_SQUAREARBQRULE17 "squarearbq_rule17"
+#define IDENTIFIER_SQUAREARBQRULE18 "squarearbq_rule18"
+#define IDENTIFIER_SQUAREARBQRULE19 "squarearbq_rule19"
+#define IDENTIFIER_SQUAREARBQRULE20 "squarearbq_rule20"
+#define IDENTIFIER_SQUAREARBQRULE21 "squarearbq_rule21"
+#define IDENTIFIER_SQUAREARBQRULE22 "squarearbq_rule22"
+#define IDENTIFIER_SQUAREARBQRULE23 "squarearbq_rule23"
+#define IDENTIFIER_SQUAREARBQRULE24 "squarearbq_rule24"
+#define IDENTIFIER_SQUAREARBQRULE25 "squarearbq_rule25"
+#define IDENTIFIER_SQUAREARBQRULE26 "squarearbq_rule26"
+#define IDENTIFIER_SQUAREARBQRULE27 "squarearbq_rule27"
+#define IDENTIFIER_SQUAREARBQRULE28 "squarearbq_rule28"
+#define IDENTIFIER_SQUAREARBQRULE29 "squarearbq_rule29"
+#define IDENTIFIER_SQUAREARBQRULE30 "squarearbq_rule30"
+#define IDENTIFIER_SQUAREARBQ "square_arbq"
+#define IDENTIFIER_SQUAREARBQSIZE "square_arbq_size"
+#define IDENTIFIER_SQUAREGRID "square_grid"
+#define IDENTIFIER_SQUARE01SAMPLE "square01_sample"
+#define IDENTIFIER_SQUARESYMQFULLSIZE "squaresymq_rule_full_size"
+#define IDENTIFIER_SQUARESYMQRULE01 "squaresymq_rule01"
+#define IDENTIFIER_SQUARESYMQRULE02 "squaresymq_rule02"
+#define IDENTIFIER_SQUARESYMQRULE03 "squaresymq_rule03"
+#define IDENTIFIER_SQUARESYMQRULE04 "squaresymq_rule04"
+#define IDENTIFIER_SQUARESYMQRULE05 "squaresymq_rule05"
+#define IDENTIFIER_SQUARESYMQRULE06 "squaresymq_rule06"
+#define IDENTIFIER_SQUARESYMQRULE07 "squaresymq_rule07"
+#define IDENTIFIER_SQUARESYMQRULE08 "squaresymq_rule08"
+#define IDENTIFIER_SQUARESYMQRULE09 "squaresymq_rule09"
+#define IDENTIFIER_SQUARESYMQRULE10 "squaresymq_rule10"
+#define IDENTIFIER_SQUARESYMQRULE11 "squaresymq_rule11"
+#define IDENTIFIER_SQUARESYMQRULE12 "squaresymq_rule12"
+#define IDENTIFIER_SQUARESYMQRULE13 "squaresymq_rule13"
+#define IDENTIFIER_SQUARESYMQRULE14 "squaresymq_rule14"
+#define IDENTIFIER_SQUARESYMQRULE15 "squaresymq_rule15"
+#define IDENTIFIER_SQUARESYMQRULE16 "squaresymq_rule16"
+#define IDENTIFIER_SQUARESYMQRULE17 "squaresymq_rule17"
+#define IDENTIFIER_SQUARESYMQRULE18 "squaresymq_rule18"
+#define IDENTIFIER_SQUARESYMQRULE19 "squaresymq_rule19"
+#define IDENTIFIER_SQUARESYMQRULE20 "squaresymq_rule20"
+#define IDENTIFIER_SQUARESYMQ "square_symq"
+#define IDENTIFIER_DIFFUSIVITY1DXK "diffusivity_1d_xk"
+#define IDENTIFIER_DIFFUSIVITY2DBNT "diffusivity_2d_bnt"
+#define IDENTIFIER_DIFFUSIVITY2DELMAN "diffusivity_2d_elman"
+#define IDENTIFIER_DIFFUSIVITY2NTW "diffusivity_2d_ntw"
+#define IDENTIFIER_R8VECMESH2D "r8vec_mesh_2d"
+#define IDENTIFIER_THETASOLVE "theta_solve"
+#define IDENTIFIER_RK1TISTEP "rk1_ti_step"
+#define IDENTIFIER_RK2TISTEP "rk2_ti_step"
+#define IDENTIFIER_RK3TISTEP "rk3_ti_step"
+#define IDENTIFIER_RK4TISTEP "rk4_ti_step"
+#define IDENTIFIER_RESIDSTOKES1 "resid_stokes1"
+#define IDENTIFIER_RESIDSTOKES2 "resid_stokes2"
+#define IDENTIFIER_RESIDSTOKES3 "resid_stokes3"
+#define IDENTIFIER_RHSSTOKES1 "rhs_stokes1"
+#define IDENTIFIER_RHSSTOKES2 "rhs_stokes2"
+#define IDENTIFIER_RHSSTOKES3 "rhs_stokes3"
+#define IDENTIFIER_GENLAGUERRERECUR "gen_laguerre_recur"
+#define IDENTIFIER_HERMITERECUR "hermite_recur"
+#define IDENTIFIER_JACOBIRECUR "jacobi_recur"
+#define IDENTIFIER_LAGUERRERECUR "laguerre_recur"
+#define IDENTIFIER_GENLAGUERREROOT "gen_laguerre_root"
+#define IDENTIFIER_HERMITEROOT "hermite_root"
+#define IDENTIFIER_JACOBIROOT "jacobi_root"
+#define IDENTIFIER_LAGUERREROOT "laguerre_root"
+#define IDENTIFIER_PERM0CYCLE "perm0_cycle"
+#define IDENTIFIER_I4SQRTCF "i4_sqrt_cf"
+#define IDENTIFIER_UBVECTOUI4 "ubvec_to_ui4"
+#define IDENTIFIER_UBVECXOR "ubvec_xor"
+#define IDENTIFIER_UI4TOUBVEC "ui4_to_ubvec"
+#define IDENTIFIER_I4SQRT "i4_sqrt"
+#define IDENTIFIER_TRIANG "triang"
+#define IDENTIFIER_PERM0INVERSE "perm0_inverse"
+#define IDENTIFIER_I4MAT2PERM0 "i4mat_2perm0"
+#define IDENTIFIER_I4BSET "i4_bset"
+#define IDENTIFIER_I4BTEST "i4_btest"
+#define IDENTIFIER_INDEXRANK0 "index_rank0"
+#define IDENTIFIER_INDEXUNRANK0 "index_unrank0"
+#define IDENTIFIER_PERM0LEXNEXT "perm0_lex_next"
+#define IDENTIFIER_PERM0FREE "perm0_free"
+#define IDENTIFIER_KSUBRANDOM "ksub_random"
+#define IDENTIFIER_SUBSETSUMCOUNT "subset_sum_count"
+#define IDENTIFIER_SUBSETSUMFIND "subset_sum_find"
+#define IDENTIFIER_SUBSETSUMTABLETOLISTLENGTH "subset_sum_table_to_list_length"
+#define IDENTIFIER_SUBSETSUMTABLE "subset_sum_table"
+#define IDENTIFIER_SUBSETSUMTABLETOLIST "subset_sum_table_to_list"
+#define IDENTIFIER_R8MATROWCOPY "r8mat_row_copy"
+#define IDENTIFIER_REFTOKOORN "ref_to_koorn"
+#define IDENTIFIER_TETRAHEDRONRULE01 "tetrahedron_rule01"
+#define IDENTIFIER_TETRAHEDRONRULE02 "tetrahedron_rule02"
+#define IDENTIFIER_TETRAHEDRONRULE03 "tetrahedron_rule03"
+#define IDENTIFIER_TETRAHEDRONRULE04 "tetrahedron_rule04"
+#define IDENTIFIER_TETRAHEDRONRULE05 "tetrahedron_rule05"
+#define IDENTIFIER_TETRAHEDRONRULE06 "tetrahedron_rule06"
+#define IDENTIFIER_TETRAHEDRONRULE07 "tetrahedron_rule07"
+#define IDENTIFIER_TETRAHEDRONRULE08 "tetrahedron_rule08"
+#define IDENTIFIER_TETRAHEDRONRULE09 "tetrahedron_rule09"
+#define IDENTIFIER_TETRAHEDRONRULE10 "tetrahedron_rule10"
+#define IDENTIFIER_TETRAHEDRONRULE11 "tetrahedron_rule11"
+#define IDENTIFIER_TETRAHEDRONRULE12 "tetrahedron_rule12"
+#define IDENTIFIER_TETRAHEDRONRULE13 "tetrahedron_rule13"
+#define IDENTIFIER_TETRAHEDRONRULE14 "tetrahedron_rule14"
+#define IDENTIFIER_TETRAHEDRONRULE15 "tetrahedron_rule15"
+#define IDENTIFIER_TETRAHEDRONARBQ "tetrahedron_arbq"
+#define IDENTIFIER_TETRAHEDRONARBQSIZE "tetrahedron_arbq_size"
+#define IDENTIFIER_TETRAHEDRONREF "tetrahedron_ref"
+#define IDENTIFIER_TET01MONOMIALINTEGRAL "tet01_monomial_integral"
+#define IDENTIFIER_TET01MONOMIALQUADRATURE "tet01_monomial_quadrature"
+#define IDENTIFIER_TETRAHEDRONGRID "tetrahedron_grid"
+#define IDENTIFIER_TETRAHEDRONGRIDCOUNT "tetrahedron_grid_count"
+#define IDENTIFIER_TETRAHEDRON01MONOMIALINTEGRAL "tetrahedron01_monomial_integral"
+#define IDENTIFIER_TETRAHEDRON01SAMPLE "tetrahedron01_sample"
+#define IDENTIFIER_REFERENCETOPHYSICALT4 "reference_to_physical_t4"
+#define IDENTIFIER_TETRAHEDRONNCCDEGREE "tetrahedron_ncc_degree"
+#define IDENTIFIER_TETRAHEDRONNCCORDERNUM "tetrahedron_ncc_order_num"
+#define IDENTIFIER_TETRAHEDRONNCCRULE "tetrahedron_ncc_rule"
+#define IDENTIFIER_TETRAHEDRONNCCRULENUM "tetrahedron_ncc_rule_num"
+#define IDENTIFIER_TETRAHEDRONNCCSUBORDER "tetrahedron_ncc_suborder"
+#define IDENTIFIER_TETRAHEDRONNCCSUBORDERNUM "tetrahedron_ncc_suborder_num"
+#define IDENTIFIER_TETRAHEDRONNCCSUBRULE "tetrahedron_ncc_subrule"
+#define IDENTIFIER_TETRAHEDRONNCCSUBRULE01 "tetrahedron_ncc_subrule_01"
+#define IDENTIFIER_TETRAHEDRONNCCSUBRULE02 "tetrahedron_ncc_subrule_02"
+#define IDENTIFIER_TETRAHEDRONNCCSUBRULE03 "tetrahedron_ncc_subrule_03"
+#define IDENTIFIER_TETRAHEDRONNCCSUBRULE04 "tetrahedron_ncc_subrule_04"
+#define IDENTIFIER_TETRAHEDRONNCCSUBRULE05 "tetrahedron_ncc_subrule_05"
+#define IDENTIFIER_TETRAHEDRONNCCSUBRULE06 "tetrahedron_ncc_subrule_06"
+#define IDENTIFIER_TETRAHEDRONNCCSUBRULE07 "tetrahedron_ncc_subrule_07"
+#define IDENTIFIER_TETRAHEDRONVOLUME "tetrahedron_volume"
+#define IDENTIFIER_TETMESHNEIGHBORTETS "tet_mesh_neighbor_tets"
+#define IDENTIFIER_TETMESHNODEORDER "tet_mesh_node_order"
+#define IDENTIFIER_TETMESHORDER4ADJCOUNT "tet_mesh_order4_adj_count"
+#define IDENTIFIER_TETMESHORDER4ADJSET "tet_mesh_order4_adj_set"
+#define IDENTIFIER_TETMESHORDER4BOUNDARYFACECOUNT "tet_mesh_order4_boundary_face_count"
+#define IDENTIFIER_TETMESHORDER4EDGECOUNT "tet_mesh_order4_edge_count"
+#define IDENTIFIER_TETMESHORDER4REFINECOMPUTE "tet_mesh_order4_refine_compute"
+#define IDENTIFIER_TETMESHORDER4REFINESIZE "tet_mesh_order4_refine_size"
+#define IDENTIFIER_TETMESHORDER4TOORDER10COMPUTE "tet_mesh_order4_to_order10_compute"
+#define IDENTIFIER_TETMESHORDERTOORDER10SIZE "tet_mesh_order4_to_order10_size"
+#define IDENTIFIER_TETMESHORDER10ADJCOUNT "tet_mesh_order10_adj_count"
+#define IDENTIFIER_TETMESHORDER10ADJSET "tet_mesh_order10_adj_set"
+#define IDENTIFIER_TETRAHEDRONORDER4PHYSICALTOREFERENCE "tetrahedron_order4_physical_to_reference"
+#define IDENTIFIER_TOEPCHOLESKYLOWER "toep_cholesky_lower"
+#define IDENTIFIER_TOEPCHOLESKYUPPER "toep_cholesky_upper"
+#define IDENTIFIER_TOEPLITZCHOLESKYLOWER "toeplitz_cholesky_lower"
+#define IDENTIFIER_TOEPLITZCHOLESKYUPPER "toeplitz_cholesky_upper"
+#define IDENTIFIER_I4MATSHORTESTPATH "i4mat_shortest_path"
+#define IDENTIFIER_R8MATSHORTESTPATH "r8mat_shortest_path"
+#define IDENTIFIER_MDBETA "mdbeta"
+#define IDENTIFIER_FISHER "fisher"
+#define IDENTIFIER_STUDENT "student"
+#define IDENTIFIER_WEWA "wew_a"
+#define IDENTIFIER_WEWB "wew_b"
+#define IDENTIFIER_SCMM "scmm"
+#define IDENTIFIER_CAWIQ "cawiq"
+#define IDENTIFIER_CGQFS "cgqfs"
+#define IDENTIFIER_CHKQF "chkqf"
+#define IDENTIFIER_CHKQFS "chkqfs"
+#define IDENTIFIER_CIQF "ciqf"
+#define IDENTIFIER_CIQFS "ciqfs"
+#define IDENTIFIER_CLIQF "cliqf"
+#define IDENTIFIER_CLIQFS "cliqfs"
+#define IDENTIFIER_CWIQD "cwiqd"
+#define IDENTIFIER_SCT "sct"
+#define IDENTIFIER_WM "wm"
+#define IDENTIFIER_WTFN "wtfn"
+#define IDENTIFIER_BISECT "bisect"
+#define IDENTIFIER_CRUDE "crude"
+#define IDENTIFIER_NBITSCOMPUTE "crude"
+#define IDENTIFIER_DGEMM "dgemm"
+#define IDENTIFIER_CHEB "cheb"
+#define IDENTIFIER_FRANKE "franke"
+#define IDENTIFIER_PADUA2 "padua2"
+#define IDENTIFIER_PD2VAL "pd2val"
+#define IDENTIFIER_PDPTS "pdpts"
+#define IDENTIFIER_VECNEXT "vec_next"
+#define IDENTIFIER_VECRANDOM "vec_random"
+#define IDENTIFIER_GRAPHADJEDGECOUNT "graph_adj_edge_count"
+#define IDENTIFIER_GRAPHADJISNODECONNECTED "graph_adj_is_node_connected"
+#define IDENTIFIER_GRAPHADJISTREE "graph_adj_is_tree"
+#define IDENTIFIER_GRAPHARCDEGREE "graph_arc_degree"
+#define IDENTIFIER_GRAPHARCISTREE "graph_arc_is_tree"
+#define IDENTIFIER_GRAPHARCNODECOUNT "graph_arc_node_count"
+#define IDENTIFIER_GRAPHARCNODEMAX "graph_arc_node_max"
+#define IDENTIFIER_GRAPHARCTOGRAPHADJ "graph_arc_to_graph_adj"
+#define IDENTIFIER_PRUEFERTOTREEARC "pruefer_to_tree_arc"
+#define IDENTIFIER_PRUEFERTOTREE2 "pruefer_to_tree_2"
+#define IDENTIFIER_PRUEFERTOTREE2NEW "pruefer_to_tree_2_new"
+#define IDENTIFIER_TREEARCCENTER "tree_arc_center"
+#define IDENTIFIER_TREEARCDIAM "tree_arc_diam"
+#define IDENTIFIER_TREEARCRANDOM "tree_arc_random"
+#define IDENTIFIER_TREEARCTOPRUEFER "tree_arc_to_pruefer"
+#define IDENTIFIER_TREEENUM "tree_enum"
+#define IDENTIFIER_TREEPARENTNEXT "tree_parent_next"
+#define IDENTIFIER_TREEPARENTTOARC "tree_parent_to_arc"
+#define IDENTIFIER_TREERBLEXNEXT "tree_rb_lex_next"
+#define IDENTIFIER_TREERBTOPARENT "tree_rb_to_parent"
+#define IDENTIFIER_TREERBYULE "tree_rb_yule"
+#define IDENTIFIER_TREEROOTEDCODE "tree_rooted_code"
+#define IDENTIFIER_TREEROOTEDCODECOMPARE "tree_rooted_code_compare"
+#define IDENTIFIER_TREEROOTEDDEPTH "tree_rooted_depth"
+#define IDENTIFIER_TREEROOTEDENUM "tree_rooted_enum"
+#define IDENTIFIER_TREEROOTEDRANDOM "tree_rooted_random"
+#define IDENTIFIER_TRIANGLE01MONOMIALINTEGRAL "triangle01_monomial_integral"
+#define IDENTIFIER_TRIANGLE01MONOMIALQUADRATURE "triangle01_monomial_quadrature"
+#define IDENTIFIER_FEKETEDEGREE "fekete_degree"
+#define IDENTIFIER_FEKETEORDERNUM "fekete_order_num"
+#define IDENTIFIER_FEKETERULE "fekete_rule"
+#define IDENTIFIER_FEKETERULENUM "fekete_rule_num"
+#define IDENTIFIER_FEKETESUBORDER "fekete_suborder"
+#define IDENTIFIER_FEKETESUBORDERNUM "fekete_suborder_num"
+#define IDENTIFIER_FEKETESUBRULE "fekete_subrule"
+#define IDENTIFIER_FEKETESUBRULE1 "fekete_subrule_1"
+#define IDENTIFIER_FEKETESUBRULE2 "fekete_subrule_2"
+#define IDENTIFIER_FEKETESUBRULE3 "fekete_subrule_3"
+#define IDENTIFIER_FEKETESUBRULE4 "fekete_subrule_4"
+#define IDENTIFIER_FEKETESUBRULE5 "fekete_subrule_5"
+#define IDENTIFIER_FEKETESUBRULE6 "fekete_subrule_6"
+#define IDENTIFIER_FEKETESUBRULE7 "fekete_subrule_7"
+#define IDENTIFIER_REFERENCETOPHYSICALT3 "reference_to_physical_t3"
+#define IDENTIFIER_TRIANGLEUNITO01 "triangle_unit_o01"
+#define IDENTIFIER_TRIANGLEUNITO03 "triangle_unit_o03"
+#define IDENTIFIER_TRIANGLEUNITO03B "triangle_unit_o03b"
+#define IDENTIFIER_TRIANGLEUNITO06 "triangle_unit_o06"
+#define IDENTIFIER_TRIANGLEUNITO06B "triangle_unit_o06b"
+#define IDENTIFIER_TRIANGLEUNITO07 "triangle_unit_o07"
+#define IDENTIFIER_TRIANGLEUNITO12 "triangle_unit_o12"
+#define IDENTIFIER_TRIANGLEUNITVOLUME "triangle_unit_volume"
+#define IDENTIFIER_TRIANGLEGRID "triangle_grid"
+#define IDENTIFIER_TRIANGLE01MONOMIALINTEGRAL_ "_triangle01_monomial_integral_"
+#define IDENTIFIER_TRIANGLE01POLYINTEGRAL "triangle01_poly_integral"
+#define IDENTIFIER_POLYPRODUCT "poly_product"
+#define IDENTIFIER_POLYPOWERLINEAR "poly_power_linear"
+#define IDENTIFIER_RSTOXYMAP "rs_to_xy_map"
+#define IDENTIFIER_TRIANGLEAREAFROMVERTEX "triangle_area_from_vertex"
+#define IDENTIFIER_TRIANGLEMONOMIALINTEGRAL "triangle_monomial_integral"
+#define IDENTIFIER_TRIANGLEPOLYINTEGRAL "triangle_poly_integral"
+#define IDENTIFIER_TRIANGLEXYINTEGRAL "triangle_xy_integral"
+#define IDENTIFIER_XYTORSMAP "xy_to_rs_map"
+#define IDENTIFIER_TRIANGLENCCDEGREE "triangle_ncc_degree"
+#define IDENTIFIER_TRIANGLENCCORDERNUM "triangle_ncc_order_num"
+#define IDENTIFIER_TRIANGLENCCRULE "triangle_ncc_rule"
+#define IDENTIFIER_TRIANGLENCCRULENUM "triangle_ncc_rule_num"
+#define IDENTIFIER_TRIANGLENCCSUBORDER "triangle_ncc_suborder"
+#define IDENTIFIER_TRIANGLENCCSUBORDERNUM "triangle_ncc_suborder_num"
+#define IDENTIFIER_TRIANGLENCCSUBRULE "triangle_ncc_subrule"
+#define IDENTIFIER_TRIANGLENCCSUBRULE01 "triangle_ncc_subrule_01"
+#define IDENTIFIER_TRIANGLENCCSUBRULE02 "triangle_ncc_subrule_02"
+#define IDENTIFIER_TRIANGLENCCSUBRULE03 "triangle_ncc_subrule_03"
+#define IDENTIFIER_TRIANGLENCCSUBRULE04 "triangle_ncc_subrule_04"
+#define IDENTIFIER_TRIANGLENCCSUBRULE05 "triangle_ncc_subrule_05"
+#define IDENTIFIER_TRIANGLENCCSUBRULE06 "triangle_ncc_subrule_06"
+#define IDENTIFIER_TRIANGLENCCSUBRULE07 "triangle_ncc_subrule_07"
+#define IDENTIFIER_TRIANGLENCCSUBRULE08 "triangle_ncc_subrule_08"
+#define IDENTIFIER_TRIANGLENCCSUBRULE09 "triangle_ncc_subrule_09"
+#define IDENTIFIER_TRIANGLENCODEGREE "triangle_nco_degree"
+#define IDENTIFIER_TRIANGLENCOORDERNUM "triangle_nco_order_num"
+#define IDENTIFIER_TRIANGLENCORULE "triangle_nco_rule"
+#define IDENTIFIER_TRIANGLENCORULENUM "triangle_nco_rule_num"
+#define IDENTIFIER_TRIANGLENCOSUBORDER "triangle_nco_suborder"
+#define IDENTIFIER_TRIANGLENCOSUBORDERNUM "triangle_nco_suborder_num"
+#define IDENTIFIER_TRIANGLENCOSUBRULE "triangle_nco_subrule"
+#define IDENTIFIER_TRIANGLENCOSUBRULE01 "triangle_nco_subrule_01"
+#define IDENTIFIER_TRIANGLENCOSUBRULE02 "triangle_nco_subrule_02"
+#define IDENTIFIER_TRIANGLENCOSUBRULE03 "triangle_nco_subrule_03"
+#define IDENTIFIER_TRIANGLENCOSUBRULE04 "triangle_nco_subrule_04"
+#define IDENTIFIER_TRIANGLENCOSUBRULE05 "triangle_nco_subrule_05"
+#define IDENTIFIER_TRIANGLENCOSUBRULE06 "triangle_nco_subrule_06"
+#define IDENTIFIER_TRIANGLENCOSUBRULE07 "triangle_nco_subrule_07"
+#define IDENTIFIER_TRIANGLENCOSUBRULE08 "triangle_nco_subrule_08"
+#define IDENTIFIER_TRIANGLENCOSUBRULE09 "triangle_nco_subrule_09"
+#define IDENTIFIER_QUAENODES "quaenodes"
+#define IDENTIFIER_QUAENODES2 "quaenodes2"
+#define IDENTIFIER_QUAEROTATE "quaerotate"
+#define IDENTIFIER_QUAECOPY "quaecopy"
+#define IDENTIFIER_QUAEQUAD "quaequad"
+#define IDENTIFIER_TRIANGLEAREA "triangle_area"
+#define IDENTIFIER_QUAEINSIDE "quaeinside"
+#define IDENTIFIER_QUAEQUAD0 "quaequad0"
+#define IDENTIFIER_TRIANGLERULECOMPRESSEDSIZE "triangle_rule_compressed_size"
+#define IDENTIFIER_TRIANGLERULEFULLSIZE "triangle_rule_full_size"
+#define IDENTIFIER_TRIANGLERULE01 "triangle_rule01"
+#define IDENTIFIER_TRIANGLERULE02 "triangle_rule02"
+#define IDENTIFIER_TRIANGLERULE03 "triangle_rule03"
+#define IDENTIFIER_TRIANGLERULE04 "triangle_rule04"
+#define IDENTIFIER_TRIANGLERULE05 "triangle_rule05"
+#define IDENTIFIER_TRIANGLERULE06 "triangle_rule06"
+#define IDENTIFIER_TRIANGLERULE07 "triangle_rule07"
+#define IDENTIFIER_TRIANGLERULE08 "triangle_rule08"
+#define IDENTIFIER_TRIANGLERULE09 "triangle_rule09"
+#define IDENTIFIER_TRIANGLERULE10 "triangle_rule10"
+#define IDENTIFIER_TRIANGLERULE11 "triangle_rule11"
+#define IDENTIFIER_TRIANGLERULE12 "triangle_rule12"
+#define IDENTIFIER_TRIANGLERULE13 "triangle_rule13"
+#define IDENTIFIER_TRIANGLERULE14 "triangle_rule14"
+#define IDENTIFIER_TRIANGLERULE15 "triangle_rule15"
+#define IDENTIFIER_TRIANGLERULE16 "triangle_rule16"
+#define IDENTIFIER_TRIANGLERULE17 "triangle_rule17"
+#define IDENTIFIER_TRIANGLERULE18 "triangle_rule18"
+#define IDENTIFIER_TRIANGLERULE19 "triangle_rule19"
+#define IDENTIFIER_TRIANGLERULE20 "triangle_rule20"
+#define IDENTIFIER_TRIANGLERULE21 "triangle_rule21"
+#define IDENTIFIER_TRIANGLERULE22 "triangle_rule22"
+#define IDENTIFIER_TRIANGLERULE23 "triangle_rule23"
+#define IDENTIFIER_TRIANGLERULE24 "triangle_rule24"
+#define IDENTIFIER_TRIANGLERULE25 "triangle_rule25"
+#define IDENTIFIER_TRIANGLERULE26 "triangle_rule26"
+#define IDENTIFIER_TRIANGLERULE27 "triangle_rule27"
+#define IDENTIFIER_TRIANGLERULE28 "triangle_rule28"
+#define IDENTIFIER_TRIANGLERULE29 "triangle_rule29"
+#define IDENTIFIER_TRIANGLERULE30 "triangle_rule30"
+#define IDENTIFIER_TRIANGLERULE31 "triangle_rule31"
+#define IDENTIFIER_TRIANGLERULE32 "triangle_rule32"
+#define IDENTIFIER_TRIANGLERULE33 "triangle_rule33"
+#define IDENTIFIER_TRIANGLERULE34 "triangle_rule34"
+#define IDENTIFIER_TRIANGLERULE35 "triangle_rule35"
+#define IDENTIFIER_TRIANGLERULE36 "triangle_rule36"
+#define IDENTIFIER_TRIANGLERULE37 "triangle_rule37"
+#define IDENTIFIER_TRIANGLERULE38 "triangle_rule38"
+#define IDENTIFIER_TRIANGLERULE39 "triangle_rule39"
+#define IDENTIFIER_TRIANGLERULE40 "triangle_rule40"
+#define IDENTIFIER_TRIANGLERULE41 "triangle_rule41"
+#define IDENTIFIER_TRIANGLERULE42 "triangle_rule42"
+#define IDENTIFIER_TRIANGLERULE43 "triangle_rule43"
+#define IDENTIFIER_TRIANGLERULE44 "triangle_rule44"
+#define IDENTIFIER_TRIANGLERULE45 "triangle_rule45"
+#define IDENTIFIER_TRIANGLERULE46 "triangle_rule46"
+#define IDENTIFIER_TRIANGLERULE47 "triangle_rule47"
+#define IDENTIFIER_TRIANGLERULE48 "triangle_rule48"
+#define IDENTIFIER_TRIANGLERULE49 "triangle_rule49"
+#define IDENTIFIER_TRIANGLERULE50 "triangle_rule50"
+#define IDENTIFIER_SIMPLEXTOTRIANGLE "simplex_to_triangle"
+#define IDENTIFIER_TRIANGLETOREF "triangle_to_ref"
+#define IDENTIFIER_TRIANGLETOSIMPLEX "triangle_to_simplex"
+#define IDENTIFIER_TRIANMAP "trianmap"
+#define IDENTIFIER_TRIASIMP "triasimp"
+#define IDENTIFIER_TRIASYMQ "triasymq"
+#define IDENTIFIER_TRIANGLEORDER3REFERENCETOPHYSICAL "triangle_order3_reference_to_physical"
+#define IDENTIFIER_TRIANGLEORDER3PHYSICALTOREFERENCE "triangle_order3_physical_to_reference"
+#define IDENTIFIER_ALPHAMEASURE "alpha_measure"
+#define IDENTIFIER_AREAMEASURE "area_measure"
+#define IDENTIFIER_BANDWIDTH "bandwidth"
+#define IDENTIFIER_DELAUNAYSWAPTEST "delaunay_swap_test"
+#define IDENTIFIER_NSADJCOLSET "ns_adj_col_set"
+#define IDENTIFIER_NSADJCOUNT "ns_adj_count"
+#define IDENTIFIER_NSADJINSERT "ns_adj_insert"
+#define IDENTIFIER_NSADJROWSET "ns_adj_row_set"
+#define IDENTIFIER_QMEASURE "q_measure"
+#define IDENTIFIER_QUADCONVEXRANDOM "quad_convex_random"
+#define IDENTIFIER_POINTSDELAUNAYNAIVE2D "points_delaunay_naive_2d"
+#define IDENTIFIER_TRIANGULATIONAREA "triangulation_area"
+#define IDENTIFIER_TRIANGULATIONAREAS "triangulation_areas"
+#define IDENTIFIER_TRIANGULATIONDELAUNAYDISCREPANCYCOMPUTE "triangulation_delaunay_discrepancy_compute"
+#define IDENTIFIER_TRIANGULATIONNEIGHBORELEMENTS "triangulation_neighbor_elements"
+#define IDENTIFIER_TRIANGULATIONNODEORDER "triangulation_node_order"
+#define IDENTIFIER_TRIANGULATIONORDER3ADJCOUNT "triangulation_order3_adj_count"
+#define IDENTIFIER_TRIANGULATIONORDER3ADJSET "triangulation_order3_adj_set"
+#define IDENTIFIER_TRIANGULATIONORDER3ADJSET2 "triangulation_order3_adj_set2"
+#define IDENTIFIER_TRIANGULATIONORDER3ADJACENCY "triangulation_order3_adjacency"
+#define IDENTIFIER_TRIANGULATIONORDER3BOUNDARYEDGECOUNT "triangulation_order3_boundary_edge_count"
+#define IDENTIFIER_TRIANGULATIONORDER3BOUNDARYEDGECOUNTEULER "triangulation_order3_boundary_edge_count_euler"
+#define IDENTIFIER_TRIANGULATIONORDER3BOUNDARYNODE "triangulation_order3_boundary_node"
+#define IDENTIFIER_TRIANGULATIONORDER3CHECK "triangulation_order3_check"
+#define IDENTIFIER_TRIANGULATIONORDER3EDGECHECK "triangulation_order3_edge_check"
+#define IDENTIFIER_TRIANGULATIONORDER3NEIGHBOR "triangulation_order3_neighbor"
+#define IDENTIFIER_TRIANGULATIONORDER3REFINECOMPUTE "triangulation_order3_refine_compute"
+#define IDENTIFIER_TRIANGULATIONORDER3REFINESIZE "triangulation_order3_refine_size"
+#define IDENTIFIER_TRIANGULATIONORDER6ADJCOUNT "triangulation_order6_adj_count"
+#define IDENTIFIER_TRIANGULATIONORDER6ADJSET "triangulation_order6_adj_set"
+#define IDENTIFIER_TRIANGULATIONORDER6BOUNDARYEDGECOUNT "triangulation_order6_boundary_edge_count"
+#define IDENTIFIER_TRIANGULATIONORDER6BOUNDARYEDGECOUNTEULER "triangulation_order6_boundary_edge_count_euler"
+#define IDENTIFIER_TRIANGULATIONORDER6BOUNDARYNODE "triangulation_order6_boundary_node"
+#define IDENTIFIER_TRIANGULATIONORDER6REFINECOMPUTE "triangulation_order6_refine_compute"
+#define IDENTIFIER_TRIANGULATIONORDER6REFINESIZE "triangulation_order6_refine_size"
+#define IDENTIFIER_TRIANGULATIONORDER6TOORDER3 "triangulation_order6_to_order3"
+#define IDENTIFIER_TRIANGULATIONORDER6VERTEXCOUNT "triangulation_order6_vertex_count"
+#define IDENTIFIER_TRIANGULATIONSEARCHNAIVE "triangulation_search_naive"
+#define IDENTIFIER_VORONOIPOLYGONAREA "voronoi_polygon_area"
+#define IDENTIFIER_VORONOIPOLYGONCENTROID "voronoi_polygon_centroid"
+#define IDENTIFIER_VORONOIPOLYGONVERTICES "voronoi_polygon_vertices"
+#define IDENTIFIER_TRIANGULATIONNEIGHBORTRIANGLES "triangulation_neighbor_triangles"
+#define IDENTIFIER_TRIANGULATIONSEARCHDELAUNAY "triangulation_search_delaunay"
+#define IDENTIFIER_MESHBASEONE "mesh_base_one"
+#define IDENTIFIER_MESHBASEZERO "mesh_base_zero"
+#define IDENTIFIER_TRUNCATEDNORMALABCDFVALUES "truncated_normal_ab_cdf_values"
+#define IDENTIFIER_TRUNCATEDNORMALABPDFVALUES "truncated_normal_ab_pdf_values"
+#define IDENTIFIER_TRUNCATEDNORMALACDFVALUES "truncated_normal_a_cdf_values"
+#define IDENTIFIER_TRUNCATEDNORMALAPDFVALUES "truncated_normal_a_pdf_values"
+#define IDENTIFIER_TRUNCATEDNORMALBCDFVALUES "truncated_normal_b_cdf_values"
+#define IDENTIFIER_TRUNCATEDNORMALBPDFVALUES "truncated_normal_b_pdf_values"
+#define IDENTIFIER_I4VECINDICATOR "i4vec_indicator"
+#define IDENTIFIER_I4VECINDICATORNEW "i4vec_indicator_new"
+#define IDENTIFIER_PERMINVERSE "perm_inverse"
+#define IDENTIFIER_PERMLEXNEXT "perm_lex_next"
+#define IDENTIFIER_PERMENUM "perm_enum"
+#define IDENTIFIER_UNICYCLECHECK "unicycle_check"
+#define IDENTIFIER_UNICYCLEENUM "unicycle_enum"
+#define IDENTIFIER_UNICYCLEINDEX "unicycle_index"
+#define IDENTIFIER_UNICYCLEINDEXTOSEQUENCE "unicycle_index_to_sequence"
+#define IDENTIFIER_UNICYCLEINVERSE "unicycle_inverse"
+#define IDENTIFIER_UNICYCLENEXT "unicycle_next"
+#define IDENTIFIER_UNICYCLERANDOM "unicycle_random"
+#define IDENTIFIER_UNICYCLERANK "unicycle_rank"
+#define IDENTIFIER_UNICYCLEUNRANK "unicycle_unrank"
+#define IDENTIFIER_STUDENTNONCENTRALCDFVALUES "student_noncentral_cdf_values"
+#define IDENTIFIER_NORMAL01CDFVALUES "normal_01_cdf_values"
+#define IDENTIFIER_GAMMAVALUES "gamma_values"
+#define IDENTIFIER_I4FALLVALUES "i4_fall_values"
+#define IDENTIFIER_BESSELJ0VALUES "bessel_j0_values"
+#define IDENTIFIER_ERFCVALUES "erfc_values"
+#define IDENTIFIER_HPOLYNOMIALVALUES "h_polynomial_values"
+#define IDENTIFIER_HEPOLYNOMIALVALUES "he_polynomial_values"
+#define IDENTIFIER_HFFUNCTIONVALUES "hf_function_values"
+#define IDENTIFIER_HEPVALUES "hep_values"
+#define IDENTIFIER_HYPERSPHERE01AREAVALUES "hypersphere_01_area_values"
+#define IDENTIFIER_HYPERSPHERE01VOLUMEVALUES "hypersphere_01_volume_values"
+#define IDENTIFIER_I4FACTORIAL2VALUES "i4_factorial2_values"
+#define IDENTIFIER_I4RISEVALUES "i4_rise_values"
+#define IDENTIFIER_JPOLYNOMIALVALUES "j_polynomial_values"
+#define IDENTIFIER_LPOLYNOMIALVALUES "l_polynomial_values"
+#define IDENTIFIER_LFFUNCTIONVALUES "lf_function_values"
+#define IDENTIFIER_PMNPOLYNOMIALVALUES "pmn_polynomial_values"
+#define IDENTIFIER_PMNSPOLYNOMIALVALUES "pmns_polynomial_values"
+#define IDENTIFIER_LOBATTOPOLYNOMIALVALUES "lobatto_polynomial_values"
+#define IDENTIFIER_BERNOULLINUMBERVALUES "bernoulli_number_values"
+#define IDENTIFIER_BERNSTEINPOLYVALUES "bernstein_poly_values"
+#define IDENTIFIER_BETAVALUES "beta_values"
+#define IDENTIFIER_CATALANVALUES "catalan_values"
+#define IDENTIFIER_CHEBYTPOLYVALUES "cheby_t_poly_values"
+#define IDENTIFIER_CHEBYUPOLYVALUES "cheby_u_poly_values"
+#define IDENTIFIER_COLLATZCOUNTVALUES "collatz_count_values"
+#define IDENTIFIER_COSPOWERINTVALUES "cos_power_int_values"
+#define IDENTIFIER_EULERNUMBERVALUES "euler_number_values"
+#define IDENTIFIER_GEGENBAUERPOLYVALUES "gegenbauer_poly_values"
+#define IDENTIFIER_GUDVALUES "gud_values"
+#define IDENTIFIER_HYPER2F1VALUES "hyper_2f1_values"
+#define IDENTIFIER_LERCHVALUES "lerch_values"
+#define IDENTIFIER_MERTENSVALUES "mertens_values"
+#define IDENTIFIER_MOEBIUSVALUES "moebius_values"
+#define IDENTIFIER_OMEGAVALUES "omega_values"
+#define IDENTIFIER_PARTITIONDISTINCTCOUNTVALUES "partition_distinct_count_values"
+#define IDENTIFIER_PHIVALUES "phi_values"
+#define IDENTIFIER_R8FACTORIALLOGVALUES "r8_factorial_log_values"
+#define IDENTIFIER_SIGMAVALUES "sigma_values"
+#define IDENTIFIER_SINPOWERINTVALUES "sin_power_int_values"
+#define IDENTIFIER_SPHERICALHARMONICVALUES "spherical_harmonic_values"
+#define IDENTIFIER_TAUVALUES "tau_values"
+#define IDENTIFIER_ZETAVALUES "zeta_values"
+#define IDENTIFIER_BESSELI0VALUES "bessel_i0_values"
+#define IDENTIFIER_BESSELI1VALUES "bessel_i1_values"
+#define IDENTIFIER_BESSELIXVALUES "bessel_ix_values"
+#define IDENTIFIER_CAUCHYCDFVALUES "cauchy_cdf_values"
+#define IDENTIFIER_EXPONENTIALCDFVALUES "exponential_cdf_values"
+#define IDENTIFIER_EXTREMEVALUESCDFVALUES "extreme_values_cdf_values"
+#define IDENTIFIER_GEOMETRICCDFVALUES "geometric_cdf_values"
+#define IDENTIFIER_LAPLACECDFVALUES "laplace_cdf_values"
+#define IDENTIFIER_LOGNORMALCDFVALUES "log_normal_cdf_values"
+#define IDENTIFIER_LOGSERIESCDFVALUES "log_series_cdf_values"
+#define IDENTIFIER_LOGISTICCDFVALUES "logistic_cdf_values"
+#define IDENTIFIER_RAYLEIGHCDFVALUES "rayleigh_cdf_values"
+#define IDENTIFIER_VONMISESCDFVALUES "von_mises_cdf_values"
+#define IDENTIFIER_WEIBULLCDFVALUES "weibull_cdf_values"
+#define IDENTIFIER_FROBENIUSNUMBERORDER2VALUES "frobenius_number_order2_values"
+#define IDENTIFIER_R8FALLVALUES "r8_fall_values"
+#define IDENTIFIER_R8RISEVALUES "r8_rise_values"
+#define IDENTIFIER_LAMBERTWVALUES "lambert_w_values"
+#define IDENTIFIER_R8FACTORIAL2VALUES "r8_factorial2_values"
+#define IDENTIFIER_BIVARIATENORMALCDFVALUES "bivariate_normal_cdf_values"
+#define IDENTIFIER_BIVAND1 "bivand1"
+#define IDENTIFIER_BIVAND2 "bivand2"
+#define IDENTIFIER_DVAND "dvand"
+#define IDENTIFIER_DVANDPRG "dvandprg"
+#define IDENTIFIER_PVAND "pvand"
+#define IDENTIFIER_PVANDPRG "pvandprg"
+#define IDENTIFIER_VANDERMONDEAPPROX1DCOEF "vandermonde_approx_1d_coef"
+#define IDENTIFIER_VANDERMONDEAPPROX1DMATRIX "vandermonde_approx_1d_matrix"
+#define IDENTIFIER_VANDERMONDEAPPROX2DCOEF "vandermonde_approx_2d_coef"
+#define IDENTIFIER_VANDERMONDEAPPROX2DMATRIX "vandermonde_approx_2d_matrix"
+#define IDENTIFIER_VANDERMONDEINTERP2DMATRIX "vandermonde_interp_2d_matrix"
+#define IDENTIFIER_FFWT "ffwt"
+#define IDENTIFIER_FWT "fwt"
+#define IDENTIFIER_WALSH "walsh"
+#define IDENTIFIER_MVST "mv_st"
+#define IDENTIFIER_MVGB "mv_gb"
+#define IDENTIFIER_MVGE "mv_ge"
+#define IDENTIFIER_CGST "cg_st"
+#define IDENTIFIER_WATHENBANDWIDTH "wathen_bandwidth"
+#define IDENTIFIER_WATHENGB "wathen_gb"
+#define IDENTIFIER_WATHENGE "wathen_ge"
+#define IDENTIFIER_WATHENORDER "wathen_order"
+#define IDENTIFIER_WATHENST "wathen_st"
+#define IDENTIFIER_WATHENSTSIZE "wathen_st_size"
+#define IDENTIFIER_R8VECCONVOLUTION "r8vec_convolution"
+#define IDENTIFIER_CASCADE "cascade"
+#define IDENTIFIER_DAUBCOEFFICIENTS "daub_coefficients"
+#define IDENTIFIER_DAUB2MATRIX "daub2_matrix"
+#define IDENTIFIER_DAUB2SCALE "daub2_scale"
+#define IDENTIFIER_DAUB2TRANSFORM "daub2_transform"
+#define IDENTIFIER_DAUB2TRANSFORMINVERSE "daub2_transform_inverse"
+#define IDENTIFIER_DAUB4MATRIX "daub4_matrix"
+#define IDENTIFIER_DAUB4SCALE "daub4_scale"
+#define IDENTIFIER_DAUB4TRANSFORM "daub4_transform"
+#define IDENTIFIER_DAUB4TRANSFORMINVERSE "daub4_transform_inverse"
+#define IDENTIFIER_DAUB6MATRIX "daub6_matrix"
+#define IDENTIFIER_DAUB6SCALE "daub6_scale"
+#define IDENTIFIER_DAUB6TRANSFORM "daub6_transform"
+#define IDENTIFIER_DAUB6TRANSFORMINVERSE "daub6_transform_inverse"
+#define IDENTIFIER_DAUB8MATRIX "daub8_matrix"
+#define IDENTIFIER_DAUB8SCALE "daub8_scale"
+#define IDENTIFIER_DAUB8TRANSFORM "daub8_transform"
+#define IDENTIFIER_DAUB8TRANSFORMINVERSE "daub8_transform_inverse"
+#define IDENTIFIER_DAUB10MATRIX "daub10_matrix"
+#define IDENTIFIER_DAUB10SCALE "daub10_scale"
+#define IDENTIFIER_DAUB10TRANSFORM "daub10_transform"
+#define IDENTIFIER_DAUB10TRANSFORMINVERSE "daub10_transform_inverse"
+#define IDENTIFIER_DAUB12MATRIX "daub12_matrix"
+#define IDENTIFIER_DAUB12TRANSFORM "daub12_transform"
+#define IDENTIFIER_DAUB12TRANSFORMINVERSE "daub12_transform_inverse"
+#define IDENTIFIER_DAUB14TRANSFORM "daub14_transform"
+#define IDENTIFIER_DAUB14TRANSFORMINVERSE "daub14_transform_inverse"
+#define IDENTIFIER_DAUB16TRANSFORM "daub16_transform"
+#define IDENTIFIER_DAUB16TRANSFORMINVERSE "daub16_transform_inverse"
+#define IDENTIFIER_DAUB18TRANSFORM "daub18_transform"
+#define IDENTIFIER_DAUB18TRANSFORMINVERSE "daub18_transform_inverse"
+#define IDENTIFIER_DAUB20TRANSFORM "daub20_transform"
+#define IDENTIFIER_DAUB20TRANSFORMINVERSE "daub20_transform_inverse"
+#define IDENTIFIER_WEDGE01INTEGRAL "wedge01_integral"
+#define IDENTIFIER_WEDGE01VOLUME "wedge01_volume"
+#define IDENTIFIER_LINEO01 "line_o01"
+#define IDENTIFIER_LINEO02 "line_o02"
+#define IDENTIFIER_LINEO03 "line_o03"
+#define IDENTIFIER_LINEO04 "line_o04"
+#define IDENTIFIER_LINEO05 "line_o05"
+#define IDENTIFIER_TRIANGLEO01 "triangle_o01"
+#define IDENTIFIER_TRIANGLEO03 "triangle_o03"
+#define IDENTIFIER_TRIANGLEO03B "triangle_o03b"
+#define IDENTIFIER_TRIANGLEO06 "triangle_o06"
+#define IDENTIFIER_TRIANGLEO06B "triangle_o06b"
+#define IDENTIFIER_TRIANGLEO07 "triangle_o07"
+#define IDENTIFIER_TRIANGLEO12 "triangle_o12"
+#define IDENTIFIER_WEDGERULE "wedge_rule"
+#define IDENTIFIER_WEDGE01SAMPLE "wedge01_sample"
+#define IDENTIFIER_WEEKDAYVALUES "weekday_values"
+#define IDENTIFIER_R8EXPONENTIAL01SAMPLE "r8_exponential_01_sample"
+#define IDENTIFIER_R8GAMMA01SAMPLE "r8_gamma_01_sample"
+#define IDENTIFIER_R8GAMMASAMPLE "r8_gamma_sample"
+#define IDENTIFIER_R8MATMMTNEW "r8mat_mmt_new"
+#define IDENTIFIER_R8UTINVERSE "r8ut_inverse"
+#define IDENTIFIER_LGGET "lg_get"
+#define IDENTIFIER_LGMEMORY "lg_memory"
+#define IDENTIFIER_LGSET "lg_set"
+#define IDENTIFIER_IGGET "ig_get"
+#define IDENTIFIER_IGMEMORY "ig_memory"
+#define IDENTIFIER_IGSET "ig_set"
+#define IDENTIFIER_INITGENERATOR "init_generator"
+#define IDENTIFIER_INITIALIZE "initialize"
+#define IDENTIFIER_MULTMOD "multmod"
+#define IDENTIFIER_SETINITIALSEED "set_initial_seed"
+#define IDENTIFIER_ANTITHETICGET "antithetic_get"
+#define IDENTIFIER_ANTITHETICMEMORY "antithetic_memory"
+#define IDENTIFIER_ANTITHETICSET "antithetic_set"
+#define IDENTIFIER_CGNSET "cgn_set"
+#define IDENTIFIER_INITIALIZEDGET "initialized_get"
+#define IDENTIFIER_INITIALIZEDMEMORY "initialized_memory"
+#define IDENTIFIER_INITIALIZEDSET "initialized_set"
+#define IDENTIFIER_CGGET "cg_get"
+#define IDENTIFIER_CGMEMORY "cg_memory"
+#define IDENTIFIER_CGSET "cg_set"
+#define IDENTIFIER_CGNGET "cgn_get"
+#define IDENTIFIER_CGNMEMORY "cgn_memory"
+#define IDENTIFIER_I4UNI "i4_uni"
+#define IDENTIFIER_R8UNI01 "r8_uni_01"
+#define IDENTIFIER_R8UNIFORM01SAMPLE "r8_uniform_01_sample"
+#define IDENTIFIER_R8NORMAL01SAMPLE "r8_normal_01_sample"
+#define IDENTIFIER_R8CHISAMPLE "r8_chi_sample"
+#define IDENTIFIER_BARTLETTSAMPLE "bartlett_sample"
+#define IDENTIFIER_BARTLETTUNITSAMPLE "bartlett_unit_sample"
+#define IDENTIFIER_WISHARTSAMPLE "wishart_sample"
+#define IDENTIFIER_WISHARTSAMPLEINVERSE "wishart_sample_inverse"
+#define IDENTIFIER_WISHARTUNITSAMPLE "wishart_unit_sample"
+#define IDENTIFIER_WISHARTUNITSAMPLEINVERSE "wishart_unit_sample_inverse"
+#define IDENTIFIER_WTIME "wtime"
+#define IDENTIFIER_R8MATFS "r8mat_fs"
+#define IDENTIFIER_ROOTRC "root_rc"
+#define IDENTIFIER_ROOTSRC "roots_rc"
+
+#define IDENTIFIER_FFT "FFT"
+#define IDENTIFIER_FFT2D "FFT2D"
+#define IDENTIFIER_EFLOAT "efloat"
+#define IDENTIFIER_EBOOL "ebool"
+#define IDENTIFIER_EUSHORT "eushort"
+#define IDENTIFIER_ESHORT "eshort"
+#define IDENTIFIER_EINT "eint"
+#define IDENTIFIER_ENEW "enew"
+#define IDENTIFIER_FLOAT "float"
+#define IDENTIFIER_BOOL "bool"
+#define IDENTIFIER_USHORT "ushort"
+#define IDENTIFIER_SHORT "short"
+#define IDENTIFIER_INT "int"
+#define IDENTIFIER_NEW "new"
+#define IDENTIFIER_EVFLOAT "evfloat"
+#define IDENTIFIER_EVBOOL "evbool"
+#define IDENTIFIER_EVUSHORT "evushort"
+#define IDENTIFIER_EVSHORT "evshort"
+#define IDENTIFIER_EVINT "evint"
+#define IDENTIFIER_EVNEW "evnew"
+#define IDENTIFIER_VFLOAT "vfloat"
+#define IDENTIFIER_VBOOL "vbool"
+#define IDENTIFIER_VUSHORT "vushort"
+#define IDENTIFIER_VSHORT "vshort"
+#define IDENTIFIER_VINT "vint"
+#define IDENTIFIER_VNEW "vnew"
+#define IDENTIFIER_VOLATILE "volatile"
+#define IDENTIFIER_SETARRAYSINDEX "set_arrays_index"
+#define IDENTIFIER_FSET "fset"
+#define IDENTIFIER_BSET "bset"
+#define IDENTIFIER_USET "uset"
+#define IDENTIFIER_SSET "sset"
+#define IDENTIFIER_ISET "iset"
+#define IDENTIFIER_SET "set"
+#define IDENTIFIER_FGET "fget"
+#define IDENTIFIER_BGET "bget"
+#define IDENTIFIER_UGET "uget"
+#define IDENTIFIER_SGET "sget"
+#define IDENTIFIER_IGET "iget"
+#define IDENTIFIER_GET "get"
+#define IDENTIFIER_DEL "del"
+#define IDENTIFIER_DELALL "delall"
+#define IDENTIFIER_FPRINT "fprint"
+#define IDENTIFIER_BPRINT "bprint"
+#define IDENTIFIER_UPRINT "uprint"
+#define IDENTIFIER_SPRINT "sprint"
+#define IDENTIFIER_IPRINT "iprint"
+#define IDENTIFIER_PRINT "print"
+#define IDENTIFIER_FPMAT "fpmat"
+#define IDENTIFIER_BPMAT "bpmat"
+#define IDENTIFIER_UPMAT "upmat"
+#define IDENTIFIER_SPMAT "spmat"
+#define IDENTIFIER_IPMAT "ipmat"
+#define IDENTIFIER_PMAT "pmat"
+#define IDENTIFIER_VTYPE "vtype"
+#define IDENTIFIER_FMATPRM "fmatprm"
+#define IDENTIFIER_BMATPRM "bmatprm"
+#define IDENTIFIER_UMATPRM "umatprm"
+#define IDENTIFIER_SMATPRM "smatprm"
+#define IDENTIFIER_IMATPRM "imatprm" 
+#define IDENTIFIER_MATPRM "matprm"	
+#define IDENTIFIER_FPRMMAT "fprmmat"
+#define IDENTIFIER_BPRMMAT "bprmmat"
+#define IDENTIFIER_UPRMMAT "uprmmat"
+#define IDENTIFIER_SPRMMAT "sprmmat"
+#define IDENTIFIER_IPRMMAT "iprmmat"
+#define IDENTIFIER_PRMMAT "prmmat"
+#define IDENTIFIER_ATLTUAE "answer_to_life_the_universe_and_everything"
+#define IDENTIFIER_HARRIS "harris"
+#define IDENTIFIER_HARRIS2 "harris2"
+#define IDENTIFIER_THARRIS "t_harris"
+#define IDENTIFIER_THARRIS2 "t_harris2"
+#define IDENTIFIER_MATRIXNORM "norm"
+#define IDENTIFIER_MATRIXTRACE "trace"
+#define IDENTIFIER_MATRIXDET "det"
+#define IDENTIFIER_MATRIXRANK "rank"
+#define IDENTIFIER_MATRIXILLCHK "illchk"
+#define IDENTIFIER_SCALARPROD "sprod"
+#define IDENTIFIER_GCD "GCD"
+#define IDENTIFIER_LCM "lcm"
+#define IDENTIFIER_SECONDGRADEQSOLVER "sgeqs"
+#define IDENTIFIER_COMPLEXADD "cadd"
+#define IDENTIFIER_COMPLEXMUL "cmul"
+#define IDENTIFIER_QUATERNIONSADD "qadd"
+#define IDENTIFIER_QUATERNIONSMUL "qmul"
+#define IDENTIFIER_GEOMETRICSUM "gsum"
+#define IDENTIFIER_ARMONICSUM "asum"
+#define IDENTIFIER_GENARMONICSUM "gasum"
+#define IDENTIFIER_FIBONACCISUM "fsum"
+#define IDENTIFIER_FACTORIALSUM "fasum"
+#define IDENTIFIER_DOUBLEFACTORIALSUM "sfasum"
+#define IDENTIFIER_SUM "sum"
+#define IDENTIFIER_PRODUCT "product"
+#define IDENTIFIER_MODE "mode"
+#define IDENTIFIER_MEAN "mean"
+#define IDENTIFIER_VARIANCE "var"
+#define IDENTIFIER_VARIANCE2 "var2"
+#define IDENTIFIER_COVARIANCE "cov"
+#define IDENTIFIER_COVARIANCE2 "cov2"
+#define IDENTIFIER_STDDEV "stddev"
+#define IDENTIFIER_STDDEV2 "stddev2"
+#define IDENTIFIER_STDCOD "stdcod"
+#define IDENTIFIER_STDCOD2 "stdcod2"
+#define IDENTIFIER_PEARSON "prsn"
+#define IDENTIFIER_PEARSON2 "prsn2"
+#define IDENTIFIER_OUTLIER "otlr"
+#define IDENTIFIER_OUTLIER2 "otlr2"
+#define IDENTIFIER_MAP "map"
+#define IDENTIFIER_GEOMEAN "geomedia"
+#define IDENTIFIER_ARMEAN "armedia"
+#define IDENTIFIER_POWMEAN "powmedia"
+#define IDENTIFIER_CENTRALVALUE "cval"
+#define IDENTIFIER_FIRSTQUARTILE "q1"
+#define IDENTIFIER_MEDIAN "median"
+#define IDENTIFIER_THIRDQUARTILE "q3"
+#define IDENTIFIER_FIRSTNNUMBERSSUM "fnnsum"
+#define IDENTIFIER_SQRT "sqrt"
+#define IDENTIFIER_CBRT "cbrt"
+#define IDENTIFIER_CSQRT "csqrt"
+#define IDENTIFIER_CCBRT "ccbrt"
+#define IDENTIFIER_FACTORIAL "fact"
+#define IDENTIFIER_DOUBLEFACTORIAL "sfact"
+#define IDENTIFIER_STIRLING "stlrng"
+#define IDENTIFIER_FIBONACCI "mpfr_fibo"
+#define IDENTIFIER_ADOUBLEFACTORIAL "asfact"
+#define IDENTIFIER_AFIBONACCI "afibo"
+#define IDENTIFIER_PERMUTATIONS "perm"
+#define IDENTIFIER_PERMUTATIONSREP "permrep"
+#define IDENTIFIER_KPERMUTATIONS "kperm"
+#define IDENTIFIER_KPERMUTATIONSREP "kpermrep"
+#define IDENTIFIER_COMBINATIONS "comb"
+#define IDENTIFIER_COMBINATIONSREP "combrep"
+#define IDENTIFIER_PASCALTRIANGLE "ptrn"
+#define IDENTIFIER_NPRIMENUMBER "npnum"
+#define IDENTIFIER_PRIMORIAL "primr"
+#define IDENTIFIER_FIRSTNPRIMENUMBERSSUM "fpnsum"
+#define IDENTIFIER_FIBONACCIAL "fibnc"
+#define IDENTIFIER_BASECHANGE "cbase"
+#define IDENTIFIER_FLOOR "floor"
+#define IDENTIFIER_CEIL "ceil"
+#define IDENTIFIER_RAND "rand"
+#define IDENTIFIER_RANDOM "random"
+#define IDENTIFIER_RANDOMIZE "randomize"
+#define IDENTIFIER_MPFRDEG "mpfr_deg"
+#define IDENTIFIER_MPFRRAD "mpfr_rad"
+#define IDENTIFIER_RECTTOPOLR "recttopolr"
+#define IDENTIFIER_RECTTOPOLA "recttopola"
+#define IDENTIFIER_POLTORECTX "poltorectx"
+#define IDENTIFIER_POLTORECTY "poltorecty"
+#define IDENTIFIER_ABS "abs"
+#define IDENTIFIER_MOD "mod"
+#define IDENTIFIER_IPART "ipart"
+#define IDENTIFIER_FPART "fpart"
+#define IDENTIFIER_MIN "min"
+#define IDENTIFIER_MAX "max"
+#define IDENTIFIER_POW10 "pow10"
+#define IDENTIFIER_TEST "test"
+#define IDENTIFIER_IF "if"
+#define IDENTIFIER_SELECT "select"
+#define IDENTIFIER_EQUAL "equal"
+#define IDENTIFIER_ABOVE "above"
+#define IDENTIFIER_BELOW "below"
+#define IDENTIFIER_AVG "avg"
+#define IDENTIFIER_CLIP "clip"
+#define IDENTIFIER_CLAMP "clamp"
+#define IDENTIFIER_PNTCHANGE "pntchange"
+#define IDENTIFIER_POLY "poly"
+#define IDENTIFIER_AND "and"
+#define IDENTIFIER_OR "or"
+#define IDENTIFIER_NOT "not"
+#define IDENTIFIER_FOR "for"
+#define IDENTIFIER_MANY "many"
+
+
+// Default Operations FuncNames
+
+#define FUNCNAME_BINSUM exprNodeFuncBAdd
+#define FUNCNAME_BINSUB exprNodeFuncBSub
+#define FUNCNAME_COMPLEMENT exprNodeFuncComp
+#define FUNCNAME_POW exprNodeFuncPow
+#define FUNCNAME_EXP exprNodeFuncExp
+#define FUNCNAME_EXPC exprNodeFuncExpC
+#define FUNCNAME_EXP10 exprNodeFuncExp10
+#define FUNCNAME_EXP10C exprNodeFuncExp10C
+#define FUNCNAME_EXP2 exprNodeFuncExp2
+#define FUNCNAME_EXP2C exprNodeFuncExp2C
+#define FUNCNAME_NTHROOT exprNodeFuncRoot
+#define FUNCNAME_LN exprNodeFuncLn
+#define FUNCNAME_LNC exprNodeFuncLnC
+#define FUNCNAME_LOG exprNodeFuncLog
+#define FUNCNAME_LOG2 exprNodeFuncLog2
+#define FUNCNAME_LOGN exprNodeFuncLogn
+#define FUNCNAME_LOGC exprNodeFuncLogc
+#define FUNCNAME_LOG2C exprNodeFuncLog2c
+#define FUNCNAME_LOG1P exprNodeFuncLog1p
+#define FUNCNAME_LOG1PC exprNodeFuncLog1pc
+#define FUNCNAME_LOG101P exprNodeFuncLog101p
+#define FUNCNAME_LOG101PC exprNodeFuncLog101pc
+#define FUNCNAME_LOG21P exprNodeFuncLog21p
+#define FUNCNAME_LOG21PC exprNodeFuncLog21pc
+#define FUNCNAME_MPFREXPM1 exprNodeFuncMPFRExpm1
+#define FUNCNAME_MPFREINT exprNodeFuncMPFREint
+#define FUNCNAME_MPFRLI2 exprNodeFuncMPFRLi2
+#define FUNCNAME_MPFRGAMMA exprNodeFuncMPFRGamma
+#define FUNCNAME_MPFRLNGAMMA exprNodeFuncMPFRLnGamma
+#define FUNCNAME_MPFRDIGAMMA exprNodeFuncMPFRDiGamma
+#define FUNCNAME_MPFRZETA exprNodeFuncMPFRZeta
+#define FUNCNAME_MPFRERF exprNodeFuncMPFRErf
+#define FUNCNAME_MPFRERFC exprNodeFuncMPFRErfc
+#define FUNCNAME_MPFRJ0 exprNodeFuncMPFRJ0
+#define FUNCNAME_MPFRJ1 exprNodeFuncMPFRJ1
+#define FUNCNAME_MPFRJN exprNodeFuncMPFRJN
+#define FUNCNAME_MPFRY0 exprNodeFuncMPFRY0
+#define FUNCNAME_MPFRY exprNodeFuncMPFRY1
+#define FUNCNAME_MPFRYN exprNodeFuncMPFRYn
+#define FUNCNAME_MPFRFMA exprNodeFuncMPFRFma
+#define FUNCNAME_MPFRFMS exprNodeFuncMPFRFms
+#define FUNCNAME_MPFRAGM exprNodeFuncMPFRAgm
+#define FUNCNAME_MPFRHYPOT exprNodeFuncMPFRHypot
+#define FUNCNAME_MPFRAI exprNodeFuncMPFRAi
+#define FUNCNAME_CELFAH exprNodeFuncCelFah
+#define FUNCNAME_FAHCEL exprNodeFuncFahCel
+#define FUNCNAME_CELKEL exprNodeFuncCelKel
+#define FUNCNAME_KELCEL exprNodeFuncKelCel
+#define FUNCNAME_CELRANK exprNodeFuncCelRank
+#define FUNCNAME_RANKCEL exprNodeFuncRankCel
+#define FUNCNAME_CELREA exprNodeFuncCelRea
+#define FUNCNAME_REACEL exprNodeFuncReaCel
+#define FUNCNAME_CELNEW exprNodeFuncCelNew
+#define FUNCNAME_NEWCEL exprNodeFuncNewCel
+#define FUNCNAME_CELDEL exprNodeFuncCelDel
+#define FUNCNAME_DELCEL exprNodeFuncDelCel
+#define FUNCNAME_CELROM exprNodeFuncCelRom
+#define FUNCNAME_ROMCEL exprNodeFuncRomCel
+#define FUNCNAME_FAHKEL exprNodeFuncFahKel
+#define FUNCNAME_KELFAH exprNodeFuncKelFah
+#define FUNCNAME_FAHRANK exprNodeFuncFahRank
+#define FUNCNAME_RANKFAH exprNodeFuncRankFah
+#define FUNCNAME_FAHREA exprNodeFuncFahRea
+#define FUNCNAME_REAFAH exprNodeFuncReaFah
+#define FUNCNAME_REARANK exprNodeFuncReaRank
+#define FUNCNAME_RANKREA exprNodeFuncRankRea
+#define FUNCNAME_CEXP exprNodeFuncCExp
+#define FUNCNAME_CEXPC exprNodeFuncCExpC
+#define FUNCNAME_CEXP10 exprNodeFuncCExp10
+#define FUNCNAME_CEXP10C exprNodeFuncCExp10C
+#define FUNCNAME_CEXP2 exprNodeFuncCExp2
+#define FUNCNAME_CEXP2C exprNodeFuncCExp2C
+#define FUNCNAME_CPOW exprNodeFuncCPow
+#define FUNCNAME_CROOT exprNodeFuncCRoot
+#define FUNCNAME_CLOGN exprNodeFuncCLogn
+#define FUNCNAME_CLN exprNodeFuncCLn
+#define FUNCNAME_CLNC exprNodeFuncCLnC
+#define FUNCNAME_CLOG exprNodeFuncCLog
+#define FUNCNAME_CLOGC exprNodeFuncCLogC
+#define FUNCNAME_CLOG2 exprNodeFuncCLog2
+#define FUNCNAME_CLOG2C exprNodeFuncCLog2C
+#define FUNCNAME_CLOG1P exprNodeFuncCLog1p
+#define FUNCNAME_CLOG1PC exprNodeFuncCLog1pC
+#define FUNCNAME_CLOG101P exprNodeFuncCLog101p
+#define FUNCNAME_CLOG101PC exprNodeFuncCLog101pC
+#define FUNCNAME_CLOG21P exprNodeFuncCLog21p
+#define FUNCNAME_CLOG21PC exprNodeFuncCLog21pCC
+#define FUNCNAME_CARG exprNodeFuncCArg
+#define FUNCNAME_CABS exprNodeFuncCAbs
+#define FUNCNAME_QABS exprNodeFuncQAbs
+#define FUNCNAME_OABS exprNodeFuncOAbs
+#define FUNCNAME_SABS exprNodeFuncSAbs
+#define FUNCNAME_BITCOUNTER exprNodeFuncBitCounter
+#define FUNCNAME_MGET exprNodeFuncMGet
+#define FUNCNAME_MLET exprNodeFuncMLet
+#define FUNCNAME_MDEL exprNodeFuncMDel
+#define FUNCNAME_MOFF exprNodeFuncMOff
+#define FUNCNAME_SOL exprNodeFuncSol
+#define FUNCNAME_UBITCOUNTER exprNodeFuncUBitCounter
+#define FUNCNAME_VERSION exprNodeFuncVersion
+#define FUNCNAME_PREC exprNodeFuncPrec
+#define FUNCNAME_EXITCHAR exprNodeExitChar
+#define FUNCNAME_STABFACT exprNodeFuncStabFact
+#define FUNCNAME_BLOCKSIZE exprNodeFuncBlockSize
+#define FUNCNAME_MINOSMMDIM exprNodeFuncMinOSMMDim
+#define FUNCNAME_MINSTRASSENDIM exprNodeFuncMinStrassenDim
+#define FUNCNAME_MINSRNUNMBER exprNodeFuncMinSRNumber
+#define FUNCNAME_ALGEBRA exprNodeFuncAlgebra
+#define FUNCNAME_OUTLIERCONST exprNodeFuncOutlierConst
+#define FUNCNAME_RSEED exprNodeFuncRSeed
+#define FUNCNAME_MMIFIBO exprNodeFuncMMIFibo
+#define FUNCNAME_MMIEVENDFACT exprNodeFuncMMIEvenSFact
+#define FUNCNAME_MMIODDDFACT exprNodeFuncMMIOddSfact
+#define FUNCNAME_TRASFORMAANGOLI exprNodeFuncAngles
+#define FUNCNAME_SIN exprNodeFuncSin
+#define FUNCNAME_SINH exprNodeFuncSinH
+#define FUNCNAME_COS exprNodeFuncCos
+#define FUNCNAME_COSH exprNodeFuncCosH
+#define FUNCNAME_TAN exprNodeFuncTan
+#define FUNCNAME_TANH exprNodeFuncTanH
+#define FUNCNAME_CSC exprNodeFuncCsc
+#define FUNCNAME_CSCH exprNodeFuncCscH
+#define FUNCNAME_SEC exprNodeFuncSec
+#define FUNCNAME_SECH exprNodeFuncSecH
+#define FUNCNAME_COT exprNodeFuncCot
+#define FUNCNAME_COTH exprNodeFuncCotH
+#define FUNCNAME_ASIN exprNodeFuncAsin
+#define FUNCNAME_ASINH exprNodeFuncAsinH
+#define FUNCNAME_ACOS exprNodeFuncAcos
+#define FUNCNAME_ACOSH exprNodeFuncAcosH
+#define FUNCNAME_ATAN exprNodeFuncAtan
+#define FUNCNAME_ATANH exprNodeFuncAtanH
+#define FUNCNAME_ATAN2 exprNodeFuncAtan2
+#define FUNCNAME_ACSC exprNodeFuncAcsc
+#define FUNCNAME_ACSCH exprNodeFuncAcscH
+#define FUNCNAME_ASEC exprNodeFuncAsec
+#define FUNCNAME_ASECH exprNodeFuncAsecH
+#define FUNCNAME_ACOT exprNodeFuncAcot
+#define FUNCNAME_ACOTH exprNodeFuncAcotH
+#define FUNCNAME_HSIN exprNodeFuncHsin
+#define FUNCNAME_HSINH exprNodeFuncHsinH
+#define FUNCNAME_QSIN exprNodeFuncQsin
+#define FUNCNAME_QSINH exprNodeFuncQsinH
+#define FUNCNAME_HCOS exprNodeFuncHcos
+#define FUNCNAME_HCOSH exprNodeFuncHcosH
+#define FUNCNAME_QCOS exprNodeFuncQcos
+#define FUNCNAME_QCOSH exprNodeFuncQcosH
+#define FUNCNAME_HSEC exprNodeFuncHsec
+#define FUNCNAME_HSECH exprNodeFuncHsecH
+#define FUNCNAME_QSEC exprNodeFuncQsec
+#define FUNCNAME_QSECH exprNodeFuncQsecH
+#define FUNCNAME_HCSC exprNodeFuncHcsc
+#define FUNCNAME_HCSCH exprNodeFuncHcscH
+#define FUNCNAME_QCSC exprNodeFuncQcsc
+#define FUNCNAME_QCSCH exprNodeFuncQcscH
+#define FUNCNAME_HTAN exprNodeFuncHtan
+#define FUNCNAME_HTANH exprNodeFuncHtanH
+#define FUNCNAME_QTAN exprNodeFuncQtan
+#define FUNCNAME_QTANH exprNodeFuncQtanH
+#define FUNCNAME_HCOT exprNodeFuncHcot
+#define FUNCNAME_HCOTH exprNodeFuncHcotH
+#define FUNCNAME_QCOT exprNodeFuncQcot
+#define FUNCNAME_QCOTH exprNodeFuncQcotH
+#define FUNCNAME_VSIN exprNodeFuncVsin
+#define FUNCNAME_VSINH exprNodeFuncVsinH
+#define FUNCNAME_CVSIN exprNodeFuncCvsin
+#define FUNCNAME_CVSINH exprNodeFuncCvsinH
+#define FUNCNAME_VCOS exprNodeFuncVcos
+#define FUNCNAME_VCOSH exprNodeFuncVcosH
+#define FUNCNAME_CVCOS exprNodeFuncCvcos
+#define FUNCNAME_CVCOSH exprNodeFuncCvcosH
+#define FUNCNAME_HVSIN exprNodeFuncHvsin
+#define FUNCNAME_HVSINH exprNodeFuncHvsinH
+#define FUNCNAME_HCVSIN exprNodeFuncHcvsin
+#define FUNCNAME_HCVSINH exprNodeFuncHcvsinH
+#define FUNCNAME_HVCOS exprNodeFuncHvcos
+#define FUNCNAME_HVCOSH exprNodeFuncHvcosH
+#define FUNCNAME_HCVCOS exprNodeFuncHcvcos
+#define FUNCNAME_HCVCOSH exprNodeFuncHcvcosH
+#define FUNCNAME_QVSIN exprNodeFuncQvsin
+#define FUNCNAME_QVSINH exprNodeFuncQvsinH
+#define FUNCNAME_QCVSIN exprNodeFuncQcvsin
+#define FUNCNAME_QCVSINH exprNodeFuncQcvsinH
+#define FUNCNAME_QVCOS exprNodeFuncQvcos
+#define FUNCNAME_QVCOSH exprNodeFuncQvcosH
+#define FUNCNAME_QCVCOS exprNodeFuncQcvcos
+#define FUNCNAME_QCVCOSH exprNodeFuncQcvcosH
+#define FUNCNAME_ESEC exprNodeFuncEsec
+#define FUNCNAME_ESECH exprNodeFuncEsecH
+#define FUNCNAME_ECSC exprNodeFuncEcsc
+#define FUNCNAME_ECSCH exprNodeFuncEcscH
+#define FUNCNAME_HESEC exprNodeFuncHesec
+#define FUNCNAME_HESECH exprNodeFuncHesecH
+#define FUNCNAME_HECSC exprNodeFuncHecsc
+#define FUNCNAME_HECSCH exprNodeFuncHecscH
+#define FUNCNAME_QESEC exprNodeFuncQesec
+#define FUNCNAME_QESECH exprNodeFuncQesecH
+#define FUNCNAME_QECSC exprNodeFuncQecsc
+#define FUNCNAME_QECSCH exprNodeFuncQecscH
+#define FUNCNAME_SINC exprNodeFuncSinc
+#define FUNCNAME_SINCH exprNodeFuncSincH
+#define FUNCNAME_HSINC exprNodeFuncHsinc
+#define FUNCNAME_HSINCH exprNodeFuncHsincH
+#define FUNCNAME_QSINC exprNodeFuncQsinc
+#define FUNCNAME_QSINCH exprNodeFuncQsincH
+#define FUNCNAME_COSC exprNodeFuncCosc
+#define FUNCNAME_COSCH exprNodeFuncCoscH
+#define FUNCNAME_HCOSC exprNodeFuncHcosc
+#define FUNCNAME_HCOSCh exprNodeFuncHcosch
+#define FUNCNAME_QCOSC exprNodeFuncQcosc
+#define FUNCNAME_QCOSCh exprNodeFuncQcosch
+#define FUNCNAME_SECC exprNodeFuncSecc
+#define FUNCNAME_SECCH exprNodeFuncSeccH
+#define FUNCNAME_HSECC exprNodFuncHsecc
+#define FUNCNAME_HSECCH exprNodFuncHseccH
+#define FUNCNAME_QSECC exprNodeFuncQsecc
+#define FUNCNAME_QSECCH exprNodeFuncQseccH
+#define FUNCNAME_CSCC exprNodeFuncCscc
+#define FUNCNAME_CSCCH exprNodeFuncCsccH
+#define FUNCNAME_HCSCC exprNodeFuncHcscc
+#define FUNCNAME_HCSCCH exprNodeFuncHcsccH
+#define FUNCNAME_QCSCC exprNodeFuncQcscc
+#define FUNCNAME_QCSCCH exprNodeFuncQcsccH
+#define FUNCNAME_TANC exprNodeFuncTanc
+#define FUNCNAME_TANCH exprNodeFuncTancH
+#define FUNCNAME_HTANC exprNodeFuncHtanc
+#define FUNCNAME_HTANCH exprNodeFuncHtancH
+#define FUNCNAME_QTANC exprNodeFuncQtanc
+#define FUNCNAME_QTANCH exprNodeFuncQtancH
+#define FUNCNAME_COTC exprNodeFuncCotc
+#define FUNCNAME_COTCH exprNodeFuncCotcH
+#define FUNCNAME_HCOTC exprNodeFuncHcotc
+#define FUNCNAME_HCOTCH exprNodeFuncHcotcH
+#define FUNCNAME_QCOTC exprNodeFuncQcotc
+#define FUNCNAME_QCOTCH exprNodeFuncQcotcH
+#define FUNCNAME_CSIN exprNodeFuncCsin
+#define FUNCNAME_CSINH exprNodeFuncCsinH
+#define FUNCNAME_CCOS exprNodeFuncCcos
+#define FUNCNAME_CCOSH exprNodeFuncCcosH
+#define FUNCNAME_CTAN exprNodeFuncCtan
+#define FUNCNAME_CTANH exprNodeFuncCtanH
+#define FUNCNAME_CCSC exprNodeFuncCcsc
+#define FUNCNAME_CCSCH exprNodeFuncCcscH
+#define FUNCNAME_CSEC exprNodeFuncCsec
+#define FUNCNAME_CSECH exprNodeFuncCsecH
+#define FUNCNAME_CCOT exprNodeFuncCcot
+#define FUNCNAME_CCOTH exprNodeFuncCcotH
+#define FUNCNAME_CASIN exprNodeFuncCasin
+#define FUNCNAME_CASINH exprNodeFuncCasinH
+#define FUNCNAME_CACOS exprNodeFuncCacos
+#define FUNCNAME_CACOSH exprNodeFuncCacosH
+#define FUNCNAME_CATAN exprNodeFuncCatan
+#define FUNCNAME_CATANH exprNodeFuncCatanH
+#define FUNCNAME_CACSC exprNodeFuncCacsc
+#define FUNCNAME_CACSCH exprNodeFuncCacscH
+#define FUNCNAME_CASEC exprNodeFuncCasec
+#define FUNCNAME_CASECH exprNodeFuncCasecH
+#define FUNCNAME_CACOT exprNodeFuncCacot
+#define FUNCNAME_CACOTH exprNodeFuncCacotH
+#define FUNCNAME_CHSIN exprNodeFuncChsin
+#define FUNCNAME_CHSINH exprNodeFuncChsinH
+#define FUNCNAME_CQSIN exprNodeFuncCqsin
+#define FUNCNAME_CQSINH exprNodeFuncCqsinH
+#define FUNCNAME_CHCOS exprNodeFuncChcos
+#define FUNCNAME_CHCOSH exprNodeFuncChcosH
+#define FUNCNAME_CQCOS exprNodeFuncCqcos
+#define FUNCNAME_CQCOSH exprNodeFuncCqcosH
+#define FUNCNAME_CHSEC exprNodeFuncChsec
+#define FUNCNAME_CHSECH exprNodeFuncChsecH
+#define FUNCNAME_CQSEC exprNodeFuncCqsec
+#define FUNCNAME_CQSECH exprNodeFuncCqsecH
+#define FUNCNAME_CHCSC exprNodeFuncChcsc
+#define FUNCNAME_CHCSCH exprNodeFuncChcscH
+#define FUNCNAME_CQCSC exprNodeFuncCqcsc
+#define FUNCNAME_CQCSCH exprNodeFuncCqcscH
+#define FUNCNAME_CHTAN exprNodeFuncChtan
+#define FUNCNAME_CHTANH exprNodeFuncChtanH
+#define FUNCNAME_CQTAN exprNodeFuncCqtan
+#define FUNCNAME_CQTANH exprNodeFuncCqtanH
+#define FUNCNAME_CHCOT exprNodeFuncChcot
+#define FUNCNAME_CHCOTH exprNodeFuncChcotH
+#define FUNCNAME_CQCOT exprNodeFuncCqcot
+#define FUNCNAME_CQCOTH exprNodeFuncCqcotH
+#define FUNCNAME_CPXVSIN exprNodeFuncCpxVsin
+#define FUNCNAME_CPXVSINH exprNodeFuncCpxVsinH
+#define FUNCNAME_CCVSIN exprNodeFuncCcvsin
+#define FUNCNAME_CCVSINH exprNodeFuncCcvsinH
+#define FUNCNAME_CPXVCOS exprNodeFuncCpxVcos
+#define FUNCNAME_CPXVCOSH exprNodeFuncCpxVcosH
+#define FUNCNAME_CCVCOS exprNodeFuncCcvcos
+#define FUNCNAME_CCVCOSH exprNodeFuncCcvcosH
+#define FUNCNAME_CHVSIN exprNodeFuncChvsin
+#define FUNCNAME_CHVSINH exprNodeFuncChvsinH
+#define FUNCNAME_CHCVSIN exprNodeFuncChcvsin
+#define FUNCNAME_CHCVSINH exprNodeFuncChcvsinH
+#define FUNCNAME_CHVCOS exprNodeFuncChvcos
+#define FUNCNAME_CHVCOSH exprNodeFuncChvcosH
+#define FUNCNAME_CHCVCOS exprNodeFuncChcvcos
+#define FUNCNAME_CHCVCOSH exprNodeFuncChcvcosH
+#define FUNCNAME_CQVSIN exprNodeFuncCqvsin
+#define FUNCNAME_CQVSINH exprNodeFuncCqvsinH
+#define FUNCNAME_CQCVSIN exprNodeFuncCqcvsin
+#define FUNCNAME_CQCVSINH exprNodeFuncCqcvsinH
+#define FUNCNAME_CQVCOS exprNodeFuncCqvcos
+#define FUNCNAME_CQVCOSH exprNodeFuncCqvcosH
+#define FUNCNAME_CQCVCOS exprNodeFuncCqcvcos
+#define FUNCNAME_CQCVCOSH exprNodeFuncCqcvcosH
+#define FUNCNAME_CESEC exprNodFuncCesec
+#define FUNCNAME_CESECH exprNodFuncCesecH
+#define FUNCNAME_CECSC exprNodeFuncCecsc
+#define FUNCNAME_CECSCH exprNodeFuncCecscH
+#define FUNCNAME_CHESEC exprNodeFuncChesec
+#define FUNCNAME_CHESECH exprNodeFuncChesecH
+#define FUNCNAME_CHECSC exprNodeFuncChecsc
+#define FUNCNAME_CHECSCH exprNodeFuncChecscH
+#define FUNCNAME_CQESEC exprNodeFuncCqesec
+#define FUNCNAME_CQESECH exprNodeFuncCqesecH
+#define FUNCNAME_CQECSC exprNodeFuncCqecsc
+#define FUNCNAME_CQECSCH exprNodeFuncCqecscH
+#define FUNCNAME_CSINC exprNodeFuncCsinc
+#define FUNCNAME_CSINCH exprNodeFuncCsincH
+#define FUNCNAME_CHSINC exprNodeFuncChsinc
+#define FUNCNAME_CHSINCH exprNodeFuncChsincH
+#define FUNCNAME_CQSINC exprNodeFuncCqsinc
+#define FUNCNAME_CQSINCH exprNodeFuncCqsincH
+#define FUNCNAME_CCOSC exprNodeFuncCcosc
+#define FUNCNAME_CCOSCH exprNodeFuncCcoscH
+#define FUNCNAME_CHCOSC exprNodeFuncChcosc
+#define FUNCNAME_CHCOSCH exprNodeFuncChcoscH
+#define FUNCNAME_CQCOSC exprNodeFuncCqcosc
+#define FUNCNAME_CQCOSCH exprNodeFuncCqcoscH
+#define FUNCNAME_CSECC exprNodeFuncCsecc
+#define FUNCNAME_CSECCH exprNodeFuncCseccH
+#define FUNCNAME_CHSECC exprNodeFuncChsecc
+#define FUNCNAME_CHSECCH exprNodeFuncChseccH
+#define FUNCNAME_CQSECC exprNodeFuncCqsecc
+#define FUNCNAME_CQSECCH exprNodeFuncCqseccH
+#define FUNCNAME_CCSCC exprNodeFuncCcscc
+#define FUNCNAME_CCSCCH exprNodeFuncCcsccH
+#define FUNCNAME_CHCSCC exprNodeFuncChcscc
+#define FUNCNAME_CHCSCCH exprNodeFuncChcsccH
+#define FUNCNAME_CQCSCC exprNodeFuncCqcscc
+#define FUNCNAME_CQCSCCH exprNodeFuncCqcsccH
+#define FUNCNAME_CTANC exprNodeFuncCtanc
+#define FUNCNAME_CTANCH exprNodeFuncCtancH
+#define FUNCNAME_CHTANC exprNodeFuncChtanc
+#define FUNCNAME_CHTANCH exprNodeFuncChtancH
+#define FUNCNAME_CQTANC exprNodeFuncCqtanc
+#define FUNCNAME_CQTANCH exprNodeFuncCqtancH
+#define FUNCNAME_CCOTC exprNodeFuncCcotc
+#define FUNCNAME_CCOTCH exprNodeFuncCcotcH
+#define FUNCNAME_CHCOTC exprNodeFuncChcotc
+#define FUNCNAME_CHCOTCH exprNodeFuncChcotcH
+#define FUNCNAME_CQCOTC exprNodeFuncCqcotc
+#define FUNCNAME_CQCOTCH exprNodeFuncCqcotcH
+
+#define FUNCNAME_ALOG _a_log
+#define FUNCNAME_APOWER _a_power
+#define FUNCNAME_AREGULAR _a_regular
+#define FUNCNAME_JLOG _j_log
+#define FUNCNAME_JPOWER _j_power
+#define FUNCNAME_JREGULAR _j_regular
+#define FUNCNAME_NUMLOG _num_log
+#define FUNCNAME_NUMPOWER _num_power
+#define FUNCNAME_NUMREGULAR _num_regular
+#define FUNCNAME_ORDERLOG _order_log
+#define FUNCNAME_ORDERPOWER _order_power
+#define FUNCNAME_ORDERREGULAR _order_regular
+#define FUNCNAME_RULELOG _rule_log
+#define FUNCNAME_RULEPOWER _rule_power
+#define FUNCNAME_RULEREGULAR _rule_regular
+#define FUNCNAME_ALNORM _alnorm
+#define FUNCNAME_PRNCST _prncst
+#define FUNCNAME_TFN _tfn
+#define FUNCNAME_CHOLESKY _cholesky
+#define FUNCNAME_SUBCHL _subchl
+#define FUNCNAME_GAMMAINC _gamma_inc
+#define FUNCNAME_GAMMAINCVALUES _gamma_inc_values
+#define FUNCNAME_CLUSTR _clustr
+#define FUNCNAME_BETAIN _betain
+#define FUNCNAME_BETAINCVALUES _beta_inc_values
+#define FUNCNAME_R8NORMAL01CDFINVERSE _r8_normal_01_cdf_inverse
+#define FUNCNAME_OWENVALUES _owen_values
+#define FUNCNAME_THA _tha
+#define FUNCNAME_GAMMAD _gammad
+#define FUNCNAME_PPCHI2 _ppchi2
+#define FUNCNAME_DIGAMA _digama
+#define FUNCNAME_PSIVALUES _psi_values
+#define FUNCNAME_XINBTA _xinbta
+#define FUNCNAME_PPND _ppnd
+#define FUNCNAME_TRIGAMMA _trigamma
+#define FUNCNAME_TRIGAMMAVALUES _trigamma_values
+#define FUNCNAME_RCONT _rcont
+#define FUNCNAME_GAMMDS _gammds
+#define FUNCNAME_ALNFAC _alnfac
+#define FUNCNAME_CHYPER _chyper
+#define FUNCNAME_HYPERGEOMETRICCDFVALUES _hypergeometric_cdf_values
+#define FUNCNAME_HYPERGEOMETRICPDFVALUES _hypergeometric_pdf_values
+#define FUNCNAME_REVERS _revers
+#define FUNCNAME_SIMDO _simdo
+#define FUNCNAME_R8RANDOM _r8_random
+#define FUNCNAME_R8UNI _r8_uni
+#define FUNCNAME_BETANC _betanc
+#define FUNCNAME_BETANONCENTRALCDFVALUES _beta_noncentral_cdf_values
+#define FUNCNAME_TNC _tnc
+#define FUNCNAME_ALNGAM _alngam
+#define FUNCNAME_GAMMALOGVALUES _gamma_log_values
+#define FUNCNAME_ALOGAM _alogam
+#define FUNCNAME_GAMAIN _gamain
+#define FUNCNAME_R8COLMEAN _r8col_mean
+#define FUNCNAME_NCBETA _ncbeta
+#define FUNCNAME_INVMOD _invmod
+#define FUNCNAME_MSORT _msort
+#define FUNCNAME_MUSORT _musort
+#define FUNCNAME_I4VECUNIFORMAB _i4vec_uniform_ab
+#define FUNCNAME_R8GAMMA _r8_gamma
+#define FUNCNAME_R8UNIFORM01 _r8_uniform_01
+#define FUNCNAME_R8VECNORMAL01 _r8vec_normal_01
+#define FUNCNAME_BERNSTEINMATRIX _bernstein_matrix
+#define FUNCNAME_BERNSTEINMATRIXINVERSE _bernstein_matrix_inverse
+#define FUNCNAME_BERNSTEINPOLY01 _bernstein_poly_01
+#define FUNCNAME_BERNSTEINPOLYAB _bernstein_poly_ab
+#define FUNCNAME_BERNSTEINPOLY01VALUES _bernstein_poly_01_values
+#define FUNCNAME_R8CHOOSE _r8_choose
+#define FUNCNAME_R8SIGN _r8_sign
+#define FUNCNAME_R8VECLINSPACENEW _r8vec_linspace_new
+#define FUNCNAME_BESSJ0 _bessj0
+#define FUNCNAME_BESSJ _bessj
+#define FUNCNAME_BESSJ1 _bessj1
+#define FUNCNAME_BESSY0 _bessy0
+#define FUNCNAME_BESSY1 _bessy1
+#define FUNCNAME_BESSY _bessy
+#define FUNCNAME_BESSI0 _bessi0
+#define FUNCNAME_BESSI1 _bessi1
+#define FUNCNAME_BESSI _bessi
+#define FUNCNAME_BESSK0 _bessk0
+#define FUNCNAME_BESSK1 _bessk1
+#define FUNCNAME_BESSK _bessk
+#define FUNCNAME_DAXPY _daxpy
+#define FUNCNAME_DDOT _ddot
+#define FUNCNAME_DNRM2 _dnrm2
+#define FUNCNAME_DROT _drot
+#define FUNCNAME_DROTG _drotg
+#define FUNCNAME_DSCAL _dscal
+#define FUNCNAME_DSWAP _dswap
+#define FUNCNAME_GLOMIN _glomin
+#define FUNCNAME_LOCALMIN _local_min
+#define FUNCNAME_R8EPSILON _r8_epsilon
+#define FUNCNAME_ZERO _zero
+#define FUNCNAME_BROWNIANMOTIONSIMULATION _brownian_motion_simulation
+#define FUNCNAME_BURGERSVISCOUSTIMEEXACT1 _burgers_viscous_time_exact1
+#define FUNCNAME_HERMITEEKCOMPUTE _hermite_ek_compute
+#define FUNCNAME_IMTQLX _imtqlx
+#define FUNCNAME_R8VECEVENNEW _r8vec_even_new
+#define FUNCNAME_CCNCOMPUTEPOINTSNEW _ccn_compute_points_new
+#define FUNCNAME_RESCALE _rescale
+#define FUNCNAME_ALGDIV _algdiv
+#define FUNCNAME_ALNREL _alnrel
+#define FUNCNAME_APSER _apser
+#define FUNCNAME_BCORR _bcorr
+#define FUNCNAME_BETA _beta
+#define FUNCNAME_BETAASYM _beta_asym
+#define FUNCNAME_BETAFRAC _beta_frac
+#define FUNCNAME_BETAGRAT _beta_grat
+#define FUNCNAME_BETAINC _beta_inc
+#define FUNCNAME_BETALOG _beta_log
+#define FUNCNAME_BETAPSER _beta_pser
+#define FUNCNAME_BETARCOMP _beta_rcomp
+#define FUNCNAME_BETARCOMP1 _beta_rcomp1
+#define FUNCNAME_BETAUP _beta_up
+#define FUNCNAME_CDFBET _cdfbet
+#define FUNCNAME_CDFBIN _cdfbin
+#define FUNCNAME_CDFCHI _cdfchi
+#define FUNCNAME_CDFCHN _cdfchn
+#define FUNCNAME_CDFF _cdff
+#define FUNCNAME_CDFFNC _cdffnc
+#define FUNCNAME_CDFGAM _cdfgam
+#define FUNCNAME_CDFNBN _cdfnbn
+#define FUNCNAME_CDFNOR _cdfnor
+#define FUNCNAME_CDFPOI _cdfpoi
+#define FUNCNAME_CDFT _cdft
+#define FUNCNAME_CUMBET _cumbet
+#define FUNCNAME_CUMBIN _cumbin
+#define FUNCNAME_CUMCHI _cumchi
+#define FUNCNAME_CUMCHN _cumchn
+#define FUNCNAME_CUMF _cumf
+#define FUNCNAME_CUMFNC _cumfnc
+#define FUNCNAME_CUMGAM _cumgam
+#define FUNCNAME_CUMNBN _cumnbn
+#define FUNCNAME_CUMNOR _cumnor
+#define FUNCNAME_CUMPOI _cumpoi
+#define FUNCNAME_CUMT _cumt
+#define FUNCNAME_DBETRM _dbetrm
+#define FUNCNAME_DEXPM1 _dexpm1
+#define FUNCNAME_DINVNR _dinvnr
+#define FUNCNAME_DINVR _dinvr
+#define FUNCNAME_DLANOR _dlanor
+#define FUNCNAME_DPMPAR _dpmpar
+#define FUNCNAME_DSTINV _dstinv
+#define FUNCNAME_DSTREM _dstrem
+#define FUNCNAME_DSTZR _dstzr
+#define FUNCNAME_DT1 _dt1
+#define FUNCNAME_DZROR _dzror
+#define FUNCNAME_E0000 _E0000
+#define FUNCNAME_E0001 _E0001
+#define FUNCNAME_ERRORF _error_f
+#define FUNCNAME_ERRORFC _error_fc
+#define FUNCNAME_ESUM _esum
+#define FUNCNAME_EVALPOL _eval_pol
+#define FUNCNAME_EXPARG _exparg
+#define FUNCNAME_FIFDINT _fifdint
+#define FUNCNAME_FIFDMAX1 _fifdmax1
+#define FUNCNAME_FIFDMIN1 _fifdmin1
+#define FUNCNAME_FIFDSIGN _fifdsign
+#define FUNCNAME_FIFIDINT _fifidint
+#define FUNCNAME_FIFMOD _fifmod
+#define FUNCNAME_FPSER _fpser
+#define FUNCNAME_GAM1 _gam1
+#define FUNCNAME_GAMMAINCINV _gamma_inc_inv
+#define FUNCNAME_GAMMALN1 _gamma_ln1
+#define FUNCNAME_GAMMALOG _gamma_log
+#define FUNCNAME_GAMMARAT1 _gamma_rat1
+#define FUNCNAME_GAMMAX _gamma_x
+#define FUNCNAME_GSUMLN _gsumln
+#define FUNCNAME_IPMPAR _ipmpar
+#define FUNCNAME_PSI _psi
+#define FUNCNAME_RCOMP _rcomp
+#define FUNCNAME_REXP _rexp
+#define FUNCNAME_RLOG _rlog
+#define FUNCNAME_RLOG1 _rlog1
+#define FUNCNAME_STVALN _stvaln
+#define FUNCNAME_BINOMIALCDFVALUES _binomial_cdf_values
+#define FUNCNAME_CHINONCENTRALCDFVALUES _chi_noncentral_cdf_values
+#define FUNCNAME_CHISQUARECDFVALUES _chi_square_cdf_values
+#define FUNCNAME_ERFCDFVALUES _erf_values
+#define FUNCNAME_FCDFVALUES _f_cdf_values
+#define FUNCNAME_FNONCENTRALCDFVALUES _f_noncentral_cdf_values
+#define FUNCNAME_NEGATIVEBINOMIALCDFVALUES _negative_binomial_cdf_values
+#define FUNCNAME_NORMALCDFVALUES _normal_cdf_values
+#define FUNCNAME_POISSONCDFVALUES _poisson_cdf_values
+#define FUNCNAME_STUDENTCDFVALUES _student_cdf_values
+#define FUNCNAME_I4UNIFORM _i4_uniform
+#define FUNCNAME_R8MATCOPYNEW _r8mat_copy_new
+#define FUNCNAME_R8VECUNIFORM01NEW _r8vec_uniform_01_new
+#define FUNCNAME_TDOUBLEPRODUCTINTEGRAL _t_double_product_integral
+#define FUNCNAME_TINTEGRAL _t_integral
+#define FUNCNAME_TPOLYNOMIAL _t_polynomial
+#define FUNCNAME_TPOLYNOMIALAB _t_polynomial_ab
+#define FUNCNAME_TPOLYNOMIALCOEFFICIENTS _t_polynomial_coefficients
+#define FUNCNAME_TPOLYNOMIALZEROS _t_polynomial_zeros
+#define FUNCNAME_TPROJECTCOEFFICIENTS _t_project_coefficients
+#define FUNCNAME_TPROJECTCOEFFICIENTSAB _t_project_coefficients_ab
+#define FUNCNAME_TPROJECTVALUE _t_project_value
+#define FUNCNAME_TPROJECTVALUEAB _t_project_value_ab
+#define FUNCNAME_TQUADRATURERULE _t_quadrature_rule
+#define FUNCNAME_TTRIPLEPRODUCTINTEGRAL _t_triple_product_integral
+#define FUNCNAME_UDOUBLEPRODUCTINTEGRAL _u_double_product_integral
+#define FUNCNAME_UINTEGRAL _u_integral
+#define FUNCNAME_UPOLYNOMIAL _u_polynomial
+#define FUNCNAME_UPOLYNOMIALCOEFFICIENTS _u_polynomial_coefficients
+#define FUNCNAME_UPOLYNOMIALZEROS _u_polynomial_zeros
+#define FUNCNAME_UQUADRATURERULE _u_quadrature_rule
+#define FUNCNAME_VDOUBLEPRODUCTINTEGRAL _v_double_product_integral
+#define FUNCNAME_VPOLYNOMIAL _v_polynomial
+#define FUNCNAME_VPOLYNOMIALZEROS _v_polynomial_zeros
+#define FUNCNAME_WDOUBLEPRODUCTINTEGRAL _w_double_product_integral
+#define FUNCNAME_WPOLYNOMIAL _w_polynomial
+#define FUNCNAME_WPOLYNOMIALZEROS _w_polynomial_zeros
+#define FUNCNAME_ECHEBSER0 _echebser0
+#define FUNCNAME_ECHEBSER1 _echebser1
+#define FUNCNAME_ECHEBSER2 _echebser2
+#define FUNCNAME_ECHEBSER3 _echebser3
+#define FUNCNAME_ECHEBSER4 _echebser4
+#define FUNCNAME_EVENCHEBSER0 _evenchebser0
+#define FUNCNAME_EVENCHEBSER1 _evenchebser1
+#define FUNCNAME_EVENCHEBSER2 _evenchebser2
+#define FUNCNAME_ODDCHEBSER0 _oddchebser0
+#define FUNCNAME_ODDCHEBSER1 _oddchebser1
+#define FUNCNAME_ODDCHEBSER2 _oddchebser2
+#define FUNCNAME_ATOI4 _a_to_i4
+#define FUNCNAME_CIRCLEARCGRID _circle_arc_grid
+#define FUNCNAME_CIRCLE01LENGTH _circle_arc_grid
+#define FUNCNAME_CIRCLE01MONOMIALINTEGRAL _circle01_monomial_integral
+#define FUNCNAME_CIRCLE01SAMPLE _circle01_sample
+#define FUNCNAME_R8VECUNIFORM01 _r8vec_uniform_01
+#define FUNCNAME_CIRCLERULE _circle_rule
+#define FUNCNAME_CIRCLESEGMENTANGLEFROMCHORD _circle_segment_angle_from_chord
+#define FUNCNAME_CIRCLESEGMENTANGLEFROMCHORDANGLES _circle_segment_angle_from_chord_angles
+#define FUNCNAME_CIRCLESEGMENTANGLEFROMHEIGHT _circle_segment_angle_from_height
+#define FUNCNAME_CIRCLESEGMENTAREAFROMANGLE _circle_segment_area_from_angle
+#define FUNCNAME_CIRCLESEGMENTAREAFROMCHORD _circle_segment_area_from_chord
+#define FUNCNAME_CIRCLESEGMENTAREAFROMHEIGHT _circle_segment_area_from_height
+#define FUNCNAME_CIRCLESEGMENTAREAFROMSAMPLE _circle_segment_area_from_sample
+#define FUNCNAME_CIRCLESEGMENTCDF _circle_segment_cdf
+#define FUNCNAME_CIRCLESEGMENTCENTROIDFROMCHORD _circle_segment_centroid_from_chord
+#define FUNCNAME_CIRCLESEGMENTCENTROIDFROMHEIGHT _circle_segment_centroid_from_height
+#define FUNCNAME_CIRCLESEGMENTCENTROIDFROMSAMPLE _circle_segment_centroid_from_sample
+#define FUNCNAME_CIRCLESEGMENTCONTAINSPOINT _circle_segment_contains_point
+#define FUNCNAME_CIRCLESEGMENTHEIGHTFROMANGLE _circle_segment_height_from_angle
+#define FUNCNAME_CIRCLESEGMENTHEIGHTFROMAREA _circle_segment_height_from_area
+#define FUNCNAME_CIRCLESEGMENTHEIGHTFROMCHORD _circle_segment_height_from_chord
+#define FUNCNAME_CIRCLESEGMENTROTATIONFROMCHORD _circle_segment_rotation_from_chord
+#define FUNCNAME_CIRCLESEGMENTSAMPLEFROMCHORD _circle_segment_sample_from_chord
+#define FUNCNAME_CIRCLESEGMENTSAMPLEFROMHEIGHT _circle_segment_sample_from_height
+#define FUNCNAME_CIRCLESEGMENTWIDTHFROMHEIGHT _circle_segment_width_from_height
+#define FUNCNAME_CLENSHAWCURTISCOMPUTE _clenshaw_curtis_compute
+#define FUNCNAME_FALPHA _f_alpha
+#define FUNCNAME_BICYCLELOCK _bicycle_lock
+#define FUNCNAME_COMBINATIONLOCK _combination_lock
+#define FUNCNAME_COMBINATIONNEXT _combination_next
+#define FUNCNAME_BELLVALUES _bell_values
+#define FUNCNAME_I4VECSEARCHBINARYA _i4vec_search_binary_a
+#define FUNCNAME_I4VECSEARCHBINARYD _i4vec_search_binary_d
+#define FUNCNAME_I4VECSORTINSERTA _i4vec_sort_insert_a
+#define FUNCNAME_I4VECSORTINSERTD _i4vec_sort_insert_d
+#define FUNCNAME_I4VECBACKTRACK _i4vec_backtrack
+#define FUNCNAME_I4VECSUM _i4vec_sum
+#define FUNCNAME_KNAPSACK01 _knapsack_01
+#define FUNCNAME_PERMCHECK _perm_check
+#define FUNCNAME_PERMINV _perm_inv
+#define FUNCNAME_PERMLEXRANK _perm_lex_rank
+#define FUNCNAME_PERMLEXUNRANK _perm_lex_unrank
+#define FUNCNAME_ANGLESHIFT _angle_shift
+#define FUNCNAME_ACOSCORDIC _acos_cordic
+#define FUNCNAME_ASINCORDIC _asin_cordic
+#define FUNCNAME_ATANCORDIC _asin_cordic
+#define FUNCNAME_CBRTCORDIC _cbrt_cordic
+#define FUNCNAME_EXPCORDIC _exp_cordic
+#define FUNCNAME_LNCORDIC _ln_cordic
+#define FUNCNAME_SQRTCORDIC _sqrt_cordic
+#define FUNCNAME_TANCORDIC _tan_cordic
+#define FUNCNAME_ACOSVALUES _acos_values
+#define FUNCNAME_ARCSINVALUES _arcsin_values
+#define FUNCNAME_ARCTANVALUES _arctan_values
+#define FUNCNAME_CBRTVALUES _cbrt_values
+#define FUNCNAME_COSVALUES _cos_values
+#define FUNCNAME_EXPVALUES _exp_values
+#define FUNCNAME_LNVALUES _ln_values
+#define FUNCNAME_SINVALUES _sin_values
+#define FUNCNAME_SQRTVALUES _sqrt_values
+#define FUNCNAME_TANVALUES _tan_values
+#define FUNCNAME_CORRELATIONBESSELJ _correlation_besselj
+#define FUNCNAME_CORRELATIONBESSELK _correlation_besselk
+#define FUNCNAME_CORRELATIONCONSTANT _correlation_constant
+#define FUNCNAME_CORRELATIONCUBIC _correlation_cubic
+#define FUNCNAME_CORRELATIONDAMPEDCOSINE _correlation_damped_cosine
+#define FUNCNAME_CORRELATIONDAMPEDSINE _correlation_damped_sine
+#define FUNCNAME_CORRELATIONEXPONENTIAL _correlation_exponential
+#define FUNCNAME_CORRELATIONGAUSSIAN _correlation_gaussian
+#define FUNCNAME_CORRELATIONHOLE _correlation_hole
+#define FUNCNAME_CORRELATIONLINEAR _correlation_linear
+#define FUNCNAME_CORRELATIONMATERN _correlation_matern
+#define FUNCNAME_CORRELATIONPENTASPHERICAL _correlation_pentaspherical
+#define FUNCNAME_CORRELATIONPOWER _correlation_power
+#define FUNCNAME_CORRELATIONRATIONALQUADRATIC _correlation_rational_quadratic
+#define FUNCNAME_CORRELATIONSPHERICAL _correlation_spherical
+#define FUNCNAME_CORRELATIONWHITENOISE _correlation_white_noise
+#define FUNCNAME_R8B0MP _r8_b0mp
+#define FUNCNAME_R8BESI1 _r8_besi1
+#define FUNCNAME_R8BESI1E _r8_besi1e
+#define FUNCNAME_R8BESJ0 _r8_besj0
+#define FUNCNAME_R8BESK _r8_besk
+#define FUNCNAME_R8BESK1 _r8_besk1
+#define FUNCNAME_R8BESK1E _r8_besk1e
+#define FUNCNAME_R8BESKES _r8_beskes
+#define FUNCNAME_R8BESKS _r8_besks
+#define FUNCNAME_R8CSEVL _r8_csevl
+#define FUNCNAME_R8GAML _r8_gaml
+#define FUNCNAME_R8INITS _r8_inits
+#define FUNCNAME_R8KNUS _r8_knus
+#define FUNCNAME_R8LGMC _r8_lgmc
+#define FUNCNAME_R8MACH _r8_mach
+#define FUNCNAME_R8VECLINSPACE _r8vec_linspace
+#define FUNCNAME_COSINETRANSFORMDATA _cosine_transform_data
+#define FUNCNAME_COSINETRANSFORMINVERSE _cosine_transform_inverse
+#define FUNCNAME_CPV _cpv
+#define FUNCNAME_CUBEARBQ _cube_arbq
+#define FUNCNAME_CUBEARBQSIZE _cube_arbq_size
+#define FUNCNAME_CUBERULE01 _cube_rule01
+#define FUNCNAME_CUBERULE02 _cube_rule02
+#define FUNCNAME_CUBERULE03 _cube_rule03
+#define FUNCNAME_CUBERULE04 _cube_rule04
+#define FUNCNAME_CUBERULE05 _cube_rule05
+#define FUNCNAME_CUBERULE06 _cube_rule06
+#define FUNCNAME_CUBERULE07 _cube_rule07
+#define FUNCNAME_CUBERULE08 _cube_rule08
+#define FUNCNAME_CUBERULE09 _cube_rule09
+#define FUNCNAME_CUBERULE10 _cube_rule10
+#define FUNCNAME_CUBERULE11 _cube_rule11
+#define FUNCNAME_CUBERULE12 _cube_rule12
+#define FUNCNAME_CUBERULE13 _cube_rule13
+#define FUNCNAME_CUBERULE14 _cube_rule14
+#define FUNCNAME_CUBERULE15 _cube_rule15
+#define FUNCNAME_LEGENDRE3DMONOMIALINTEGRAL _legendre_3d_monomial_integral
+#define FUNCNAME_CUBEVOLUME _cube_volume
+#define FUNCNAME_I4VECPRODUCT _i4vec_product
+#define FUNCNAME_LINEUNITO01 _line_unit_o01
+#define FUNCNAME_LINEUNITO02 _line_unit_o02
+#define FUNCNAME_LINEUNITO03 _line_unit_o03
+#define FUNCNAME_LINEUNITO04 _line_unit_o04
+#define FUNCNAME_LINEUNITO05 _line_unit_o05
+#define FUNCNAME_R8VECDIRECTPRODUCT _r8vec_direct_product
+#define FUNCNAME_R8VECDIRECTPRODUCT2 _r8vec_direct_product2
+#define FUNCNAME_SUBCOMPNEXT _subcomp_next
+#define FUNCNAME_CYCLEBRENT _cycle_brent
+#define FUNCNAME_CYCLEFLOYD _cycle_floyd
+#define FUNCNAME_KRONROD _kronrod
+#define FUNCNAME_KRONRODADJUST _kronrod_adjust
+#define FUNCNAME_DIFFERBACKWARD _differ_backward
+#define FUNCNAME_DIFFERCENTRAL _differ_central
+#define FUNCNAME_DIFFERFORWARD _differ_forward
+#define FUNCNAME_DIFFERINVERSE _differ_inverse
+#define FUNCNAME_DIFFERMATRIX _differ_matrix
+#define FUNCNAME_DIFFERSOLVE _differ_solve
+#define FUNCNAME_DIFFERSTENCIL _differ_stencil
+#define FUNCNAME_R8FACTORIAL _r8_factorial
+#define FUNCNAME_R8MATFSNEW _r8mat_fs_new
+#define FUNCNAME_R8MATSUBNEW _r8mat_sub_new
+#define FUNCNAME_R8VMSL _r8vm_sl
+#define FUNCNAME_R8VMSLNEW _r8vm_sl_new
+#define FUNCNAME_R8MATMMNEW _r8mat_mm_new
+#define FUNCNAME_DISK01AREA _disk01_area
+#define FUNCNAME_DISK01MONOMIALINTEGRAL _disk01_monomial_integral
+#define FUNCNAME_DISK01SAMPLE _disk01_sample
+#define FUNCNAME_CHEBYTZERO _cheby_t_zero
+#define FUNCNAME_CHEBYUZERO _cheby_u_zero
+#define FUNCNAME_DATATODIF _data_to_dif
+#define FUNCNAME_DATATOR8POLY _data_to_r8poly
+#define FUNCNAME_DIFANTIDERIV _dif_antideriv
+#define FUNCNAME_DIFAPPEND _dif_append
+#define FUNCNAME_DIFBASIS _dif_basis
+#define FUNCNAME_DIFBASISDERIV _dif_basis_deriv
+#define FUNCNAME_DIFBASISDERIVK _dif_basis_derivk
+#define FUNCNAME_DIFBASISI _dif_basis_i
+#define FUNCNAME_DIFDERIVTABLE _dif_deriv_table
+#define FUNCNAME_DIFDERIVKTABLE _dif_derivk_table
+#define FUNCNAME_DIFVAL _dif_val
+#define FUNCNAME_LAGRANGERULE _lagrange_rule
+#define FUNCNAME_LAGRANGESUM _lagrange_sum
+#define FUNCNAME_LAGRANGEVAL _lagrange_val
+#define FUNCNAME_NCRULE _nc_rule
+#define FUNCNAME_NCCRULE _ncc_rule
+#define FUNCNAME_NCORULE _nco_rule
+#define FUNCNAME_R8SWAP _r8_swap
+#define FUNCNAME_R8POLYANTCOF _r8poly_ant_cof
+#define FUNCNAME_R8POLYBASIS _r8poly_basis
+#define FUNCNAME_R8POLYBASIS1 _r8poly_basis_1
+#define FUNCNAME_R8POLYDERCOF _r8poly_der_cof
+#define FUNCNAME_R8POLYDERVAL _r8poly_der_val
+#define FUNCNAME_R8POLYORDER _r8poly_order
+#define FUNCNAME_R8POLYSHIFT _r8poly_shift
+#define FUNCNAME_R8POLYVALHORNER _r8poly_val_horner
+#define FUNCNAME_R8VECINDICATOR _r8vec_indicator
+#define FUNCNAME_ROOTSTODIF _roots_to_dif
+#define FUNCNAME_ROOTSTOR8POLY _roots_to_r8poly
+#define FUNCNAME_DUELRESULT _duel_result
+#define FUNCNAME_RANDOMDOUBLE _random_double
+#define FUNCNAME_ELLIPSEGRID _ellipse_grid
+#define FUNCNAME_ELLIPSEGRIDCOUNT _ellipse_grid_count
+#define FUNCNAME_I4CEILING _i4_ceiling
+#define FUNCNAME_ELLIPSEAREA1 _ellipse_area1
+#define FUNCNAME_ELLIPSEAREA2 _ellipse_area2
+#define FUNCNAME_ELLIPSESAMPLE _ellipse_sample
+#define FUNCNAME_R8POFA _r8po_fa
+#define FUNCNAME_R8POSL _r8po_sl
+#define FUNCNAME_UNIFORMINSPHERE01MAP _uniform_in_sphere01_map
+#define FUNCNAME_ELLIPSOIDSAMPLE _ellipsoid_sample
+#define FUNCNAME_ELLIPSOIDVOLUME _ellipsoid_volume
+#define FUNCNAME_HYPERSPHEREUNITVOLUME _hypersphere_unit_volume
+#define FUNCNAME_R8POFACTOR _r8po_factor
+#define FUNCNAME_HERMITEEXACTNESS _hermite_exactness
+#define FUNCNAME_HERMITEINTEGRAL _hermite_integral
+#define FUNCNAME_LAGUERREEXACTNESS _laguerre_exactness
+#define FUNCNAME_LAGUERREINTEGRAL _laguerre_integral
+#define FUNCNAME_LEGENDREEXACTNESS _legendre_exactness
+#define FUNCNAME_LEGENDREINTEGRAL _legendre_integral
+#define FUNCNAME_LEGENDREMONOMIALQUADRATURE _legendre_monomial_quadrature
+#define FUNCNAME_FD1DBVP _fd1d_bvp
+#define FUNCNAME_R83NPFS _r83np_fs
+#define FUNCNAME_R8VECEVEN _r8vec_even
+#define FUNCNAME_I4VECZERONEW _i4vec_zero_new
+#define FUNCNAME_FEM1DBVPLINEAR _fem1d_bvp_linear
+#define FUNCNAME_H1SERRORLINEAR _h1s_error_linear
+#define FUNCNAME_L1ERROR _l1_error
+#define FUNCNAME_L2ERRORLINEAR _l2_error_linear
+#define FUNCNAME_MAXERRORLINEAR _max_error_linear
+#define FUNCNAME_R8MATSOLVE2 _r8mat_solve2
+#define FUNCNAME_R8VECZERONEW _r8vec_zero_new
+#define FUNCNAME_FEM1DBVPQUADRATIC _fem1d_bvp_quadratic
+#define FUNCNAME_FEM1DHEATSTEADY _fem1d_heat_steady
+#define FUNCNAME_R8MATZERONEW _r8mat_zero_new
+#define FUNCNAME_FEM1DLAGRANGESTIFFNESS _fem1d_lagrange_stiffness
+#define FUNCNAME_LAGRANGEDERIVATIVE _lagrange_derivative
+#define FUNCNAME_LEGENDRESET _legendre_set
+#define FUNCNAME_BANDWIDTHMESH _bandwidth_mesh
+#define FUNCNAME_PIECEWISELINEARPRODUCTQUAD _piecewise_linear_product_quad
+#define FUNCNAME_R8VECBRACKET3 _r8vec_bracket3
+#define FUNCNAME_BASISSERENE _basis_serene
+#define FUNCNAME_BASISDXSERENE _basis_dx_serene
+#define FUNCNAME_BASISDYSERENE _basis_dy_serene
+#define FUNCNAME_FEM2DBVPSERENENODENUM _fem2d_bvp_serene_node_num
+#define FUNCNAME_NOT1 _not1
+#define FUNCNAME_NOT1D _not1d
+#define FUNCNAME_NOT2 _not2
+#define FUNCNAME_NOT2DX _not2dx
+#define FUNCNAME_NOT2DY _not2dy
+#define FUNCNAME_FEMBASIS1D _fem_basis_1d
+#define FUNCNAME_FEMBASIS2D _fem_basis_2d
+#define FUNCNAME_FEMBASIS3D _fem_basis_3d
+#define FUNCNAME_FEMBASISMD _fem_basis_md
+#define FUNCNAME_FEMBASISPRISMTRIANGLE _fem_basis_prism_triangle
+#define FUNCNAME_R8FRACTION _r8_fraction
+#define FUNCNAME_FILONTABCOS _filon_tab_cos
+#define FUNCNAME_FILONTABSIN _filon_tab_sin
+#define FUNCNAME_DQRANK _dqrank
+#define FUNCNAME_DQRLS _dqrls
+#define FUNCNAME_DQRLSS _dqrlss
+#define FUNCNAME_R8MATAMAX _r8mat_amax
+#define FUNCNAME_QRSOLVE _qr_solve
+#define FUNCNAME_R8MATSOLVE _r8mat_solve
+#define FUNCNAME_ANGLEBOX2D _angle_box_2d
+#define FUNCNAME_ANGLECONTAINSRAY2D _angle_contains_ray_2d
+#define FUNCNAME_ANGLEDEG2D _angle_deg_2d
+#define FUNCNAME_ANGLEHALF2D _angle_half_2d
+#define FUNCNAME_ANGLERAD2D _angle_rad_2d
+#define FUNCNAME_ANGLERAD3D _angle_rad_3d
+#define FUNCNAME_ANGLERADND _angle_rad_nd
+#define FUNCNAME_ANGLETURN2D _angle_turn_2d
+#define FUNCNAME_ANGLEIDEG2D _anglei_deg_2d
+#define FUNCNAME_ANGLEIRAD2D _anglei_rad_2d
+#define FUNCNAME_ANNULUSAREA2D _annulus_area_2d
+#define FUNCNAME_ANNULUSSECTORAREA2D _annulus_sector_area_2d
+#define FUNCNAME_ANNULUSSECTORCENTROID2D _annulus_sector_centroid_2d
+#define FUNCNAME_BALLUNITSAMPLE2D _ball_unit_sample_2d
+#define FUNCNAME_BALLUNITSAMPLE3D _ball_unit_sample_3d
+#define FUNCNAME_BALLUNITSAMPLEND _ball_unit_sample_nd
+#define FUNCNAME_BASISMAP3D _basis_map_3d
+#define FUNCNAME_BOX01CONTAINSPOINT2D _box_01_contains_point_2d
+#define FUNCNAME_BOX01CONTAINSPOINTND _box_01_contains_point_nd
+#define FUNCNAME_BOXCONTAINSPOINT2D _box_contains_point_2d
+#define FUNCNAME_BOXCONTAINSPOINTND _box_contains_point_nd
+#define FUNCNAME_BOXRAYINT2D _box_ray_int_2d
+#define FUNCNAME_BOXSEGMENTCLIP2D _box_segment_clip_2d
+#define FUNCNAME_CIRCLEARCPOINTNEAR2D _circle_arc_point_near_2d
+#define FUNCNAME_CIRCLEAREA2D _circle_area_2d
+#define FUNCNAME_CIRCLEDIA2IMP2D _circle_dia2imp_2d
+#define FUNCNAME_CIRCLEEXPCONTAINSPOINT2D _circle_exp_contains_point_2d
+#define FUNCNAME_CIRCLEEXP2IMP2D _circle_exp2imp_2d
+#define FUNCNAME_CIRCLEIMPCONTAINSPOINT2D _circle_imp_contains_point_2d
+#define FUNCNAME_CIRCLEIMPLINEPARINT2D _circle_imp_line_par_int_2d
+#define FUNCNAME_CIRCLEIMPPOINTDIST2D _circle_imp_point_dist_2d
+#define FUNCNAME_CIRCLEIMPPOINTDISTSIGNED2D _circle_imp_point_dist_signed_2d
+#define FUNCNAME_CIRCLEIMPPOINTNEAR2D _circle_imp_point_near_2d
+#define FUNCNAME_CIRCLEIMPPOINTS2D _circle_imp_points_2d
+#define FUNCNAME_CIRCLEIMPPOINTS3D _circle_imp_points_3d
+#define FUNCNAME_CIRCLEIMPPOINTSARC2D _circle_imp_points_arc_2d
+#define FUNCNAME_CIRCLEIMP2EXP2D _circle_imp2exp_2d
+#define FUNCNAME_CIRCLELLR2IMP2D _circle_llr2imp_2d
+#define FUNCNAME_CIRCLELUNEAREA2D _circle_lune_area_2d
+#define FUNCNAME_CIRCLELUNECENTROID2D _circle_lune_centroid_2d
+#define FUNCNAME_CIRCLEPPPR2IMP3D _circle_pppr2imp_3d
+#define FUNCNAME_CIRCLEPPR2IMP2D _circle_ppr2imp_2d
+#define FUNCNAME_CIRCLESECTORAREA2D _circle_sector_area_2d
+#define FUNCNAME_CIRCLESECTORCENTROID2D _circle_sector_centroid_2d
+#define FUNCNAME_CIRCLESECTORCONTAINSPOINT2D _circle_sector_contains_point_2d
+#define FUNCNAME_CIRCLETRIANGLEAREA2D _circle_triangle_area_2d
+#define FUNCNAME_CIRCLETRIPLEANGLES2D _circle_triple_angles_2d
+#define FUNCNAME_CIRCLESIMPINT2D _circles_imp_int_2d
+#define FUNCNAME_CONEAREA3D _cone_area_3d
+#define FUNCNAME_CONECENTROID3D _cone_centroid_3d
+#define FUNCNAME_CONEVOLUME3D _cone_volume_3d
+#define FUNCNAME_CONV3D _conv3d
+#define FUNCNAME_COTRAD _cot_rad
+#define FUNCNAME_CUBESHAPE3D _cube_shape_3d
+#define FUNCNAME_CUBESIZE3D _cube_size_3d
+#define FUNCNAME_CYLINDERPOINTDIST3D _cylinder_point_dist_3d
+#define FUNCNAME_CYLINDERPOINTDISTSIGNED3D _cylinder_point_dist_signed_3d
+#define FUNCNAME_CYLINDERPOINTINSIDE3D _cylinder_point_inside_3d
+#define FUNCNAME_CYLINDERPOINTNEAR3D _cylinder_point_near_3d
+#define FUNCNAME_CYLINDERSAMPLE3D _cylinder_sample_3d
+#define FUNCNAME_CYLINDERVOLUME3D _cylinder_volume_3d
+#define FUNCNAME_DEGREESTORADIANS _degrees_to_radians
+#define FUNCNAME_DGEDET _dge_det
+#define FUNCNAME_DGE0FA _dge_fa
+#define FUNCNAME_DGE0SL _dge_sl
+#define FUNCNAME_DIRECTIONPERT3D _direction_pert_3d
+#define FUNCNAME_DIRECTIONUNIFORM2D _direction_uniform_2d
+#define FUNCNAME_DIRECTIONUNIFORM3D _direction_uniform_3d
+#define FUNCNAME_DIRECTIONUNIFORMND _direction_uniform_nd
+#define FUNCNAME_DISKPOINTDIST3D _disk_point_dist_3d
+#define FUNCNAME_DMSTORADIANS _dms_to_radians
+#define FUNCNAME_DODECSHAPE3D _dodec_shape_3d
+#define FUNCNAME_DUALSHAPE3D _dual_shape_3d
+#define FUNCNAME_DUALSIZE3D _dual_size_3d
+#define FUNCNAME_ELLIPSEAREA2D _ellipse_area_2d
+#define FUNCNAME_ELLIPSEPOINTDIST2D _ellipse_point_dist_2d
+#define FUNCNAME_ELLIPSEPOINTNEAR2D _ellipse_point_near_2d
+#define FUNCNAME_ELLIPSEPOINTS2D _ellipse_points_2d
+#define FUNCNAME_ELLIPSEPOINTSARC2D _ellipse_points_arc_2d
+#define FUNCNAME_ENORM0ND _enorm0_nd
+#define FUNCNAME_GETSEED _get_seed
+#define FUNCNAME_GLOB2LOC3D _glob2loc_3d
+#define FUNCNAME_HALFPLANECONTAINSPOINT2D _halfplane_contains_point_2d
+#define FUNCNAME_HALFSPACEIMPTTRIANGLEINT3D _halfspace_imp_triangle_int_3d
+#define FUNCNAME_HALFSPACENORMTRIANGLEINT3D _halfspace_norm_triangle_int_3d
+#define FUNCNAME_HALFSPACETRIANGLEINT3D _halfspace_triangle_int_3d
+#define FUNCNAME_HAVERSINE _haversine
+#define FUNCNAME_HELIXSHAPE3D _helix_shape_3d
+#define FUNCNAME_HEXAGONAREA2D _hexagon_area_2d
+#define FUNCNAME_HEXAGONCONTAINSPOINT2D _hexagon_contains_point_2d
+#define FUNCNAME_HEXAGONSHAPE2D _hexagon_shape_2d
+#define FUNCNAME_HEXAGONUNITAREA2D _hexagon_unit_area_2d
+#define FUNCNAME_HEXAGONVERTICES2D _hexagon_vertices_2d
+#define FUNCNAME_I4DEDEKINDFACTOR _i4_dedekind_factor
+#define FUNCNAME_I4DEDEKINDSUM _i4_dedekind_sum
+#define FUNCNAME_I4FACTORIAL _i4_factorial
+#define FUNCNAME_I4FACTORIAL2 _i4_factorial2
+#define FUNCNAME_I4GCD _i4_gcd
+#define FUNCNAME_I4MODP _i4_modp
+#define FUNCNAME_I4SIGN _i4_sign
+#define FUNCNAME_I4SWAP _i4_swap
+#define FUNCNAME_ICOSSHAPE _icos_shape
+#define FUNCNAME_ICOSSIZE _icos_size
+#define FUNCNAME_LINEEXPISDEGENERATEND _line_exp_is_degenerate_nd
+#define FUNCNAME_LINEEXPNORMAL2D _line_exp_normal_2d
+#define FUNCNAME_LINEEXPPERP2D _line_exp_perp_2d
+#define FUNCNAME_LINEEXPPOINTDIST2D _line_exp_point_dist_2d
+#define FUNCNAME_LINEEXPPOINTDIST3D _line_exp_point_dist_3d
+#define FUNCNAME_LINEEXPPOINTDISTSIGNED2D _line_exp_point_dist_signed_2d
+#define FUNCNAME_LINEEXPPOINTNEAR2D _line_exp_point_near_2d
+#define FUNCNAME_LINEEXPPOINTNEAR3D _line_exp_point_near_3d
+#define FUNCNAME_LINEEXP2IMP2D _line_exp2imp_2d
+#define FUNCNAME_LINEEXP2PAR2D _line_exp2par_2d
+#define FUNCNAME_LINEEXP2PAR3D _line_exp2par_3d
+#define FUNCNAME_LINEIMPISDEGENERATE2D _line_imp_is_degenerate_2d
+#define FUNCNAME_LINEIMPPOINTDIST2D _line_imp_point_dist_2d
+#define FUNCNAME_LINEIMPPOINTDISTSIGNED2D _line_imp_point_dist_signed_2d
+#define FUNCNAME_LINEIMP2EXP2D _line_imp2exp_2d
+#define FUNCNAME_LINEIMP2PAR2D _line_imp2par_2d
+#define FUNCNAME_LINEPARPOINTDIST2D _line_par_point_dist_2d
+#define FUNCNAME_LINEPARPOINTDIST3D _line_par_point_dist_3d
+#define FUNCNAME_LINEPARPOINTNEAR2D _line_par_point_near_2d
+#define FUNCNAME_LINEPARPOINTNEAR3D _line_par_point_near_3d
+#define FUNCNAME_LINEPAR2EXP2D _line_par2exp_2d
+#define FUNCNAME_LINEPAR2EXP3D _line_par2exp_3d
+#define FUNCNAME_LINEPAR2IMP2D _line_par2imp_2d
+#define FUNCNAME_LINESEXPANGLE3D _lines_exp_angle_3d
+#define FUNCNAME_LINESEXPANGLEND _lines_exp_angle_nd
+#define FUNCNAME_LINESEXPDIST3D _lines_exp_dist_3d
+#define FUNCNAME_LINESEXPDIST3D2 _lines_exp_dist_3d_2
+#define FUNCNAME_LINESEXPEQUAL2D _lines_exp_equal_2d
+#define FUNCNAME_LINESEXPINT2D _lines_exp_int_2d
+#define FUNCNAME_LINESEXPNEAR3D _lines_exp_near_3d
+#define FUNCNAME_LINESEXPPARALLEL2D _lines_exp_parallel_2d
+#define FUNCNAME_LINESEXPPARALLEL3D _lines_exp_parallel_3d
+#define FUNCNAME_LINESIMPANGLE2D _lines_imp_angle_2d
+#define FUNCNAME_LINESIMPDIST2D _lines_imp_dist_2d
+#define FUNCNAME_LINESIMPINT2D _lines_imp_int_2d
+#define FUNCNAME_LINESPARANGLE3D _lines_par_angle_2d
+#define FUNCNAME_LINESPARDIST3D _lines_par_dist_3d
+#define FUNCNAME_LINESPARINT2D _lines_par_int_2d
+#define FUNCNAME_LOC2GLOB3D _loc2glob_3d
+#define FUNCNAME_MINABS _minabs
+#define FUNCNAME_MINQUAD _minquad
+#define FUNCNAME_OCTAHEDRONSHAPE3D _octahedron_shape_3d
+#define FUNCNAME_OCTAHEDRONSIZE3D _octahedron_size_3d
+#define FUNCNAME_PARABOLAEX _parabola_ex
+#define FUNCNAME_PARABOLAEX2 _parabola_ex2
+#define FUNCNAME_PARALLELOGRAMAREA2D _parallelogram_area_2d
+#define FUNCNAME_PARALLELOGRAMAREA3D _parallelogram_area_3d
+#define FUNCNAME_PARALLELOGRAMCONTAINSPOINT2D _parallelogram_contains_point_2d
+#define FUNCNAME_PARALLELOGRAMCONTAINSPOINT3D _parallelogram_contains_point_3d
+#define FUNCNAME_PARALLELOGRAMPOINTDIST3D _parallelogram_point_dist_3d
+#define FUNCNAME_PARALLEPIPEDCONTAINSPOINT3D _parallelepiped_contains_point_3d
+#define FUNCNAME_PARALLEPIPEDPOINTDIST3D _parallelepiped_point_dist_3d
+#define FUNCNAME_PLANEEXPPOINTDIST3D _plane_exp_point_dist_3d
+#define FUNCNAME_PLANEEXPNORMAL3D _plane_exp_normal_3d
+#define FUNCNAME_PLANEEXPPRO2 _plane_exp_pro2
+#define FUNCNAME_PLANEEXPPRO3 _plane_exp_pro3
+#define FUNCNAME_PLANEEXPPROJECT3D _plane_exp_project_3d
+#define FUNCNAME_PLANEEXP2IMP3D _plane_exp2imp_3d
+#define FUNCNAME_PLANEEXP2NORMAL3D _plane_exp2normal_3d
+#define FUNCNAME_PLANEIMPISDEGENERATE3D _plane_imp_is_degenerate_3d
+#define FUNCNAME_PLANEIMPLINEPARINT3D _plane_imp_line_par_int_3d
+#define FUNCNAME_PLANEIMPPOINTDIST3D _plane_imp_point_dist_3d
+#define FUNCNAME_PLANEIMPPOINTDISTSIGNED3D _plane_imp_point_dist_signed_3d
+#define FUNCNAME_PLANEIMPPOINTNEAR3D _plane_imp_point_near_3d
+#define FUNCNAME_PLANEIMPSEGMENTNEAR3D _plane_imp_segment_near_3d
+#define FUNCNAME_PLANEIMPTRIANGLEINT3D _plane_imp_triangle_int_3d
+#define FUNCNAME_PLANEIMPTRIANGLEINTADD3D _plane_imp_triangle_int_add_3d
+#define FUNCNAME_PLANEIMPTRIANGLENEAR3D _plane_imp_triangle_near_3d
+#define FUNCNAME_PLANEIMP2EXP3D _plane_imp2exp_3d
+#define FUNCNAME_PLANEIMP2NORMAL3D _plane_imp2normal_3d
+#define FUNCNAME_PLANENORMALBASIS3D _plane_normal_basis_3d
+#define FUNCNAME_PLANENORMALLINEEXPINT3D _plane_normal_line_exp_int_3d
+#define FUNCNAME_PLANENORMALQRTOXYZ _plane_normal_qr_to_xyz
+#define FUNCNAME_PLANENORMALTETRAHEDRONINTERSECT _plane_normal_tetrahedron_intersect
+#define FUNCNAME_PLANENORMALTRIANGLEINT3D _plane_normal_triangle_int_3d
+#define FUNCNAME_PLANENORMALUNIFORM3D _plane_normal_uniform_3d
+#define FUNCNAME_PLANENORMALUNIFORMND _plane_normal_uniform_nd
+#define FUNCNAME_PLANENORMAL2EXP3D _plane_normal2exp_3d
+#define FUNCNAME_PLANENORMAL2IMP3D _plane_normal2imp_3d
+#define FUNCNAME_PLANESIMPANGLE3D _planes_imp_angle_3d
+#define FUNCNAME_POINTSAVOIDPOINTNAIVE2D _points_avoid_point_naive_2d
+#define FUNCNAME_POINTSBISECTLINEIMP2D _points_bisect_line_imp_2d
+#define FUNCNAME_POINTSBISECTLINEPAR2D _points_bisect_line_par_2d
+#define FUNCNAME_POINTSCENTROID2D _points_centroid_2d
+#define FUNCNAME_POINTSCOLIN2D _points_colin_2d
+#define FUNCNAME_POINTSCOLIN3D _points_colin_3d
+#define FUNCNAME_POINTSDIST2D _points_dist_2d
+#define FUNCNAME_POINTSDIST3D _points_dist_3d
+#define FUNCNAME_POINTSDISTND _points_dist_nd
+#define FUNCNAME_POINTSHULL2D _points_hull_2d
+#define FUNCNAME_POINTSPOINTNEARNAIVE2D _points_point_near_naive_2d
+#define FUNCNAME_POINTSPOINTNEARNAIVE3D _points_point_near_naive_3d
+#define FUNCNAME_POINTSPOINTNEARNAIVEND _points_point_near_naive_nd
+#define FUNCNAME_POINTSPOINTSNEARNAIVE2D _points_points_near_naive_2d
+#define FUNCNAME_POINTSPOINTSNEARNAIVE3D _points_points_near_naive_3d
+#define FUNCNAME_POLARTOXY _polar_to_xy
+#define FUNCNAME_POLYGON12D _polygon_1_2d
+#define FUNCNAME_POLYGONANGLES2D _polygon_angles_2d
+#define FUNCNAME_POLYGONAREA2D _polygon_area_2d
+#define FUNCNAME_POLYGONAREA2D2 _polygon_area_2d_2
+#define FUNCNAME_POLYGONAREA3D _polygon_area_3d
+#define FUNCNAME_POLYGONAREA3D2 _polygon_area_3d_2
+#define FUNCNAME_POLYGONCENTROID2D _polygon_centroid_2d
+#define FUNCNAME_POLYGONCENTROID2D2 _polygon_centroid_2d_2
+#define FUNCNAME_POLYGONCENTROID3D _polygon_centroid_3d
+#define FUNCNAME_POLYGONCONTAINSPOINT2D _polygon_contains_point_2d
+#define FUNCNAME_POLYGONCONTAINSPOINT2D2 _polygon_contains_point_2d_2
+#define FUNCNAME_POLYGONDIAMETER2D _polygon_diameter_2d
+#define FUNCNAME_POLYGONEXPAND2D _polygon_expand_2d
+#define FUNCNAME_POLYGONINRADDATA2D _polygon_inrad_data_2d
+#define FUNCNAME_POLYGONISCONVEX _polygon_is_convex
+#define FUNCNAME_POLYGONLATTICEAREA2D _polygon_lattice_area_2d
+#define FUNCNAME_POLYGONNORMAL3D _polygon_normal_3d
+#define FUNCNAME_POLYGONOUTRADDATA2D _polygon_outrad_data_2d
+#define FUNCNAME_POLYGONSIDEDATA2D _polygon_side_data_2d
+#define FUNCNAME_POLYGONSOLIDANGLE3D _polygon_solid_angle_3d
+#define FUNCNAME_POLYGONX2D _polygon_x_2d
+#define FUNCNAME_POLYGONY2D _polygon_y_2d
+#define FUNCNAME_POLYGONXX2D _polygon_xx_2d
+#define FUNCNAME_POLYGONXY2D _polygon_xy_2d
+#define FUNCNAME_POLYGONYY2D _polygon_yy_2d
+#define FUNCNAME_POLYHEDRONAREA3D _polyhedron_area_3d
+#define FUNCNAME_POLYHEDRONCENTROID3D _polyhedron_centroid_3d
+#define FUNCNAME_POLYHEDRONCONTAINSPOINT3D _polyhedron_contains_point_3d
+#define FUNCNAME_POLYHEDRONVOLUME3D _polyhedron_volume_3d
+#define FUNCNAME_POLYHEDRONVOLUME3D2 _polyhedron_volume_3d_2
+#define FUNCNAME_POLYLINEARCLENGTHND _polyline_arclength_nd
+#define FUNCNAME_POLYLINEINDEXPOINTND _polyline_index_point_nd
+#define FUNCNAME_POLYLINELENGTHND _polyline_length_nd
+#define FUNCNAME_POLYLINEPOINTSND _polyline_points_nd
+#define FUNCNAME_POLYLOOPARCLENGTHND _polyloop_arclength_nd
+#define FUNCNAME_POLYLOOPPOINTSND _polyloop_points_nd
+#define FUNCNAME_PROVEC _provec
+#define FUNCNAME_PYRAMIDVOLUME3D _pyramid_volume_3d
+#define FUNCNAME_QUADAREA2D _quad_area_2d
+#define FUNCNAME_QUADAREA2D2 _quad_area2_2d
+#define FUNCNAME_QUADAREA3D _quad_area_3d
+#define FUNCNAME_QUADCONTAINSPOINT2D _quad_contains_point_2d
+#define FUNCNAME_QUADPOINTDIST2D _quad_point_dist_2d
+#define FUNCNAME_QUADPOINTDISTSIGNED2D _quad_point_dist_signed_2d
+#define FUNCNAME_QUADPOINTNEAR2D _quad_point_near_2d
+#define FUNCNAME_QUATCONJ _quat_conj
+#define FUNCNAME_QUATINV _quat_inv
+#define FUNCNAME_QUATMUL _quat_mul
+#define FUNCNAME_QUATNORM _quat_norm
+#define FUNCNAME_R8MATMVNEW _r8mat_mv_new
+#define FUNCNAME_R8MATSOLVE2D _r8mat_solve_2d
+#define FUNCNAME_R8VECANGLE3D _r8vec_angle_3d
+#define FUNCNAME_R8VECBRACKET _r8vec_bracket
+#define FUNCNAME_RADECDISTANCE3D _radec_distance_3d
+#define FUNCNAME_RADECTOXYZ _radec_to_xyz
+#define FUNCNAME_RADIANSTODEGREES _radians_to_degrees
+#define FUNCNAME_RADIANSTODMS _radians_to_dms
+#define FUNCNAME_ROTATIONAXISVECTOR3D _rotation_axis_vector_3d
+#define FUNCNAME_ROTATIONAXIS2MAT3D _rotation_axis2mat_3d
+#define FUNCNAME_ROTATIONMATVECTOR3D _rotation_mat_vector_3d
+#define FUNCNAME_ROTATIONMAT2AXIS3D _rotation_mat2axis_3d
+#define FUNCNAME_ROTATIONMAT2QUAT3D _rotation_mat2quat_3d
+#define FUNCNAME_ROTATIONQUATVECTOR3D _rotation_quat_vector_3d
+#define FUNCNAME_ROTATIONQUAT2AXIS3D _rotation_quat2axis_3d
+#define FUNCNAME_ROTATIONQUAT2MAT3D _rotation_quat2mat_3d
+#define FUNCNAME_RTPTOXYZ _rtp_to_xyz
+#define FUNCNAME_SEGMENTCONTAINSPOINT1D _segment_contains_point_1d
+#define FUNCNAME_SEGMENTCONTAINSPOINT2D _segment_contains_point_2d
+#define FUNCNAME_SEGMENTPOINTCOORDS2D _segment_point_coords_2d
+#define FUNCNAME_SEGMENTPOINTCOORDS3D _segment_point_coords_3d
+#define FUNCNAME_SEGMENTPOINTDIST2D _segment_point_dist_2d
+#define FUNCNAME_SEGMENTPOINTDIST3D _segment_point_dist_3d
+#define FUNCNAME_SEGMENTPOINTNEAR2D _segment_point_near_2d
+#define FUNCNAME_SEGMENTPOINTNEAR3D _segment_point_near_3d
+#define FUNCNAME_SEGMENTSCURVATURE2D _segments_curvature_2d
+#define FUNCNAME_SEGMENTSDIST2D _segments_dist_2d
+#define FUNCNAME_SEGMENTSDIST3D _segments_dist_3d
+#define FUNCNAME_SEGMENTSDIST3DOLD _segments_dist_3d_old
+#define FUNCNAME_SEGMENTSINT1D _segments_int_1d
+#define FUNCNAME_SEGMENTSINT2D _segments_int_2d
+#define FUNCNAME_SHAPEPOINTDIST2D _shape_point_dist_2d
+#define FUNCNAME_SHAPEPOINTNEAR2D _shape_point_near_2d
+#define FUNCNAME_SHAPERAYINT2D _shape_ray_int_2d
+#define FUNCNAME_SIMPLEXLATTICELAYERPOINTNEXT _simplex_lattice_layer_point_next
+#define FUNCNAME_SIMPLEXLATTICEPOINTNEXT _simplex_lattice_point_next
+#define FUNCNAME_SIMPLEXUNITLATTICEPOINTND _simplex_unit_lattice_point_nd
+#define FUNCNAME_SIMPLEXUNITVOLUMEND _simplex_unit_volume_nd
+#define FUNCNAME_SIMPLEXVOLUMEND _simplex_volume_nd
+#define FUNCNAME_SOCCERSIZE3D _soccer_size_3d
+#define FUNCNAME_SPHERECAPAREA2D _sphere_cap_area_2d
+#define FUNCNAME_SPHERECAPAREA3D _sphere_cap_area_3d
+#define FUNCNAME_SPHERECAPAREAND _sphere_cap_area_nd
+#define FUNCNAME_SPHERECAPVOLUME2D _sphere_cap_volume_2d
+#define FUNCNAME_SPHERECAPVOLUME3D _sphere_cap_volume_3d
+#define FUNCNAME_SPHEREDISTANCE1 _sphere_distance1
+#define FUNCNAME_SPHEREDISTANCE2 _sphere_distance2
+#define FUNCNAME_SPHEREDISTANCE3 _sphere_distance3
+#define FUNCNAME_SPHEREEXPCONTAINSPOINT3D _sphere_exp_contains_point_3d
+#define FUNCNAME_SPHEREEXPPOINTNEAR3D _sphere_exp_point_near_3d
+#define FUNCNAME_SPHEREEXP2IMP3D _sphere_exp2imp_3d
+#define FUNCNAME_SPHEREEXP2IMPND _sphere_exp2imp_nd
+#define FUNCNAME_SPHEREIMPAREA3D _sphere_imp_area_3d
+#define FUNCNAME_SPHEREIMPAREAND _sphere_imp_area_nd
+#define FUNCNAME_SPHEREIMPCONTAINSPOINT3D _sphere_imp_contains_point_3d
+#define FUNCNAME_SPHEREIMPGRIDICOSSIZE _sphere_imp_grid_icos_size
+#define FUNCNAME_SPHEREIMPGRIDFACES3D _sphere_imp_gridfaces_3d
+#define FUNCNAME_SPHEREIMPGRIDLINES3D _sphere_imp_gridlines_3d
+#define FUNCNAME_SPHEREIMPGRIDPOINTS3D _sphere_imp_gridpoints_3d
+#define FUNCNAME_SPHEREIMPGRIDPOINTSICOS1 _sphere_imp_gridpoints_icos1
+#define FUNCNAME_SPHEREIMPGRIDPOINTSICOS2 _sphere_imp_gridpoints_icos2
+#define FUNCNAME_SPHEREIMPLINEPROJECT3D _sphere_imp_line_project_3d
+#define FUNCNAME_SPHEREIMPLOCAL2XYZ3D _sphere_imp_local2xyz_3d
+#define FUNCNAME_SPHEREIMPPOINTNEAR3D _sphere_imp_point_near_3d
+#define FUNCNAME_SPHEREIMPPOINTPROJECT3D _sphere_imp_point_project_3d
+#define FUNCNAME_SPHEREIMPSPIRALPOINTS3D _sphere_imp_spiralpoints_3d
+#define FUNCNAME_SPHEREIMPVOLUME3D _sphere_imp_volume_3d
+#define FUNCNAME_SPHEREIMPVOLUMEND _sphere_imp_volume_nd
+#define FUNCNAME_SPHEREIMPZONEAREA3D _sphere_imp_zone_area_3d
+#define FUNCNAME_SPHEREIMPZONEVOLUME3D _sphere_imp_zone_volume_3d
+#define FUNCNAME_SPHEREIMP2EXP3D _sphere_imp2exp_3d
+#define FUNCNAME_SPHEREK _sphere_k
+#define FUNCNAME_SPHERETRIANGLEANGLESTOAREA _sphere_triangle_angles_to_area
+#define FUNCNAME_SPHERETRIANGLESIDESTOANGLES _sphere_triangle_sides_to_angles
+#define FUNCNAME_SPHERETRIANGLEVERTICESTOANGLES _sphere_triangle_vertices_to_angles
+#define FUNCNAME_SPHERETRIANGLEVERTICESTOAREA _sphere_triangle_vertices_to_area
+#define FUNCNAME_SPHERETRIANGLEVERTICESTOCENTROID _sphere_triangle_vertices_to_centroid
+#define FUNCNAME_SPHERETRIANGLEVERTICESTOORIENTATION _sphere_triangle_vertices_to_orientation
+#define FUNCNAME_SPHERETRIANGLEVERTICESTOSIDES _sphere_triangle_vertices_to_sides
+#define FUNCNAME_SPHEREUNITAREAND _sphere_unit_area_nd
+#define FUNCNAME_SPHEREUNITAREAVALUES _sphere_unit_area_values
+#define FUNCNAME_SPHEREUNITSAMPLE2D _sphere_unit_sample_2d
+#define FUNCNAME_SPHEREUNITSAMPLE3D _sphere_unit_sample_3d
+#define FUNCNAME_SPHEREUNITSAMPLE3D2 _sphere_unit_sample_3d_2
+#define FUNCNAME_SPHEREUNITSAMPLEND _sphere_unit_sample_nd
+#define FUNCNAME_SPHEREUNITSAMPLEND2 _sphere_unit_sample_nd_2
+#define FUNCNAME_SPHEREUNITSAMPLEND3 _sphere_unit_sample_nd_3
+#define FUNCNAME_SPHEREUNITVOLUMEND _sphere_unit_volume_nd
+#define FUNCNAME_SPHEREUNITVOLUMEVALUES _sphere_unit_volume_values
+#define FUNCNAME_SPHERE01DISTANCEXYZ _sphere01_distance_xyz
+#define FUNCNAME_SPHERE01POLYGONAREA _sphere01_polygon_area
+#define FUNCNAME_STRING2D _string_2d
+#define FUNCNAME_SUPERELLIPSEPOINT2D _super_ellipse_points_2d
+#define FUNCNAME_TETRAHEDRONBARYCENTRIC3D _tetrahedron_barycentric_3d
+#define FUNCNAME_TETRAHEDRONCENTROID3D _tetrahedron_centroid_3d
+#define FUNCNAME_TETRAHEDRONCIRCUMSPHERE3D _tetrahedron_circumsphere_3d
+#define FUNCNAME_TETRAHEDRONCONTAINSPOINT3D _tetrahedron_contains_point_3d
+#define FUNCNAME_TETRAHEDRONDIHEDRALANGLES3D _tetrahedron_dihedral_angles_3d
+#define FUNCNAME_TETRAHEDRONEDGELENGTH3D _tetrahedron_edge_length_3d
+#define FUNCNAME_TETRAHEDRONFACEANGLES3D _tetrahedron_face_angles_3d
+#define FUNCNAME_TETRAHEDRONFACEAREAS3D _tetrahedron_face_areas_3d
+#define FUNCNAME_TETRAHEDRONINSPHERE3D _tetrahedron_insphere_3d
+#define FUNCNAME_TETRAHEDRONLATTICELAYERPOINTNEXT _tetrahedron_lattice_layer_point_next
+#define FUNCNAME_TETRAHEDRONLATTICEPOINTNEXT _tetrahedron_lattice_point_next
+#define FUNCNAME_TETRAHEDRONQUALITY13D _tetrahedron_quality1_3d
+#define FUNCNAME_TETRAHEDRONQUALITY23D _tetrahedron_quality2_3d
+#define FUNCNAME_TETRAHEDRONQUALITY33D _tetrahedron_quality3_3d
+#define FUNCNAME_TETRAHEDRONQUALITY43D _tetrahedron_quality4_3d
+#define FUNCNAME_TETRAHEDRONRHOMBICSHAPE3D _tetrahedron_rhombic_shape_3d
+#define FUNCNAME_TETRAHEDRONRHOMBICSIZE3D _tetrahedron_rhombic_size_3d
+#define FUNCNAME_TETRAHEDRONSAMPLE3D _tetrahedron_sample_3d
+#define FUNCNAME_TETRAHEDRONSHAPE3D _tetrahedron_shape_3d
+#define FUNCNAME_TETRAHEDRONSIZE3D _tetrahedron_size_3d
+#define FUNCNAME_TETRAHEDRONSOLIDANGLES3D _tetrahedron_solid_angles_3d
+#define FUNCNAME_TETRAHEDRONUNITLATTICEPOINTNUM3D _tetrahedron_unit_lattice_point_num_3d
+#define FUNCNAME_TETRAHEDRONVOLUME3D _tetrahedron_volume_3d
+#define FUNCNAME_THETA2ADJUST _theta2_adjust
+#define FUNCNAME_THETA3ADJUST _theta3_adjust
+#define FUNCNAME_TMATINIT _tmat_init
+#define FUNCNAME_TMATMXM _tmat_mxm
+#define FUNCNAME_TMATMXP _tmat_mxp
+#define FUNCNAME_TMATMXP2 _tmat_mxp2
+#define FUNCNAME_TMATMXV _tmat_mxv
+#define FUNCNAME_TMATROTAXIS _tmat_rot_axis
+#define FUNCNAME_TMATROTVECTOR _tmat_rot_vector
+#define FUNCNAME_TMATSCALE _tmat_scale
+#define FUNCNAME_TMATSHEAR _tmat_shear
+#define FUNCNAME_TMATTRANS _tmat_trans
+#define FUNCNAME_TORUSAREA3D _torus_area_3d
+#define FUNCNAME_TORUSVOLUME3D _torus_volume_3d
+#define FUNCNAME_TPTOXYZ _tp_to_xyz
+#define FUNCNAME_TRIANGLEANGLES2D _triangle_angles_2d
+#define FUNCNAME_TRIANGLEANGLES2DNEW _triangle_angles_2d_new
+#define FUNCNAME_TRIANGLEANGLES3D _triangle_angles_3d
+#define FUNCNAME_TRIANGLEANGLES3DNEW _triangle_angles_3d_new
+#define FUNCNAME_TRIANGLEAREA2D _triangle_area_2d
+#define FUNCNAME_TRIANGLEAREA3D _triangle_area_3d
+#define FUNCNAME_TRIANGLEAREA3D2 _triangle_area_3d_2
+#define FUNCNAME_TRIANGLEAREA3D3 _triangle_area_3d_3
+#define FUNCNAME_TRIANGLEAREAHERON _triangle_area_heron
+#define FUNCNAME_TRIANGLEAREAVECTOR3D _triangle_area_vector_3d
+#define FUNCNAME_TRIANGLEBARYCENTRIC2D _triangle_barycentric_2d
+#define FUNCNAME_TRIANGLECENTROID2D _triangle_centroid_2d
+#define FUNCNAME_TRIANGLECENTROID3D _triangle_centroid_3d
+#define FUNCNAME_TRIANGLECIRCUMCENTER2D _triangle_circumcenter_2d
+#define FUNCNAME_TRIANGLECIRCUMCENTER2D2 _triangle_circumcenter_2d_2
+#define FUNCNAME_TRIANGLECIRCUMCENTER _triangle_circumcenter
+#define FUNCNAME_TRIANGLECIRCUMCIRCLE2D _triangle_circumcircle_2d
+#define FUNCNAME_TRIANGLECIRCUMCIRCLE2D2 _triangle_circumcircle_2d_2
+#define FUNCNAME_TRIANGLECIRCUMRADIUS2D _triangle_circumradius_2d
+#define FUNCNAME_TRIANGLECONTAINSLINEEXP3D _triangle_contains_line_exp_3d
+#define FUNCNAME_TRIANGLECONTAINSLINEPAR3D _triangle_contains_line_par_3d
+#define FUNCNAME_TRIANGLECONTAINSPOINT2D1 _triangle_contains_point_2d_1
+#define FUNCNAME_TRIANGLECONTAINSPOINT2D2 _triangle_contains_point_2d_2
+#define FUNCNAME_TRIANGLECONTAINSPOINT2D3 _triangle_contains_point_2d_3
+#define FUNCNAME_TRIANGLEDIAMETER2D _triangle_diameter_2d
+#define FUNCNAME_TRIANGLEEDGELENGTH2D _triangle_edge_length_2d
+#define FUNCNAME_TRIANGLEGRIDPOINTS2D _triangle_gridpoints_2d
+#define FUNCNAME_TRIANGLEINCENTER2D _triangle_incenter_2d
+#define FUNCNAME_TRIANGLEINCIRCLE2D _triangle_incircle_2d
+#define FUNCNAME_TRIANGLEINRADIUS2D _triangle_inradius_2d
+#define FUNCNAME_TRIANGLEISDEGENERATEND _triangle_is_degenerate_nd
+#define FUNCNAME_TRIANGLELATTICELAYERPOINTNEXT _triangle_lattice_layer_point_next
+#define FUNCNAME_TRIANGLELATTICEPOINTNEXT _triangle_lattice_point_next
+#define FUNCNAME_TRIANGLELINEIMPINT2D _triangle_line_imp_int_2d
+#define FUNCNAME_TRIANGLEORIENTATION2D _triangle_orientation_2d
+#define FUNCNAME_TRIANGLEORTHOCENTER2D _triangle_orthocenter_2d
+#define FUNCNAME_TRIANGLEPOINTDIST2D _triangle_point_dist_2d
+#define FUNCNAME_TRIANGLEPOINTDIST3D _triangle_point_dist_3d
+#define FUNCNAME_TRIANGLEPOINTDISTSIGNED2D _triangle_point_dist_signed_2d
+#define FUNCNAME_TRIANGLEPOINTNEAR2D _triangle_point_near_2d
+#define FUNCNAME_TRIANGLEQUALITY2D _triangle_quality_2d
+#define FUNCNAME_TRIANGLERIGHTLATTICEPOINTNUM2D _triangle_right_lattice_point_num_2d
+#define FUNCNAME_TRIANGLESAMPLE _triangle_sample
+#define FUNCNAME_TRIANGLEUNITLATTICEPOINTNUM2D _triangle_unit_lattice_point_num_2d
+#define FUNCNAME_TRIANGLEXSITOXY2D _triangle_xsi_to_xy_2d
+#define FUNCNAME_TRIANGLEXYTOXSI2D _triangle_xy_to_xsi_2d
+#define FUNCNAME_TRUNCATEDOCTAHEDRONSHAPE3D _truncated_octahedron_shape_3d
+#define FUNCNAME_TRUNCATEDOCTAHEDRONSIZE3D _truncated_octahedron_size_3d
+#define FUNCNAME_TUBE2D _tube_2d
+#define FUNCNAME_TUPLENEXT2 _tuple_next2
+#define FUNCNAME_VECTORDIRECTIONSND _vector_directions_nd
+#define FUNCNAME_VECTORROTATE2D _vector_rotate_2d
+#define FUNCNAME_VECTORROTATE3D _vector_rotate_3d
+#define FUNCNAME_VECTORROTATEBASE2D _vector_rotate_base_2d
+#define FUNCNAME_VECTORSEPARATION2D _vector_separation_2d
+#define FUNCNAME_VECTORSEPARATION3D _vector_separation_3d
+#define FUNCNAME_VECTORSEPARATIONND _vector_separation_nd
+#define FUNCNAME_VECTORUNITND _vector_unit_nd
+#define FUNCNAME_VOXELSDISTL13D _voxels_dist_l1_3d
+#define FUNCNAME_VOXELSDISTL1ND _voxels_dist_l1_nd
+#define FUNCNAME_dim_ty _voxels_dist_l1_nd
+#define FUNCNAME_VOXELSLINE3D _voxels_line_3d
+#define FUNCNAME_VOXELSREGION3D _voxels_region_3d
+#define FUNCNAME_VOXELSSTEP3D _voxels_step_3d
+#define FUNCNAME_XYTOPOLAR _xy_to_polar
+#define FUNCNAME_XYZTORADEC _xyz_to_radec
+#define FUNCNAME_XYZTORTP _xyz_to_rtp
+#define FUNCNAME_XYZTOTP _xyz_to_tp
+#define FUNCNAME_HAAR1D _haar_1d
+#define FUNCNAME_HAAR1DINVERSE _haar_1d_inverse
+#define FUNCNAME_HAAR2D _haar_2d
+#define FUNCNAME_HAAR2DINVERSE _haar_2d_inverse
+#define FUNCNAME_DIFDERIV _dif_deriv
+#define FUNCNAME_R8VECCOPYNEW _r8vec_copy_new
+#define FUNCNAME_R8VECONESNEW _r8vec_ones_new
+#define FUNCNAME_DIFSHIFTX _dif_shift_x
+#define FUNCNAME_DIFSHIFTZERO _dif_shift_zero
+#define FUNCNAME_DIFTOR8POLY _dif_to_r8poly
+#define FUNCNAME_DIFVALS _dif_vals
+#define FUNCNAME_HERMITEBASIS0 _hermite_basis_0
+#define FUNCNAME_HERMITEBASIS1 _hermite_basis_1
+#define FUNCNAME_HERMITEINTERPOLANT _hermite_interpolant
+#define FUNCNAME_HERMITEINTERPOLANTRULE _hermite_interpolant_rule
+#define FUNCNAME_HERMITEINTERPOLANTVALUE _hermite_interpolant_value
+#define FUNCNAME_R8POLYANTVAL _r8poly_ant_val
+#define FUNCNAME_R8POLYDEGREE _r8poly_degree
+#define FUNCNAME_R8VECCHEBYSHEVNEW _r8vec_chebyshev_new
+#define FUNCNAME_HINTEGRAL _h_integral
+#define FUNCNAME_HPOLYNOMIALCOEFFICIENTS _h_polynomial_coefficients
+#define FUNCNAME_HPOLYNOMIALVALUE _h_polynomial_value
+#define FUNCNAME_HPOLYNOMIALZEROS _h_polynomial_zeros
+#define FUNCNAME_HQUADRATURERULE _h_quadrature_rule
+#define FUNCNAME_HEDOUBLEPRODUCTINTEGRAL _he_double_product_integral
+#define FUNCNAME_HEINTEGRAL _he_integral
+#define FUNCNAME_HEPOLYNOMIALCOEFFICIENTS _he_polynomial_coefficients
+#define FUNCNAME_HEPOLYNOMIALVALUE _he_polynomial_value
+#define FUNCNAME_HEPOLYNOMIALZEROS _he_polynomial_zeros
+#define FUNCNAME_HEQUADRATURERULE _he_quadrature_rule
+#define FUNCNAME_HETRIPLEPRODUCTINTEGRAL _he_triple_product_integral
+#define FUNCNAME_HENPOLYNOMIALVALUE _hen_polynomial_value
+#define FUNCNAME_HFFUNCTIONVALUE _hf_function_value
+#define FUNCNAME_HFQUADRATURERULE _hf_quadrature_rule
+#define FUNCNAME_HNPOLYNOMIALVALUE _hn_polynomial_value
+#define FUNCNAME_COMPNEXTGRLEX _comp_next_grlex
+#define FUNCNAME_COMPRANDOMGRLEX _comp_random_grlex
+#define FUNCNAME_COMPRANKGRLEX _comp_rank_grlex
+#define FUNCNAME_COMPUNRANKGRLEX _comp_unrank_grlex
+#define FUNCNAME_HEPCOEFFICIENTS _hep_coefficients
+#define FUNCNAME_HEPVALUE _hep_value
+#define FUNCNAME_HEPPTOPOLYNOMIAL _hepp_to_polynomial
+#define FUNCNAME_HEPPVALUE _hepp_value
+#define FUNCNAME_I4UNIFORMAB _i4_uniform_ab
+#define FUNCNAME_POLYNOMIALCOMPRESS _polynomial_compress
+#define FUNCNAME_POLYNOMIALSORT _polynomial_sort
+#define FUNCNAME_POLYNOMIALVALUE _polynomial_value
+#define FUNCNAME_CDGQF _cdgqf
+#define FUNCNAME_CGQF _cgqf
+#define FUNCNAME_CLASSMATRIX _class_matrix
+#define FUNCNAME_SCQF _scqf
+#define FUNCNAME_SGQF _sgqf
+#define FUNCNAME_HIGHCARDPROBABILITY _high_card_probability
+#define FUNCNAME_HIGHCARDSHUFFLE _high_card_shuffle
+#define FUNCNAME_HIGHCARDSIMULATION _high_card_simulation
+#define FUNCNAME_PERMUNIFORMNEW _perm_uniform_new
+#define FUNCNAME_R8MATNORMAL01NEW _r8mat_normal_01_new
+#define FUNCNAME_HYPERBALL01MONOMIALINTEGRAL _hyperball01_monomial_integral
+#define FUNCNAME_HYPERBALL01SAMPLE _hyperball01_sample
+#define FUNCNAME_HYPERBALL01VOLUME _hyperball01_volume
+#define FUNCNAME_HYPERCUBEGRID _hypercube_grid
+#define FUNCNAME_HYPERSPHERE01AREA _hypersphere01_area
+#define FUNCNAME_HYPERSPHERE01MONOMIALINTEGRAL _hypersphere01_monomial_integral
+#define FUNCNAME_HYPERSPHERE01SAMPLE _hypersphere01_sample
+#define FUNCNAME_CARTESIANTOHYPERSPHERE _cartesian_to_hypersphere
+#define FUNCNAME_HYPERSPHERE01INTERIORUNIFORM _hypersphere_01_interior_uniform
+#define FUNCNAME_HYPERSPHERE01SURFACEUNIFORM _hypersphere_01_surface_uniform
+#define FUNCNAME_HYPERSPHERE01VOLUME _hypersphere_01_volume
+#define FUNCNAME_HYPERSPHERE001AREA _hypersphere_01_area
+#define FUNCNAME_HYPERSPHEREAREA _hypersphere_area
+#define FUNCNAME_HYPERSPHERESTEREOGRAPH _hypersphere_stereograph
+#define FUNCNAME_HYPERSPHERESTEREOGRAPHINVERSE _hypersphere_stereograph_inverse
+#define FUNCNAME_HYPERSPHERESURFACEUNIFORM _hypersphere_surface_uniform
+#define FUNCNAME_HYPERSPHERETOCARTESIAN _hypersphere_to_cartesian
+#define FUNCNAME_HYPERSPHEREVOLUME _hypersphere_volume
+#define FUNCNAME_SPHERESTEREOGRAPH _sphere_stereograph
+#define FUNCNAME_SPHERESTEREOGRAPHINVERSE _sphere_stereograph_inverse
+#define FUNCNAME_I4ABS _i4_abs
+#define FUNCNAME_I4MACH _i4_mach
+#define FUNCNAME_I4POW _i4_pow
+#define FUNCNAME_I4BITHI1 _i4_bit_hi1
+#define FUNCNAME_I4BITLO0 _i4_bit_lo0
+#define FUNCNAME_I4BITLO1 _i4_bit_lo1
+#define FUNCNAME_I4BITREVERSE _i4_bit_reverse
+#define FUNCNAME_I4CHARACTERISTIC _i4_characteristic
+#define FUNCNAME_I4CHOOSE _i4_choose
+#define FUNCNAME_I4DIVROUNDED _i4_div_rounded
+#define FUNCNAME_I4DIVISION _i4_division
+#define FUNCNAME_I4DIVP _i4_divp
+#define FUNCNAME_I4FALL _i4_fall
+#define FUNCNAME_I4FLOOR _i4_floor
+#define FUNCNAME_I4FRACTION _i4_fraction
+#define FUNCNAME_I4GCDB _i4_gcdb
+#define FUNCNAME_I4HUGENORMALIZER _i4_huge_normalizer
+#define FUNCNAME_I4ISEVEN _i4_is_even
+#define FUNCNAME_I4ISODD _i4_is_odd
+#define FUNCNAME_I4ISPOWEROF2 _i4_is_power_of_2
+#define FUNCNAME_I4ISPRIME _i4_is_prime
+#define FUNCNAME_I4LCM _i4_lcm
+#define FUNCNAME_I4LOG10 _i4_log_10
+#define FUNCNAME_I4LOG2 _i4_log_2
+#define FUNCNAME_I4LOGI4 _i4_log_i4
+#define FUNCNAME_I4LOGR8 _i4_log_r8
+#define FUNCNAME_I4MANT _i4_mant
+#define FUNCNAME_I4MODINV _i4_mod_inv
+#define FUNCNAME_I4MODDIV _i4_moddiv
+#define FUNCNAME_I4REVERSEBYTES _i4_reverse_bytes
+#define FUNCNAME_I4RISE _i4_rise
+#define FUNCNAME_I4SIGN3 _i4_sign3
+#define FUNCNAME_I4SWAP3 _i4_swap3
+#define FUNCNAME_I4TOANGLE _i4_to_angle
+#define FUNCNAME_I4TODIGITSBINARY _i4_to_digits_binary
+#define FUNCNAME_I4TODIGITSDECIMAL _i4_to_digits_decimal
+#define FUNCNAME_I4TOFAC _i4_to_fac
+#define FUNCNAME_I4TOHALTON _i4_to_halton
+#define FUNCNAME_I4TOISBN _i4_to_isbn
+#define FUNCNAME_I4TOL4 _i4_to_l4
+#define FUNCNAME_I4TOPASCAL _i4_to_pascal
+#define FUNCNAME_I4TOPASCALDEGREE _i4_to_pascal_degree
+#define FUNCNAME_I4TOTRIANGLE _i4_to_triangle
+#define FUNCNAME_I4UNSWAP3 _i4_unswap3
+#define FUNCNAME_I4WALSH1D _i4_walsh_1d
+#define FUNCNAME_I4WIDTH _i4_width
+#define FUNCNAME_I4WRAP _i4_wrap
+#define FUNCNAME_I4XOR _i4_xor
+#define FUNCNAME_I43MATFLIPCOLS _i43mat_flip_cols
+#define FUNCNAME_I43MATFLIPROWS _i43mat_flip_rows
+#define FUNCNAME_I4BLOCKDELETE _i4block_delete
+#define FUNCNAME_I4BLOCKNEW _i4block_new
+#define FUNCNAME_I4BLOCKZEROSNEW _i4block_zeros_new
+#define FUNCNAME_I4CMATDELETE _i4cmat_delete
+#define FUNCNAME_I4CMATNEW _i4cmat_new
+#define FUNCNAME_I4COLCOMPARE _i4col_compare
+#define FUNCNAME_I4COLFIND _i4col_find
+#define FUNCNAME_I4COLFINDITEM _i4col_find_item
+#define FUNCNAME_I4COLFINDPAIRWRAP _i4col_find_pair_wrap
+#define FUNCNAME_I4COLFIRSTINDEX _i4col_first_index
+#define FUNCNAME_I4COLSORTA _i4col_sort_a
+#define FUNCNAME_I4COLSORTD _i4col_sort_d
+#define FUNCNAME_I4COLSORT2A _i4col_sort2_a
+#define FUNCNAME_I4COLSORT2D _i4col_sort2_d
+#define FUNCNAME_I4COLSORTEDSINGLETONCOUNT _i4col_sorted_singleton_count
+#define FUNCNAME_I4COLSORTEDUNIQUE _i4col_sorted_unique
+#define FUNCNAME_I4COLSORTEDUNIQUECOUNT _i4col_sorted_unique_count
+#define FUNCNAME_I4COLSWAP _i4col_swap
+#define FUNCNAME_I4COLUNIQUEINDEX _i4col_unique_index
+#define FUNCNAME_I4I4SORTA _i4i4_sort_a
+#define FUNCNAME_I4I4I4SORTA _i4i4i4_sort_a
+#define FUNCNAME_I4INTTOR4INT _i4int_to_r4int
+#define FUNCNAME_I4INTTOR8INT _i4int_to_r8int
+#define FUNCNAME_I4MATBORDERADD _i4mat_border_add
+#define FUNCNAME_I4MATBORDERCUT _i4mat_border_cut
+#define FUNCNAME_I4MATCOPY _i4mat_copy
+#define FUNCNAME_I4MATCOPYNEW _i4mat_copy_new
+#define FUNCNAME_I4MATELIM _i4mat_elim
+#define FUNCNAME_I4MATFLIPCOLS _i4mat_flip_cols
+#define FUNCNAME_I4MATFLIPROWS _i4mat_flip_rows
+#define FUNCNAME_I4MATHISTOGRAM _i4mat_histogram
+#define FUNCNAME_I4MATINDICATORNEW _i4mat_indicator_new
+#define FUNCNAME_I4MATL1INVERSE _i4mat_l1_inverse
+#define FUNCNAME_I4MATMAX _i4mat_max
+#define FUNCNAME_I4MATMAXINDEX _i4mat_max_index
+#define FUNCNAME_I4MATMIN _i4mat_min
+#define FUNCNAME_I4MATMININDEX _i4mat_min_index
+#define FUNCNAME_I4MATMM _i4mat_mm
+#define FUNCNAME_I4MATPERMUNIFORM _i4mat_perm_uniform
+#define FUNCNAME_I4MATPERM2UNIFORM _i4mat_perm2_uniform
+#define FUNCNAME_I4MATRED _i4mat_red
+#define FUNCNAME_I4MATU1INVERSE _i4mat_u1_inverse
+#define FUNCNAME_I4MATUNIFORMAB _i4mat_uniform_ab
+#define FUNCNAME_I4MATUNIFORMABNEW _i4mat_uniform_ab_new
+#define FUNCNAME_I4RMATDELETE _i4rmat_delete
+#define FUNCNAME_I4RMATNEW _i4rmat_new
+#define FUNCNAME_I4ROWCOMPARE _i4row_compare
+#define FUNCNAME_I4ROWFINDITEM _i4row_find_item
+#define FUNCNAME_I4ROWMAX _i4row_max
+#define FUNCNAME_I4ROWMEAN _i4row_mean
+#define FUNCNAME_I4ROWMIN _i4row_min
+#define FUNCNAME_I4ROWSORTA _i4row_sort_a
+#define FUNCNAME_I4ROWSORTD _i4row_sort_d
+#define FUNCNAME_I4ROWSORT2D _i4row_sort2_d
+#define FUNCNAME_I4ROWSUM _i4row_sum
+#define FUNCNAME_I4ROWSWAP _i4row_swap
+#define FUNCNAME_I4ROWVARIANCE _i4row_variance
+#define FUNCNAME_I4VECADD _i4vec_add
+#define FUNCNAME_I4VECADDNEW _i4vec_add_new
+#define FUNCNAME_I4VECALLNONPOSITIVE _i4vec_all_nonpositive
+#define FUNCNAME_I4VECAMAX _i4vec_amax
+#define FUNCNAME_I4VECAMAXINDEX _i4vec_amax_index
+#define FUNCNAME_I4VECAMIN _i4vec_amin
+#define FUNCNAME_I4VECAMININDEX _i4vec_amin_index
+#define FUNCNAME_I4VECAMINZ _i4vec_aminz
+#define FUNCNAME_I4VECAMINZINDEX _i4vec_aminz_index
+#define FUNCNAME_I4VECANYLT _i4vec_any_lt
+#define FUNCNAME_I4VECANYNEGATIVE _i4vec_any_negative
+#define FUNCNAME_I4VECANYNONZERO _i4vec_any_nonzero
+#define FUNCNAME_I4VECASCENDSUB _i4vec_ascend_sub
+#define FUNCNAME_I4VECASCENDS _i4vec_ascends
+#define FUNCNAME_I4VECAXPY _i4vec_axpy
+#define FUNCNAME_I4VECBRACKET _i4vec_bracket
+#define FUNCNAME_I4VECCOMPARE _i4vec_compare
+#define FUNCNAME_I4VECCONCATENATE _i4vec_concatenate
+#define FUNCNAME_I4VECCONCATENATENEW _i4vec_concatenate_new
+#define FUNCNAME_I4VECCOPY _i4vec_copy
+#define FUNCNAME_I4VECCOPYNEW _i4vec_copy_new
+#define FUNCNAME_I4VECCUMNEW _i4vec_cum_new
+#define FUNCNAME_I4VECCUM0NEW _i4vec_cum0_new
+#define FUNCNAME_I4VECDECREMENT _i4vec_decrement
+#define FUNCNAME_I4VECDESCENDS _i4vec_descends
+#define FUNCNAME_I4VECDIRECTPRODUCT _i4vec_direct_product
+#define FUNCNAME_I4VECDIRECTPRODUCT2 _i4vec_direct_product2
+#define FUNCNAME_I4VECDOTPRODUCT _i4vec_dot_product
+#define FUNCNAME_I4VECEQ _i4vec_eq
+#define FUNCNAME_I4VECEVENALL _i4vec_even_all
+#define FUNCNAME_I4VECEVENANY _i4vec_even_any
+#define FUNCNAME_I4VECFIND _i4vec_find
+#define FUNCNAME_I4VECFIRSTINDEX _i4vec_first_index
+#define FUNCNAME_I4VECFRAC _i4vec_frac
+#define FUNCNAME_I4VECGCD _i4vec_gcd
+#define FUNCNAME_I4VECHEAPA _i4vec_heap_a
+#define FUNCNAME_I4VECHEAPD _i4vec_heap_d
+#define FUNCNAME_I4VECHEAPDEXTRACT _i4vec_heap_d_extract
+#define FUNCNAME_I4VECHEAPDINSERT _i4vec_heap_d_insert
+#define FUNCNAME_I4VECHEAPDMAX _i4vec_heap_d_max
+#define FUNCNAME_I4VECHISTOGRAM _i4vec_histogram
+#define FUNCNAME_I4VECHISTOGRAMMASKED _i4vec_histogram_masked
+#define FUNCNAME_I4VECINCREMENT _i4vec_increment
+#define FUNCNAME_I4VECINDEX _i4vec_index
+#define FUNCNAME_I4VECINDEXDELETEALL _i4vec_index_delete_all
+#define FUNCNAME_I4VECINDEXDELETEDUPES _i4vec_index_delete_dupes
+#define FUNCNAME_I4VECINDEXDELETEONE _i4vec_index_delete_one
+#define FUNCNAME_I4VECINDEXINSERT _i4vec_index_insert
+#define FUNCNAME_I4VECINDEXINSERTUNIQUE _i4vec_index_insert_unique
+#define FUNCNAME_I4VECINDEXORDER _i4vec_index_order
+#define FUNCNAME_I4VECINDEXSEARCH _i4vec_index_search
+#define FUNCNAME_I4VECINDEXSORTUNIQUE _i4vec_index_sort_unique
+#define FUNCNAME_I4VECINDEXEDHEAPD _i4vec_indexed_heap_d
+#define FUNCNAME_I4VECINDEXEDHEAPDEXTRACT _i4vec_indexed_heap_d_extract
+#define FUNCNAME_I4VECINDEXEDHEAPDINSERT _i4vec_indexed_heap_d_insert
+#define FUNCNAME_I4VECINDEXEDHEAPDMAX _i4vec_indexed_heap_d_max
+#define FUNCNAME_I4VECINDICATOR0 _i4vec_indicator0
+#define FUNCNAME_I4VECINDICATOR0NEW _i4vec_indicator0_new
+#define FUNCNAME_I4VECINDICATOR1 _i4vec_indicator1
+#define FUNCNAME_I4VECINDICATOR1NEW _i4vec_indicator1_new
+#define FUNCNAME_I4VECINSERT _i4vec_insert
+#define FUNCNAME_I4VECLCM _i4vec_lcm
+#define FUNCNAME_I4VECMAX _i4vec_max
+#define FUNCNAME_I4VECMAXINDEX _i4vec_max_index
+#define FUNCNAME_I4VECMAXINDEXLAST _i4vec_max_index_last
+#define FUNCNAME_I4VECMEAN _i4vec_mean
+#define FUNCNAME_I4VECMEDIAN _i4vec_median
+#define FUNCNAME_I4VECMERGEA _i4vec_merge_a
+#define FUNCNAME_I4VECMIN _i4vec_min
+#define FUNCNAME_I4VECMININDEX _i4vec_min_index
+#define FUNCNAME_I4VECMINMV _i4vec_min_mv
+#define FUNCNAME_I4VECNEGONE _i4vec_negone
+#define FUNCNAME_I4VECNEGONENEW _i4vec_negone_new
+#define FUNCNAME_I4VECNONZEROCOUNT _i4vec_nonzero_count
+#define FUNCNAME_I4VECNONZEROFIRST _i4vec_nonzero_first
+#define FUNCNAME_I4VECNORML0 _i4vec_norm_l0
+#define FUNCNAME_I4VECODDALL _i4vec_odd_all
+#define FUNCNAME_I4VECODDANY _i4vec_odd_any
+#define FUNCNAME_I4VECONENEW _i4vec_one_new
+#define FUNCNAME_I4VECORDERTYPE _i4vec_order_type
+#define FUNCNAME_I4VECPAIRWISEPRIME _i4vec_pairwise_prime
+#define FUNCNAME_I4VECPART _i4vec_part
+#define FUNCNAME_I4VECPARTQUICKA _i4vec_part_quick_a
+#define FUNCNAME_I4VECPERMUTE _i4vec_permute
+#define FUNCNAME_I4VECPERMUTEUNIFORM _i4vec_permute_uniform
+#define FUNCNAME_I4VECRED _i4vec_red
+#define FUNCNAME_I4VECREVERSE _i4vec_reverse
+#define FUNCNAME_I4VECROTATE _i4vec_rotate
+#define FUNCNAME_I4VECRUNCOUNT _i4vec_run_count
+#define FUNCNAME_I4VECSORTBUBBLEA _i4vec_sort_bubble_a
+#define FUNCNAME_I4VECSORTBUBBLED _i4vec_sort_bubble_d
+#define FUNCNAME_I4VECSORTHEAPA _i4vec_sort_heap_a
+#define FUNCNAME_I4VECSORTHEAPD _i4vec_sort_heap_d
+#define FUNCNAME_I4VECSORTHEAPINDEXA _i4vec_sort_heap_index_a
+#define FUNCNAME_I4VECSORTHEAPINDEXD _i4vec_sort_heap_index_d
+#define FUNCNAME_I4VECSORTQUICKA _i4vec_sort_quick_a
+#define FUNCNAME_I4VECSORTSHELLA _i4vec_sort_shell_a
+#define FUNCNAME_I4VECSORTEDUNDEX _i4vec_sorted_undex
+#define FUNCNAME_I4VECSORTEDUNIQUE _i4vec_sorted_unique
+#define FUNCNAME_I4VECSORTEDUNIQUECOUNT _i4vec_sorted_unique_count
+#define FUNCNAME_I4VECSORTEDUNIQUEHIST _i4vec_sorted_unique_hist
+#define FUNCNAME_I4VECSPLIT _i4vec_split
+#define FUNCNAME_I4VECSTD _i4vec_std
+#define FUNCNAME_I4VECSWAP _i4vec_swap
+#define FUNCNAME_I4VECUNDEX _i4vec_undex
+#define FUNCNAME_I4VECUNIQUECOUNT _i4vec_unique_count
+#define FUNCNAME_I4VECUNIQUEINDEX _i4vec_unique_index
+#define FUNCNAME_I4VECVALUEINDEX _i4vec_value_index
+#define FUNCNAME_I4VECVALUENUM _i4vec_value_num
+#define FUNCNAME_I4VECVARIANCE _i4vec_variance
+#define FUNCNAME_I4VECWIDTH _i4vec_width
+#define FUNCNAME_I4VECZEROS _i4vec_zeros
+#define FUNCNAME_I4VECZEROSNEW _i4vec_zeros_new
+#define FUNCNAME_I4VEC2COMPARE _i4vec2_compare
+#define FUNCNAME_I4VEC2SORTA _i4vec2_sort_a
+#define FUNCNAME_I4VEC2SORTD _i4vec2_sort_d
+#define FUNCNAME_I4VEC2SORTEDUNIQUE _i4vec2_sorted_unique
+#define FUNCNAME_I4VEC2SORTEDUNIQUECOUNT _i4vec2_sorted_unique_count
+#define FUNCNAME_L4TOI4 _l4_to_i4
+#define FUNCNAME_L4XOR _l4_xor
+#define FUNCNAME_PASCALTOI4 _pascal_to_i4
+#define FUNCNAME_PERMCYCLE _perm_cycle
+#define FUNCNAME_PERM0CHECK _perm0_check
+#define FUNCNAME_PERM0UNIFORMNEW _perm0_uniform_new
+#define FUNCNAME_PERM1CHECK _perm1_check
+#define FUNCNAME_PERM1UNIFORMNEW _perm1_uniform_new
+#define FUNCNAME_PRIME _prime
+#define FUNCNAME_SORTHEAPEXTERNAL _sort_heap_external
+#define FUNCNAME_TRIANGLETOI4 _triangle_to_i4
+#define FUNCNAME_I4TOBVEC _i4_to_bvec
+#define FUNCNAME_I4BLOCKCOMPONENTS _i4block_components
+#define FUNCNAME_I4MATCOMPONENTS _i4mat_components
+#define FUNCNAME_I4VECCOMPONENTS _i4vec_components
+#define FUNCNAME_GRAYMEDIANNEWS _gray_median_news
+#define FUNCNAME_CCABSCISSAS _cc_abscissas
+#define FUNCNAME_CCABSCISSASAB _cc_abscissas_ab
+#define FUNCNAME_F1ABSCISSAS _f1_abscissas
+#define FUNCNAME_F1ABSCISSASAB _f1_abscissas_ab
+#define FUNCNAME_F2ABSCISSAS _f2_abscissas
+#define FUNCNAME_F2ABSCISSASAB _f2_abscissas_ab
+#define FUNCNAME_INTERPLAGRANGE _interp_lagrange
+#define FUNCNAME_INTERPLINEAR _interp_linear
+#define FUNCNAME_INTERPNEAREST _interp_nearest
+#define FUNCNAME_LAGRANGEVALUE _lagrange_value
+#define FUNCNAME_NCCABSCISSAS _ncc_abscissas
+#define FUNCNAME_NCCABSCISSASAB _ncc_abscissas_ab
+#define FUNCNAME_NCOABSCISSAS _nco_abscissas
+#define FUNCNAME_NCOABSCISSASAB _nco_abscissas_ab
+#define FUNCNAME_PARAMETERIZEARCLENGTH _parameterize_arc_length
+#define FUNCNAME_PARAMETERIZEINDEX _parameterize_index
+#define FUNCNAME_R8MATEXPANDLINEAR2 _r8mat_expand_linear2
+#define FUNCNAME_R8VECASCENDSSTRICTLY _r8vec_ascends_strictly
+#define FUNCNAME_R8VECBRACKET0 _r8vec_bracket0
+#define FUNCNAME_R8VECEXPANDLINEAR2 _r8vec_expand_linear2
+#define FUNCNAME_CHISDIGIT _ch_is_digit
+#define FUNCNAME_CHTODIGIT _ch_to_digit
+#define FUNCNAME_STODIGITS _s_to_digits
+#define FUNCNAME_ISING2DAGREE _ising_2d_agree
+#define FUNCNAME_ISING2DINITIALIZE _ising_2d_initialize
+#define FUNCNAME_R8MATUNIFORM01 _r8mat_uniform_01
+#define FUNCNAME_DIF2 _dif2
+#define FUNCNAME_R8MATRESIDUALNORM _r8mat_residual_norm
+#define FUNCNAME_JACOBIEIGENVALUE _jacobi_eigenvalue
+#define FUNCNAME_R8MATDIAGGETVECTOR _r8mat_diag_get_vector
+#define FUNCNAME_R8MATIDENTITY _r8mat_identity
+#define FUNCNAME_R8MATISEIGENRIGHT _r8mat_is_eigen_right
+#define FUNCNAME_JDOUBLEPRODUCTINTEGRAL _j_double_product_integral
+#define FUNCNAME_JINTEGRAL _j_integral
+#define FUNCNAME_JPOLYNOMIAL _j_polynomial
+#define FUNCNAME_JPOLYNOMIALZEROS _j_polynomial_zeros
+#define FUNCNAME_JQUADRATURERULE _j_quadrature_rule
+#define FUNCNAME_R8POLYVALUE _r8poly_value
+#define FUNCNAME_PPOLYNOMIALPRIME2 _p_polynomial_prime2
+#define FUNCNAME_PPOLYNOMIALVALUE _p_polynomial_value
+#define FUNCNAME_PMPOLYNOMIALVALUE _pm_polynomial_value
+#define FUNCNAME_PMNPOLYNOMIALVALUE _pmn_polynomial_value
+#define FUNCNAME_PMNSPOLYNOMIALVALUE _pmns_polynomial_value
+#define FUNCNAME_PNPOLYNOMIALVALUE _pn_polynomial_value
+#define FUNCNAME_PNPOLYNOMIALCOEFFICIENTS _pn_polynomial_coefficients
+#define FUNCNAME_R8VECNORMAL01NEW _r8vec_normal_01_new
+#define FUNCNAME_I4VECUNIFORMABNEW _i4vec_uniform_ab_new
+#define FUNCNAME_GAUSS _gauss
+#define FUNCNAME_RJACOBI _r_jacobi
+#define FUNCNAME_DIAPHONYCOMPUTE _diaphony_compute
+#define FUNCNAME_R8MODP _r8_modp
+#define FUNCNAME_INVERSEERROR _inverse_error
+#define FUNCNAME_R8POSL2 _r8po_sl2
+#define FUNCNAME_CHEBYSHEV1EXACTNESS _chebyshev1_exactness
+#define FUNCNAME_CHEBYSHEV1INTEGRAL _chebyshev1_integral
+#define FUNCNAME_CHEBYSHEV2EXACTNESS _chebyshev2_exactness
+#define FUNCNAME_CHEBYSHEV2INTEGRAL _chebyshev2_integral
+#define FUNCNAME_R8COSD _r8_cosd
+#define FUNCNAME_COTD _cotd
+#define FUNCNAME_R8CSCD _r8_cscd
+#define FUNCNAME_R8SECD _r8_secd
+#define FUNCNAME_R8SIND _r8_sind
+#define FUNCNAME_R8TAND _r8_tand
+#define FUNCNAME_C4COS _c4_cos
+#define FUNCNAME_C4SIN _c4_sin
+#define FUNCNAME_R8RAND _r8_rand
+#define FUNCNAME_R8RANDGS _r8_randgs
+#define FUNCNAME_R8ADMP _r8_admp
+#define FUNCNAME_R8AI _r8_ai
+#define FUNCNAME_R8AID _r8_aid
+#define FUNCNAME_R8AIDE _r8_aide
+#define FUNCNAME_R8AIE _r8_aie
+#define FUNCNAME_R8AIMP _r8_aimp
+#define FUNCNAME_R8AINT _r8_aint
+#define FUNCNAME_R8ASINH _r8_asinh
+#define FUNCNAME_R8B1MP _r8_b1mp
+#define FUNCNAME_R8BI _r8_bi
+#define FUNCNAME_R8BID _r8_bid
+#define FUNCNAME_R8BIDE _r8_bide
+#define FUNCNAME_R8BIE _r8_bie
+#define FUNCNAME_R8BINOM _r8_binom
+#define FUNCNAME_R8CHI _r8_chi
+#define FUNCNAME_R8CHU _r8_chu
+#define FUNCNAME_R8CHUSCALED _r8_chu_scaled
+#define FUNCNAME_R8CI _r8_ci
+#define FUNCNAME_R8CIN _r8_cin
+#define FUNCNAME_R8CINH _r8_cinh
+#define FUNCNAME_R8COSDEG _r8_cos_deg
+#define FUNCNAME_R8DAWSON _r8_dawson
+#define FUNCNAME_R8E1 _r8_e1
+#define FUNCNAME_R8EI _r8_ei
+#define FUNCNAME_R8ERF _r8_erf
+#define FUNCNAME_R8ERFC _r8_erfc
+#define FUNCNAME_R8EXPREL _r8_exprel
+#define FUNCNAME_R8FAC _r8_fac
+#define FUNCNAME_R8GAMI _r8_gami
+#define FUNCNAME_R8GAMIC _r8_gamic
+#define FUNCNAME_R8GAMIT _r8_gamit
+#define FUNCNAME_R8GAMR _r8_gamr
+#define FUNCNAME_R8GMIC _r8_gmic
+#define FUNCNAME_R8GMIT _r8_gmit
+#define FUNCNAME_R8INT _r8_int
+#define FUNCNAME_R8LBETA _r8_lbeta
+#define FUNCNAME_R8LGAMS _r8_lgams
+#define FUNCNAME_R8LGIC _r8_lgic
+#define FUNCNAME_R8LGIT _r8_lgit
+#define FUNCNAME_R8LI _r8_li
+#define FUNCNAME_R8LNGAM _r8_lngam
+#define FUNCNAME_R8LNREL _r8_lnrel
+#define FUNCNAME_R8MOD _r8_mod
+#define FUNCNAME_R8PAK _r8_pak
+#define FUNCNAME_R8POCH _r8_poch
+#define FUNCNAME_COMPNEXT _comp_next
+#define FUNCNAME_R8POCH1 _r8_poch1
+#define FUNCNAME_R8REN _r8_ren
+#define FUNCNAME_R8SHI _r8_shi
+#define FUNCNAME_R8SI _r8_si
+#define FUNCNAME_R8SIFG _r8_sifg
+#define FUNCNAME_R8SINDEG _r8_sin_deg
+#define FUNCNAME_R8SPENCE _r8_spence
+#define FUNCNAME_R8SQRT _r8_sqrt
+#define FUNCNAME_R8TAN _r8_tan
+#define FUNCNAME_R8TANH _r8_tanh
+#define FUNCNAME_R8UPAK _r8_upak
+#define FUNCNAME_R8VECUNIFORMABNEW _r8vec_uniform_ab_new
+#define FUNCNAME_R8VECSORTEDNEAREST0 _r8vec_sorted_nearest0
+#define FUNCNAME_JACOBI1 _jacobi1
+#define FUNCNAME_LAGRANGEBASISFUNCTION1D _lagrange_basis_function_1d
+#define FUNCNAME_LAGRANGEINTERP2D _lagrange_interp_2d
+#define FUNCNAME_LAGUERREMONOMIALQUADRATURE _laguerre_monomial_quadrature
+#define FUNCNAME_LUERROR _lu_error
+#define FUNCNAME_R8VECLINSPACE2 _r8vec_linspace2
+#define FUNCNAME_R8MACHAR _r8_machar
+#define FUNCNAME_EXPLODE _explode
+#define FUNCNAME_GRID2D _grid_2d
+#define FUNCNAME_POLYGONTRIANGULATE _polygon_triangulate
+#define FUNCNAME_POLYGONINTEGRALXX _polygon_integral_xx
+#define FUNCNAME_POLYGONINTEGRALY _polygon_integral_y
+#define FUNCNAME_POLYGONINTEGRALYY _polygon_integral_yy
+#define FUNCNAME_DIAEDG _diaedg
+#define FUNCNAME_LRLINE _lrline
+#define FUNCNAME_PWLINTERP2DSCATTEREDVALUE _pwl_interp_2d_scattered_value
+#define FUNCNAME_R8TRIS2 _r8tris2
+#define FUNCNAME_SWAPEC _swapec
+#define FUNCNAME_VBEDG _vbedg
+#define FUNCNAME_R8VECSWTB _r8vec_swtb
+#define FUNCNAME_R8VECSWTF _r8vec_swtf
+#define FUNCNAME_SPARSEGRIDCFNSIZE _sparse_grid_cfn_size
+#define FUNCNAME_SQUAREMONOMIAL _square_monomial
+#define FUNCNAME_SQUARERULE _square_rule
+#define FUNCNAME_SQUAREVOLUME _square_volume
+#define FUNCNAME_ANGLESHIFTDEG _angle_shift_deg
+#define FUNCNAME_ANGLETORGB _angle_to_rgb
+#define FUNCNAME_AXISLIMITS _axis_limits
+#define FUNCNAME_BARCHECK _bar_check
+#define FUNCNAME_BARCODE _bar_code
+#define FUNCNAME_BARDIGITCODELEFT _bar_digit_code_left
+#define FUNCNAME_BARDIGITCODERIGHT _bar_digit_code_right
+#define FUNCNAME_BMIENGLISH _bmi_english
+#define FUNCNAME_BMIMETRIC _bmi_metric
+#define FUNCNAME_EULERCONSTANT _euler_constant
+#define FUNCNAME_FEETTOMETERS _feet_to_meters
+#define FUNCNAME_GAUSSSUM _gauss_sum
+#define FUNCNAME_GRID1 _grid1
+#define FUNCNAME_GRID1N _grid1n
+#define FUNCNAME_GRID2 _grid2
+#define FUNCNAME_GRID2N _grid2n
+#define FUNCNAME_GRID3 _grid3
+#define FUNCNAME_GRID3N _grid3n
+#define FUNCNAME_GRID4 _grid4
+#define FUNCNAME_GRID4N _grid4n
+#define FUNCNAME_I2REVERSEBYTES _i2_reverse_bytes
+#define FUNCNAME_POUNDSTOKILOGRAMS _pounds_to_kilograms
+#define FUNCNAME_VERSINEPULSE _versine_pulse
+#define FUNCNAME_ASMENUM _asm_enum
+#define FUNCNAME_ASMTRIANGLE _asm_triangle
+#define FUNCNAME_BELL _bell
+#define FUNCNAME_CHANGEGREEDY _change_greedy
+#define FUNCNAME_CHANGENEXT _change_next
+#define FUNCNAME_CHINESECHECK _chinese_check
+#define FUNCNAME_CONGRUENCE _congruence
+#define FUNCNAME_COUNTPOSERANDOM _count_pose_random
+#define FUNCNAME_DEBRUIJN _debruijn
+#define FUNCNAME_DERANGEENUM _derange_enum
+#define FUNCNAME_DERANGEENUM2 _derange_enum2
+#define FUNCNAME_DERANGEENUM3 _derange_enum3
+#define FUNCNAME_DERANGE0BACKCANDIDATE _derange0_back_candidate
+#define FUNCNAME_DERANGE0BACKNEXT _derange0_back_next
+#define FUNCNAME_DERANGE0CHECK _derange0_check
+#define FUNCNAME_DERANGE0WEEDNEXT _derange0_weed_next
+#define FUNCNAME_DIGRAPHARCEULER _digraph_arc_euler
+#define FUNCNAME_DIOPHANTINE _diophantine
+#define FUNCNAME_DIOPHANTINESOLUTIONMINIMIZE _diophantine_solution_minimize
+#define FUNCNAME_EQUIVNEXT _equiv_next
+#define FUNCNAME_EQUIVNEXT2 _equiv_next2
+#define FUNCNAME_EQUIVRANDOM _equiv_random
+#define FUNCNAME_EULERROW _euler_row
+#define FUNCNAME_FROBENIUSNUMBERORDER2 _frobenius_number_order2
+#define FUNCNAME_GRAYNEXT _gray_next
+#define FUNCNAME_GRAYRANK _gray_rank
+#define FUNCNAME_GRAYRANK2 _gray_rank2
+#define FUNCNAME_GRAYUNRANK _gray_unrank
+#define FUNCNAME_GRAYUNRANK2 _gray_unrank2
+#define FUNCNAME_I4PARTITIONRANDOM _i4_partition_random
+#define FUNCNAME_JOSEPHUS _josephus
+#define FUNCNAME_MATRIXPRODUCTOPT _matrix_product_opt
+#define FUNCNAME_MOEBIUSMATRIX _moebius_matrix
+#define FUNCNAME_NIMSUM _nim_sum
+#define FUNCNAME_PADOVAN _padovan
+#define FUNCNAME_PELLBASIC _pell_basic
+#define FUNCNAME_PELLNEXT _pell_next
+#define FUNCNAME_PERRIN _perrin
+#define FUNCNAME_PORDCHECK _pord_check
+#define FUNCNAME_POWERSERIES1 _power_series1
+#define FUNCNAME_POWERSERIES2 _power_series2
+#define FUNCNAME_POWERSERIES3 _power_series3
+#define FUNCNAME_POWERSERIES4 _power_series4
+#define FUNCNAME_R8MATPERMANENT _r8mat_permanent
+#define FUNCNAME_R8VECBACKTRACK _r8vec_backtrack
+#define FUNCNAME_RATFAREY _rat_farey
+#define FUNCNAME_RATFAREY2 _rat_farey2
+#define FUNCNAME_SCHROEDER _schroeder
+#define FUNCNAME_SUBSETGRAYRANK _subset_gray_rank
+#define FUNCNAME_SUBSETGRAYUNRANK _subset_gray_unrank
+#define FUNCNAME_SUBSETLEXNEXT _subset_lex_next
+#define FUNCNAME_SUBSETRANDOM _subset_random
+#define FUNCNAME_THUEBINARYNEXT _thue_binary_next
+#define FUNCNAME_THUETERNARYNEXT _thue_ternary_next
+#define FUNCNAME_VECTORCONSTRAINEDNEXT _vector_constrained_next
+#define FUNCNAME_VECTORCONSTRAINEDNEXT2 _vector_constrained_next2
+#define FUNCNAME_VECTORCONSTRAINEDNEXT3 _vector_constrained_next3
+#define FUNCNAME_VECTORCONSTRAINEDNEXT4 _vector_constrained_next4
+#define FUNCNAME_VECTORCONSTRAINEDNEXT5 _vector_constrained_next5
+#define FUNCNAME_VECTORCONSTRAINEDNEXT6 _vector_constrained_next6
+#define FUNCNAME_VECTORCONSTRAINEDNEXT7 _vector_constrained_next7
+#define FUNCNAME_VECTORNEXT _vector_next
+#define FUNCNAME_YTBENUM _ytb_enum
+#define FUNCNAME_YTBNEXT _ytb_next
+#define FUNCNAME_YTBRANDOM _ytb_random
+#define FUNCNAME_SIMPLEF _simple_f
+#define FUNCNAME_CBTTRAVERSE _cbt_traverse
+#define FUNCNAME_TRIANGLEORDER6PHYSICALTOREFERENCE _triangle_order6_physical_to_reference
+#define FUNCNAME_TRIANGLEORDER6REFERENCETOPHYSICAL _triangle_order6_reference_to_physical
+#define FUNCNAME_VAND1 _vand1
+#define FUNCNAME_VANDERMONDEVALUE1D _vandermonde_value_1d
+#define FUNCNAME_CGGB _cg_gb
+#define FUNCNAME_CGGE _cg_ge
+#define FUNCNAME_RNORM _rnorm
+#define FUNCNAME_WSHRT _wshrt
+#define FUNCNAME_SUBSETGRAYNEXT _subset_gray_next
+#define FUNCNAME_ABWE1 _abwe1
+#define FUNCNAME_ABWE2 _abwe2
+#define FUNCNAME_LAGRANGEAPPROX1D _lagrange_approx_1d
+#define FUNCNAME_LAGRANGEBASIS1D _lagrange_basis_1d
+#define FUNCNAME_LAGRANGEVALUE1D _lagrange_value_1d
+#define FUNCNAME_CCCOMPUTEPOINTS _cc_compute_points
+#define FUNCNAME_LAGRANGEINTERPNDGRID _lagrange_interp_nd_grid
+#define FUNCNAME_LAGRANGEINTERPNDGRID2 _lagrange_interp_nd_grid2
+#define FUNCNAME_LAGRANGEINTERPNDSIZE _lagrange_interp_nd_size
+#define FUNCNAME_LAGRANGEINTERPNDSIZE2 _lagrange_interp_nd_size2
+#define FUNCNAME_LAGRANGEINTERPNDVALUE _lagrange_interp_nd_value
+#define FUNCNAME_LAGRANGEINTERPNDVALUE2 _lagrange_interp_nd_value2
+#define FUNCNAME_ORDERFROMLEVEL135 _order_from_level_135
+#define FUNCNAME_LPOLYNOMIAL _l_polynomial
+#define FUNCNAME_LPOLYNOMIALCOEFFICIENTS _l_polynomial_coefficients
+#define FUNCNAME_LMPOLYNOMIAL _lm_polynomial
+#define FUNCNAME_LMPOLYNOMIALCOEFFICIENTS _lm_polynomial_coefficients
+#define FUNCNAME_LFFUNCTION _lf_function
+#define FUNCNAME_LQUADRATURERULE _l_quadrature_rule
+#define FUNCNAME_LFQUADRATURERULE _lf_quadrature_rule
+#define FUNCNAME_LMQUADRATURERULE _lm_quadrature_rule
+#define FUNCNAME_LINTEGRAL _l_integral
+#define FUNCNAME_LFINTEGRAL _lf_integral
+#define FUNCNAME_LMINTEGRAL _lm_integral
+#define FUNCNAME_LPOLYNOMIALZEROS _l_polynomial_zeros
+#define FUNCNAME_LFFUNCTIONZEROS _lf_function_zeros
+#define FUNCNAME_LMPOLYNOMIALZEROS _lm_polynomial_zeros
+#define FUNCNAME_LMPOLYNOMIALVALUES _lm_polynomial_values
+#define FUNCNAME_CHOLESKYUPPERERROR _cholesky_upper_error
+#define FUNCNAME_R8MATMTMNEW _r8mat_mtm_new
+#define FUNCNAME_EIGENERROR _eigen_error
+#define FUNCNAME_L1DDAPPLY _l1dd_apply
+#define FUNCNAME_L1DDCHOLESKY _l1dd_cholesky
+#define FUNCNAME_L1DDEIGEN _l1dd_eigen
+#define FUNCNAME_L1DD _l1dd
+#define FUNCNAME_L1DDINVERSE _l1dd_inverse
+#define FUNCNAME_L1DDLU _l1dd_lu
+#define FUNCNAME_L1DNAPPLY _l1dn_apply
+#define FUNCNAME_L1DNCHOLESKY _l1dn_cholesky
+#define FUNCNAME_L1DNEIGEN _l1dn_eigen
+#define FUNCNAME_L1DN _l1dn
+#define FUNCNAME_L1DNINVERSE _l1dn_inverse
+#define FUNCNAME_L1DNLU _l1dn_lu
+#define FUNCNAME_L1NDAPPLY _l1nd_apply
+#define FUNCNAME_L1NDCHOLESKY _l1nd_cholesky
+#define FUNCNAME_L1NDEIGEN _l1nd_eigen
+#define FUNCNAME_L1ND _l1nd
+#define FUNCNAME_L1NDINVERSE _l1nd_inverse
+#define FUNCNAME_L1NDLU _l1nd_lu
+#define FUNCNAME_L1NNAPPLY _l1nn_apply
+#define FUNCNAME_L1NNCHOLESKY _l1nn_cholesky
+#define FUNCNAME_L1NNEIGEN _l1nn_eigen
+#define FUNCNAME_L1NN _l1nn
+#define FUNCNAME_L1NNLU _l1nn_lu
+#define FUNCNAME_L1PPAPPLY _l1pp_apply
+#define FUNCNAME_L1PPCHOLESKY _l1pp_cholesky
+#define FUNCNAME_L1PPEIGEN _l1pp_eigen
+#define FUNCNAME_L1PP _l1pp
+#define FUNCNAME_L1PPLU _l1pp_lu
+#define FUNCNAME_R8MATLATINIZE _r8mat_latinize
+#define FUNCNAME_LATINCOVER _latin_cover
+#define FUNCNAME_LATINCOVER2D _latin_cover_2d
+#define FUNCNAME_LATINCOVER3D _latin_cover_3d
+#define FUNCNAME_R8MATUNIFORM01NEW _r8mat_uniform_01_new
+#define FUNCNAME_LATINRANDOMNEW _latin_random_new
+#define FUNCNAME_CHEBYSHEV1 _chebyshev1
+#define FUNCNAME_CHEBYSHEV2 _chebyshev2
+#define FUNCNAME_CHEBYSHEV3 _chebyshev3
+#define FUNCNAME_CHEBYSHEV4 _chebyshev4
+#define FUNCNAME_EQUIDISTANT1 _equidistant1
+#define FUNCNAME_EQUIDISTANT2 _equidistant2
+#define FUNCNAME_EQUIDISTANT3 _equidistant3
+#define FUNCNAME_FEJER1 _fejer1
+#define FUNCNAME_FEJER2 _fejer2
+#define FUNCNAME_LEBESGUECONSTANT _lebesgue_constant
+#define FUNCNAME_LEBESGUEFUNCTION _lebesgue_function
+#define FUNCNAME_PINTEGRAL _p_integral
+#define FUNCNAME_PQUADRATURERULE _p_quadrature_rule
+#define FUNCNAME_PPOLYNOMIALZEROS _p_polynomial_zeros
+#define FUNCNAME_PPOLYNOMIALPRIME _p_polynomial_prime
+#define FUNCNAME_PPOLYNOMIALCOEFFICIENTS _p_polynomial_coefficients
+#define FUNCNAME_LEGENDREFUNCTIONQVALUES _legendre_function_q_values
+#define FUNCNAME_PPOLYNOMIALVALUES _p_polynomial_values
+#define FUNCNAME_PMPOLYNOMIALVALUES _pm_polynomial_values
+#define FUNCNAME_LIFEINIT _life_init
+#define FUNCNAME_LIFEUPDATE _life_update
+#define FUNCNAME_LINECCVTLLOYDSTEP _line_ccvt_lloyd_step
+#define FUNCNAME_LINECVTENERGY _line_cvt_energy
+#define FUNCNAME_CHEBVYVAN1 _cheby_van1
+#define FUNCNAME_LEGENDREVAN _legendre_van
+#define FUNCNAME_LINEFEKETECHEBYSHEV _line_fekete_chebyshev
+#define FUNCNAME_LINEFEKETELEGENDRE _line_fekete_legendre
+#define FUNCNAME_LINEFEKETEMONOMIAL _line_fekete_monomial
+#define FUNCNAME_LINEMONOMIALMOMENTS _line_monomial_moments
+#define FUNCNAME_LINEGRID _line_grid
+#define FUNCNAME_LINE01LENGTH _line01_length
+#define FUNCNAME_LINE01MONOMIALINTEGRAL _line01_monomial_integral
+#define FUNCNAME_LINE01SAMPLE _line01_sample
+#define FUNCNAME_MONOMIALVALUE1D _monomial_value_1d
+#define FUNCNAME_LINENCCRULE _line_ncc_rule
+#define FUNCNAME_LINENCORULE _line_nco_rule
+#define FUNCNAME_DCOPY _dcopy
+#define FUNCNAME_DASUM _dasum
+#define FUNCNAME_IDAMAX _idamax
+#define FUNCNAME_DCHDC _dchdc
+#define FUNCNAME_DCHDD _dchdd
+#define FUNCNAME_DCHEX _dchex
+#define FUNCNAME_DCHUD _dchud
+#define FUNCNAME_DGBCO _dgbco
+#define FUNCNAME_DGBDI _dgbdi
+#define FUNCNAME_DGBFA _dgbfa
+#define FUNCNAME_DGBSL _dgbsl
+#define FUNCNAME_DGECO _dgeco
+#define FUNCNAME_DGEDI _dgedi
+#define FUNCNAME_DGEFA _dgefa
+#define FUNCNAME_DGESL _dgesl
+#define FUNCNAME_DGTSL _dgtsl
+#define FUNCNAME_DPBCO _dpbco
+#define FUNCNAME_DPBDI _dpbdi
+#define FUNCNAME_DPBFA _dpbfa
+#define FUNCNAME_DPBSL _dpbsl
+#define FUNCNAME_DPOCO _dpoco
+#define FUNCNAME_DPODI _dpodi
+#define FUNCNAME_DPOFA _dpofa
+#define FUNCNAME_DPOSL _dposl
+#define FUNCNAME_DPPCO _dppco
+#define FUNCNAME_DPPDI _dppdi
+#define FUNCNAME_DPPFA _dppfa
+#define FUNCNAME_DPPSL _dppsl
+#define FUNCNAME_DPTSL _dptsl
+#define FUNCNAME_DQRDC _dqrdc
+#define FUNCNAME_DQRSL _dqrsl
+#define FUNCNAME_DSICO _dsico
+#define FUNCNAME_DSIDI _dsidi
+#define FUNCNAME_DSIFA _dsifa
+#define FUNCNAME_DSISL _dsisl
+#define FUNCNAME_DSPCO _dspco
+#define FUNCNAME_DSPDI _dspdi
+#define FUNCNAME_DSPFA _dspfa
+#define FUNCNAME_DSPSL _dspsl
+#define FUNCNAME_DSVDC _dsvdc
+#define FUNCNAME_DTRCO _dtrco
+#define FUNCNAME_DTRSL _dtrsl
+#define FUNCNAME_LLSQ _llsq
+#define FUNCNAME_LOBATTOPOLYNOMIALVALUE _lobatto_polynomial_value
+#define FUNCNAME_LOBATTOPOLYNOMIALDERIVATIVE _lobatto_polynomial_derivative
+#define FUNCNAME_LORENZRHS _lorenz_rhs
+#define FUNCNAME_R8MATNORMLI _r8mat_norm_li
+#define FUNCNAME_R8MATFSSNEW _r8mat_fss_new
+#define FUNCNAME_C8MATCOPYNEW _c8mat_copy
+#define FUNCNAME_C8MATFSS _c8mat_fss
+#define FUNCNAME_C8MATFSSNEW _c8mat_fss_new
+#define FUNCNAME_R8MATSIGNIFICANT _r8mat_significant
+#define FUNCNAME_R8MATMINVM _r8mat_minvm
+#define FUNCNAME_R8MATADD _r8mat_add
+#define FUNCNAME_R8MATSCALE _r8mat_scale
+#define FUNCNAME_C8MATMINVM _c8mat_minvm
+#define FUNCNAME_C8MATMM _c8mat_mm
+#define FUNCNAME_C8MATADDR8 _c8mat_add_r8
+#define FUNCNAME_C8MATIDENTITYNEW _c8mat_identity_new
+#define FUNCNAME_C8MATSCALER8 _c8mat_scale_r8
+#define FUNCNAME_C8MATNORMLI _c8mat_norm_li
+#define FUNCNAME_C8MATCOPYNEW _c8mat_copy
+#define FUNCNAME_C8MATEXPM1 _c8mat_expm1
+#define FUNCNAME_R8MATEXPM1 _r8mat_expm1
+#define FUNCNAME_R8MATEXPM2 _r8mat_expm2
+#define FUNCNAME_MDCOMPUTE _md_compute
+#define FUNCNAME_MDDIST _md_dist
+#define FUNCNAME_MDINITIALIZE _md_initialize
+#define FUNCNAME_MDUPDATE _md_update
+#define FUNCNAME_MGS _mgs
+#define FUNCNAME_MONOBETWEENENUM _mono_between_enum
+#define FUNCNAME_MONOBETWEENNEXTGREVLEX _mono_between_next_grevlex
+#define FUNCNAME_MONOBETWEENNEXTGRLEX _mono_between_next_grlex
+#define FUNCNAME_MONOBETWEENRANDOM _mono_between_random
+#define FUNCNAME_MONONEXTGREVLEX _mono_next_grevlex
+#define FUNCNAME_MONONEXTGRLEX _mono_next_grlex
+#define FUNCNAME_MONORANKGRLEX _mono_rank_grlex
+#define FUNCNAME_MONOTOTALENUM _mono_total_enum
+#define FUNCNAME_MONOTOTALNEXTGREVLEX _mono_total_next_grevlex
+#define FUNCNAME_MONOTOTALNEXTGRLEX _mono_total_next_grlex
+#define FUNCNAME_MONOTOTALRANDOM _mono_total_random
+#define FUNCNAME_MONOUNRANKGRLEX _mono_unrank_grlex
+#define FUNCNAME_MONOUPTOENUM _mono_upto_enum
+#define FUNCNAME_MONOUPTONEXTGREVLEX _mono_upto_next_grevlex
+#define FUNCNAME_MONOUPTONEXTGRLEX _mono_upto_next_grlex
+#define FUNCNAME_MONOUPTORANDOM _mono_upto_random
+#define FUNCNAME_MONOVALUE _mono_value
+#define FUNCNAME_CTOF _ctof
+#define FUNCNAME_FTOC _ftoc
+#define FUNCNAME_GAUSSSEIDEL _gauss_seidel
+#define FUNCNAME_MONOGRIDPOISSON1D _monogrid_poisson_1d
+#define FUNCNAME_MULTIGRIDPOISSON1D _multigrid_poisson_1d
+#define FUNCNAME_NACA4CAMBERED _naca4_cambered
+#define FUNCNAME_NACA4SYMMETRIC _naca4_symmetric
+#define FUNCNAME_RESIDLUCAS _resid_lucas
+#define FUNCNAME_RESIDPOISEUILLE _resid_poiseuille
+#define FUNCNAME_RESIDSPIRAL _resid_spiral
+#define FUNCNAME_RESIDTAYLOR _resid_taylor
+#define FUNCNAME_RESIDVORTEX _resid_vortex
+#define FUNCNAME_RHSLUCAS _rhs_lucas
+#define FUNCNAME_RHSPOISEUILLE _rhs_poiseuille
+#define FUNCNAME_RHSSPIRAL _rhs_spiral
+#define FUNCNAME_RHSTAYLOR _rhs_taylor
+#define FUNCNAME_RHSVORTEX _rhs_vortex
+#define FUNCNAME_RESIDBURGERS _resid_burgers
+#define FUNCNAME_RESIDETHIER _resid_ethier
+#define FUNCNAME_NEARESTINTERP1D _nearest_interp_1d
+#define FUNCNAME_NEWTONCOEF1D _newton_coef_1d
+#define FUNCNAME_NEWTONVALUE1D _newton_value_1d
+#define FUNCNAME_TUPLENEXT _tuple_next
+#define FUNCNAME_ODEINTRP _ode_intrp
+#define FUNCNAME_PADUAPOINTSSET _padua_points_set
+#define FUNCNAME_PADUAPOINTS _padua_points
+#define FUNCNAME_PADUAWEIGHTSSET _padua_weights_set
+#define FUNCNAME_PADUAWEIGHTS _padua_weights
+#define FUNCNAME_PARTITIONBRUTE _partition_brute
+#define FUNCNAME_PARTITIONCOUNT _partition_count
+#define FUNCNAME_PARTITIONSUBSETNEXT _partition_subset_next
+#define FUNCNAME_PATTERSONSET _patterson_set
+#define FUNCNAME_PCEODEHERMITE _pce_ode_hermite
+#define FUNCNAME_R8GAMMALOG _r8_gamma_log
+#define FUNCNAME_R8CHIPDF _r8_chi_pdf
+#define FUNCNAME_R8EXPONENTIALPDF _r8_exponential_pdf
+#define FUNCNAME_R8EXPONENTIAL01PDF _r8_exponential_01_pdf
+#define FUNCNAME_R8INVCHIPDF _r8_invchi_pdf
+#define FUNCNAME_R8NORMALPDF _r8_normal_pdf
+#define FUNCNAME_R8SCINVCHIPDF _r8_scinvchi_pdf
+#define FUNCNAME_R8UNIFORMPDF _r8_uniform_pdf
+#define FUNCNAME_PIECEWISELINEARPRODUCTINTEGRAL _piecewise_linear_product_integral
+#define FUNCNAME_CDELAY2 _cdelay2
+#define FUNCNAME_CORR _corr
+#define FUNCNAME_CROSSCORR _cross_corr
+#define FUNCNAME_RAN1F _ran1f
+#define FUNCNAME_RANH _ranh
+#define FUNCNAME_WRAP2 _wrap2
+#define FUNCNAME_SWEEP _sweep
+#define FUNCNAME_UEXACT _u_exact
+#define FUNCNAME_UXXYYEXACT _uxxyy_exact
+#define FUNCNAME_FIBONACCIFLOOR _fibonacci_floor
+#define FUNCNAME_LEGENDREASSOCIATEDNORMALIZED _legendre_associated_normalized
+#define FUNCNAME_I4ISTRIANGULAR _i4_is_triangular
+#define FUNCNAME_CHEBYTPOLY _cheby_t_poly
+#define FUNCNAME_AGUD _agud
+#define FUNCNAME_ALIGNENUM _align_enum
+#define FUNCNAME_BENFORD _benford
+#define FUNCNAME_BERNOULLINUMBER _bernoulli_number
+#define FUNCNAME_BERNOULLINUMBER2 _bernoulli_number2
+#define FUNCNAME_BERNOULLINUMBER3 _bernoulli_number3
+#define FUNCNAME_BERNOULLIPOLY _bernoulli_poly
+#define FUNCNAME_BERNOULLIPOLY2 _bernoulli_poly2
+#define FUNCNAME_CARDANPOLY _cardan_poly
+#define FUNCNAME_CARDANPOLYCOEF _cardan_poly_coef
+#define FUNCNAME_CARDINALCOS _cardinal_cos
+#define FUNCNAME_CARDINALSIN _cardinal_sin
+#define FUNCNAME_CATALAN _catalan
+#define FUNCNAME_CATALANROWNEXT _catalan_row_next
+#define FUNCNAME_CHARLIER _charlier
+#define FUNCNAME_CHEBYSHEVDISCRETE _chebyshev_discrete
+#define FUNCNAME_COLLATZCOUNT _collatz_count
+#define FUNCNAME_COLLATZCOUNTMAX _collatz_count_max
+#define FUNCNAME_COMBROWNEXT _comb_row_next
+#define FUNCNAME_COMMUL _commul
+#define FUNCNAME_COMPLETESYMMETRICPOLY _complete_symmetric_poly
+#define FUNCNAME_COSPOWERINT _cos_power_int
+#define FUNCNAME_EULERNUMBER _euler_number
+#define FUNCNAME_EULERNUMBER2 _euler_number2
+#define FUNCNAME_EULERPOLY _euler_poly
+#define FUNCNAME_EULERIAN _eulerian
+#define FUNCNAME_FHOFSTADTER _f_hofstadter
+#define FUNCNAME_GHOFSTADTER _g_hofstadter
+#define FUNCNAME_GEGENBAUERPOLY _gegenbauer_poly
+#define FUNCNAME_GUD _gud
+#define FUNCNAME_HHOFSTADTER _h_hofstadter
+#define FUNCNAME_HAIL _hail
+#define FUNCNAME_I4PARTITIONDISTINCTCOUNT _i4_partition_distinct_count
+#define FUNCNAME_KRAWTCHOUK _krawtchouk
+#define FUNCNAME_LERCH _lerch
+#define FUNCNAME_MEIXNER _meixner
+#define FUNCNAME_MERTENS _mertens
+#define FUNCNAME_MOEBIUS _moebius
+#define FUNCNAME_MOTZKIN _motzkin
+#define FUNCNAME_OMEGA _omega
+#define FUNCNAME_PENTAGONNUM _pentagon_num
+#define FUNCNAME_PHI _phi
+#define FUNCNAME_PLANEPARTITIONNUM _plane_partition_num
+#define FUNCNAME_PYRAMIDNUM _pyramid_num
+#define FUNCNAME_PYRAMIDSQUARENUM _pyramid_square_num
+#define FUNCNAME_R8AGM _r8_agm
+#define FUNCNAME_R8FACTORIALLOG _r8_factorial_log
+#define FUNCNAME_R8HYPER2F1 _r8_hyper_2f1
+#define FUNCNAME_R8PSI _r8_psi
+#define FUNCNAME_R8POLYVALUEHORNER _r8poly_value_horner
+#define FUNCNAME_SIGMA _sigma
+#define FUNCNAME_SIMPLEXNUM _simplex_num
+#define FUNCNAME_SINPOWERINT _sin_power_int
+#define FUNCNAME_SLICE _slice
+#define FUNCNAME_SPHERICALHARMONIC _spherical_harmonic
+#define FUNCNAME_TAU _tau
+#define FUNCNAME_TETRAHEDRONNUM _tetrahedron_num
+#define FUNCNAME_TRIANGLENUM _triangle_num
+#define FUNCNAME_TRINOMIAL _trinomial
+#define FUNCNAME_VHOFSTADTER _v_hofstadter
+#define FUNCNAME_VIBONACCI _vibonacci
+#define FUNCNAME_ZECKENDORF _zeckendorf
+#define FUNCNAME_ZERNIKEPOLY _zernike_poly
+#define FUNCNAME_ZETA _zeta
+#define FUNCNAME_I4FACTOR _i4_factor
+#define FUNCNAME_FIBONACCIDIRECT _fibonacci_direct
+#define FUNCNAME_POLYGONGRIDPOINTS _polygon_grid_points
+#define FUNCNAME_MOMENT _moment
+#define FUNCNAME_MOMENTCENTRAL _moment_central
+#define FUNCNAME_MOMENTNORMALIZED _moment_normalized
+#define FUNCNAME_BETWEEN _between
+#define FUNCNAME_COLLINEAR _collinear
+#define FUNCNAME_DIAGONAL _diagonal
+#define FUNCNAME_DIAGONALIE _diagonalie
+#define FUNCNAME_INCONE _in_cone
+#define FUNCNAME_INTERSECT _intersect
+#define FUNCNAME_INTERSECTPROP _intersect_prop
+#define FUNCNAME_TRIANGLEAREAPTRIANG _triangle_area_ptriang
+#define FUNCNAME_POWERMETHOD _power_method
+#define FUNCNAME_POWERRULESET _power_rule_set
+#define FUNCNAME_POWERRULESIZE _power_rule_size
+#define FUNCNAME_ZIPFCDF _zipf_cdf
+#define FUNCNAME_ZIPFPDF _zipf_pdf
+#define FUNCNAME_BUFFONLAPLACEPDF _buffon_laplace_pdf
+#define FUNCNAME_LAPLACECDF _laplace_cdf
+#define FUNCNAME_LAPLACECDFINV _laplace_cdf_inv
+#define FUNCNAME_LAPLACEPDF _laplace_pdf
+#define FUNCNAME_LOGNORMALCDF _log_normal_cdf
+#define FUNCNAME_NORMALCDF _normal_cdf
+#define FUNCNAME_LOGNORMALPDF _log_normal_pdf
+#define FUNCNAME_LOGSERIESPDF _log_series_pdf
+#define FUNCNAME_GENLOGISTICCDF _genlogistic_cdf
+#define FUNCNAME_LOGISTICCDF _logistic_cdf
+#define FUNCNAME_BINOMIALCOEF _binomial_coef
+#define FUNCNAME_NEGATIVEBINOMIALCDF _negative_binomial_cdf
+#define FUNCNAME_NEGATIVEBINOMIALPDF _negative_binomial_pdf
+#define FUNCNAME_POISSONPDF _poisson_pdf
+#define FUNCNAME_RAYLEIGHCDF _rayleigh_cdf
+#define FUNCNAME_RAYLEIGHPDF _rayleigh_pdf
+#define FUNCNAME_VONMISESPDF _von_mises_pdf
+#define FUNCNAME_BESSELI0 _bessel_i0
+#define FUNCNAME_WEIBULLCDF _weibull_cdf
+#define FUNCNAME_WEIBULLPDF _weibull_pdf
+#define FUNCNAME_PWLAPPROX1D _pwl_approx_1d
+#define FUNCNAME_PWLAPPROX1DMATRIX _pwl_approx_1d_matrix
+#define FUNCNAME_PWLINTERP1D _pwl_interp_1d
+#define FUNCNAME_PWLBASIS1D _pwl_basis_1d
+#define FUNCNAME_PWLVALUE1D _pwl_value_1d
+#define FUNCNAME_R8VECBRACKET5 _r8vec_bracket5
+#define FUNCNAME_PWLINTERP2D _pwl_interp_2d
+#define FUNCNAME_PYRAUNITMONOMIAL _pyra_unit_monomial
+#define FUNCNAME_PYRAMIDUNITGRID _pyramid_unit_grid
+#define FUNCNAME_PYRAMIDUNITVERTICES _pyramid_unit_vertices
+#define FUNCNAME_MOMENTMETHOD _moment_method
+#define FUNCNAME_MOMENTSLAGUERRE _moments_laguerre
+#define FUNCNAME_MOMENTSLEGENDRE _moments_legendre
+#define FUNCNAME_MOMENTSNORMAL _moments_normal
+#define FUNCNAME_MOMENTSTRUNCATEDNORMALAB _moments_truncated_normal_ab
+#define FUNCNAME_MOMENTSTRUNCATEDNORMALA _moments_truncated_normal_a
+#define FUNCNAME_MOMENTSTRUNCATEDNORMALB _moments_truncated_normal_b
+#define FUNCNAME_NORMAL01CDF _normal_01_cdf
+#define FUNCNAME_NORMAL01PDF _normal_01_pdf
+#define FUNCNAME_TRUNCATEDNORMALABMOMENT _truncated_normal_ab_moment
+#define FUNCNAME_TRUNCATEDNORMALAMOMENT _truncated_normal_a_moment
+#define FUNCNAME_TRUNCATEDNORMALBMOMENT _truncated_normal_b_moment
+#define FUNCNAME_R8MATCHOLESKYFATTORUPPER _r8mat_cholesky_factor_upper
+#define FUNCNAME_R8FACTORIAL2 _r8_factorial2
+#define FUNCNAME_R8FRACTIONAL _r8_fractional
+#define FUNCNAME_R8IN01 _r8_in_01
+#define FUNCNAME_R8ISINT _r8_is_int
+#define FUNCNAME_R8MANT _r8_mant
+#define FUNCNAME_R8NINT _r8_nint
+#define FUNCNAME_R8NORMAL01 _r8_normal_01
+#define FUNCNAME_R8MOP _r8_mop
+#define FUNCNAME_R8NORMALAB _r8_normal_ab
+#define FUNCNAME_R8POWERFAST _r8_power_fast
+#define FUNCNAME_R8PYTHAG _r8_pythag
+#define FUNCNAME_R8REVERSEBYTES _r8_reverse_bytes
+#define FUNCNAME_R8ROUNDI4 _r8_round_i4
+#define FUNCNAME_R8ROUND2 _r8_round2
+#define FUNCNAME_R8ROUNDB _r8_roundb
+#define FUNCNAME_R8ROUNDX _r8_roundx
+#define FUNCNAME_R8SIGNOPPOSITESTRICT _r8_sign_opposite_strict
+#define FUNCNAME_R8TINY _r8_tiny
+#define FUNCNAME_R8TODHMS _r8_to_dhms
+#define FUNCNAME_R8TOI4 _r8_to_i4
+#define FUNCNAME_R8TOR8DISCRETE _r8_to_r8_discrete
+#define FUNCNAME_R8UNIFORMAB _r8_uniform_ab
+#define FUNCNAME_R8UNSWAP3 _r8_unswap3
+#define FUNCNAME_R8WALSH1D _r8_walsh_1d
+#define FUNCNAME_R82VECORDERTYPE _r82vec_order_type
+#define FUNCNAME_R82VECPERMUTE _r82vec_permute
+#define FUNCNAME_R82VECSORTHEAPINDEXA _r82vec_sort_heap_index_a
+#define FUNCNAME_R8BLOCKZERONEW _r8block_zero_new
+#define FUNCNAME_R8COLCOMPARE _r8col_compare
+#define FUNCNAME_R8COLDUPLICATES _r8col_duplicates
+#define FUNCNAME_R8COLFIND _r8col_find
+#define FUNCNAME_R8COLFIRSTINDEX _r8col_first_index
+#define FUNCNAME_R8COLINSERT _r8col_insert
+#define FUNCNAME_R8COLMAX _r8col_max
+#define FUNCNAME_R8COLMAXINDEX _r8col_max_index
+#define FUNCNAME_R8COLMAXONE _r8col_max_one
+#define FUNCNAME_R8COLMIN _r8col_min
+#define FUNCNAME_R8COLMININDEX _r8col_min_index
+#define FUNCNAME_R8COLPARTQUICKA _r8col_part_quick_a
+#define FUNCNAME_R8COLPERMUTE _r8col_permute
+#define FUNCNAME_R8COLSORTHEAPA _r8col_sort_heap_a
+#define FUNCNAME_R8COLSORTHEAPINDEXA _r8col_sort_heap_index_a
+#define FUNCNAME_R8COLSORTQUICKA _r8col_sort_quick_a
+#define FUNCNAME_R8COLSORTEDTOLUNDEX _r8col_sorted_tol_undex
+#define FUNCNAME_R8COLSORTEDTOLUNIQUE _r8col_sorted_tol_unique
+#define FUNCNAME_R8COLSORTEDTOLUNIQUECOUNT _r8col_sorted_tol_unique_count
+#define FUNCNAME_R8COLSORTEDUNDEX _r8col_sorted_undex
+#define FUNCNAME_R8COLSORTEDUNIQUE _r8col_sorted_unique
+#define FUNCNAME_R8COLSORTEDUNIQUECOUNT _r8col_sorted_unique_count
+#define FUNCNAME_R8COLSORTRA _r8col_sortr_a
+#define FUNCNAME_R8COLSUM _r8col_sum
+#define FUNCNAME_R8COLSWAP _r8col_swap
+#define FUNCNAME_R8COLTOR8VEC _r8col_to_r8vec
+#define FUNCNAME_R8COLTOLUNDEX _r8col_tol_undex
+#define FUNCNAME_R8MATCOPY _r8mat_copy
+#define FUNCNAME_R8MATDELETE _r8mat_delete
+#define FUNCNAME_R8MATDET _r8mat_det
+#define FUNCNAME_R8MATDET2D _r8mat_det_2d
+#define FUNCNAME_R8MATDET3D _r8mat_det_3d
+#define FUNCNAME_R8MATDET4D _r8mat_det_4d
+#define FUNCNAME_R8MATDET5D _r8mat_det_5d
+#define FUNCNAME_R8MATFLIPCOLS _r8mat_flip_cols
+#define FUNCNAME_R8MATFLIPROWS _r8mat_flip_rows
+#define FUNCNAME_R8MATIDENTITYNEW _r8mat_identity_new
+#define FUNCNAME_R8MATIN01 _r8mat_in_01
+#define FUNCNAME_R8MATINDICATORNEW _r8mat_indicator_new
+#define FUNCNAME_R8MATINVERSE2D _r8mat_inverse_2d
+#define FUNCNAME_R8MATINVERSE3D _r8mat_inverse_3d
+#define FUNCNAME_R8MATINVERSE4D _r8mat_inverse_4d
+// #define FUNCNAME_R8MATINVERSE5D _r8mat_inverse_5d
+#define FUNCNAME_R8MATLINVERSE _r8mat_l_inverse
+#define FUNCNAME_R8MATLSOLVE _r8mat_l_solve
+#define FUNCNAME_R8MATLTSOLVE _r8mat_lt_solve
+#define FUNCNAME_R8MATMAX _r8mat_max
+#define FUNCNAME_R8MATMIN _r8mat_min
+#define FUNCNAME_R8MATMM _r8mat_mm
+#define FUNCNAME_R8MATMV _r8mat_mv
+#define FUNCNAME_R8MATNEW _r8mat_new
+#define FUNCNAME_R8MATNORMEIS _r8mat_norm_eis
+#define FUNCNAME_R8MATNORMFRO _r8mat_norm_fro
+#define FUNCNAME_R8MATMXM _r8mat_mxm
+#define FUNCNAME_R8MATNULLSPACE _r8mat_nullspace
+#define FUNCNAME_R8MATNULLSPACESIZE _r8mat_nullspace_size
+#define FUNCNAME_R8MATREF _r8mat_ref
+#define FUNCNAME_R8MATRREF _r8mat_rref
+#define FUNCNAME_R8MATSYMMEIGEN _r8mat_symm_eigen
+#define FUNCNAME_R8MATSYMMJACOBI _r8mat_symm_jacobi
+#define FUNCNAME_R8MATTOR8PLU _r8mat_to_r8plu
+#define FUNCNAME_R8MATTRACE _r8mat_trace
+#define FUNCNAME_R8MATTRANSPOSE _r8mat_transpose
+#define FUNCNAME_R8MATTRANSPOSEINPLACE _r8mat_transpose_in_place
+#define FUNCNAME_R8MATZERO _r8mat_zero
+#define FUNCNAME_R8PLUDET _r8plu_det
+#define FUNCNAME_R8PPDELETE _r8pp_delete
+#define FUNCNAME_R8PPNEW _r8pp_new
+#define FUNCNAME_R8R8COMPARE _r8r8_compare
+#define FUNCNAME_R8R8R8COMPARE _r8r8r8_compare
+#define FUNCNAME_R8ROWMAX _r8row_max
+#define FUNCNAME_R8ROWMEAN _r8row_mean
+#define FUNCNAME_R8ROWMIN _r8row_min
+#define FUNCNAME_R8ROWSUM _r8row_sum
+#define FUNCNAME_R8ROWSWAP _r8row_swap
+#define FUNCNAME_R8ROWTOR8VEC _r8row_to_r8vec
+#define FUNCNAME_R8VEC01TOAB _r8vec_01_to_ab
+#define FUNCNAME_R8VECABTO01 _r8vec_ab_to_01
+#define FUNCNAME_R8VECABTOCD _r8vec_ab_to_cd
+#define FUNCNAME_R8VECAMAX _r8vec_amax
+#define FUNCNAME_R8VECAMAXINDEX _r8vec_amax_index
+#define FUNCNAME_R8VECAMIN _r8vec_amin
+#define FUNCNAME_R8VECAMININDEX _r8vec_amin_index
+#define FUNCNAME_R8VECANYNORMAL _r8vec_any_normal
+#define FUNCNAME_R8VECCIRCULARVARIANCE _r8vec_circular_variance
+#define FUNCNAME_R8VECCOMPARE _r8vec_compare
+#define FUNCNAME_R8VECCONVOLVECIRC _r8vec_convolve_circ
+#define FUNCNAME_R8VECCORRELATION _r8vec_correlation
+#define FUNCNAME_R8VECCOVAR _r8vec_covar
+#define FUNCNAME_R8VECCROSSPRODUCT2D _r8vec_cross_product_2d
+#define FUNCNAME_R8VECCROSSPRODUCTAFFINE2D _r8vec_cross_product_affine_2d
+#define FUNCNAME_R8VECCROSSPRODUCT3D _r8vec_cross_product_3d
+#define FUNCNAME_R8VECCROSSPRODUCTAFFINE3D _r8vec_cross_product_affine_3d
+#define FUNCNAME_R8VECDIF _r8vec_dif
+#define FUNCNAME_R8VECDIFFNORM _r8vec_diff_norm
+#define FUNCNAME_R8VECDIFFNORML1 _r8vec_diff_norm_l1
+#define FUNCNAME_R8VECDIFFNORML2 _r8vec_diff_norm_l2
+#define FUNCNAME_R8VECDIFFNORMLI _r8vec_diff_norm_li
+#define FUNCNAME_R8VECDIFFNORMSQUARED _r8vec_diff_norm_squared
+#define FUNCNAME_R8VECDISTANCE _r8vec_distance
+#define FUNCNAME_R8VECDISTINCT _r8vec_distinct
+#define FUNCNAME_R8VECDIVIDE _r8vec_divide
+#define FUNCNAME_R8VECDOTPRODUCT _r8vec_dot_product
+#define FUNCNAME_R8VECDOTPRODUCTAFFINE _r8vec_dot_product_affine
+#define FUNCNAME_R8VECEQ _r8vec_eq
+#define FUNCNAME_R8VECEVENSELECT _r8vec_even_select
+#define FUNCNAME_R8VECEVEN2 _r8vec_even2
+#define FUNCNAME_R8VECEVEN3 _r8vec_even3
+#define FUNCNAME_R8VECEXPANDLINEAR _r8vec_expand_linear
+#define FUNCNAME_R8VECFIRSTINDEX _r8vec_first_index
+#define FUNCNAME_R8VECFRAC _r8vec_frac
+#define FUNCNAME_R8VECFRACTION _r8vec_fraction
+#define FUNCNAME_R8VECGT _r8vec_gt
+#define FUNCNAME_R8VECHEAPA _r8vec_heap_a
+#define FUNCNAME_R8VECHEAPD _r8vec_heap_d
+#define FUNCNAME_I4VECZERO _i4vec_zero
+#define FUNCNAME_R8VECHISTOGRAM _r8vec_histogram
+#define FUNCNAME_R8VECHOUSECOLUMN _r8vec_house_column
+#define FUNCNAME_R8VECI4VECDOTPRODUCT _r8vec_i4vec_dot_product
+#define FUNCNAME_R8VECIN01 _r8vec_in_01
+#define FUNCNAME_R8VECINDEXDELETEALL _r8vec_index_delete_all
+#define FUNCNAME_R8VECINDEXDELETEDUPES _r8vec_index_delete_dupes
+#define FUNCNAME_R8VECINDEXDELETEONE _r8vec_index_delete_one
+#define FUNCNAME_R8VECINDEXINSERT _r8vec_index_insert
+#define FUNCNAME_R8VECINDEXINSERTUNIQUE _r8vec_index_insert_unique
+#define FUNCNAME_R8VECINDEXORDER _r8vec_index_order
+#define FUNCNAME_R8VECINDEXSEARCH _r8vec_index_search
+#define FUNCNAME_R8VECINDEXSORTUNIQUE _r8vec_index_sort_unique
+#define FUNCNAME_R8VECINDEXSORTEDRANGE _r8vec_index_sorted_range
+#define FUNCNAME_R8VECINDEXEDHEAPD _r8vec_indexed_heap_d
+#define FUNCNAME_R8VECINDEXEDHEAPDEXTRACT _r8vec_indexed_heap_d_extract
+#define FUNCNAME_R8VECINDEXEDHEAPDINSERT _r8vec_indexed_heap_d_insert
+#define FUNCNAME_R8VECINDEXEDHEAPDMAX _r8vec_indexed_heap_d_max
+#define FUNCNAME_R8VECINDICATOR0 _r8vec_indicator0
+#define FUNCNAME_R8VECINDICATOR0NEW _r8vec_indicator0_new
+#define FUNCNAME_R8VECINDICATOR1 _r8vec_indicator1
+#define FUNCNAME_R8VECINDICATOR1NEW _r8vec_indicator1_new
+#define FUNCNAME_R8VECINSERT _r8vec_insert
+#define FUNCNAME_R8VECISINT _r8vec_is_int
+#define FUNCNAME_R8VECISNONNEGATIVE _r8vec_is_nonnegative
+#define FUNCNAME_R8VECISZERO _r8vec_is_zero
+#define FUNCNAME_R8VECLT _r8vec_lt
+#define FUNCNAME_R8VECMAXINDEX _r8vec_max_index
+#define FUNCNAME_R8VECMININDEX _r8vec_min_index
+#define FUNCNAME_R8VECMINPOS _r8vec_min_pos
+#define FUNCNAME_R8VECMIRRORNEXT _r8vec_mirror_next
+#define FUNCNAME_R8VECNEGATIVESTRICT _r8vec_negative_strict
+#define FUNCNAME_R8VECNINT _r8vec_nint
+#define FUNCNAME_R8VECNORM _r8vec_norm
+#define FUNCNAME_R8VECNORMAFFINE _r8vec_norm_affine
+#define FUNCNAME_R8VECNORML1 _r8vec_norm_l1
+#define FUNCNAME_R8VECNORML2 _r8vec_norm_l2
+#define FUNCNAME_R8VECNORMLI _r8vec_norm_li
+#define FUNCNAME_R8VECNORMLP _r8vec_norm_lp
+#define FUNCNAME_R8VECNORMALIZE _r8vec_normalize
+#define FUNCNAME_R8VECNORMALIZEL1 _r8vec_normalize_l1
+#define FUNCNAME_R8VECNORMSQ _r8vec_normsq
+#define FUNCNAME_R8VECNORMSQAFFINE _r8vec_normsq_affine
+#define FUNCNAME_R8VECORDERTYPE _r8vec_order_type
+#define FUNCNAME_R8VECPARTQUICKA _r8vec_part_quick_a
+#define FUNCNAME_R8VECPERMUTE _r8vec_permute
+#define FUNCNAME_R8VECPERMUTECYCLIC _r8vec_permute_cyclic
+#define FUNCNAME_R8VECPERMUTEUNIFORM _r8vec_permute_uniform
+#define FUNCNAME_R8VECPOLARIZE _r8vec_polarize
+#define FUNCNAME_R8VECPOSITIVESTRICT _r8vec_positive_strict
+#define FUNCNAME_R8VECRANGE _r8vec_range
+#define FUNCNAME_R8VECRANGE2 _r8vec_range_2
+#define FUNCNAME_R8VECREVERSE _r8vec_reverse
+#define FUNCNAME_R8VECROTATE _r8vec_rotate
+#define FUNCNAME_R8VECSCALARTRIPLEPRODUCT _r8vec_scalar_triple_product
+#define FUNCNAME_R8VECSEARCHBINARYA _r8vec_search_binary_a
+#define FUNCNAME_R8VECSHIFT _r8vec_shift
+#define FUNCNAME_R8VECSHIFTCIRCULAR _r8vec_shift_circular
+#define FUNCNAME_R8VECSORTBUBBLEA _r8vec_sort_bubble_a
+#define FUNCNAME_R8VECSORTBUBBLED _r8vec_sort_bubble_d
+#define FUNCNAME_R8VECSORTHEAPA _r8vec_sort_heap_a
+#define FUNCNAME_R8VECSORTHEAPD _r8vec_sort_heap_d
+#define FUNCNAME_R8VECSORTHEAPINDEXA _r8vec_sort_heap_index_a
+#define FUNCNAME_R8VECSORTHEAPINDEXANEW _r8vec_sort_heap_index_a_new
+#define FUNCNAME_R8VECSORTHEAPINDEXD _r8vec_sort_heap_index_d
+#define FUNCNAME_R8VECSORTHEAPINDEXDNEW _r8vec_sort_heap_index_d_new
+#define FUNCNAME_R8VECSORTHEAPMASKA _r8vec_sort_heap_mask_a
+#define FUNCNAME_R8VECSORTINSERTA _r8vec_sort_insert_a
+#define FUNCNAME_R8VECSORTINSERTINDEXA _r8vec_sort_insert_index_a
+#define FUNCNAME_R8VECSORTQUICKA _r8vec_sort_quick_a
+#define FUNCNAME_R8VECSORTSHELLA _r8vec_sort_shell_a
+#define FUNCNAME_R8VECSORTEDMERGEA _r8vec_sorted_merge_a
+#define FUNCNAME_R8VECSORTEDNEAREST _r8vec_sorted_nearest
+#define FUNCNAME_R8VECSORTEDRANGE _r8vec_sorted_range
+#define FUNCNAME_R8VECSORTEDSPLIT _r8vec_sorted_split
+#define FUNCNAME_R8VECSORTEDUNDEX _r8vec_sorted_undex
+#define FUNCNAME_R8VECSORTEDUNIQUE _r8vec_sorted_unique
+#define FUNCNAME_R8VECSORTEDUNIQUECOUNT _r8vec_sorted_unique_count
+#define FUNCNAME_R8VECSORTEDUNIQUEHIST _r8vec_sorted_unique_hist
+#define FUNCNAME_R8VECSPLIT _r8vec_split
+#define FUNCNAME_R8VECSTUTTER _r8vec_stutter
+#define FUNCNAME_R8VECSTUTTERNEW _r8vec_stutter_new
+#define FUNCNAME_R8VECSWAP _r8vec_swap
+#define FUNCNAME_R8VECUNDEX _r8vec_undex
+#define FUNCNAME_R8VECUNIFORMAB _r8vec_uniform_ab
+#define FUNCNAME_R8VECUNIQUECOUNT _r8vec_unique_count
+#define FUNCNAME_R8VECUNIQUEINDEX _r8vec_unique_index
+#define FUNCNAME_R8VECVECTORTRIPLEPRODUCT _r8vec_vector_triple_product
+#define FUNCNAME_R8VECZERO _r8vec_zero
+#define FUNCNAME_R8VEC2COMPARE _r8vec2_compare
+#define FUNCNAME_R8VEC2SORTA _r8vec2_sort_a
+#define FUNCNAME_R8VEC2SORTD _r8vec2_sort_d
+#define FUNCNAME_R8VEC2SORTHEAPINDEXA _r8vec2_sort_heap_index_a
+#define FUNCNAME_R8VEC2SORTEDUNIQUE _r8vec2_sorted_unique
+#define FUNCNAME_R8VEC2SORTEDUNIQUEINDEX _r8vec2_sorted_unique_index
+#define FUNCNAME_R8VEC2SUMMAXINDEX _r8vec2_sum_max_index
+#define FUNCNAME_PHI1 _phi1
+#define FUNCNAME_PHI2 _phi2
+#define FUNCNAME_PHI3 _phi3
+#define FUNCNAME_PHI4 _phi4
+#define FUNCNAME_R8MATSOLVESVD _r8mat_solve_svd
+#define FUNCNAME_CIRCUITVALUE _circuit_value
+#define FUNCNAME_C8VECSFTB _c8vec_sftb
+#define FUNCNAME_C8VECSFTF _c8vec_sftf
+#define FUNCNAME_R8VECSCT _r8vec_sct
+#define FUNCNAME_R8VECSFTB _r8vec_sftb
+#define FUNCNAME_R8VECSFTF _r8vec_sftf
+#define FUNCNAME_R8VECSHT _r8vec_sht
+#define FUNCNAME_R8VECSQCTB _r8vec_sqctb
+#define FUNCNAME_R8VECSQCTF _r8vec_sqctf
+#define FUNCNAME_R8VECSQSTB _r8vec_sqstb
+#define FUNCNAME_R8VECSQSTF _r8vec_sqstf
+#define FUNCNAME_R8VECSST _r8vec_sst
+#define FUNCNAME_R8VECCOPY _r8vec_copy
+#define FUNCNAME_BINARYVECTORNEXT _binary_vector_next
+#define FUNCNAME_VECCOLEXNEXT3 _vec_colex_next3
+#define FUNCNAME_POINTUNIQUEINDEX _point_unique_index
+#define FUNCNAME_CLENSHAWCURTISCOMPUTEWEIGHTS _clenshaw_curtis_compute_weights
+#define FUNCNAME_FEJER2COMPUTEWEIGHTS _fejer2_compute_weights
+#define FUNCNAME_FEJER2COMPUTEWEIGHTSNP _fejer2_compute_weights_np
+#define FUNCNAME_GENHERMITECOMPUTEWEIGHTS _gen_hermite_compute_weights
+#define FUNCNAME_GENHERMITECOMPUTEWEIGHTSNP _gen_hermite_compute_weights_np
+#define FUNCNAME_GENLAGUERRECOMPUTEWEIGHTS _gen_laguerre_compute_weights
+#define FUNCNAME_GENLAGUERRECOMPUTEWEIGHTSNP _gen_laguerre_compute_weights_np
+#define FUNCNAME_HERMITECOMPUTEWEIGHTS _hermite_compute_weights
+#define FUNCNAME_HERMITECOMPUTEWEIGHTSNP _hermite_compute_weights_np
+#define FUNCNAME_JACOBICOMPUTEWEIGHTS _jacobi_compute_weights
+#define FUNCNAME_JACOBICOMPUTEWEIGHTSNP _jacobi_compute_weights_np
+#define FUNCNAME_LAGUERRECOMPUTEWEIGHTS _laguerre_compute_weights
+#define FUNCNAME_LAGUERRECOMPUTEWEIGHTSNP _laguerre_compute_weights_np
+#define FUNCNAME_LEGENDRECOMPUTEWEIGHTS _legendre_compute_weights
+#define FUNCNAME_LEGENDRECOMPUTEWEIGHTSNP _legendre_compute_weights_np
+#define FUNCNAME_CLENSHAWCURTISCOMPUTEWEIGHTSNP _clenshaw_curtis_compute_weights_np
+#define FUNCNAME_FEJER2COMPUTE _fejer2_compute
+#define FUNCNAME_FEJER2COMPUTEPOINTS _fejer2_compute_points
+#define FUNCNAME_FEJER2COMPUTEPOINTSNP _fejer2_compute_points_np
+#define FUNCNAME_PATTERSONLOOKUPWEIGHTS _patterson_lookup_weights
+#define FUNCNAME_PATTERSONLOOKUPWEIGHTSNP _patterson_lookup_weights_np
+#define FUNCNAME_PATTERSONLOOKUP _patterson_lookup
+#define FUNCNAME_PATTERSONLOOKUPPOINTS _patterson_lookup_points
+#define FUNCNAME_PATTERSONLOOKUPPOINTSNP _patterson_lookup_points_np
+#define FUNCNAME_JACOBICOMPUTE _jacobi_compute
+#define FUNCNAME_JACOBICOMPUTEPOINTS _jacobi_compute_points
+#define FUNCNAME_JACOBICOMPUTEPOINTSNP _jacobi_compute_points_np
+#define FUNCNAME_GENLAGUERRECOMPUTE _gen_laguerre_compute
+#define FUNCNAME_GENLAGUERRECOMPUTEPOINTS _gen_laguerre_compute_points
+#define FUNCNAME_GENLAGUERRECOMPUTEPOINTSNP _gen_laguerre_compute_points_np
+#define FUNCNAME_LAGUERRECOMPUTE _laguerre_compute
+#define FUNCNAME_LAGUERRECOMPUTEPOINTS _laguerre_compute_points
+#define FUNCNAME_LAGUERRECOMPUTEPOINTSNP _laguerre_compute_points_np
+#define FUNCNAME_HERMITECOMPUTE _hermite_compute
+#define FUNCNAME_HERMITECOMPUTEPOINTS _hermite_compute_points
+#define FUNCNAME_HERMITECOMPUTEPOINTSNP _hermite_compute_points_np
+#define FUNCNAME_GENHERMITECOMPUTE _gen_hermite_compute
+#define FUNCNAME_GENHERMITECOMPUTEPOINTS _gen_hermite_compute_points
+#define FUNCNAME_GENHERMITECOMPUTEPOINTSNP _gen_hermite_compute_points_np
+#define FUNCNAME_LEGENDRECOMPUTE _legendre_compute
+#define FUNCNAME_LEGENDRECOMPUTEPOINTS _legendre_compute_points
+#define FUNCNAME_LEGENDRECOMPUTEPOINTSNP _legendre_compute_points_np
+#define FUNCNAME_CLENSHAWCURTISCOMPUTEPOINTS _clenshaw_curtis_compute_points
+#define FUNCNAME_CLENSHAWCURTISCOMPUTEPOINTSNP _clenshaw_curtis_compute_points_np
+#define FUNCNAME_SGMGAANISONORMALIZE _sgmga_aniso_normalize
+#define FUNCNAME_SGMGAIMPORTANCETOANISO _sgmga_importance_to_aniso
+#define FUNCNAME_SGMGAVCN _sgmga_vcn
+#define FUNCNAME_SGMGAVCNCOEF _sgmga_vcn_coef
+#define FUNCNAME_SGMGAVCNORDERED _sgmga_vcn_ordered
+#define FUNCNAME_SHEPARDBASIS1D _shepard_basis_1d
+#define FUNCNAME_SHEPARDVALUE1D _shepard_value_1d
+#define FUNCNAME_SHEPARDINTERP2D _shepard_interp_2d
+#define FUNCNAME_SHEPARDINTERPND _shepard_interp_nd
+#define FUNCNAME_SIMPLEXCOORDINATES1 _simplex_coordinates1
+#define FUNCNAME_SIMPLEXCOORDINATES2 _simplex_coordinates2
+#define FUNCNAME_SIMPLEXVOLUME _simplex_volume
+#define FUNCNAME_SIMPLEXUNITVOLUME _simplex_unit_volume
+#define FUNCNAME_MONOMIALVALUE _monomial_value
+#define FUNCNAME_GMRULESET _gm_rule_set
+#define FUNCNAME_GMRULESIZE _gm_rule_size
+#define FUNCNAME_SIMPLEXUNITMONOMIALINT _simplex_unit_monomial_int
+#define FUNCNAME_SIMPLEXUNITMONOMIALQUADRATURE _simplex_unit_monomial_quadrature
+#define FUNCNAME_SIMPLEXUNITSAMPLE _simplex_unit_sample
+#define FUNCNAME_SIMPLEXUNITTOGENERAL _simplex_unit_to_general
+#define FUNCNAME_KSUBRANDOMNEW _ksub_random_new
+#define FUNCNAME_COMPRANDOMNEW _comp_random_new
+#define FUNCNAME_SIMPLEXGRIDINDEXALL _simplex_grid_index_all
+#define FUNCNAME_SIMPLEXGRIDINDEXNEXT _simplex_grid_index_next
+#define FUNCNAME_SIMPLEXGRIDINDEXSAMPLE _simplex_grid_index_sample
+#define FUNCNAME_SIMPLEXGRIDINDEXTOPOINT _simplex_grid_index_to_point
+#define FUNCNAME_SIMPLEXGRIDSIZE _simplex_grid_size
+#define FUNCNAME_SINETRANSFORMDATA _sine_transform_data
+#define FUNCNAME_SINETRANSFORMFUNCTION _sine_transform_function
+#define FUNCNAME_SINETRANSFORMINTERPOLANT _sine_transform_interpolant
+#define FUNCNAME_I4MOP _i4_mop
+#define FUNCNAME_CCABSCISSA _cc_abscissa
+#define FUNCNAME_CCWEIGHTS _cc_weights
+#define FUNCNAME_ABSCISSALEVELCLOSEDND _abscissa_level_closed_nd
+#define FUNCNAME_INDEXTOLEVELCLOSED _index_to_level_closed
+#define FUNCNAME_LEVELTOORDERCLOSED _level_to_order_closed
+#define FUNCNAME_MULTIGRIDINDEX0 _multigrid_index0
+#define FUNCNAME_MULTIGRIDSCALECLOSED _multigrid_scale_closed
+#define FUNCNAME_PRODUCTWEIGHTSCC _product_weights_cc
+#define FUNCNAME_SPARSEGRIDCC _sparse_grid_cc
+#define FUNCNAME_SPARSEGRIDCCINDEX _sparse_grid_cc_index
+#define FUNCNAME_SPARSEGRIDCCSIZEOLD _sparse_grid_cc_size_old
+#define FUNCNAME_SPARSEGRIDCCWEIGHTS _sparse_grid_cc_weights
+#define FUNCNAME_SPARSEGRIDCCSSIZE _sparse_grid_ccs_size
+#define FUNCNAME_VECCOLEXNEXT2 _vec_colex_next2
+#define FUNCNAME_R8CVVOFFSET _r8cvv_offset
+#define FUNCNAME_R8CVVRGETNEW _r8cvv_rget_new
+#define FUNCNAME_R8CVVRSET _r8cvv_rset
+#define FUNCNAME_CCEORDER _cce_order
+#define FUNCNAME_CCLORDER _ccl_order
+#define FUNCNAME_CCSORDER _ccs_order
+#define FUNCNAME_FNINTEGRAL _fn_integral
+#define FUNCNAME_FNVALUE _fn_value
+#define FUNCNAME_FUINTEGRAL _fu_integral
+#define FUNCNAME_FUVALUE _fu_value
+#define FUNCNAME_GETSEQ _get_seq
+#define FUNCNAME_GQN _gqn
+#define FUNCNAME_GQNORDER _gqn_order
+#define FUNCNAME_GQN2ORDER _gqn2_order
+#define FUNCNAME_GQU _gqu
+#define FUNCNAME_GQUORDER _gqu_order
+#define FUNCNAME_KPN _kpn
+#define FUNCNAME_KPU _kpu
+#define FUNCNAME_KPUORDER _kpu_order
+#define FUNCNAME_NUMSEQ _num_seq
+#define FUNCNAME_RULEADJUST _rule_adjust
+#define FUNCNAME_RULESORT _rule_sort
+#define FUNCNAME_SYMMETRICSPARSESIZE _symmetric_sparse_size
+#define FUNCNAME_TENSORPRODUCT _tensor_product
+#define FUNCNAME_TENSORPRODUCTCELL _tensor_product_cell
+#define FUNCNAME_SMOLYAKCOEFFICIENTS _smolyak_coefficients
+#define FUNCNAME_SPHEREFIBONACCIGRIDPOINTS _sphere_fibonacci_grid_points
+#define FUNCNAME_ATAN4 _atan4
+#define FUNCNAME_ICOSNUM _icos_num
+#define FUNCNAME_SPHEREDISTANCEXYZ _sphere_distance_xyz
+#define FUNCNAME_SPHERECUBEDIJKTOXYZ _sphere_cubed_ijk_to_xyz
+#define FUNCNAME_SPHERECUBEDLINENUM _sphere_cubed_line_num
+#define FUNCNAME_SPHERECUBEDLINES _sphere_cubed_lines
+#define FUNCNAME_SPHERECUBEDPOINTS _sphere_cubed_points
+#define FUNCNAME_SPHERECUBEDPOINTSFACE _sphere_cubed_points_face
+#define FUNCNAME_SPHERECUBEDPOINTNUM _sphere_cubed_point_num
+#define FUNCNAME_SPHEREGRIDQ4 _sphere_grid_q4
+#define FUNCNAME_SPHEREGRIDT3 _sphere_grid_t3
+#define FUNCNAME_SPHEREICOSEDGENUM _sphere_icos_edge_num
+#define FUNCNAME_SPHEREICOSFACENUM _sphere_icos_face_num
+#define FUNCNAME_SPHEREICOSPOINTNUM _sphere_icos_point_num
+#define FUNCNAME_SPHEREICOS1POINTS _sphere_icos1_points
+#define FUNCNAME_SPHEREICOS2POINTS _sphere_icos2_points
+#define FUNCNAME_SPHERELINEPROJECT _sphere_line_project
+#define FUNCNAME_SPHERELLLINES _sphere_ll_lines
+#define FUNCNAME_SPHERELLLINENUM _sphere_ll_line_num
+#define FUNCNAME_SPHERELLPOINTS _sphere_ll_points
+#define FUNCNAME_SPHERELLPOINTNUM _sphere_ll_point_num
+#define FUNCNAME_SPHERELLQLINES _sphere_llq_lines
+#define FUNCNAME_SPHERELLQLINENUM _sphere_llq_line_num
+#define FUNCNAME_SPHERSPIRALPOINTS _sphere_spiralpoints
+#define FUNCNAME_SPHEREUNITSAMPLE _sphere_unit_sample
+#define FUNCNAME_SPHERE01MONOMIALINTEGRAL _sphere01_monomial_integral
+#define FUNCNAME_SPHERE01SAMPLE _sphere01_sample
+#define FUNCNAME_SPHERE01MONOMIALQUADRATURE _sphere01_monomial_quadrature
+#define FUNCNAME_AVAILABLETABLE _available_table
+#define FUNCNAME_GENOH _gen_oh
+#define FUNCNAME_LDBYORDER _ld_by_order
+#define FUNCNAME_LD0006 _ld0006
+#define FUNCNAME_LD0014 _ld0014
+#define FUNCNAME_LD0026 _ld0026
+#define FUNCNAME_LD0038 _ld0038
+#define FUNCNAME_LD0050 _ld0050
+#define FUNCNAME_LD0074 _ld0074
+#define FUNCNAME_LD0086 _ld0086
+#define FUNCNAME_LD0110 _ld0110
+#define FUNCNAME_LD0146 _ld0146
+#define FUNCNAME_LD0170 _ld0170
+#define FUNCNAME_LD0194 _ld0194
+#define FUNCNAME_LD0230 _ld0230
+#define FUNCNAME_LD0266 _ld0266
+#define FUNCNAME_LD0302 _ld0302
+#define FUNCNAME_LD0350 _ld0350
+#define FUNCNAME_LD0434 _ld0434
+#define FUNCNAME_LD0590 _ld0590
+#define FUNCNAME_LD0770 _ld0770
+#define FUNCNAME_LD0974 _ld0974
+#define FUNCNAME_LD1202 _ld1202
+#define FUNCNAME_LD1454 _ld1454
+#define FUNCNAME_LD1730 _ld1730
+#define FUNCNAME_LD2030 _ld2030
+#define FUNCNAME_LD2354 _ld2354
+#define FUNCNAME_LD2702 _ld2702
+#define FUNCNAME_LD3074 _ld3074
+#define FUNCNAME_LD3470 _ld3470
+#define FUNCNAME_LD3890 _ld3890
+#define FUNCNAME_LD4334 _ld4334
+#define FUNCNAME_LD4802 _ld4802
+#define FUNCNAME_LD5294 _ld5294
+#define FUNCNAME_LD5810 _ld5810
+#define FUNCNAME_ORDERTABLE _order_table
+#define FUNCNAME_PRECISIONTABLE _precision_table
+#define FUNCNAME_SPHERELLQGRIDPOINTCOUNT _sphere_llq_grid_point_count
+#define FUNCNAME_SPHERELLQGRIDPOINTS _sphere_llq_grid_points
+#define FUNCNAME_SPHERELLTGRIDLINECOUNT _sphere_llt_grid_line_count
+#define FUNCNAME_SPHERELLTGRIDLINES _sphere_llt_grid_lines
+#define FUNCNAME_SPHERELLTGRIDPOINTCOUNT _sphere_llt_grid_point_count
+#define FUNCNAME_SPHERELLTGRIDPOINTS _sphere_llt_grid_points
+#define FUNCNAME_SPHERE01QUADMCSIZE _sphere01_quad_mc_size
+#define FUNCNAME_SPHERE01TRIANGLEANGLESTOAREA _sphere01_triangle_angles_to_area
+#define FUNCNAME_SPHERE01TRIANGLEPROJECTS _sphere01_triangle_project
+#define FUNCNAME_SPHERE01TRIANGLEPROJECTS2 _sphere01_triangle_project2
+#define FUNCNAME_SPHERE01TRIANGLESAMPLE _sphere01_triangle_sample
+#define FUNCNAME_SPHERE01TRIANGLESIDESTOANGLES _sphere01_triangle_sides_to_angles
+#define FUNCNAME_SPHERE01TRIANGLEVERTICESTOANGLES _sphere01_triangle_vertices_to_angles
+#define FUNCNAME_SPHERE01TRIANGLEVERTICESTOAREA _sphere01_triangle_vertices_to_area
+#define FUNCNAME_SPHERE01TRIANGLEVERTICESTOCENTROID _sphere01_triangle_vertices_to_centroid
+#define FUNCNAME_SPHERE01TRIANGLEVERTICESTOMIDPOINTS _sphere01_triangle_vertices_to_midpoints
+#define FUNCNAME_SPHERE01TRIANGLEVERTICESTOSIDES _sphere01_triangle_vertices_to_sides
+#define FUNCNAME_SPHERESTEREOGRAPH2 _sphere_stereograph2
+#define FUNCNAME_SPHERESTEREOGRAPH2INVERSE _sphere_stereograph2_inverse
+#define FUNCNAME_LEGE2EVA _lege2eva
+#define FUNCNAME_LLEGEPOLS1 _llegepols1
+#define FUNCNAME_SQUAREARBQRULE01 _squarearbq_rule01
+#define FUNCNAME_SQUAREARBQRULE02 _squarearbq_rule02
+#define FUNCNAME_SQUAREARBQRULE03 _squarearbq_rule03
+#define FUNCNAME_SQUAREARBQRULE04 _squarearbq_rule04
+#define FUNCNAME_SQUAREARBQRULE05 _squarearbq_rule05
+#define FUNCNAME_SQUAREARBQRULE06 _squarearbq_rule06
+#define FUNCNAME_SQUAREARBQRULE07 _squarearbq_rule07
+#define FUNCNAME_SQUAREARBQRULE08 _squarearbq_rule08
+#define FUNCNAME_SQUAREARBQRULE09 _squarearbq_rule09
+#define FUNCNAME_SQUAREARBQRULE10 _squarearbq_rule10
+#define FUNCNAME_SQUAREARBQRULE11 _squarearbq_rule11
+#define FUNCNAME_SQUAREARBQRULE12 _squarearbq_rule12
+#define FUNCNAME_SQUAREARBQRULE13 _squarearbq_rule13
+#define FUNCNAME_SQUAREARBQRULE14 _squarearbq_rule14
+#define FUNCNAME_SQUAREARBQRULE15 _squarearbq_rule15
+#define FUNCNAME_SQUAREARBQRULE16 _squarearbq_rule16
+#define FUNCNAME_SQUAREARBQRULE17 _squarearbq_rule17
+#define FUNCNAME_SQUAREARBQRULE18 _squarearbq_rule18
+#define FUNCNAME_SQUAREARBQRULE19 _squarearbq_rule19
+#define FUNCNAME_SQUAREARBQRULE20 _squarearbq_rule20
+#define FUNCNAME_SQUAREARBQRULE21 _squarearbq_rule21
+#define FUNCNAME_SQUAREARBQRULE22 _squarearbq_rule22
+#define FUNCNAME_SQUAREARBQRULE23 _squarearbq_rule23
+#define FUNCNAME_SQUAREARBQRULE24 _squarearbq_rule24
+#define FUNCNAME_SQUAREARBQRULE25 _squarearbq_rule25
+#define FUNCNAME_SQUAREARBQRULE26 _squarearbq_rule26
+#define FUNCNAME_SQUAREARBQRULE27 _squarearbq_rule27
+#define FUNCNAME_SQUAREARBQRULE28 _squarearbq_rule28
+#define FUNCNAME_SQUAREARBQRULE29 _squarearbq_rule29
+#define FUNCNAME_SQUAREARBQRULE30 _squarearbq_rule30
+#define FUNCNAME_SQUAREARBQ _square_arbq
+#define FUNCNAME_SQUAREARBQSIZE _square_arbq_size
+#define FUNCNAME_SQUAREGRID _square_grid
+#define FUNCNAME_SQUARE01SAMPLE _square01_sample
+#define FUNCNAME_SQUARESYMQFULLSIZE _squaresymq_rule_full_size
+#define FUNCNAME_SQUARESYMQRULE01 _squaresymq_rule01
+#define FUNCNAME_SQUARESYMQRULE02 _squaresymq_rule02
+#define FUNCNAME_SQUARESYMQRULE03 _squaresymq_rule03
+#define FUNCNAME_SQUARESYMQRULE04 _squaresymq_rule04
+#define FUNCNAME_SQUARESYMQRULE05 _squaresymq_rule05
+#define FUNCNAME_SQUARESYMQRULE06 _squaresymq_rule06
+#define FUNCNAME_SQUARESYMQRULE07 _squaresymq_rule07
+#define FUNCNAME_SQUARESYMQRULE08 _squaresymq_rule08
+#define FUNCNAME_SQUARESYMQRULE09 _squaresymq_rule09
+#define FUNCNAME_SQUARESYMQRULE10 _squaresymq_rule10
+#define FUNCNAME_SQUARESYMQRULE11 _squaresymq_rule11
+#define FUNCNAME_SQUARESYMQRULE12 _squaresymq_rule12
+#define FUNCNAME_SQUARESYMQRULE13 _squaresymq_rule13
+#define FUNCNAME_SQUARESYMQRULE14 _squaresymq_rule14
+#define FUNCNAME_SQUARESYMQRULE15 _squaresymq_rule15
+#define FUNCNAME_SQUARESYMQRULE16 _squaresymq_rule16
+#define FUNCNAME_SQUARESYMQRULE17 _squaresymq_rule17
+#define FUNCNAME_SQUARESYMQRULE18 _squaresymq_rule18
+#define FUNCNAME_SQUARESYMQRULE19 _squaresymq_rule19
+#define FUNCNAME_SQUARESYMQRULE20 _squaresymq_rule20
+#define FUNCNAME_SQUARESYMQ _square_symq
+#define FUNCNAME_DIFFUSIVITY1DXK _diffusivity_1d_xk
+#define FUNCNAME_DIFFUSIVITY2DBNT _diffusivity_2d_bnt
+#define FUNCNAME_DIFFUSIVITY2DELMAN _diffusivity_2d_elman
+#define FUNCNAME_DIFFUSIVITY2NTW _diffusivity_2d_ntw
+#define FUNCNAME_R8VECMESH2D _r8vec_mesh_2d
+#define FUNCNAME_THETASOLVE _theta_solve
+#define FUNCNAME_RK1TISTEP _rk1_ti_step
+#define FUNCNAME_RK2TISTEP _rk2_ti_step
+#define FUNCNAME_RK3TISTEP _rk3_ti_step
+#define FUNCNAME_RK4TISTEP _rk4_ti_step
+#define FUNCNAME_RESIDSTOKES1 _resid_stokes1
+#define FUNCNAME_RESIDSTOKES2 _resid_stokes2
+#define FUNCNAME_RESIDSTOKES3 _resid_stokes3
+#define FUNCNAME_RHSSTOKES1 _rhs_stokes1
+#define FUNCNAME_RHSSTOKES2 _rhs_stokes2
+#define FUNCNAME_RHSSTOKES3 _rhs_stokes3
+#define FUNCNAME_GENLAGUERRERECUR _gen_laguerre_recur
+#define FUNCNAME_HERMITERECUR _hermite_recur
+#define FUNCNAME_JACOBIRECUR _jacobi_recur
+#define FUNCNAME_LAGUERRERECUR _laguerre_recur
+#define FUNCNAME_GENLAGUERREROOT _gen_laguerre_root
+#define FUNCNAME_HERMITEROOT _hermite_root
+#define FUNCNAME_JACOBIROOT _jacobi_root
+#define FUNCNAME_LAGUERREROOT _laguerre_root
+#define FUNCNAME_PERM0CYCLE _perm0_cycle
+#define FUNCNAME_I4SQRTCF _i4_sqrt_cf
+#define FUNCNAME_UBVECTOUI4 _ubvec_to_ui4
+#define FUNCNAME_UBVECXOR _ubvec_xor
+#define FUNCNAME_UI4TOUBVEC _ui4_to_ubvec
+#define FUNCNAME_I4SQRT _i4_sqrt
+#define FUNCNAME_TRIANG _triang
+#define FUNCNAME_PERM0INVERSE _perm0_inverse
+#define FUNCNAME_I4MAT2PERM0 _i4mat_2perm0
+#define FUNCNAME_I4BSET _i4_bset
+#define FUNCNAME_I4BTEST _i4_btest
+#define FUNCNAME_INDEXRANK0 _index_rank0
+#define FUNCNAME_INDEXUNRANK0 _index_unrank0
+#define FUNCNAME_PERM0LEXNEXT _perm0_lex_next
+#define FUNCNAME_PERM0FREE _perm0_free
+#define FUNCNAME_KSUBRANDOM _ksub_random
+#define FUNCNAME_SUBSETSUMCOUNT _subset_sum_count
+#define FUNCNAME_SUBSETSUMFIND _subset_sum_find
+#define FUNCNAME_SUBSETSUMTABLETOLISTLENGTH _subset_sum_table_to_list_length
+#define FUNCNAME_SUBSETSUMTABLE _subset_sum_table
+#define FUNCNAME_SUBSETSUMTABLETOLIST _subset_sum_table_to_list
+#define FUNCNAME_R8MATROWCOPY _r8mat_row_copy
+#define FUNCNAME_REFTOKOORN _ref_to_koorn
+#define FUNCNAME_TETRAHEDRONRULE01 _tetrahedron_rule01
+#define FUNCNAME_TETRAHEDRONRULE02 _tetrahedron_rule02
+#define FUNCNAME_TETRAHEDRONRULE03 _tetrahedron_rule03
+#define FUNCNAME_TETRAHEDRONRULE04 _tetrahedron_rule04
+#define FUNCNAME_TETRAHEDRONRULE05 _tetrahedron_rule05
+#define FUNCNAME_TETRAHEDRONRULE06 _tetrahedron_rule06
+#define FUNCNAME_TETRAHEDRONRULE07 _tetrahedron_rule07
+#define FUNCNAME_TETRAHEDRONRULE08 _tetrahedron_rule08
+#define FUNCNAME_TETRAHEDRONRULE09 _tetrahedron_rule09
+#define FUNCNAME_TETRAHEDRONRULE10 _tetrahedron_rule10
+#define FUNCNAME_TETRAHEDRONRULE11 _tetrahedron_rule11
+#define FUNCNAME_TETRAHEDRONRULE12 _tetrahedron_rule12
+#define FUNCNAME_TETRAHEDRONRULE13 _tetrahedron_rule13
+#define FUNCNAME_TETRAHEDRONRULE14 _tetrahedron_rule14
+#define FUNCNAME_TETRAHEDRONRULE15 _tetrahedron_rule15
+#define FUNCNAME_TETRAHEDRONARBQ _tetrahedron_arbq
+#define FUNCNAME_TETRAHEDRONARBQSIZE _tetrahedron_arbq_size
+#define FUNCNAME_TETRAHEDRONREF _tetrahedron_ref
+#define FUNCNAME_TET01MONOMIALINTEGRAL _tet01_monomial_integral
+#define FUNCNAME_TET01MONOMIALQUADRATURE _tet01_monomial_quadrature
+#define FUNCNAME_TETRAHEDRONGRID _tetrahedron_grid
+#define FUNCNAME_TETRAHEDRONGRIDCOUNT _tetrahedron_grid_count
+#define FUNCNAME_TETRAHEDRON01MONOMIALINTEGRAL _tetrahedron01_monomial_integral
+#define FUNCNAME_TETRAHEDRON01SAMPLE _tetrahedron01_sample
+#define FUNCNAME_REFERENCETOPHYSICALT4 _reference_to_physical_t4
+#define FUNCNAME_TETRAHEDRONNCCDEGREE _tetrahedron_ncc_degree
+#define FUNCNAME_TETRAHEDRONNCCORDERNUM _tetrahedron_ncc_order_num
+#define FUNCNAME_TETRAHEDRONNCCRULE _tetrahedron_ncc_rule
+#define FUNCNAME_TETRAHEDRONNCCRULENUM _tetrahedron_ncc_rule_num
+#define FUNCNAME_TETRAHEDRONNCCSUBORDER _tetrahedron_ncc_suborder
+#define FUNCNAME_TETRAHEDRONNCCSUBORDERNUM _tetrahedron_ncc_suborder_num
+#define FUNCNAME_TETRAHEDRONNCCSUBRULE _tetrahedron_ncc_subrule
+#define FUNCNAME_TETRAHEDRONNCCSUBRULE01 _tetrahedron_ncc_subrule_01
+#define FUNCNAME_TETRAHEDRONNCCSUBRULE02 _tetrahedron_ncc_subrule_02
+#define FUNCNAME_TETRAHEDRONNCCSUBRULE03 _tetrahedron_ncc_subrule_03
+#define FUNCNAME_TETRAHEDRONNCCSUBRULE04 _tetrahedron_ncc_subrule_04
+#define FUNCNAME_TETRAHEDRONNCCSUBRULE05 _tetrahedron_ncc_subrule_05
+#define FUNCNAME_TETRAHEDRONNCCSUBRULE06 _tetrahedron_ncc_subrule_06
+#define FUNCNAME_TETRAHEDRONNCCSUBRULE07 _tetrahedron_ncc_subrule_07
+#define FUNCNAME_TETRAHEDRONVOLUME _tetrahedron_volume
+#define FUNCNAME_TETMESHNEIGHBORTETS _tet_mesh_neighbor_tets
+#define FUNCNAME_TETMESHNODEORDER _tet_mesh_node_order
+#define FUNCNAME_TETMESHORDER4ADJCOUNT _tet_mesh_order4_adj_count
+#define FUNCNAME_TETMESHORDER4ADJSET _tet_mesh_order4_adj_set
+#define FUNCNAME_TETMESHORDER4BOUNDARYFACECOUNT _tet_mesh_order4_boundary_face_count
+#define FUNCNAME_TETMESHORDER4EDGECOUNT _tet_mesh_order4_edge_count
+#define FUNCNAME_TETMESHORDER4REFINECOMPUTE _tet_mesh_order4_refine_compute
+#define FUNCNAME_TETMESHORDER4REFINESIZE _tet_mesh_order4_refine_size
+#define FUNCNAME_TETMESHORDER4TOORDER10COMPUTE _tet_mesh_order4_to_order10_compute
+#define FUNCNAME_TETMESHORDERTOORDER10SIZE _tet_mesh_order4_to_order10_size
+#define FUNCNAME_TETMESHORDER10ADJCOUNT _tet_mesh_order10_adj_count
+#define FUNCNAME_TETMESHORDER10ADJSET _tet_mesh_order10_adj_set
+#define FUNCNAME_TETRAHEDRONORDER4PHYSICALTOREFERENCE _tetrahedron_order4_physical_to_reference
+#define FUNCNAME_TOEPCHOLESKYLOWER _toep_cholesky_lower
+#define FUNCNAME_TOEPCHOLESKYUPPER _toep_cholesky_upper
+#define FUNCNAME_TOEPLITZCHOLESKYLOWER _toeplitz_cholesky_lower
+#define FUNCNAME_TOEPLITZCHOLESKYUPPER _toeplitz_cholesky_upper
+#define FUNCNAME_I4MATSHORTESTPATH _i4mat_shortest_path
+#define FUNCNAME_R8MATSHORTESTPATH _r8mat_shortest_path
+#define FUNCNAME_MDBETA _mdbeta
+#define FUNCNAME_FISHER _fisher
+#define FUNCNAME_STUDENT _student
+#define FUNCNAME_WEWA _wew_a
+#define FUNCNAME_WEWB _wew_b
+#define FUNCNAME_SCMM _scmm
+#define FUNCNAME_CAWIQ _cawiq
+#define FUNCNAME_CGQFS _cgqfs
+#define FUNCNAME_CHKQF _chkqf
+#define FUNCNAME_CHKQFS _chkqfs
+#define FUNCNAME_CIQF _ciqf
+#define FUNCNAME_CIQFS _ciqfs
+#define FUNCNAME_CLIQF _cliqf
+#define FUNCNAME_CLIQFS _cliqfs
+#define FUNCNAME_CWIQD _cwiqd
+#define FUNCNAME_SCT _sct
+#define FUNCNAME_WM _wm
+#define FUNCNAME_WTFN _wtfn
+#define FUNCNAME_BISECT _bisect
+#define FUNCNAME_CRUDE _crude
+#define FUNCNAME_NBITSCOMPUTE _crude
+#define FUNCNAME_DGEMM _dgemm
+#define FUNCNAME_CHEB _cheb
+#define FUNCNAME_FRANKE _franke
+#define FUNCNAME_PADUA2 _padua2
+#define FUNCNAME_PD2VAL _pd2val
+#define FUNCNAME_PDPTS _pdpts
+#define FUNCNAME_VECNEXT _vec_next
+#define FUNCNAME_VECRANDOM _vec_random
+#define FUNCNAME_GRAPHADJEDGECOUNT _graph_adj_edge_count
+#define FUNCNAME_GRAPHADJISNODECONNECTED _graph_adj_is_node_connected
+#define FUNCNAME_GRAPHADJISTREE _graph_adj_is_tree
+#define FUNCNAME_GRAPHARCDEGREE _graph_arc_degree
+#define FUNCNAME_GRAPHARCISTREE _graph_arc_is_tree
+#define FUNCNAME_GRAPHARCNODECOUNT _graph_arc_node_count
+#define FUNCNAME_GRAPHARCNODEMAX _graph_arc_node_max
+#define FUNCNAME_GRAPHARCTOGRAPHADJ _graph_arc_to_graph_adj
+#define FUNCNAME_PRUEFERTOTREEARC _pruefer_to_tree_arc
+#define FUNCNAME_PRUEFERTOTREE2 _pruefer_to_tree_2
+#define FUNCNAME_PRUEFERTOTREE2NEW _pruefer_to_tree_2_new
+#define FUNCNAME_TREEARCCENTER _tree_arc_center
+#define FUNCNAME_TREEARCDIAM _tree_arc_diam
+#define FUNCNAME_TREEARCRANDOM _tree_arc_random
+#define FUNCNAME_TREEARCTOPRUEFER _tree_arc_to_pruefer
+#define FUNCNAME_TREEENUM _tree_enum
+#define FUNCNAME_TREEPARENTNEXT _tree_parent_next
+#define FUNCNAME_TREEPARENTTOARC _tree_parent_to_arc
+#define FUNCNAME_TREERBLEXNEXT _tree_rb_lex_next
+#define FUNCNAME_TREERBTOPARENT _tree_rb_to_parent
+#define FUNCNAME_TREERBYULE _tree_rb_yule
+#define FUNCNAME_TREEROOTEDCODE _tree_rooted_code
+#define FUNCNAME_TREEROOTEDCODECOMPARE _tree_rooted_code_compare
+#define FUNCNAME_TREEROOTEDDEPTH _tree_rooted_depth
+#define FUNCNAME_TREEROOTEDENUM _tree_rooted_enum
+#define FUNCNAME_TREEROOTEDRANDOM _tree_rooted_random
+#define FUNCNAME_TRIANGLE01MONOMIALINTEGRAL _triangle01_monomial_integral
+#define FUNCNAME_TRIANGLE01MONOMIALQUADRATURE _triangle01_monomial_quadrature
+#define FUNCNAME_FEKETEDEGREE _fekete_degree
+#define FUNCNAME_FEKETEORDERNUM _fekete_order_num
+#define FUNCNAME_FEKETERULE _fekete_rule
+#define FUNCNAME_FEKETERULENUM _fekete_rule_num
+#define FUNCNAME_FEKETESUBORDER _fekete_suborder
+#define FUNCNAME_FEKETESUBORDERNUM _fekete_suborder_num
+#define FUNCNAME_FEKETESUBRULE _fekete_subrule
+#define FUNCNAME_FEKETESUBRULE1 _fekete_subrule_1
+#define FUNCNAME_FEKETESUBRULE2 _fekete_subrule_2
+#define FUNCNAME_FEKETESUBRULE3 _fekete_subrule_3
+#define FUNCNAME_FEKETESUBRULE4 _fekete_subrule_4
+#define FUNCNAME_FEKETESUBRULE5 _fekete_subrule_5
+#define FUNCNAME_FEKETESUBRULE6 _fekete_subrule_6
+#define FUNCNAME_FEKETESUBRULE7 _fekete_subrule_7
+#define FUNCNAME_REFERENCETOPHYSICALT3 _reference_to_physical_t3
+#define FUNCNAME_TRIANGLEUNITO01 _triangle_unit_o01
+#define FUNCNAME_TRIANGLEUNITO03 _triangle_unit_o03
+#define FUNCNAME_TRIANGLEUNITO03B _triangle_unit_o03b
+#define FUNCNAME_TRIANGLEUNITO06 _triangle_unit_o06
+#define FUNCNAME_TRIANGLEUNITO06B _triangle_unit_o06b
+#define FUNCNAME_TRIANGLEUNITO07 _triangle_unit_o07
+#define FUNCNAME_TRIANGLEUNITO12 _triangle_unit_o12
+#define FUNCNAME_TRIANGLEUNITVOLUME _triangle_unit_volume
+#define FUNCNAME_TRIANGLEGRID _triangle_grid
+#define FUNCNAME_TRIANGLE01MONOMIALINTEGRAL_ _triangle01_monomial_integral_
+#define FUNCNAME_TRIANGLE01POLYINTEGRAL _triangle01_poly_integral
+#define FUNCNAME_POLYPRODUCT _poly_product
+#define FUNCNAME_POLYPOWERLINEAR _poly_power_linear
+#define FUNCNAME_RSTOXYMAP _rs_to_xy_map
+#define FUNCNAME_TRIANGLEAREAFROMVERTEX _triangle_area_from_vertex
+#define FUNCNAME_TRIANGLEMONOMIALINTEGRAL _triangle_monomial_integral
+#define FUNCNAME_TRIANGLEPOLYINTEGRAL _triangle_poly_integral
+#define FUNCNAME_TRIANGLEXYINTEGRAL _triangle_xy_integral
+#define FUNCNAME_XYTORSMAP _xy_to_rs_map
+#define FUNCNAME_TRIANGLENCCDEGREE _triangle_ncc_degree
+#define FUNCNAME_TRIANGLENCCORDERNUM _triangle_ncc_order_num
+#define FUNCNAME_TRIANGLENCCRULE _triangle_ncc_rule
+#define FUNCNAME_TRIANGLENCCRULENUM _triangle_ncc_rule_num
+#define FUNCNAME_TRIANGLENCCSUBORDER _triangle_ncc_suborder
+#define FUNCNAME_TRIANGLENCCSUBORDERNUM _triangle_ncc_suborder_num
+#define FUNCNAME_TRIANGLENCCSUBRULE _triangle_ncc_subrule
+#define FUNCNAME_TRIANGLENCCSUBRULE01 _triangle_ncc_subrule_01
+#define FUNCNAME_TRIANGLENCCSUBRULE02 _triangle_ncc_subrule_02
+#define FUNCNAME_TRIANGLENCCSUBRULE03 _triangle_ncc_subrule_03
+#define FUNCNAME_TRIANGLENCCSUBRULE04 _triangle_ncc_subrule_04
+#define FUNCNAME_TRIANGLENCCSUBRULE05 _triangle_ncc_subrule_05
+#define FUNCNAME_TRIANGLENCCSUBRULE06 _triangle_ncc_subrule_06
+#define FUNCNAME_TRIANGLENCCSUBRULE07 _triangle_ncc_subrule_07
+#define FUNCNAME_TRIANGLENCCSUBRULE08 _triangle_ncc_subrule_08
+#define FUNCNAME_TRIANGLENCCSUBRULE09 _triangle_ncc_subrule_09
+#define FUNCNAME_TRIANGLENCODEGREE _triangle_nco_degree
+#define FUNCNAME_TRIANGLENCOORDERNUM _triangle_nco_order_num
+#define FUNCNAME_TRIANGLENCORULE _triangle_nco_rule
+#define FUNCNAME_TRIANGLENCORULENUM _triangle_nco_rule_num
+#define FUNCNAME_TRIANGLENCOSUBORDER _triangle_nco_suborder
+#define FUNCNAME_TRIANGLENCOSUBORDERNUM _triangle_nco_suborder_num
+#define FUNCNAME_TRIANGLENCOSUBRULE _triangle_nco_subrule
+#define FUNCNAME_TRIANGLENCOSUBRULE01 _triangle_nco_subrule_01
+#define FUNCNAME_TRIANGLENCOSUBRULE02 _triangle_nco_subrule_02
+#define FUNCNAME_TRIANGLENCOSUBRULE03 _triangle_nco_subrule_03
+#define FUNCNAME_TRIANGLENCOSUBRULE04 _triangle_nco_subrule_04
+#define FUNCNAME_TRIANGLENCOSUBRULE05 _triangle_nco_subrule_05
+#define FUNCNAME_TRIANGLENCOSUBRULE06 _triangle_nco_subrule_06
+#define FUNCNAME_TRIANGLENCOSUBRULE07 _triangle_nco_subrule_07
+#define FUNCNAME_TRIANGLENCOSUBRULE08 _triangle_nco_subrule_08
+#define FUNCNAME_TRIANGLENCOSUBRULE09 _triangle_nco_subrule_09
+#define FUNCNAME_QUAENODES _quaenodes
+#define FUNCNAME_QUAENODES2 _quaenodes2
+#define FUNCNAME_QUAEROTATE _quaerotate
+#define FUNCNAME_QUAECOPY _quaecopy
+#define FUNCNAME_QUAEQUAD _quaequad
+#define FUNCNAME_TRIANGLEAREA _triangle_area
+#define FUNCNAME_QUAEINSIDE _quaeinside
+#define FUNCNAME_QUAEQUAD0 _quaequad0
+#define FUNCNAME_TRIANGLERULECOMPRESSEDSIZE _triangle_rule_compressed_size
+#define FUNCNAME_TRIANGLERULEFULLSIZE _triangle_rule_full_size
+#define FUNCNAME_TRIANGLERULE01 _triangle_rule01
+#define FUNCNAME_TRIANGLERULE02 _triangle_rule02
+#define FUNCNAME_TRIANGLERULE03 _triangle_rule03
+#define FUNCNAME_TRIANGLERULE04 _triangle_rule04
+#define FUNCNAME_TRIANGLERULE05 _triangle_rule05
+#define FUNCNAME_TRIANGLERULE06 _triangle_rule06
+#define FUNCNAME_TRIANGLERULE07 _triangle_rule07
+#define FUNCNAME_TRIANGLERULE08 _triangle_rule08
+#define FUNCNAME_TRIANGLERULE09 _triangle_rule09
+#define FUNCNAME_TRIANGLERULE10 _triangle_rule10
+#define FUNCNAME_TRIANGLERULE11 _triangle_rule11
+#define FUNCNAME_TRIANGLERULE12 _triangle_rule12
+#define FUNCNAME_TRIANGLERULE13 _triangle_rule13
+#define FUNCNAME_TRIANGLERULE14 _triangle_rule14
+#define FUNCNAME_TRIANGLERULE15 _triangle_rule15
+#define FUNCNAME_TRIANGLERULE16 _triangle_rule16
+#define FUNCNAME_TRIANGLERULE17 _triangle_rule17
+#define FUNCNAME_TRIANGLERULE18 _triangle_rule18
+#define FUNCNAME_TRIANGLERULE19 _triangle_rule19
+#define FUNCNAME_TRIANGLERULE20 _triangle_rule20
+#define FUNCNAME_TRIANGLERULE21 _triangle_rule21
+#define FUNCNAME_TRIANGLERULE22 _triangle_rule22
+#define FUNCNAME_TRIANGLERULE23 _triangle_rule23
+#define FUNCNAME_TRIANGLERULE24 _triangle_rule24
+#define FUNCNAME_TRIANGLERULE25 _triangle_rule25
+#define FUNCNAME_TRIANGLERULE26 _triangle_rule26
+#define FUNCNAME_TRIANGLERULE27 _triangle_rule27
+#define FUNCNAME_TRIANGLERULE28 _triangle_rule28
+#define FUNCNAME_TRIANGLERULE29 _triangle_rule29
+#define FUNCNAME_TRIANGLERULE30 _triangle_rule30
+#define FUNCNAME_TRIANGLERULE31 _triangle_rule31
+#define FUNCNAME_TRIANGLERULE32 _triangle_rule32
+#define FUNCNAME_TRIANGLERULE33 _triangle_rule33
+#define FUNCNAME_TRIANGLERULE34 _triangle_rule34
+#define FUNCNAME_TRIANGLERULE35 _triangle_rule35
+#define FUNCNAME_TRIANGLERULE36 _triangle_rule36
+#define FUNCNAME_TRIANGLERULE37 _triangle_rule37
+#define FUNCNAME_TRIANGLERULE38 _triangle_rule38
+#define FUNCNAME_TRIANGLERULE39 _triangle_rule39
+#define FUNCNAME_TRIANGLERULE40 _triangle_rule40
+#define FUNCNAME_TRIANGLERULE41 _triangle_rule41
+#define FUNCNAME_TRIANGLERULE42 _triangle_rule42
+#define FUNCNAME_TRIANGLERULE43 _triangle_rule43
+#define FUNCNAME_TRIANGLERULE44 _triangle_rule44
+#define FUNCNAME_TRIANGLERULE45 _triangle_rule45
+#define FUNCNAME_TRIANGLERULE46 _triangle_rule46
+#define FUNCNAME_TRIANGLERULE47 _triangle_rule47
+#define FUNCNAME_TRIANGLERULE48 _triangle_rule48
+#define FUNCNAME_TRIANGLERULE49 _triangle_rule49
+#define FUNCNAME_TRIANGLERULE50 _triangle_rule50
+#define FUNCNAME_SIMPLEXTOTRIANGLE _simplex_to_triangle
+#define FUNCNAME_TRIANGLETOREF _triangle_to_ref
+#define FUNCNAME_TRIANGLETOSIMPLEX _triangle_to_simplex
+#define FUNCNAME_TRIANMAP _trianmap
+#define FUNCNAME_TRIASIMP _triasimp
+#define FUNCNAME_TRIASYMQ _triasymq
+#define FUNCNAME_TRIANGLEORDER3REFERENCETOPHYSICAL _triangle_order3_reference_to_physical
+#define FUNCNAME_TRIANGLEORDER3PHYSICALTOREFERENCE _triangle_order3_physical_to_reference
+#define FUNCNAME_ALPHAMEASURE _alpha_measure
+#define FUNCNAME_AREAMEASURE _area_measure
+#define FUNCNAME_BANDWIDTH _bandwidth
+#define FUNCNAME_DELAUNAYSWAPTEST _delaunay_swap_test
+#define FUNCNAME_NSADJCOLSET _ns_adj_col_set
+#define FUNCNAME_NSADJCOUNT _ns_adj_count
+#define FUNCNAME_NSADJINSERT _ns_adj_insert
+#define FUNCNAME_NSADJROWSET _ns_adj_row_set
+#define FUNCNAME_QMEASURE _q_measure
+#define FUNCNAME_QUADCONVEXRANDOM _quad_convex_random
+#define FUNCNAME_POINTSDELAUNAYNAIVE2D _points_delaunay_naive_2d
+#define FUNCNAME_TRIANGULATIONAREA _triangulation_area
+#define FUNCNAME_TRIANGULATIONAREAS _triangulation_areas
+#define FUNCNAME_TRIANGULATIONDELAUNAYDISCREPANCYCOMPUTE _triangulation_delaunay_discrepancy_compute
+#define FUNCNAME_TRIANGULATIONNEIGHBORELEMENTS _triangulation_neighbor_elements
+#define FUNCNAME_TRIANGULATIONNODEORDER _triangulation_node_order
+#define FUNCNAME_TRIANGULATIONORDER3ADJCOUNT _triangulation_order3_adj_count
+#define FUNCNAME_TRIANGULATIONORDER3ADJSET _triangulation_order3_adj_set
+#define FUNCNAME_TRIANGULATIONORDER3ADJSET2 _triangulation_order3_adj_set2
+#define FUNCNAME_TRIANGULATIONORDER3ADJACENCY _triangulation_order3_adjacency
+#define FUNCNAME_TRIANGULATIONORDER3BOUNDARYEDGECOUNT _triangulation_order3_boundary_edge_count
+#define FUNCNAME_TRIANGULATIONORDER3BOUNDARYEDGECOUNTEULER _triangulation_order3_boundary_edge_count_euler
+#define FUNCNAME_TRIANGULATIONORDER3BOUNDARYNODE _triangulation_order3_boundary_node
+#define FUNCNAME_TRIANGULATIONORDER3CHECK _triangulation_order3_check
+#define FUNCNAME_TRIANGULATIONORDER3EDGECHECK _triangulation_order3_edge_check
+#define FUNCNAME_TRIANGULATIONORDER3NEIGHBOR _triangulation_order3_neighbor
+#define FUNCNAME_TRIANGULATIONORDER3REFINECOMPUTE _triangulation_order3_refine_compute
+#define FUNCNAME_TRIANGULATIONORDER3REFINESIZE _triangulation_order3_refine_size
+#define FUNCNAME_TRIANGULATIONORDER6ADJCOUNT _triangulation_order6_adj_count
+#define FUNCNAME_TRIANGULATIONORDER6ADJSET _triangulation_order6_adj_set
+#define FUNCNAME_TRIANGULATIONORDER6BOUNDARYEDGECOUNT _triangulation_order6_boundary_edge_count
+#define FUNCNAME_TRIANGULATIONORDER6BOUNDARYEDGECOUNTEULER _triangulation_order6_boundary_edge_count_euler
+#define FUNCNAME_TRIANGULATIONORDER6BOUNDARYNODE _triangulation_order6_boundary_node
+#define FUNCNAME_TRIANGULATIONORDER6REFINECOMPUTE _triangulation_order6_refine_compute
+#define FUNCNAME_TRIANGULATIONORDER6REFINESIZE _triangulation_order6_refine_size
+#define FUNCNAME_TRIANGULATIONORDER6TOORDER3 _triangulation_order6_to_order3
+#define FUNCNAME_TRIANGULATIONORDER6VERTEXCOUNT _triangulation_order6_vertex_count
+#define FUNCNAME_TRIANGULATIONSEARCHNAIVE _triangulation_search_naive
+#define FUNCNAME_VORONOIPOLYGONAREA _voronoi_polygon_area
+#define FUNCNAME_VORONOIPOLYGONCENTROID _voronoi_polygon_centroid
+#define FUNCNAME_VORONOIPOLYGONVERTICES _voronoi_polygon_vertices
+#define FUNCNAME_TRIANGULATIONNEIGHBORTRIANGLES _triangulation_neighbor_triangles
+#define FUNCNAME_TRIANGULATIONSEARCHDELAUNAY _triangulation_search_delaunay
+#define FUNCNAME_MESHBASEONE _mesh_base_one
+#define FUNCNAME_MESHBASEZERO _mesh_base_zero
+#define FUNCNAME_TRUNCATEDNORMALABCDFVALUES _truncated_normal_ab_cdf_values
+#define FUNCNAME_TRUNCATEDNORMALABPDFVALUES _truncated_normal_ab_pdf_values
+#define FUNCNAME_TRUNCATEDNORMALACDFVALUES _truncated_normal_a_cdf_values
+#define FUNCNAME_TRUNCATEDNORMALAPDFVALUES _truncated_normal_a_pdf_values
+#define FUNCNAME_TRUNCATEDNORMALBCDFVALUES _truncated_normal_b_cdf_values
+#define FUNCNAME_TRUNCATEDNORMALBPDFVALUES _truncated_normal_b_pdf_values
+#define FUNCNAME_I4VECINDICATOR _i4vec_indicator
+#define FUNCNAME_I4VECINDICATORNEW _i4vec_indicator_new
+#define FUNCNAME_PERMINVERSE _perm_inverse
+#define FUNCNAME_PERMLEXNEXT _perm_lex_next
+#define FUNCNAME_PERMENUM _perm_enum
+#define FUNCNAME_UNICYCLECHECK _unicycle_check
+#define FUNCNAME_UNICYCLEENUM _unicycle_enum
+#define FUNCNAME_UNICYCLEINDEX _unicycle_index
+#define FUNCNAME_UNICYCLEINDEXTOSEQUENCE _unicycle_index_to_sequence
+#define FUNCNAME_UNICYCLEINVERSE _unicycle_inverse
+#define FUNCNAME_UNICYCLENEXT _unicycle_next
+#define FUNCNAME_UNICYCLERANDOM _unicycle_random
+#define FUNCNAME_UNICYCLERANK _unicycle_rank
+#define FUNCNAME_UNICYCLEUNRANK _unicycle_unrank
+#define FUNCNAME_STUDENTNONCENTRALCDFVALUES _student_noncentral_cdf_values
+#define FUNCNAME_NORMAL01CDFVALUES _normal_01_cdf_values
+#define FUNCNAME_GAMMAVALUES _gamma_values
+#define FUNCNAME_I4FALLVALUES _i4_fall_values
+#define FUNCNAME_BESSELJ0VALUES _bessel_j0_values
+#define FUNCNAME_ERFCVALUES _erfc_values
+#define FUNCNAME_HPOLYNOMIALVALUES _h_polynomial_values
+#define FUNCNAME_HEPOLYNOMIALVALUES _he_polynomial_values
+#define FUNCNAME_HFFUNCTIONVALUES _hf_function_values
+#define FUNCNAME_HEPVALUES _hep_values
+#define FUNCNAME_HYPERSPHERE01AREAVALUES _hypersphere_01_area_values
+#define FUNCNAME_HYPERSPHERE01VOLUMEVALUES _hypersphere_01_volume_values
+#define FUNCNAME_I4FACTORIAL2VALUES _i4_factorial2_values
+#define FUNCNAME_I4RISEVALUES _i4_rise_values
+#define FUNCNAME_JPOLYNOMIALVALUES _j_polynomial_values
+#define FUNCNAME_LPOLYNOMIALVALUES _l_polynomial_values
+#define FUNCNAME_LFFUNCTIONVALUES _lf_function_values
+#define FUNCNAME_PMNPOLYNOMIALVALUES _pmn_polynomial_values
+#define FUNCNAME_PMNSPOLYNOMIALVALUES _pmns_polynomial_values
+#define FUNCNAME_LOBATTOPOLYNOMIALVALUES _lobatto_polynomial_values
+#define FUNCNAME_BERNOULLINUMBERVALUES _bernoulli_number_values
+#define FUNCNAME_BERNSTEINPOLYVALUES _bernstein_poly_values
+#define FUNCNAME_BETAVALUES _beta_values
+#define FUNCNAME_CATALANVALUES _catalan_values
+#define FUNCNAME_CHEBYTPOLYVALUES _cheby_t_poly_values
+#define FUNCNAME_CHEBYUPOLYVALUES _cheby_u_poly_values
+#define FUNCNAME_COLLATZCOUNTVALUES _collatz_count_values
+#define FUNCNAME_COSPOWERINTVALUES _cos_power_int_values
+#define FUNCNAME_EULERNUMBERVALUES _euler_number_values
+#define FUNCNAME_GEGENBAUERPOLYVALUES _gegenbauer_poly_values
+#define FUNCNAME_GUDVALUES _gud_values
+#define FUNCNAME_HYPER2F1VALUES _hyper_2f1_values
+#define FUNCNAME_LERCHVALUES _lerch_values
+#define FUNCNAME_MERTENSVALUES _mertens_values
+#define FUNCNAME_MOEBIUSVALUES _moebius_values
+#define FUNCNAME_OMEGAVALUES _omega_values
+#define FUNCNAME_PARTITIONDISTINCTCOUNTVALUES _partition_distinct_count_values
+#define FUNCNAME_PHIVALUES _phi_values
+#define FUNCNAME_R8FACTORIALLOGVALUES _r8_factorial_log_values
+#define FUNCNAME_SIGMAVALUES _sigma_values
+#define FUNCNAME_SINPOWERINTVALUES _sin_power_int_values
+#define FUNCNAME_SPHERICALHARMONICVALUES _spherical_harmonic_values
+#define FUNCNAME_TAUVALUES _tau_values
+#define FUNCNAME_ZETAVALUES _zeta_values
+#define FUNCNAME_BESSELI0VALUES _bessel_i0_values
+#define FUNCNAME_BESSELI1VALUES _bessel_i1_values
+#define FUNCNAME_BESSELIXVALUES _bessel_ix_values
+#define FUNCNAME_CAUCHYCDFVALUES _cauchy_cdf_values
+#define FUNCNAME_EXPONENTIALCDFVALUES _exponential_cdf_values
+#define FUNCNAME_EXTREMEVALUESCDFVALUES _extreme_values_cdf_values
+#define FUNCNAME_GEOMETRICCDFVALUES _geometric_cdf_values
+#define FUNCNAME_LAPLACECDFVALUES _laplace_cdf_values
+#define FUNCNAME_LOGNORMALCDFVALUES _log_normal_cdf_values
+#define FUNCNAME_LOGSERIESCDFVALUES _log_series_cdf_values
+#define FUNCNAME_LOGISTICCDFVALUES _logistic_cdf_values
+#define FUNCNAME_RAYLEIGHCDFVALUES _rayleigh_cdf_values
+#define FUNCNAME_VONMISESCDFVALUES _von_mises_cdf_values
+#define FUNCNAME_WEIBULLCDFVALUES _weibull_cdf_values
+#define FUNCNAME_FROBENIUSNUMBERORDER2VALUES _frobenius_number_order2_values
+#define FUNCNAME_R8FALLVALUES _r8_fall_values
+#define FUNCNAME_R8RISEVALUES _r8_rise_values
+#define FUNCNAME_LAMBERTWVALUES _lambert_w_values
+#define FUNCNAME_R8FACTORIAL2VALUES _r8_factorial2_values
+#define FUNCNAME_BIVARIATENORMALCDFVALUES _bivariate_normal_cdf_values
+#define FUNCNAME_BIVAND1 _bivand1
+#define FUNCNAME_BIVAND2 _bivand2
+#define FUNCNAME_DVAND _dvand
+#define FUNCNAME_DVANDPRG _dvandprg
+#define FUNCNAME_PVAND _pvand
+#define FUNCNAME_PVANDPRG _pvandprg
+#define FUNCNAME_VANDERMONDEAPPROX1DCOEF _vandermonde_approx_1d_coef
+#define FUNCNAME_VANDERMONDEAPPROX1DMATRIX _vandermonde_approx_1d_matrix
+#define FUNCNAME_VANDERMONDEAPPROX2DCOEF _vandermonde_approx_2d_coef
+#define FUNCNAME_VANDERMONDEAPPROX2DMATRIX _vandermonde_approx_2d_matrix
+#define FUNCNAME_VANDERMONDEINTERP2DMATRIX _vandermonde_interp_2d_matrix
+#define FUNCNAME_FFWT _ffwt
+#define FUNCNAME_FWT _fwt
+#define FUNCNAME_WALSH _walsh
+#define FUNCNAME_MVST _mv_st
+#define FUNCNAME_MVGB _mv_gb
+#define FUNCNAME_MVGE _mv_ge
+#define FUNCNAME_CGST _cg_st
+#define FUNCNAME_WATHENBANDWIDTH _wathen_bandwidth
+#define FUNCNAME_WATHENGB _wathen_gb
+#define FUNCNAME_WATHENGE _wathen_ge
+#define FUNCNAME_WATHENORDER _wathen_order
+#define FUNCNAME_WATHENST _wathen_st
+#define FUNCNAME_WATHENSTSIZE _wathen_st_size
+#define FUNCNAME_R8VECCONVOLUTION _r8vec_convolution
+#define FUNCNAME_CASCADE _cascade
+#define FUNCNAME_DAUBCOEFFICIENTS _daub_coefficients
+#define FUNCNAME_DAUB2MATRIX _daub2_matrix
+#define FUNCNAME_DAUB2SCALE _daub2_scale
+#define FUNCNAME_DAUB2TRANSFORM _daub2_transform
+#define FUNCNAME_DAUB2TRANSFORMINVERSE _daub2_transform_inverse
+#define FUNCNAME_DAUB4MATRIX _daub4_matrix
+#define FUNCNAME_DAUB4SCALE _daub4_scale
+#define FUNCNAME_DAUB4TRANSFORM _daub4_transform
+#define FUNCNAME_DAUB4TRANSFORMINVERSE _daub4_transform_inverse
+#define FUNCNAME_DAUB6MATRIX _daub6_matrix
+#define FUNCNAME_DAUB6SCALE _daub6_scale
+#define FUNCNAME_DAUB6TRANSFORM _daub6_transform
+#define FUNCNAME_DAUB6TRANSFORMINVERSE _daub6_transform_inverse
+#define FUNCNAME_DAUB8MATRIX _daub8_matrix
+#define FUNCNAME_DAUB8SCALE _daub8_scale
+#define FUNCNAME_DAUB8TRANSFORM _daub8_transform
+#define FUNCNAME_DAUB8TRANSFORMINVERSE _daub8_transform_inverse
+#define FUNCNAME_DAUB10MATRIX _daub10_matrix
+#define FUNCNAME_DAUB10SCALE _daub10_scale
+#define FUNCNAME_DAUB10TRANSFORM _daub10_transform
+#define FUNCNAME_DAUB10TRANSFORMINVERSE _daub10_transform_inverse
+#define FUNCNAME_DAUB12MATRIX _daub12_matrix
+#define FUNCNAME_DAUB12TRANSFORM _daub12_transform
+#define FUNCNAME_DAUB12TRANSFORMINVERSE _daub12_transform_inverse
+#define FUNCNAME_DAUB14TRANSFORM _daub14_transform
+#define FUNCNAME_DAUB14TRANSFORMINVERSE _daub14_transform_inverse
+#define FUNCNAME_DAUB16TRANSFORM _daub16_transform
+#define FUNCNAME_DAUB16TRANSFORMINVERSE _daub16_transform_inverse
+#define FUNCNAME_DAUB18TRANSFORM _daub18_transform
+#define FUNCNAME_DAUB18TRANSFORMINVERSE _daub18_transform_inverse
+#define FUNCNAME_DAUB20TRANSFORM _daub20_transform
+#define FUNCNAME_DAUB20TRANSFORMINVERSE _daub20_transform_inverse
+#define FUNCNAME_WEDGE01INTEGRAL _wedge01_integral
+#define FUNCNAME_WEDGE01VOLUME _wedge01_volume
+#define FUNCNAME_LINEO01 _line_o01
+#define FUNCNAME_LINEO02 _line_o02
+#define FUNCNAME_LINEO03 _line_o03
+#define FUNCNAME_LINEO04 _line_o04
+#define FUNCNAME_LINEO05 _line_o05
+#define FUNCNAME_TRIANGLEO01 _triangle_o01
+#define FUNCNAME_TRIANGLEO03 _triangle_o03
+#define FUNCNAME_TRIANGLEO03B _triangle_o03b
+#define FUNCNAME_TRIANGLEO06 _triangle_o06
+#define FUNCNAME_TRIANGLEO06B _triangle_o06b
+#define FUNCNAME_TRIANGLEO07 _triangle_o07
+#define FUNCNAME_TRIANGLEO12 _triangle_o12
+#define FUNCNAME_WEDGERULE _wedge_rule
+#define FUNCNAME_WEDGE01SAMPLE _wedge01_sample
+#define FUNCNAME_WEEKDAYVALUES _weekday_values
+#define FUNCNAME_R8EXPONENTIAL01SAMPLE _r8_exponential_01_sample
+#define FUNCNAME_R8GAMMA01SAMPLE _r8_gamma_01_sample
+#define FUNCNAME_R8GAMMASAMPLE _r8_gamma_sample
+#define FUNCNAME_R8MATMMTNEW _r8mat_mmt_new
+#define FUNCNAME_R8UTINVERSE _r8ut_inverse
+#define FUNCNAME_LGGET _lg_get
+#define FUNCNAME_LGMEMORY _lg_memory
+#define FUNCNAME_LGSET _lg_set
+#define FUNCNAME_IGGET _ig_get
+#define FUNCNAME_IGMEMORY _ig_memory
+#define FUNCNAME_IGSET _ig_set
+#define FUNCNAME_INITGENERATOR _init_generator
+#define FUNCNAME_INITIALIZE _initialize
+#define FUNCNAME_MULTMOD _multmod
+#define FUNCNAME_SETINITIALSEED _set_initial_seed
+#define FUNCNAME_ANTITHETICGET _antithetic_get
+#define FUNCNAME_ANTITHETICMEMORY _antithetic_memory
+#define FUNCNAME_ANTITHETICSET _antithetic_set
+#define FUNCNAME_CGNSET _cgn_set
+#define FUNCNAME_INITIALIZEDGET _initialized_get
+#define FUNCNAME_INITIALIZEDMEMORY _initialized_memory
+#define FUNCNAME_INITIALIZEDSET _initialized_set
+#define FUNCNAME_CGGET _cg_get
+#define FUNCNAME_CGMEMORY _cg_memory
+#define FUNCNAME_CGSET _cg_set
+#define FUNCNAME_CGNGET _cgn_get
+#define FUNCNAME_CGNMEMORY _cgn_memory
+#define FUNCNAME_I4UNI _i4_uni
+#define FUNCNAME_R8UNI01 _r8_uni_01
+#define FUNCNAME_R8UNIFORM01SAMPLE _r8_uniform_01_sample
+#define FUNCNAME_R8NORMAL01SAMPLE _r8_normal_01_sample
+#define FUNCNAME_R8CHISAMPLE _r8_chi_sample
+#define FUNCNAME_BARTLETTSAMPLE _bartlett_sample
+#define FUNCNAME_BARTLETTUNITSAMPLE _bartlett_unit_sample
+#define FUNCNAME_WISHARTSAMPLE _wishart_sample
+#define FUNCNAME_WISHARTSAMPLEINVERSE _wishart_sample_inverse
+#define FUNCNAME_WISHARTUNITSAMPLE _wishart_unit_sample
+#define FUNCNAME_WISHARTUNITSAMPLEINVERSE _wishart_unit_sample_inverse
+#define FUNCNAME_WTIME _wtime
+#define FUNCNAME_R8MATFS _r8mat_fs
+#define FUNCNAME_ROOTRC _root_rc
+#define FUNCNAME_ROOTSRC _roots_rc
+
+#define FUNCNAME_EFLOAT exprNodeFuncEFloat
+#define FUNCNAME_EBOOL exprNodeFuncEBool
+#define FUNCNAME_EUSHORT exprNodeFuncEUShort
+#define FUNCNAME_ESHORT exprNodeFuncEShort
+#define FUNCNAME_EINT exprNodeFuncEInt
+#define FUNCNAME_ENEW exprNodeFuncENew
+#define FUNCNAME_FLOAT exprNodeFuncFloat
+#define FUNCNAME_BOOL exprNodeFuncBool
+#define FUNCNAME_USHORT exprNodeFuncUShort
+#define FUNCNAME_SHORT exprNodeFuncShort
+#define FUNCNAME_INT exprNodeFuncInt
+#define FUNCNAME_NEW exprNodeFuncNew
+#define FUNCNAME_EVFLOAT exprNodeFuncEVFloat
+#define FUNCNAME_EVBOOL exprNodeFuncEVBool
+#define FUNCNAME_EVUSHORT exprNodeFuncEVUShort
+#define FUNCNAME_EVSHORT exprNodeFuncEvShort
+#define FUNCNAME_EVINT exprNodeFuncEVInt
+#define FUNCNAME_EVNEW exprNodeFuncEVnew
+#define FUNCNAME_VFLOAT exprNodeFuncVFloat
+#define FUNCNAME_VBOOL exprNodeFuncVBool
+#define FUNCNAME_VUSHORT exprNodeFuncVUShort
+#define FUNCNAME_VSHORT exprNodeFuncVShort
+#define FUNCNAME_VINT exprNodeFuncVInt
+#define FUNCNAME_VNEW exprNodeFuncVNew 
+#define FUNCNAME_VOLATILE exprNodeFuncVolatile
+#define FUNCNAME_SETARRAYSINDEX exprNodeFuncSetArraysIndex
+#define FUNCNAME_FSET exprNodeFuncFSet
+#define FUNCNAME_BSET exprNodeFuncBSet
+#define FUNCNAME_USET exprNodeFuncUSet
+#define FUNCNAME_SSET exprNodeFuncSSet
+#define FUNCNAME_ISET exprNodeFuncISet
+#define FUNCNAME_SET exprNodeFuncSet
+#define FUNCNAME_FGET exprNodeFuncFGet
+#define FUNCNAME_BGET exprNodeFuncBGet
+#define FUNCNAME_UGET exprNodeFuncUGet
+#define FUNCNAME_SGET exprNodeFuncSGet
+#define FUNCNAME_IGET exprNodeFuncIGet
+#define FUNCNAME_GET exprNodeFuncGet
+#define FUNCNAME_DEL exprNodeFuncDel
+#define FUNCNAME_DELALL exprNodeFuncDelAll
+#define FUNCNAME_FPRINT exprNodeFuncFPrint
+#define FUNCNAME_BPRINT exprNodeFuncBPrint
+#define FUNCNAME_UPRINT exprNodeFuncUPrint
+#define FUNCNAME_SPRINT exprNodeFuncSPrint
+#define FUNCNAME_IPRINT exprNodeFuncIPrint
+#define FUNCNAME_PRINT exprNodeFuncPrint
+#define FUNCNAME_FPMAT exprNodeFuncFPMat
+#define FUNCNAME_BPMAT exprNodeFuncBPMat
+#define FUNCNAME_UPMAT exprNodeFuncUPMat
+#define FUNCNAME_SPMAT exprNodeFuncSPMat
+#define FUNCNAME_IPMAT exprNodeFuncIPMat
+#define FUNCNAME_PMAT exprNodeFuncPMat
+#define FUNCNAME_VTYPE exprNodeFuncVType
+#define FUNCNAME_FMATPRM exprNodeFuncFMatPRM
+#define FUNCNAME_BMATPRM exprNodeFuncBMatPRM
+#define FUNCNAME_UMATPRM exprNodeFuncUMatPRM
+#define FUNCNAME_SMATPRM exprNodeFuncSMatPRM 
+#define FUNCNAME_IMATPRM exprNodeFuncIMatPRM
+#define FUNCNAME_MATPRM exprNodeFuncMatPRM
+#define FUNCNAME_FPRMMAT exprNodeFuncFPRMMat
+#define FUNCNAME_BPRMMAT exprNodeFuncBPRMMat
+#define FUNCNAME_UPRMMAT exprNodeFuncUPRMMat
+#define FUNCNAME_SPRMMAT exprNodeFuncSPRMMat
+#define FUNCNAME_IPRMMAT exprNodeFuncIPRMMat
+#define FUNCNAME_PRMMAT exprNodeFuncPRMMat
+#define FUNCNAME_ATLTUAE exprNodeFuncAnswerToLifeTheUniverseAndEverything
+#define FUNCNAME_HARRIS exprNodeFuncHarris
+#define FUNCNAME_HARRIS2 exprNodeFuncHarris2
+#define FUNCNAME_THARRIS exprNodeFuncTHarris
+#define FUNCNAME_THARRIS2 exprNodeFuncTHarris2
+#define FUNCNAME_MATRIXNORM exprNodeFuncNorm
+#define FUNCNAME_MATRIXTRACE exprNodeFuncTrace
+#define FUNCNAME_MATRIXDET exprNodeFuncDet
+#define FUNCNAME_MATRIXRANK exprNodeFuncRank
+#define FUNCNAME_MATRIXILLCHK exprNodeFuncIllChk
+#define FUNCNAME_SCALARPROD exprNodeFuncScalarProd
+#define FUNCNAME_GCD exprNodeFuncGcd
+#define FUNCNAME_LCM exprNodeFuncLcm
+#define FUNCNAME_SECONDGRADEQSOLVER exprNodeFuncSecondGradeEquationSolver
+#define FUNCNAME_COMPLEXADD exprNodeFuncComplexAdd
+#define FUNCNAME_COMPLEXMUL exprNodeFuncComplexMul
+#define FUNCNAME_QUATERNIONSADD exprNodeFuncQAdd
+#define FUNCNAME_QUATERNIONSMUL exprNodeFuncQMul
+#define FUNCNAME_GEOMETRICSUM exprNodeFuncGeometricSum
+#define FUNCNAME_ARMONICSUM exprNodeFuncASum
+#define FUNCNAME_GENARMONICSUM exprNodeFuncGASum
+#define FUNCNAME_FIBONACCISUM exprNodeFuncFSum
+#define FUNCNAME_FACTORIALSUM exprNodeFuncFASum
+#define FUNCNAME_DOUBLEFACTORIALSUM exprNodeFuncSFASum
+#define FUNCNAME_SUM exprNodeFuncSum
+#define FUNCNAME_PRODUCT exprNodeFuncProduct
+#define FUNCNAME_MODE exprNodeFuncMode
+#define FUNCNAME_MEAN exprNodeFuncMean
+#define FUNCNAME_VARIANCE exprNodeFuncVariance
+#define FUNCNAME_VARIANCE2 exprNodeFuncVariance2
+#define FUNCNAME_COVARIANCE exprNodeFuncCoVariance
+#define FUNCNAME_COVARIANCE2 exprNodeFuncCoVariance2
+#define FUNCNAME_STDDEV exprNodeFuncStdDev
+#define FUNCNAME_STDDEV2 exprNodeFuncStdDev2
+#define FUNCNAME_STDCOD exprNodeFuncStdCod
+#define FUNCNAME_STDCOD2 exprNodeFuncStdCod2
+#define FUNCNAME_PEARSON exprNodeFuncPearson
+#define FUNCNAME_PEARSON2 exprNodeFuncPearson2
+#define FUNCNAME_OUTLIER exprNodeFuncOutlier
+#define FUNCNAME_OUTLIER2 exprNodeFuncOutlier2
+#define FUNCNAME_MAP exprNodeFuncMap
+#define FUNCNAME_GEOMEAN exprNodeFuncGeoMedia
+#define FUNCNAME_ARMEAN exprNodeFuncArmMedia
+#define FUNCNAME_POWMEAN exprNodeFuncPowMedia
+#define FUNCNAME_CENTRALVALUE exprNodeFuncCentralValue
+#define FUNCNAME_FIRSTQUARTILE exprNodeFuncFirstQuartile
+#define FUNCNAME_MEDIAN exprNodeFuncMedian
+#define FUNCNAME_THIRDQUARTILE exprNodeFuncThirdQuartile
+#define FUNCNAME_FIRSTNNUMBERSSUM exprNodeFuncFirstNNumberSum
+#define FUNCNAME_SQRT exprNodeFuncSqrt
+#define FUNCNAME_CBRT exprNodeFuncCbrt
+#define FUNCNAME_CSQRT exprNodeFuncCSqrt
+#define FUNCNAME_CCBRT exprNodeFuncCCbrt
+#define FUNCNAME_FACTORIAL exprNodeFuncFact
+#define FUNCNAME_DOUBLEFACTORIAL exprNodeFuncSemiFact
+#define FUNCNAME_STIRLING exprNodeFuncStirling
+#define FUNCNAME_FIBONACCI exprNodeFuncFibonacci
+#define FUNCNAME_ADOUBLEFACTORIAL exprNodeFuncASFact
+#define FUNCNAME_AFIBONACCI exprNodeFuncAFibonacci
+#define FUNCNAME_PERMUTATIONS exprNodeFuncPerm
+#define FUNCNAME_PERMUTATIONSREP exprNodeFuncPermRep
+#define FUNCNAME_KPERMUTATIONS exprNodeFuncKPerm
+#define FUNCNAME_KPERMUTATIONSREP exprNodeFuncKPermRep 
+#define FUNCNAME_COMBINATIONS exprNodeFuncComb
+#define FUNCNAME_COMBINATIONSREP exprNodeFuncCombRep
+#define FUNCNAME_PASCALTRIANGLE exprNodeFuncPascalTriangle
+#define FUNCNAME_NPRIMENUMBER exprNodeFuncNPrimeNumber
+#define FUNCNAME_PRIMORIAL exprNodeFuncPrimorial
+#define FUNCNAME_FIRSTNPRIMENUMBERSSUM exprNodeFuncFirstNPrimeNumbersSum
+#define FUNCNAME_FIBONACCIAL exprNodeFuncFibonaccial
+#define FUNCNAME_BASECHANGE exprNodeFuncBaseChange
+#define FUNCNAME_POW10 exprNodeFuncPow10
+#define FUNCNAME_FLOOR exprNodeFuncFloor
+#define FUNCNAME_CEIL exprNodeFuncCei
+#define FUNCNAME_RAND exprNodeFuncRand
+#define FUNCNAME_RANDOM exprNodeFuncRandom
+#define FUNCNAME_RANDOMIZE exprNodeFuncRandomize
+#define FUNCNAME_MPFRDEG exprNodeFuncMPFRDeg
+#define FUNCNAME_MPFRRAD exprNodeFuncMPFRRad
+#define FUNCNAME_RECTTOPOLR exprNodeFuncRectToPolR
+#define FUNCNAME_RECTTOPOLA exprNodeFuncRectToPolA
+#define FUNCNAME_POLTORECTX exprNodeFuncPolToRectX
+#define FUNCNAME_POLTORECTY exprNodeFuncPolToRectY
+#define FUNCNAME_TEST exprNodeFuncTest
+#define FUNCNAME_IF exprNodeFuncIf
+#define FUNCNAME_SELECT exprNodeFuncSelect
+#define FUNCNAME_EQUAL exprNodeFuncEqual
+#define FUNCNAME_ABOVE exprNodeFuncAbove
+#define FUNCNAME_BELOW exprNodeFuncBelow
+#define FUNCNAME_AVG exprNodeFuncAvg
+#define FUNCNAME_CLIP exprNodeFuncClip
+#define FUNCNAME_CLAMP exprNodeFuncClamp
+#define FUNCNAME_PNTCHANGE exprNodeFuncPntChange
+#define FUNCNAME_POLY exprNodeFuncPoly
+#define FUNCNAME_AND exprNodeFuncAnd
+#define FUNCNAME_OR exprNodeFuncOr
+#define FUNCNAME_NOT exprNodeFuncNot
+#define FUNCNAME_FOR exprNodeFuncFor
+#define FUNCNAME_MANY exprNodeFuncMany
+#define FUNCNAME_EXIT exprNodeFuncExit
+#define FUNCNAME_MSS exprNodeFuncMss
+#define FUNCNAME_ABS exprNodeFuncAbs
+#define FUNCNAME_MOD exprNodeFuncMod
+#define FUNCNAME_IPART exprNodeFuncIPart
+#define FUNCNAME_FPART exprNodeFuncFPart
+#define FUNCNAME_MIN exprNodeFuncMin
+#define FUNCNAME_MAX exprNodeFuncMax
+
+#define SP_CREATEMAT "createMat"
+#define SP_CREATEROW "createRow"
+#define SP_CREATEROWBYMATNAME "createRowByMatName"
+#define SP_CREATETAB "createTab"
+#define SP_CREATETABVAR "createTabVar"
+#define SP_CREATEUSER "createUser"
+#define SP_CREATEUSERMAT "createUserMat"
+#define SP_CREATEUSERTAB "createUserTab"
+#define SP_CREATEVAR "createVar"
+#define SP_DELETEMAT "deleteMat"
+#define SP_DELETEROWFROMMATROWBYMATNAME "deleteRowFromMatRowByMatName"
+#define SP_DELETEROWFROMMATROWUSERMATBYMATNAMEANDIDUSER "deleteRowFromMatRowUserMatByMatNameAndIdUser"
+#define SP_DELETETAB "deleteTab"
+#define SP_DELETETABVARFROMTABVARTABBYTABNAME "deleteTabVarFromTabVarTabByTabName"
+#define SP_DELETETABVARFROMTABVARTABUSERTABBYTABNAMEANDIDUSER "deleteTabVarFromTabVarTabUserTabByTabNameAndIdUser"
+#define SP_DELETEUSERMATFROMMATUSERMATBYMATNAME "deleteUserMatFromMatUserMatByMatName"
+#define SP_DELETEUSERMATFROMMATUSERMATBYMATNAMEANDIDUSER "deleteUserMatFromMatUserMatByMatNameAndIdUser"
+#define SP_DELETEUSERTABFROMUSERTABTABBYTABNAME "deleteUserTabFromUserTabTabByTabName"
+#define SP_DELETEUSERTABFROMUSERTABTABBYTABNAMEANDIDUSER "deleteUserTabFromUserTabTabByTabNameAndIdUser"
+#define SP_SELECTIDMATFROMMATBYMATNAME "selectIdMatFromMatByMatName"
+#define SP_SELECTIDMATFROMMATUSERMATBYMATNAMEANDIDUSER "selectIdMatFromMatUserMatByMatNameAndIdUser"
+#define SP_SELECTIDTABFROMTABBYTABNAME "selectIdTabFromTabByTabName"
+#define SP_SELECTIDTABFROMUSERTABTABBYTABNAMEANDIDUSER "selectIdTabFromUserTabTabByTabNameAndIdUser"
+#define SP_SELECTNAMEFROMTABBYTABNAME "selectNameFromTabByTabName"
+#define SP_SELECTROWFROMMATROWBYMATNAME "selectRowFromMatRowByMatName"
+#define SP_SELECTROWFROMMATROWUSERMATBYMATNAMEANDIDUSER "selectRowFromMatRowUserMatByMatNameAndIdUser"
+#define SP_SELECTUSER "selectUser"
+#define SP_SELECTUSERBYEMAIL "selectUserByEmail"
+#define SP_SELECTUSERBYUSERNAME "selectUserByUserName"
+#define SP_SELECTUSERMATFROMMATUSERMATBYMATNAMEANDIDUSER "selectUserMatFromMatUserMatByMatNameAndIdUser"
+#define SP_SELECTUSERTABFROMUSERTABTABBYTABNAMEANDIDUSER "selectUserTabFromUserTabTabByTabNameAndIdUser"
+#define SP_SELECTVALFROMVARTABVARTABBYVARNAMEANDTABNAME "selectValFromVarTabVarTabByVarNameAndTabName"
+#define SP_SELECTVALFROMVARTABVARTABUSERTABBYVARNAMEANDTABNAMEANDIDUSER "selectValFromVarTabVarTabUserTabByVarNameAndTabNameAndIdUser"
+#define SP_SELECTVARNAMEANDVARVALFROMVARTABVARTABBYTABNAME "selectVarNameAndVarValFromVarTabVarTabByTabName"
+#define SP_SELECTVARNAMEANDVARVALFROMVARTABVARTABUSERTABBYTABNAMEANDIDUSER "selectVarNameAndVarValFromVarTabVarTabUserTabByTabNameAndIdUser"
+#define SP_UPDATEUSER "updateUser"
+#define SP_UPDATEVARTABVARTAB "updateVarTabVarTab"
+#define SP_UPDATEVARTABVARTABUSERTAB "updateVarTabVarTabUserTab"
+#define SP_SELECTDEFAULTTABS "selectDefaultTabs"
+#define SP_SELECTDEFAULTMATS "selectDefaultMats"
+#define SP_SELECTIDUSERFROMUSERTABBYIDUSERANDIDTAB "selectIdUserFromUserTabByIdUserAndIdTab"
+#define SP_SELECTIDUSERFROMUSERMATBYIDUSERANDIDMAT "selectIdUserFromUserMatByIdUserAndIdMat"
+#define SP_DELETEUSERMAT "deleteUserMat"
+#define SP_DELETEUSERTAB "deleteUserTab"
+//
+
+// END
+
+// v1.5 14/05/2013
+// for any problem contact me at marco_chiarelli@yahoo.it

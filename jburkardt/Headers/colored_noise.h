@@ -1,0 +1,8 @@
+#ifndef WRAPPER_COLORED_NOISE_H_INCLUDED
+#define WRAPPER_COLORED_NOISE_H_INCLUDED
+
+#define f_alpha(a,b,c,d,e) FUNCNAME_FALPHA(C_DT2ITPIPIT(a,b,c,d,e))
+
+__MATHSUITE __JBURKARDT void * FUNCNAME_FALPHA(void *);
+
+#endif

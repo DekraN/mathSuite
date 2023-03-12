@@ -1,0 +1,1889 @@
+The following functions are provided with ExprEval:
+LEGEND: mnA as Min Args, mxA as Max Args,
+	mnRA as Min Ref Args, mxRA as Max Ref Args
+
+._______________________________________________________________________________.
+|                            Function    		    | mnA |mxA|mnRA|mxRA|
+|___________________________________________________________|_____|___|____|____|
+|abs(v) 		  				    |     |   |    |    |
+|Absolute value of v.				            |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|mod(v,d) 	  					    |     |   |    |    |
+|Remainder of v/d.					    |  2  | 2 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|ipart(v) 	  					    |     |   |	   |    |
+|The integer part of v.				            |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|fpart(v) 	  					    |     |   |	   |    |
+|The fractional part of v.				    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|min(v,...) 	  					    |     |   |    |    |
+|The minimum number passed.				    |  1  |N/A|  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|max(v,...) 	 					    |     |   |    |    |
+|The maximum number passed.				    |  1  |N/A|  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|pow(a,b) 	  					    |     |   |	   |    |
+|The value a raised to the power b.			    |  2  | 2 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|sqrt(a) 	  					    |     |   |	   |    |
+|The square root of a.					    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|sin(a) 		  				    |     |   |	   |    |
+|The sine of a radians.					    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|sinh(a) 	  					    |     |   |	   |    |
+|The hyperbolic sine of a.				    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|asin(a) 	  					    |     |   |    |    |
+|The arc-sine of a in radians.				    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|cos(a) 		  				    |     |   |    |    |
+|The cosine of a radians			            |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|cosh(a) 	  					    |     |   |	   |    |
+|The hyperbolic cosine of a.				    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|acos(a) 	  					    |     |   |    |    |
+|The arc-cosine of a in radians.			    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|tan(a) 		  				    |     |   |	   |    |
+|The tangent of a radians. 				    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|tanh(a) 	  					    |     |   |	   |    |
+|The hyperbolic tangent of a.				    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|atan(a) 	 					    |     |   |	   |    |
+|The arc-tangent of a in radians.			    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|atan2(y,x) 	  					    |     |   |	   |    |
+|The arc-tangent of y/x, with quadrant correction.	    |  2  | 2 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|log(a) 		  				    |     |   |	   |    |
+|The base 10 logarithm of a.				    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|pow10(a) 	  					    |     |   |    |    |
+|10 raised to the power of a.				    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|ln(a) 		 					    |     |   |	   |    |
+|The base e logarithm of a.				    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|exp(a) 		  				    |     |   |	   |    |
+|e raised to the power of a.				    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|logn(a,b) 	  					    |     |   |	   |    |
+|The base b logarithm of a.				    |  2  | 2 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|ceil(a) 	  					    |     |   |	   |    |
+|Rounds a up to the nearest integer.			    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|floor(a) 	  					    |     |   |	   |    |
+|Rounds a down to the nearest integer.			    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|rand(&seed) 	 				            |     |   |    |    |
+|Returns a number between 0 up to but not including 1.	    |  0  | 0 |  1 |  1 |
+|___________________________________________________________|_____|___|____|____|
+|random(a,b,&seed) 					    |     |   |	   |    |
+|Returns a number between a up to and including b.	    |  2  | 2 |  1 |  1 |
+|___________________________________________________________|_____|___|____|____|
+|randomize(&seed) 					    |     |   |	   |    |
+|Seed the random number generator with a value based on the |  0  | 0 |  1 |  1 |
+|current time.						    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|deg(a) 						    |     |   |	   |    |
+|Returns a radians converted to degrees.		    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|rad(a) 		   	 			    |     |   |	   |    |
+|Returns a degrees converted to radians.		    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|recttopolr(x,y)   	   				    |     |   |	   |    |
+|Returns the polar radius of the rectangular co-ordinates.  |  2  | 2 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|recttopola(x,y)   	   				    |     |   |	   |    |
+|Returns the polar angle (0...2PI) in radians of the	    |  2  | 2 |  0 |  0 |
+|rectangular co-ordinates.				    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|poltorectx(r,a)   	   				    |     |   |	   |    |
+|Returns the x rectangular co-ordinate of the		    |  2  | 2 |  0 |  0 |
+|polar co-ordinates.					    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|poltorecty(r,a)   	   				    |     |   |	   |    |
+|Returns the y rectangular co-ordinate of the		    |  2  | 2 |  0 |  0 |
+|polar co-ordinates.					    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|if(c,t,f) 	  	   				    |     |   |	   |   	|
+|Evaluates and returns t if c is not 0.0.		    |  3  | 3 |  0 |  0 |
+|Else evaluates and returns f.				    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|select(c,n,z[,p]) 	   				    |     |   |	   |    |
+|Returns n if c is less than 0.0. Returns z if c is 0.0.    |     |   |    |    |
+|If c is greater than					    |     |   |    |    |
+|0.0 and only three arguments were passed, returns z.	    |  3  | 4 |  0 |  0 |
+|If c is greater than 0.0 and four arguments		    |     |   |    |    |
+|were passed, return p.					    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|equal(a,b) 	  	   				    |     |   |	   |    |
+|Returns 1.0 if a is equal to b. Else returns 0.0	    |  2  | 2 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|above(a,b) 	  	   				    |     |   |    |    |
+|Returns 1.0 if a is above b. Else returns 0.0		    |  2  | 2 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|below(a,b) 	 	   				    |     |   |	   |    |
+|Returns 1.0 if a is below b. Else returns 0.0		    |  2  | 2 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|avg(a,...) 	  	   				    |     |   |    |    |
+|Returns the average of the values passed.		    |  1  |N/A|  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|clip(v,min,max)  	   				    |     |   |	   |    |
+|Clips v to the range from min to max.			    |     |   |    |    |
+|If v is less than min, it returns min.			    |  3  | 3 |  0 |  0 |
+|If v is greater than max it returns max.		    |     |   |    |    |
+|Otherwise it returns v.				    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|clamp(v,min,max) 	   				    |     |   |	   |    |
+|Clamps v to the range from min to max, looping if needed.  |  3  | 3 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|pntchange(side1old, side2old, side1new, side2new, oldpnt)  |     |   |    |    |
+|This is used to translate points from different scale.	    |     |   |    |    |
+|It works no matter the					    |  5  | 5 |  0 |  0 |
+|orientation as long as the sides are lined up correctly.   |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|poly(x,c1,...) 	  	   			    |     |   |    |    |
+|This function calculates the polynomial.		    |     |   |    |    |
+|x is the value to use in the polynomial.		    |  2  |N/A|  0 |  0 |
+|c1 and on are the coefficients.			    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|and(a,b) 	  	   				    |     |   |	   |    |
+|Returns 0.0 if either a or b are 0.0 Else returns 1.0	    |  2  | 2 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|or(a,b) 	  	   				    |     |   |    |    |
+|Returns 0.0 if both a and b are 0.0 Else returns 1.0	    |  2  | 2 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|not(a) 		  	   			    |     |   |    |    |
+|Returns 1.0 if a is 0.0 Else returns 0.0		    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|for(init,test,inc,a1,...)  			            |     |   |    |    |
+|This function acts like a for loop in C.		    |     |   |    |    |
+|First init is evaluated. Then test is evaluated. As long as|     |   |    |    |
+|the test is not 0.0, the action statements (a1 to an)	    |  4  |N/A|  0 |  0 |
+|are evaluated, the inc statement is evaluated,		    |     |   |    |    |
+|and the test is evaluated again.			    |     |   |    |    |
+|The result is the result ofthe final action statement.	    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|many(expr,...) 	  	   			    |     |   |    |    |
+|This function treats many subexpressions		    |     |   |    |    |
+|as a single object (function).				    |  1  |N/A|  0 |  0 |
+|It is mainly for the 'for' function.			    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+
+
+These functions are provided instead by Marco Chiarelli:
+
+
+._______________________________________________________________________________.
+|                            Function    		    | mnA |mxA|mnRA|mxRA|
+|___________________________________________________________|_____|___|____|____|
+|exit(err) 		  				    |     |   |    |    |
+|Will immediately exit the program, after sending err       |  1  | 1 |  0 |  0 |
+|to main function.			                    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|mhss_exit() 		  				    |     |   |    |    |
+|Will immediately exit the mhss scripting mode,             |  0  | 0 |  0 |  0 |
+|by returning control to the Cmdlines dispatcher            |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|bcnt(a,mode)		  				    |     |   |    |    |
+|It counts the bits contained in a. Use a non-zero number   |  2  | 2 |  0 |  0 |
+|in the second param in orded to change counting method.    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|vers()			  				    |     |   |    |    |
+|It shows the program version.			            |  0  | 0 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|ec(ec) 		  				    |     |   |    |    |
+|Shows the current Exit Char or set it at ec value.         |  0  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|prec(p) 		  				    |     |   |    |    |
+|Shows the program precision or set it at p value.	    |  0  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|stabfact(sf) 		  				    |     |   |    |    |
+|Shows the Stabilizer Factor or set it at sf value.         |  0  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|bsiz(bs)		  				    |     |   |    |    |
+|Shows the Block Size or set it at bs value.         	    |  0  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|mosmm(mod)		  				    |     |   |    |    |
+|Shows the Min OSMM Dimension or set it at mod value.       |  0  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|mstr(msd)		  				    |     |   |    |    |
+|Shows the Min Strassen Dimension or set it at msd value.   |  0  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|msrn(m) 		  			    	    |     |   |    |    |
+|Shows the Min Stirling-Requires Number or set it at sf m.  |  0  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|alg(alg) 		  				    |     |   |    |    |
+|Shows the current Algebra ID or set it at alg value.       |  0  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|oc(oc) 		  				    |     |   |    |    |
+|Shows the current Outlier Constant or set it at oc value.  |  0  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|rseed(rs) 		  				    |     |   |    |    |
+|Shows the Random Seed or set it at rs value.               |  0  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|mmi_fibo(mmi) 		  				    |     |   |    |    |
+|Shows Fibonacci Function's MMI or set it at mmi value.     |  0  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|mmi_fact(mmi) 		  				    |     |   |    |    |
+|Shows Factorial Function's MMI or set it at mmi value.     |  0  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|mmi_esfact(mmi) 		  			    |     |   |    |    |
+|Shows Even SemiFactorial Function's MMI	   	    |     |   |    |    |
+|or set it at mmi value.    				    |  0  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|mmi_osfact(mmi) 		  			    |     |   |    |    |
+|Shows Odd SemiFactorial Function's MMI	   	      	    |     |   |    |    |
+|or set it at mmi value.    				    |  0  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|bsum(a,b) 		  				    |     |   |    |    |
+|Performs binary Sum between a and b operands.	            |  2  | 2 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|bsub(a,b) 		  				    |     |   |    |    |
+|Performs binary Sub between a and b operands.	            |  2  | 2 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|comp(a,mode) 		  				    |     |   |    |    |
+|Shows detailed informations about the inserted 'a' number  |  2  | 2 |  0 |  0 |
+|and performs also the complement operation on it.          |     |   |    |    |
+|Enter 0 as mode if you want to apply compl operator 	    |     |   |    |    |
+|to the decimal representation, or enter non zero mode if   |     |   |    |    |
+|you want to convert into binary before applying it.        |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|det(dim,matrix) 		  			    |     |   |    |    |
+|It calculates the dimXdim inserted matrix determinant.     |  2  |N/A|  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|norm(mode,dim,matrix) 		  		            |     |   |    |    |
+|It calculates the dimXdim inserted matrix norm. Enter 0 as |  3  |N/A|  0 |  0 |
+|mode if you want the P norm, 1 for 1-Norm, 2 for Inf-Norm. |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|trace(dim,matrix)	  				    |     |   |    |    |
+|It calculates the dimXdim inserted matrix trace.           |  2  |N/A|  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|rank(raws,cols,matrix)	  				    |     |   |    |    |
+|It calculates the rawsXcol inserted matrix rank.	    |  3  |N/A|  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|illchk(dim,matrix)	  				    |     |   |    |    |
+|It calculates the dimXdim inserted matrix ill-cond index.  |  2  |N/A|  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|harris(alpha,dim,matrix) 		  		    |     |   |    |    |
+|It calculates the Harris response function of a matrix.    |  3  |N/A|  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|harris2(alpha,matrix) 		  		            |     |   |    |    |
+|It calculates the Harris response function of a 2x2 matrix.|  5  | 5 |  0 |  0	|
+|___________________________________________________________|_____|___|____|____|
+|t_harris(alpha,thresh,dim,matrix) 		  	    |     |   |    |    |
+|It checks whether the Harris response function of a matrix |  4  |N/A|  0 |  0 |
+|trespasses a given threshold.				    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|t_harris2(alpha,thresh,matrix) 		  	    |     |   |    |    |
+|It checks whether the Harris response function of a 2x2    |  6  | 6 |  0 |  0 |
+|matrix trespasses a given threshold.			    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|sprod(dim,vectors) 		  	   	            |     |   |    |    |
+|Performs scalar product between the two dim dimensioned    |  1  |N/A|  0 |  0 |
+|vectors arranged into vectors param-		    	    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|mmi_fibo(mmi) 		  				    |     |   |    |    |
+|Shows Fibonacci Function's MMI or set it at mmi value.     |  0  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|mmi_fibo(mmi) 		  				    |     |   |    |    |
+|Shows Fibonacci Function's MMI or set it at mmi value.     |  0  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|secgreqs(a,b,c,&root1,&root2)		  		    |     |   |    |    |
+|Solves equations like ax^2+bx+c=0 and save roots           |  3  | 3 |  2 |  2 |
+|into root1 and root2 ExprEval Vars.			    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|csum(rp1,ip1,rp2,ip2,&rpres,&ipres)	  		    |     |   |    |    |
+|Performs complex sum between (rp1+i(ip1)) and (rp2+i(ip2)) |  4  | 4 |  1 |  2 |
+|complex numbers and store results into (rpres+i(ipres)).   |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cprod(rp1,ip1,rp2,ip2,&rpres,&ipres)	  		    |     |   |    |    |
+|Performs complex prod between (rp1+i(ip1)) and (rp2+i(ip2))|  4  | 4 |  1 |  2 |
+|complex numbers and store results into (rpres+i(ipres)).   |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|qsum(rp1,ip1,jp1,kp1,rp2,ip2,jp2,kp2,&rp3,&ip3,&jp3,&kp3)  |     |   |    |    |
+|Performs quaternions sum between (rp1+i(ip1)+j(jp1)+k(kp1))|  8  | 8 |  4 |  4 |
+|and (rp2+i(ip2)+j(jp2)+k(kp2))quaternions and store results|     |   |    |    |
+|into (rp3+i(ip3)+j(jp3)+k(kp3)).			    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|qprod(rp1,ip1,jp1,kp1,rp2,ip2,jp2,kp2,&rp3,&ip3,&jp3,&kp3) |     |   |    |    |
+|Performs quaternionsprod between (rp1+i(ip1)+j(jp1)+k(kp1))|  8  | 8 |  4 |  4 |
+|and (rp2+i(ip2)+j(jp2)+k(kp2))quaternions and store results|     |   |    |    |
+|into (rp3+i(ip3)+j(jp3)+k(kp3)).			    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|csc(a) 		  				    |     |   |    |    |
+|The cosecant of a radians.			            |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|csch(a)	  					    |     |   |    |    |
+|The hyperbolic cosecant of a.				    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|asinh(a)	  					    |     |   |	   |    |
+|The hyperbolic arc-sine of a.      	                    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|acsc(a)	  					    |     |   |	   |    |
+|The arc-cosecant of a in radians.			    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|acsch(a)	  					    |     |   |    |    |
+|The hyperbolic arc-cosecant of a.			    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|sec(a)		 					    |     |   |    |    |
+|The secant of a radians.				    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|sech(a)	  					    |     |   |	   |    |
+|The hyperbolic secant of a. 				    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|acosh(a)	  					    |     |   |	   |    |
+|The hyperbolic arc-cosine of a.			    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|asec(a)		  				    |     |   |	   |    |
+|The arc-secant of a in radians.			    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|asech(a) 	  					    |     |   |	   |    |
+|The hyperbolic arc-sine of a.				    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|cot(a) 	  					    |     |   |    |    |
+|The cotangent of a radians.				    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|coth(a) 		  				    |     |   |    |    |
+|The hyperbolic cotangent of a.			            |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|atanh(a)	  					    |     |   |	   |    |
+|The hyperbolic arc-tangent of a.			    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|acot(a) 	  					    |     |   |    |    |
+|The arc-cotangent of a in radians.			    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|acoth(a)		  				    |     |   |	   |    |
+|The hyperbolic arc-cotangent of a. 		 	    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|hsin(a)		  				    |     |   |	   |    |
+|The half of the sine of a radians. 		 	    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|hsinh(a)		  				    |     |   |	   |    |
+|The half of the hyperbolic sine of a. 		 	    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|qsin(a)		  				    |     |   |	   |    |
+|The quarter of the sine of a radians. 		 	    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|qsinh(a)		  				    |     |   |	   |    |
+|The half of the hyperbolic sine of a. 		 	    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|hcos(a)		  				    |     |   |	   |    |
+|The half of the cosine of a radians. 		 	    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|hcosh(a)		  				    |     |   |	   |    |
+|The half of the hyperbolic cosine of a. 	    	    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|qcos(a)		  				    |     |   |	   |    |
+|The quarter of the cosine of a radians. 		    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|qcosh(a)		  				    |     |   |	   |    |
+|The quarter of the hyperbolic cosine of a. 	 	    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|hsec(a)		  				    |     |   |	   |    |
+|The half of the secant of a radians. 		 	    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|hsech(a)		  				    |     |   |	   |    |
+|The half of the hyperbolic secant of a. 		    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|qsec(a)		  				    |     |   |	   |    |
+|The quarter of the secant of a radians. 		    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|qsech(a)		  				    |     |   |	   |    |
+|The quarter of the hyperbolic secant of a. 		    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|hcsc(a)		  				    |     |   |	   |    |
+|The half of the cosecant of a radians. 		    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|hcsc(a)		  				    |     |   |	   |    |
+|The half of the hyperbolic cosecant of a. 		    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|qcsc(a)		  				    |     |   |	   |    |
+|The quarter of the cosecant of a radians. 		    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|qcsch(a)		  				    |     |   |	   |    |
+|The quarter of the hyperbolic cosecant of a.		    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|htan(a)		  				    |     |   |	   |    |
+|The half of the tangent of a radians. 			    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|htanh(a)		  				    |     |   |	   |    |
+|The half of the hyperbolic tangent of a. 		    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|qtan(a)		  				    |     |   |	   |    |
+|The quarter of the tangent of a radians. 		    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|qtanh(a)		  				    |     |   |	   |    |
+|The quarter of the hyperbolic tangent of a. 		    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|hcot(a)		  				    |     |   |	   |    |
+|The half of the cotangent of a radians. 		    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|hcoth(a)		  				    |     |   |	   |    |
+|The half of the hyperbolic cotangent of a. 		    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|qcot(a)		  				    |     |   |	   |    |
+|The quarter of the cotangent of a radians. 		    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|qcoth(a)		  				    |     |   |	   |    |
+|The quarter of the cotangent of a. 		   	    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|vsin(a)		  				    |     |   |	   |    |
+|The versine of a radians.		 		    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|vsinh(a)		  				    |     |   |	   |    |
+|The hyperbolic versine of a.				    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|cvsin(a)		  				    |     |   |	   |    |
+|The coversine of a radians				    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|cvsinh(a)		  				    |     |   |	   |    |
+|The hyperbolic coversine of a. 			    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|vcos(a)		  				    |     |   |	   |    |
+|The vercosine of a radians. 				    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|vcosh(a)		  				    |     |   |	   |    |
+|The hyperbolic vercosine of a. 			    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|cvcos(a)		  				    |     |   |	   |    |
+|The covercosine of a radians. 		 	 	    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|cvcosh(a)		  				    |     |   |	   |    |
+|The hyperbolic covercosine of a. 			    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|hvsin(a)		  				    |     |   |	   |    |
+|The haversin of a radians. 				    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|hvsinh(a)		  				    |     |   |	   |    |
+|The hyperbolic haversin of a. 		  		    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|hcvsin(a)		  				    |     |   |	   |    |
+|The hacoversin of a radians. 				    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|hcvsinh(a)		  				    |     |   |	   |    |
+|The hyperbolic hacoversine of a. 			    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|qvsin(a)		  				    |     |   |	   |    |
+|The half of the haversin of a radians			    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|qvsinh(a)		  				    |     |   |	   |    |
+|The half of the hyperbolic haversin of a.		    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|qcvsin(a)		  				    |     |   |	   |    |
+|The half of the hacoversin of a radians. 		    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|qcvsinh(a)		  				    |     |   |	   |    |
+|The half of the hyperbolic hacoversin of a.		    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|hvcos(a)		  				    |     |   |	   |    |
+|The havercosine of a radians.	 			    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|hvcosh(a)		  				    |     |   |	   |    |
+|The hyperbolic havercosine of a.			    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|hcvcos(a)		  				    |     |   |	   |    |
+|The hacovercosine of a radians.			    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|hcvcosh(a)		  				    |     |   |	   |    |
+|The hyperbolic hacovercosine of a.			    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|qvcos(a)		  				    |     |   |	   |    |
+|The half of the havercosine of a radians.		    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|qvcosh(a)		  				    |     |   |	   |    |
+|The half of the hyperbolic havercosine of a.		    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|qcvcos(a)		  				    |     |   |	   |    |
+|The half of the hacovercosine of a radians.		    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|qcvcosh(a)		  				    |     |   |	   |    |
+|The half of the hyperbolic hacovercosine of a.		    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|esec(a)		  				    |     |   |	   |    |
+|The extern secant of a radians. 			    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|esech(a)		  				    |     |   |	   |    |
+|The hyperbolic extern secant of a. 			    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|ecsc(a)		  				    |     |   |	   |    |
+|The extern cosecant of a radians. 			    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|ecsch(a)		  				    |     |   |	   |    |
+|The hyperbolic extern cosecant of a. 			    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|hesec(a)		  				    |     |   |	   |    |
+|The half of the extern secant of a radians.     	    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|hesech(a)		  				    |     |   |	   |    |
+|The half of the hyperbolic extern secant of a.		    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|hecsc(a)		  				    |     |   |	   |    |
+|The half of the extern cosecant of a radians. 		    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|hecsch(a)		  				    |     |   |	   |    |
+|The half of the hyperbolic extern cosecant of a. 	    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|qesec(a)		  				    |     |   |	   |    |
+|The quarter of the extern secant of a radians.     	    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|qesech(a)		  				    |     |   |	   |    |
+|The quarter of the hyperbolic extern secant of a.     	    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|qecsc(a)		  				    |     |   |	   |    |
+|The quarter of the extern cosecant of a radians.     	    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|qecsch(a)		  				    |     |   |	   |    |
+|The quarter of the extern cosecant of a.     	            |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|sinc(a)		  				    |     |   |	   |    |
+|The cardinal sine of a radians.		     	    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|sinch(a)		  				    |     |   |	   |    |
+|The hyperbolic cardinal sine of a.		     	    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|hsinc(a)		  				    |     |   |	   |    |
+|The half of the cardinal sine of a radians.     	    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|hsinch(a)		  				    |     |   |	   |    |
+|The half of the hyperbolic cardinal sine of a.     	    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|qsinc(a)		  				    |     |   |	   |    |
+|The quarter of the cardinal sine of a radians.     	    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|qsinch(a)		  				    |     |   |	   |    |
+|The quarter of the hyperbolic cardinal sine of a.     	    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|cosc(a)		  				    |     |   |	   |    |
+|The cardinal cosine of a radians.  		   	    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|cosch(a)		  				    |     |   |	   |    |
+|The hyperbolic cardinal cosine of a.  		   	    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|hcosc(a)		  				    |     |   |	   |    |
+|The half of the cardinal cosine of a radians.	   	    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|hcosch(a)		  				    |     |   |	   |    |
+|The half of the hyperbolic cardinal cosine of a.     	    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|qcosc(a)		  				    |     |   |	   |    |
+|The quarter of the cardinal cosine of a radians.  	    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|qcosch(a)		  				    |     |   |	   |    |
+|The quarter of the hyperbolic cardinal cosine of a.  	    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|secc(a)		  				    |     |   |	   |    |
+|The cardinal secant of a radians.  		   	    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|secch(a)		  				    |     |   |	   |    |
+|The hyperbolic cardinal secant of a.  		   	    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|hsecc(a)		  				    |     |   |	   |    |
+|The half of the cardinal secant of a radians.     	    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|hsecch(a)		  				    |     |   |	   |    |
+|The half of the hyperbolic cardinal secant of a.     	    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|qsecc(a)		  				    |     |   |	   |    |
+|The quarter of the cardinal secant of a radians.    	    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|qsecch(a)		  				    |     |   |	   |    |
+|The quarter of the hyperbolic cardinal secant of a. 	    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|cscc(a)		  				    |     |   |	   |    |
+|The cardinal cosecant of a radians.  		   	    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|cscch(a)		  				    |     |   |	   |    |
+|The hyperbolic cardinal cosecant of a.  		    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|hcscc(a)		  				    |     |   |	   |    |
+|The half of the cardinal cosecant of a radians.     	    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|hcscch(a)		  				    |     |   |	   |    |
+|The half of the hyperbolic cardinal cosecant of a.   	    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|qcscc(a)		  				    |     |   |	   |    |
+|The quarter of the cardinal cosecant of a radians.    	    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|qcscch(a)		  				    |     |   |	   |    |
+|The quarter of the hyperbolic cardinal cosecant of a. 	    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|tanc(a)		  				    |     |   |	   |    |
+|The cardinal tangent of a radians.  		   	    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|tanch(a)		  				    |     |   |	   |    |
+|The hyperbolic cardinal tangent of a.  	  	    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|htanc(a)		  				    |     |   |	   |    |
+|The half of the cardinal tangent of a radians.  	    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|htanch(a)		  				    |     |   |	   |    |
+|The half of the hyperbolic cardinal tangent of a.          |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|qtanc(a)		  				    |     |   |	   |    |
+|The quarter of the cardinal tangent of a radians. 	    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|qtanch(a)		  				    |     |   |	   |    |
+|The quarter of the hyperbolic cardinal tangent of a.       |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|cotc(a)		  				    |     |   |	   |    |
+|The cardinal cotangent of a radians.  		   	    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|cotch(a)		  				    |     |   |	   |    |
+|The hyperbolic cardinal cotangent of a.  		    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|hcotc(a)		  				    |     |   |	   |    |
+|The half of the cardinal cotangent of a radians. 	    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|hcotch(a)		  				    |     |   |	   |    |
+|The half of the hyperbolic cardinal cotangent of a.   	    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|qcotc(a)		  				    |     |   |	   |    |
+|The quarter of the cardinal cotangent of a radians.        |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|qcotch(a)		  				    |     |   |	   |    |
+|The quarter of the hyperbolic cardinal cotangent of a.	    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|csin(a,b,&rpres,&ipres) 		  		    |     |   |	   |    |
+|The complex sine of (a+i(b)) (rad,rad).		    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|csinh(a,b,&rpres,&ipres) 	  			    |     |   |	   |    |
+|The complex hyperbolic sine of (a+i(b)).		    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|casin(a,b,&rpres,&ipres) 	  			    |     |   |    |    |
+|The complex arc-sine of (a+i(b)) in (rad,rad).	    	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).	    	    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|ccos(a,b,&rpres,&ipres) 		  		    |     |   |    |    |
+|The complex cosine of (a+i(b)) (rad,rad).		    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|ccosh(a,b,&rpres,&ipres) 	  			    |     |   |	   |    |
+|The complex hyperbolic cosine of (a+i(b)).		    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cacos(a,b,&rpres,&ipres) 	  			    |     |   |    |    |
+|The complex arc-cosine of (a+i(b)) in (rad,rad).	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).	    	    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|ctan(a,b,&rpres,&ipres) 		  		    |     |   |	   |    |
+|The complex tangent of (a+i(b)) (rad,rad). 		    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|ctanh(a,b,&rpres,&ipres) 	  			    |     |   |	   |    |
+|The complex hyperbolic tangent of (a+i(b)).		    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|catan(a,b,&rpres,&ipres) 	 			    |     |   |	   |    |
+|The complex arc-tangent of (a+i(b)) in (rad,rad).	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|ccsc(a,b,&rpres,&ipres) 		  		    |     |   |    |    |
+|The complex cosecant of (a+i(b)) (rad,rad).	    	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|ccsch(a,b,&rpres,&ipres)	  			    |     |   |    |    |
+|The complex hyperbolic cosecant of (a+i(b)).		    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|casinh(a,b,&rpres,&ipres)	  			    |     |   |	   |    |
+|The complex hyperbolic arc-sine of (a+i(b)).      	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cacsc(a,b,&rpres,&ipres)	  			    |     |   |	   |    |
+|The complex arc-cosecant of (a+i(b)) in (rad,rad).	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).    	    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cacsch(a,b,&rpres,&ipres)	  			    |     |   |    |    |
+|The complex hyperbolic arc-cosecant of (a+i(b)).           | 2   | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|csec(a,b,&rpres,&ipres)		 		    |     |   |    |    |
+|The complex secant of (a+i(b)) (rad,rad).	  	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|csech(a,b,&rpres,&ipres)	  			    |     |   |	   |    |
+|The complex hyperbolic secant of (a+i(b)). 		    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cacosh(a,b,&rpres,&ipres)	  	  		    |     |   |	   |    |
+|The complex hyperbolic arc-cosine of (a+i(b)).  	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|casec(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex arc-secant of (a+i(b)).			    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)). (rad,rad).    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|casech(a,b,&rpres,&ipres) 	  			    |     |   |	   |    |
+|The complex hyperbolic arc-sine of (a+i(b)).		    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|ccot(a,b,&rpres,&ipres) 	  		            |     |   |    |    |
+|The complex cotangent of (a+i(b)) (rad,rad).		    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|ccoth(a,b,&rpres,&ipres) 		  		    |     |   |    |    |
+|The complex hyperbolic cotangent of (a+i(b)).		    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|catanh(a,b,&rpres,&ipres)	  			    |     |   |	   |    |
+|The complex hyperbolic arc-tangent of (a+i(b)).            |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cacot(a,b,&rpres,&ipres) 	  			    |     |   |    |    |
+|The complex arc-cotangent of (a+i(b)).			    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)). (rad,rad).    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cacoth(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex hyperbolic arc-cotangent of (a+i(b)).          |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chsin(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the sine of (a+i(b)) (rad,rad). 	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chsinh(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the hyperbolic sine of (a+i(b)). 	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqsin(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex quarter of the sine of (a+i(b)) (rad,rad).     |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqsinh(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the hyperbolic sine of (a+i(b)). 	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chcos(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the cosine of (a+i(b)) (rad,rad). 	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chcosh(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the hyperbolic cosine of (a+i(b)).     |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqcos(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex quarter of the cosine of (a+i(b)) (rad,rad).   |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqcosh(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex quarter of the hyperbolic cosine of (a+i(b)).  |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chsec(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the secant of (a+i(b)) (rad,rad). 	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chsech(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the hyperbolic secant of (a+i(b)).     |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqsec(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex quarter of the secant of (a+i(b)) (rad,rad).   |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqsech(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex quarter of the hyperbolic secant of (a+i(b)).  |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chcsc(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the cosecant of (a+i(b)) (rad,rad).    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chcsc(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the hyperbolic cosecant of (a+i(b)).   |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqcsc(a,b,&rpres,&ipres)		  	  	    |     |   |	   |    |
+|The complex quarter of the cosecant of (a+i(b)) (rad,rad). |  2  | 2 |  1 |  2 |
+|___________________________________________________________|_____|___|____|____|
+|cqcsch(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex quarter of the hyperbolic cosecant of (a+i(b)).|  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chtan(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the tangent of (a+i(b)) (rad,rad).     |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chtanh(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the hyperbolic tangent of (a+i(b)).    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqtan(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex quarter of the tangent of (a+i(b)) (rad,rad).  |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqtanh(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex quarter of the hyperbolic tangent of (a+i(b)). |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chcot(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the cotangent of (a+i(b)) (rad,rad).   |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chcoth(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the hyperbolic cotangent of (a+i(b)).  |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqcot(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex quarter of the cotangent of (a+i(b)) (rad,rad).|  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqcoth(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex quarter of the cotangent of (a+i(b)). 	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cpxvsin(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex versine of (a+i(b)) (rad,rad).		    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cpxvsinh(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex hyperbolic versine of (a+i(b)).		    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|ccvsin(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex coversine of (a+i(b)) (rad,rad)		    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|ccvsinh(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex hyperbolic coversine of (a+i(b)). 		    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cpxvcos(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex vercosine of (a+i(b)) (rad,rad). 		    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cpxvcosh(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex hyperbolic vercosine of (a+i(b)). 		    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|ccvcos(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex covercosine of (a+i(b)) (rad,rad). 	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|ccvcosh(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex hyperbolic covercosine of (a+i(b)). 	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chvsin(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex haversin of (a+i(b)) (rad,rad). 		    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chvsinh(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex hyperbolic haversin of (a+i(b)). 		    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chcvsin(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex hacoversin of (a+i(b)) (rad,rad). 		    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chcvsinh(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex hyperbolic hacoversine of (a+i(b)). 	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqvsin(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the haversin of (a+i(b)) (rad,rad)	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqvsinh(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the hyperbolic haversin of (a+i(b)).   |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqcvsin(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the hacoversin of (a+i(b)) (rad,rad).  |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqcvsinh(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the hyperbolic hacoversin of (a+i(b)). |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chvcos(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex havercosine of (a+i(b)) (rad,rad).	 	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chvcosh(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex hyperbolic havercosine of (a+i(b)).	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chcvcos(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex hacovercosine of (a+i(b)) (rad,rad).	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chcvcosh(a,b,&rpres,&ipres)		  	   	    |     |   |	   |    |
+|The complex hyperbolic hacovercosine of (a+i(b)).	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqvcos(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the havercosine of (a+i(b)) (rad,rad). |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqvcosh(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the hyperbolic havercosine of (a+i(b)).|  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqcvcos(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the hacovercosine of (a+i(b)) (rad,rad)|  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqcvcosh(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the hyperbolic hacovercosine of        |  2  | 2 |  1 |  2 |
+|(a+i(b)); It stores the results into (rpres+i(ipres)).     |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cesec(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex extern secant of (a+i(b)) (rad,rad). 	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cesech(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex hyperbolic extern secant of (a+i(b)). 	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cecsc(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex extern cosecant of (a+i(b)) (rad,rad). 	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cecsch(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex hyperbolic extern cosecant of (a+i(b)). 	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chesec(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the extern secant of (a+i(b)) (rad,rad)| 2   | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chesech(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the hyperbolic extern secant of 	    |  2  | 2 |  1 |  2 |
+|(a+ib(b)); It stores the results into (rpres+i(ipres)).    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|checsc(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the extern cosecant of (a+i(b)) 	    |  2  | 2 |  1 |  2 |
+|(rad,rad); It stores the results into (rpres+i(ipres)).    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|checsch(a,b,&rpres,&ipres)		  	  	    |     |   |	   |    |
+|The complex half of the hyperbolic extern cosecant of 	    |  2  | 2 |  1 |  2 |
+|(a+i(b)); It stores the results into (rpres+i(ipres)).     |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqesec(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex quarter of the extern secant of (a+i(b))       |  2  | 2 |  1 |  2 |
+|(rad,rad); It stores the results into (rpres+i(ipres)).    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqesech(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex quarter of the hyperbolic extern secant of     |  2  | 2 |  1 |  2 |
+|(a+i(b)); It stores the results into (rpres+i(ipres)).     |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqecsc(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex quarter of the extern cosecant of (a+i(b))     |  2  | 2 |  1 |  2 |
+|(rad,rad); It stores the results into (rpres+i(ipres)).    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqecsch(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex quarter of the extern cosecant of (a+i(b)).    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|csinc(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex cardinal sine of (a+i(b)) (rad,rad).	    |  2  | 2 |  1 |  2 |
+|___________________________________________________________|_____|___|____|____|
+|csinch(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex hyperbolic cardinal sine of (a+i(b)).	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chsinc(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the cardinal sine of (a+i(b)) (rad,rad)|  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chsinch(a,b,&rpres,&ipres)		  	 	    |     |   |	   |    |
+|The complex half of the hyperbolic cardinal sine of 	    |  2  | 2 |  1 |  2 |
+|(a+i(b)); It stores the results into (rpres+i(ipres)).     |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqsinc(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex quarter of the cardinal sine of (a+i(b))       |  2  | 2 |  1 |  2 |
+|(rad,rad); It stores the results into (rpres+i(ipres)).    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqsinch(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex quarter of the hyperbolic cardinal sine of     |  2  | 2 |  1 |  2 |
+|(a+i(b)); It stores the results into (rpres+i(ipres)).     |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|ccosc(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex cardinal cosine of (a+i(b)) (rad,rad).  	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|ccosch(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex hyperbolic cardinal cosine of (a+i(b)).  	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chcosc(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the cardinal cosine of (a+i(b))        |  2  | 2 |  1 |  2 |
+|(rad,rad); It stores the results into (rpres+i(ipres)).    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chcosch(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the hyperbolic cardinal cosine of      |  2  | 2 |  1 |  2 |
+|(a+i(b)); It stores the results into (rpres+i(ipres)).     |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqcosc(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex quarter of the cardinal cosine of (a+i(b))     |  2  | 2 |  1 |  2 |
+|(rad,rad); It stores the results into (rpres+i(ipres)).    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqcosch(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex quarter of the hyperbolic cardinal cosine of   |  2  | 2 |  1 |  2 |
+|(a+i(b)); It stores the results into (rpres+i(ipres)).     |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|csecc(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex cardinal secant of (a+i(b)) (rad,rad).  	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|csecch(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex hyperbolic cardinal secant of (a+i(b)).   	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chsecc(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the cardinal secant of (a+i(b))	    |  2  | 2 |  1 |  2 |
+|(rad,rad); It stores the results into (rpres+i(ipres)).    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chsecch(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the hyperbolic cardinal secant of      |  2  | 2 |  1 |  2 |
+|(a+i(b)); It stores the results into (rpres+i(ipres)).     |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqsecc(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex quarter of the cardinal secant of (a+i(b))     |  2  | 2 |  1 |  2 |
+|(rad,rad); It stores the results into (rpres+i(ipres)).    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqsecch(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex quarter of the hyperbolic cardinal secant of   |  2  | 2 |  1 |  2 |
+|(a+i(b)); It stores the results into (rpres+i(ipres)).     |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|ccscc(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex cardinal cosecant of (a+i(b)) (rad,rad).       |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|ccscch(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex hyperbolic cardinal cosecant of (a+i(b)).      |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chcscc(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the cardinal cosecant of (a+i(b))      |  2  | 2 |  1 |  2 |
+|(rad,rad); It stores the results into (rpres+i(ipres)).    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chcscch(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the hyperbolic cardinal cosecant of    |  2  | 2 |  1 |  2 |
+|(a+i(b)); It stores the results into (rpres+i(ipres)).     |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqcscc(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex quarter of the cardinal cosecant of (a+i(b))   |  2  | 2 |  1 |  2 |
+|(rad,rad); It stores the results into (rpres+i(ipres)).    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqcscch(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex quarter of the hyperbolic cardinal cosecant of |  2  | 2 |  1 |  2 |
+|(a+i(b)); It stores the results into (rpres+i(ipres)).     |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|ctanc(a,b,&rpres,&ipres)		  	 	    |     |   |	   |    |
+|The complex cardinal tangent of (a+i(b)) (rad,rad).  	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|ctanch(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex hyperbolic cardinal tangent of (a+i(b)).  	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chtanc(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the cardinal tangent of (a+i(b))       |  2  | 2 |  1 |  2 |
+|(rad,rad); It stores the results into (rpres+i(ipres)).    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chtanch(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the hyperbolic cardinal tangent of     |  2  | 2 |  1 |  2 |
+|(a+i(b)); It stores the results into (rpres+i(ipres)).     |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqtanc(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex quarter of the cardinal tangent of (a+i(b))    |  2  | 2 |  1 |  2 |
+|(rad,rad); It stores the results into (rpres+i(ipres)).    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqtanch(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex quarter of the hyperbolic cardinal tangent of  |  2  | 2 |  1 |  2 |
+|(a+i(b)); It stores the results into (rpres+i(ipres)).     |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|ccotc(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex cardinal cotangent of (a+i(b)) (rad,rad).      |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|ccotch(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex hyperbolic cardinal cotangent of (a+i(b)).     |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chcotc(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the cardinal cotangent of (a+i(b))     |  2  | 2 |  1 |  2 |
+|(rad,rad); It stores the results into (rpres+i(ipres)).    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|chcotch(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex half of the hyperbolic cardinal cotangent of   |  2  | 2 |  1 |  2 |
+|(a+i(b)); It stores the results into (rpres+i(ipres)).     |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqcotc(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex quarter of the cardinal cotangent of (a+i(b))  |  2  | 2 |  1 |  2 |
+|(rad,rad); It stores the results into (rpres+i(ipres)).    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cqcotch(a,b,&rpres,&ipres)		  		    |     |   |	   |    |
+|The complex quarter of the hyperbolic cardinal cotangent of|  2  | 2 |  1 |  2 |
+|(a+i(b)); It stores the results into (rpres+i(ipres)).     |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|log2(a)	  					    |     |   |	   |    |
+|The base 2 logarithm of a.				    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|logc(a)	  					    |     |   |	   |    |
+|The cardinal logarithm of a.				    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|lnc(a)	  					   	    |     |   |	   |    |
+|The cardinal natural logarithm of a.		 	    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|log2c(a)	  					    |     |   |	   |    |
+|The base 2 cardinal logarithm of a.			    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|log1p(a)	  					    |     |   |	   |    |
+|Natural logarithm of 1+a.				    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|log1pc(a)	  					    |     |   |	   |    |
+|Cardinal natural logarithm of 1+a.			    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|log101p(a)	  					    |     |   |	   |    |
+|Logarithm of 1+a.				    	    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|log101pc(a)	  					    |     |   |	   |    |
+|Cardinal logarithm of 1+a.			    	    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|log21p(a)	  					    |     |   |	   |    |
+|The base 2 logarithm of 1+a.				    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|log21pc(a)	  					    |     |   |	   |    |
+|The base 2 cardinal logarithm of 1+a.			    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|expc(a)	  					    |     |   |	   |    |
+|Cardinal exponential of a.				    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|exp10(a)	  					    |     |   |	   |    |
+|Base 10 exponential of a.				    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|exp10c(a)	  					    |     |   |	   |    |
+|Cardinal base 10 exponential of a.			    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|exp2(a)	  					    |     |   |	   |    |
+|Base 2 exponential of a.				    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|exp2c(a)	  					    |     |   |	   |    |
+|Cardinal base 2 exponential of a.			    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|clog(a,b,&rpres,&ipres)	  			    |     |   |	   |    |
+|The complex logarithm of (a+i(b))			    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cln(a,b,&rpres,&ipres)	  				    |     |   |	   |    |
+|The complex natural logarithm of (a+i(b))		    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|clog2(a,b,&rpres,&ipres)	  			    |     |   |	   |    |
+|The complex base 2 logarithm of (a+i(b)).		    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|clogc(a,b,&rpres,&ipres)	  			    |     |   |	   |    |
+|The complex cardinal logarithm of (a+i(b)).		    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|clnc(a,b,&rpres,&ipres)	  			    |     |   |	   |    |
+|The complex cardinal natural logarithm of (a+i(b)).	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|clog2c(a,b,&rpres,&ipres)	  			    |     |   |	   |    |
+|The complex base 2 cardinal logarithm of (a+i(b)).	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|clog1p(a,b,&rpres,&ipres)	  		 	    |     |   |	   |    |
+|The complex natural logarithm of (1+a,b).		    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|clog1pc(a,b,&rpres,&ipres)	  			    |     |   |	   |    |
+|The complex cardinal natural logarithm of (1+a,b).	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|clog101p(a,b,&rpres,&ipres)	  			    |     |   |	   |    |
+|The complex logarithm of (1+a,b).			    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|clog101pc(a,b,&rpres,&ipres)	  			    |     |   |	   |    |
+|The complex cardinal logarithm of (1+a,b).		    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|clog21p(a,b,&rpres,&ipres)	  			    |     |   |	   |    |
+|The complex base 2 logarithm of (1+a,b).		    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|clog21pc(a,b,&rpres,&ipres)	  			    |     |   |	   |    |
+|The complex base 2 cardinal logarithm of (1+a,b).	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cexp(a,b,&rpres,&ipres)	  			    |     |   |	   |    |
+|Complex exponential of (a+i(b)).			    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cexpc(a,b,&rpres,&ipres)	  			    |     |   |	   |    |
+|Complex cardinal exponential of (a+i(b)).		    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cexp10(a,b,&rpres,&ipres)	  			    |     |   |	   |    |
+|Complex base 10 exponential of (a+i(b)).		    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cexp10c(a,b,&rpres,&ipres)	  			    |     |   |	   |    |
+|Complex cardinal base 10 exponential of (a+i(b)).	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cexp2(a,b,&rpres,&ipres)	  			    |     |   |	   |    |
+|Complex base 2 exponential of (a+i(b)).		    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cexp2c(a,b,&rpres,&ipres)	  			    |     |   |	   |    |
+|Complex cardinal base 2 exponential of (a+i(b)).	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cpow(a,b,c,d,&rpres,&ipres)	  			    |     |   |	   |    |
+|Complex power of base (a+i(b)) and (c+i(d)) exponent.	    |  4  | 4 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|croot(a,b,c,d,&rpres,&ipres)	  			    |     |   |	   |    |
+|Complex root of (a+i(b)) of (c+i(d)) index. 		    |  4  | 4 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|csqrt(a,b,&rpres,&ipres)	  			    |     |   |	   |    |
+|Complex square root of (a+i(b)) . 		    	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|ccbrt(a,b,&rpres,&ipres)	  			    |     |   |	   |    |
+|Complex cubic root of (a+i(b)) . 		    	    |  2  | 2 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|clogn(a,b,c,d,&rpres,&ipres)	  			    |     |   |	   |    |
+|Complex logarithm of (a+i(b)) of base (c+i(d)).	    |  4  | 4 |  1 |  2 |
+|It stores the results into (rpres+i(ipres)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|carg(a,b)	  			    		    |     |   |	   |    |
+|The argument of the complex number (a+i(b)). 		    |  2  | 2 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|cabs(a,b)	  			    		    |     |   |	   |    |
+|The absolute value of the complex number (a+i(b)). 	    |  2  | 2 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|qabs(a,b,c,d)	  			    		    |     |   |	   |    |
+|The absolute value of the quaternion (a+i(b)+j(c)+k(d)).   |  4  | 4 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|oabs(a,b,c,d,e,f,g,h)	  			    	    |     |   |	   |    |
+|The absolute value of the octonion number:	 	    |  4  | 4 |  0 |  0 |
+|(a+e1(b)+e2(c)+e3(d)+e4(e)+e5(f)+e6(g)+e7(h)).	 	    |     |   |	   |    |
+|___________________________________________________________|_____|___|____|____|
+|sabs(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p)	  		    |     |   |	   |    |
+|The absolute value of the sedenion number:	 	    |  4  | 4 |  0 |  0 |
+|(a+e1(b)+e2(c)+e3(d)+e4(e)+e5(f)+e6(g)+e7(h)+e8(i)+e9(j)+  |     |   |	   |    |
+|e10(k)+e11(l)+e12(m)+e13(n)+e14(o)+e15(p)).		    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cbase(v,a,b) 	 					    |     |   |	   |    |
+|Convert v number from a base to b base.		    |  3  | 3 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|npnum(n)	  					    |     |   |	   |    |
+|Returns the n prime number.				    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|primr(n) 		  				    |     |   |    |    |
+|Shows the n-th Primorial Succession number.	            |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|fibnc(n) 		  				    |     |   |    |    |
+|Shows the n-th Fibonaccial Succession number.	            |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|lcm(a,b)		  				    |     |   |	   |    |
+|Returns the Least Common Multiple between a and b.	    |  2  | 2 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|GCD(a,b) 	  					    |     |   |    |    |
+|Returns the Greatest Common Divisor between a and b. 	    |  2  | 2 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|fibo(a)	  					    |     |   |    |    |
+|The Fibonacci number of a.				    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|fact(a)		  				    |     |   |    |    |
+|The Factorial of a.				            |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|sfact(a)		  				    |     |   |    |    |
+|The Semi-Factorial of a.				    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|stirling(a)		  				    |     |   |    |    |
+|The Stirling's Approximation of a.			    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|perm(n)		  				    |     |   |    |    |
+|Calculates permutations of n.			            |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|permrep(n,...)		  				    |     |   |    |    |
+|Calculates permutations of n with repetitions         	    |  2  | 2 |  0 |  0 |
+|The ... refers to the numbers of Repetitions of the Items. |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|kperm(n,k)		  				    |     |   |    |    |
+|Calculates k-permutations of n.       			    |  2  | 2 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|kpermrep(n,k)		  				    |     |   |    |    |
+|Calculates k-permutations of n with repetitions 	    |  2  | 2 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|comb(n,r)		  				    |     |   |    |    |
+|Calculates combinations of n on r.		            |  2  | 2 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|combrep(n,r)		  				    |     |   |    |    |
+|Calculates combinations of n on r with repetitions.        |  2  | 2 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|gsum(a, n)	  					    |     |   |	   |    |
+|The Geometric Succession Sum, where a is the base          |  2  | 2 |  0 |  0 |
+|and n is the general term exponent.			    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|asum(a)	  					    |     |   |	   |    |
+|The Armonic Succession Sum with a as index	            |  1  | 1 |  0 |  0 |
+|and(1/a) as general term.				    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|gasum(a,n)	  					    |     |   |    |    |
+|The same as asum(a), but n is the general term exponent.   |  2  | 2 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|fsum(n)		 			            |     |   |    |    |
+|The Fibonacci Succession Sum at specified n index.	    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|fasum(n)	  					    |     |   |	   |    |
+|The Factorial Succession Sum at specified n index.         |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|sfasum(n)	  					    |     |   |	   |    |
+|The SemiFactorial Succession Sum at specified n index.     |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|fnnsum(n)	  					    |     |   |	   |    |
+|Returns first n Natural Numbers Sum			    |  1  | 1 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|answer_to_life_the_universe_and_everything		    |     |   |	   |    |
+|Returns the Answer to Life, Universe and Everything.       |  0  | 0 |  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|sum(v,...)		  				    |     |   |	   |    |
+|Returns passed numbers Summation.			    |  1  |N/A|  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|product(v,...)  					    |     |   |	   |    |
+|Returns passed numbers Productory	.		    |  1  |N/A|  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|media(v,...) 	  					    |     |   |    |    |
+|The arithmetic media of passed numbers.		    |  1  |N/A|  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|mode(v,...) 	  					    |     |   |    |    |
+|The mode of passed numbers.		   		    |  1  |N/A|  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|var(v,...) 	  				    	    |     |   |    |    |
+|The variance of passed numbers.		            |  1  |N/A|  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|var2(v,...) 	  				    	    |     |   |    |    |
+|The variance of passed numbers, with a 1/(N-1)		    |     |   |    |    |
+|pre-multiplier factor.				            |  1  |N/A|  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|cov(v,...) 	  				    	    |     |   |    |    |
+|The covariance of the two inserted Vectors		    |  2  |N/A|  0 |  0 |
+|(Both supposed to fit respectively into the two middles)   |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|cov2(v,...) 	  				    	    |     |   |    |    |
+|The covariance of the two inserted Vectors		    |  2  |N/A|  0 |  0 |
+|(Both supposed to fit respectively into the two middles)   |     |   |    |    |
+|with a 1/(N-1) pre-multiplier factor.			    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|stddev(v,...) 	  				    	    |     |   |    |    |
+|The Standard Deviation of passed numbers.		    |  1  |N/A|  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|stddev2(v,...) 	  				    |     |   |    |    |
+|The Standard Deviation of passed numbers, with a 1/(N-1)   |     |   |    |    |
+|pre-multiplier factor					    |  1  |N/A|  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|stdcod(v,...) 	  				    	    |     |   |    |    |
+|The Standard Co-Deviation of the two inserted Vectors	    |  2  |N/A|  0 |  0 |
+|(Both supposed to fit respectively into the two middles)   |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|stdcod2(v,...) 	  				    |     |   |    |    |
+|The Standard Co-Deviation of the two inserted Vectors	    |  2  |N/A|  0 |  0 |
+|(Both supposed to fit respectively into the two middles)   |     |   |    |    |
+|with a 1/(N-1) pre-multiplier factor.			    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|prsn(v,...) 	  				    	    |     |   |    |    |
+|The Pearson Correlation Index of the two inserted Vector   |  2  |N/A|  0 |  0 |
+|(Both supposed to fit respectively into the two middles)   |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|prsn2(v,...) 	  				    	    |     |   |    |    |
+|The Pearson Correlation Index of the two inserted Vector   |  2  |N/A|  0 |  0 |
+|(Both supposed to fit respectively into the two middles)   |     |   |    |    |
+|with a 1/(N-1) pre-multiplier factor.			    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|otlr(idx,v,...) 	  				    |     |   |    |    |
+|The Outlier Test for v[idx] item of the inserted Vector.   |  2  |N/A|  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|otlr2(idx,oc,v,...) 	  				    |     |   |    |    |
+|The Outlier Test for v[idx] item of the inserted Vector,   |  2  |N/A|  0 |  0 |
+|with oc as the Outlier Test Constant.			    |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|map(val,fid) 	  				    	    |     |   |    |    |
+|Apply the function identified by fid value to val	    |  2  |2  |  0 |  0 |
+|(see constans below for more informations about FIDs).     |     |   |    |    |
+|___________________________________________________________|_____|___|____|____|
+|geomedia(v,...)	  				    |     |   |    |    |
+|The geometric media of passed numbers.		            |  1  |N/A|  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|armedia(v,...)	  					    |     |   |	   |    |
+|The armonic media of passed numbers.			    |  1  |N/A|  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|powmedia(p,v,...)  					    |     |   |    |    |
+|The power media of passed numbers with p as power.	    |  2  |N/A|  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|cval(v,...)		  				    |     |   |	   |    |
+|The central value of passed numbers.	 		    |  1  |N/A|  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|q1(v,...)	  					    |     |   |	   |    |
+|The first quartile of passed numbers.			    |  1  |N/A|  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|median(v,...)	  					    |     |   |	   |    |
+|The mediana of passed numbers.				    |  1  |N/A|  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+|q3(v,...)	  					    |     |   |	   |    |
+|The third quartile of passed numbers.			    |  1  |N/A|  0 |  0 |
+|___________________________________________________________|_____|___|____|____|
+
+
+
+ExprEval Internal Constants:
+
+The following constants are provided with ExprEval:
+
+[ MATH CONSTANTS ]
+.______________________________________________________.
+|  Constant  | 	Math Form   |	       Value	       |
+|____________|______________|__________________________|
+| M_E 	     |	e 	    |	2.7182818284590452354  |
+|____________|______________|__________________________|
+| M_LOG2E    |	log2(e)     |	1.4426950408889634074  |
+|____________|______________|__________________________|
+| M_LOG10E   |	log10(e)    |	0.43429448190325182765 |
+|____________|______________|__________________________|
+| M_LN2      |	ln(2) 	    |	0.69314718055994530942 |
+|____________|______________|__________________________|
+| M_LN10     |	ln(10) 	    |	2.30258509299404568402 |
+|____________|______________|__________________________|
+| M_PI 	     |	pi 	    |	3.14159265358979323846 |
+|____________|______________|__________________________|
+| M_PI_2     |	pi/2 	    |	1.57079632679489661923 |
+|____________|______________|__________________________|
+| M_PI_4     |	pi/4        |	0.78539816339744830962 |
+|____________|______________|__________________________|
+| M_1_PI     |	1/pi 	    |	0.31830988618379067154 |
+|____________|______________|__________________________|
+| M_2_PI     |	2/pi 	    |	0.63661977236758134308 |
+|____________|______________|__________________________|
+| M_1_SQRTPI | 	1/sqrt(pi)  |	0.56418958354776       |
+|____________|______________|__________________________|
+| M_2_SQRTPI | 	2/sqrt(pi)  |	1.12837916709551257390 |
+|____________|______________|__________________________|
+| M_SQRT2    |	sqrt(2)	    |	1.41421356237309504880 |
+|____________|______________|__________________________|
+| M_1_SQRT2  | 	1/sqrt(2)   |	0.70710678118654752440 |
+|____________|______________|__________________________|
+| 		[ INFORMATIC CONSTANTS ]	       |
+|______________________________________________________|
+| M_KIB	     |	   N/A 	    |	1024		       |
+|____________|______________|__________________________|
+| M_MIB      |	   N/A      |	1048576		       |
+|____________|______________|__________________________|
+| M_GIB      |	   N/A      |	1073741824	       |
+|____________|______________|__________________________|
+| M_TIB      |	   N/A 	    |	1099511627776	       |
+|____________|______________|__________________________|
+| M_PIB      |	   N/A 	    |	1125899906842624       |
+|____________|______________|__________________________|
+| M_EIB	     |	   N/A	    |	1152921504606846976    |
+|____________|______________|__________________________|	
+|		[ PHYSICS CONSTANTS ]		       |
+|______________________________________________________|
+| F_G 	     |	   N/A 	    |	6.67259E-11 	       |
+|____________|______________|__________________________|
+| F_GA 	     |	   N/A      |	9.80665                |
+|____________|______________|__________________________|
+| F_LA       |	   N/A      |	1.6300000 	       |
+|____________|______________|__________________________|
+| F_MRS      |	   N/A 	    |	3.7200000	       |
+|____________|______________|__________________________|
+| F_KB       |	   N/A 	    |	1.3806503E-23 	       |
+|____________|______________|__________________________|
+| F_R	     |	   N/A 	    |	8.31400000	       |
+|____________|______________|__________________________|
+| F_C	     |	   N/A	    |	299792458	       |
+|____________|______________|__________________________|
+| F_EPS0     |	   N/A      |	8.854187817E-12	       |
+|____________|______________|__________________________|
+| F_MI0      |	   N/A 	    |	M_PI*4E-7	       |
+|____________|______________|__________________________|
+| F_P        |	   N/A 	    |	6.62606876E-34         |
+|____________|______________|__________________________|
+| F_EC       | 	   N/A      |	1.602176462E-19	       |
+|____________|______________|__________________________|
+| F_ESM      | 	   N/A      |	9.10938188E-31	       |
+|____________|______________|__________________________|
+| F_PSM      |	   N/A	    |	1.67262158E-27         |
+|____________|______________|__________________________|
+| F_NSM      | 	   N/A      |	1.67492716E-27         |
+|____________|______________|__________________________|
+| F_AMU	     |	   N/A 	    |	1.66053873E-27 	       |
+|____________|______________|__________________________|
+| F_AV 	     |	   N/A      |	6.02214199E23          |
+|____________|______________|__________________________|
+| F_F        |	   N/A      |	9.648534150000 	       |
+|____________|______________|__________________________|
+| F_ALPHA    |	   N/A 	    |	0.007297352533	       |
+|____________|______________|__________________________|
+| F_BHR      |	   N/A 	    |	5.291772083E-11        |
+|____________|______________|__________________________|
+| F_RDB	     |     N/A 	    |	1.0973731568549E7      |
+|____________|______________|__________________________|
+| F_MBHR     |	   N/A 	    |	9.27400899E-24	       |
+|____________|______________|__________________________|
+| F_IV       |     N/A      |	22.710981	       |
+|____________|______________|__________________________|
+| F_EH       |	   N/A 	    |	4.35974381E-18	       |
+|____________|______________|__________________________|
+| F_EMM      |	   N/A	    |	-9.28476362E-24        |
+|____________|______________|__________________________|
+| F_EMP      | 	   N/A      |	1.41060761E-26	       |
+|____________|______________|__________________________|
+| F_NM       | 	   N/A      |	5.0507866E-27	       |
+|____________|______________|__________________________|
+| F_PGMR     |	   N/A	    |	2.6752212800000000     |
+|____________|______________|__________________________|
+| F_SB       |     N/A      |	5.670400E-8            |
+|____________|______________|__________________________|
+| F_FR       |     N/A      |	3.7417749E-16          |
+|____________|______________|__________________________|
+| F_SR       | 	   N/A      |	0.1438769              |
+|____________|______________|__________________________|
+| 		[ TIME CONSTANTS ]		       |
+|______________________________________________________|
+| T_M	     |	   N/A 	    |	60		       |
+|____________|______________|__________________________|
+| T_H        |	   N/A      |	3600	               |
+|____________|______________|__________________________|
+| T_D        |	   N/A      |	86400                  |
+|____________|______________|__________________________|
+| T_W        |	   N/A 	    |	604800    	       |
+|____________|______________|__________________________|
+| T_MT       |	   N/A 	    |	18144000               |
+|____________|______________|__________________________|
+| T_M1	     |	   N/A	    |	18748800               |
+|____________|______________|__________________________|
+| T_BM	     |	   N/A 	    |	16934400               |
+|____________|______________|__________________________|
+| T_BM1      |	   N/A      |	17539200               |
+|____________|______________|__________________________|
+| T_Y        |	   N/A      |	21772800               |
+|____________|______________|__________________________|
+| T_Y1       |	   N/A 	    |	224985600	       |
+|____________|______________|__________________________|
+| T_BY       |	   N/A 	    |	203212800              |
+|____________|______________|__________________________|
+| T_BY1      |	   N/A	    |	210470400              |
+|____________|______________|__________________________|
+.______________________________________________________.
+| 	     [ FUNCTIONS IDENTIFIERS ]		       |
+|______________________________________________________|
+| FID_SIN    |	   N/A      |   0                      |
+|____________|______________|__________________________|
+| FID_COS    |	   N/A      |   1                      |
+|____________|______________|__________________________|
+| FID_SINH   |	   N/A      |   2                      |
+|____________|______________|__________________________|
+| FID_COSH   |	   N/A      |   3                      |
+|____________|______________|__________________________|
+| FID_SEC    |	   N/A      |   4                      |
+|____________|______________|__________________________|
+| FID_SECH   |	   N/A      |   5                      |
+|____________|______________|__________________________|
+| FID_CSC    |	   N/A      |   6                      |
+|____________|______________|__________________________|
+| FID_CSCH   |	   N/A      |   7                      |
+|____________|______________|__________________________|
+| FID_ASIN   |	   N/A      |   8                      |
+|____________|______________|__________________________|
+| FID_ASINH  |	   N/A      |   9                      |
+|____________|______________|__________________________|
+| FID_ACOS   |	   N/A      |   10                     |
+|____________|______________|__________________________|
+| FID_ACOSH  |	   N/A      |   11                     |
+|____________|______________|__________________________|
+| FID_ASEC   |	   N/A      |   12                     |
+|____________|______________|__________________________|
+| FID_ASECH  |	   N/A      |   13                     |
+|____________|______________|__________________________|
+| FID_ACSC   |	   N/A      |   14                     |
+|____________|______________|__________________________|
+| FID_ACSCH  |	   N/A      |   15                     |
+|____________|______________|__________________________|
+| FID_TAN    |	   N/A      |   16                     |
+|____________|______________|__________________________|
+| FID_TANH   |	   N/A      |   17                     |
+|____________|______________|__________________________|
+| FID_ATAN   |	   N/A      |   18                     |
+|____________|______________|__________________________|
+| FID_ATANH  |	   N/A      |   19                     |
+|____________|______________|__________________________|
+| FID_COT    |	   N/A      |   20                     |
+|____________|______________|__________________________|
+| FID_COTH   |	   N/A      |   21                     |
+|____________|______________|__________________________|
+| FID_ACOT   |	   N/A      |   22                     |
+|____________|______________|__________________________|
+| FID_ACOTH  |	   N/A      |   23                     |
+|____________|______________|__________________________|
+| FID_HSIN   |	   N/A      |   24                     |
+|____________|______________|__________________________|
+| FID_HSINH  |	   N/A      |   25                     |
+|____________|______________|__________________________|
+| FID_QSIN   |	   N/A      |   26                     |
+|____________|______________|__________________________|
+| FID_QSINH  |	   N/A      |   27                     |
+|____________|______________|__________________________|
+| FID_HCOS   |	   N/A      |   28                     |
+|____________|______________|__________________________|
+| FID_HCOSH  |	   N/A      |   29                     |
+|____________|______________|__________________________|
+| FID_QCOS   |	   N/A      |   30                     |
+|____________|______________|__________________________| 
+| FID_QCOSH  |	   N/A      |   31                     |
+|____________|______________|__________________________|
+| FID_HSEC   |	   N/A      |   32                     |
+|____________|______________|__________________________|
+| FID_HSECH  |	   N/A      |   33                     |
+|____________|______________|__________________________|
+| FID_QSEC   |	   N/A      |   34                     |
+|____________|______________|__________________________|
+| FID_QSECH  |	   N/A      |   35                     |
+|____________|______________|__________________________|
+| FID_HCSC   |	   N/A      |   36                     |
+|____________|______________|__________________________|
+| FID_HCSCH  |	   N/A      |   37                     |
+|____________|______________|__________________________|
+| FID_QCSC   |	   N/A      |   38                     |
+|____________|______________|__________________________|
+| FID_QCSCH  |	   N/A      |   39                     |
+|____________|______________|__________________________|
+| FID_HTAN   |	   N/A      |   40                     |
+|____________|______________|__________________________|
+| FID_HTANH  |	   N/A      |   41                     |
+|____________|______________|__________________________|
+| FID_QTAN   |	   N/A      |   42                     |
+|____________|______________|__________________________|
+| FID_QTANH  |	   N/A      |   43                     |
+|____________|______________|__________________________|
+| FID_HCOT   |	   N/A      |   44                     |
+|____________|______________|__________________________|
+| FID_HCOTH  |	   N/A      |   45                     |
+|____________|______________|__________________________|
+| FID_QCOT   |	   N/A      |   46                     |
+|____________|______________|__________________________|
+| FID_QCOTH  |	   N/A      |   47                     |
+|____________|______________|__________________________|
+| FID_VSIN   |	   N/A      |   48                     |
+|____________|______________|__________________________|
+| FID_VSINH  |	   N/A      |   49                     |
+|____________|______________|__________________________|
+| FID_CVSIN  |	   N/A      |   50                     |
+|____________|______________|__________________________|
+| FID_CVSINH |	   N/A      |   51                     |
+|____________|______________|__________________________|
+| FID_VCOS   |	   N/A      |   52                     |
+|____________|______________|__________________________|
+| FID_VCOSH  |	   N/A      |   53                     |
+|____________|______________|__________________________|
+| FID_CVCOS  |	   N/A      |   54                     |
+|____________|______________|__________________________|
+| FID_CVCOSH |	   N/A      |   55                     |
+|____________|______________|__________________________|
+| FID_HVSIN  |	   N/A      |   56                     |
+|____________|______________|__________________________|
+| FID_HVSINH |	   N/A      |   57                     |
+|____________|______________|__________________________|
+| FID_HCVSIN |	   N/A      |   58                     |
+|____________|______________|__________________________|
+| FID_HCVSINH|	   N/A      |   59                     |
+|____________|______________|__________________________|
+| FID_QVSIN  |	   N/A      |   60                     |
+|____________|______________|__________________________|
+| FID_QVSINH |	   N/A      |   61                     |
+|____________|______________|__________________________|
+| FID_QCVSIN |	   N/A      |   62                     |
+|____________|______________|__________________________|
+| FID_QCVSINH|	   N/A      |   63                     |
+|____________|______________|__________________________|
+| FID_HVCOS  |	   N/A      |   64                     |
+|____________|______________|__________________________|
+| FID_HVCOSH |	   N/A      |   65                     |
+|____________|______________|__________________________|
+| FID_HCVCOS |	   N/A      |   66                     |
+|____________|______________|__________________________|
+| FID_HCVCOSH|	   N/A      |   67                     |
+|____________|______________|__________________________|
+| FID_QVCOS  |	   N/A      |   68                     |
+|____________|______________|__________________________|
+| FID_QVCOSH |	   N/A      |   69                     |
+|____________|______________|__________________________|
+| FID_QCVCOS |	   N/A      |   70                     |
+|____________|______________|__________________________|
+| FID_QCVCOSH|	   N/A      |   71                     |
+|____________|______________|__________________________|
+| FID_ESEC   |	   N/A      |   72                     |
+|____________|______________|__________________________|
+| FID_ESECH  |	   N/A      |   73                     |
+|____________|______________|__________________________|
+| FID_ECSC   |	   N/A      |   74                     |
+|____________|______________|__________________________|
+| FID_ECSCH  |	   N/A      |   75                     |
+|____________|______________|__________________________|
+| FID_HESEC  |	   N/A      |   76                     |
+|____________|______________|__________________________|
+| FID_HESECH |	   N/A      |   77                     |
+|____________|______________|__________________________|
+| FID_HECSC  |	   N/A      |   78                     |
+|____________|______________|__________________________|
+| FID_HECSCH |	   N/A      |   79                     |
+|____________|______________|__________________________|
+| FID_QESEC  |	   N/A      |   80                     |
+|____________|______________|__________________________|
+| FID_QESECH |	   N/A      |   81                     |
+|____________|______________|__________________________|
+| FID_QECSC  |	   N/A      |   82                     |
+|____________|______________|__________________________|
+| FID_QECSCH |	   N/A      |   83                     |
+|____________|______________|__________________________|
+| FID_SINC   |	   N/A      |   84                     |
+|____________|______________|__________________________|
+| FID_SINCH  |	   N/A      |   85                     |
+|____________|______________|__________________________|
+| FID_HSINC  |	   N/A      |   86                     |
+|____________|______________|__________________________|
+| FID_HSINCH |	   N/A      |   87                     |
+|____________|______________|__________________________|
+| FID_QSINC  |	   N/A      |   88                     |
+|____________|______________|__________________________|
+| FID_QSINCH |	   N/A      |   89                     |
+|____________|______________|__________________________|
+| FID_COSC   |	   N/A      |   90                     |
+|____________|______________|__________________________|
+| FID_COSCH  |	   N/A      |   91                     |
+|____________|______________|__________________________|
+| FID_HCOSC  |	   N/A      |   92                     |
+|____________|______________|__________________________|
+| FID_HCOSCH |	   N/A      |   93                     |
+|____________|______________|__________________________|
+| FID_QCOSC  |	   N/A      |   94                     |
+|____________|______________|__________________________|
+| FID_QCOSCH |	   N/A      |   95                     |
+|____________|______________|__________________________|
+| FID_SECC   |	   N/A      |   96                     |
+|____________|______________|__________________________|
+| FID_SECCH  |	   N/A      |   97                     |
+|____________|______________|__________________________|
+| FID_HSECC  |	   N/A      |   98                     |
+|____________|______________|__________________________|
+| FID_HSECCH |	   N/A      |   99                     |
+|____________|______________|__________________________|
+| FID_QSECC  |	   N/A      |   100                    |
+|____________|______________|__________________________|
+| FID_QSECCH |	   N/A      |   101                    |
+|____________|______________|__________________________|
+| FID_CSCC   |	   N/A      |   102                    |
+|____________|______________|__________________________|
+| FID_CSCCH  |	   N/A      |   103                    |
+|____________|______________|__________________________|
+| FID_HCSCC  |	   N/A      |   104                    |
+|____________|______________|__________________________|
+| FID_HCSCCH |	   N/A      |   105                    |
+|____________|______________|__________________________|
+| FID_QCSCC  |	   N/A      |   106                    |
+|____________|______________|__________________________|
+| FID_QCSCCH |	   N/A      |   107                    |
+|____________|______________|__________________________|
+| FID_TANC   |	   N/A      |   108                    |
+|____________|______________|__________________________|
+| FID_TANCH  |	   N/A      |   109                    |
+|____________|______________|__________________________|
+| FID_HTANC  |	   N/A      |   110                    |
+|____________|______________|__________________________|
+| FID_HTANCH |	   N/A      |   111                    |
+|____________|______________|__________________________|
+| FID_QTANC  |	   N/A      |   112                    |
+|____________|______________|__________________________|
+| FID_QTANCH |	   N/A      |   113                    |
+|____________|______________|__________________________|
+| FID_COTC   |	   N/A      |   114                    |
+|____________|______________|__________________________|
+| FID_COTCH  |	   N/A      |   115                    |
+|____________|______________|__________________________|
+| FID_HCOTC  |	   N/A      |   116                    |
+|____________|______________|__________________________|
+| FID_HCOTCH |	   N/A      |   117                    |
+|____________|______________|__________________________|
+| FID_QCOTC  |	   N/A      |   118                    |
+|____________|______________|__________________________|
+| FID_QCOTCH |	   N/A      |   119                    |
+|____________|______________|__________________________|
+| FID_LOG    |	   N/A      |   120                    |
+|____________|______________|__________________________|
+| FID_LOG10  |	   N/A      |   121                    |
+|____________|______________|__________________________|
+| FID_LOG2   |	   N/A      |   122                    |
+|____________|______________|__________________________|
+| FID_LOGC   |	   N/A      |   123                    |
+|____________|______________|__________________________|
+| FID_LOG10C |	   N/A      |   124                    |
+|____________|______________|__________________________|
+| FID_LOG2C  |	   N/A      |   125                    |
+|____________|______________|__________________________|
+| FID_LOG1P  |	   N/A      |   126                    |
+|____________|______________|__________________________|
+| FID_LOG1PC |	   N/A      |   127                    |
+|____________|______________|__________________________|
+| FID_EXP    |	   N/A      |   128                    |
+|____________|______________|__________________________|
+| FID_EXPC   |	   N/A      |   129                    |
+|____________|______________|__________________________|
+| FID_EXP10  |	   N/A      |   130                    |
+|____________|______________|__________________________|
+| FID_EXP10C |	   N/A      |   131                    |
+|____________|______________|__________________________|
+| FID_EXP2   |	   N/A      |   132                    |
+|____________|______________|__________________________|
+| FID_EXP2C  |	   N/A      |   133                    |
+|____________|______________|__________________________|
+| FID_ASUM   |	   N/A      |   134                    |
+|____________|______________|__________________________|
+| FID_FIBO   |	   N/A      |   135                    |
+|____________|______________|__________________________|
+| FID_FACT   |	   N/A      |   136                    |
+|____________|______________|__________________________|
+| FID_SFACT  |	   N/A      |   137                    |
+|____________|______________|__________________________|
+| FID_NPNUM  |	   N/A      |   138                    |
+|____________|______________|__________________________|
+| FID_PRIMR  |	   N/A      |   139                    |
+|____________|______________|__________________________|
+| FID_FPNSUM |	   N/A      |   140                    |
+|____________|______________|__________________________|
+| FID_FIBNC  |	   N/A      |   141                    |
+|____________|______________|__________________________|
+| FID_FSUM   |	   N/A      |   142                    |
+|____________|______________|__________________________|
+| FID_FASUM  |	   N/A      |   143                    |
+|____________|______________|__________________________|
+| FID_SFASUM |	   N/A      |   144                    |
+|____________|______________|__________________________|
+| FID_FNNSUM |	   N/A      |   145                    |
+|____________|______________|__________________________|
+| FID_FLOOR  |	   N/A      |   146                    |
+|____________|______________|__________________________|
+| FID_CEIL   |	   N/A      |   147                    |
+|____________|______________|__________________________|
+| FID_DEG    |	   N/A      |   148                    |
+|____________|______________|__________________________|
+| FID_RAD    |	   N/A      |   149                    |
+|____________|______________|__________________________|

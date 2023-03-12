@@ -1,0 +1,2 @@
+Program calculates Riemann Defined Integral of a PRELoaded Functions
+List, and requests in input the x0 and xN extremes and the intervals number

@@ -1,0 +1,10 @@
+#ifndef WRAPPER_ASA245_H_INCLUDED
+#define WRAPPER_ASA245_H_INCLUDED
+
+#define alngam(a) R_DBL(FUNCNAME_ALNGAM(C_SDBL(a)))
+#define gamma_log_values(a,b,c) FUNCNAME_GAMMALOGVALUES(C_PDT2PIT(a,b,c))
+
+__MATHSUITE __JBURKARDT void * FUNCNAME_ALNGAM(void *);
+__MATHSUITE __JBURKARDT void * FUNCNAME_GAMMALOGVALUES(void *);
+
+#endif

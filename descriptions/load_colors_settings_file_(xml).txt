@@ -1,0 +1,2 @@
+Subrogram allows you to select an .xml file in order to load
+new colors settings

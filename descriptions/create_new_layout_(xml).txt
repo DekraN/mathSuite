@@ -1,0 +1,3 @@
+Program allows you to create a new layout, whose extension is
+highly recommended to set as the layouts default one: xml.
+Layout will be set as current if the boolean vars AUTOSET_CURITEM is enabled

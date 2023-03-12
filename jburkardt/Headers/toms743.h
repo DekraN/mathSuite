@@ -1,0 +1,12 @@
+#ifndef WRAPPER_TOMS743_H_INCLUDED
+#define WRAPPER_TOMS743_H_INCLUDED
+
+#define bisect(a,b,c,d) R_UCHR(FUNCNAME_BISECT(C_2DTITPI(b,d,a,c)))
+#define crude(a,b) R_DBL(FUNCNAME_CRUDE(C_DTIT(b,a)))
+#define nbits_compute() R_USHRT(FUNCNAME_NBITSCOMPUTE(NULL))
+
+__MATHSUITE __JBURKARDT void * FUNCNAME_BISECT(void *);
+__MATHSUITE __JBURKARDT void * FUNCNAME_NBITSCOMPUTE(void *);
+__MATHSUITE __JBURKARDT void * FUNCNAME_CRUDE(void *);
+
+#endif

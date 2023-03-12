@@ -1,0 +1,4 @@
+Program executed without parameters shows you a complete MathSuite
+Scripting Environment Commands List, with the relative usage for
+each command. If a cmdname is passed as param, then the program
+will show you the usage only for that command 

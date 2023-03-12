@@ -1,0 +1,2 @@
+Program allows you to open a log from a .LOG file, that will
+be set as current if the relative AUTOSET_CURITEM bool value is set

@@ -1,0 +1,2 @@
+Program allows you to change the Program Stabilizer Factor, used in the
+Initializer+Stabilizer Dynamic Matrix Memory Allocation System

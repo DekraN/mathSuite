@@ -1,0 +1,8 @@
+#ifndef WRAPPER_LINE_NCC_RULE_H_INCLUDED
+#define WRAPPER_LINE_NCC_RULE_H_INCLUDED
+
+#define line_ncc_rule(a,b,c,d,e) FUNCNAME_LINENCCRULE(C_DT2IT2PIT(a,b,c,d,e))
+
+__MATHSUITE __JBURKARDT void * FUNCNAME_LINENCCRULE(void *);
+
+#endif

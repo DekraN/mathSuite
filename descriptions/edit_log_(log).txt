@@ -1,0 +1,3 @@
+Program allows you to edit a log instance previously loaded into logs list.
+You can edit it by using WINDOWS-Only notepad.exe program, or by using
+sequencial mode (however, this is not recommended)

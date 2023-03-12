@@ -1,0 +1,34 @@
+/* THIS FILE WILL BE OVERWRITTEN BY DEV-C++ */
+/* DO NOT EDIT! */
+
+#include <windows.h> // include for version info constants
+
+
+//
+// TO CHANGE VERSION INFORMATION, EDIT PROJECT OPTIONS...
+//
+1 VERSIONINFO
+FILEVERSION 10,1,0,3715
+PRODUCTVERSION 10,1,0,3715
+FILETYPE VFT_APP
+{
+  BLOCK "StringFileInfo"
+  {
+    BLOCK "040904E4"
+    {
+      VALUE "CompanyName", "Marco Chiarelli"
+      VALUE "FileVersion", "10.1.0.3715"
+      VALUE "FileDescription", "mathSuite"
+      VALUE "InternalName", "mSuite"
+      VALUE "LegalCopyright", "Protected by CC BY-SA 2.0"
+      VALUE "LegalTrademarks", "Protected by CC BY-SA 2.0"
+      VALUE "OriginalFilename", "mathSuite v10.00"
+      VALUE "ProductName", "mathSuite"
+      VALUE "ProductVersion", "10.1.0.3715"
+    }
+  }
+  BLOCK "VarFileInfo"
+  {
+    VALUE "Translation", 0x0409, 1252
+  }
+}

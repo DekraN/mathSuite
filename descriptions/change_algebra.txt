@@ -1,0 +1,3 @@
+With this program you can change the Algebra to use to perform
+some Linear Algebra and/or IperComplex computations.
+You can switch to Complex Numbers, Quaternions, Octonions or Sedenions

@@ -1,0 +1,2 @@
+Program allows you to delete a log previously loaded in the
+program logs list

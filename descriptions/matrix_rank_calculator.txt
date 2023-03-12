@@ -1,0 +1,1 @@
+Program calculates rank of a given [n X m] matrix

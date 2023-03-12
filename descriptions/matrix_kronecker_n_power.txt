@@ -1,0 +1,2 @@
+Program raises to given N power a generic matrix, by using
+the definition of Matrix Kronecker Product

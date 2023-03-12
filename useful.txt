@@ -1,0 +1,7 @@
+for(i=0; i<8; ++i)	
+		if((err = exprEvalNode(obj, nodes->data.function.nodes, i, &args[i])))
+			for(j=0; j<=i; ++j)	
+			{
+				mpfr_clear(args[j]);
+				return err;
+			}

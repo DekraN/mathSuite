@@ -1,0 +1,2 @@
+Program allows you to rename an environment file previously loaded into
+vars list

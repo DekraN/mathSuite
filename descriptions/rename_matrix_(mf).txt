@@ -1,0 +1,2 @@
+Program allows you to rename a matrix file previously loaded into
+matrices list

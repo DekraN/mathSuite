@@ -1,0 +1,794 @@
+# Project: mathSuite Mutant Version
+
+CPP      = g++
+CC       = gcc
+WINDRES  = windres
+RES      = obj/mathSuite_private.res
+OBJ      = obj/main.o obj/adv_calc.o obj/algebra.o obj/cols_manager.o obj/envs_manager.o obj/ext_math.o obj/mengine.o obj/layouts_manager.o obj/lists_manager.o obj/mat_manager.o obj/mss_manager.o obj/lf_manager.o obj/programs.o obj/settings.o obj/expreval.o obj/exprfunc.o obj/exprinit.o obj/exprmem.o obj/exprobj.o obj/exprpars.o obj/exprutil.o obj/exprval.o obj/jburkardt/alpert_rule.o obj/jburkardt/asa005.o obj/jburkardt/asa006.o obj/jburkardt/asa032.o obj/jburkardt/asa047.o obj/jburkardt/asa058.o obj/jburkardt/asa063.o obj/jburkardt/asa066.o obj/jburkardt/asa076.o obj/jburkardt/asa091.o obj/jburkardt/asa103.o obj/jburkardt/asa109.o obj/jburkardt/asa121.o obj/jburkardt/asa144.o obj/jburkardt/asa147.o obj/jburkardt/asa152.o obj/jburkardt/asa172.o obj/jburkardt/asa183.o obj/jburkardt/asa226.o obj/jburkardt/asa243.o obj/jburkardt/asa245.o obj/jburkardt/asa266.o obj/jburkardt/asa310.o obj/jburkardt/asa314.o obj/jburkardt/ball_integrals.o obj/jburkardt/bernstein_polynomial.o obj/jburkardt/blas1_d.o obj/jburkardt/brent.o obj/jburkardt/brownian_motion_simulation.o obj/jburkardt/burgers_solution.o obj/jburkardt/c_calls_f77.o obj/jburkardt/ccn_rule.o obj/jburkardt/cdflib.o obj/jburkardt/chebyshev_polynomial.o obj/jburkardt/chebyshev_series.o obj/jburkardt/circle_arc_grid.o obj/jburkardt/circle_integrals.o obj/jburkardt/circle_rule.o obj/jburkardt/circle_segment.o obj/jburkardt/clenshaw_curtis_rule.o obj/jburkardt/colored_noise.o obj/jburkardt/combination_lock.o obj/jburkardt/combo.o obj/jburkardt/cordic.o obj/jburkardt/correlation.o obj/jburkardt/cosine_transform.o obj/jburkardt/cpv.o obj/jburkardt/cube_arbq_rule.o obj/jburkardt/cube_exactness.o obj/jburkardt/cube_felippa_rule.o obj/jburkardt/cycle_brent.o obj/jburkardt/cycle_floyd.o obj/jburkardt/differ.o obj/jburkardt/disk_integrals.o obj/jburkardt/divdif.o obj/jburkardt/duel_simulation.o obj/jburkardt/ellipse_grid.o obj/jburkardt/ellipse_monte_carlo.o obj/jburkardt/ellipsoid_monte_carlo.o obj/jburkardt/exactness.o obj/jburkardt/fd1d_bvp.o obj/jburkardt/fem_basis.o obj/jburkardt/fem1d_bvp_linear.o obj/jburkardt/fem1d_bvp_quadratic.o obj/jburkardt/fem1d_heat_steady.o obj/jburkardt/fem1d_lagrange.o obj/jburkardt/fem1d_pack.o obj/jburkardt/fem1d_project.o obj/jburkardt/fem2d_bvp_linear.o obj/jburkardt/fem2d_bvp_quadratic.o obj/jburkardt/fem2d_serene.o obj/jburkardt/filon.o obj/jburkardt/geometry.o obj/jburkardt/haar.o obj/jburkardt/hermite.o obj/jburkardt/hermite_polynomial.o obj/jburkardt/hermite_product_polynomial.o obj/jburkardt/hermite_rule.o obj/jburkardt/high_card_simulation.o obj/jburkardt/hyperball_integrals.o obj/jburkardt/hypercube_grid.o obj/jburkardt/hypersphere_integrals.o obj/jburkardt/hypersphere_properties.o obj/jburkardt/i4lib.o obj/jburkardt/image_components.o obj/jburkardt/image_denoise.o obj/jburkardt/interp.o obj/jburkardt/isbn.o obj/jburkardt/ising_2d_simulation.o obj/jburkardt/jacobi.o obj/jburkardt/jacobi_eigenvalue.o obj/jburkardt/jacobi_polynomial.o obj/jburkardt/knapsack_01.o obj/jburkardt/kronrod.o obj/jburkardt/lagrange_approx_1d.o obj/jburkardt/lagrange_interp_1d.o obj/jburkardt/lagrange_interp_nd.o obj/jburkardt/laguerre_polynomial.o obj/jburkardt/laplacian.o obj/jburkardt/latin_cover.o obj/jburkardt/latin_random.o obj/jburkardt/latinize.o obj/jburkardt/lebesgue.o obj/jburkardt/legendre_polynomial.o obj/jburkardt/life_serial.o obj/jburkardt/line_cvt_lloyd.o obj/jburkardt/line_fekete_rule.o obj/jburkardt/line_grid.o obj/jburkardt/line_integrals.o obj/jburkardt/line_ncc_rule.o obj/jburkardt/line_nco_rule.o obj/jburkardt/linpack_d.o obj/jburkardt/llsq.o obj/jburkardt/lobatto_polynomial.o obj/jburkardt/lorenz_ode.o obj/jburkardt/matrix_exponential.o obj/jburkardt/md.o obj/jburkardt/mgs.o obj/jburkardt/monomial.o obj/jburkardt/multigrid_poisson_1d.o obj/jburkardt/naca.o obj/jburkardt/navier_stokes_2d_exact.o obj/jburkardt/nearest_interp_1d.o obj/jburkardt/newton_interp_1d.o obj/jburkardt/nintlib.o obj/jburkardt/normal.o obj/jburkardt/ode.o obj/jburkardt/padua.o obj/jburkardt/partition_problem.o obj/jburkardt/patterson_rule.o obj/jburkardt/pce_ode_hermite.o obj/jburkardt/pdflib.o obj/jburkardt/piecewise_linear_product_integral.o obj/jburkardt/pink_noise.o obj/jburkardt/poisson_openmp.o obj/jburkardt/polpak.o obj/jburkardt/polygon_grid.o obj/jburkardt/polygon_integrals.o obj/jburkardt/polygon_triangulate.o obj/jburkardt/power_method.o obj/jburkardt/power_rule.o obj/jburkardt/prob.o obj/jburkardt/pwl_approx_1d.o obj/jburkardt/pwl_interp_1d.o obj/jburkardt/pwl_interp_2d.o obj/jburkardt/pyramid_exactness.o obj/jburkardt/pyramid_grid.o obj/jburkardt/quadmom.o obj/jburkardt/r8lib.o obj/jburkardt/rbf_interp_1d.o obj/jburkardt/rbf_interp_2d.o obj/jburkardt/rbf_interp_nd.o obj/jburkardt/rk4.o obj/jburkardt/rkf45.o obj/jburkardt/satisfy.o obj/jburkardt/sftpack.o obj/jburkardt/sgmga.o obj/jburkardt/shepard_interp_1d.o obj/jburkardt/shepard_interp_2d.o obj/jburkardt/shepard_interp_nd.o obj/jburkardt/simplex_coordinates.o obj/jburkardt/simplex_gm_rule.o obj/jburkardt/simplex_grid.o obj/jburkardt/sine_transform.o obj/jburkardt/snakes_and_ladders.o obj/jburkardt/sparse_grid_cc.o obj/jburkardt/sparse_grid_hw.o obj/jburkardt/sparse_interp_nd.o obj/jburkardt/sphere_fibonacci_grid.o obj/jburkardt/sphere_grid.o obj/jburkardt/sphere_integrals.o obj/jburkardt/sphere_lebedev_rule.o obj/jburkardt/sphere_llq_grid.o obj/jburkardt/sphere_llt_grid.o obj/jburkardt/sphere_quad.o obj/jburkardt/sphere_stereograph.o obj/jburkardt/square_arbq_rule.o obj/jburkardt/square_grid.o obj/jburkardt/square_integrals.o obj/jburkardt/square_symq_rule.o obj/jburkardt/stochastic_diffusion.o obj/jburkardt/stochastic_rk.o obj/jburkardt/stokes_2d_exact.o obj/jburkardt/subset_sum.o obj/jburkardt/tet_mesh.o obj/jburkardt/tetrahedron_arbq_rule.o obj/jburkardt/tetrahedron_exactness.o obj/jburkardt/tetrahedron_grid.o obj/jburkardt/tetrahedron_integrals.o obj/jburkardt/tetrahedron_ncc_rule.o obj/jburkardt/simple_rkf45.o obj/jburkardt/toeplitz_cholesky.o obj/jburkardt/toms097.o obj/jburkardt/toms179.o obj/jburkardt/toms322.o obj/jburkardt/toms443.o obj/jburkardt/toms655.o obj/jburkardt/toms743.o obj/jburkardt/toms886.o obj/jburkardt/treepack.o obj/jburkardt/triangle_exactness.o obj/jburkardt/triangle_fekete_rule.o obj/jburkardt/triangle_felippa_rule.o obj/jburkardt/triangle_grid.o obj/jburkardt/triangle_integrals.o obj/jburkardt/triangle_ncc_rule.o obj/jburkardt/triangle_nco_rule.o obj/jburkardt/triangle_symq_rule.o obj/jburkardt/triangulation.o obj/jburkardt/triangulation_node_to_element.o obj/jburkardt/triangulation_svg.o obj/jburkardt/truncated_normal.o obj/jburkardt/unicycle.o obj/jburkardt/upc.o obj/jburkardt/vandermonde.o obj/jburkardt/vandermonde_approx_1d.o obj/jburkardt/vandermonde_approx_2d.o obj/jburkardt/vandermonde_interp_2d.o obj/jburkardt/walsh.o obj/jburkardt/wathen.o obj/jburkardt/wavelet.o obj/jburkardt/wedge_exactness.o obj/jburkardt/wedge_felippa_rule.o obj/jburkardt/weekday.o obj/jburkardt/wishart.o obj/jburkardt/wtime.o obj/jburkardt/zero_rc.o obj/bessel.o obj/values.o obj/jburkardt/asa111.o obj/logs_manager.o obj/syslog_manager.o obj/md5.o $(RES)
+LINKOBJ  = obj/main.o obj/adv_calc.o obj/algebra.o obj/cols_manager.o obj/envs_manager.o obj/ext_math.o obj/mengine.o obj/layouts_manager.o obj/lists_manager.o obj/mat_manager.o obj/mss_manager.o obj/lf_manager.o obj/programs.o obj/settings.o obj/expreval.o obj/exprfunc.o obj/exprinit.o obj/exprmem.o obj/exprobj.o obj/exprpars.o obj/exprutil.o obj/exprval.o obj/jburkardt/alpert_rule.o obj/jburkardt/asa005.o obj/jburkardt/asa006.o obj/jburkardt/asa032.o obj/jburkardt/asa047.o obj/jburkardt/asa058.o obj/jburkardt/asa063.o obj/jburkardt/asa066.o obj/jburkardt/asa076.o obj/jburkardt/asa091.o obj/jburkardt/asa103.o obj/jburkardt/asa109.o obj/jburkardt/asa121.o obj/jburkardt/asa144.o obj/jburkardt/asa147.o obj/jburkardt/asa152.o obj/jburkardt/asa172.o obj/jburkardt/asa183.o obj/jburkardt/asa226.o obj/jburkardt/asa243.o obj/jburkardt/asa245.o obj/jburkardt/asa266.o obj/jburkardt/asa310.o obj/jburkardt/asa314.o obj/jburkardt/ball_integrals.o obj/jburkardt/bernstein_polynomial.o obj/jburkardt/blas1_d.o obj/jburkardt/brent.o obj/jburkardt/brownian_motion_simulation.o obj/jburkardt/burgers_solution.o obj/jburkardt/c_calls_f77.o obj/jburkardt/ccn_rule.o obj/jburkardt/cdflib.o obj/jburkardt/chebyshev_polynomial.o obj/jburkardt/chebyshev_series.o obj/jburkardt/circle_arc_grid.o obj/jburkardt/circle_integrals.o obj/jburkardt/circle_rule.o obj/jburkardt/circle_segment.o obj/jburkardt/clenshaw_curtis_rule.o obj/jburkardt/colored_noise.o obj/jburkardt/combination_lock.o obj/jburkardt/combo.o obj/jburkardt/cordic.o obj/jburkardt/correlation.o obj/jburkardt/cosine_transform.o obj/jburkardt/cpv.o obj/jburkardt/cube_arbq_rule.o obj/jburkardt/cube_exactness.o obj/jburkardt/cube_felippa_rule.o obj/jburkardt/cycle_brent.o obj/jburkardt/cycle_floyd.o obj/jburkardt/differ.o obj/jburkardt/disk_integrals.o obj/jburkardt/divdif.o obj/jburkardt/duel_simulation.o obj/jburkardt/ellipse_grid.o obj/jburkardt/ellipse_monte_carlo.o obj/jburkardt/ellipsoid_monte_carlo.o obj/jburkardt/exactness.o obj/jburkardt/fd1d_bvp.o obj/jburkardt/fem_basis.o obj/jburkardt/fem1d_bvp_linear.o obj/jburkardt/fem1d_bvp_quadratic.o obj/jburkardt/fem1d_heat_steady.o obj/jburkardt/fem1d_lagrange.o obj/jburkardt/fem1d_pack.o obj/jburkardt/fem1d_project.o obj/jburkardt/fem2d_bvp_linear.o obj/jburkardt/fem2d_bvp_quadratic.o obj/jburkardt/fem2d_serene.o obj/jburkardt/filon.o obj/jburkardt/geometry.o obj/jburkardt/haar.o obj/jburkardt/hermite.o obj/jburkardt/hermite_polynomial.o obj/jburkardt/hermite_product_polynomial.o obj/jburkardt/hermite_rule.o obj/jburkardt/high_card_simulation.o obj/jburkardt/hyperball_integrals.o obj/jburkardt/hypercube_grid.o obj/jburkardt/hypersphere_integrals.o obj/jburkardt/hypersphere_properties.o obj/jburkardt/i4lib.o obj/jburkardt/image_components.o obj/jburkardt/image_denoise.o obj/jburkardt/interp.o obj/jburkardt/isbn.o obj/jburkardt/ising_2d_simulation.o obj/jburkardt/jacobi.o obj/jburkardt/jacobi_eigenvalue.o obj/jburkardt/jacobi_polynomial.o obj/jburkardt/knapsack_01.o obj/jburkardt/kronrod.o obj/jburkardt/lagrange_approx_1d.o obj/jburkardt/lagrange_interp_1d.o obj/jburkardt/lagrange_interp_nd.o obj/jburkardt/laguerre_polynomial.o obj/jburkardt/laplacian.o obj/jburkardt/latin_cover.o obj/jburkardt/latin_random.o obj/jburkardt/latinize.o obj/jburkardt/lebesgue.o obj/jburkardt/legendre_polynomial.o obj/jburkardt/life_serial.o obj/jburkardt/line_cvt_lloyd.o obj/jburkardt/line_fekete_rule.o obj/jburkardt/line_grid.o obj/jburkardt/line_integrals.o obj/jburkardt/line_ncc_rule.o obj/jburkardt/line_nco_rule.o obj/jburkardt/linpack_d.o obj/jburkardt/llsq.o obj/jburkardt/lobatto_polynomial.o obj/jburkardt/lorenz_ode.o obj/jburkardt/matrix_exponential.o obj/jburkardt/md.o obj/jburkardt/mgs.o obj/jburkardt/monomial.o obj/jburkardt/multigrid_poisson_1d.o obj/jburkardt/naca.o obj/jburkardt/navier_stokes_2d_exact.o obj/jburkardt/nearest_interp_1d.o obj/jburkardt/newton_interp_1d.o obj/jburkardt/nintlib.o obj/jburkardt/normal.o obj/jburkardt/ode.o obj/jburkardt/padua.o obj/jburkardt/partition_problem.o obj/jburkardt/patterson_rule.o obj/jburkardt/pce_ode_hermite.o obj/jburkardt/pdflib.o obj/jburkardt/piecewise_linear_product_integral.o obj/jburkardt/pink_noise.o obj/jburkardt/poisson_openmp.o obj/jburkardt/polpak.o obj/jburkardt/polygon_grid.o obj/jburkardt/polygon_integrals.o obj/jburkardt/polygon_triangulate.o obj/jburkardt/power_method.o obj/jburkardt/power_rule.o obj/jburkardt/prob.o obj/jburkardt/pwl_approx_1d.o obj/jburkardt/pwl_interp_1d.o obj/jburkardt/pwl_interp_2d.o obj/jburkardt/pyramid_exactness.o obj/jburkardt/pyramid_grid.o obj/jburkardt/quadmom.o obj/jburkardt/r8lib.o obj/jburkardt/rbf_interp_1d.o obj/jburkardt/rbf_interp_2d.o obj/jburkardt/rbf_interp_nd.o obj/jburkardt/rk4.o obj/jburkardt/rkf45.o obj/jburkardt/satisfy.o obj/jburkardt/sftpack.o obj/jburkardt/sgmga.o obj/jburkardt/shepard_interp_1d.o obj/jburkardt/shepard_interp_2d.o obj/jburkardt/shepard_interp_nd.o obj/jburkardt/simplex_coordinates.o obj/jburkardt/simplex_gm_rule.o obj/jburkardt/simplex_grid.o obj/jburkardt/sine_transform.o obj/jburkardt/snakes_and_ladders.o obj/jburkardt/sparse_grid_cc.o obj/jburkardt/sparse_grid_hw.o obj/jburkardt/sparse_interp_nd.o obj/jburkardt/sphere_fibonacci_grid.o obj/jburkardt/sphere_grid.o obj/jburkardt/sphere_integrals.o obj/jburkardt/sphere_lebedev_rule.o obj/jburkardt/sphere_llq_grid.o obj/jburkardt/sphere_llt_grid.o obj/jburkardt/sphere_quad.o obj/jburkardt/sphere_stereograph.o obj/jburkardt/square_arbq_rule.o obj/jburkardt/square_grid.o obj/jburkardt/square_integrals.o obj/jburkardt/square_symq_rule.o obj/jburkardt/stochastic_diffusion.o obj/jburkardt/stochastic_rk.o obj/jburkardt/stokes_2d_exact.o obj/jburkardt/subset_sum.o obj/jburkardt/tet_mesh.o obj/jburkardt/tetrahedron_arbq_rule.o obj/jburkardt/tetrahedron_exactness.o obj/jburkardt/tetrahedron_grid.o obj/jburkardt/tetrahedron_integrals.o obj/jburkardt/tetrahedron_ncc_rule.o obj/jburkardt/simple_rkf45.o obj/jburkardt/toeplitz_cholesky.o obj/jburkardt/toms097.o obj/jburkardt/toms179.o obj/jburkardt/toms322.o obj/jburkardt/toms443.o obj/jburkardt/toms655.o obj/jburkardt/toms743.o obj/jburkardt/toms886.o obj/jburkardt/treepack.o obj/jburkardt/triangle_exactness.o obj/jburkardt/triangle_fekete_rule.o obj/jburkardt/triangle_felippa_rule.o obj/jburkardt/triangle_grid.o obj/jburkardt/triangle_integrals.o obj/jburkardt/triangle_ncc_rule.o obj/jburkardt/triangle_nco_rule.o obj/jburkardt/triangle_symq_rule.o obj/jburkardt/triangulation.o obj/jburkardt/triangulation_node_to_element.o obj/jburkardt/triangulation_svg.o obj/jburkardt/truncated_normal.o obj/jburkardt/unicycle.o obj/jburkardt/upc.o obj/jburkardt/vandermonde.o obj/jburkardt/vandermonde_approx_1d.o obj/jburkardt/vandermonde_approx_2d.o obj/jburkardt/vandermonde_interp_2d.o obj/jburkardt/walsh.o obj/jburkardt/wathen.o obj/jburkardt/wavelet.o obj/jburkardt/wedge_exactness.o obj/jburkardt/wedge_felippa_rule.o obj/jburkardt/weekday.o obj/jburkardt/wishart.o obj/jburkardt/wtime.o obj/jburkardt/zero_rc.o obj/bessel.o obj/values.o obj/jburkardt/asa111.o obj/logs_manager.o obj/syslog_manager.o obj/md5.o $(RES)
+LIBS     = -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib32" -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib32" "../../../../../../Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib32/libcomdlg32.a" -lgomp -lmpfr -lgmp libxml2.dll cygwin1.dll -m32 -s
+INCS     = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include"
+CXXINCS  = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/c++"
+BIN      = ..\mathSuiteMutant
+CXXFLAGS = $(CXXINCS) $(OPTS) -Os -m32 -std=c99 -fopenmp
+CFLAGS   = $(INCS) $(OPTS) -Os -m32 -std=c99 -pipe -s -fopenmp
+RM       = rm -f
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before $(BIN) all-after
+
+clean: clean-custom
+	${RM} $(OBJ) $(BIN)
+
+$(BIN): $(OBJ)
+	$(CC) $(LINKOBJ) -o $(BIN) $(LIBS)
+
+obj/main.o: main.c
+	$(CC) -c main.c -o obj/main.o $(CFLAGS)
+
+obj/adv_calc.o: adv_calc.c
+	$(CC) -c adv_calc.c -o obj/adv_calc.o $(CFLAGS)
+
+obj/algebra.o: algebra.c
+	$(CC) -c algebra.c -o obj/algebra.o $(CFLAGS)
+
+obj/cols_manager.o: cols_manager.c
+	$(CC) -c cols_manager.c -o obj/cols_manager.o $(CFLAGS)
+
+obj/envs_manager.o: envs_manager.c
+	$(CC) -c envs_manager.c -o obj/envs_manager.o $(CFLAGS)
+
+obj/ext_math.o: ext_math.c
+	$(CC) -c ext_math.c -o obj/ext_math.o $(CFLAGS)
+
+obj/mengine.o: mengine.c
+	$(CC) -c mengine.c -o obj/mengine.o $(CFLAGS)
+
+obj/layouts_manager.o: layouts_manager.c
+	$(CC) -c layouts_manager.c -o obj/layouts_manager.o $(CFLAGS)
+
+obj/lists_manager.o: lists_manager.c
+	$(CC) -c lists_manager.c -o obj/lists_manager.o $(CFLAGS)
+
+obj/mat_manager.o: mat_manager.c
+	$(CC) -c mat_manager.c -o obj/mat_manager.o $(CFLAGS)
+
+obj/mss_manager.o: mss_manager.c
+	$(CC) -c mss_manager.c -o obj/mss_manager.o $(CFLAGS)
+
+obj/lf_manager.o: lf_manager.c
+	$(CC) -c lf_manager.c -o obj/lf_manager.o $(CFLAGS)
+
+obj/programs.o: programs.c
+	$(CC) -c programs.c -o obj/programs.o $(CFLAGS)
+
+obj/settings.o: settings.c
+	$(CC) -c settings.c -o obj/settings.o $(CFLAGS)
+
+obj/expreval.o: ExprEval/expreval.c
+	$(CC) -c ExprEval/expreval.c -o obj/expreval.o $(CFLAGS)
+
+obj/exprfunc.o: ExprEval/exprfunc.c
+	$(CC) -c ExprEval/exprfunc.c -o obj/exprfunc.o $(CFLAGS)
+
+obj/exprinit.o: ExprEval/exprinit.c
+	$(CC) -c ExprEval/exprinit.c -o obj/exprinit.o $(CFLAGS)
+
+obj/exprmem.o: ExprEval/exprmem.c
+	$(CC) -c ExprEval/exprmem.c -o obj/exprmem.o $(CFLAGS)
+
+obj/exprobj.o: ExprEval/exprobj.c
+	$(CC) -c ExprEval/exprobj.c -o obj/exprobj.o $(CFLAGS)
+
+obj/exprpars.o: ExprEval/exprpars.c
+	$(CC) -c ExprEval/exprpars.c -o obj/exprpars.o $(CFLAGS)
+
+obj/exprutil.o: ExprEval/exprutil.c
+	$(CC) -c ExprEval/exprutil.c -o obj/exprutil.o $(CFLAGS)
+
+obj/exprval.o: ExprEval/exprval.c
+	$(CC) -c ExprEval/exprval.c -o obj/exprval.o $(CFLAGS)
+
+obj/jburkardt/alpert_rule.o: jburkardt/alpert_rule.c
+	$(CC) -c jburkardt/alpert_rule.c -o obj/jburkardt/alpert_rule.o $(CFLAGS)
+
+obj/jburkardt/asa005.o: jburkardt/asa005.c
+	$(CC) -c jburkardt/asa005.c -o obj/jburkardt/asa005.o $(CFLAGS)
+
+obj/jburkardt/asa006.o: jburkardt/asa006.c
+	$(CC) -c jburkardt/asa006.c -o obj/jburkardt/asa006.o $(CFLAGS)
+
+obj/jburkardt/asa032.o: jburkardt/asa032.c
+	$(CC) -c jburkardt/asa032.c -o obj/jburkardt/asa032.o $(CFLAGS)
+
+obj/jburkardt/asa047.o: jburkardt/asa047.c
+	$(CC) -c jburkardt/asa047.c -o obj/jburkardt/asa047.o $(CFLAGS)
+
+obj/jburkardt/asa058.o: jburkardt/asa058.c
+	$(CC) -c jburkardt/asa058.c -o obj/jburkardt/asa058.o $(CFLAGS)
+
+obj/jburkardt/asa063.o: jburkardt/asa063.c
+	$(CC) -c jburkardt/asa063.c -o obj/jburkardt/asa063.o $(CFLAGS)
+
+obj/jburkardt/asa066.o: jburkardt/asa066.c
+	$(CC) -c jburkardt/asa066.c -o obj/jburkardt/asa066.o $(CFLAGS)
+
+obj/jburkardt/asa076.o: jburkardt/asa076.c
+	$(CC) -c jburkardt/asa076.c -o obj/jburkardt/asa076.o $(CFLAGS)
+
+obj/jburkardt/asa091.o: jburkardt/asa091.c
+	$(CC) -c jburkardt/asa091.c -o obj/jburkardt/asa091.o $(CFLAGS)
+
+obj/jburkardt/asa103.o: jburkardt/asa103.c
+	$(CC) -c jburkardt/asa103.c -o obj/jburkardt/asa103.o $(CFLAGS)
+
+obj/jburkardt/asa109.o: jburkardt/asa109.c
+	$(CC) -c jburkardt/asa109.c -o obj/jburkardt/asa109.o $(CFLAGS)
+
+obj/jburkardt/asa121.o: jburkardt/asa121.c
+	$(CC) -c jburkardt/asa121.c -o obj/jburkardt/asa121.o $(CFLAGS)
+
+obj/jburkardt/asa144.o: jburkardt/asa144.c
+	$(CC) -c jburkardt/asa144.c -o obj/jburkardt/asa144.o $(CFLAGS)
+
+obj/jburkardt/asa147.o: jburkardt/asa147.c
+	$(CC) -c jburkardt/asa147.c -o obj/jburkardt/asa147.o $(CFLAGS)
+
+obj/jburkardt/asa152.o: jburkardt/asa152.c
+	$(CC) -c jburkardt/asa152.c -o obj/jburkardt/asa152.o $(CFLAGS)
+
+obj/jburkardt/asa172.o: jburkardt/asa172.c
+	$(CC) -c jburkardt/asa172.c -o obj/jburkardt/asa172.o $(CFLAGS)
+
+obj/jburkardt/asa183.o: jburkardt/asa183.c
+	$(CC) -c jburkardt/asa183.c -o obj/jburkardt/asa183.o $(CFLAGS)
+
+obj/jburkardt/asa226.o: jburkardt/asa226.c
+	$(CC) -c jburkardt/asa226.c -o obj/jburkardt/asa226.o $(CFLAGS)
+
+obj/jburkardt/asa243.o: jburkardt/asa243.c
+	$(CC) -c jburkardt/asa243.c -o obj/jburkardt/asa243.o $(CFLAGS)
+
+obj/jburkardt/asa245.o: jburkardt/asa245.c
+	$(CC) -c jburkardt/asa245.c -o obj/jburkardt/asa245.o $(CFLAGS)
+
+obj/jburkardt/asa266.o: jburkardt/asa266.c
+	$(CC) -c jburkardt/asa266.c -o obj/jburkardt/asa266.o $(CFLAGS)
+
+obj/jburkardt/asa310.o: jburkardt/asa310.c
+	$(CC) -c jburkardt/asa310.c -o obj/jburkardt/asa310.o $(CFLAGS)
+
+obj/jburkardt/asa314.o: jburkardt/asa314.c
+	$(CC) -c jburkardt/asa314.c -o obj/jburkardt/asa314.o $(CFLAGS)
+
+obj/jburkardt/ball_integrals.o: jburkardt/ball_integrals.c
+	$(CC) -c jburkardt/ball_integrals.c -o obj/jburkardt/ball_integrals.o $(CFLAGS)
+
+obj/jburkardt/bernstein_polynomial.o: jburkardt/bernstein_polynomial.c
+	$(CC) -c jburkardt/bernstein_polynomial.c -o obj/jburkardt/bernstein_polynomial.o $(CFLAGS)
+
+obj/jburkardt/blas1_d.o: jburkardt/blas1_d.c
+	$(CC) -c jburkardt/blas1_d.c -o obj/jburkardt/blas1_d.o $(CFLAGS)
+
+obj/jburkardt/brent.o: jburkardt/brent.c
+	$(CC) -c jburkardt/brent.c -o obj/jburkardt/brent.o $(CFLAGS)
+
+obj/jburkardt/brownian_motion_simulation.o: jburkardt/brownian_motion_simulation.c
+	$(CC) -c jburkardt/brownian_motion_simulation.c -o obj/jburkardt/brownian_motion_simulation.o $(CFLAGS)
+
+obj/jburkardt/burgers_solution.o: jburkardt/burgers_solution.c
+	$(CC) -c jburkardt/burgers_solution.c -o obj/jburkardt/burgers_solution.o $(CFLAGS)
+
+obj/jburkardt/c_calls_f77.o: jburkardt/c_calls_f77.c
+	$(CC) -c jburkardt/c_calls_f77.c -o obj/jburkardt/c_calls_f77.o $(CFLAGS)
+
+obj/jburkardt/ccn_rule.o: jburkardt/ccn_rule.c
+	$(CC) -c jburkardt/ccn_rule.c -o obj/jburkardt/ccn_rule.o $(CFLAGS)
+
+obj/jburkardt/cdflib.o: jburkardt/cdflib.c
+	$(CC) -c jburkardt/cdflib.c -o obj/jburkardt/cdflib.o $(CFLAGS)
+
+obj/jburkardt/chebyshev_polynomial.o: jburkardt/chebyshev_polynomial.c
+	$(CC) -c jburkardt/chebyshev_polynomial.c -o obj/jburkardt/chebyshev_polynomial.o $(CFLAGS)
+
+obj/jburkardt/chebyshev_series.o: jburkardt/chebyshev_series.c
+	$(CC) -c jburkardt/chebyshev_series.c -o obj/jburkardt/chebyshev_series.o $(CFLAGS)
+
+obj/jburkardt/circle_arc_grid.o: jburkardt/circle_arc_grid.c
+	$(CC) -c jburkardt/circle_arc_grid.c -o obj/jburkardt/circle_arc_grid.o $(CFLAGS)
+
+obj/jburkardt/circle_integrals.o: jburkardt/circle_integrals.c
+	$(CC) -c jburkardt/circle_integrals.c -o obj/jburkardt/circle_integrals.o $(CFLAGS)
+
+obj/jburkardt/circle_rule.o: jburkardt/circle_rule.c
+	$(CC) -c jburkardt/circle_rule.c -o obj/jburkardt/circle_rule.o $(CFLAGS)
+
+obj/jburkardt/circle_segment.o: jburkardt/circle_segment.c
+	$(CC) -c jburkardt/circle_segment.c -o obj/jburkardt/circle_segment.o $(CFLAGS)
+
+obj/jburkardt/clenshaw_curtis_rule.o: jburkardt/clenshaw_curtis_rule.c
+	$(CC) -c jburkardt/clenshaw_curtis_rule.c -o obj/jburkardt/clenshaw_curtis_rule.o $(CFLAGS)
+
+obj/jburkardt/colored_noise.o: jburkardt/colored_noise.c
+	$(CC) -c jburkardt/colored_noise.c -o obj/jburkardt/colored_noise.o $(CFLAGS)
+
+obj/jburkardt/combination_lock.o: jburkardt/combination_lock.c
+	$(CC) -c jburkardt/combination_lock.c -o obj/jburkardt/combination_lock.o $(CFLAGS)
+
+obj/jburkardt/combo.o: jburkardt/combo.c
+	$(CC) -c jburkardt/combo.c -o obj/jburkardt/combo.o $(CFLAGS)
+
+obj/jburkardt/cordic.o: jburkardt/cordic.c
+	$(CC) -c jburkardt/cordic.c -o obj/jburkardt/cordic.o $(CFLAGS)
+
+obj/jburkardt/correlation.o: jburkardt/correlation.c
+	$(CC) -c jburkardt/correlation.c -o obj/jburkardt/correlation.o $(CFLAGS)
+
+obj/jburkardt/cosine_transform.o: jburkardt/cosine_transform.c
+	$(CC) -c jburkardt/cosine_transform.c -o obj/jburkardt/cosine_transform.o $(CFLAGS)
+
+obj/jburkardt/cpv.o: jburkardt/cpv.c
+	$(CC) -c jburkardt/cpv.c -o obj/jburkardt/cpv.o $(CFLAGS)
+
+obj/jburkardt/cube_arbq_rule.o: jburkardt/cube_arbq_rule.c
+	$(CC) -c jburkardt/cube_arbq_rule.c -o obj/jburkardt/cube_arbq_rule.o $(CFLAGS)
+
+obj/jburkardt/cube_exactness.o: jburkardt/cube_exactness.c
+	$(CC) -c jburkardt/cube_exactness.c -o obj/jburkardt/cube_exactness.o $(CFLAGS)
+
+obj/jburkardt/cube_felippa_rule.o: jburkardt/cube_felippa_rule.c
+	$(CC) -c jburkardt/cube_felippa_rule.c -o obj/jburkardt/cube_felippa_rule.o $(CFLAGS)
+
+obj/jburkardt/cycle_brent.o: jburkardt/cycle_brent.c
+	$(CC) -c jburkardt/cycle_brent.c -o obj/jburkardt/cycle_brent.o $(CFLAGS)
+
+obj/jburkardt/cycle_floyd.o: jburkardt/cycle_floyd.c
+	$(CC) -c jburkardt/cycle_floyd.c -o obj/jburkardt/cycle_floyd.o $(CFLAGS)
+
+obj/jburkardt/differ.o: jburkardt/differ.c
+	$(CC) -c jburkardt/differ.c -o obj/jburkardt/differ.o $(CFLAGS)
+
+obj/jburkardt/disk_integrals.o: jburkardt/disk_integrals.c
+	$(CC) -c jburkardt/disk_integrals.c -o obj/jburkardt/disk_integrals.o $(CFLAGS)
+
+obj/jburkardt/divdif.o: jburkardt/divdif.c
+	$(CC) -c jburkardt/divdif.c -o obj/jburkardt/divdif.o $(CFLAGS)
+
+obj/jburkardt/duel_simulation.o: jburkardt/duel_simulation.c
+	$(CC) -c jburkardt/duel_simulation.c -o obj/jburkardt/duel_simulation.o $(CFLAGS)
+
+obj/jburkardt/ellipse_grid.o: jburkardt/ellipse_grid.c
+	$(CC) -c jburkardt/ellipse_grid.c -o obj/jburkardt/ellipse_grid.o $(CFLAGS)
+
+obj/jburkardt/ellipse_monte_carlo.o: jburkardt/ellipse_monte_carlo.c
+	$(CC) -c jburkardt/ellipse_monte_carlo.c -o obj/jburkardt/ellipse_monte_carlo.o $(CFLAGS)
+
+obj/jburkardt/ellipsoid_monte_carlo.o: jburkardt/ellipsoid_monte_carlo.c
+	$(CC) -c jburkardt/ellipsoid_monte_carlo.c -o obj/jburkardt/ellipsoid_monte_carlo.o $(CFLAGS)
+
+obj/jburkardt/exactness.o: jburkardt/exactness.c
+	$(CC) -c jburkardt/exactness.c -o obj/jburkardt/exactness.o $(CFLAGS)
+
+obj/jburkardt/fd1d_bvp.o: jburkardt/fd1d_bvp.c
+	$(CC) -c jburkardt/fd1d_bvp.c -o obj/jburkardt/fd1d_bvp.o $(CFLAGS)
+
+obj/jburkardt/fem_basis.o: jburkardt/fem_basis.c
+	$(CC) -c jburkardt/fem_basis.c -o obj/jburkardt/fem_basis.o $(CFLAGS)
+
+obj/jburkardt/fem1d_bvp_linear.o: jburkardt/fem1d_bvp_linear.c
+	$(CC) -c jburkardt/fem1d_bvp_linear.c -o obj/jburkardt/fem1d_bvp_linear.o $(CFLAGS)
+
+obj/jburkardt/fem1d_bvp_quadratic.o: jburkardt/fem1d_bvp_quadratic.c
+	$(CC) -c jburkardt/fem1d_bvp_quadratic.c -o obj/jburkardt/fem1d_bvp_quadratic.o $(CFLAGS)
+
+obj/jburkardt/fem1d_heat_steady.o: jburkardt/fem1d_heat_steady.c
+	$(CC) -c jburkardt/fem1d_heat_steady.c -o obj/jburkardt/fem1d_heat_steady.o $(CFLAGS)
+
+obj/jburkardt/fem1d_lagrange.o: jburkardt/fem1d_lagrange.c
+	$(CC) -c jburkardt/fem1d_lagrange.c -o obj/jburkardt/fem1d_lagrange.o $(CFLAGS)
+
+obj/jburkardt/fem1d_pack.o: jburkardt/fem1d_pack.c
+	$(CC) -c jburkardt/fem1d_pack.c -o obj/jburkardt/fem1d_pack.o $(CFLAGS)
+
+obj/jburkardt/fem1d_project.o: jburkardt/fem1d_project.c
+	$(CC) -c jburkardt/fem1d_project.c -o obj/jburkardt/fem1d_project.o $(CFLAGS)
+
+obj/jburkardt/fem2d_bvp_linear.o: jburkardt/fem2d_bvp_linear.c
+	$(CC) -c jburkardt/fem2d_bvp_linear.c -o obj/jburkardt/fem2d_bvp_linear.o $(CFLAGS)
+
+obj/jburkardt/fem2d_bvp_quadratic.o: jburkardt/fem2d_bvp_quadratic.c
+	$(CC) -c jburkardt/fem2d_bvp_quadratic.c -o obj/jburkardt/fem2d_bvp_quadratic.o $(CFLAGS)
+
+obj/jburkardt/fem2d_serene.o: jburkardt/fem2d_serene.c
+	$(CC) -c jburkardt/fem2d_serene.c -o obj/jburkardt/fem2d_serene.o $(CFLAGS)
+
+obj/jburkardt/filon.o: jburkardt/filon.c
+	$(CC) -c jburkardt/filon.c -o obj/jburkardt/filon.o $(CFLAGS)
+
+obj/jburkardt/geometry.o: jburkardt/geometry.c
+	$(CC) -c jburkardt/geometry.c -o obj/jburkardt/geometry.o $(CFLAGS)
+
+obj/jburkardt/haar.o: jburkardt/haar.c
+	$(CC) -c jburkardt/haar.c -o obj/jburkardt/haar.o $(CFLAGS)
+
+obj/jburkardt/hermite.o: jburkardt/hermite.c
+	$(CC) -c jburkardt/hermite.c -o obj/jburkardt/hermite.o $(CFLAGS)
+
+obj/jburkardt/hermite_polynomial.o: jburkardt/hermite_polynomial.c
+	$(CC) -c jburkardt/hermite_polynomial.c -o obj/jburkardt/hermite_polynomial.o $(CFLAGS)
+
+obj/jburkardt/hermite_product_polynomial.o: jburkardt/hermite_product_polynomial.c
+	$(CC) -c jburkardt/hermite_product_polynomial.c -o obj/jburkardt/hermite_product_polynomial.o $(CFLAGS)
+
+obj/jburkardt/hermite_rule.o: jburkardt/hermite_rule.c
+	$(CC) -c jburkardt/hermite_rule.c -o obj/jburkardt/hermite_rule.o $(CFLAGS)
+
+obj/jburkardt/high_card_simulation.o: jburkardt/high_card_simulation.c
+	$(CC) -c jburkardt/high_card_simulation.c -o obj/jburkardt/high_card_simulation.o $(CFLAGS)
+
+obj/jburkardt/hyperball_integrals.o: jburkardt/hyperball_integrals.c
+	$(CC) -c jburkardt/hyperball_integrals.c -o obj/jburkardt/hyperball_integrals.o $(CFLAGS)
+
+obj/jburkardt/hypercube_grid.o: jburkardt/hypercube_grid.c
+	$(CC) -c jburkardt/hypercube_grid.c -o obj/jburkardt/hypercube_grid.o $(CFLAGS)
+
+obj/jburkardt/hypersphere_integrals.o: jburkardt/hypersphere_integrals.c
+	$(CC) -c jburkardt/hypersphere_integrals.c -o obj/jburkardt/hypersphere_integrals.o $(CFLAGS)
+
+obj/jburkardt/hypersphere_properties.o: jburkardt/hypersphere_properties.c
+	$(CC) -c jburkardt/hypersphere_properties.c -o obj/jburkardt/hypersphere_properties.o $(CFLAGS)
+
+obj/jburkardt/i4lib.o: jburkardt/i4lib.c
+	$(CC) -c jburkardt/i4lib.c -o obj/jburkardt/i4lib.o $(CFLAGS)
+
+obj/jburkardt/image_components.o: jburkardt/image_components.c
+	$(CC) -c jburkardt/image_components.c -o obj/jburkardt/image_components.o $(CFLAGS)
+
+obj/jburkardt/image_denoise.o: jburkardt/image_denoise.c
+	$(CC) -c jburkardt/image_denoise.c -o obj/jburkardt/image_denoise.o $(CFLAGS)
+
+obj/jburkardt/interp.o: jburkardt/interp.c
+	$(CC) -c jburkardt/interp.c -o obj/jburkardt/interp.o $(CFLAGS)
+
+obj/jburkardt/isbn.o: jburkardt/isbn.c
+	$(CC) -c jburkardt/isbn.c -o obj/jburkardt/isbn.o $(CFLAGS)
+
+obj/jburkardt/ising_2d_simulation.o: jburkardt/ising_2d_simulation.c
+	$(CC) -c jburkardt/ising_2d_simulation.c -o obj/jburkardt/ising_2d_simulation.o $(CFLAGS)
+
+obj/jburkardt/jacobi.o: jburkardt/jacobi.c
+	$(CC) -c jburkardt/jacobi.c -o obj/jburkardt/jacobi.o $(CFLAGS)
+
+obj/jburkardt/jacobi_eigenvalue.o: jburkardt/jacobi_eigenvalue.c
+	$(CC) -c jburkardt/jacobi_eigenvalue.c -o obj/jburkardt/jacobi_eigenvalue.o $(CFLAGS)
+
+obj/jburkardt/jacobi_polynomial.o: jburkardt/jacobi_polynomial.c
+	$(CC) -c jburkardt/jacobi_polynomial.c -o obj/jburkardt/jacobi_polynomial.o $(CFLAGS)
+
+obj/jburkardt/knapsack_01.o: jburkardt/knapsack_01.c
+	$(CC) -c jburkardt/knapsack_01.c -o obj/jburkardt/knapsack_01.o $(CFLAGS)
+
+obj/jburkardt/kronrod.o: jburkardt/kronrod.c
+	$(CC) -c jburkardt/kronrod.c -o obj/jburkardt/kronrod.o $(CFLAGS)
+
+obj/jburkardt/lagrange_approx_1d.o: jburkardt/lagrange_approx_1d.c
+	$(CC) -c jburkardt/lagrange_approx_1d.c -o obj/jburkardt/lagrange_approx_1d.o $(CFLAGS)
+
+obj/jburkardt/lagrange_interp_1d.o: jburkardt/lagrange_interp_1d.c
+	$(CC) -c jburkardt/lagrange_interp_1d.c -o obj/jburkardt/lagrange_interp_1d.o $(CFLAGS)
+
+obj/jburkardt/lagrange_interp_nd.o: jburkardt/lagrange_interp_nd.c
+	$(CC) -c jburkardt/lagrange_interp_nd.c -o obj/jburkardt/lagrange_interp_nd.o $(CFLAGS)
+
+obj/jburkardt/laguerre_polynomial.o: jburkardt/laguerre_polynomial.c
+	$(CC) -c jburkardt/laguerre_polynomial.c -o obj/jburkardt/laguerre_polynomial.o $(CFLAGS)
+
+obj/jburkardt/laplacian.o: jburkardt/laplacian.c
+	$(CC) -c jburkardt/laplacian.c -o obj/jburkardt/laplacian.o $(CFLAGS)
+
+obj/jburkardt/latin_cover.o: jburkardt/latin_cover.c
+	$(CC) -c jburkardt/latin_cover.c -o obj/jburkardt/latin_cover.o $(CFLAGS)
+
+obj/jburkardt/latin_random.o: jburkardt/latin_random.c
+	$(CC) -c jburkardt/latin_random.c -o obj/jburkardt/latin_random.o $(CFLAGS)
+
+obj/jburkardt/latinize.o: jburkardt/latinize.c
+	$(CC) -c jburkardt/latinize.c -o obj/jburkardt/latinize.o $(CFLAGS)
+
+obj/jburkardt/lebesgue.o: jburkardt/lebesgue.c
+	$(CC) -c jburkardt/lebesgue.c -o obj/jburkardt/lebesgue.o $(CFLAGS)
+
+obj/jburkardt/legendre_polynomial.o: jburkardt/legendre_polynomial.c
+	$(CC) -c jburkardt/legendre_polynomial.c -o obj/jburkardt/legendre_polynomial.o $(CFLAGS)
+
+obj/jburkardt/life_serial.o: jburkardt/life_serial.c
+	$(CC) -c jburkardt/life_serial.c -o obj/jburkardt/life_serial.o $(CFLAGS)
+
+obj/jburkardt/line_cvt_lloyd.o: jburkardt/line_cvt_lloyd.c
+	$(CC) -c jburkardt/line_cvt_lloyd.c -o obj/jburkardt/line_cvt_lloyd.o $(CFLAGS)
+
+obj/jburkardt/line_fekete_rule.o: jburkardt/line_fekete_rule.c
+	$(CC) -c jburkardt/line_fekete_rule.c -o obj/jburkardt/line_fekete_rule.o $(CFLAGS)
+
+obj/jburkardt/line_grid.o: jburkardt/line_grid.c
+	$(CC) -c jburkardt/line_grid.c -o obj/jburkardt/line_grid.o $(CFLAGS)
+
+obj/jburkardt/line_integrals.o: jburkardt/line_integrals.c
+	$(CC) -c jburkardt/line_integrals.c -o obj/jburkardt/line_integrals.o $(CFLAGS)
+
+obj/jburkardt/line_ncc_rule.o: jburkardt/line_ncc_rule.c
+	$(CC) -c jburkardt/line_ncc_rule.c -o obj/jburkardt/line_ncc_rule.o $(CFLAGS)
+
+obj/jburkardt/line_nco_rule.o: jburkardt/line_nco_rule.c
+	$(CC) -c jburkardt/line_nco_rule.c -o obj/jburkardt/line_nco_rule.o $(CFLAGS)
+
+obj/jburkardt/linpack_d.o: jburkardt/linpack_d.c
+	$(CC) -c jburkardt/linpack_d.c -o obj/jburkardt/linpack_d.o $(CFLAGS)
+
+obj/jburkardt/llsq.o: jburkardt/llsq.c
+	$(CC) -c jburkardt/llsq.c -o obj/jburkardt/llsq.o $(CFLAGS)
+
+obj/jburkardt/lobatto_polynomial.o: jburkardt/lobatto_polynomial.c
+	$(CC) -c jburkardt/lobatto_polynomial.c -o obj/jburkardt/lobatto_polynomial.o $(CFLAGS)
+
+obj/jburkardt/lorenz_ode.o: jburkardt/lorenz_ode.c
+	$(CC) -c jburkardt/lorenz_ode.c -o obj/jburkardt/lorenz_ode.o $(CFLAGS)
+
+obj/jburkardt/matrix_exponential.o: jburkardt/matrix_exponential.c
+	$(CC) -c jburkardt/matrix_exponential.c -o obj/jburkardt/matrix_exponential.o $(CFLAGS)
+
+obj/jburkardt/md.o: jburkardt/md.c
+	$(CC) -c jburkardt/md.c -o obj/jburkardt/md.o $(CFLAGS)
+
+obj/jburkardt/mgs.o: jburkardt/mgs.c
+	$(CC) -c jburkardt/mgs.c -o obj/jburkardt/mgs.o $(CFLAGS)
+
+obj/jburkardt/monomial.o: jburkardt/monomial.c
+	$(CC) -c jburkardt/monomial.c -o obj/jburkardt/monomial.o $(CFLAGS)
+
+obj/jburkardt/multigrid_poisson_1d.o: jburkardt/multigrid_poisson_1d.c
+	$(CC) -c jburkardt/multigrid_poisson_1d.c -o obj/jburkardt/multigrid_poisson_1d.o $(CFLAGS)
+
+obj/jburkardt/naca.o: jburkardt/naca.c
+	$(CC) -c jburkardt/naca.c -o obj/jburkardt/naca.o $(CFLAGS)
+
+obj/jburkardt/navier_stokes_2d_exact.o: jburkardt/navier_stokes_2d_exact.c
+	$(CC) -c jburkardt/navier_stokes_2d_exact.c -o obj/jburkardt/navier_stokes_2d_exact.o $(CFLAGS)
+
+obj/jburkardt/nearest_interp_1d.o: jburkardt/nearest_interp_1d.c
+	$(CC) -c jburkardt/nearest_interp_1d.c -o obj/jburkardt/nearest_interp_1d.o $(CFLAGS)
+
+obj/jburkardt/newton_interp_1d.o: jburkardt/newton_interp_1d.c
+	$(CC) -c jburkardt/newton_interp_1d.c -o obj/jburkardt/newton_interp_1d.o $(CFLAGS)
+
+obj/jburkardt/nintlib.o: jburkardt/nintlib.c
+	$(CC) -c jburkardt/nintlib.c -o obj/jburkardt/nintlib.o $(CFLAGS)
+
+obj/jburkardt/normal.o: jburkardt/normal.c
+	$(CC) -c jburkardt/normal.c -o obj/jburkardt/normal.o $(CFLAGS)
+
+obj/jburkardt/ode.o: jburkardt/ode.c
+	$(CC) -c jburkardt/ode.c -o obj/jburkardt/ode.o $(CFLAGS)
+
+obj/jburkardt/padua.o: jburkardt/padua.c
+	$(CC) -c jburkardt/padua.c -o obj/jburkardt/padua.o $(CFLAGS)
+
+obj/jburkardt/partition_problem.o: jburkardt/partition_problem.c
+	$(CC) -c jburkardt/partition_problem.c -o obj/jburkardt/partition_problem.o $(CFLAGS)
+
+obj/jburkardt/patterson_rule.o: jburkardt/patterson_rule.c
+	$(CC) -c jburkardt/patterson_rule.c -o obj/jburkardt/patterson_rule.o $(CFLAGS)
+
+obj/jburkardt/pce_ode_hermite.o: jburkardt/pce_ode_hermite.c
+	$(CC) -c jburkardt/pce_ode_hermite.c -o obj/jburkardt/pce_ode_hermite.o $(CFLAGS)
+
+obj/jburkardt/pdflib.o: jburkardt/pdflib.c
+	$(CC) -c jburkardt/pdflib.c -o obj/jburkardt/pdflib.o $(CFLAGS)
+
+obj/jburkardt/piecewise_linear_product_integral.o: jburkardt/piecewise_linear_product_integral.c
+	$(CC) -c jburkardt/piecewise_linear_product_integral.c -o obj/jburkardt/piecewise_linear_product_integral.o $(CFLAGS)
+
+obj/jburkardt/pink_noise.o: jburkardt/pink_noise.c
+	$(CC) -c jburkardt/pink_noise.c -o obj/jburkardt/pink_noise.o $(CFLAGS)
+
+obj/jburkardt/poisson_openmp.o: jburkardt/poisson_openmp.c
+	$(CC) -c jburkardt/poisson_openmp.c -o obj/jburkardt/poisson_openmp.o $(CFLAGS)
+
+obj/jburkardt/polpak.o: jburkardt/polpak.c
+	$(CC) -c jburkardt/polpak.c -o obj/jburkardt/polpak.o $(CFLAGS)
+
+obj/jburkardt/polygon_grid.o: jburkardt/polygon_grid.c
+	$(CC) -c jburkardt/polygon_grid.c -o obj/jburkardt/polygon_grid.o $(CFLAGS)
+
+obj/jburkardt/polygon_integrals.o: jburkardt/polygon_integrals.c
+	$(CC) -c jburkardt/polygon_integrals.c -o obj/jburkardt/polygon_integrals.o $(CFLAGS)
+
+obj/jburkardt/polygon_triangulate.o: jburkardt/polygon_triangulate.c
+	$(CC) -c jburkardt/polygon_triangulate.c -o obj/jburkardt/polygon_triangulate.o $(CFLAGS)
+
+obj/jburkardt/power_method.o: jburkardt/power_method.c
+	$(CC) -c jburkardt/power_method.c -o obj/jburkardt/power_method.o $(CFLAGS)
+
+obj/jburkardt/power_rule.o: jburkardt/power_rule.c
+	$(CC) -c jburkardt/power_rule.c -o obj/jburkardt/power_rule.o $(CFLAGS)
+
+obj/jburkardt/prob.o: jburkardt/prob.c
+	$(CC) -c jburkardt/prob.c -o obj/jburkardt/prob.o $(CFLAGS)
+
+obj/jburkardt/pwl_approx_1d.o: jburkardt/pwl_approx_1d.c
+	$(CC) -c jburkardt/pwl_approx_1d.c -o obj/jburkardt/pwl_approx_1d.o $(CFLAGS)
+
+obj/jburkardt/pwl_interp_1d.o: jburkardt/pwl_interp_1d.c
+	$(CC) -c jburkardt/pwl_interp_1d.c -o obj/jburkardt/pwl_interp_1d.o $(CFLAGS)
+
+obj/jburkardt/pwl_interp_2d.o: jburkardt/pwl_interp_2d.c
+	$(CC) -c jburkardt/pwl_interp_2d.c -o obj/jburkardt/pwl_interp_2d.o $(CFLAGS)
+
+obj/jburkardt/pyramid_exactness.o: jburkardt/pyramid_exactness.c
+	$(CC) -c jburkardt/pyramid_exactness.c -o obj/jburkardt/pyramid_exactness.o $(CFLAGS)
+
+obj/jburkardt/pyramid_grid.o: jburkardt/pyramid_grid.c
+	$(CC) -c jburkardt/pyramid_grid.c -o obj/jburkardt/pyramid_grid.o $(CFLAGS)
+
+obj/jburkardt/quadmom.o: jburkardt/quadmom.c
+	$(CC) -c jburkardt/quadmom.c -o obj/jburkardt/quadmom.o $(CFLAGS)
+
+obj/jburkardt/r8lib.o: jburkardt/r8lib.c
+	$(CC) -c jburkardt/r8lib.c -o obj/jburkardt/r8lib.o $(CFLAGS)
+
+obj/jburkardt/rbf_interp_1d.o: jburkardt/rbf_interp_1d.c
+	$(CC) -c jburkardt/rbf_interp_1d.c -o obj/jburkardt/rbf_interp_1d.o $(CFLAGS)
+
+obj/jburkardt/rbf_interp_2d.o: jburkardt/rbf_interp_2d.c
+	$(CC) -c jburkardt/rbf_interp_2d.c -o obj/jburkardt/rbf_interp_2d.o $(CFLAGS)
+
+obj/jburkardt/rbf_interp_nd.o: jburkardt/rbf_interp_nd.c
+	$(CC) -c jburkardt/rbf_interp_nd.c -o obj/jburkardt/rbf_interp_nd.o $(CFLAGS)
+
+obj/jburkardt/rk4.o: jburkardt/rk4.c
+	$(CC) -c jburkardt/rk4.c -o obj/jburkardt/rk4.o $(CFLAGS)
+
+obj/jburkardt/rkf45.o: jburkardt/rkf45.c
+	$(CC) -c jburkardt/rkf45.c -o obj/jburkardt/rkf45.o $(CFLAGS)
+
+obj/jburkardt/satisfy.o: jburkardt/satisfy.c
+	$(CC) -c jburkardt/satisfy.c -o obj/jburkardt/satisfy.o $(CFLAGS)
+
+obj/jburkardt/sftpack.o: jburkardt/sftpack.c
+	$(CC) -c jburkardt/sftpack.c -o obj/jburkardt/sftpack.o $(CFLAGS)
+
+obj/jburkardt/sgmga.o: jburkardt/sgmga.c
+	$(CC) -c jburkardt/sgmga.c -o obj/jburkardt/sgmga.o $(CFLAGS)
+
+obj/jburkardt/shepard_interp_1d.o: jburkardt/shepard_interp_1d.c
+	$(CC) -c jburkardt/shepard_interp_1d.c -o obj/jburkardt/shepard_interp_1d.o $(CFLAGS)
+
+obj/jburkardt/shepard_interp_2d.o: jburkardt/shepard_interp_2d.c
+	$(CC) -c jburkardt/shepard_interp_2d.c -o obj/jburkardt/shepard_interp_2d.o $(CFLAGS)
+
+obj/jburkardt/shepard_interp_nd.o: jburkardt/shepard_interp_nd.c
+	$(CC) -c jburkardt/shepard_interp_nd.c -o obj/jburkardt/shepard_interp_nd.o $(CFLAGS)
+
+obj/jburkardt/simplex_coordinates.o: jburkardt/simplex_coordinates.c
+	$(CC) -c jburkardt/simplex_coordinates.c -o obj/jburkardt/simplex_coordinates.o $(CFLAGS)
+
+obj/jburkardt/simplex_gm_rule.o: jburkardt/simplex_gm_rule.c
+	$(CC) -c jburkardt/simplex_gm_rule.c -o obj/jburkardt/simplex_gm_rule.o $(CFLAGS)
+
+obj/jburkardt/simplex_grid.o: jburkardt/simplex_grid.c
+	$(CC) -c jburkardt/simplex_grid.c -o obj/jburkardt/simplex_grid.o $(CFLAGS)
+
+obj/jburkardt/sine_transform.o: jburkardt/sine_transform.c
+	$(CC) -c jburkardt/sine_transform.c -o obj/jburkardt/sine_transform.o $(CFLAGS)
+
+obj/jburkardt/snakes_and_ladders.o: jburkardt/snakes_and_ladders.c
+	$(CC) -c jburkardt/snakes_and_ladders.c -o obj/jburkardt/snakes_and_ladders.o $(CFLAGS)
+
+obj/jburkardt/sparse_grid_cc.o: jburkardt/sparse_grid_cc.c
+	$(CC) -c jburkardt/sparse_grid_cc.c -o obj/jburkardt/sparse_grid_cc.o $(CFLAGS)
+
+obj/jburkardt/sparse_grid_hw.o: jburkardt/sparse_grid_hw.c
+	$(CC) -c jburkardt/sparse_grid_hw.c -o obj/jburkardt/sparse_grid_hw.o $(CFLAGS)
+
+obj/jburkardt/sparse_interp_nd.o: jburkardt/sparse_interp_nd.c
+	$(CC) -c jburkardt/sparse_interp_nd.c -o obj/jburkardt/sparse_interp_nd.o $(CFLAGS)
+
+obj/jburkardt/sphere_fibonacci_grid.o: jburkardt/sphere_fibonacci_grid.c
+	$(CC) -c jburkardt/sphere_fibonacci_grid.c -o obj/jburkardt/sphere_fibonacci_grid.o $(CFLAGS)
+
+obj/jburkardt/sphere_grid.o: jburkardt/sphere_grid.c
+	$(CC) -c jburkardt/sphere_grid.c -o obj/jburkardt/sphere_grid.o $(CFLAGS)
+
+obj/jburkardt/sphere_integrals.o: jburkardt/sphere_integrals.c
+	$(CC) -c jburkardt/sphere_integrals.c -o obj/jburkardt/sphere_integrals.o $(CFLAGS)
+
+obj/jburkardt/sphere_lebedev_rule.o: jburkardt/sphere_lebedev_rule.c
+	$(CC) -c jburkardt/sphere_lebedev_rule.c -o obj/jburkardt/sphere_lebedev_rule.o $(CFLAGS)
+
+obj/jburkardt/sphere_llq_grid.o: jburkardt/sphere_llq_grid.c
+	$(CC) -c jburkardt/sphere_llq_grid.c -o obj/jburkardt/sphere_llq_grid.o $(CFLAGS)
+
+obj/jburkardt/sphere_llt_grid.o: jburkardt/sphere_llt_grid.c
+	$(CC) -c jburkardt/sphere_llt_grid.c -o obj/jburkardt/sphere_llt_grid.o $(CFLAGS)
+
+obj/jburkardt/sphere_quad.o: jburkardt/sphere_quad.c
+	$(CC) -c jburkardt/sphere_quad.c -o obj/jburkardt/sphere_quad.o $(CFLAGS)
+
+obj/jburkardt/sphere_stereograph.o: jburkardt/sphere_stereograph.c
+	$(CC) -c jburkardt/sphere_stereograph.c -o obj/jburkardt/sphere_stereograph.o $(CFLAGS)
+
+obj/jburkardt/square_arbq_rule.o: jburkardt/square_arbq_rule.c
+	$(CC) -c jburkardt/square_arbq_rule.c -o obj/jburkardt/square_arbq_rule.o $(CFLAGS)
+
+obj/jburkardt/square_grid.o: jburkardt/square_grid.c
+	$(CC) -c jburkardt/square_grid.c -o obj/jburkardt/square_grid.o $(CFLAGS)
+
+obj/jburkardt/square_integrals.o: jburkardt/square_integrals.c
+	$(CC) -c jburkardt/square_integrals.c -o obj/jburkardt/square_integrals.o $(CFLAGS)
+
+obj/jburkardt/square_symq_rule.o: jburkardt/square_symq_rule.c
+	$(CC) -c jburkardt/square_symq_rule.c -o obj/jburkardt/square_symq_rule.o $(CFLAGS)
+
+obj/jburkardt/stochastic_diffusion.o: jburkardt/stochastic_diffusion.c
+	$(CC) -c jburkardt/stochastic_diffusion.c -o obj/jburkardt/stochastic_diffusion.o $(CFLAGS)
+
+obj/jburkardt/stochastic_rk.o: jburkardt/stochastic_rk.c
+	$(CC) -c jburkardt/stochastic_rk.c -o obj/jburkardt/stochastic_rk.o $(CFLAGS)
+
+obj/jburkardt/stokes_2d_exact.o: jburkardt/stokes_2d_exact.c
+	$(CC) -c jburkardt/stokes_2d_exact.c -o obj/jburkardt/stokes_2d_exact.o $(CFLAGS)
+
+obj/jburkardt/subset_sum.o: jburkardt/subset_sum.c
+	$(CC) -c jburkardt/subset_sum.c -o obj/jburkardt/subset_sum.o $(CFLAGS)
+
+obj/jburkardt/tet_mesh.o: jburkardt/tet_mesh.c
+	$(CC) -c jburkardt/tet_mesh.c -o obj/jburkardt/tet_mesh.o $(CFLAGS)
+
+obj/jburkardt/tetrahedron_arbq_rule.o: jburkardt/tetrahedron_arbq_rule.c
+	$(CC) -c jburkardt/tetrahedron_arbq_rule.c -o obj/jburkardt/tetrahedron_arbq_rule.o $(CFLAGS)
+
+obj/jburkardt/tetrahedron_exactness.o: jburkardt/tetrahedron_exactness.c
+	$(CC) -c jburkardt/tetrahedron_exactness.c -o obj/jburkardt/tetrahedron_exactness.o $(CFLAGS)
+
+obj/jburkardt/tetrahedron_grid.o: jburkardt/tetrahedron_grid.c
+	$(CC) -c jburkardt/tetrahedron_grid.c -o obj/jburkardt/tetrahedron_grid.o $(CFLAGS)
+
+obj/jburkardt/tetrahedron_integrals.o: jburkardt/tetrahedron_integrals.c
+	$(CC) -c jburkardt/tetrahedron_integrals.c -o obj/jburkardt/tetrahedron_integrals.o $(CFLAGS)
+
+obj/jburkardt/tetrahedron_ncc_rule.o: jburkardt/tetrahedron_ncc_rule.c
+	$(CC) -c jburkardt/tetrahedron_ncc_rule.c -o obj/jburkardt/tetrahedron_ncc_rule.o $(CFLAGS)
+
+obj/jburkardt/simple_rkf45.o: jburkardt/simple_rkf45.c
+	$(CC) -c jburkardt/simple_rkf45.c -o obj/jburkardt/simple_rkf45.o $(CFLAGS)
+
+obj/jburkardt/toeplitz_cholesky.o: jburkardt/toeplitz_cholesky.c
+	$(CC) -c jburkardt/toeplitz_cholesky.c -o obj/jburkardt/toeplitz_cholesky.o $(CFLAGS)
+
+obj/jburkardt/toms097.o: jburkardt/toms097.c
+	$(CC) -c jburkardt/toms097.c -o obj/jburkardt/toms097.o $(CFLAGS)
+
+obj/jburkardt/toms179.o: jburkardt/toms179.c
+	$(CC) -c jburkardt/toms179.c -o obj/jburkardt/toms179.o $(CFLAGS)
+
+obj/jburkardt/toms322.o: jburkardt/toms322.c
+	$(CC) -c jburkardt/toms322.c -o obj/jburkardt/toms322.o $(CFLAGS)
+
+obj/jburkardt/toms443.o: jburkardt/toms443.c
+	$(CC) -c jburkardt/toms443.c -o obj/jburkardt/toms443.o $(CFLAGS)
+
+obj/jburkardt/toms655.o: jburkardt/toms655.c
+	$(CC) -c jburkardt/toms655.c -o obj/jburkardt/toms655.o $(CFLAGS)
+
+obj/jburkardt/toms743.o: jburkardt/toms743.c
+	$(CC) -c jburkardt/toms743.c -o obj/jburkardt/toms743.o $(CFLAGS)
+
+obj/jburkardt/toms886.o: jburkardt/toms886.c
+	$(CC) -c jburkardt/toms886.c -o obj/jburkardt/toms886.o $(CFLAGS)
+
+obj/jburkardt/treepack.o: jburkardt/treepack.c
+	$(CC) -c jburkardt/treepack.c -o obj/jburkardt/treepack.o $(CFLAGS)
+
+obj/jburkardt/triangle_exactness.o: jburkardt/triangle_exactness.c
+	$(CC) -c jburkardt/triangle_exactness.c -o obj/jburkardt/triangle_exactness.o $(CFLAGS)
+
+obj/jburkardt/triangle_fekete_rule.o: jburkardt/triangle_fekete_rule.c
+	$(CC) -c jburkardt/triangle_fekete_rule.c -o obj/jburkardt/triangle_fekete_rule.o $(CFLAGS)
+
+obj/jburkardt/triangle_felippa_rule.o: jburkardt/triangle_felippa_rule.c
+	$(CC) -c jburkardt/triangle_felippa_rule.c -o obj/jburkardt/triangle_felippa_rule.o $(CFLAGS)
+
+obj/jburkardt/triangle_grid.o: jburkardt/triangle_grid.c
+	$(CC) -c jburkardt/triangle_grid.c -o obj/jburkardt/triangle_grid.o $(CFLAGS)
+
+obj/jburkardt/triangle_integrals.o: jburkardt/triangle_integrals.c
+	$(CC) -c jburkardt/triangle_integrals.c -o obj/jburkardt/triangle_integrals.o $(CFLAGS)
+
+obj/jburkardt/triangle_ncc_rule.o: jburkardt/triangle_ncc_rule.c
+	$(CC) -c jburkardt/triangle_ncc_rule.c -o obj/jburkardt/triangle_ncc_rule.o $(CFLAGS)
+
+obj/jburkardt/triangle_nco_rule.o: jburkardt/triangle_nco_rule.c
+	$(CC) -c jburkardt/triangle_nco_rule.c -o obj/jburkardt/triangle_nco_rule.o $(CFLAGS)
+
+obj/jburkardt/triangle_symq_rule.o: jburkardt/triangle_symq_rule.c
+	$(CC) -c jburkardt/triangle_symq_rule.c -o obj/jburkardt/triangle_symq_rule.o $(CFLAGS)
+
+obj/jburkardt/triangulation.o: jburkardt/triangulation.c
+	$(CC) -c jburkardt/triangulation.c -o obj/jburkardt/triangulation.o $(CFLAGS)
+
+obj/jburkardt/triangulation_node_to_element.o: jburkardt/triangulation_node_to_element.c
+	$(CC) -c jburkardt/triangulation_node_to_element.c -o obj/jburkardt/triangulation_node_to_element.o $(CFLAGS)
+
+obj/jburkardt/triangulation_svg.o: jburkardt/triangulation_svg.c
+	$(CC) -c jburkardt/triangulation_svg.c -o obj/jburkardt/triangulation_svg.o $(CFLAGS)
+
+obj/jburkardt/truncated_normal.o: jburkardt/truncated_normal.c
+	$(CC) -c jburkardt/truncated_normal.c -o obj/jburkardt/truncated_normal.o $(CFLAGS)
+
+obj/jburkardt/unicycle.o: jburkardt/unicycle.c
+	$(CC) -c jburkardt/unicycle.c -o obj/jburkardt/unicycle.o $(CFLAGS)
+
+obj/jburkardt/upc.o: jburkardt/upc.c
+	$(CC) -c jburkardt/upc.c -o obj/jburkardt/upc.o $(CFLAGS)
+
+obj/jburkardt/vandermonde.o: jburkardt/vandermonde.c
+	$(CC) -c jburkardt/vandermonde.c -o obj/jburkardt/vandermonde.o $(CFLAGS)
+
+obj/jburkardt/vandermonde_approx_1d.o: jburkardt/vandermonde_approx_1d.c
+	$(CC) -c jburkardt/vandermonde_approx_1d.c -o obj/jburkardt/vandermonde_approx_1d.o $(CFLAGS)
+
+obj/jburkardt/vandermonde_approx_2d.o: jburkardt/vandermonde_approx_2d.c
+	$(CC) -c jburkardt/vandermonde_approx_2d.c -o obj/jburkardt/vandermonde_approx_2d.o $(CFLAGS)
+
+obj/jburkardt/vandermonde_interp_2d.o: jburkardt/vandermonde_interp_2d.c
+	$(CC) -c jburkardt/vandermonde_interp_2d.c -o obj/jburkardt/vandermonde_interp_2d.o $(CFLAGS)
+
+obj/jburkardt/walsh.o: jburkardt/walsh.c
+	$(CC) -c jburkardt/walsh.c -o obj/jburkardt/walsh.o $(CFLAGS)
+
+obj/jburkardt/wathen.o: jburkardt/wathen.c
+	$(CC) -c jburkardt/wathen.c -o obj/jburkardt/wathen.o $(CFLAGS)
+
+obj/jburkardt/wavelet.o: jburkardt/wavelet.c
+	$(CC) -c jburkardt/wavelet.c -o obj/jburkardt/wavelet.o $(CFLAGS)
+
+obj/jburkardt/wedge_exactness.o: jburkardt/wedge_exactness.c
+	$(CC) -c jburkardt/wedge_exactness.c -o obj/jburkardt/wedge_exactness.o $(CFLAGS)
+
+obj/jburkardt/wedge_felippa_rule.o: jburkardt/wedge_felippa_rule.c
+	$(CC) -c jburkardt/wedge_felippa_rule.c -o obj/jburkardt/wedge_felippa_rule.o $(CFLAGS)
+
+obj/jburkardt/weekday.o: jburkardt/weekday.c
+	$(CC) -c jburkardt/weekday.c -o obj/jburkardt/weekday.o $(CFLAGS)
+
+obj/jburkardt/wishart.o: jburkardt/wishart.c
+	$(CC) -c jburkardt/wishart.c -o obj/jburkardt/wishart.o $(CFLAGS)
+
+obj/jburkardt/wtime.o: jburkardt/wtime.c
+	$(CC) -c jburkardt/wtime.c -o obj/jburkardt/wtime.o $(CFLAGS)
+
+obj/jburkardt/zero_rc.o: jburkardt/zero_rc.c
+	$(CC) -c jburkardt/zero_rc.c -o obj/jburkardt/zero_rc.o $(CFLAGS)
+
+obj/bessel.o: bessel.c
+	$(CC) -c bessel.c -o obj/bessel.o $(CFLAGS)
+
+obj/values.o: values.c
+	$(CC) -c values.c -o obj/values.o $(CFLAGS)
+
+obj/jburkardt/asa111.o: jburkardt/asa111.c
+	$(CC) -c jburkardt/asa111.c -o obj/jburkardt/asa111.o $(CFLAGS)
+
+obj/logs_manager.o: logs_manager.c
+	$(CC) -c logs_manager.c -o obj/logs_manager.o $(CFLAGS)
+
+obj/syslog_manager.o: syslog_manager.c
+	$(CC) -c syslog_manager.c -o obj/syslog_manager.o $(CFLAGS)
+	
+obj/md5.o: md5.c
+	$(CC) -c md5.c -o obj/md5.o $(CFLAGS)
+
+obj/mathSuite_private.res: mathSuite_private.rc 
+	$(WINDRES) -i mathSuite_private.rc -F pe-i386 --input-format=rc -o obj/mathSuite_private.res -O coff 
+

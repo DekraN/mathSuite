@@ -1,0 +1,9 @@
+#ifndef WRAPPER_CYCLE_BRENT_H_INCLUDED
+#define WRAPPER_CYCLE_BRENT_H_INCLUDED
+
+#define cycle_brent(a,b,c,d) FUNCNAME_CYCLEBRENT(C_FDTDT2PDT(a,b,c,d))
+
+__MATHSUITE __JBURKARDT void * FUNCNAME_CYCLEBRENT(void *);
+
+
+#endif

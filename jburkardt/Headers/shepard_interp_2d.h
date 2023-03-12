@@ -1,0 +1,8 @@
+#ifndef WRAPPER_SHEPARD_INTERP_2D_H_INCLUDED
+#define WRAPPER_SHEPARD_INTERP_2D_H_INCLUDED
+
+#define shepard_interp_2d(a,b,c,d,e,f,g,h) FUNCNAME_SHEPARDINTERP2D(C_DT3PITITDT2PIT(a,b,c,d,e,f,g,h))
+
+__MATHSUITE __JBURKARDT void * FUNCNAME_SHEPARDINTERP2D(void *);
+
+#endif

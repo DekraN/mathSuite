@@ -1,0 +1,2 @@
+Program allows you to reset a layout file content, overwriting
+the existant data

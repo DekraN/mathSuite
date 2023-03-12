@@ -1,0 +1,6 @@
+Program performs the Complex Product on two given Complex Numbers, inserted
+by the user by using a 2x2 Matrix, in which every line represents respectively
+the Real and the Imaginary Part of each number
+UPDATE: With the introducing of the new Algebra Selection Feature, you can
+deal also with HyperComplex Numbers by inserting instead an nXn Matrix, following
+the same scheme

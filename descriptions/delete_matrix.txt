@@ -1,0 +1,2 @@
+Program allows you to delete a matrix previously loaded in the
+program matrices list

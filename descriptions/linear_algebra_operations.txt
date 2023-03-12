@@ -1,0 +1,3 @@
+Program offers to you a wide range of Linear Algebra Operations, such as 
+Matrix Sort, Square Matrix Determinant Calculator, Matrix Sum, Matrix Product,
+Square Matrix N Power, Matrix per Scalar product etc...

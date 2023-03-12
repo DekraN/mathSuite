@@ -1,0 +1,2 @@
+This subprogram enables or disables the boolean vars
+of the main program

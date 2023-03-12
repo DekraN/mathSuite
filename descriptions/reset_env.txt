@@ -1,0 +1,2 @@
+Program allows you to reset an environment file content, overwriting
+the existant data

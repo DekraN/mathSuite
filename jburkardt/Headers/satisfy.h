@@ -1,0 +1,8 @@
+#ifndef WRAPPER_SATISFY_H_INCLUDED
+#define WRAPPER_SATISFY_H_INCLUDED
+
+#define circuit_value(a,b) R_UCHR(FUNCNAME_CIRCUITVALUE(C_DTPB(a,b)))
+
+__MATHSUITE __JBURKARDT void * FUNCNAME_CIRCUITVALUE(void *);
+
+#endif

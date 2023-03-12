@@ -1,0 +1,8 @@
+#ifndef WRAPPER_CYCLE_FLOYD_H_INCLUDED
+#define WRAPPER_CYCLE_FLOYD_H_INCLUDED
+
+#define Cycle_floyd(a,b,c,d) FUNCNAME_CYCLEFLOYD(C_FDTDT2PDT(a,b,c,d))
+
+__MATHSUITE __JBURKARDT void * FUNCNAME_CYCLEFLOYD(void *);
+
+#endif

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!-- colors.xml for mathSuite v10 -->
+<!-- Program colors Selection File -->
+<colors>
+
+    <defaultColor>58</defaultColor>
+    <errorsColor>60</errorsColor>
+    <creditsColor>57</creditsColor>
+    <userColor>58</userColor>
+    <systemColor>59</systemColor>
+    <authorColor>60</authorColor>
+
+
+    <!-- Lists of known Selectable Colors -->
+    <!-- Black=0 -->
+    <!-- Blue=1 -->
+    <!-- Green=2 -->
+    <!-- Azure=3 -->
+    <!-- Dark red=4 -->
+    <!-- Purple=5 -->
+    <!-- Yellow=6 -->
+    <!-- White=7 -->
+    <!-- Grey=8 -->
+    <!-- Lum blue=9 -->
+    <!-- Lum green=10 -->
+    <!-- Crystal=11 -->
+    <!-- Lum red=12 -->
+    <!-- Lum purple=13 -->
+    <!-- Lum yellow=14 -->
+    <!-- Enhanced white=15 -->
+    <!-- Lum white=39 -->
+    <!-- Lum azure=43 -->
+
+
+</colors>

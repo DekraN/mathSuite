@@ -1,0 +1,3 @@
+Program performs a given second grade equation solving. This must be
+inserted by using a 1x3 matrix filled with the equations respective
+a, b, and c coefficients of the ax^2 + bx + c = 0 form

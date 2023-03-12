@@ -1,0 +1,3 @@
+Programs gives you the possibility to change the Minimum Number,
+trespassed whom in evaluating Factorial Function process,
+the computation accuracy will be enhanced by calling Stirling's Approximation function

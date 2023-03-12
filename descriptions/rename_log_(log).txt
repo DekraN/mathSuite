@@ -1,0 +1,2 @@
+Program allows you to rename a log file previously loaded into
+logs list

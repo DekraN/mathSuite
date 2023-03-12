@@ -1,0 +1,2 @@
+Program allows you to open a new .LOG system log. If a syslog is
+already set, then the new one will replace the old.

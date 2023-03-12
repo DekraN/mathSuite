@@ -1,0 +1,8 @@
+#ifndef WRAPPER_ASA111_H_INCLUDED
+#define WRAPPER_ASA111_H_INCLUDED
+
+#define ppnd(a) R_DBL(FUNCNAME_PPND(C_SDBL(a)))
+
+__MATHSUITE __JBURKARDT void * FUNCNAME_PPND(void *);
+
+#endif

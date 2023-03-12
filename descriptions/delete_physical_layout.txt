@@ -1,0 +1,2 @@
+Program allows you to delete the file of a layout previously loaded in the
+program layouts list

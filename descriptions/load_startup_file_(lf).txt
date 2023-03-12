@@ -1,0 +1,4 @@
+Program allows you to execute .lf startup files, which are files that
+contain on each line a Program Lists Item Filename that have as extensions:
+.vlf for varlists (environments), .mf for matrices, .LOG for logs and
+.xml for Layouts. Other extensions may led to undefined behavior

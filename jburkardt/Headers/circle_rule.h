@@ -1,0 +1,8 @@
+#ifndef WRAPPER_CIRCLE_RULE_H_INCLUDED
+#define WRAPPER_CIRCLE_RULE_H_INCLUDED
+
+#define circle_rule(a,b,c) FUNCNAME_CIRCLERULE(C_DT2PIT(a,b,c))
+
+__MATHSUITE __JBURKARDT void * FUNCNAME_CIRCLERULE(void *);
+
+#endif

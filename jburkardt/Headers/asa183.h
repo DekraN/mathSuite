@@ -1,0 +1,10 @@
+#ifndef WRAPPER_ASA183_H_INCLUDED
+#define WRAPPER_ASA183_H_INCLUDED
+
+#define r8_random(a,b,c) R_DBL(FUNCNAME_R8RANDOM(C_PPUSHRT3(a,b,c)))
+#define r8_uni(a,b) R_DBL(FUNCNAME_R8UNI(C_PPUSHRT2(a,b)))
+
+__MATHSUITE __JBURKARDT void * FUNCNAME_R8UNI(void *);
+__MATHSUITE __JBURKARDT void * FUNCNAME_R8RANDOM(void *);
+
+#endif

@@ -1,0 +1,825 @@
+# Project: mathSuite
+# Makefile created by Dev-C++ 5.11
+
+CPP      = g++.exe
+CC       = gcc.exe
+WINDRES  = windres.exe
+RES      = obj/Release/mathSuite_private.res
+OBJ      = obj/Release/main.o obj/Release/adv_calc.o obj/Release/algebra.o obj/Release/cols_manager.o obj/Release/envs_manager.o obj/Release/ext_math.o obj/Release/mengine.o obj/Release/layouts_manager.o obj/Release/lists_manager.o obj/Release/mat_manager.o obj/Release/mss_manager.o obj/Release/lf_manager.o obj/Release/programs.o obj/Release/settings.o obj/Release/expreval.o obj/Release/exprfunc.o obj/Release/exprinit.o obj/Release/exprmem.o obj/Release/exprobj.o obj/Release/exprpars.o obj/Release/exprutil.o obj/Release/exprval.o obj/Release/alpert_rule.o obj/Release/asa005.o obj/Release/asa006.o obj/Release/asa032.o obj/Release/asa047.o obj/Release/asa058.o obj/Release/asa063.o obj/Release/asa066.o obj/Release/asa076.o obj/Release/asa091.o obj/Release/asa103.o obj/Release/asa109.o obj/Release/asa121.o obj/Release/asa144.o obj/Release/asa147.o obj/Release/asa152.o obj/Release/asa172.o obj/Release/asa183.o obj/Release/asa226.o obj/Release/asa243.o obj/Release/asa245.o obj/Release/asa266.o obj/Release/asa310.o obj/Release/asa314.o obj/Release/ball_integrals.o obj/Release/bernstein_polynomial.o obj/Release/blas1_d.o obj/Release/brent.o obj/Release/brownian_motion_simulation.o obj/Release/burgers_solution.o obj/Release/c_calls_f77.o obj/Release/ccn_rule.o obj/Release/cdflib.o obj/Release/chebyshev_polynomial.o obj/Release/chebyshev_series.o obj/Release/circle_arc_grid.o obj/Release/circle_integrals.o obj/Release/circle_rule.o obj/Release/circle_segment.o obj/Release/clenshaw_curtis_rule.o obj/Release/colored_noise.o obj/Release/combination_lock.o obj/Release/combo.o obj/Release/cordic.o obj/Release/correlation.o obj/Release/cosine_transform.o obj/Release/cpv.o obj/Release/cube_arbq_rule.o obj/Release/cube_exactness.o obj/Release/cube_felippa_rule.o obj/Release/cycle_brent.o obj/Release/cycle_floyd.o obj/Release/differ.o obj/Release/disk_integrals.o obj/Release/divdif.o obj/Release/duel_simulation.o obj/Release/ellipse_grid.o obj/Release/ellipse_monte_carlo.o obj/Release/ellipsoid_monte_carlo.o obj/Release/exactness.o obj/Release/fd1d_bvp.o obj/Release/fem_basis.o obj/Release/fem1d_bvp_linear.o obj/Release/fem1d_bvp_quadratic.o obj/Release/fem1d_heat_steady.o obj/Release/fem1d_lagrange.o obj/Release/fem1d_pack.o obj/Release/fem1d_project.o obj/Release/fem2d_bvp_linear.o obj/Release/fem2d_bvp_quadratic.o obj/Release/fem2d_serene.o obj/Release/filon.o obj/Release/geometry.o obj/Release/haar.o obj/Release/hermite.o obj/Release/hermite_polynomial.o obj/Release/hermite_product_polynomial.o obj/Release/hermite_rule.o obj/Release/high_card_simulation.o obj/Release/hyperball_integrals.o obj/Release/hypercube_grid.o obj/Release/hypersphere_integrals.o obj/Release/hypersphere_properties.o obj/Release/i4lib.o obj/Release/image_components.o obj/Release/image_denoise.o obj/Release/interp.o obj/Release/isbn.o obj/Release/ising_2d_simulation.o obj/Release/jacobi.o obj/Release/jacobi_eigenvalue.o obj/Release/jacobi_polynomial.o obj/Release/knapsack_01.o obj/Release/kronrod.o obj/Release/lagrange_approx_1d.o obj/Release/lagrange_interp_1d.o obj/Release/lagrange_interp_nd.o obj/Release/laguerre_polynomial.o obj/Release/laplacian.o obj/Release/latin_cover.o obj/Release/latin_random.o obj/Release/latinize.o obj/Release/lebesgue.o obj/Release/legendre_polynomial.o obj/Release/life_serial.o obj/Release/line_cvt_lloyd.o obj/Release/line_fekete_rule.o obj/Release/line_grid.o obj/Release/line_integrals.o obj/Release/line_ncc_rule.o obj/Release/line_nco_rule.o obj/Release/linpack_d.o obj/Release/llsq.o obj/Release/lobatto_polynomial.o obj/Release/lorenz_ode.o obj/Release/matrix_exponential.o obj/Release/md.o obj/Release/mgs.o obj/Release/monomial.o obj/Release/multigrid_poisson_1d.o obj/Release/naca.o obj/Release/navier_stokes_2d_exact.o obj/Release/nearest_interp_1d.o obj/Release/newton_interp_1d.o obj/Release/nintlib.o obj/Release/normal.o obj/Release/ode.o obj/Release/padua.o obj/Release/partition_problem.o obj/Release/patterson_rule.o obj/Release/pce_ode_hermite.o obj/Release/pdflib.o obj/Release/piecewise_linear_product_integral.o obj/Release/pink_noise.o obj/Release/poisson_openmp.o obj/Release/polpak.o obj/Release/polygon_grid.o obj/Release/polygon_integrals.o obj/Release/polygon_triangulate.o obj/Release/power_method.o obj/Release/power_rule.o obj/Release/prob.o obj/Release/pwl_approx_1d.o obj/Release/pwl_interp_1d.o obj/Release/pwl_interp_2d.o obj/Release/pyramid_exactness.o obj/Release/pyramid_grid.o obj/Release/quadmom.o obj/Release/r8lib.o obj/Release/rbf_interp_1d.o obj/Release/rbf_interp_2d.o obj/Release/rbf_interp_nd.o obj/Release/rk4.o obj/Release/rkf45.o obj/Release/satisfy.o obj/Release/sftpack.o obj/Release/sgmga.o obj/Release/shepard_interp_1d.o obj/Release/shepard_interp_2d.o obj/Release/shepard_interp_nd.o obj/Release/simplex_coordinates.o obj/Release/simplex_gm_rule.o obj/Release/simplex_grid.o obj/Release/sine_transform.o obj/Release/snakes_and_ladders.o obj/Release/sparse_grid_cc.o obj/Release/sparse_grid_hw.o obj/Release/sparse_interp_nd.o obj/Release/sphere_fibonacci_grid.o obj/Release/sphere_grid.o obj/Release/sphere_integrals.o obj/Release/sphere_lebedev_rule.o obj/Release/sphere_llq_grid.o obj/Release/sphere_llt_grid.o obj/Release/sphere_quad.o obj/Release/sphere_stereograph.o obj/Release/square_arbq_rule.o obj/Release/square_grid.o obj/Release/square_integrals.o obj/Release/square_symq_rule.o obj/Release/stochastic_diffusion.o obj/Release/stochastic_rk.o obj/Release/stokes_2d_exact.o obj/Release/subset_sum.o obj/Release/tet_mesh.o obj/Release/tetrahedron_arbq_rule.o obj/Release/tetrahedron_exactness.o obj/Release/tetrahedron_grid.o obj/Release/tetrahedron_integrals.o obj/Release/tetrahedron_ncc_rule.o obj/Release/simple_rkf45.o obj/Release/toeplitz_cholesky.o obj/Release/toms097.o obj/Release/toms179.o obj/Release/toms322.o obj/Release/toms443.o obj/Release/toms655.o obj/Release/toms743.o obj/Release/toms886.o obj/Release/treepack.o obj/Release/triangle_exactness.o obj/Release/triangle_fekete_rule.o obj/Release/triangle_felippa_rule.o obj/Release/triangle_grid.o obj/Release/triangle_integrals.o obj/Release/triangle_ncc_rule.o obj/Release/triangle_nco_rule.o obj/Release/triangle_symq_rule.o obj/Release/triangulation.o obj/Release/triangulation_node_to_element.o obj/Release/triangulation_svg.o obj/Release/truncated_normal.o obj/Release/unicycle.o obj/Release/upc.o obj/Release/vandermonde.o obj/Release/vandermonde_approx_1d.o obj/Release/vandermonde_approx_2d.o obj/Release/vandermonde_interp_2d.o obj/Release/walsh.o obj/Release/wathen.o obj/Release/wavelet.o obj/Release/wedge_exactness.o obj/Release/wedge_felippa_rule.o obj/Release/weekday.o obj/Release/wishart.o obj/Release/wtime.o obj/Release/zero_rc.o obj/Release/bessel.o obj/Release/values.o obj/Release/asa111.o obj/Release/logs_manager.o obj/Release/syslog_manager.o obj/Release/multiuser.o obj/Release/system.o obj/Release/hashmap.o obj/Release/cryptohash.o obj/Release/jburkardt.o obj/Release/spec_mat.o obj/Release/exprcnts.o obj/Release/exprilfs.o obj/Release/exprtrig.o obj/Release/exprmatrix.o obj/Release/structs.o $(RES)
+LINKOBJ  = obj/Release/main.o obj/Release/adv_calc.o obj/Release/algebra.o obj/Release/cols_manager.o obj/Release/envs_manager.o obj/Release/ext_math.o obj/Release/mengine.o obj/Release/layouts_manager.o obj/Release/lists_manager.o obj/Release/mat_manager.o obj/Release/mss_manager.o obj/Release/lf_manager.o obj/Release/programs.o obj/Release/settings.o obj/Release/expreval.o obj/Release/exprfunc.o obj/Release/exprinit.o obj/Release/exprmem.o obj/Release/exprobj.o obj/Release/exprpars.o obj/Release/exprutil.o obj/Release/exprval.o obj/Release/alpert_rule.o obj/Release/asa005.o obj/Release/asa006.o obj/Release/asa032.o obj/Release/asa047.o obj/Release/asa058.o obj/Release/asa063.o obj/Release/asa066.o obj/Release/asa076.o obj/Release/asa091.o obj/Release/asa103.o obj/Release/asa109.o obj/Release/asa121.o obj/Release/asa144.o obj/Release/asa147.o obj/Release/asa152.o obj/Release/asa172.o obj/Release/asa183.o obj/Release/asa226.o obj/Release/asa243.o obj/Release/asa245.o obj/Release/asa266.o obj/Release/asa310.o obj/Release/asa314.o obj/Release/ball_integrals.o obj/Release/bernstein_polynomial.o obj/Release/blas1_d.o obj/Release/brent.o obj/Release/brownian_motion_simulation.o obj/Release/burgers_solution.o obj/Release/c_calls_f77.o obj/Release/ccn_rule.o obj/Release/cdflib.o obj/Release/chebyshev_polynomial.o obj/Release/chebyshev_series.o obj/Release/circle_arc_grid.o obj/Release/circle_integrals.o obj/Release/circle_rule.o obj/Release/circle_segment.o obj/Release/clenshaw_curtis_rule.o obj/Release/colored_noise.o obj/Release/combination_lock.o obj/Release/combo.o obj/Release/cordic.o obj/Release/correlation.o obj/Release/cosine_transform.o obj/Release/cpv.o obj/Release/cube_arbq_rule.o obj/Release/cube_exactness.o obj/Release/cube_felippa_rule.o obj/Release/cycle_brent.o obj/Release/cycle_floyd.o obj/Release/differ.o obj/Release/disk_integrals.o obj/Release/divdif.o obj/Release/duel_simulation.o obj/Release/ellipse_grid.o obj/Release/ellipse_monte_carlo.o obj/Release/ellipsoid_monte_carlo.o obj/Release/exactness.o obj/Release/fd1d_bvp.o obj/Release/fem_basis.o obj/Release/fem1d_bvp_linear.o obj/Release/fem1d_bvp_quadratic.o obj/Release/fem1d_heat_steady.o obj/Release/fem1d_lagrange.o obj/Release/fem1d_pack.o obj/Release/fem1d_project.o obj/Release/fem2d_bvp_linear.o obj/Release/fem2d_bvp_quadratic.o obj/Release/fem2d_serene.o obj/Release/filon.o obj/Release/geometry.o obj/Release/haar.o obj/Release/hermite.o obj/Release/hermite_polynomial.o obj/Release/hermite_product_polynomial.o obj/Release/hermite_rule.o obj/Release/high_card_simulation.o obj/Release/hyperball_integrals.o obj/Release/hypercube_grid.o obj/Release/hypersphere_integrals.o obj/Release/hypersphere_properties.o obj/Release/i4lib.o obj/Release/image_components.o obj/Release/image_denoise.o obj/Release/interp.o obj/Release/isbn.o obj/Release/ising_2d_simulation.o obj/Release/jacobi.o obj/Release/jacobi_eigenvalue.o obj/Release/jacobi_polynomial.o obj/Release/knapsack_01.o obj/Release/kronrod.o obj/Release/lagrange_approx_1d.o obj/Release/lagrange_interp_1d.o obj/Release/lagrange_interp_nd.o obj/Release/laguerre_polynomial.o obj/Release/laplacian.o obj/Release/latin_cover.o obj/Release/latin_random.o obj/Release/latinize.o obj/Release/lebesgue.o obj/Release/legendre_polynomial.o obj/Release/life_serial.o obj/Release/line_cvt_lloyd.o obj/Release/line_fekete_rule.o obj/Release/line_grid.o obj/Release/line_integrals.o obj/Release/line_ncc_rule.o obj/Release/line_nco_rule.o obj/Release/linpack_d.o obj/Release/llsq.o obj/Release/lobatto_polynomial.o obj/Release/lorenz_ode.o obj/Release/matrix_exponential.o obj/Release/md.o obj/Release/mgs.o obj/Release/monomial.o obj/Release/multigrid_poisson_1d.o obj/Release/naca.o obj/Release/navier_stokes_2d_exact.o obj/Release/nearest_interp_1d.o obj/Release/newton_interp_1d.o obj/Release/nintlib.o obj/Release/normal.o obj/Release/ode.o obj/Release/padua.o obj/Release/partition_problem.o obj/Release/patterson_rule.o obj/Release/pce_ode_hermite.o obj/Release/pdflib.o obj/Release/piecewise_linear_product_integral.o obj/Release/pink_noise.o obj/Release/poisson_openmp.o obj/Release/polpak.o obj/Release/polygon_grid.o obj/Release/polygon_integrals.o obj/Release/polygon_triangulate.o obj/Release/power_method.o obj/Release/power_rule.o obj/Release/prob.o obj/Release/pwl_approx_1d.o obj/Release/pwl_interp_1d.o obj/Release/pwl_interp_2d.o obj/Release/pyramid_exactness.o obj/Release/pyramid_grid.o obj/Release/quadmom.o obj/Release/r8lib.o obj/Release/rbf_interp_1d.o obj/Release/rbf_interp_2d.o obj/Release/rbf_interp_nd.o obj/Release/rk4.o obj/Release/rkf45.o obj/Release/satisfy.o obj/Release/sftpack.o obj/Release/sgmga.o obj/Release/shepard_interp_1d.o obj/Release/shepard_interp_2d.o obj/Release/shepard_interp_nd.o obj/Release/simplex_coordinates.o obj/Release/simplex_gm_rule.o obj/Release/simplex_grid.o obj/Release/sine_transform.o obj/Release/snakes_and_ladders.o obj/Release/sparse_grid_cc.o obj/Release/sparse_grid_hw.o obj/Release/sparse_interp_nd.o obj/Release/sphere_fibonacci_grid.o obj/Release/sphere_grid.o obj/Release/sphere_integrals.o obj/Release/sphere_lebedev_rule.o obj/Release/sphere_llq_grid.o obj/Release/sphere_llt_grid.o obj/Release/sphere_quad.o obj/Release/sphere_stereograph.o obj/Release/square_arbq_rule.o obj/Release/square_grid.o obj/Release/square_integrals.o obj/Release/square_symq_rule.o obj/Release/stochastic_diffusion.o obj/Release/stochastic_rk.o obj/Release/stokes_2d_exact.o obj/Release/subset_sum.o obj/Release/tet_mesh.o obj/Release/tetrahedron_arbq_rule.o obj/Release/tetrahedron_exactness.o obj/Release/tetrahedron_grid.o obj/Release/tetrahedron_integrals.o obj/Release/tetrahedron_ncc_rule.o obj/Release/simple_rkf45.o obj/Release/toeplitz_cholesky.o obj/Release/toms097.o obj/Release/toms179.o obj/Release/toms322.o obj/Release/toms443.o obj/Release/toms655.o obj/Release/toms743.o obj/Release/toms886.o obj/Release/treepack.o obj/Release/triangle_exactness.o obj/Release/triangle_fekete_rule.o obj/Release/triangle_felippa_rule.o obj/Release/triangle_grid.o obj/Release/triangle_integrals.o obj/Release/triangle_ncc_rule.o obj/Release/triangle_nco_rule.o obj/Release/triangle_symq_rule.o obj/Release/triangulation.o obj/Release/triangulation_node_to_element.o obj/Release/triangulation_svg.o obj/Release/truncated_normal.o obj/Release/unicycle.o obj/Release/upc.o obj/Release/vandermonde.o obj/Release/vandermonde_approx_1d.o obj/Release/vandermonde_approx_2d.o obj/Release/vandermonde_interp_2d.o obj/Release/walsh.o obj/Release/wathen.o obj/Release/wavelet.o obj/Release/wedge_exactness.o obj/Release/wedge_felippa_rule.o obj/Release/weekday.o obj/Release/wishart.o obj/Release/wtime.o obj/Release/zero_rc.o obj/Release/bessel.o obj/Release/values.o obj/Release/asa111.o obj/Release/logs_manager.o obj/Release/syslog_manager.o obj/Release/multiuser.o obj/Release/system.o obj/Release/hashmap.o obj/Release/cryptohash.o obj/Release/jburkardt.o obj/Release/spec_mat.o obj/Release/exprcnts.o obj/Release/exprilfs.o obj/Release/exprtrig.o obj/Release/exprmatrix.o obj/Release/structs.o $(RES)
+LIBS     = -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib32" -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib32" -static-libgcc -L"C:/Users/marco/Documents/Experiments/MPXXMathSuite103/suite2" "../../../../../../Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib32/libcomdlg32.a" "../../../../../../../Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib32/libws2_32.a" -lgomp -lmpfr -lgmp libxml2.dll cygwin1.dll libmysql.dll libcryptoMD.dll libsslMD.dll -m32 -s
+INCS     = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"C:/Program Files (x86)/MySQL/MySQL Connector C 6.1/include" -I"C:/Users/marco/Documents/Experiments/MPXXMathSuite103/suite2"
+CXXINCS  = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++" -I"C:/Program Files (x86)/MySQL/MySQL Connector C 6.1/include" -I"C:/Users/marco/Documents/Experiments/MPXXMathSuite103/suite2"
+BIN      = mathSuite.exe
+CXXFLAGS = $(CXXINCS) -Os -m32 -std=c99 -fopenmp
+CFLAGS   = $(INCS) -Os -m32 -std=c99 -pipe -s -fopenmp
+RM       = rm.exe -f
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before $(BIN) all-after
+
+clean: clean-custom
+	${RM} $(OBJ) $(BIN)
+
+$(BIN): $(OBJ)
+	$(CC) $(LINKOBJ) -o $(BIN) $(LIBS)
+
+obj/Release/main.o: main.c
+	$(CC) -c main.c -o obj/Release/main.o $(CFLAGS)
+
+obj/Release/adv_calc.o: adv_calc.c
+	$(CC) -c adv_calc.c -o obj/Release/adv_calc.o $(CFLAGS)
+
+obj/Release/algebra.o: algebra.c
+	$(CC) -c algebra.c -o obj/Release/algebra.o $(CFLAGS)
+
+obj/Release/cols_manager.o: cols_manager.c
+	$(CC) -c cols_manager.c -o obj/Release/cols_manager.o $(CFLAGS)
+
+obj/Release/envs_manager.o: envs_manager.c
+	$(CC) -c envs_manager.c -o obj/Release/envs_manager.o $(CFLAGS)
+
+obj/Release/ext_math.o: ext_math.c
+	$(CC) -c ext_math.c -o obj/Release/ext_math.o $(CFLAGS)
+
+obj/Release/mengine.o: mengine.c
+	$(CC) -c mengine.c -o obj/Release/mengine.o $(CFLAGS)
+
+obj/Release/layouts_manager.o: layouts_manager.c
+	$(CC) -c layouts_manager.c -o obj/Release/layouts_manager.o $(CFLAGS)
+
+obj/Release/lists_manager.o: lists_manager.c
+	$(CC) -c lists_manager.c -o obj/Release/lists_manager.o $(CFLAGS)
+
+obj/Release/mat_manager.o: mat_manager.c
+	$(CC) -c mat_manager.c -o obj/Release/mat_manager.o $(CFLAGS)
+
+obj/Release/mss_manager.o: mss_manager.c
+	$(CC) -c mss_manager.c -o obj/Release/mss_manager.o $(CFLAGS)
+
+obj/Release/lf_manager.o: lf_manager.c
+	$(CC) -c lf_manager.c -o obj/Release/lf_manager.o $(CFLAGS)
+
+obj/Release/programs.o: programs.c
+	$(CC) -c programs.c -o obj/Release/programs.o $(CFLAGS)
+
+obj/Release/settings.o: settings.c
+	$(CC) -c settings.c -o obj/Release/settings.o $(CFLAGS)
+
+obj/Release/expreval.o: ExprEval/expreval.c
+	$(CC) -c ExprEval/expreval.c -o obj/Release/expreval.o $(CFLAGS)
+
+obj/Release/exprfunc.o: ExprEval/exprfunc.c
+	$(CC) -c ExprEval/exprfunc.c -o obj/Release/exprfunc.o $(CFLAGS)
+
+obj/Release/exprinit.o: ExprEval/exprinit.c
+	$(CC) -c ExprEval/exprinit.c -o obj/Release/exprinit.o $(CFLAGS)
+
+obj/Release/exprmem.o: ExprEval/exprmem.c
+	$(CC) -c ExprEval/exprmem.c -o obj/Release/exprmem.o $(CFLAGS)
+
+obj/Release/exprobj.o: ExprEval/exprobj.c
+	$(CC) -c ExprEval/exprobj.c -o obj/Release/exprobj.o $(CFLAGS)
+
+obj/Release/exprpars.o: ExprEval/exprpars.c
+	$(CC) -c ExprEval/exprpars.c -o obj/Release/exprpars.o $(CFLAGS)
+
+obj/Release/exprutil.o: ExprEval/exprutil.c
+	$(CC) -c ExprEval/exprutil.c -o obj/Release/exprutil.o $(CFLAGS)
+
+obj/Release/exprval.o: ExprEval/exprval.c
+	$(CC) -c ExprEval/exprval.c -o obj/Release/exprval.o $(CFLAGS)
+
+obj/Release/alpert_rule.o: jburkardt/alpert_rule.c
+	$(CC) -c jburkardt/alpert_rule.c -o obj/Release/alpert_rule.o $(CFLAGS)
+
+obj/Release/asa005.o: jburkardt/asa005.c
+	$(CC) -c jburkardt/asa005.c -o obj/Release/asa005.o $(CFLAGS)
+
+obj/Release/asa006.o: jburkardt/asa006.c
+	$(CC) -c jburkardt/asa006.c -o obj/Release/asa006.o $(CFLAGS)
+
+obj/Release/asa032.o: jburkardt/asa032.c
+	$(CC) -c jburkardt/asa032.c -o obj/Release/asa032.o $(CFLAGS)
+
+obj/Release/asa047.o: jburkardt/asa047.c
+	$(CC) -c jburkardt/asa047.c -o obj/Release/asa047.o $(CFLAGS)
+
+obj/Release/asa058.o: jburkardt/asa058.c
+	$(CC) -c jburkardt/asa058.c -o obj/Release/asa058.o $(CFLAGS)
+
+obj/Release/asa063.o: jburkardt/asa063.c
+	$(CC) -c jburkardt/asa063.c -o obj/Release/asa063.o $(CFLAGS)
+
+obj/Release/asa066.o: jburkardt/asa066.c
+	$(CC) -c jburkardt/asa066.c -o obj/Release/asa066.o $(CFLAGS)
+
+obj/Release/asa076.o: jburkardt/asa076.c
+	$(CC) -c jburkardt/asa076.c -o obj/Release/asa076.o $(CFLAGS)
+
+obj/Release/asa091.o: jburkardt/asa091.c
+	$(CC) -c jburkardt/asa091.c -o obj/Release/asa091.o $(CFLAGS)
+
+obj/Release/asa103.o: jburkardt/asa103.c
+	$(CC) -c jburkardt/asa103.c -o obj/Release/asa103.o $(CFLAGS)
+
+obj/Release/asa109.o: jburkardt/asa109.c
+	$(CC) -c jburkardt/asa109.c -o obj/Release/asa109.o $(CFLAGS)
+
+obj/Release/asa121.o: jburkardt/asa121.c
+	$(CC) -c jburkardt/asa121.c -o obj/Release/asa121.o $(CFLAGS)
+
+obj/Release/asa144.o: jburkardt/asa144.c
+	$(CC) -c jburkardt/asa144.c -o obj/Release/asa144.o $(CFLAGS)
+
+obj/Release/asa147.o: jburkardt/asa147.c
+	$(CC) -c jburkardt/asa147.c -o obj/Release/asa147.o $(CFLAGS)
+
+obj/Release/asa152.o: jburkardt/asa152.c
+	$(CC) -c jburkardt/asa152.c -o obj/Release/asa152.o $(CFLAGS)
+
+obj/Release/asa172.o: jburkardt/asa172.c
+	$(CC) -c jburkardt/asa172.c -o obj/Release/asa172.o $(CFLAGS)
+
+obj/Release/asa183.o: jburkardt/asa183.c
+	$(CC) -c jburkardt/asa183.c -o obj/Release/asa183.o $(CFLAGS)
+
+obj/Release/asa226.o: jburkardt/asa226.c
+	$(CC) -c jburkardt/asa226.c -o obj/Release/asa226.o $(CFLAGS)
+
+obj/Release/asa243.o: jburkardt/asa243.c
+	$(CC) -c jburkardt/asa243.c -o obj/Release/asa243.o $(CFLAGS)
+
+obj/Release/asa245.o: jburkardt/asa245.c
+	$(CC) -c jburkardt/asa245.c -o obj/Release/asa245.o $(CFLAGS)
+
+obj/Release/asa266.o: jburkardt/asa266.c
+	$(CC) -c jburkardt/asa266.c -o obj/Release/asa266.o $(CFLAGS)
+
+obj/Release/asa310.o: jburkardt/asa310.c
+	$(CC) -c jburkardt/asa310.c -o obj/Release/asa310.o $(CFLAGS)
+
+obj/Release/asa314.o: jburkardt/asa314.c
+	$(CC) -c jburkardt/asa314.c -o obj/Release/asa314.o $(CFLAGS)
+
+obj/Release/ball_integrals.o: jburkardt/ball_integrals.c
+	$(CC) -c jburkardt/ball_integrals.c -o obj/Release/ball_integrals.o $(CFLAGS)
+
+obj/Release/bernstein_polynomial.o: jburkardt/bernstein_polynomial.c
+	$(CC) -c jburkardt/bernstein_polynomial.c -o obj/Release/bernstein_polynomial.o $(CFLAGS)
+
+obj/Release/blas1_d.o: jburkardt/blas1_d.c
+	$(CC) -c jburkardt/blas1_d.c -o obj/Release/blas1_d.o $(CFLAGS)
+
+obj/Release/brent.o: jburkardt/brent.c
+	$(CC) -c jburkardt/brent.c -o obj/Release/brent.o $(CFLAGS)
+
+obj/Release/brownian_motion_simulation.o: jburkardt/brownian_motion_simulation.c
+	$(CC) -c jburkardt/brownian_motion_simulation.c -o obj/Release/brownian_motion_simulation.o $(CFLAGS)
+
+obj/Release/burgers_solution.o: jburkardt/burgers_solution.c
+	$(CC) -c jburkardt/burgers_solution.c -o obj/Release/burgers_solution.o $(CFLAGS)
+
+obj/Release/c_calls_f77.o: jburkardt/c_calls_f77.c
+	$(CC) -c jburkardt/c_calls_f77.c -o obj/Release/c_calls_f77.o $(CFLAGS)
+
+obj/Release/ccn_rule.o: jburkardt/ccn_rule.c
+	$(CC) -c jburkardt/ccn_rule.c -o obj/Release/ccn_rule.o $(CFLAGS)
+
+obj/Release/cdflib.o: jburkardt/cdflib.c
+	$(CC) -c jburkardt/cdflib.c -o obj/Release/cdflib.o $(CFLAGS)
+
+obj/Release/chebyshev_polynomial.o: jburkardt/chebyshev_polynomial.c
+	$(CC) -c jburkardt/chebyshev_polynomial.c -o obj/Release/chebyshev_polynomial.o $(CFLAGS)
+
+obj/Release/chebyshev_series.o: jburkardt/chebyshev_series.c
+	$(CC) -c jburkardt/chebyshev_series.c -o obj/Release/chebyshev_series.o $(CFLAGS)
+
+obj/Release/circle_arc_grid.o: jburkardt/circle_arc_grid.c
+	$(CC) -c jburkardt/circle_arc_grid.c -o obj/Release/circle_arc_grid.o $(CFLAGS)
+
+obj/Release/circle_integrals.o: jburkardt/circle_integrals.c
+	$(CC) -c jburkardt/circle_integrals.c -o obj/Release/circle_integrals.o $(CFLAGS)
+
+obj/Release/circle_rule.o: jburkardt/circle_rule.c
+	$(CC) -c jburkardt/circle_rule.c -o obj/Release/circle_rule.o $(CFLAGS)
+
+obj/Release/circle_segment.o: jburkardt/circle_segment.c
+	$(CC) -c jburkardt/circle_segment.c -o obj/Release/circle_segment.o $(CFLAGS)
+
+obj/Release/clenshaw_curtis_rule.o: jburkardt/clenshaw_curtis_rule.c
+	$(CC) -c jburkardt/clenshaw_curtis_rule.c -o obj/Release/clenshaw_curtis_rule.o $(CFLAGS)
+
+obj/Release/colored_noise.o: jburkardt/colored_noise.c
+	$(CC) -c jburkardt/colored_noise.c -o obj/Release/colored_noise.o $(CFLAGS)
+
+obj/Release/combination_lock.o: jburkardt/combination_lock.c
+	$(CC) -c jburkardt/combination_lock.c -o obj/Release/combination_lock.o $(CFLAGS)
+
+obj/Release/combo.o: jburkardt/combo.c
+	$(CC) -c jburkardt/combo.c -o obj/Release/combo.o $(CFLAGS)
+
+obj/Release/cordic.o: jburkardt/cordic.c
+	$(CC) -c jburkardt/cordic.c -o obj/Release/cordic.o $(CFLAGS)
+
+obj/Release/correlation.o: jburkardt/correlation.c
+	$(CC) -c jburkardt/correlation.c -o obj/Release/correlation.o $(CFLAGS)
+
+obj/Release/cosine_transform.o: jburkardt/cosine_transform.c
+	$(CC) -c jburkardt/cosine_transform.c -o obj/Release/cosine_transform.o $(CFLAGS)
+
+obj/Release/cpv.o: jburkardt/cpv.c
+	$(CC) -c jburkardt/cpv.c -o obj/Release/cpv.o $(CFLAGS)
+
+obj/Release/cube_arbq_rule.o: jburkardt/cube_arbq_rule.c
+	$(CC) -c jburkardt/cube_arbq_rule.c -o obj/Release/cube_arbq_rule.o $(CFLAGS)
+
+obj/Release/cube_exactness.o: jburkardt/cube_exactness.c
+	$(CC) -c jburkardt/cube_exactness.c -o obj/Release/cube_exactness.o $(CFLAGS)
+
+obj/Release/cube_felippa_rule.o: jburkardt/cube_felippa_rule.c
+	$(CC) -c jburkardt/cube_felippa_rule.c -o obj/Release/cube_felippa_rule.o $(CFLAGS)
+
+obj/Release/cycle_brent.o: jburkardt/cycle_brent.c
+	$(CC) -c jburkardt/cycle_brent.c -o obj/Release/cycle_brent.o $(CFLAGS)
+
+obj/Release/cycle_floyd.o: jburkardt/cycle_floyd.c
+	$(CC) -c jburkardt/cycle_floyd.c -o obj/Release/cycle_floyd.o $(CFLAGS)
+
+obj/Release/differ.o: jburkardt/differ.c
+	$(CC) -c jburkardt/differ.c -o obj/Release/differ.o $(CFLAGS)
+
+obj/Release/disk_integrals.o: jburkardt/disk_integrals.c
+	$(CC) -c jburkardt/disk_integrals.c -o obj/Release/disk_integrals.o $(CFLAGS)
+
+obj/Release/divdif.o: jburkardt/divdif.c
+	$(CC) -c jburkardt/divdif.c -o obj/Release/divdif.o $(CFLAGS)
+
+obj/Release/duel_simulation.o: jburkardt/duel_simulation.c
+	$(CC) -c jburkardt/duel_simulation.c -o obj/Release/duel_simulation.o $(CFLAGS)
+
+obj/Release/ellipse_grid.o: jburkardt/ellipse_grid.c
+	$(CC) -c jburkardt/ellipse_grid.c -o obj/Release/ellipse_grid.o $(CFLAGS)
+
+obj/Release/ellipse_monte_carlo.o: jburkardt/ellipse_monte_carlo.c
+	$(CC) -c jburkardt/ellipse_monte_carlo.c -o obj/Release/ellipse_monte_carlo.o $(CFLAGS)
+
+obj/Release/ellipsoid_monte_carlo.o: jburkardt/ellipsoid_monte_carlo.c
+	$(CC) -c jburkardt/ellipsoid_monte_carlo.c -o obj/Release/ellipsoid_monte_carlo.o $(CFLAGS)
+
+obj/Release/exactness.o: jburkardt/exactness.c
+	$(CC) -c jburkardt/exactness.c -o obj/Release/exactness.o $(CFLAGS)
+
+obj/Release/fd1d_bvp.o: jburkardt/fd1d_bvp.c
+	$(CC) -c jburkardt/fd1d_bvp.c -o obj/Release/fd1d_bvp.o $(CFLAGS)
+
+obj/Release/fem_basis.o: jburkardt/fem_basis.c
+	$(CC) -c jburkardt/fem_basis.c -o obj/Release/fem_basis.o $(CFLAGS)
+
+obj/Release/fem1d_bvp_linear.o: jburkardt/fem1d_bvp_linear.c
+	$(CC) -c jburkardt/fem1d_bvp_linear.c -o obj/Release/fem1d_bvp_linear.o $(CFLAGS)
+
+obj/Release/fem1d_bvp_quadratic.o: jburkardt/fem1d_bvp_quadratic.c
+	$(CC) -c jburkardt/fem1d_bvp_quadratic.c -o obj/Release/fem1d_bvp_quadratic.o $(CFLAGS)
+
+obj/Release/fem1d_heat_steady.o: jburkardt/fem1d_heat_steady.c
+	$(CC) -c jburkardt/fem1d_heat_steady.c -o obj/Release/fem1d_heat_steady.o $(CFLAGS)
+
+obj/Release/fem1d_lagrange.o: jburkardt/fem1d_lagrange.c
+	$(CC) -c jburkardt/fem1d_lagrange.c -o obj/Release/fem1d_lagrange.o $(CFLAGS)
+
+obj/Release/fem1d_pack.o: jburkardt/fem1d_pack.c
+	$(CC) -c jburkardt/fem1d_pack.c -o obj/Release/fem1d_pack.o $(CFLAGS)
+
+obj/Release/fem1d_project.o: jburkardt/fem1d_project.c
+	$(CC) -c jburkardt/fem1d_project.c -o obj/Release/fem1d_project.o $(CFLAGS)
+
+obj/Release/fem2d_bvp_linear.o: jburkardt/fem2d_bvp_linear.c
+	$(CC) -c jburkardt/fem2d_bvp_linear.c -o obj/Release/fem2d_bvp_linear.o $(CFLAGS)
+
+obj/Release/fem2d_bvp_quadratic.o: jburkardt/fem2d_bvp_quadratic.c
+	$(CC) -c jburkardt/fem2d_bvp_quadratic.c -o obj/Release/fem2d_bvp_quadratic.o $(CFLAGS)
+
+obj/Release/fem2d_serene.o: jburkardt/fem2d_serene.c
+	$(CC) -c jburkardt/fem2d_serene.c -o obj/Release/fem2d_serene.o $(CFLAGS)
+
+obj/Release/filon.o: jburkardt/filon.c
+	$(CC) -c jburkardt/filon.c -o obj/Release/filon.o $(CFLAGS)
+
+obj/Release/geometry.o: jburkardt/geometry.c
+	$(CC) -c jburkardt/geometry.c -o obj/Release/geometry.o $(CFLAGS)
+
+obj/Release/haar.o: jburkardt/haar.c
+	$(CC) -c jburkardt/haar.c -o obj/Release/haar.o $(CFLAGS)
+
+obj/Release/hermite.o: jburkardt/hermite.c
+	$(CC) -c jburkardt/hermite.c -o obj/Release/hermite.o $(CFLAGS)
+
+obj/Release/hermite_polynomial.o: jburkardt/hermite_polynomial.c
+	$(CC) -c jburkardt/hermite_polynomial.c -o obj/Release/hermite_polynomial.o $(CFLAGS)
+
+obj/Release/hermite_product_polynomial.o: jburkardt/hermite_product_polynomial.c
+	$(CC) -c jburkardt/hermite_product_polynomial.c -o obj/Release/hermite_product_polynomial.o $(CFLAGS)
+
+obj/Release/hermite_rule.o: jburkardt/hermite_rule.c
+	$(CC) -c jburkardt/hermite_rule.c -o obj/Release/hermite_rule.o $(CFLAGS)
+
+obj/Release/high_card_simulation.o: jburkardt/high_card_simulation.c
+	$(CC) -c jburkardt/high_card_simulation.c -o obj/Release/high_card_simulation.o $(CFLAGS)
+
+obj/Release/hyperball_integrals.o: jburkardt/hyperball_integrals.c
+	$(CC) -c jburkardt/hyperball_integrals.c -o obj/Release/hyperball_integrals.o $(CFLAGS)
+
+obj/Release/hypercube_grid.o: jburkardt/hypercube_grid.c
+	$(CC) -c jburkardt/hypercube_grid.c -o obj/Release/hypercube_grid.o $(CFLAGS)
+
+obj/Release/hypersphere_integrals.o: jburkardt/hypersphere_integrals.c
+	$(CC) -c jburkardt/hypersphere_integrals.c -o obj/Release/hypersphere_integrals.o $(CFLAGS)
+
+obj/Release/hypersphere_properties.o: jburkardt/hypersphere_properties.c
+	$(CC) -c jburkardt/hypersphere_properties.c -o obj/Release/hypersphere_properties.o $(CFLAGS)
+
+obj/Release/i4lib.o: jburkardt/i4lib.c
+	$(CC) -c jburkardt/i4lib.c -o obj/Release/i4lib.o $(CFLAGS)
+
+obj/Release/image_components.o: jburkardt/image_components.c
+	$(CC) -c jburkardt/image_components.c -o obj/Release/image_components.o $(CFLAGS)
+
+obj/Release/image_denoise.o: jburkardt/image_denoise.c
+	$(CC) -c jburkardt/image_denoise.c -o obj/Release/image_denoise.o $(CFLAGS)
+
+obj/Release/interp.o: jburkardt/interp.c
+	$(CC) -c jburkardt/interp.c -o obj/Release/interp.o $(CFLAGS)
+
+obj/Release/isbn.o: jburkardt/isbn.c
+	$(CC) -c jburkardt/isbn.c -o obj/Release/isbn.o $(CFLAGS)
+
+obj/Release/ising_2d_simulation.o: jburkardt/ising_2d_simulation.c
+	$(CC) -c jburkardt/ising_2d_simulation.c -o obj/Release/ising_2d_simulation.o $(CFLAGS)
+
+obj/Release/jacobi.o: jburkardt/jacobi.c
+	$(CC) -c jburkardt/jacobi.c -o obj/Release/jacobi.o $(CFLAGS)
+
+obj/Release/jacobi_eigenvalue.o: jburkardt/jacobi_eigenvalue.c
+	$(CC) -c jburkardt/jacobi_eigenvalue.c -o obj/Release/jacobi_eigenvalue.o $(CFLAGS)
+
+obj/Release/jacobi_polynomial.o: jburkardt/jacobi_polynomial.c
+	$(CC) -c jburkardt/jacobi_polynomial.c -o obj/Release/jacobi_polynomial.o $(CFLAGS)
+
+obj/Release/knapsack_01.o: jburkardt/knapsack_01.c
+	$(CC) -c jburkardt/knapsack_01.c -o obj/Release/knapsack_01.o $(CFLAGS)
+
+obj/Release/kronrod.o: jburkardt/kronrod.c
+	$(CC) -c jburkardt/kronrod.c -o obj/Release/kronrod.o $(CFLAGS)
+
+obj/Release/lagrange_approx_1d.o: jburkardt/lagrange_approx_1d.c
+	$(CC) -c jburkardt/lagrange_approx_1d.c -o obj/Release/lagrange_approx_1d.o $(CFLAGS)
+
+obj/Release/lagrange_interp_1d.o: jburkardt/lagrange_interp_1d.c
+	$(CC) -c jburkardt/lagrange_interp_1d.c -o obj/Release/lagrange_interp_1d.o $(CFLAGS)
+
+obj/Release/lagrange_interp_nd.o: jburkardt/lagrange_interp_nd.c
+	$(CC) -c jburkardt/lagrange_interp_nd.c -o obj/Release/lagrange_interp_nd.o $(CFLAGS)
+
+obj/Release/laguerre_polynomial.o: jburkardt/laguerre_polynomial.c
+	$(CC) -c jburkardt/laguerre_polynomial.c -o obj/Release/laguerre_polynomial.o $(CFLAGS)
+
+obj/Release/laplacian.o: jburkardt/laplacian.c
+	$(CC) -c jburkardt/laplacian.c -o obj/Release/laplacian.o $(CFLAGS)
+
+obj/Release/latin_cover.o: jburkardt/latin_cover.c
+	$(CC) -c jburkardt/latin_cover.c -o obj/Release/latin_cover.o $(CFLAGS)
+
+obj/Release/latin_random.o: jburkardt/latin_random.c
+	$(CC) -c jburkardt/latin_random.c -o obj/Release/latin_random.o $(CFLAGS)
+
+obj/Release/latinize.o: jburkardt/latinize.c
+	$(CC) -c jburkardt/latinize.c -o obj/Release/latinize.o $(CFLAGS)
+
+obj/Release/lebesgue.o: jburkardt/lebesgue.c
+	$(CC) -c jburkardt/lebesgue.c -o obj/Release/lebesgue.o $(CFLAGS)
+
+obj/Release/legendre_polynomial.o: jburkardt/legendre_polynomial.c
+	$(CC) -c jburkardt/legendre_polynomial.c -o obj/Release/legendre_polynomial.o $(CFLAGS)
+
+obj/Release/life_serial.o: jburkardt/life_serial.c
+	$(CC) -c jburkardt/life_serial.c -o obj/Release/life_serial.o $(CFLAGS)
+
+obj/Release/line_cvt_lloyd.o: jburkardt/line_cvt_lloyd.c
+	$(CC) -c jburkardt/line_cvt_lloyd.c -o obj/Release/line_cvt_lloyd.o $(CFLAGS)
+
+obj/Release/line_fekete_rule.o: jburkardt/line_fekete_rule.c
+	$(CC) -c jburkardt/line_fekete_rule.c -o obj/Release/line_fekete_rule.o $(CFLAGS)
+
+obj/Release/line_grid.o: jburkardt/line_grid.c
+	$(CC) -c jburkardt/line_grid.c -o obj/Release/line_grid.o $(CFLAGS)
+
+obj/Release/line_integrals.o: jburkardt/line_integrals.c
+	$(CC) -c jburkardt/line_integrals.c -o obj/Release/line_integrals.o $(CFLAGS)
+
+obj/Release/line_ncc_rule.o: jburkardt/line_ncc_rule.c
+	$(CC) -c jburkardt/line_ncc_rule.c -o obj/Release/line_ncc_rule.o $(CFLAGS)
+
+obj/Release/line_nco_rule.o: jburkardt/line_nco_rule.c
+	$(CC) -c jburkardt/line_nco_rule.c -o obj/Release/line_nco_rule.o $(CFLAGS)
+
+obj/Release/linpack_d.o: jburkardt/linpack_d.c
+	$(CC) -c jburkardt/linpack_d.c -o obj/Release/linpack_d.o $(CFLAGS)
+
+obj/Release/llsq.o: jburkardt/llsq.c
+	$(CC) -c jburkardt/llsq.c -o obj/Release/llsq.o $(CFLAGS)
+
+obj/Release/lobatto_polynomial.o: jburkardt/lobatto_polynomial.c
+	$(CC) -c jburkardt/lobatto_polynomial.c -o obj/Release/lobatto_polynomial.o $(CFLAGS)
+
+obj/Release/lorenz_ode.o: jburkardt/lorenz_ode.c
+	$(CC) -c jburkardt/lorenz_ode.c -o obj/Release/lorenz_ode.o $(CFLAGS)
+
+obj/Release/matrix_exponential.o: jburkardt/matrix_exponential.c
+	$(CC) -c jburkardt/matrix_exponential.c -o obj/Release/matrix_exponential.o $(CFLAGS)
+
+obj/Release/md.o: jburkardt/md.c
+	$(CC) -c jburkardt/md.c -o obj/Release/md.o $(CFLAGS)
+
+obj/Release/mgs.o: jburkardt/mgs.c
+	$(CC) -c jburkardt/mgs.c -o obj/Release/mgs.o $(CFLAGS)
+
+obj/Release/monomial.o: jburkardt/monomial.c
+	$(CC) -c jburkardt/monomial.c -o obj/Release/monomial.o $(CFLAGS)
+
+obj/Release/multigrid_poisson_1d.o: jburkardt/multigrid_poisson_1d.c
+	$(CC) -c jburkardt/multigrid_poisson_1d.c -o obj/Release/multigrid_poisson_1d.o $(CFLAGS)
+
+obj/Release/naca.o: jburkardt/naca.c
+	$(CC) -c jburkardt/naca.c -o obj/Release/naca.o $(CFLAGS)
+
+obj/Release/navier_stokes_2d_exact.o: jburkardt/navier_stokes_2d_exact.c
+	$(CC) -c jburkardt/navier_stokes_2d_exact.c -o obj/Release/navier_stokes_2d_exact.o $(CFLAGS)
+
+obj/Release/nearest_interp_1d.o: jburkardt/nearest_interp_1d.c
+	$(CC) -c jburkardt/nearest_interp_1d.c -o obj/Release/nearest_interp_1d.o $(CFLAGS)
+
+obj/Release/newton_interp_1d.o: jburkardt/newton_interp_1d.c
+	$(CC) -c jburkardt/newton_interp_1d.c -o obj/Release/newton_interp_1d.o $(CFLAGS)
+
+obj/Release/nintlib.o: jburkardt/nintlib.c
+	$(CC) -c jburkardt/nintlib.c -o obj/Release/nintlib.o $(CFLAGS)
+
+obj/Release/normal.o: jburkardt/normal.c
+	$(CC) -c jburkardt/normal.c -o obj/Release/normal.o $(CFLAGS)
+
+obj/Release/ode.o: jburkardt/ode.c
+	$(CC) -c jburkardt/ode.c -o obj/Release/ode.o $(CFLAGS)
+
+obj/Release/padua.o: jburkardt/padua.c
+	$(CC) -c jburkardt/padua.c -o obj/Release/padua.o $(CFLAGS)
+
+obj/Release/partition_problem.o: jburkardt/partition_problem.c
+	$(CC) -c jburkardt/partition_problem.c -o obj/Release/partition_problem.o $(CFLAGS)
+
+obj/Release/patterson_rule.o: jburkardt/patterson_rule.c
+	$(CC) -c jburkardt/patterson_rule.c -o obj/Release/patterson_rule.o $(CFLAGS)
+
+obj/Release/pce_ode_hermite.o: jburkardt/pce_ode_hermite.c
+	$(CC) -c jburkardt/pce_ode_hermite.c -o obj/Release/pce_ode_hermite.o $(CFLAGS)
+
+obj/Release/pdflib.o: jburkardt/pdflib.c
+	$(CC) -c jburkardt/pdflib.c -o obj/Release/pdflib.o $(CFLAGS)
+
+obj/Release/piecewise_linear_product_integral.o: jburkardt/piecewise_linear_product_integral.c
+	$(CC) -c jburkardt/piecewise_linear_product_integral.c -o obj/Release/piecewise_linear_product_integral.o $(CFLAGS)
+
+obj/Release/pink_noise.o: jburkardt/pink_noise.c
+	$(CC) -c jburkardt/pink_noise.c -o obj/Release/pink_noise.o $(CFLAGS)
+
+obj/Release/poisson_openmp.o: jburkardt/poisson_openmp.c
+	$(CC) -c jburkardt/poisson_openmp.c -o obj/Release/poisson_openmp.o $(CFLAGS)
+
+obj/Release/polpak.o: jburkardt/polpak.c
+	$(CC) -c jburkardt/polpak.c -o obj/Release/polpak.o $(CFLAGS)
+
+obj/Release/polygon_grid.o: jburkardt/polygon_grid.c
+	$(CC) -c jburkardt/polygon_grid.c -o obj/Release/polygon_grid.o $(CFLAGS)
+
+obj/Release/polygon_integrals.o: jburkardt/polygon_integrals.c
+	$(CC) -c jburkardt/polygon_integrals.c -o obj/Release/polygon_integrals.o $(CFLAGS)
+
+obj/Release/polygon_triangulate.o: jburkardt/polygon_triangulate.c
+	$(CC) -c jburkardt/polygon_triangulate.c -o obj/Release/polygon_triangulate.o $(CFLAGS)
+
+obj/Release/power_method.o: jburkardt/power_method.c
+	$(CC) -c jburkardt/power_method.c -o obj/Release/power_method.o $(CFLAGS)
+
+obj/Release/power_rule.o: jburkardt/power_rule.c
+	$(CC) -c jburkardt/power_rule.c -o obj/Release/power_rule.o $(CFLAGS)
+
+obj/Release/prob.o: jburkardt/prob.c
+	$(CC) -c jburkardt/prob.c -o obj/Release/prob.o $(CFLAGS)
+
+obj/Release/pwl_approx_1d.o: jburkardt/pwl_approx_1d.c
+	$(CC) -c jburkardt/pwl_approx_1d.c -o obj/Release/pwl_approx_1d.o $(CFLAGS)
+
+obj/Release/pwl_interp_1d.o: jburkardt/pwl_interp_1d.c
+	$(CC) -c jburkardt/pwl_interp_1d.c -o obj/Release/pwl_interp_1d.o $(CFLAGS)
+
+obj/Release/pwl_interp_2d.o: jburkardt/pwl_interp_2d.c
+	$(CC) -c jburkardt/pwl_interp_2d.c -o obj/Release/pwl_interp_2d.o $(CFLAGS)
+
+obj/Release/pyramid_exactness.o: jburkardt/pyramid_exactness.c
+	$(CC) -c jburkardt/pyramid_exactness.c -o obj/Release/pyramid_exactness.o $(CFLAGS)
+
+obj/Release/pyramid_grid.o: jburkardt/pyramid_grid.c
+	$(CC) -c jburkardt/pyramid_grid.c -o obj/Release/pyramid_grid.o $(CFLAGS)
+
+obj/Release/quadmom.o: jburkardt/quadmom.c
+	$(CC) -c jburkardt/quadmom.c -o obj/Release/quadmom.o $(CFLAGS)
+
+obj/Release/r8lib.o: jburkardt/r8lib.c
+	$(CC) -c jburkardt/r8lib.c -o obj/Release/r8lib.o $(CFLAGS)
+
+obj/Release/rbf_interp_1d.o: jburkardt/rbf_interp_1d.c
+	$(CC) -c jburkardt/rbf_interp_1d.c -o obj/Release/rbf_interp_1d.o $(CFLAGS)
+
+obj/Release/rbf_interp_2d.o: jburkardt/rbf_interp_2d.c
+	$(CC) -c jburkardt/rbf_interp_2d.c -o obj/Release/rbf_interp_2d.o $(CFLAGS)
+
+obj/Release/rbf_interp_nd.o: jburkardt/rbf_interp_nd.c
+	$(CC) -c jburkardt/rbf_interp_nd.c -o obj/Release/rbf_interp_nd.o $(CFLAGS)
+
+obj/Release/rk4.o: jburkardt/rk4.c
+	$(CC) -c jburkardt/rk4.c -o obj/Release/rk4.o $(CFLAGS)
+
+obj/Release/rkf45.o: jburkardt/rkf45.c
+	$(CC) -c jburkardt/rkf45.c -o obj/Release/rkf45.o $(CFLAGS)
+
+obj/Release/satisfy.o: jburkardt/satisfy.c
+	$(CC) -c jburkardt/satisfy.c -o obj/Release/satisfy.o $(CFLAGS)
+
+obj/Release/sftpack.o: jburkardt/sftpack.c
+	$(CC) -c jburkardt/sftpack.c -o obj/Release/sftpack.o $(CFLAGS)
+
+obj/Release/sgmga.o: jburkardt/sgmga.c
+	$(CC) -c jburkardt/sgmga.c -o obj/Release/sgmga.o $(CFLAGS)
+
+obj/Release/shepard_interp_1d.o: jburkardt/shepard_interp_1d.c
+	$(CC) -c jburkardt/shepard_interp_1d.c -o obj/Release/shepard_interp_1d.o $(CFLAGS)
+
+obj/Release/shepard_interp_2d.o: jburkardt/shepard_interp_2d.c
+	$(CC) -c jburkardt/shepard_interp_2d.c -o obj/Release/shepard_interp_2d.o $(CFLAGS)
+
+obj/Release/shepard_interp_nd.o: jburkardt/shepard_interp_nd.c
+	$(CC) -c jburkardt/shepard_interp_nd.c -o obj/Release/shepard_interp_nd.o $(CFLAGS)
+
+obj/Release/simplex_coordinates.o: jburkardt/simplex_coordinates.c
+	$(CC) -c jburkardt/simplex_coordinates.c -o obj/Release/simplex_coordinates.o $(CFLAGS)
+
+obj/Release/simplex_gm_rule.o: jburkardt/simplex_gm_rule.c
+	$(CC) -c jburkardt/simplex_gm_rule.c -o obj/Release/simplex_gm_rule.o $(CFLAGS)
+
+obj/Release/simplex_grid.o: jburkardt/simplex_grid.c
+	$(CC) -c jburkardt/simplex_grid.c -o obj/Release/simplex_grid.o $(CFLAGS)
+
+obj/Release/sine_transform.o: jburkardt/sine_transform.c
+	$(CC) -c jburkardt/sine_transform.c -o obj/Release/sine_transform.o $(CFLAGS)
+
+obj/Release/snakes_and_ladders.o: jburkardt/snakes_and_ladders.c
+	$(CC) -c jburkardt/snakes_and_ladders.c -o obj/Release/snakes_and_ladders.o $(CFLAGS)
+
+obj/Release/sparse_grid_cc.o: jburkardt/sparse_grid_cc.c
+	$(CC) -c jburkardt/sparse_grid_cc.c -o obj/Release/sparse_grid_cc.o $(CFLAGS)
+
+obj/Release/sparse_grid_hw.o: jburkardt/sparse_grid_hw.c
+	$(CC) -c jburkardt/sparse_grid_hw.c -o obj/Release/sparse_grid_hw.o $(CFLAGS)
+
+obj/Release/sparse_interp_nd.o: jburkardt/sparse_interp_nd.c
+	$(CC) -c jburkardt/sparse_interp_nd.c -o obj/Release/sparse_interp_nd.o $(CFLAGS)
+
+obj/Release/sphere_fibonacci_grid.o: jburkardt/sphere_fibonacci_grid.c
+	$(CC) -c jburkardt/sphere_fibonacci_grid.c -o obj/Release/sphere_fibonacci_grid.o $(CFLAGS)
+
+obj/Release/sphere_grid.o: jburkardt/sphere_grid.c
+	$(CC) -c jburkardt/sphere_grid.c -o obj/Release/sphere_grid.o $(CFLAGS)
+
+obj/Release/sphere_integrals.o: jburkardt/sphere_integrals.c
+	$(CC) -c jburkardt/sphere_integrals.c -o obj/Release/sphere_integrals.o $(CFLAGS)
+
+obj/Release/sphere_lebedev_rule.o: jburkardt/sphere_lebedev_rule.c
+	$(CC) -c jburkardt/sphere_lebedev_rule.c -o obj/Release/sphere_lebedev_rule.o $(CFLAGS)
+
+obj/Release/sphere_llq_grid.o: jburkardt/sphere_llq_grid.c
+	$(CC) -c jburkardt/sphere_llq_grid.c -o obj/Release/sphere_llq_grid.o $(CFLAGS)
+
+obj/Release/sphere_llt_grid.o: jburkardt/sphere_llt_grid.c
+	$(CC) -c jburkardt/sphere_llt_grid.c -o obj/Release/sphere_llt_grid.o $(CFLAGS)
+
+obj/Release/sphere_quad.o: jburkardt/sphere_quad.c
+	$(CC) -c jburkardt/sphere_quad.c -o obj/Release/sphere_quad.o $(CFLAGS)
+
+obj/Release/sphere_stereograph.o: jburkardt/sphere_stereograph.c
+	$(CC) -c jburkardt/sphere_stereograph.c -o obj/Release/sphere_stereograph.o $(CFLAGS)
+
+obj/Release/square_arbq_rule.o: jburkardt/square_arbq_rule.c
+	$(CC) -c jburkardt/square_arbq_rule.c -o obj/Release/square_arbq_rule.o $(CFLAGS)
+
+obj/Release/square_grid.o: jburkardt/square_grid.c
+	$(CC) -c jburkardt/square_grid.c -o obj/Release/square_grid.o $(CFLAGS)
+
+obj/Release/square_integrals.o: jburkardt/square_integrals.c
+	$(CC) -c jburkardt/square_integrals.c -o obj/Release/square_integrals.o $(CFLAGS)
+
+obj/Release/square_symq_rule.o: jburkardt/square_symq_rule.c
+	$(CC) -c jburkardt/square_symq_rule.c -o obj/Release/square_symq_rule.o $(CFLAGS)
+
+obj/Release/stochastic_diffusion.o: jburkardt/stochastic_diffusion.c
+	$(CC) -c jburkardt/stochastic_diffusion.c -o obj/Release/stochastic_diffusion.o $(CFLAGS)
+
+obj/Release/stochastic_rk.o: jburkardt/stochastic_rk.c
+	$(CC) -c jburkardt/stochastic_rk.c -o obj/Release/stochastic_rk.o $(CFLAGS)
+
+obj/Release/stokes_2d_exact.o: jburkardt/stokes_2d_exact.c
+	$(CC) -c jburkardt/stokes_2d_exact.c -o obj/Release/stokes_2d_exact.o $(CFLAGS)
+
+obj/Release/subset_sum.o: jburkardt/subset_sum.c
+	$(CC) -c jburkardt/subset_sum.c -o obj/Release/subset_sum.o $(CFLAGS)
+
+obj/Release/tet_mesh.o: jburkardt/tet_mesh.c
+	$(CC) -c jburkardt/tet_mesh.c -o obj/Release/tet_mesh.o $(CFLAGS)
+
+obj/Release/tetrahedron_arbq_rule.o: jburkardt/tetrahedron_arbq_rule.c
+	$(CC) -c jburkardt/tetrahedron_arbq_rule.c -o obj/Release/tetrahedron_arbq_rule.o $(CFLAGS)
+
+obj/Release/tetrahedron_exactness.o: jburkardt/tetrahedron_exactness.c
+	$(CC) -c jburkardt/tetrahedron_exactness.c -o obj/Release/tetrahedron_exactness.o $(CFLAGS)
+
+obj/Release/tetrahedron_grid.o: jburkardt/tetrahedron_grid.c
+	$(CC) -c jburkardt/tetrahedron_grid.c -o obj/Release/tetrahedron_grid.o $(CFLAGS)
+
+obj/Release/tetrahedron_integrals.o: jburkardt/tetrahedron_integrals.c
+	$(CC) -c jburkardt/tetrahedron_integrals.c -o obj/Release/tetrahedron_integrals.o $(CFLAGS)
+
+obj/Release/tetrahedron_ncc_rule.o: jburkardt/tetrahedron_ncc_rule.c
+	$(CC) -c jburkardt/tetrahedron_ncc_rule.c -o obj/Release/tetrahedron_ncc_rule.o $(CFLAGS)
+
+obj/Release/simple_rkf45.o: jburkardt/simple_rkf45.c
+	$(CC) -c jburkardt/simple_rkf45.c -o obj/Release/simple_rkf45.o $(CFLAGS)
+
+obj/Release/toeplitz_cholesky.o: jburkardt/toeplitz_cholesky.c
+	$(CC) -c jburkardt/toeplitz_cholesky.c -o obj/Release/toeplitz_cholesky.o $(CFLAGS)
+
+obj/Release/toms097.o: jburkardt/toms097.c
+	$(CC) -c jburkardt/toms097.c -o obj/Release/toms097.o $(CFLAGS)
+
+obj/Release/toms179.o: jburkardt/toms179.c
+	$(CC) -c jburkardt/toms179.c -o obj/Release/toms179.o $(CFLAGS)
+
+obj/Release/toms322.o: jburkardt/toms322.c
+	$(CC) -c jburkardt/toms322.c -o obj/Release/toms322.o $(CFLAGS)
+
+obj/Release/toms443.o: jburkardt/toms443.c
+	$(CC) -c jburkardt/toms443.c -o obj/Release/toms443.o $(CFLAGS)
+
+obj/Release/toms655.o: jburkardt/toms655.c
+	$(CC) -c jburkardt/toms655.c -o obj/Release/toms655.o $(CFLAGS)
+
+obj/Release/toms743.o: jburkardt/toms743.c
+	$(CC) -c jburkardt/toms743.c -o obj/Release/toms743.o $(CFLAGS)
+
+obj/Release/toms886.o: jburkardt/toms886.c
+	$(CC) -c jburkardt/toms886.c -o obj/Release/toms886.o $(CFLAGS)
+
+obj/Release/treepack.o: jburkardt/treepack.c
+	$(CC) -c jburkardt/treepack.c -o obj/Release/treepack.o $(CFLAGS)
+
+obj/Release/triangle_exactness.o: jburkardt/triangle_exactness.c
+	$(CC) -c jburkardt/triangle_exactness.c -o obj/Release/triangle_exactness.o $(CFLAGS)
+
+obj/Release/triangle_fekete_rule.o: jburkardt/triangle_fekete_rule.c
+	$(CC) -c jburkardt/triangle_fekete_rule.c -o obj/Release/triangle_fekete_rule.o $(CFLAGS)
+
+obj/Release/triangle_felippa_rule.o: jburkardt/triangle_felippa_rule.c
+	$(CC) -c jburkardt/triangle_felippa_rule.c -o obj/Release/triangle_felippa_rule.o $(CFLAGS)
+
+obj/Release/triangle_grid.o: jburkardt/triangle_grid.c
+	$(CC) -c jburkardt/triangle_grid.c -o obj/Release/triangle_grid.o $(CFLAGS)
+
+obj/Release/triangle_integrals.o: jburkardt/triangle_integrals.c
+	$(CC) -c jburkardt/triangle_integrals.c -o obj/Release/triangle_integrals.o $(CFLAGS)
+
+obj/Release/triangle_ncc_rule.o: jburkardt/triangle_ncc_rule.c
+	$(CC) -c jburkardt/triangle_ncc_rule.c -o obj/Release/triangle_ncc_rule.o $(CFLAGS)
+
+obj/Release/triangle_nco_rule.o: jburkardt/triangle_nco_rule.c
+	$(CC) -c jburkardt/triangle_nco_rule.c -o obj/Release/triangle_nco_rule.o $(CFLAGS)
+
+obj/Release/triangle_symq_rule.o: jburkardt/triangle_symq_rule.c
+	$(CC) -c jburkardt/triangle_symq_rule.c -o obj/Release/triangle_symq_rule.o $(CFLAGS)
+
+obj/Release/triangulation.o: jburkardt/triangulation.c
+	$(CC) -c jburkardt/triangulation.c -o obj/Release/triangulation.o $(CFLAGS)
+
+obj/Release/triangulation_node_to_element.o: jburkardt/triangulation_node_to_element.c
+	$(CC) -c jburkardt/triangulation_node_to_element.c -o obj/Release/triangulation_node_to_element.o $(CFLAGS)
+
+obj/Release/triangulation_svg.o: jburkardt/triangulation_svg.c
+	$(CC) -c jburkardt/triangulation_svg.c -o obj/Release/triangulation_svg.o $(CFLAGS)
+
+obj/Release/truncated_normal.o: jburkardt/truncated_normal.c
+	$(CC) -c jburkardt/truncated_normal.c -o obj/Release/truncated_normal.o $(CFLAGS)
+
+obj/Release/unicycle.o: jburkardt/unicycle.c
+	$(CC) -c jburkardt/unicycle.c -o obj/Release/unicycle.o $(CFLAGS)
+
+obj/Release/upc.o: jburkardt/upc.c
+	$(CC) -c jburkardt/upc.c -o obj/Release/upc.o $(CFLAGS)
+
+obj/Release/vandermonde.o: jburkardt/vandermonde.c
+	$(CC) -c jburkardt/vandermonde.c -o obj/Release/vandermonde.o $(CFLAGS)
+
+obj/Release/vandermonde_approx_1d.o: jburkardt/vandermonde_approx_1d.c
+	$(CC) -c jburkardt/vandermonde_approx_1d.c -o obj/Release/vandermonde_approx_1d.o $(CFLAGS)
+
+obj/Release/vandermonde_approx_2d.o: jburkardt/vandermonde_approx_2d.c
+	$(CC) -c jburkardt/vandermonde_approx_2d.c -o obj/Release/vandermonde_approx_2d.o $(CFLAGS)
+
+obj/Release/vandermonde_interp_2d.o: jburkardt/vandermonde_interp_2d.c
+	$(CC) -c jburkardt/vandermonde_interp_2d.c -o obj/Release/vandermonde_interp_2d.o $(CFLAGS)
+
+obj/Release/walsh.o: jburkardt/walsh.c
+	$(CC) -c jburkardt/walsh.c -o obj/Release/walsh.o $(CFLAGS)
+
+obj/Release/wathen.o: jburkardt/wathen.c
+	$(CC) -c jburkardt/wathen.c -o obj/Release/wathen.o $(CFLAGS)
+
+obj/Release/wavelet.o: jburkardt/wavelet.c
+	$(CC) -c jburkardt/wavelet.c -o obj/Release/wavelet.o $(CFLAGS)
+
+obj/Release/wedge_exactness.o: jburkardt/wedge_exactness.c
+	$(CC) -c jburkardt/wedge_exactness.c -o obj/Release/wedge_exactness.o $(CFLAGS)
+
+obj/Release/wedge_felippa_rule.o: jburkardt/wedge_felippa_rule.c
+	$(CC) -c jburkardt/wedge_felippa_rule.c -o obj/Release/wedge_felippa_rule.o $(CFLAGS)
+
+obj/Release/weekday.o: jburkardt/weekday.c
+	$(CC) -c jburkardt/weekday.c -o obj/Release/weekday.o $(CFLAGS)
+
+obj/Release/wishart.o: jburkardt/wishart.c
+	$(CC) -c jburkardt/wishart.c -o obj/Release/wishart.o $(CFLAGS)
+
+obj/Release/wtime.o: jburkardt/wtime.c
+	$(CC) -c jburkardt/wtime.c -o obj/Release/wtime.o $(CFLAGS)
+
+obj/Release/zero_rc.o: jburkardt/zero_rc.c
+	$(CC) -c jburkardt/zero_rc.c -o obj/Release/zero_rc.o $(CFLAGS)
+
+obj/Release/bessel.o: bessel.c
+	$(CC) -c bessel.c -o obj/Release/bessel.o $(CFLAGS)
+
+obj/Release/values.o: values.c
+	$(CC) -c values.c -o obj/Release/values.o $(CFLAGS)
+
+obj/Release/asa111.o: jburkardt/asa111.c
+	$(CC) -c jburkardt/asa111.c -o obj/Release/asa111.o $(CFLAGS)
+
+obj/Release/logs_manager.o: logs_manager.c
+	$(CC) -c logs_manager.c -o obj/Release/logs_manager.o $(CFLAGS)
+
+obj/Release/syslog_manager.o: syslog_manager.c
+	$(CC) -c syslog_manager.c -o obj/Release/syslog_manager.o $(CFLAGS)
+
+obj/Release/multiuser.o: multiuser.c
+	$(CC) -c multiuser.c -o obj/Release/multiuser.o $(CFLAGS)
+
+obj/Release/system.o: system.c
+	$(CC) -c system.c -o obj/Release/system.o $(CFLAGS)
+
+obj/Release/hashmap.o: hashmap/hashmap.c
+	$(CC) -c hashmap/hashmap.c -o obj/Release/hashmap.o $(CFLAGS)
+
+obj/Release/cryptohash.o: cryptohash.c
+	$(CC) -c cryptohash.c -o obj/Release/cryptohash.o $(CFLAGS)
+
+obj/Release/jburkardt.o: jburkardt/jburkardt.c
+	$(CC) -c jburkardt/jburkardt.c -o obj/Release/jburkardt.o $(CFLAGS)
+
+obj/Release/spec_mat.o: spec_mat.c
+	$(CC) -c spec_mat.c -o obj/Release/spec_mat.o $(CFLAGS)
+
+obj/Release/exprcnts.o: ExprEval/exprcnts.c
+	$(CC) -c ExprEval/exprcnts.c -o obj/Release/exprcnts.o $(CFLAGS)
+
+obj/Release/exprilfs.o: ExprEval/exprilfs.c
+	$(CC) -c ExprEval/exprilfs.c -o obj/Release/exprilfs.o $(CFLAGS)
+
+obj/Release/exprtrig.o: ExprEval/exprtrig.c
+	$(CC) -c ExprEval/exprtrig.c -o obj/Release/exprtrig.o $(CFLAGS)
+
+obj/Release/exprmatrix.o: ExprEval/exprmatrix.c
+	$(CC) -c ExprEval/exprmatrix.c -o obj/Release/exprmatrix.o $(CFLAGS)
+
+obj/Release/structs.o: ExprEval/jburkardt/structs.c
+	$(CC) -c ExprEval/jburkardt/structs.c -o obj/Release/structs.o $(CFLAGS)
+
+obj/Release/mathSuite_private.res: mathSuite_private.rc 
+	$(WINDRES) -i mathSuite_private.rc -F pe-i386 --input-format=rc -o obj/Release/mathSuite_private.res -O coff 
+

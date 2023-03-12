@@ -1,0 +1,1 @@
+Program calculates a given square matrix determinant

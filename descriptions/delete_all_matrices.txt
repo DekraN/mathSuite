@@ -1,0 +1,2 @@
+Program allows you to delete all the matrices previously loaded
+in the matrices list

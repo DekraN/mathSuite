@@ -1,0 +1,3 @@
+Program allows you to create a new log, whose extension is
+highly recommended to set as the logs default one: LOG.
+Log will be set as current if the boolean vars AUTOSET_CURITEM is enabled

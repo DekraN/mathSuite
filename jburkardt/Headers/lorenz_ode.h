@@ -1,0 +1,8 @@
+#ifndef WRAPPER_LORENZ_ODE_H_INCLUDED
+#define WRAPPER_LORENZ_ODE_H_INCLUDED
+
+#define lorenz_rhs(a,b,c) FUNCNAME_LORENZRHS(C_DTPITIT(b,c,a))
+
+__MATHSUITE __JBURKARDT void * FUNCNAME_LORENZRHS(void *);
+
+#endif

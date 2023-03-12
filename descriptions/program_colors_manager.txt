@@ -1,0 +1,5 @@
+Program offers to you a simple set of Colors Settings Management
+Operations, such as the loading of an .xml file containing
+related informations on every color type used in the program or
+creating a new .xml one starting from the existant Colors Settings
+currently loaded in the program

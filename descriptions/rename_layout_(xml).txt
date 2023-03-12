@@ -1,0 +1,2 @@
+Program allows you to rename a layout file previously loaded into
+layouts list

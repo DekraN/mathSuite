@@ -1,0 +1,2 @@
+Program allows you to delete all the logs files previously loaded
+in the logs list

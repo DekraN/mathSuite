@@ -1,0 +1,2 @@
+Program allows you to reset a log file content, overwriting
+the existant data

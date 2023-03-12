@@ -1,0 +1,2 @@
+Program allows you to swap current syslog to a new one, or do simple but
+very powerful management operations on it

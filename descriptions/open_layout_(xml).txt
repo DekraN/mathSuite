@@ -1,0 +1,2 @@
+Program allows you to open a layout from an .xml file, that will
+be set as current if the relative AUTOSET_CURITEM bool value is set

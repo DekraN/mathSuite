@@ -1,0 +1,2 @@
+Program offers to you a wide range of environments management operations,
+such as creating new ones, delete an existant one etc.

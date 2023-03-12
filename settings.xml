@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!-- settings.xml for mathSuite v10 -->
+<!-- Settings Configuration File -->
+<settings>
+
+    <generalSettings>
+        <exitChar>C</exitChar>
+        <programPrecision>2</programPrecision>
+		<stabilizerFactor>10</stabilizerFactor>
+		<minStirlingNumber>30</minStirlingNumber>
+		<!-- select 0 for real, 1 for complex, 2 for quaternions, 3 for octonions or 4 for sedenions -->
+		<algebra>0</algebra>
+		<outlierConstant>1.00</outlierConstant>
+    </generalSettings>
+	
+	<serverSettings>
+		<server>localhost</server>
+		<port>49152</port>
+		<family>4</family>
+		<resolution>true</resolution>
+		<nListeningSockets>1</nListeningSockets>
+		<nAcceptableConnections>10</nAcceptableConnections>
+		<bufferLength>10240</bufferLength>
+	</serverSettings>
+	
+	<databaseSettings>
+		<server>localhost</server>
+		<username>root</username>
+		<password>root</password>
+		<database>mathsuite</database>
+		<defaultLevel>1</defaultLevel>
+		<maxUsers>255</maxUsers>
+		<identifierMode>false</identifierMode> <!-- select false for Username, true for Email -->
+	</databaseSettings>
+
+    <matricesOptions>
+		<maxMatrixListItems>255</maxMatrixListItems>
+        <maxRows>100</maxRows>
+		<maxColumns>100</maxColumns>
+		<blockSize>41</blockSize>
+		<minOSMMDim>2</minOSMMDim>
+		<minStrassenDim>16</minStrassenDim>
+		<maxEigenValuesIterations>50000</maxEigenValuesIterations>
+		<maxDSVDIterations>30000</maxDSVDIterations>
+		<maxSimplexIterations>50000</maxSimplexIterations>
+    </matricesOptions>
+
+    <memoizerOptions>
+		<maxFibonacciMemoizableIndex>25</maxFibonacciMemoizableIndex>
+		<!-- <maxFactorialMemoizableIndex>40</maxFactorialMemoizableIndex> -->
+		<maxEvenDoubleFactorialMemoizableIndex>79</maxEvenDoubleFactorialMemoizableIndex>
+		<maxOddDoubleFactorialMemoizableIndex>79</maxOddDoubleFactorialMemoizableIndex>
+    </memoizerOptions>
+
+    <baseConversions>
+        <minBase>2</minBase>
+		<maxBase>10</maxBase>
+		<maxChangebaseBinaryConvnum>262000</maxChangebaseBinaryConvnum>
+    </baseConversions>
+
+    <newtonDifferenceTables>
+        <minDimension>1</minDimension>
+		<maxDimension>15</maxDimension>
+    </newtonDifferenceTables>
+
+    <romanNumbers>
+		<minProcessableNumber>1</minProcessableNumber>
+		<maxProcessableNumber>3000</maxProcessableNumber>
+    </romanNumbers>
+
+    <pascalsTriangle>
+		<minRows>1</minRows>
+		<maxRows>50</maxRows>
+    </pascalsTriangle>
+	
+    <booleanKeys>
+		<setItemAsCurrentAtCreation>false</setItemAsCurrentAtCreation>
+		<itemsSelectionByPath>false</itemsSelectionByPath>
+		<listsItemsAutosaving>true</listsItemsAutosaving>
+		<saveLastResults>true</saveLastResults>
+		<showVarlistAfterOperations>true</showVarlistAfterOperations>
+		<showAverageTimeAfterOperations>false</showAverageTimeAfterOperations>	
+		<runMutantCodeAfterCompilation>true</runMutantCodeAfterCompilation>	
+		<exitAfterMutantCodeExecution>true</exitAfterMutantCodeExecution>	
+		<showAverageTimeAfterProgramsExecutions>false</showAverageTimeAfterProgramsExecutions>
+		<printRowsLabels>true</printRowsLabels>
+		<domainsChecks>false</domainsChecks>
+		<lazyExecution>false</lazyExecution>
+		<inverseOperations>false</inverseOperations>
+		<degreesEnteringOnTrigonometricOperations>false</degreesEnteringOnTrigonometricOperations>
+		<requestProgramsRepetitions>false</requestProgramsRepetitions>
+		<arraysAutoReset>true</arraysAutoReset>
+		<adjustArraysIndex>false</adjustArraysIndex>
+    </booleanKeys>
+
+</settings>

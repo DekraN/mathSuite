@@ -1,0 +1,3 @@
+Program allows you to change the Fibonacci and Factorial Functions MMI
+(Max Memoizable Indexes), which are the Maximum Extreme Index once which trespassed
+disable all the optimizations related to the Memoizer System
