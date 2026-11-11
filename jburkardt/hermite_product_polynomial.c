@@ -239,7 +239,7 @@ __MATHSUITE __JBURKARDT  void *   _comp_rank_grlex ( void * data)
     /*
     NC = sum ( XC )
     */
-    nc = i4vec_sum ( kc, xc );
+    nc = i4vec_sumd ( kc, xc );
     /*
     Convert to KSUBSET format.
     */

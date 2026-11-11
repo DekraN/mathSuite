@@ -104,7 +104,7 @@ __MATHSUITE __JBURKARDT  void *   _hyperball01_monomial_integral ( void * data)
         integral *= r8_gamma ( arg );
     }
 
-    s = i4vec_sum ( m, e ) + m;
+    s = i4vec_sumi ( m, e ) + m;
     arg = 0.50 * ( dim_typ ) ( s );
     integral /= r8_gamma ( arg );
     /*

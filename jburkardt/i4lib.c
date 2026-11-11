@@ -6469,7 +6469,7 @@ __MATHSUITE __JBURKARDT  void   * _i4vec_ascend_sub ( void * data)
     if ( n <= 0 )
         return NULL;
 
-    top =top_prev = ( int * ) malloc ( n * sizeof ( int ) ); ( int * ) malloc ( n * sizeof ( int ) );
+    top = ( int * ) malloc ( n * sizeof ( int ) );
     top_prev = ( int * ) malloc ( n * sizeof ( int ) );
     for ( i = 0; i < n; ++i )
     {

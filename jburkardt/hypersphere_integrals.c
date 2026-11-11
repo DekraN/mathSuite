@@ -115,7 +115,7 @@ __MATHSUITE __JBURKARDT  void *   _hypersphere01_monomial_integral ( void * data
         integral *= r8_gamma ( arg );
     }
     
-    result = integral / r8_gamma ( 0.50 * ( ityp ) ( i4vec_sum ( m, e ) + m ) );
+    result = integral / r8_gamma ( 0.50 * ( ityp ) ( i4vec_sumi ( m, e ) + m ) );
     return &result;
 }
 

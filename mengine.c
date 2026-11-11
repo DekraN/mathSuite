@@ -222,7 +222,7 @@ __MATHSUITE inline bool  writeFile(const char path[static MAX_PATH_LENGTH])
     return true;
 }
 
-__MATHSUITE inline FILE *  checkForFHErrors(const char path[static MAX_PATH_LENGTH], char mode[static 1])
+__MATHSUITE inline FILE *  checkForFHErrors(const char *path, char mode[static 1])
 {
     FILE *fp;
 
@@ -2904,15 +2904,45 @@ __MATHSUITE inline void  truncateVector(const register dim_typ dim, mpfr_t vec[s
 	return;
 }
 
+__MATHSUITE inline dim_typ (* accessDTFunction(const mpfr_t a))(dim_typ)
+{
+	return _accessContainer(a).pnt;
+}
+
+__MATHSUITE inline long double * accessLFloatContainerPointer(const mpfr_t a)
+{   
+        return _accessContainer(a).pnt;
+}
+
 __MATHSUITE inline ityp *  accessFloatContainerPointer(const mpfr_t a)
 {
 	return _accessContainer(a).pnt;
 }
 
-__MATHSUITE inline bool *  accessBoolContainerPointer(const mpfr_t a)
+__MATHSUITE inline float *  accessFFloatContainerPointer(const mpfr_t a)
+{   
+        return _accessContainer(a).pnt;
+}   
+
+__MATHSUITE inline ityp **  accessDFloatContainerPointer(const mpfr_t a)
+{
+        return _accessContainer(a).pnt;
+}   
+
+__MATHSUITE inline char *  accessCharContainerPointer(const mpfr_t a)
 { 
 	return _accessContainer(a).pnt;
 }
+
+__MATHSUITE inline unsigned char *  accessUCharContainerPointer(const mpfr_t a)
+{
+        return _accessContainer(a).pnt;
+}
+
+__MATHSUITE inline bool *  accessBoolContainerPointer(const mpfr_t a)
+{ 
+        return _accessContainer(a).pnt;
+} 
 
 __MATHSUITE inline dim_typ *  accessUShortContainerPointer(const mpfr_t a)
 {
@@ -2929,12 +2959,42 @@ __MATHSUITE inline int *  accessIntContainerPointer(const mpfr_t a)
 	return _accessContainer(a).pnt;
 }
 
+__MATHSUITE inline int **  accessDIntContainerPointer(const mpfr_t a)
+{       
+        return _accessContainer(a).pnt;
+}  
+
+__MATHSUITE inline int ***  accessTIntContainerPointer(const mpfr_t a)
+{
+        return _accessContainer(a).pnt;
+}   
+
+__MATHSUITE inline long int *  accessLIntContainerPointer(const mpfr_t a)
+{
+        return _accessContainer(a).pnt;
+} 
+
+__MATHSUITE inline long long int *  accessLLIntContainerPointer(const mpfr_t a)
+{
+        return _accessContainer(a).pnt;
+}  
+
+__MATHSUITE inline unsigned long int *  accessULIntContainerPointer(const mpfr_t a)
+{
+        return _accessContainer(a).pnt;
+}
+
+__MATHSUITE inline unsigned long long int *  accessULLIntContainerPointer(const mpfr_t a)
+{   
+        return _accessContainer(a).pnt;
+}
+
 static inline int stringcmp (const void *a, const void *b)
 {
 	return strcmp((const char*)a, (const char*)b);
 }
 
-__MSSHELL_WRAPPER_ __MATHSUITE sprog * const  searchProgram(char cmdname[static SIGN_STRING])
+__MSSHELL_WRAPPER_ __MATHSUITE sprog * const  searchProgram(char *cmdname)
 {
 	static map_t cmdmap = NULL;
 	
@@ -3255,7 +3315,7 @@ __MATHSUITE inline void resetLmpMatrix()
 	}
 #endif
 
-__MATHSUITE void removeDirEnt(const char dirname[static MAX_PATH_LENGTH], const register dim_typ extNo, char extensions[static extNo][MAX_EXTENSION_LENGTH])
+__MATHSUITE void removeDirEnt(const char *dirname, const register dim_typ extNo, char extensions[static extNo][MAX_EXTENSION_LENGTH])
 {
 	dim_typ i;
 	DIR *dir;
@@ -3269,7 +3329,7 @@ __MATHSUITE void removeDirEnt(const char dirname[static MAX_PATH_LENGTH], const 
 				if(ext)
 				{
 					++ ext;
-					for(i=0; i<sizeof(extensions); ++i)
+					for(i=0; i<extNo; ++i)
 						if(!strcmp(ext, extensions[i]))
 							(void) remove(ent->d_name);
 				}
@@ -3317,7 +3377,7 @@ __MATHSUITE void removeCriticalFiles(const bool mode)
 			(void) remove(MUTANT_DIR"\\obj\\logs_manager.o");
 		}
 	#else
-		if(!(skip & RCF_SKIP)) 
+		if(!(mode & RCF_SKIP)) 
 		{
 			removeDirEnt(MUTANT_DIR"/", 2, (char [2][MAX_EXTENSION_LENGTH]) { "c", "h" } );
 			(void) remove(MUTANT_DIR"/mathSuite.ico");
@@ -3610,6 +3670,7 @@ __MATHSUITE void  _handleCmdLine(char * str)
 			}
 			char buffer[MAX_BUFLEN];
 			char *token = replace(cmdtab[1], BLANK_STRING, BLANK_STRING"-D__DISABLE_");
+			char * const orig_token = token;
 			++ token;
 			msyprintf(COLOR_SYSTEM, MUTANT_CREATING);
 			sprintf(buffer, MAKE_EXECUTABLE" all OPTS=%s && "MUTANT_REMOVEDIRSCMD, token);
@@ -3618,7 +3679,7 @@ __MATHSUITE void  _handleCmdLine(char * str)
 			// system(MUTANT_REMOVEDIRSFASTCMD);
 			system(EXTRACTSRC_CMD);
 			system(buffer);
-			free(token);
+			free(orig_token);
 			if(isSett(BOOLS_RUNMUTCODEAFTERCOMP))
 			{
 				msprintf(COLOR_USER, MUTANT_WELCOME);
@@ -3645,6 +3706,7 @@ __MATHSUITE void  _handleCmdLine(char * str)
 			}
 			char buffer[MAX_BUFLEN];
 			char *token = replace(cmdtab[1], BLANK_STRING, BLANK_STRING"-D__DISABLE_");
+			char * const orig_token = token;
 			++ token;
 			msyprintf(COLOR_SYSTEM, MUTANT_CREATING);
 			sprintf(buffer, MAKE_EXECUTABLE" all OPTS=%s && "MUTANT_REMOVEDIRSCMD, token);
@@ -3653,7 +3715,7 @@ __MATHSUITE void  _handleCmdLine(char * str)
 			// system(MUTANT_REMOVEDIRSFASTCMD);
 			system(EXTRACTSRC_CMD);
 			system(buffer);
-			free(token);
+			free(orig_token);
 			if(isSett(BOOLS_RUNMUTCODEAFTERCOMP))
 			{
 				msprintf(COLOR_USER, MUTANT_WELCOME);
@@ -3682,6 +3744,7 @@ __MATHSUITE void  _handleCmdLine(char * str)
 			}
 			char buffer[MAX_BUFLEN];
 			char *token = replace(cmdtab[1], BLANK_STRING, BLANK_STRING"-D__DISABLEDEEP_");
+			char * const orig_token = token;
 			++ token;
 			msyprintf(COLOR_SYSTEM, MUTANT_CREATING);
 			sprintf(buffer, MAKE_EXECUTABLE" all OPTS=%s && "MUTANT_REMOVEDIRSCMD, token);
@@ -3690,7 +3753,7 @@ __MATHSUITE void  _handleCmdLine(char * str)
 			// system(MUTANT_REMOVEDIRSFASTCMD);
 			system(EXTRACTSRC_CMD);
 			system(buffer); 
-			free(token);
+			free(orig_token);
 			if(isSett(BOOLS_RUNMUTCODEAFTERCOMP))
 			{
 				msprintf(COLOR_USER, MUTANT_WELCOME);
@@ -3713,6 +3776,7 @@ __MATHSUITE void  _handleCmdLine(char * str)
 			sprintf(cmdtab[1], " %s", cmdtab[1]);
 			char buffer[MAX_BUFLEN];
 			char *token = replace(cmdtab[1], BLANK_STRING, BLANK_STRING"-f");
+			char * const orig_token = token;
 			++ token;
 			msyprintf(COLOR_SYSTEM, MUTANT_CREATING);
 			sprintf(buffer, MAKE_EXECUTABLE" all OPTS=%s && "MUTANT_REMOVEDIRSCMD, token);
@@ -3720,7 +3784,7 @@ __MATHSUITE void  _handleCmdLine(char * str)
 			// system(MUTANT_REMOVEDIRSFASTCMD);
 			system(EXTRACTSRC_CMD);
 			system(buffer);
-			free(token);
+			free(orig_token);
 			if(isSett(BOOLS_RUNMUTCODEAFTERCOMP))
 			{
 				msprintf(COLOR_USER, MUTANT_WELCOME);
@@ -3918,11 +3982,14 @@ __MATHSUITE bool  _lfLoader(const char path[static MAX_PATH_LENGTH])
         {
             const size_t len = strlen(str)-1;
 
-            if(str[len] == '\n')
-                str[len] = '\0';
+	    str[strcspn(str, "\r\n")] = '\0';
+
+            //if(str[len] == '\n')
+            //    str[len] = '\0';
 
             if((mode = checkItemTypeByExtension(strrchr(str, '.')+1)) != MAX_LISTS)
 				listInsertProc(str, mode);
+	   
         }
 
         fclose(fp);
@@ -3957,8 +4024,9 @@ __MATHSUITE bool  _lfCreate(const char path[static MAX_PATH_LENGTH])
 #ifdef XMLCALL
 
 	#ifndef WINOS
-		__MATHSUITE  static inline void itoa(const int val, char string[])
+		__MATHSUITE inline void itoa(const int val, char string[], int base)
 		{
+			#pragma unused(base)
 			sprintf(string, "%d", val);
 			return;
 		}
@@ -3998,11 +4066,7 @@ __MATHSUITE bool  _lfCreate(const char path[static MAX_PATH_LENGTH])
 		if(node)
 		{
 			char tmp[SIGN_STRING] = NULL_CHAR;
-			#ifdef WINOS
-				itoa(value, tmp, sizeof(tmp));
-			#else
-				itoa(value, tmp);
-			#endif
+			itoa(value, tmp, sizeof(tmp));
 			xmlNodeSetContent(node, BAD_CAST tmp);
 			return true;
 		}
@@ -4255,8 +4319,8 @@ __MATHSUITE bool  _lfCreate(const char path[static MAX_PATH_LENGTH])
 	    xmlDoc * doc = xmlInit(path, &xpathCtx);
 	    
 	    tmp->database.con = NULL;
-			
-		char ex_char[1];
+	
+		char ex_char[16] = {0};
 		if(xmlGetString(&xpathObj, xpathCtx, "/settings/generalSettings/exitChar", ex_char))
 			tmp->exit_char = ex_char[0];
 		else
@@ -4264,6 +4328,7 @@ __MATHSUITE bool  _lfCreate(const char path[static MAX_PATH_LENGTH])
 			printErr(5, "In Parsing /settings/generalSettings/exitChar field");
 			tmp->exit_char = EXIT_CHAR;
 		}
+
 		int tmp_int;
 		if(xmlGetInt(&xpathObj, xpathCtx, "/settings/generalSettings/programPrecision", &tmp_int))
 			tmp->precision = tmp_int;
@@ -4301,7 +4366,7 @@ __MATHSUITE bool  _lfCreate(const char path[static MAX_PATH_LENGTH])
 			printErr(5, "In Parsing /settings/generalSettings/outlierConstant field");
 			tmp->outlier_constant = DEFAULT_OUTLIER_CONSTANT;
 		}
-		
+
 		#ifndef __DISABLE_MULTIUSER
 		char tmp_string[400];
 		#ifndef __DISABLE_SERVER
@@ -4356,7 +4421,7 @@ __MATHSUITE bool  _lfCreate(const char path[static MAX_PATH_LENGTH])
 				tmp->server.bufferLength = CLIENTSERVER_BUFSIZE;
 			}
 		#endif
-			
+
 		#ifndef __DISABLE_DATABASE
 			if(xmlGetString(&xpathObj, xpathCtx, "/settings/databaseSettings/server", tmp_string))
 				strcpy(tmp->database.server, tmp_string);
@@ -4792,7 +4857,7 @@ __MATHSUITE bool  _lfCreate(const char path[static MAX_PATH_LENGTH])
     return stkr ? stkr+1 : path;
 }
 
- inline void  updInfo(const char server[static SERVER_LENGTH+5])
+ inline void  updInfo(const char *server)
 {
 
     char title[MAXX_STRING];
@@ -4803,10 +4868,10 @@ __MATHSUITE bool  _lfCreate(const char path[static MAX_PATH_LENGTH])
     else
 		sprintf(title, PROGRAM_NAME" - [ %s ] - [ %s ] - [ USRLOG: %s ] - [ SYSLOG: %s ] - [ %s ]", getItemsListNo(ENVS) ? getFilename(listNo(access(lists)[ENVS].cur_item, ENVS)->path) : NULL_CHAR, getItemsListNo(MATRICES) ? getFilename(listNo(access(lists)[MATRICES].cur_item, MATRICES)->path) : NULL_CHAR,
     		getItemsListNo(LOGS) ? getFilename(listNo(access(lists)[LOGS].cur_item, LOGS)->path) : NONE_STRING, access(sysLog) ? getFilename(access(sysLogPath)) : NONE_STRING, getItemsListNo(LAYOUTS) ? getFilename(listNo(access(lists)[LAYOUTS].cur_item, LAYOUTS)->path) : NULL_CHAR);
-
+      
 	if(server && server[0] == UPDINFO_UNSTABLECHAR)
 		strcat(title, " - UNSTABLE ENVIRONMENT");
-	
+
 	#ifdef WINOS
 	    if(!SetConsoleTitle(title))
 	        printErr(22, "SetConsoleTitle failed with error: %lu", GetLastError());
@@ -4873,8 +4938,9 @@ __MATHSUITE bool  _lfCreate(const char path[static MAX_PATH_LENGTH])
     return MAX(a,b);
 }
 
-__MATHSUITE void MINMAX(ityp *rop, ityp *rop2, unsigned dim, ityp vector[static dim], dim_typ *idx, dim_typ *idx2)
+__MATHSUITE void MINMAX(ityp *rop, ityp *rop2, dim_typ dim2, ityp vector[static dim2], dim_typ *idx, dim_typ *idx2)
 {
+	size_t dim = dim2;
 	if(dim == 1)
 	{
 		if(rop)
@@ -4948,7 +5014,7 @@ __MATHSUITE void  MPFR_MINMAX(mpfr_t rop, mpfr_t rop2, mpfr_t dim, mpfr_t vector
 		return;
 	}
 	
-	unsigned ndim = mpfr_get_ui(dim, MPFR_RNDN);
+	long unsigned ndim = mpfr_get_ui(dim, MPFR_RNDN);
 	mpfr_t floor_idx, ceil_idx, min1, min2, max1, max2;
 	mpfr_inits(floor_idx, ceil_idx, NULL);
 	mpfr_set_ui(floor_idx, mpfr_get_ui(dim, MPFR_RNDN)>>1, MPFR_RNDN);
@@ -6014,7 +6080,7 @@ __MATHSUITE bool readUser(const register int uid, userObj ** user)
 	return true; 
 }
 
-__MATHSUITE bool readUserFromUserName(const char name[static USER_MAXIDENTIFIERLENGTH], userObj ** user)
+__MATHSUITE bool readUserFromUserName(const char *name, userObj ** user)
 {
 	MYSQL * const con = access(curLayout)->database.con;
 	

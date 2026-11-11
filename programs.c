@@ -34,7 +34,7 @@ __MSSHELL_WRAPPER_ void __apnt mssManager(const sel_typ argc, char ** argv)
     return ;
 }
 
-__MSSHELL_WRAPPER_ __MATHSUITE void    operationsGroupMenu(dim_typ dim, sprog programs[static dim], const char access_point[static INFO_STRING], bool list)
+__MSSHELL_WRAPPER_ __MATHSUITE void    operationsGroupMenu(dim_typ dim, sprog programs[static dim], const char *access_point, bool list)
 {
     for( ; ; )
     {
@@ -346,7 +346,7 @@ __MSSHELL_WRAPPER_ __MATHSUITE void  progInfo(sel_typ skip)
         }
         
         fclose(fp);
-        
+
         #ifndef __DISABLE_DATABASE
         if(!access(curLayout)->database.con)
         	dbEstablishConnection(0, NULL); // (char * [4]){NULL, NULL, NULL, NULL});

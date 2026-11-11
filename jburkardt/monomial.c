@@ -124,7 +124,7 @@ __MATHSUITE __JBURKARDT  void *   _mono_between_next_grevlex ( void * data)
     dim_typ j;
     dim_typ t;
 
-    if ( n1 < 0 || n2 < n1 || i4vec_sum ( m, x ) < n1 || n2 < i4vec_sum ( m, x ) || n2 == 0 )
+    if ( n1 < 0 || n2 < n1 || i4vec_sumi ( m, x ) < n1 || n2 < i4vec_sumi ( m, x ) || n2 == 0 )
         return NULL;
 
     if ( x[0] == n2 )
@@ -195,7 +195,7 @@ __MATHSUITE __JBURKARDT  void *   _mono_between_next_grlex ( void * data)
     dim_typ j;
     dim_typ t;
 
-    if ( n1 < 0 || n2 < n1 || i4vec_sum ( m, x ) < n1 || n2 < i4vec_sum ( m, x ) || n2 == 0  )
+    if ( n1 < 0 || n2 < n1 || i4vec_sumi ( m, x ) < n1 || n2 < i4vec_sumi ( m, x ) || n2 == 0  )
         return NULL;
 
     if ( x[0] == n2 )
@@ -305,7 +305,7 @@ __MATHSUITE __JBURKARDT  void *   _mono_next_grevlex ( void * data)
     dim_typ j;
     dim_typ t;
 
-    if ( i4vec_sum ( m, x ) < 0 )
+    if ( i4vec_sumi ( m, x ) < 0 )
         return NULL;
     /*
     Seeking the first index 1 < I for which 0 < X(I).
@@ -531,7 +531,7 @@ __MATHSUITE __JBURKARDT  void *   _mono_rank_grlex ( void * data)
     /*
     NM = sum ( X )
     */
-    nm = i4vec_sum ( m, x );
+    nm = i4vec_sumi ( m, x );
     /*
     Convert to KSUBSET format.
     */
@@ -653,7 +653,7 @@ __MATHSUITE __JBURKARDT  void *   _mono_total_next_grevlex ( void * data)
     dim_typ j;
     dim_typ t;
 
-    if ( n <= 0 || i4vec_sum ( m, x ) != n )
+    if ( n <= 0 || i4vec_sumi ( m, x ) != n )
         return NULL;
 
     if ( x[0] == n )
@@ -715,7 +715,7 @@ __MATHSUITE __JBURKARDT  void *   _mono_total_next_grlex ( void * data)
     dim_typ j;
     dim_typ t;
 
-    if ( n <= 0 || i4vec_sum ( m, x ) != n )
+    if ( n <= 0 || i4vec_sumi ( m, x ) != n )
         return NULL;
 
     if ( x[0] == n )
@@ -977,7 +977,7 @@ __MATHSUITE __JBURKARDT  void *   _mono_upto_next_grevlex ( void * data)
     dim_typ j;
     dim_typ t;
 
-    if ( n <= 0 || i4vec_sum ( m, x ) < 0 || n < i4vec_sum ( m, x ) )
+    if ( n <= 0 || i4vec_sumi ( m, x ) < 0 || n < i4vec_sumi ( m, x ) )
         return NULL;
 
     if ( x[0] == n )
@@ -1050,7 +1050,7 @@ __MATHSUITE __JBURKARDT  void *   _mono_upto_next_grlex ( void * data)
     dim_typ j;
     dim_typ t;
 
-    if ( n <= 0 || i4vec_sum ( m, x ) < 0 || n < i4vec_sum ( m, x ))
+    if ( n <= 0 || i4vec_sumi ( m, x ) < 0 || n < i4vec_sumi ( m, x ))
         return NULL;
 
     if ( x[0] == n )

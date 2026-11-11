@@ -658,47 +658,47 @@ __MATHSUITE __JBURKARDT inline void * H_PUSHRT10 (EXPRTYPE val, exprObj *obj, ex
 
 __MATHSUITE __JBURKARDT inline void * H_PPUSHRT2 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPUSHRT2(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1])));
+	return nodes->data.function.rfptr(C_PPUSHRT2(accessUShortContainerPointer(args[0]), accessUShortContainerPointer(args[1])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPUSHRT3 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPUSHRT3(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1]), accessIntContainerPointer(args[2])));
+	return nodes->data.function.rfptr(C_PPUSHRT3(accessUShortContainerPointer(args[0]), accessUShortContainerPointer(args[1]), accessUShortContainerPointer(args[2])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPUSHRT4 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPUSHRT4(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1]), accessIntContainerPointer(args[2]), accessIntContainerPointer(args[3])));
+	return nodes->data.function.rfptr(C_PPUSHRT4(accessUShortContainerPointer(args[0]), accessUShortContainerPointer(args[1]), accessUShortContainerPointer(args[2]), accessUShortContainerPointer(args[3])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPUSHRT5 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPUSHRT5(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1]), accessIntContainerPointer(args[2]), accessIntContainerPointer(args[3]), accessIntContainerPointer(args[4])));
+	return nodes->data.function.rfptr(C_PPUSHRT5(accessUShortContainerPointer(args[0]), accessUShortContainerPointer(args[1]), accessUShortContainerPointer(args[2]), accessUShortContainerPointer(args[3]), accessUShortContainerPointer(args[4])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPUSHRT6 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPUSHRT6(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1]), accessIntContainerPointer(args[2]), accessIntContainerPointer(args[3]), accessIntContainerPointer(args[4]), accessIntContainerPointer(args[5])));
+	return nodes->data.function.rfptr(C_PPUSHRT6(accessUShortContainerPointer(args[0]), accessUShortContainerPointer(args[1]), accessUShortContainerPointer(args[2]), accessUShortContainerPointer(args[3]), accessUShortContainerPointer(args[4]), accessUShortContainerPointer(args[5])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPUSHRT7 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPUSHRT7(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1]), accessIntContainerPointer(args[2]), accessIntContainerPointer(args[3]), accessIntContainerPointer(args[4]), accessIntContainerPointer(args[5]), accessIntContainerPointer(args[6])));
+	return nodes->data.function.rfptr(C_PPUSHRT7(accessUShortContainerPointer(args[0]), accessUShortContainerPointer(args[1]), accessUShortContainerPointer(args[2]), accessUShortContainerPointer(args[3]), accessUShortContainerPointer(args[4]), accessUShortContainerPointer(args[5]), accessUShortContainerPointer(args[6])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPUSHRT8 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPUSHRT8(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1]), accessIntContainerPointer(args[2]), accessIntContainerPointer(args[3]), accessIntContainerPointer(args[4]), accessIntContainerPointer(args[5]), accessIntContainerPointer(args[6]), accessIntContainerPointer(args[7])));
+	return nodes->data.function.rfptr(C_PPUSHRT8(accessUShortContainerPointer(args[0]), accessUShortContainerPointer(args[1]), accessUShortContainerPointer(args[2]), accessUShortContainerPointer(args[3]), accessUShortContainerPointer(args[4]), accessUShortContainerPointer(args[5]), accessUShortContainerPointer(args[6]), accessUShortContainerPointer(args[7])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPUSHRT9 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPUSHRT9(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1]), accessIntContainerPointer(args[2]), accessIntContainerPointer(args[3]), accessIntContainerPointer(args[4]), accessIntContainerPointer(args[5]), accessIntContainerPointer(args[6]), accessIntContainerPointer(args[7]), accessIntContainerPointer(args[8])));
+	return nodes->data.function.rfptr(C_PPUSHRT9(accessUShortContainerPointer(args[0]), accessUShortContainerPointer(args[1]), accessUShortContainerPointer(args[2]), accessUShortContainerPointer(args[3]), accessUShortContainerPointer(args[4]), accessUShortContainerPointer(args[5]), accessUShortContainerPointer(args[6]), accessUShortContainerPointer(args[7]), accessUShortContainerPointer(args[8])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPUSHRT10 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPUSHRT10(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1]), accessIntContainerPointer(args[2]), accessIntContainerPointer(args[3]), accessIntContainerPointer(args[4]), accessIntContainerPointer(args[5]), accessIntContainerPointer(args[6]), accessIntContainerPointer(args[7]), accessIntContainerPointer(args[8]), accessIntContainerPointer(args[9])));
+	return nodes->data.function.rfptr(C_PPUSHRT10(accessUShortContainerPointer(args[0]), accessUShortContainerPointer(args[1]), accessUShortContainerPointer(args[2]), accessUShortContainerPointer(args[3]), accessUShortContainerPointer(args[4]), accessUShortContainerPointer(args[5]), accessUShortContainerPointer(args[6]), accessUShortContainerPointer(args[7]), accessUShortContainerPointer(args[8]), accessUShortContainerPointer(args[9])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PCHR2 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
@@ -748,47 +748,47 @@ __MATHSUITE __JBURKARDT inline void * H_PCHR10 (EXPRTYPE val, exprObj *obj, expr
 
 __MATHSUITE __JBURKARDT inline void * H_PPCHR2 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPCHR2(accessBoolContainerPointer(args[0]), accessBoolContainerPointer(args[1])));
+	return nodes->data.function.rfptr(C_PPCHR2(accessCharContainerPointer(args[0]), accessCharContainerPointer(args[1])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPCHR3 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPCHR3(accessBoolContainerPointer(args[0]), accessBoolContainerPointer(args[1]), accessBoolContainerPointer(args[2])));
+	return nodes->data.function.rfptr(C_PPCHR3(accessCharContainerPointer(args[0]), accessCharContainerPointer(args[1]), accessCharContainerPointer(args[2])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPCHR4 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPCHR4(accessBoolContainerPointer(args[0]), accessBoolContainerPointer(args[1]), accessBoolContainerPointer(args[2]), accessBoolContainerPointer(args[3])));
+	return nodes->data.function.rfptr(C_PPCHR4(accessCharContainerPointer(args[0]), accessCharContainerPointer(args[1]), accessCharContainerPointer(args[2]), accessCharContainerPointer(args[3])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPCHR5 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPCHR5(accessBoolContainerPointer(args[0]), accessBoolContainerPointer(args[1]), accessBoolContainerPointer(args[2]), accessBoolContainerPointer(args[3]), accessBoolContainerPointer(args[4])));
+	return nodes->data.function.rfptr(C_PPCHR5(accessCharContainerPointer(args[0]), accessCharContainerPointer(args[1]), accessCharContainerPointer(args[2]), accessCharContainerPointer(args[3]), accessCharContainerPointer(args[4])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPCHR6 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPCHR6(accessBoolContainerPointer(args[0]), accessBoolContainerPointer(args[1]), accessBoolContainerPointer(args[2]), accessBoolContainerPointer(args[3]), accessBoolContainerPointer(args[4]), accessBoolContainerPointer(args[5])));
+	return nodes->data.function.rfptr(C_PPCHR6(accessCharContainerPointer(args[0]), accessCharContainerPointer(args[1]), accessCharContainerPointer(args[2]), accessCharContainerPointer(args[3]), accessCharContainerPointer(args[4]), accessCharContainerPointer(args[5])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPCHR7 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPCHR7(accessBoolContainerPointer(args[0]), accessBoolContainerPointer(args[1]), accessBoolContainerPointer(args[2]), accessBoolContainerPointer(args[3]), accessBoolContainerPointer(args[4]), accessBoolContainerPointer(args[5]), accessBoolContainerPointer(args[6])));
+	return nodes->data.function.rfptr(C_PPCHR7(accessCharContainerPointer(args[0]), accessCharContainerPointer(args[1]), accessCharContainerPointer(args[2]), accessCharContainerPointer(args[3]), accessCharContainerPointer(args[4]), accessCharContainerPointer(args[5]), accessCharContainerPointer(args[6])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPCHR8 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPCHR8(accessBoolContainerPointer(args[0]), accessBoolContainerPointer(args[1]), accessBoolContainerPointer(args[2]), accessBoolContainerPointer(args[3]), accessBoolContainerPointer(args[4]), accessBoolContainerPointer(args[5]), accessBoolContainerPointer(args[6]), accessBoolContainerPointer(args[7])));
+	return nodes->data.function.rfptr(C_PPCHR8(accessCharContainerPointer(args[0]), accessCharContainerPointer(args[1]), accessCharContainerPointer(args[2]), accessCharContainerPointer(args[3]), accessCharContainerPointer(args[4]), accessCharContainerPointer(args[5]), accessCharContainerPointer(args[6]), accessCharContainerPointer(args[7])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPCHR9 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPCHR9(accessBoolContainerPointer(args[0]), accessBoolContainerPointer(args[1]), accessBoolContainerPointer(args[2]), accessBoolContainerPointer(args[3]), accessBoolContainerPointer(args[4]), accessBoolContainerPointer(args[5]), accessBoolContainerPointer(args[6]), accessBoolContainerPointer(args[7]), accessBoolContainerPointer(args[8])));
+	return nodes->data.function.rfptr(C_PPCHR9(accessCharContainerPointer(args[0]), accessCharContainerPointer(args[1]), accessCharContainerPointer(args[2]), accessCharContainerPointer(args[3]), accessCharContainerPointer(args[4]), accessCharContainerPointer(args[5]), accessCharContainerPointer(args[6]), accessCharContainerPointer(args[7]), accessCharContainerPointer(args[8])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPCHR10 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPCHR10(accessBoolContainerPointer(args[0]), accessBoolContainerPointer(args[1]), accessBoolContainerPointer(args[2]), accessBoolContainerPointer(args[3]), accessBoolContainerPointer(args[4]), accessBoolContainerPointer(args[5]), accessBoolContainerPointer(args[6]), accessBoolContainerPointer(args[7]), accessBoolContainerPointer(args[8]), accessBoolContainerPointer(args[9])));
+	return nodes->data.function.rfptr(C_PPCHR10(accessCharContainerPointer(args[0]), accessCharContainerPointer(args[1]), accessCharContainerPointer(args[2]), accessCharContainerPointer(args[3]), accessCharContainerPointer(args[4]), accessCharContainerPointer(args[5]), accessCharContainerPointer(args[6]), accessCharContainerPointer(args[7]), accessCharContainerPointer(args[8]), accessCharContainerPointer(args[9])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PUCHR2 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
@@ -838,47 +838,47 @@ __MATHSUITE __JBURKARDT inline void * H_PUCHR10 (EXPRTYPE val, exprObj *obj, exp
 
 __MATHSUITE __JBURKARDT inline void * H_PPUCHR2 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPUCHR2(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1])));
+	return nodes->data.function.rfptr(C_PPUCHR2(accessUCharContainerPointer(args[0]), accessUCharContainerPointer(args[1])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPUCHR3 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPUCHR3(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1]), accessIntContainerPointer(args[2])));
+	return nodes->data.function.rfptr(C_PPUCHR3(accessUCharContainerPointer(args[0]), accessUCharContainerPointer(args[1]), accessUCharContainerPointer(args[2])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPUCHR4 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPUCHR4(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1]), accessIntContainerPointer(args[2]), accessIntContainerPointer(args[3])));
+	return nodes->data.function.rfptr(C_PPUCHR4(accessUCharContainerPointer(args[0]), accessUCharContainerPointer(args[1]), accessUCharContainerPointer(args[2]), accessUCharContainerPointer(args[3])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPUCHR5 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPUCHR5(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1]), accessIntContainerPointer(args[2]), accessIntContainerPointer(args[3]), accessIntContainerPointer(args[4])));
+	return nodes->data.function.rfptr(C_PPUCHR5(accessUCharContainerPointer(args[0]), accessUCharContainerPointer(args[1]), accessUCharContainerPointer(args[2]), accessUCharContainerPointer(args[3]), accessUCharContainerPointer(args[4])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPUCHR6 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPUCHR6(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1]), accessIntContainerPointer(args[2]), accessIntContainerPointer(args[3]), accessIntContainerPointer(args[4]), accessIntContainerPointer(args[5])));
+	return nodes->data.function.rfptr(C_PPUCHR6(accessUCharContainerPointer(args[0]), accessUCharContainerPointer(args[1]), accessUCharContainerPointer(args[2]), accessUCharContainerPointer(args[3]), accessUCharContainerPointer(args[4]), accessUCharContainerPointer(args[5])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPUCHR7 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPUCHR7(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1]), accessIntContainerPointer(args[2]), accessIntContainerPointer(args[3]), accessIntContainerPointer(args[4]), accessIntContainerPointer(args[5]), accessIntContainerPointer(args[6])));
+	return nodes->data.function.rfptr(C_PPUCHR7(accessUCharContainerPointer(args[0]), accessUCharContainerPointer(args[1]), accessUCharContainerPointer(args[2]), accessUCharContainerPointer(args[3]), accessUCharContainerPointer(args[4]), accessUCharContainerPointer(args[5]), accessUCharContainerPointer(args[6])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPUCHR8 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPUCHR8(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1]), accessIntContainerPointer(args[2]), accessIntContainerPointer(args[3]), accessIntContainerPointer(args[4]), accessIntContainerPointer(args[5]), accessIntContainerPointer(args[6]), accessIntContainerPointer(args[7])));
+	return nodes->data.function.rfptr(C_PPUCHR8(accessUCharContainerPointer(args[0]), accessUCharContainerPointer(args[1]), accessUCharContainerPointer(args[2]), accessUCharContainerPointer(args[3]), accessUCharContainerPointer(args[4]), accessUCharContainerPointer(args[5]), accessUCharContainerPointer(args[6]), accessUCharContainerPointer(args[7])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPUCHR9 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPUCHR9(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1]), accessIntContainerPointer(args[2]), accessIntContainerPointer(args[3]), accessIntContainerPointer(args[4]), accessIntContainerPointer(args[5]), accessIntContainerPointer(args[6]), accessIntContainerPointer(args[7]), accessIntContainerPointer(args[8])));
+	return nodes->data.function.rfptr(C_PPUCHR9(accessUCharContainerPointer(args[0]), accessUCharContainerPointer(args[1]), accessUCharContainerPointer(args[2]), accessUCharContainerPointer(args[3]), accessUCharContainerPointer(args[4]), accessUCharContainerPointer(args[5]), accessUCharContainerPointer(args[6]), accessUCharContainerPointer(args[7]), accessUCharContainerPointer(args[8])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPUCHR10 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPUCHR10(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1]), accessIntContainerPointer(args[2]), accessIntContainerPointer(args[3]), accessIntContainerPointer(args[4]), accessIntContainerPointer(args[5]), accessIntContainerPointer(args[6]), accessIntContainerPointer(args[7]), accessIntContainerPointer(args[8]), accessIntContainerPointer(args[9])));
+	return nodes->data.function.rfptr(C_PPUCHR10(accessUCharContainerPointer(args[0]), accessUCharContainerPointer(args[1]), accessUCharContainerPointer(args[2]), accessUCharContainerPointer(args[3]), accessUCharContainerPointer(args[4]), accessUCharContainerPointer(args[5]), accessUCharContainerPointer(args[6]), accessUCharContainerPointer(args[7]), accessUCharContainerPointer(args[8]), accessUCharContainerPointer(args[9])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PLNG2 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
@@ -928,47 +928,47 @@ __MATHSUITE __JBURKARDT inline void * H_PLNG10 (EXPRTYPE val, exprObj *obj, expr
 
 __MATHSUITE __JBURKARDT inline void * H_PPLNG2 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPLNG2(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1])));
+	return nodes->data.function.rfptr(C_PPLNG2(accessLIntContainerPointer(args[0]), accessLIntContainerPointer(args[1])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPLNG3 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPLNG3(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1]), accessIntContainerPointer(args[2])));
+	return nodes->data.function.rfptr(C_PPLNG3(accessLIntContainerPointer(args[0]), accessLIntContainerPointer(args[1]), accessLIntContainerPointer(args[2])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPLNG4 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPLNG4(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1]), accessIntContainerPointer(args[2]), accessIntContainerPointer(args[3])));
+	return nodes->data.function.rfptr(C_PPLNG4(accessLIntContainerPointer(args[0]), accessLIntContainerPointer(args[1]), accessLIntContainerPointer(args[2]), accessLIntContainerPointer(args[3])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPLNG5 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPLNG5(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1]), accessIntContainerPointer(args[2]), accessIntContainerPointer(args[3]), accessIntContainerPointer(args[4])));
+	return nodes->data.function.rfptr(C_PPLNG5(accessLIntContainerPointer(args[0]), accessLIntContainerPointer(args[1]), accessLIntContainerPointer(args[2]), accessLIntContainerPointer(args[3]), accessLIntContainerPointer(args[4])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPLNG6 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPLNG6(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1]), accessIntContainerPointer(args[2]), accessIntContainerPointer(args[3]), accessIntContainerPointer(args[4]), accessIntContainerPointer(args[5])));
+	return nodes->data.function.rfptr(C_PPLNG6(accessLIntContainerPointer(args[0]), accessLIntContainerPointer(args[1]), accessLIntContainerPointer(args[2]), accessLIntContainerPointer(args[3]), accessLIntContainerPointer(args[4]), accessLIntContainerPointer(args[5])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPLNG7 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPLNG7(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1]), accessIntContainerPointer(args[2]), accessIntContainerPointer(args[3]), accessIntContainerPointer(args[4]), accessIntContainerPointer(args[5]), accessIntContainerPointer(args[6])));
+	return nodes->data.function.rfptr(C_PPLNG7(accessLIntContainerPointer(args[0]), accessLIntContainerPointer(args[1]), accessLIntContainerPointer(args[2]), accessLIntContainerPointer(args[3]), accessLIntContainerPointer(args[4]), accessLIntContainerPointer(args[5]), accessLIntContainerPointer(args[6])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPLNG8 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPLNG8(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1]), accessIntContainerPointer(args[2]), accessIntContainerPointer(args[3]), accessIntContainerPointer(args[4]), accessIntContainerPointer(args[5]), accessIntContainerPointer(args[6]), accessIntContainerPointer(args[7])));
+	return nodes->data.function.rfptr(C_PPLNG8(accessLIntContainerPointer(args[0]), accessLIntContainerPointer(args[1]), accessLIntContainerPointer(args[2]), accessLIntContainerPointer(args[3]), accessLIntContainerPointer(args[4]), accessLIntContainerPointer(args[5]), accessLIntContainerPointer(args[6]), accessLIntContainerPointer(args[7])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPLNG9 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPLNG9(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1]), accessIntContainerPointer(args[2]), accessIntContainerPointer(args[3]), accessIntContainerPointer(args[4]), accessIntContainerPointer(args[5]), accessIntContainerPointer(args[6]), accessIntContainerPointer(args[7]), accessIntContainerPointer(args[8])));
+	return nodes->data.function.rfptr(C_PPLNG9(accessLIntContainerPointer(args[0]), accessLIntContainerPointer(args[1]), accessLIntContainerPointer(args[2]), accessLIntContainerPointer(args[3]), accessLIntContainerPointer(args[4]), accessLIntContainerPointer(args[5]), accessLIntContainerPointer(args[6]), accessLIntContainerPointer(args[7]), accessLIntContainerPointer(args[8])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPLNG10 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPLNG10(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1]), accessIntContainerPointer(args[2]), accessIntContainerPointer(args[3]), accessIntContainerPointer(args[4]), accessIntContainerPointer(args[5]), accessIntContainerPointer(args[6]), accessIntContainerPointer(args[7]), accessIntContainerPointer(args[8]), accessIntContainerPointer(args[9])));
+	return nodes->data.function.rfptr(C_PPLNG10(accessLIntContainerPointer(args[0]), accessLIntContainerPointer(args[1]), accessLIntContainerPointer(args[2]), accessLIntContainerPointer(args[3]), accessLIntContainerPointer(args[4]), accessLIntContainerPointer(args[5]), accessLIntContainerPointer(args[6]), accessLIntContainerPointer(args[7]), accessLIntContainerPointer(args[8]), accessLIntContainerPointer(args[9])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PULNG2 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
@@ -1018,47 +1018,47 @@ __MATHSUITE __JBURKARDT inline void * H_PULNG10 (EXPRTYPE val, exprObj *obj, exp
 
 __MATHSUITE __JBURKARDT inline void * H_PPULNG2 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPULNG2(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1])));
+	return nodes->data.function.rfptr(C_PPULNG2(accessULIntContainerPointer(args[0]), accessULIntContainerPointer(args[1])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPULNG3 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPULNG3(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1]), accessIntContainerPointer(args[2])));
+	return nodes->data.function.rfptr(C_PPULNG3(accessULIntContainerPointer(args[0]), accessULIntContainerPointer(args[1]), accessULIntContainerPointer(args[2])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPULNG4 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPULNG4(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1]), accessIntContainerPointer(args[2]), accessIntContainerPointer(args[3])));
+	return nodes->data.function.rfptr(C_PPULNG4(accessULIntContainerPointer(args[0]), accessULIntContainerPointer(args[1]), accessULIntContainerPointer(args[2]), accessULIntContainerPointer(args[3])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPULNG5 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPULNG5(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1]), accessIntContainerPointer(args[2]), accessIntContainerPointer(args[3]), accessIntContainerPointer(args[4])));
+	return nodes->data.function.rfptr(C_PPULNG5(accessULIntContainerPointer(args[0]), accessULIntContainerPointer(args[1]), accessULIntContainerPointer(args[2]), accessULIntContainerPointer(args[3]), accessULIntContainerPointer(args[4])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPULNG6 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPULNG6(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1]), accessIntContainerPointer(args[2]), accessIntContainerPointer(args[3]), accessIntContainerPointer(args[4]), accessIntContainerPointer(args[5])));
+	return nodes->data.function.rfptr(C_PPULNG6(accessULIntContainerPointer(args[0]), accessULIntContainerPointer(args[1]), accessULIntContainerPointer(args[2]), accessULIntContainerPointer(args[3]), accessULIntContainerPointer(args[4]), accessULIntContainerPointer(args[5])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPULNG7 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPULNG7(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1]), accessIntContainerPointer(args[2]), accessIntContainerPointer(args[3]), accessIntContainerPointer(args[4]), accessIntContainerPointer(args[5]), accessIntContainerPointer(args[6])));
+	return nodes->data.function.rfptr(C_PPULNG7(accessULIntContainerPointer(args[0]), accessULIntContainerPointer(args[1]), accessULIntContainerPointer(args[2]), accessULIntContainerPointer(args[3]), accessULIntContainerPointer(args[4]), accessULIntContainerPointer(args[5]), accessULIntContainerPointer(args[6])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPULNG8 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPULNG8(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1]), accessIntContainerPointer(args[2]), accessIntContainerPointer(args[3]), accessIntContainerPointer(args[4]), accessIntContainerPointer(args[5]), accessIntContainerPointer(args[6]), accessIntContainerPointer(args[7])));
+	return nodes->data.function.rfptr(C_PPULNG8(accessULIntContainerPointer(args[0]), accessULIntContainerPointer(args[1]), accessULIntContainerPointer(args[2]), accessULIntContainerPointer(args[3]), accessULIntContainerPointer(args[4]), accessULIntContainerPointer(args[5]), accessULIntContainerPointer(args[6]), accessULIntContainerPointer(args[7])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPULNG9 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPULNG9(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1]), accessIntContainerPointer(args[2]), accessIntContainerPointer(args[3]), accessIntContainerPointer(args[4]), accessIntContainerPointer(args[5]), accessIntContainerPointer(args[6]), accessIntContainerPointer(args[7]), accessIntContainerPointer(args[8])));
+	return nodes->data.function.rfptr(C_PPULNG9(accessULIntContainerPointer(args[0]), accessULIntContainerPointer(args[1]), accessULIntContainerPointer(args[2]), accessULIntContainerPointer(args[3]), accessULIntContainerPointer(args[4]), accessULIntContainerPointer(args[5]), accessULIntContainerPointer(args[6]), accessULIntContainerPointer(args[7]), accessULIntContainerPointer(args[8])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPULNG10 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPULNG10(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1]), accessIntContainerPointer(args[2]), accessIntContainerPointer(args[3]), accessIntContainerPointer(args[4]), accessIntContainerPointer(args[5]), accessIntContainerPointer(args[6]), accessIntContainerPointer(args[7]), accessIntContainerPointer(args[8]), accessIntContainerPointer(args[9])));
+	return nodes->data.function.rfptr(C_PPULNG10(accessULIntContainerPointer(args[0]), accessULIntContainerPointer(args[1]), accessULIntContainerPointer(args[2]), accessULIntContainerPointer(args[3]), accessULIntContainerPointer(args[4]), accessULIntContainerPointer(args[5]), accessULIntContainerPointer(args[6]), accessULIntContainerPointer(args[7]), accessULIntContainerPointer(args[8]), accessULIntContainerPointer(args[9])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PLLNG2 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
@@ -1108,47 +1108,47 @@ __MATHSUITE __JBURKARDT inline void * H_PLLNG10 (EXPRTYPE val, exprObj *obj, exp
 
 __MATHSUITE __JBURKARDT inline void * H_PPLLNG2 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPLLNG2(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1])));
+	return nodes->data.function.rfptr(C_PPLLNG2(accessLLIntContainerPointer(args[0]), accessLLIntContainerPointer(args[1])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPLLNG3 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPLLNG3(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1]), accessIntContainerPointer(args[2])));
+	return nodes->data.function.rfptr(C_PPLLNG3(accessLLIntContainerPointer(args[0]), accessLLIntContainerPointer(args[1]), accessLLIntContainerPointer(args[2])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPLLNG4 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPLLNG4(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1]), accessIntContainerPointer(args[2]), accessIntContainerPointer(args[3])));
+	return nodes->data.function.rfptr(C_PPLLNG4(accessLLIntContainerPointer(args[0]), accessLLIntContainerPointer(args[1]), accessLLIntContainerPointer(args[2]), accessLLIntContainerPointer(args[3])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPLLNG5 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPLLNG5(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1]), accessIntContainerPointer(args[2]), accessIntContainerPointer(args[3]), accessIntContainerPointer(args[4])));
+	return nodes->data.function.rfptr(C_PPLLNG5(accessLLIntContainerPointer(args[0]), accessLLIntContainerPointer(args[1]), accessLLIntContainerPointer(args[2]), accessLLIntContainerPointer(args[3]), accessLLIntContainerPointer(args[4])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPLLNG6 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPLLNG6(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1]), accessIntContainerPointer(args[2]), accessIntContainerPointer(args[3]), accessIntContainerPointer(args[4]), accessIntContainerPointer(args[5])));
+	return nodes->data.function.rfptr(C_PPLLNG6(accessLLIntContainerPointer(args[0]), accessLLIntContainerPointer(args[1]), accessLLIntContainerPointer(args[2]), accessLLIntContainerPointer(args[3]), accessLLIntContainerPointer(args[4]), accessLLIntContainerPointer(args[5])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPLLNG7 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPLLNG7(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1]), accessIntContainerPointer(args[2]), accessIntContainerPointer(args[3]), accessIntContainerPointer(args[4]), accessIntContainerPointer(args[5]), accessIntContainerPointer(args[6])));
+	return nodes->data.function.rfptr(C_PPLLNG7(accessLLIntContainerPointer(args[0]), accessLLIntContainerPointer(args[1]), accessLLIntContainerPointer(args[2]), accessLLIntContainerPointer(args[3]), accessLLIntContainerPointer(args[4]), accessLLIntContainerPointer(args[5]), accessLLIntContainerPointer(args[6])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPLLNG8 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPLLNG8(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1]), accessIntContainerPointer(args[2]), accessIntContainerPointer(args[3]), accessIntContainerPointer(args[4]), accessIntContainerPointer(args[5]), accessIntContainerPointer(args[6]), accessIntContainerPointer(args[7])));
+	return nodes->data.function.rfptr(C_PPLLNG8(accessLLIntContainerPointer(args[0]), accessLLIntContainerPointer(args[1]), accessLLIntContainerPointer(args[2]), accessLLIntContainerPointer(args[3]), accessLLIntContainerPointer(args[4]), accessLLIntContainerPointer(args[5]), accessLLIntContainerPointer(args[6]), accessLLIntContainerPointer(args[7])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPLLNG9 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPLLNG9(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1]), accessIntContainerPointer(args[2]), accessIntContainerPointer(args[3]), accessIntContainerPointer(args[4]), accessIntContainerPointer(args[5]), accessIntContainerPointer(args[6]), accessIntContainerPointer(args[7]), accessIntContainerPointer(args[8])));
+	return nodes->data.function.rfptr(C_PPLLNG9(accessLLIntContainerPointer(args[0]), accessLLIntContainerPointer(args[1]), accessLLIntContainerPointer(args[2]), accessLLIntContainerPointer(args[3]), accessLLIntContainerPointer(args[4]), accessLLIntContainerPointer(args[5]), accessLLIntContainerPointer(args[6]), accessLLIntContainerPointer(args[7]), accessLLIntContainerPointer(args[8])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPLLNG10 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPLLNG10(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1]), accessIntContainerPointer(args[2]), accessIntContainerPointer(args[3]), accessIntContainerPointer(args[4]), accessIntContainerPointer(args[5]), accessIntContainerPointer(args[6]), accessIntContainerPointer(args[7]), accessIntContainerPointer(args[8]), accessIntContainerPointer(args[9])));
+	return nodes->data.function.rfptr(C_PPLLNG10(accessLLIntContainerPointer(args[0]), accessLLIntContainerPointer(args[1]), accessLLIntContainerPointer(args[2]), accessLLIntContainerPointer(args[3]), accessLLIntContainerPointer(args[4]), accessLLIntContainerPointer(args[5]), accessLLIntContainerPointer(args[6]), accessLLIntContainerPointer(args[7]), accessLLIntContainerPointer(args[8]), accessLLIntContainerPointer(args[9])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PULLNG2 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
@@ -1198,47 +1198,47 @@ __MATHSUITE __JBURKARDT inline void * H_PULLNG10 (EXPRTYPE val, exprObj *obj, ex
 
 __MATHSUITE __JBURKARDT inline void * H_PPULLNG2 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPULLNG2(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1])));
+	return nodes->data.function.rfptr(C_PPULLNG2(accessULLIntContainerPointer(args[0]), accessULLIntContainerPointer(args[1])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPULLNG3 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPULLNG3(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1]), accessIntContainerPointer(args[2])));
+	return nodes->data.function.rfptr(C_PPULLNG3(accessULLIntContainerPointer(args[0]), accessULLIntContainerPointer(args[1]), accessULLIntContainerPointer(args[2])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPULLNG4 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPULLNG4(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1]), accessIntContainerPointer(args[2]), accessIntContainerPointer(args[3])));
+	return nodes->data.function.rfptr(C_PPULLNG4(accessULLIntContainerPointer(args[0]), accessULLIntContainerPointer(args[1]), accessULLIntContainerPointer(args[2]), accessULLIntContainerPointer(args[3])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPULLNG5 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPULLNG5(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1]), accessIntContainerPointer(args[2]), accessIntContainerPointer(args[3]), accessIntContainerPointer(args[4])));
+	return nodes->data.function.rfptr(C_PPULLNG5(accessULLIntContainerPointer(args[0]), accessULLIntContainerPointer(args[1]), accessULLIntContainerPointer(args[2]), accessULLIntContainerPointer(args[3]), accessULLIntContainerPointer(args[4])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPULLNG6 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPULLNG6(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1]), accessIntContainerPointer(args[2]), accessIntContainerPointer(args[3]), accessIntContainerPointer(args[4]), accessIntContainerPointer(args[5])));
+	return nodes->data.function.rfptr(C_PPULLNG6(accessULLIntContainerPointer(args[0]), accessULLIntContainerPointer(args[1]), accessULLIntContainerPointer(args[2]), accessULLIntContainerPointer(args[3]), accessULLIntContainerPointer(args[4]), accessULLIntContainerPointer(args[5])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPULLNG7 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPULLNG7(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1]), accessIntContainerPointer(args[2]), accessIntContainerPointer(args[3]), accessIntContainerPointer(args[4]), accessIntContainerPointer(args[5]), accessIntContainerPointer(args[6])));
+	return nodes->data.function.rfptr(C_PPULLNG7(accessULLIntContainerPointer(args[0]), accessULLIntContainerPointer(args[1]), accessULLIntContainerPointer(args[2]), accessULLIntContainerPointer(args[3]), accessULLIntContainerPointer(args[4]), accessULLIntContainerPointer(args[5]), accessULLIntContainerPointer(args[6])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPULLNG8 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPULLNG8(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1]), accessIntContainerPointer(args[2]), accessIntContainerPointer(args[3]), accessIntContainerPointer(args[4]), accessIntContainerPointer(args[5]), accessIntContainerPointer(args[6]), accessIntContainerPointer(args[7])));
+	return nodes->data.function.rfptr(C_PPULLNG8(accessULLIntContainerPointer(args[0]), accessULLIntContainerPointer(args[1]), accessULLIntContainerPointer(args[2]), accessULLIntContainerPointer(args[3]), accessULLIntContainerPointer(args[4]), accessULLIntContainerPointer(args[5]), accessULLIntContainerPointer(args[6]), accessULLIntContainerPointer(args[7])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPULLNG9 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPULLNG9(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1]), accessIntContainerPointer(args[2]), accessIntContainerPointer(args[3]), accessIntContainerPointer(args[4]), accessIntContainerPointer(args[5]), accessIntContainerPointer(args[6]), accessIntContainerPointer(args[7]), accessIntContainerPointer(args[8])));
+	return nodes->data.function.rfptr(C_PPULLNG9(accessULLIntContainerPointer(args[0]), accessULLIntContainerPointer(args[1]), accessULLIntContainerPointer(args[2]), accessULLIntContainerPointer(args[3]), accessULLIntContainerPointer(args[4]), accessULLIntContainerPointer(args[5]), accessULLIntContainerPointer(args[6]), accessULLIntContainerPointer(args[7]), accessULLIntContainerPointer(args[8])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPULLNG10 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPULLNG10(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1]), accessIntContainerPointer(args[2]), accessIntContainerPointer(args[3]), accessIntContainerPointer(args[4]), accessIntContainerPointer(args[5]), accessIntContainerPointer(args[6]), accessIntContainerPointer(args[7]), accessIntContainerPointer(args[8]), accessIntContainerPointer(args[9])));
+	return nodes->data.function.rfptr(C_PPULLNG10(accessULLIntContainerPointer(args[0]), accessULLIntContainerPointer(args[1]), accessULLIntContainerPointer(args[2]), accessULLIntContainerPointer(args[3]), accessULLIntContainerPointer(args[4]), accessULLIntContainerPointer(args[5]), accessULLIntContainerPointer(args[6]), accessULLIntContainerPointer(args[7]), accessULLIntContainerPointer(args[8]), accessULLIntContainerPointer(args[9])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PFLT2 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
@@ -1288,47 +1288,47 @@ __MATHSUITE __JBURKARDT inline void * H_PFLT10 (EXPRTYPE val, exprObj *obj, expr
 
 __MATHSUITE __JBURKARDT inline void * H_PPFLT2 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPFLT2(accessFloatContainerPointer(args[0]), accessFloatContainerPointer(args[1])));
+	return nodes->data.function.rfptr(C_PPFLT2(accessFFloatContainerPointer(args[0]), accessFFloatContainerPointer(args[1])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPFLT3 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPFLT3(accessFloatContainerPointer(args[0]), accessFloatContainerPointer(args[1]), accessFloatContainerPointer(args[2])));
+	return nodes->data.function.rfptr(C_PPFLT3(accessFFloatContainerPointer(args[0]), accessFFloatContainerPointer(args[1]), accessFFloatContainerPointer(args[2])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPFLT4 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPFLT4(accessFloatContainerPointer(args[0]), accessFloatContainerPointer(args[1]), accessFloatContainerPointer(args[2]), accessFloatContainerPointer(args[3])));
+	return nodes->data.function.rfptr(C_PPFLT4(accessFFloatContainerPointer(args[0]), accessFFloatContainerPointer(args[1]), accessFFloatContainerPointer(args[2]), accessFFloatContainerPointer(args[3])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPFLT5 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPFLT5(accessFloatContainerPointer(args[0]), accessFloatContainerPointer(args[1]), accessFloatContainerPointer(args[2]), accessFloatContainerPointer(args[3]), accessFloatContainerPointer(args[4])));
+	return nodes->data.function.rfptr(C_PPFLT5(accessFFloatContainerPointer(args[0]), accessFFloatContainerPointer(args[1]), accessFFloatContainerPointer(args[2]), accessFFloatContainerPointer(args[3]), accessFFloatContainerPointer(args[4])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPFLT6 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPFLT6(accessFloatContainerPointer(args[0]), accessFloatContainerPointer(args[1]), accessFloatContainerPointer(args[2]), accessFloatContainerPointer(args[3]), accessFloatContainerPointer(args[4]), accessFloatContainerPointer(args[5])));
+	return nodes->data.function.rfptr(C_PPFLT6(accessFFloatContainerPointer(args[0]), accessFFloatContainerPointer(args[1]), accessFFloatContainerPointer(args[2]), accessFFloatContainerPointer(args[3]), accessFFloatContainerPointer(args[4]), accessFFloatContainerPointer(args[5])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPFLT7 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPFLT7(accessFloatContainerPointer(args[0]), accessFloatContainerPointer(args[1]), accessFloatContainerPointer(args[2]), accessFloatContainerPointer(args[3]), accessFloatContainerPointer(args[4]), accessFloatContainerPointer(args[5]), accessFloatContainerPointer(args[6])));
+	return nodes->data.function.rfptr(C_PPFLT7(accessFFloatContainerPointer(args[0]), accessFFloatContainerPointer(args[1]), accessFFloatContainerPointer(args[2]), accessFFloatContainerPointer(args[3]), accessFFloatContainerPointer(args[4]), accessFFloatContainerPointer(args[5]), accessFFloatContainerPointer(args[6])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPFLT8 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPFLT8(accessFloatContainerPointer(args[0]), accessFloatContainerPointer(args[1]), accessFloatContainerPointer(args[2]), accessFloatContainerPointer(args[3]), accessFloatContainerPointer(args[4]), accessFloatContainerPointer(args[5]), accessFloatContainerPointer(args[6]), accessFloatContainerPointer(args[7])));
+	return nodes->data.function.rfptr(C_PPFLT8(accessFFloatContainerPointer(args[0]), accessFFloatContainerPointer(args[1]), accessFFloatContainerPointer(args[2]), accessFFloatContainerPointer(args[3]), accessFFloatContainerPointer(args[4]), accessFFloatContainerPointer(args[5]), accessFFloatContainerPointer(args[6]), accessFFloatContainerPointer(args[7])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPFLT9 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPFLT9(accessFloatContainerPointer(args[0]), accessFloatContainerPointer(args[1]), accessFloatContainerPointer(args[2]), accessFloatContainerPointer(args[3]), accessFloatContainerPointer(args[4]), accessFloatContainerPointer(args[5]), accessFloatContainerPointer(args[6]), accessFloatContainerPointer(args[7]), accessFloatContainerPointer(args[8])));
+	return nodes->data.function.rfptr(C_PPFLT9(accessFFloatContainerPointer(args[0]), accessFFloatContainerPointer(args[1]), accessFFloatContainerPointer(args[2]), accessFFloatContainerPointer(args[3]), accessFFloatContainerPointer(args[4]), accessFFloatContainerPointer(args[5]), accessFFloatContainerPointer(args[6]), accessFFloatContainerPointer(args[7]), accessFFloatContainerPointer(args[8])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPFLT10 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPFLT10(accessFloatContainerPointer(args[0]), accessFloatContainerPointer(args[1]), accessFloatContainerPointer(args[2]), accessFloatContainerPointer(args[3]), accessFloatContainerPointer(args[4]), accessFloatContainerPointer(args[5]), accessFloatContainerPointer(args[6]), accessFloatContainerPointer(args[7]), accessFloatContainerPointer(args[8]), accessFloatContainerPointer(args[9])));
+	return nodes->data.function.rfptr(C_PPFLT10(accessFFloatContainerPointer(args[0]), accessFFloatContainerPointer(args[1]), accessFFloatContainerPointer(args[2]), accessFFloatContainerPointer(args[3]), accessFFloatContainerPointer(args[4]), accessFFloatContainerPointer(args[5]), accessFFloatContainerPointer(args[6]), accessFFloatContainerPointer(args[7]), accessFFloatContainerPointer(args[8]), accessFFloatContainerPointer(args[9])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PDBL2 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
@@ -1478,47 +1478,47 @@ __MATHSUITE __JBURKARDT inline void * H_PLDBL10 (EXPRTYPE val, exprObj *obj, exp
 
 __MATHSUITE __JBURKARDT inline void * H_PPLDBL2 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPLDBL2(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1])));
+	return nodes->data.function.rfptr(C_PPLDBL2(accessLFloatContainerPointer(args[0]), accessLFloatContainerPointer(args[1])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPLDBL3 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPLDBL3(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1]), accessIntContainerPointer(args[2])));
+	return nodes->data.function.rfptr(C_PPLDBL3(accessLFloatContainerPointer(args[0]), accessLFloatContainerPointer(args[1]), accessLFloatContainerPointer(args[2])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPLDBL4 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPLDBL4(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1]), accessIntContainerPointer(args[2]), accessIntContainerPointer(args[3])));
+	return nodes->data.function.rfptr(C_PPLDBL4(accessLFloatContainerPointer(args[0]), accessLFloatContainerPointer(args[1]), accessLFloatContainerPointer(args[2]), accessLFloatContainerPointer(args[3])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPLDBL5 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPLDBL5(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1]), accessIntContainerPointer(args[2]), accessIntContainerPointer(args[3]), accessIntContainerPointer(args[4])));
+	return nodes->data.function.rfptr(C_PPLDBL5(accessLFloatContainerPointer(args[0]), accessLFloatContainerPointer(args[1]), accessLFloatContainerPointer(args[2]), accessLFloatContainerPointer(args[3]), accessLFloatContainerPointer(args[4])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPLDBL6 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPLDBL6(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1]), accessIntContainerPointer(args[2]), accessIntContainerPointer(args[3]), accessIntContainerPointer(args[4]), accessIntContainerPointer(args[5])));
+	return nodes->data.function.rfptr(C_PPLDBL6(accessLFloatContainerPointer(args[0]), accessLFloatContainerPointer(args[1]), accessLFloatContainerPointer(args[2]), accessLFloatContainerPointer(args[3]), accessLFloatContainerPointer(args[4]), accessLFloatContainerPointer(args[5])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPLDBL7 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPLDBL7(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1]), accessIntContainerPointer(args[2]), accessIntContainerPointer(args[3]), accessIntContainerPointer(args[4]), accessIntContainerPointer(args[5]), accessIntContainerPointer(args[6])));
+	return nodes->data.function.rfptr(C_PPLDBL7(accessLFloatContainerPointer(args[0]), accessLFloatContainerPointer(args[1]), accessLFloatContainerPointer(args[2]), accessLFloatContainerPointer(args[3]), accessLFloatContainerPointer(args[4]), accessLFloatContainerPointer(args[5]), accessLFloatContainerPointer(args[6])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPLDBL8 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPLDBL8(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1]), accessIntContainerPointer(args[2]), accessIntContainerPointer(args[3]), accessIntContainerPointer(args[4]), accessIntContainerPointer(args[5]), accessIntContainerPointer(args[6]), accessIntContainerPointer(args[7])));
+	return nodes->data.function.rfptr(C_PPLDBL8(accessLFloatContainerPointer(args[0]), accessLFloatContainerPointer(args[1]), accessLFloatContainerPointer(args[2]), accessLFloatContainerPointer(args[3]), accessLFloatContainerPointer(args[4]), accessLFloatContainerPointer(args[5]), accessLFloatContainerPointer(args[6]), accessLFloatContainerPointer(args[7])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPLDBL9 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPLDBL9(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1]), accessIntContainerPointer(args[2]), accessIntContainerPointer(args[3]), accessIntContainerPointer(args[4]), accessIntContainerPointer(args[5]), accessIntContainerPointer(args[6]), accessIntContainerPointer(args[7]), accessIntContainerPointer(args[8])));
+	return nodes->data.function.rfptr(C_PPLDBL9(accessLFloatContainerPointer(args[0]), accessLFloatContainerPointer(args[1]), accessLFloatContainerPointer(args[2]), accessLFloatContainerPointer(args[3]), accessLFloatContainerPointer(args[4]), accessLFloatContainerPointer(args[5]), accessLFloatContainerPointer(args[6]), accessLFloatContainerPointer(args[7]), accessLFloatContainerPointer(args[8])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPLDBL10 (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPLDBL10(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1]), accessIntContainerPointer(args[2]), accessIntContainerPointer(args[3]), accessIntContainerPointer(args[4]), accessIntContainerPointer(args[5]), accessIntContainerPointer(args[6]), accessIntContainerPointer(args[7]), accessIntContainerPointer(args[8]), accessIntContainerPointer(args[9])));
+	return nodes->data.function.rfptr(C_PPLDBL10(accessLFloatContainerPointer(args[0]), accessLFloatContainerPointer(args[1]), accessLFloatContainerPointer(args[2]), accessLFloatContainerPointer(args[3]), accessLFloatContainerPointer(args[4]), accessLFloatContainerPointer(args[5]), accessLFloatContainerPointer(args[6]), accessLFloatContainerPointer(args[7]), accessLFloatContainerPointer(args[8]), accessLFloatContainerPointer(args[9])));
 }
 
 
@@ -1614,7 +1614,7 @@ __MATHSUITE __JBURKARDT inline void * H_PITDTPDTPITPDTDTPIT (EXPRTYPE val, exprO
 
 __MATHSUITE __JBURKARDT inline void * H_PDT4PIT (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PDT4PIT(accessFloatContainerPointer(args[0]), accessFloatContainerPointer(args[1]), accessFloatContainerPointer(args[2]), accessFloatContainerPointer(args[3]), accessUShortContainerPointer(args[4])));
+	return nodes->data.function.rfptr(C_PDT4PIT(accessUShortContainerPointer(args[0]), accessFloatContainerPointer(args[1]), accessFloatContainerPointer(args[2]), accessFloatContainerPointer(args[3]), accessFloatContainerPointer(args[4])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_2PDT2PIT (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
@@ -1629,7 +1629,7 @@ __MATHSUITE __JBURKARDT inline void * H_PDT5PITPDT2DT (EXPRTYPE val, exprObj *ob
 
 __MATHSUITE __JBURKARDT inline void * H_4PITPDTPIT (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_4PITPDTPIT(accessFloatContainerPointer(args[0]), accessFloatContainerPointer(args[1]), accessFloatContainerPointer(args[2]), accessFloatContainerPointer(args[3]), accessFloatContainerPointer(args[4]), accessUShortContainerPointer(args[5])));
+	return nodes->data.function.rfptr(C_4PITPDTPIT(accessFloatContainerPointer(args[0]), accessFloatContainerPointer(args[1]), accessFloatContainerPointer(args[2]), accessFloatContainerPointer(args[3]), accessUShortContainerPointer(args[5]), accessFloatContainerPointer(args[6])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PDT3PIT (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
@@ -1689,7 +1689,7 @@ __MATHSUITE __JBURKARDT inline void * H_DT2I2PI (EXPRTYPE val, exprObj *obj, exp
 
 __MATHSUITE __JBURKARDT inline void * H_DTPITPI (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_DTPITPI(mpfr_get_ui(args[0], MPFR_RNDN), accessIntContainerPointer(args[1]), accessFloatContainerPointer(args[2])));
+	return nodes->data.function.rfptr(C_DTPITPI(mpfr_get_ui(args[0], MPFR_RNDN), accessFloatContainerPointer(args[1]), accessIntContainerPointer(args[2])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_DTPITIT (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
@@ -1719,7 +1719,7 @@ __MATHSUITE __JBURKARDT inline void * H_DTITPITDTPITDT (EXPRTYPE val, exprObj *o
 
 __MATHSUITE __JBURKARDT inline void * H_3DT2PIT (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_3DT2PIT(mpfr_get_ui(args[0], MPFR_RNDN), accessFloatContainerPointer(args[1]), mpfr_get_ui(args[2], MPFR_RNDN), accessFloatContainerPointer(args[3]), mpfr_get_ui(args[4], MPFR_RNDN)));
+	return nodes->data.function.rfptr(C_3DT2PIT(mpfr_get_ui(args[0], MPFR_RNDN), mpfr_get_ui(args[1], MPFR_RNDN), mpfr_get_ui(args[2], MPFR_RNDN), accessFloatContainerPointer(args[3]), accessFloatContainerPointer(args[4])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_DTPITI (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
@@ -1764,7 +1764,7 @@ __MATHSUITE __JBURKARDT inline void * H_2DT2ITPITPI (EXPRTYPE val, exprObj *obj,
 
 __MATHSUITE __JBURKARDT inline void * H_DT2PITITDTPIT (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_DT2PITITDTPIT(mpfr_get_d(args[0], MPFR_RNDN), mpfr_get_ui(args[1], MPFR_RNDN), accessFloatContainerPointer(args[2]), mpfr_get_ui(args[3], MPFR_RNDN), accessFloatContainerPointer(args[4]), accessFloatContainerPointer(args[5])));
+	return nodes->data.function.rfptr(C_DT2PITITDTPIT(mpfr_get_ui(args[0], MPFR_RNDN), accessFloatContainerPointer(args[1]), accessFloatContainerPointer(args[2]), mpfr_get_d(args[3], MPFR_RNDN), mpfr_get_ui(args[4], MPFR_RNDN), accessFloatContainerPointer(args[5])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_DT2PIT (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
@@ -1794,7 +1794,7 @@ __MATHSUITE __JBURKARDT inline void * H_DT2IT2PIT (EXPRTYPE val, exprObj *obj, e
 
 __MATHSUITE __JBURKARDT inline void * H_PDT6PIT (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PDT6PIT(accessFloatContainerPointer(args[0]), accessFloatContainerPointer(args[1]), accessFloatContainerPointer(args[2]), accessFloatContainerPointer(args[3]), accessFloatContainerPointer(args[4]), accessFloatContainerPointer(args[5]), accessUShortContainerPointer(args[6])));
+	return nodes->data.function.rfptr(C_PDT6PIT(accessUShortContainerPointer(args[0]), accessFloatContainerPointer(args[1]), accessFloatContainerPointer(args[2]), accessFloatContainerPointer(args[3]), accessFloatContainerPointer(args[4]), accessFloatContainerPointer(args[5]), accessFloatContainerPointer(args[6])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PDT6PITPSPIT (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
@@ -1814,22 +1814,22 @@ __MATHSUITE __JBURKARDT inline void * H_PDT5PITPSPIT (EXPRTYPE val, exprObj *obj
 
 __MATHSUITE __JBURKARDT inline void * H_PS2PIT2PUL (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PS2PIT2PUL(accessShortContainerPointer(args[0]), accessFloatContainerPointer(args[1]), accessFloatContainerPointer(args[2]), accessIntContainerPointer(args[3]), accessIntContainerPointer(args[4])));
+	return nodes->data.function.rfptr(C_PS2PIT2PUL(accessShortContainerPointer(args[0]), accessFloatContainerPointer(args[1]), accessFloatContainerPointer(args[2]), accessULIntContainerPointer(args[3]), accessULIntContainerPointer(args[4])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_IPS2PIT2PUL7PIT (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_IPS2PIT2PUL7PIT(mpfr_get_ui(args[0], MPFR_RNDN), accessShortContainerPointer(args[1]), accessFloatContainerPointer(args[2]), accessFloatContainerPointer(args[3]), accessIntContainerPointer(args[4]), accessIntContainerPointer(args[5]), accessFloatContainerPointer(args[6]), accessFloatContainerPointer(args[7]), accessFloatContainerPointer(args[8]), accessFloatContainerPointer(args[9]), accessFloatContainerPointer(args[10]), accessFloatContainerPointer(args[11]), accessFloatContainerPointer(args[12])));
+	return nodes->data.function.rfptr(C_IPS2PIT2PUL7PIT(mpfr_get_si(args[0], MPFR_RNDN), accessShortContainerPointer(args[1]), accessFloatContainerPointer(args[2]), accessFloatContainerPointer(args[3]), accessULIntContainerPointer(args[4]), accessULIntContainerPointer(args[5]), accessFloatContainerPointer(args[6]), accessFloatContainerPointer(args[7]), accessFloatContainerPointer(args[8]), accessFloatContainerPointer(args[9]), accessFloatContainerPointer(args[10]), accessFloatContainerPointer(args[11]), accessFloatContainerPointer(args[12])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_IPS4PIT2PUL4PIT (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_IPS2PIT2PUL7PIT(mpfr_get_ui(args[0], MPFR_RNDN), accessShortContainerPointer(args[1]), accessFloatContainerPointer(args[2]), accessFloatContainerPointer(args[3]), accessFloatContainerPointer(args[4]), accessFloatContainerPointer(args[5]), accessIntContainerPointer(args[6]), accessIntContainerPointer(args[7]), accessFloatContainerPointer(args[8]), accessFloatContainerPointer(args[9]), accessFloatContainerPointer(args[10]), accessFloatContainerPointer(args[11]), accessFloatContainerPointer(args[12])));
+	return nodes->data.function.rfptr(C_IPS4PIT2PUL4PIT(mpfr_get_ui(args[0], MPFR_RNDN), accessShortContainerPointer(args[1]), accessFloatContainerPointer(args[2]), accessFloatContainerPointer(args[3]), accessFloatContainerPointer(args[4]), accessFloatContainerPointer(args[5]), accessULIntContainerPointer(args[6]), accessULIntContainerPointer(args[7]), accessFloatContainerPointer(args[8]), accessFloatContainerPointer(args[9]), accessFloatContainerPointer(args[10]), accessFloatContainerPointer(args[11])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PS4PIT2PUL (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PS4PIT2PUL(accessShortContainerPointer(args[0]), accessFloatContainerPointer(args[1]), accessFloatContainerPointer(args[2]), accessFloatContainerPointer(args[3]), accessFloatContainerPointer(args[4]), accessIntContainerPointer(args[5]), accessIntContainerPointer(args[6])));
+	return nodes->data.function.rfptr(C_PS4PIT2PUL(accessShortContainerPointer(args[0]), accessFloatContainerPointer(args[1]), accessFloatContainerPointer(args[2]), accessFloatContainerPointer(args[3]), accessFloatContainerPointer(args[4]), accessULIntContainerPointer(args[5]), accessULIntContainerPointer(args[6])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PDTPIT (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
@@ -1974,17 +1974,17 @@ __MATHSUITE __JBURKARDT inline void * H_IPI (EXPRTYPE val, exprObj *obj, exprNod
 
 __MATHSUITE __JBURKARDT inline void * H_4DT2PIT (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_4DT2PIT(mpfr_get_ui(args[0], MPFR_RNDN), mpfr_get_ui(args[1], MPFR_RNDN), accessFloatContainerPointer(args[2]), mpfr_get_ui(args[3], MPFR_RNDN), mpfr_get_ui(args[4], MPFR_RNDN), accessFloatContainerPointer(args[5])));
+	return nodes->data.function.rfptr(C_4DT2PIT(mpfr_get_ui(args[0], MPFR_RNDN), mpfr_get_ui(args[1], MPFR_RNDN), mpfr_get_ui(args[2], MPFR_RNDN), mpfr_get_ui(args[3], MPFR_RNDN), accessFloatContainerPointer(args[4]), accessFloatContainerPointer(args[5])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_2DT3PIPB (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_2DT3PIPB(mpfr_get_ui(args[0], MPFR_RNDN), mpfr_get_ui(args[1], MPFR_RNDN), accessIntContainerPointer(args[2]), accessBoolContainerPointer(args[3]), accessIntContainerPointer(args[4]), accessIntContainerPointer(args[5])));
+	return nodes->data.function.rfptr(C_2DT3PIPB(mpfr_get_ui(args[0], MPFR_RNDN), mpfr_get_ui(args[1], MPFR_RNDN), accessIntContainerPointer(args[2]), accessIntContainerPointer(args[3]), accessIntContainerPointer(args[4]), accessBoolContainerPointer(args[5])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_FDTDT2PDT (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_FDTDT2PDT(accessUShortContainerPointer(args[0]), mpfr_get_ui(args[1], MPFR_RNDN), accessUShortContainerPointer(args[2]), accessUShortContainerPointer(args[3])));
+	return nodes->data.function.rfptr(C_FDTDT2PDT(accessDTFunction(args[0]), mpfr_get_ui(args[1], MPFR_RNDN), accessUShortContainerPointer(args[2]), accessUShortContainerPointer(args[3])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_IT2DT2PIT (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
@@ -2014,7 +2014,7 @@ __MATHSUITE __JBURKARDT inline void * H_DT2PIT2ITPDT2PIT (EXPRTYPE val, exprObj 
 
 __MATHSUITE __JBURKARDT inline void * H_2DT3PIT (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_2DT3PIT(mpfr_get_ui(args[0], MPFR_RNDN), accessFloatContainerPointer(args[1]), mpfr_get_ui(args[2], MPFR_RNDN), accessFloatContainerPointer(args[3]), accessFloatContainerPointer(args[4])));
+	return nodes->data.function.rfptr(C_2DT3PIT(mpfr_get_ui(args[0], MPFR_RNDN), mpfr_get_ui(args[1], MPFR_RNDN), accessFloatContainerPointer(args[2]), accessFloatContainerPointer(args[3]), accessFloatContainerPointer(args[4])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_DT4PIT (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
@@ -2034,7 +2034,7 @@ __MATHSUITE __JBURKARDT inline void * H_DTPITPDT2PIT (EXPRTYPE val, exprObj *obj
 
 __MATHSUITE __JBURKARDT inline void * H_PITDTPIPIT (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PITDTPIPIT(mpfr_get_ui(args[0], MPFR_RNDN), accessFloatContainerPointer(args[1]), accessIntContainerPointer(args[2]), accessFloatContainerPointer(args[3])));
+	return nodes->data.function.rfptr(C_PITDTPIPIT(accessFloatContainerPointer(args[0]), mpfr_get_ui(args[1], MPFR_RNDN), accessIntContainerPointer(args[2]), accessFloatContainerPointer(args[3])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_DTPITITPI (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
@@ -2059,7 +2059,7 @@ __MATHSUITE __JBURKARDT inline void * H_DT3FITPIT (EXPRTYPE val, exprObj *obj, e
 
 __MATHSUITE __JBURKARDT inline void * H_DT2PITFIT (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_DT2PITFIT(mpfr_get_ui(args[0], MPFR_RNDN), getFID(args[1]), getFID(args[2]), accessFloatContainerPointer(args[3])));
+	return nodes->data.function.rfptr(C_DT2PITFIT(mpfr_get_ui(args[0], MPFR_RNDN), accessFloatContainerPointer(args[1]), accessFloatContainerPointer(args[2]), getFID(args[3])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_DT4IT2FITPIT (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
@@ -2123,7 +2123,7 @@ __MATHSUITE __JBURKARDT inline void * H_PIT3DTIT2PI3PITPIPITI (EXPRTYPE val, exp
 
 __MATHSUITE __JBURKARDT inline void * H_PIT4DT3PITPIPIT (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PIT4DT3PITPIPIT(accessFloatContainerPointer(args[0]), mpfr_get_ui(args[1], MPFR_RNDN), mpfr_get_ui(args[2], MPFR_RNDN), mpfr_get_ui(args[3], MPFR_RNDN), accessUShortContainerPointer(args[4]), accessFloatContainerPointer(args[5]), accessFloatContainerPointer(args[6]), accessFloatContainerPointer(args[7]), accessIntContainerPointer(args[8]), accessFloatContainerPointer(args[9])));
+	return nodes->data.function.rfptr(C_PIT4DT3PITPIPIT(accessFloatContainerPointer(args[0]), mpfr_get_ui(args[1], MPFR_RNDN), mpfr_get_ui(args[2], MPFR_RNDN), mpfr_get_ui(args[3], MPFR_RNDN), mpfr_get_ui(args[4], MPFR_RNDN), accessFloatContainerPointer(args[5]), accessFloatContainerPointer(args[6]), accessFloatContainerPointer(args[7]), accessIntContainerPointer(args[8]), accessFloatContainerPointer(args[9])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_IT5PIT (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
@@ -2188,7 +2188,7 @@ __MATHSUITE __JBURKARDT inline void * H_DTPITPDT (EXPRTYPE val, exprObj *obj, ex
 
 __MATHSUITE __JBURKARDT inline void * H_PIT2DTPDTPIT (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PIT2DTPDTPIT(mpfr_get_ui(args[0], MPFR_RNDN), accessFloatContainerPointer(args[1]), accessUShortContainerPointer(args[2]), accessFloatContainerPointer(args[3]), mpfr_get_ui(args[4], MPFR_RNDN)));
+	return nodes->data.function.rfptr(C_PIT2DTPDTPIT(accessFloatContainerPointer(args[0]), mpfr_get_ui(args[1], MPFR_RNDN), mpfr_get_ui(args[2], MPFR_RNDN), accessUShortContainerPointer(args[3]), accessFloatContainerPointer(args[4])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_ITPITPI (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
@@ -2278,7 +2278,7 @@ __MATHSUITE __JBURKARDT inline void * H_3PITDT3PIT (EXPRTYPE val, exprObj *obj, 
 
 __MATHSUITE __JBURKARDT inline void * H_DT5PIT (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_DT5PIT(accessFloatContainerPointer(args[0]), accessFloatContainerPointer(args[1]), accessFloatContainerPointer(args[2]), mpfr_get_ui(args[3], MPFR_RNDN), accessFloatContainerPointer(args[4]), accessFloatContainerPointer(args[5])));
+	return nodes->data.function.rfptr(C_DT5PIT(mpfr_get_ui(args[0], MPFR_RNDN), accessFloatContainerPointer(args[1]), accessFloatContainerPointer(args[2]), accessFloatContainerPointer(args[3]), accessFloatContainerPointer(args[4]), accessFloatContainerPointer(args[5])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_4PITDT2PITPDT (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
@@ -2403,7 +2403,7 @@ __MATHSUITE __JBURKARDT inline void * H_2PITITCH (EXPRTYPE val, exprObj *obj, ex
 
 __MATHSUITE __JBURKARDT inline void * H_2PITPCHIT (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_2PITPCHIT(accessFloatContainerPointer(args[0]), accessFloatContainerPointer(args[1]), accessBoolContainerPointer(args[2]), mpfr_get_d(args[3], MPFR_RNDN)));
+	return nodes->data.function.rfptr(C_2PITPCHIT(accessFloatContainerPointer(args[0]), accessFloatContainerPointer(args[1]), accessCharContainerPointer(args[2]), mpfr_get_d(args[3], MPFR_RNDN)));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_3PITPBPIT (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
@@ -2458,22 +2458,22 @@ __MATHSUITE __JBURKARDT inline void * H_3DTPIPDT (EXPRTYPE val, exprObj *obj, ex
 
 __MATHSUITE __JBURKARDT inline void * H_DTPIT2PDT (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_DTPIT2PDT(mpfr_get_ui(args[0], MPFR_RNDN), accessUShortContainerPointer(args[1]), accessFloatContainerPointer(args[2]), accessUShortContainerPointer(args[3])));
+	return nodes->data.function.rfptr(C_DTPIT2PDT(mpfr_get_ui(args[0], MPFR_RNDN), accessFloatContainerPointer(args[1]), accessUShortContainerPointer(args[2]), accessUShortContainerPointer(args[3])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_2DTPI2PDTPIT (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_2DTPI2PDTPIT(mpfr_get_ui(args[0], MPFR_RNDN), accessUShortContainerPointer(args[1]), mpfr_get_ui(args[2], MPFR_RNDN), accessUShortContainerPointer(args[3]), accessFloatContainerPointer(args[4]), accessIntContainerPointer(args[5])));
+	return nodes->data.function.rfptr(C_2DTPI2PDTPIT(mpfr_get_ui(args[0], MPFR_RNDN), mpfr_get_ui(args[1], MPFR_RNDN), accessIntContainerPointer(args[2]), accessUShortContainerPointer(args[3]), accessUShortContainerPointer(args[4]), accessFloatContainerPointer(args[5])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PIT2DTPDT (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PIT2DTPDT(mpfr_get_ui(args[0], MPFR_RNDN), mpfr_get_ui(args[1], MPFR_RNDN), accessUShortContainerPointer(args[2]), accessFloatContainerPointer(args[3])));
+	return nodes->data.function.rfptr(C_PIT2DTPDT(accessFloatContainerPointer(args[0]), mpfr_get_ui(args[1], MPFR_RNDN), mpfr_get_ui(args[2], MPFR_RNDN), accessUShortContainerPointer(args[3])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PIT2DTPITPDTDT (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PIT2DTPITPDTDT(mpfr_get_ui(args[0], MPFR_RNDN), mpfr_get_ui(args[1], MPFR_RNDN), accessFloatContainerPointer(args[2]), accessUShortContainerPointer(args[3]), mpfr_get_ui(args[4], MPFR_RNDN), accessFloatContainerPointer(args[5])));
+	return nodes->data.function.rfptr(C_PIT2DTPITPDTDT(accessFloatContainerPointer(args[0]), mpfr_get_ui(args[1], MPFR_RNDN), mpfr_get_ui(args[2], MPFR_RNDN), accessFloatContainerPointer(args[3]), accessUShortContainerPointer(args[4]), mpfr_get_ui(args[5], MPFR_RNDN)));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_2DT2IT2PIT (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
@@ -2533,12 +2533,12 @@ __MATHSUITE __JBURKARDT inline void * H_2DTPDT (EXPRTYPE val, exprObj *obj, expr
 
 __MATHSUITE __JBURKARDT inline void * H_PPPI3DT (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPPI3DT(accessIntContainerPointer(args[0]), mpfr_get_ui(args[1], MPFR_RNDN), mpfr_get_ui(args[2], MPFR_RNDN), mpfr_get_ui(args[3], MPFR_RNDN)));
+	return nodes->data.function.rfptr(C_PPPI3DT(accessTIntContainerPointer(args[0]), mpfr_get_ui(args[1], MPFR_RNDN), mpfr_get_ui(args[2], MPFR_RNDN), mpfr_get_ui(args[3], MPFR_RNDN)));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PPI2DT (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPI2DT(accessIntContainerPointer(args[0]), mpfr_get_ui(args[1], MPFR_RNDN), mpfr_get_ui(args[2], MPFR_RNDN)));
+	return nodes->data.function.rfptr(C_PPI2DT(accessDIntContainerPointer(args[0]), mpfr_get_ui(args[1], MPFR_RNDN), mpfr_get_ui(args[2], MPFR_RNDN)));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_2DTPI2DT (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
@@ -2613,7 +2613,7 @@ __MATHSUITE __JBURKARDT inline void * H_2DT2IPI (EXPRTYPE val, exprObj *obj, exp
 
 __MATHSUITE __JBURKARDT inline void * H_DTPIPDT (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_DTPIPDT(mpfr_get_ui(args[0], MPFR_RNDN), accessUShortContainerPointer(args[1]), accessIntContainerPointer(args[2])));
+	return nodes->data.function.rfptr(C_DTPIPDT(mpfr_get_ui(args[0], MPFR_RNDN), accessIntContainerPointer(args[1]), accessUShortContainerPointer(args[2])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_DTIPIIPII (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
@@ -2628,7 +2628,7 @@ __MATHSUITE __JBURKARDT inline void * H_DTPII2PS (EXPRTYPE val, exprObj *obj, ex
 
 __MATHSUITE __JBURKARDT inline void * H_2DT3PI (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_2DT3PI(mpfr_get_ui(args[0], MPFR_RNDN), accessIntContainerPointer(args[1]), mpfr_get_ui(args[2], MPFR_RNDN), accessIntContainerPointer(args[3]), accessIntContainerPointer(args[4])));
+	return nodes->data.function.rfptr(C_2DT3PI(mpfr_get_ui(args[0], MPFR_RNDN), mpfr_get_ui(args[1], MPFR_RNDN), accessIntContainerPointer(args[2]), accessIntContainerPointer(args[3]), accessIntContainerPointer(args[4])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_2DTPI2DTPI (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
@@ -2648,7 +2648,7 @@ __MATHSUITE __JBURKARDT inline void * H_PDTPII (EXPRTYPE val, exprObj *obj, expr
 
 __MATHSUITE __JBURKARDT inline void * H_DTI2PI (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_DTI2PI(mpfr_get_ui(args[0], MPFR_RNDN), accessIntContainerPointer(args[1]), mpfr_get_si(args[2], MPFR_RNDN), accessIntContainerPointer(args[3])));
+	return nodes->data.function.rfptr(C_DTI2PI(mpfr_get_ui(args[0], MPFR_RNDN), mpfr_get_si(args[1], MPFR_RNDN), accessIntContainerPointer(args[2]), accessIntContainerPointer(args[3])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_DT2PII3PI (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
@@ -2678,7 +2678,7 @@ __MATHSUITE __JBURKARDT inline void * H_2PIPDT (EXPRTYPE val, exprObj *obj, expr
 
 __MATHSUITE __JBURKARDT inline void * H_DTPIPDTPI (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_DTPIPDTPI(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1]), accessUShortContainerPointer(args[2]), mpfr_get_ui(args[3], MPFR_RNDN)));
+	return nodes->data.function.rfptr(C_DTPIPDTPI(mpfr_get_ui(args[0], MPFR_RNDN), accessIntContainerPointer(args[1]), accessUShortContainerPointer(args[2]), accessIntContainerPointer(args[3])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_DTPI2I (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
@@ -2688,7 +2688,7 @@ __MATHSUITE __JBURKARDT inline void * H_DTPI2I (EXPRTYPE val, exprObj *obj, expr
 
 __MATHSUITE __JBURKARDT inline void * H_2DTPIIPI (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_2DT3PI(mpfr_get_ui(args[0], MPFR_RNDN), mpfr_get_ui(args[1], MPFR_RNDN), accessIntContainerPointer(args[2]), mpfr_get_si(args[4], MPFR_RNDN), accessIntContainerPointer(args[5])));
+	return nodes->data.function.rfptr(C_2DTPIIPI(mpfr_get_ui(args[0], MPFR_RNDN), mpfr_get_ui(args[1], MPFR_RNDN), accessIntContainerPointer(args[2]), mpfr_get_si(args[3], MPFR_RNDN), accessIntContainerPointer(args[4])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_DT3PI (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
@@ -2713,7 +2713,7 @@ __MATHSUITE __JBURKARDT inline void * H_IDTPB (EXPRTYPE val, exprObj *obj, exprN
 
 __MATHSUITE __JBURKARDT inline void * H_3DT3PIT (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_3DT3PIT(mpfr_get_ui(args[0], MPFR_RNDN), mpfr_get_ui(args[1], MPFR_RNDN), accessFloatContainerPointer(args[2]), accessFloatContainerPointer(args[3]), mpfr_get_ui(args[4], MPFR_RNDN), accessFloatContainerPointer(args[5])));
+	return nodes->data.function.rfptr(C_3DT3PIT(mpfr_get_ui(args[0], MPFR_RNDN), mpfr_get_ui(args[1], MPFR_RNDN), mpfr_get_ui(args[2], MPFR_RNDN), accessFloatContainerPointer(args[3]), accessFloatContainerPointer(args[4]), accessFloatContainerPointer(args[5])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_2DTPIT2DT (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
@@ -2728,7 +2728,7 @@ __MATHSUITE __JBURKARDT inline void * H_DTPITIT2PI (EXPRTYPE val, exprObj *obj, 
 
 __MATHSUITE __JBURKARDT inline void * H_PCDT (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PCDT(accessBoolContainerPointer(args[0]), mpfr_get_ui(args[1], MPFR_RNDN)));
+	return nodes->data.function.rfptr(C_PCDT(accessCharContainerPointer(args[0]), mpfr_get_ui(args[1], MPFR_RNDN)));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_2DTITPI (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
@@ -2773,7 +2773,7 @@ __MATHSUITE __JBURKARDT inline void * H_2DT3PITDT2PIT (EXPRTYPE val, exprObj *ob
 
 __MATHSUITE __JBURKARDT inline void * H_9PLI4PIT (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_9PLI4PIT(accessIntContainerPointer(args[0]), accessIntContainerPointer(args[1]), accessIntContainerPointer(args[2]), accessIntContainerPointer(args[3]), accessIntContainerPointer(args[4]), accessIntContainerPointer(args[5]), accessIntContainerPointer(args[6]), accessIntContainerPointer(args[7]), accessIntContainerPointer(args[8]), accessFloatContainerPointer(args[9]), accessFloatContainerPointer(args[10]), accessFloatContainerPointer(args[11]), accessFloatContainerPointer(args[12])));
+	return nodes->data.function.rfptr(C_9PLI4PIT(accessLIntContainerPointer(args[0]), accessLIntContainerPointer(args[1]), accessLIntContainerPointer(args[2]), accessLIntContainerPointer(args[3]), accessLIntContainerPointer(args[4]), accessLIntContainerPointer(args[5]), accessLIntContainerPointer(args[6]), accessLIntContainerPointer(args[7]), accessLIntContainerPointer(args[8]), accessFloatContainerPointer(args[9]), accessFloatContainerPointer(args[10]), accessFloatContainerPointer(args[11]), accessFloatContainerPointer(args[12])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_DT2PITDT2PIDTPIT (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
@@ -2903,7 +2903,7 @@ __MATHSUITE __JBURKARDT inline void * H_DT3PIPB (EXPRTYPE val, exprObj *obj, exp
 
 __MATHSUITE __JBURKARDT inline void * H_DTPITDTPIPIT (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_DTPITDTPIPIT(accessFloatContainerPointer(args[0]), accessFloatContainerPointer(args[1]), mpfr_get_ui(args[2], MPFR_RNDN), mpfr_get_ui(args[3], MPFR_RNDN), accessIntContainerPointer(args[4])));
+	return nodes->data.function.rfptr(C_DTPITDTPIPIT(mpfr_get_ui(args[0], MPFR_RNDN), accessFloatContainerPointer(args[1]), mpfr_get_ui(args[2], MPFR_RNDN), accessIntContainerPointer(args[3]), accessFloatContainerPointer(args[4])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_2DT2ITI3PIT (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
@@ -2973,7 +2973,7 @@ __MATHSUITE __JBURKARDT inline void * H_PIT2DTPI2PITDT (EXPRTYPE val, exprObj *o
 
 __MATHSUITE __JBURKARDT inline void * H_3DTPIT (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_3DTPIT(accessFloatContainerPointer(args[0]), mpfr_get_ui(args[1], MPFR_RNDN), mpfr_get_ui(args[2], MPFR_RNDN), mpfr_get_ui(args[3], MPFR_RNDN)));
+	return nodes->data.function.rfptr(C_3DTPIT(mpfr_get_ui(args[0], MPFR_RNDN), mpfr_get_ui(args[1], MPFR_RNDN), mpfr_get_ui(args[2], MPFR_RNDN), accessFloatContainerPointer(args[3])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PIT3DTPITPIPITDT (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
@@ -2988,12 +2988,12 @@ __MATHSUITE __JBURKARDT inline void * H_PIT3DT7PITDT (EXPRTYPE val, exprObj *obj
 
 __MATHSUITE __JBURKARDT inline void * H_DT2PITPDT (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_DT2PITPDT(accessFloatContainerPointer(args[0]), mpfr_get_ui(args[1], MPFR_RNDN), accessUShortContainerPointer(args[2]), accessFloatContainerPointer(args[3])));
+	return nodes->data.function.rfptr(C_DT2PITPDT(mpfr_get_ui(args[0], MPFR_RNDN), accessFloatContainerPointer(args[1]), accessFloatContainerPointer(args[2]), accessUShortContainerPointer(args[3])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_2DT2PI3PIT (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_2DT2PI3PIT(accessFloatContainerPointer(args[0]), mpfr_get_ui(args[1], MPFR_RNDN), accessIntContainerPointer(args[2]), accessFloatContainerPointer(args[3]), accessIntContainerPointer(args[4]), accessFloatContainerPointer(args[5]), mpfr_get_ui(args[6], MPFR_RNDN)));
+	return nodes->data.function.rfptr(C_2DT2PI3PIT(mpfr_get_ui(args[0], MPFR_RNDN), mpfr_get_ui(args[1], MPFR_RNDN), accessIntContainerPointer(args[2]), accessIntContainerPointer(args[3]), accessFloatContainerPointer(args[4]), accessFloatContainerPointer(args[5]), accessFloatContainerPointer(args[6])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_PIT3DT3PITDTPITDTPITDT (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
@@ -3053,7 +3053,7 @@ __MATHSUITE __JBURKARDT inline void * H_2DT4PIT2IT (EXPRTYPE val, exprObj *obj, 
 
 __MATHSUITE __JBURKARDT inline void * H_2DT3PPIT (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_2DT3PPIT(mpfr_get_ui(args[0], MPFR_RNDN), mpfr_get_ui(args[1], MPFR_RNDN), accessFloatContainerPointer(args[2]), accessFloatContainerPointer(args[3]), accessFloatContainerPointer(args[4])));
+	return nodes->data.function.rfptr(C_2DT3PPIT(mpfr_get_ui(args[0], MPFR_RNDN), mpfr_get_ui(args[1], MPFR_RNDN), accessDFloatContainerPointer(args[2]), accessDFloatContainerPointer(args[3]), accessDFloatContainerPointer(args[4])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_2DTPIPDT (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
@@ -3098,7 +3098,7 @@ __MATHSUITE __JBURKARDT inline void * H_2ITDTITDT2IT2PIT (EXPRTYPE val, exprObj 
 
 __MATHSUITE __JBURKARDT inline void * H_2DT2ITPPIT2DT2PPIT (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_2DT2ITPPIT2DT2PPIT(mpfr_get_ui(args[0], MPFR_RNDN), mpfr_get_ui(args[1], MPFR_RNDN), mpfr_get_d(args[2], MPFR_RNDN), mpfr_get_d(args[3], MPFR_RNDN), accessFloatContainerPointer(args[4]), mpfr_get_ui(args[5], MPFR_RNDN), mpfr_get_ui(args[6], MPFR_RNDN), accessFloatContainerPointer(args[7]), accessFloatContainerPointer(args[8])));
+	return nodes->data.function.rfptr(C_2DT2ITPPIT2DT2PPIT(mpfr_get_ui(args[0], MPFR_RNDN), mpfr_get_ui(args[1], MPFR_RNDN), mpfr_get_d(args[2], MPFR_RNDN), mpfr_get_d(args[3], MPFR_RNDN), accessDFloatContainerPointer(args[4]), mpfr_get_ui(args[5], MPFR_RNDN), mpfr_get_ui(args[6], MPFR_RNDN), accessDFloatContainerPointer(args[7]), accessDFloatContainerPointer(args[8])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_BDTPI (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
@@ -3118,7 +3118,7 @@ __MATHSUITE __JBURKARDT inline void * H_3DT2PI2PIT (EXPRTYPE val, exprObj *obj, 
 
 __MATHSUITE __JBURKARDT inline void * H_DTPIT2DTPIPIT (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_DTPIT2DTPIPIT(mpfr_get_ui(args[0], MPFR_RNDN), mpfr_get_ui(args[1], MPFR_RNDN), mpfr_get_ui(args[2], MPFR_RNDN), accessIntContainerPointer(args[3]), accessFloatContainerPointer(args[4]), accessFloatContainerPointer(args[5])));
+	return nodes->data.function.rfptr(C_DTPIT2DTPIPIT(mpfr_get_ui(args[0], MPFR_RNDN), accessFloatContainerPointer(args[1]), mpfr_get_ui(args[2], MPFR_RNDN), mpfr_get_ui(args[3], MPFR_RNDN), accessIntContainerPointer(args[4]), accessFloatContainerPointer(args[5])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_DT2PITDTITPITPDT (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
@@ -3128,7 +3128,7 @@ __MATHSUITE __JBURKARDT inline void * H_DT2PITDTITPITPDT (EXPRTYPE val, exprObj 
 
 __MATHSUITE __JBURKARDT inline void * H_3DT6PIT (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_3DT6PIT(mpfr_get_ui(args[0], MPFR_RNDN), accessFloatContainerPointer(args[1]), accessFloatContainerPointer(args[2]), accessFloatContainerPointer(args[3]), mpfr_get_ui(args[4], MPFR_RNDN), mpfr_get_ui(args[5], MPFR_RNDN), accessFloatContainerPointer(args[6]), accessFloatContainerPointer(args[7]), accessFloatContainerPointer(args[8])));
+	return nodes->data.function.rfptr(C_3DT6PIT(mpfr_get_ui(args[0], MPFR_RNDN), mpfr_get_ui(args[1], MPFR_RNDN), mpfr_get_ui(args[2], MPFR_RNDN), accessFloatContainerPointer(args[3]), accessFloatContainerPointer(args[4]), accessFloatContainerPointer(args[5]), accessFloatContainerPointer(args[6]), accessFloatContainerPointer(args[7]), accessFloatContainerPointer(args[8])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_DT4IT (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
@@ -3193,7 +3193,7 @@ __MATHSUITE __JBURKARDT inline void * H_2DTPIT2PDT (EXPRTYPE val, exprObj *obj, 
 
 __MATHSUITE __JBURKARDT inline void * H_2DTPIIPIT (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_2DTPIIPIT(mpfr_get_ui(args[0], MPFR_RNDN), mpfr_get_ui(args[1], MPFR_RNDN), accessIntContainerPointer(args[2]), accessIntContainerPointer(args[3]), accessFloatContainerPointer(args[4])));
+	return nodes->data.function.rfptr(C_2DTPIIPIT(mpfr_get_ui(args[0], MPFR_RNDN), mpfr_get_ui(args[1], MPFR_RNDN), accessIntContainerPointer(args[2]), mpfr_get_si(args[3], MPFR_RNDN), accessFloatContainerPointer(args[4])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_2DTIPIT (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
@@ -3213,7 +3213,7 @@ __MATHSUITE __JBURKARDT inline void * H_DTIPDTDT2PI (EXPRTYPE val, exprObj *obj,
 
 __MATHSUITE __JBURKARDT inline void * H_PPIT2DT (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_PPIT2DT(accessFloatContainerPointer(args[0]), mpfr_get_ui(args[1], MPFR_RNDN), mpfr_get_ui(args[2], MPFR_RNDN)));
+	return nodes->data.function.rfptr(C_PPIT2DT(accessDFloatContainerPointer(args[0]), mpfr_get_ui(args[1], MPFR_RNDN), mpfr_get_ui(args[2], MPFR_RNDN)));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_DTPIDTPITPIPIT (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
@@ -3243,7 +3243,7 @@ __MATHSUITE __JBURKARDT inline void * H_DTPITPIIT3PDT (EXPRTYPE val, exprObj *ob
 
 __MATHSUITE __JBURKARDT inline void * H_DT2PITPDTPI (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_DT2PITPDTPI(mpfr_get_ui(args[0], MPFR_RNDN), accessFloatContainerPointer(args[1]), accessUShortContainerPointer(args[2]), accessFloatContainerPointer(args[3]), accessIntContainerPointer(args[4])));
+	return nodes->data.function.rfptr(C_DT2PITPDTPI(mpfr_get_ui(args[0], MPFR_RNDN), accessFloatContainerPointer(args[1]), accessFloatContainerPointer(args[2]), accessUShortContainerPointer(args[3]), accessIntContainerPointer(args[4])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_DTPITPI2IT2PI (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
@@ -3323,7 +3323,7 @@ __MATHSUITE __JBURKARDT inline void * H_DTPITDTPIIPIT (EXPRTYPE val, exprObj *ob
 
 __MATHSUITE __JBURKARDT inline void * H_DTPIT2DTPI3PIT (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_DTPIT2DTPI3PIT(mpfr_get_ui(args[0], MPFR_RNDN), accessIntContainerPointer(args[1]), mpfr_get_ui(args[2], MPFR_RNDN), accessFloatContainerPointer(args[3]), accessFloatContainerPointer(args[4]), mpfr_get_ui(args[5], MPFR_RNDN), accessFloatContainerPointer(args[6]), accessFloatContainerPointer(args[7])));
+	return nodes->data.function.rfptr(C_DTPIT2DTPI3PIT(mpfr_get_ui(args[0], MPFR_RNDN), accessFloatContainerPointer(args[1]), mpfr_get_ui(args[2], MPFR_RNDN), mpfr_get_ui(args[3], MPFR_RNDN), accessIntContainerPointer(args[4]), accessFloatContainerPointer(args[5]), accessFloatContainerPointer(args[6]), accessFloatContainerPointer(args[7])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_DT2PITDT2PIDT2PIT (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
@@ -3378,7 +3378,7 @@ __MATHSUITE __JBURKARDT inline void * H_DTPIPSPIB (EXPRTYPE val, exprObj *obj, e
 
 __MATHSUITE __JBURKARDT inline void * H_2DT2PIDTPI (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])
 {
-	return nodes->data.function.rfptr(C_2DT2PIDTPI(mpfr_get_ui(args[0], MPFR_RNDN), accessIntContainerPointer(args[1]), mpfr_get_ui(args[2], MPFR_RNDN), mpfr_get_ui(args[3], MPFR_RNDN), accessIntContainerPointer(args[4]), accessIntContainerPointer(args[5])));
+	return nodes->data.function.rfptr(C_2DT2PIDTPI(mpfr_get_ui(args[0], MPFR_RNDN), mpfr_get_ui(args[1], MPFR_RNDN), accessIntContainerPointer(args[2]), accessIntContainerPointer(args[3]), mpfr_get_ui(args[4], MPFR_RNDN),  accessIntContainerPointer(args[5])));
 }
 
 __MATHSUITE __JBURKARDT inline void * H_2DTPITPI2DTPIPITPI (EXPRTYPE val, exprObj *obj, exprNode *nodes, EXPRERRTYPE *err, EXPRTYPE args[])

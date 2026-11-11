@@ -40,7 +40,7 @@ __MATHSUITE __JBURKARDT  void *   _partition_brute ( void * data)
     int rank;
     int w_sum;
 
-    w_sum = i4vec_sum ( n, w );
+    w_sum = i4vec_sumi ( n, w );
     *discrepancy = w_sum;
 
     rank = -1;
@@ -112,7 +112,7 @@ __MATHSUITE __JBURKARDT  void *   _partition_count ( void * data)
     int rank;
     int w_sum;
 
-    w_sum = i4vec_sum ( n, w );
+    w_sum = i4vec_sumi ( n, w );
 
     c = ( int * ) malloc ( n * sizeof ( int ) );
     rank = -1;

@@ -4435,7 +4435,7 @@ __MATHSUITE __JBURKARDT  void *   _sgmga_vcn_coef ( void * data)
         Generate the next binary perturbation.
         */
         binary_vector_next ( dim_num, b );
-        b_sum = i4vec_sum ( dim_num, b );
+        b_sum = i4vec_sumi ( dim_num, b );
         /*
         We're done if we've got back to 0.
         */

@@ -1335,7 +1335,7 @@ __MATHSUITE __JBURKARDT  void *   _tree_enum ( void * data)
 {
 	static unsigned result = UINT_MAX;
 	
-	const register unsigned nnode = *(unsigned *) nnode;
+	const register unsigned nnode = *(unsigned *) data;
 	
 	result = nnode<0 ? 0 : nnode == 0 || nnode == 1 || nnode == 2 ? 1 : powi ( nnode, nnode - 2 );
     return &result;

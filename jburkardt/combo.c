@@ -485,7 +485,7 @@ __MATHSUITE __JBURKARDT  void *  _i4vec_backtrack ( void * data)
 }
 
 /******************************************************************************/
-__MATHSUITE __JBURKARDT  void *   _i4vec_sum ( void * data)
+__MATHSUITE __JBURKARDT  void *   _i4vec_sumi ( void * data)
 /******************************************************************************/
 /*
   Purpose:
@@ -515,6 +515,45 @@ __MATHSUITE __JBURKARDT  void *   _i4vec_sum ( void * data)
 	const register dim_typ n = s_data->a0;
 	int * a = s_data->a1;
 	
+    int sum = 0;
+    for (dim_typ i = 0; i < n; ++i )
+        sum += a[i];
+        
+    result = sum;
+    return &result;
+}
+
+/******************************************************************************/
+__MATHSUITE __JBURKARDT  void *   _i4vec_sumd ( void * data)
+/******************************************************************************/
+/* 
+  Purpose:
+    I4VEC_SUM sums the entries of an I4VEC.
+  Discussion:
+    An I4VEC is a vector of I4's.
+  Example: 
+    Input:
+      A = ( 1, 2, 3, 4 )
+    Output:      
+      I4VEC_SUM = 10
+  Licensing:     
+    This code is distributed under the GNU LGPL license.
+  Modified:     
+    29 May 2003 
+  Author:      
+    John Burkardt
+  Parameters: 
+    Input, int N, the number of entries in the vector.
+    Input, int A[N], the vector to be summed.
+    Output, int I4VEC_SUM, the sum of the entries of A.
+*/  
+{ 
+        static int result = INT_MAX;
+        
+        const dtpdt * const s_data = data;
+        const register dim_typ n = s_data->a0;
+        dim_typ * a = s_data->a1;
+        
     int sum = 0;
     for (dim_typ i = 0; i < n; ++i )
         sum += a[i];

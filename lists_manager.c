@@ -43,7 +43,7 @@ __MATHSUITE inline sel_typ   checkItemTypeByExtension(const char extension[stati
     return MAX_LISTS;
 }
 
-__MSSHELL_WRAPPER_ __MATHSUITE bool    listInsertProc(const char item_path[static MAX_PATH_LENGTH], sel_typ mode)
+__MSSHELL_WRAPPER_ __MATHSUITE bool    listInsertProc(const char *item_path, sel_typ mode)
 {
     const bool assert = getItemsListNo(mode) == STARTING_ITEMSNO;
 	
@@ -55,7 +55,7 @@ __MSSHELL_WRAPPER_ __MATHSUITE bool    listInsertProc(const char item_path[stati
         printErr(2, "An error during:\n%s\n%s File opening process might have occurred", item_path, suite_c.listsnames[mode]);
         return false;
     }
-    
+
     if(searchItem(item_path, mode) != NULL_ITEM(mode))
     {
 		printErr(17,  "Inserted Path:\n%s\nrefers to an already existing %s Item", item_path, suite_c.listsnames[mode]);    

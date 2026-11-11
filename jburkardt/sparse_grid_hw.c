@@ -2669,7 +2669,7 @@ __MATHSUITE __JBURKARDT  void   nwspgr ( void rule ( dim_typ n, ityp x[], ityp w
 
             roff = r8cvv_offset ( dim, nr );
 
-            nc = i4vec_sum ( dim, nr );
+            nc = i4vec_sumi ( dim, nr );
             wc = ( ityp * ) malloc ( nc * sizeof ( ityp ) );
             xc = ( ityp * ) malloc ( nc * sizeof ( ityp ) );
             /*
@@ -2834,7 +2834,7 @@ __MATHSUITE __JBURKARDT  dim_typ   nwspgr_size ( dim_typ rule_order ( dim_typ l 
         n1d[level-1] = n;
     }
 
-    n1d_total = i4vec_sum ( k, n1d );
+    n1d_total = i4vec_sumi ( k, n1d );
     /*
     Go through the motions of generating the rules.
     */
@@ -2864,7 +2864,7 @@ __MATHSUITE __JBURKARDT  dim_typ   nwspgr_size ( dim_typ rule_order ( dim_typ l 
         /*
         Add the sizes to the total.
         */
-        r_size = r_size + i4vec_sum ( seq_num, rq );
+        r_size = r_size + i4vec_sumi ( seq_num, rq );
 
         free ( is );
         free ( rq );

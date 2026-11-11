@@ -12100,7 +12100,7 @@ __MATHSUITE __JBURKARDT  void   * _r8vec_swtb ( void * data)
     ityp *x;
     ityp *y;
 
-    n2 = n + ( n % 2 ) == 1;
+    n2 = n + (( n % 2 ) == 1);
 
     np1h = ( n + 1 ) / 2;
     nh = n / 2;
@@ -12171,7 +12171,7 @@ __MATHSUITE __JBURKARDT  void *   _r8vec_swtf ( void * data)
     int np1h;
     ityp *y;
 
-    n2 = n + ( n % 2 ) == 1;
+    n2 = n + (( n % 2 ) == 1);
     y = ( ityp * ) malloc ( n2 * sizeof ( ityp ) );
 
     for ( i = 0; i < n; ++i )

@@ -1,0 +1,6 @@
+obj/Release/
+.DS_Store
+mathsuite.sql.bak*
+settings.xml.bak*
+mathSuite.exe
+mathSuite

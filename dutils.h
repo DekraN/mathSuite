@@ -216,13 +216,31 @@ enum
 #else
     #include <termios.h>
     #include <unistd.h>
+    #include <netinet/in.h>
+    #include <arpa/inet.h>
+    #include <sys/types.h>
+    #include <sys/socket.h>
+    #include <netdb.h>
+    
     #define MAX_PATH_LENGTH 260
-    #define AI_NUMERICHOST AI_NUMERICSERV
+    // #define AI_NUMERICHOST AI_NUMERICSERV
     #define DEFAULT_LINUX_SPOOLFOLDER "/var/spool"
-    #define clearScreen write(1,"\E[H\E[2J",7); //  printf("\033[H\033[J")
+    #define clearScreen() write(1,"\E[H\E[2J",7); //  printf("\033[H\033[J")
     #define pulisciSchermo (void) system("clear")
     #define closesocket close
     #define removedir rmdir
+    #define WSACleanup() ((void)0)
+    #ifndef SOCKADDR_STORAGE
+        typedef struct sockaddr_storage SOCKADDR_STORAGE;
+    #endif
+
+    #ifndef SOCKET_ERROR
+        #define SOCKET_ERROR (-1)
+    #endif
+
+    #ifndef WSACleanup
+        #define WSACleanup() ((void)0)
+    #endif
 #endif
 
 #define EXIT_HASHMAPERROR 1
@@ -679,8 +697,6 @@ typedef unsigned long long uint64_t;
 
 typedef unsigned char sel_typ; // DEFINING SELECTION TYPE
 typedef unsigned short fsel_typ; // DEFINING FORMATTABLE SELECTION TYPE
-typedef sel_typ bool;
-
 
 #define COMPARE_STRING_FACTOR MAX_STRING
 
@@ -895,9 +911,11 @@ enum
 #define NORMAL_MODE false
 #define NOP_MODE true
 
+/*
 #ifndef WINOS
     #define MIN(a,b) (((a)<(b))?(a):(b))
 #endif
+*/
 
 //
 #define insertMatrix(x,y,z,k) enterMatrix(&x,&y,&z,k,true)
@@ -1041,8 +1059,8 @@ enum
 	#define MUTANT_FILENAME "mathSuiteMutant"
 	#define MAKE_EXECUTABLE "cd "MUTANT_DIR" && make"
 	#define EXTRACTSRC_CMD "cd "MUTANT_DIR" && unzip "MUTANTSRC_ARCHIVE" -d "MUTANTSRC_DIR
-	#define _COMMIT_CMD "cd "MUTANT_DIR && zip -r "MUTANTOBJ_ARCHIVE"
-	#define _CHECKOUT_cmd "cd "MUTANT_DIR" && rm -rd obj && unzip -r "MUTANTOBJ_ARCHIVE" -d obj"
+	#define _COMMIT_CMD "cd "MUTANT_DIR" && zip -r "MUTANTOBJ_ARCHIVE
+	#define _CHECKOUT_CMD "cd "MUTANT_DIR" && rm -rd obj && unzip -r "MUTANTOBJ_ARCHIVE" -d obj"
 	#define MUTANT_REMOVEDIRSCMD "rm -f *.c && rm -f *.h && rm -f mathSuite.ico && rm -f mathSuite_private.rc && rm -rd ExprEval && rm -rd jburkardt && rm -rd libxml"
 	#define MSS_TMPFILENAMEXE "mutant/tmp"
 #endif
@@ -1051,7 +1069,7 @@ enum
 // Used just to initializate the program random seed value.
 
 #define DEFAULT_RANDOM_SEED (unsigned)time(NULL)
-tipo_random_seed starting_random_seed;
+extern tipo_random_seed starting_random_seed;
 
 #define MIN_RANDOMSEED 1
 #define MAX_RANDOMSEED RAND_MAX
@@ -2589,7 +2607,8 @@ extern const struct prog_constants suite_c;
 /// mengine.c
  void toupper_s(char *);
  void tolower_s(char *);
- void asteriskize(char *);
+ void itoa(const int, char [], int);
+void asteriskize(char *);
 __MATHSUITE void strundsc(const char *, char []);
 __MATHSUITE void strboolize(const char *, char []);
 __MATHSUITE void strfnm(const char *, char [static MAX_PATH_LENGTH]);
@@ -2601,7 +2620,7 @@ __MATHSUITE void strfnm(const char *, char [static MAX_PATH_LENGTH]);
 __MATHSUITE bool  readFile(const char [static MAX_PATH_LENGTH]);
 __MATHSUITE bool  printFile(const char [static MAX_PATH_LENGTH]);
 __MATHSUITE bool  writeFile(const char [static MAX_PATH_LENGTH]);
-__MATHSUITE FILE *  checkForFHErrors(const char [static MAX_PATH_LENGTH], char [static 1]);
+__MATHSUITE FILE *  checkForFHErrors(const char *, char [static 1]);
 __MATHSUITE bool  frename(const char [static MAX_PATH_LENGTH], const char [static MAX_PATH_LENGTH]);
  bool matrixUTConv(mpfr_t *restrict, dim_typ, sel_typ *);
  __MATHSUITE void det_3d(mpfr_t, mpfr_t *restrict);
@@ -2658,13 +2677,24 @@ __MATHSUITE void  aCheckInt(const uint64_t, mpfr_t, int *);
 
 
 __MATHSUITE void  truncateVector(const register dim_typ dim, mpfr_t [static dim], ityp [static dim]);
+__MATHSUITE dim_typ (* accessDTFunction(const mpfr_t))(dim_typ);
 __MATHSUITE ityp *  accessFloatContainerPointer(const mpfr_t);
+__MATHSUITE float *  accessFFloatContainerPointer(const mpfr_t);
+__MATHSUITE long double * accessLFloatContainerPointer(const mpfr_t);
+__MATHSUITE ityp **  accessDFloatContainerPointer(const mpfr_t);
+__MATHSUITE char *  accessCharContainerPointer(const mpfr_t);
+__MATHSUITE unsigned char *  accessUCharContainerPointer(const mpfr_t);
 __MATHSUITE bool *  accessBoolContainerPointer(const mpfr_t);
 __MATHSUITE dim_typ *  accessUShortContainerPointer(const mpfr_t);
 __MATHSUITE short *  accessShortContainerPointer(const mpfr_t);
 __MATHSUITE int *  accessIntContainerPointer(const mpfr_t);
-
-__MSSHELL_WRAPPER_ __MATHSUITE sprog * const  searchProgram(char [static SIGN_STRING]);
+__MATHSUITE int **  accessDIntContainerPointer(const mpfr_t);
+__MATHSUITE int ***  accessTIntContainerPointer(const mpfr_t);
+__MATHSUITE long int *  accessLIntContainerPointer(const mpfr_t);
+__MATHSUITE long long int *  accessLLIntContainerPointer(const mpfr_t);
+__MATHSUITE unsigned long int *  accessULIntContainerPointer(const mpfr_t);
+__MATHSUITE unsigned long long int *  accessULLIntContainerPointer(const mpfr_t);
+__MSSHELL_WRAPPER_ __MATHSUITE sprog * const  searchProgram(char *);
  int  cmpfunc(const void *, const void *);
  int mpfr_cmpfunc(const void * a, const void * b);
 __MATHSUITE void  _showUsage(sprog * const);
@@ -2677,7 +2707,7 @@ __MATHSUITE void resetLmpMatrix();
 	__MATHSUITE void closeUnsetSocket(fd_set *, int *);
 	__MATHSUITE sel_typ getFamily(const register sel_typ family);
 #endif
-__MATHSUITE void removeDirEnt(const char [static MAX_PATH_LENGTH], const register dim_typ extNo, char [static extNo][MAX_EXTENSION_LENGTH]);
+__MATHSUITE void removeDirEnt(const char *, const register dim_typ extNo, char [static extNo][MAX_EXTENSION_LENGTH]);
 __MATHSUITE void removeCriticalFiles(const bool);
 __MATHSUITE void  _handleCmdLine(char *);
 __MATHSUITE bool  _execScriptFiles(const char [static MAX_PATH_LENGTH]);
@@ -2712,12 +2742,12 @@ __MATHSUITE bool  _lfCreate(const char [static MAX_PATH_LENGTH]);
 #endif
 
  const char * const   getFilename(const char path[static MAX_PATH_LENGTH]);
- void  updInfo(const char [static SERVER_LENGTH+5]);
+ void  updInfo(const char *);
 
  void   SetColor(const sel_typ);
 
 // __MATHSUITE ityp  MINMAX(const register dim_typ dim, const ityp [static dim], const bool, dim_typ *);
-__MATHSUITE void MINMAX(ityp *, ityp *, unsigned dim, ityp [static dim], dim_typ *, dim_typ *);
+__MATHSUITE void MINMAX(ityp *, ityp *, dim_typ dim, ityp [static dim], dim_typ *, dim_typ *);
 __MATHSUITE void  MPFR_MINMAX(mpfr_t, mpfr_t, mpfr_t dim, mpfr_t [static mpfr_get_ui(dim, MPFR_RNDN)], mpfr_t, mpfr_t);
 __MATHSUITE  ityp   getDiffTime(struct timeval * tvBegin);
 __MATHSUITE bool   isDomainForbidden(mpfr_t, bool);
@@ -2745,7 +2775,7 @@ __MATHSUITE dim_typ   selectListItem(dim_typ dim, bool, const char *, const char
 	
 	// __MATHSUITE bool readUser(const register int, char [static 6][USER_MAXFIELDLENGTH]);
 	__MATHSUITE bool readUser(const register int, userObj **);
-	__MATHSUITE bool readUserFromUserName(const char [static USER_MAXIDENTIFIERLENGTH], userObj **);
+	__MATHSUITE bool readUserFromUserName(const char *, userObj **);
 	__MATHSUITE bool readUserFromEmail(const char [static USER_MAXIDENTIFIERLENGTH], userObj **);
 	__MATHSUITE bool writeUser(userObj *restrict, const bool);
 	
@@ -2784,7 +2814,7 @@ __MSSHELL_WRAPPER_ void __apnt advancedCalculator(const sel_typ argc, char ** ar
 __MSSHELL_WRAPPER_ void __apnt algebraOperations(const sel_typ argc, char ** argv);
 __MSSHELL_WRAPPER_ void __apnt multiUser(const sel_typ argc, char ** argv);
 __MSSHELL_WRAPPER_ void __apnt mssManager(const sel_typ argc, char ** argv);
-__MSSHELL_WRAPPER_ __MATHSUITE void    operationsGroupMenu(dim_typ dim, sprog [static dim], const char [static INFO_STRING], bool);
+__MSSHELL_WRAPPER_ __MATHSUITE void    operationsGroupMenu(dim_typ dim, sprog [static dim], const char *, bool);
 __MSSHELL_WRAPPER_ __MATHSUITE void  progInfo(sel_typ);
  void   freeExprEvalLists();
  void   refreshExprEvalVarList(dim_typ);
@@ -3586,7 +3616,7 @@ __MATHSUITE void    _matrixKSProduct(mpfr_t **, mpfr_t **, mpfr_t **, register d
 
 /// lists_manager.c
 __MATHSUITE sel_typ   checkItemTypeByExtension(const char [static MAX_EXTENSION_LENGTH]);
-__MSSHELL_WRAPPER_ __MATHSUITE bool    listInsertProc(const char [static MAX_PATH_LENGTH], sel_typ);
+__MSSHELL_WRAPPER_ __MATHSUITE bool    listInsertProc(const char *, sel_typ);
 __MATHSUITE dim_typ   searchItem(const char [static MAX_PATH_LENGTH], sel_typ);
 __MATHSUITE nodelist *   listNo(dim_typ, sel_typ);
 __MATHSUITE bool   listInsert(const char [static MAX_PATH_LENGTH], sel_typ);

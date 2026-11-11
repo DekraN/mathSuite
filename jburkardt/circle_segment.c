@@ -654,8 +654,7 @@ __MATHSUITE __JBURKARDT  void   * _circle_segment_centroid_from_sample ( void * 
 
     d[0] = r8vec_sum ( n, x ) / ( ityp ) ( n );
     d[1] = r8vec_sum ( n, y ) / ( ityp ) ( n );
-    free ( x );
-    free ( y );
+   
     return d;
 }
 

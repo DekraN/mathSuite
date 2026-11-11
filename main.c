@@ -509,6 +509,7 @@ sprog main_menu[MAX_PROGRAMMI] =
     }
 };
 
+tipo_random_seed starting_random_seed;
 
 int main(int argc, char **argv)
 {
@@ -516,17 +517,19 @@ int main(int argc, char **argv)
 	atexit(prepareToExit);
 	remove(PHONY_FILE);
 	
+	starting_random_seed = (unsigned)time(NULL);
+
     #ifndef STACKALLOC
         suite = malloc(sizeof(struct program));
         errMem(suite, HEAPALLOC_ERROR);
-        
+       
         // INITIALIZING suite vars
         strcpy(access(sysLogPath), SYSTEM_LOG);
     
     	#ifndef __DISABLE_DATABASE
     		access(lastSessionSocket) = INVALID_SOCKET;
        	#endif
-       	
+
         access(PRMSystem).currentIndex = 0;
         access(PRMSystem).vectorType = VECTORTYPE_ROW;
 	
@@ -587,15 +590,16 @@ int main(int argc, char **argv)
     #endif
     
     char key[5];
-    
+   
     #ifndef __DISABLE_DATABASE
     
 	    access(sessions) = hashmap_new();
 	    session * masterSession = calloc(1, sizeof(session));
 	    errMem(masterSession, HASHMAP_ERROR);
-	    
-	    itoa(INVALID_SOCKET, key, 10);
-	    
+	   
+	   
+            itoa(INVALID_SOCKET, key, 10);
+
 	    if(hashmap_put(access(sessions), key, masterSession) == MAP_OMEM)	
 		{
 			printf("\nFATAL ERROR on putting the MASTER SESSION into the sessions' hashmap");
@@ -609,7 +613,7 @@ int main(int argc, char **argv)
 		masterSession->lastItem[MATRICES] = STARTING_ITEMSNO;
 		masterSession->user = NULL;
 	
-	#endif
+    #endif
 	
 	xmlDocPtr doc = NULL;       /* document pointer */
 	xmlNodePtr root_node = NULL, node = NULL, node1 = NULL;/* node pointers */
@@ -653,7 +657,7 @@ int main(int argc, char **argv)
 	    if(!ShowWindow(GetConsoleWindowNT(), SW_MAXIMIZE))
 	       printErr(22, "ShowWindow SW_MAXIMIZE failed with error: %lu", GetLastError());
 	#endif
-
+	
     setDefaults();
 
     char path[MAX_PATH_LENGTH];
@@ -665,7 +669,7 @@ int main(int argc, char **argv)
         sprintf(path, "%s.%s", DEFAULT_MAIN_PATH, DEFAULT_PATHLIST_FILE_EXTENSION);
 
     const sel_typ mode = extension ? checkItemTypeByExtension(extension) : MAX_LISTS;
-	_lfLoader(path);
+    _lfLoader(path);
 
     if((mode != LAYOUTS && !getItemsListNo(LAYOUTS)) || (mode == LAYOUTS && !file_exists(argv[1])))
     {
@@ -675,7 +679,7 @@ int main(int argc, char **argv)
     		"false",
     		"true"
     	};
-    	
+
     	xmlInitParser();
     	LIBXML_TEST_VERSION;
 
@@ -686,8 +690,11 @@ int main(int argc, char **argv)
 
     	node = xmlNewNode(NULL, BAD_CAST "generalSettings");
 
-    	xmlNewChild(node, NULL, BAD_CAST "exitChar", BAD_CAST EXIT_CHAR);
-    	char tmp_string[INFO_STRING] = NULL_CHAR;
+	char tmp_string[INFO_STRING] = NULL_CHAR;
+
+	sprintf(tmp_string, "%c", EXIT_CHAR);
+    	xmlNewChild(node, NULL, BAD_CAST "exitChar", BAD_CAST tmp_string);
+
     	sprintf(tmp_string, "%hu", DEFAULT_PRECISION);
     	xmlNewChild(node, NULL, BAD_CAST "programPrecision", BAD_CAST tmp_string);
 		sprintf(tmp_string, "%hu", DEFAULT_STABILIZER_FACTOR);
@@ -700,8 +707,8 @@ int main(int argc, char **argv)
    	    xmlNewChild(node, NULL, BAD_CAST "outlierConstant", BAD_CAST tmp_string);
 
 		xmlAddChild(root_node, node);
-		xmlFreeNode(node);
-		
+		//xmlFreeNode(node);
+
 		#ifndef __DISABLE_MULTIUSER
 		#ifndef __DISABLE_SERVER
 			node = xmlNewNode(NULL, BAD_CAST "serverSettings");
@@ -720,10 +727,10 @@ int main(int argc, char **argv)
 			sprintf(tmp_string, "%d", CLIENTSERVER_BUFSIZE);
 			xmlNewChild(node, NULL, BAD_CAST "bufferLength", BAD_CAST tmp_string);
 			
-			xmlAddChild(root_node, node);
-			xmlFreeNode(node);
+			xmlAddChild(root_node, node);	
+			// xmlFreeNode(node);
 		#endif
-		
+
 		#ifndef __DISABLE_DATABASE
 			node = xmlNewNode(NULL, BAD_CAST "databaseSettings");
 			
@@ -738,10 +745,10 @@ int main(int argc, char **argv)
 			xmlNewChild(node, NULL, BAD_CAST "identifierMode", BAD_CAST suite_c.identifier_names[DEFAULT_IDENTIFIER]);
 
 			xmlAddChild(root_node, node);
-			xmlFreeNode(node);
+			// xmlFreeNode(node);
 		#endif
 		#endif
-
+	
 		node = xmlNewNode(NULL, BAD_CAST "matricesOptions");
 
 		sprintf(tmp_string, "%hu", MAX_MATRIXLISTITEMS);
@@ -762,7 +769,7 @@ int main(int argc, char **argv)
 		xmlNewChild(node, NULL, BAD_CAST "maxDSVDIterations", BAD_CAST tmp_string);
 
 		xmlAddChild(root_node, node);
-		xmlFreeNode(node);
+		// xmlFreeNode(node);
 
 		node = xmlNewNode(NULL, BAD_CAST "memoizerOptions");
 
@@ -776,13 +783,13 @@ int main(int argc, char **argv)
 			char strboolized[INFO_STRING] = NULL_CHAR;
 			strboolize(suite_c.memoizers_names[i], strboolized);
 			strboolized[0] = toupper(strboolized[0]);
-			sprintf(str, "/settings/memoizerOptions/max%sMemoizableIndex", strboolized);
+			sprintf(str, "max%sMemoizableIndex", strboolized);
 			sprintf(tmp_string, "%hu", suite_c.max_memoizable_indices[i]);
 			xmlNewChild(node, NULL, BAD_CAST str, BAD_CAST tmp_string);
 		}
 
 		xmlAddChild(root_node, node);
-		xmlFreeNode(node);
+		// xmlFreeNode(node);
 
 		node = xmlNewNode(NULL, BAD_CAST "baseConversions");
 
@@ -794,7 +801,7 @@ int main(int argc, char **argv)
 		xmlNewChild(node, NULL, BAD_CAST "maxChangebaseBinaryConvnum", BAD_CAST tmp_string);
 
 		xmlAddChild(root_node, node);
-		xmlFreeNode(node);
+		// xmlFreeNode(node);
 
 		node = xmlNewNode(NULL, BAD_CAST "newtonDifferenceTables");
 
@@ -804,7 +811,7 @@ int main(int argc, char **argv)
 		xmlNewChild(node, NULL, BAD_CAST "maxDimension", BAD_CAST tmp_string);
 
 		xmlAddChild(root_node, node);
-		xmlFreeNode(node);
+		// xmlFreeNode(node);
 
 		node = xmlNewNode(NULL, BAD_CAST "romanNumbers");
 
@@ -814,7 +821,7 @@ int main(int argc, char **argv)
 		xmlNewChild(node, NULL, BAD_CAST "maxProcessableNumber", BAD_CAST tmp_string);
 
 		xmlAddChild(root_node, node);
-		xmlFreeNode(node);
+		// xmlFreeNode(node);
 
 		node = xmlNewNode(NULL, BAD_CAST "pascalsTriangle");
 
@@ -824,7 +831,7 @@ int main(int argc, char **argv)
 		xmlNewChild(node, NULL, BAD_CAST "maxRows", BAD_CAST tmp_string);
 
 		xmlAddChild(root_node, node);
-		xmlFreeNode(node);
+		// xmlFreeNode(node);
 
 		node = xmlNewNode(NULL, BAD_CAST "booleanKeys");
 
@@ -836,21 +843,25 @@ int main(int argc, char **argv)
         	char name[MIN_STRING<<2] = NULL_CHAR;
 			char strboolized[MIN_STRING<<1] = NULL_CHAR;
 			strboolize(suite_c.bools_names[i], strboolized);
-        	sprintf(name, "/settings/booleanKeys/%s", strboolized);
+        	sprintf(name, "%s", strboolized);
         	xmlNewChild(node, NULL, BAD_CAST name, BAD_CAST bools_identifiers[suite_c.bools[i].default_val]);
         }
 
 		xmlAddChild(root_node, node);
-		xmlFreeNode(node);
+	 	// xmlFreeNode(node);
 
-	    xmlSaveFormatFileEnc(SETTINGS_FILENAME, doc, XML_ENCODING, 1);
+	        // xmlSaveFormatFileEnc(SETTINGS_FILENAME, doc, XML_ENCODING, 1);
+		xmlSaveFormatFile(SETTINGS_FILENAME, doc, 1);
+
 	    /// xmlFreeNode(root_node);
-	    xmlFreeDoc(doc);
+	    	xmlFreeDoc(doc);
+
 	    xmlCleanupParser();
 
 	    listInsertProc(SETTINGS_FILENAME, LAYOUTS);
+
     }
-    
+
     if(mode != MAX_LISTS)
         listInsertProc(argv[1], mode);
 
@@ -863,6 +874,7 @@ int main(int argc, char **argv)
     updInfo(NULL);    
     
     operationsGroupMenu(MAX_PROGRAMMI, main_menu, NULL_CHAR, BY_CHARS);
+  
     prepareToExit();
     
     #ifdef WINOS

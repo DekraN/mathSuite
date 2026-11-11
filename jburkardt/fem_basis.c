@@ -285,7 +285,7 @@ __MATHSUITE __JBURKARDT  void *   _fem_basis_md ( void * data)
 	int * i = s_data->a2;
 	
     ityp c;
-    dim_typ d = i4vec_sum ( m + 1, i );
+    dim_typ d = i4vec_sumi ( m + 1, i );
     ityp l;
     dim_typ p, q;
     ityp w;

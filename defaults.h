@@ -11,7 +11,7 @@
 // #pragma once
 
 // just indefine it if you want to compile this on UNIX Archs
-#define WINOS
+// #define WINOS
 
 #define STACKALLOC
 
@@ -1814,7 +1814,8 @@ sullo script in questione
 #define IDENTIFIER_I4VECSORTINSERTA "i4vec_sort_insert_a"
 #define IDENTIFIER_I4VECSORTINSERTD "i4vec_sort_insert_d"
 #define IDENTIFIER_I4VECBACKTRACK "i4vec_backtrack"
-#define IDENTIFIER_I4VECSUM "i4vec_sum"
+#define IDENTIFIER_I4VECSUMI "i4vec_sumi"
+#define IDENTIFIER_I4VECSUMD "i4vec_sumd"
 #define IDENTIFIER_KNAPSACK01 "knapsack_01"
 #define IDENTIFIER_PERMCHECK "perm_check"
 #define IDENTIFIER_PERMINV "perm_inv"
@@ -5255,7 +5256,8 @@ sullo script in questione
 #define FUNCNAME_I4VECSORTINSERTA _i4vec_sort_insert_a
 #define FUNCNAME_I4VECSORTINSERTD _i4vec_sort_insert_d
 #define FUNCNAME_I4VECBACKTRACK _i4vec_backtrack
-#define FUNCNAME_I4VECSUM _i4vec_sum
+#define FUNCNAME_I4VECSUMI _i4vec_sumi
+#define FUNCNAME_I4VECSUMD _i4vec_sumd
 #define FUNCNAME_KNAPSACK01 _knapsack_01
 #define FUNCNAME_PERMCHECK _perm_check
 #define FUNCNAME_PERMINV _perm_inv
