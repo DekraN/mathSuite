@@ -4,5 +4,6 @@ mutant/obj/jburkardt/
 .DS_Store
 mathsuite.sql.bak*
 settings.xml.bak*
+.settings.xml
 mathSuite.exe
 mathSuite
