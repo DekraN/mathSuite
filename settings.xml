@@ -20,7 +20,7 @@
   <databaseSettings>
     <server>localhost</server>
     <username>root</username>
-    <password>root</password>
+    <password>***REMOVED***</password>
     <database>mathsuite</database>
     <maxUsers>255</maxUsers>
     <defaultLevel>1</defaultLevel>

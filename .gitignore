@@ -1,4 +1,6 @@
 obj/Release/
+mutant/obj/
+mutant/obj/jburkardt/
 .DS_Store
 mathsuite.sql.bak*
 settings.xml.bak*
