@@ -1,0 +1,40 @@
+# Project: mathSuite
+# Convertito per macOS (ARM64 / Apple Silicon)
+
+CC       = gcc-16
+CXX      = g++
+RM       = rm -f
+MKDIR    = mkdir -p
+
+# Percorsi standard librerie per Homebrew su Apple Silicon
+BREW_PREFIX = /opt/homebrew
+
+#INCS     = -I. -I$(BREW_PREFIX)/include
+INCS     = -I. -I$(BREW_PREFIX)/include
+LIBS     = -L$(BREW_PREFIX)/lib -lm
+
+OBJ = obj/Release/main.o
+
+LINKOBJ  = $(OBJ)
+
+BIN      = mathsuiteClient
+CFLAGS   = $(INCS) -O2 -std=c99 -pipe
+CXXFLAGS = $(INCS) -O2 -std=c11
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before $(BIN) all-after
+
+all-before:
+	$(MKDIR) obj/Release
+
+clean: clean-custom
+	$(RM) $(OBJ) $(BIN)
+
+$(BIN): $(LINKOBJ)
+	$(CC) $(LINKOBJ) -o $(BIN) $(LIBS)
+
+obj/Release/main.o: main.c
+	$(CC) -c main.c -o obj/Release/main.o $(CFLAGS)
+
+

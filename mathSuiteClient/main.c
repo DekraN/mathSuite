@@ -5,8 +5,24 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <winsock2.h>
-#include <ws2tcpip.h>
+#include <string.h>
+
+// #define WINOS
+
+#ifdef WINOS
+    #include <winsock2.h>
+    #include <ws2tcpip.h>
+#else
+    #include <unistd.h>
+    #include <netinet/in.h>
+    #include <arpa/inet.h>
+    #include <sys/types.h>
+    #include <sys/socket.h>
+    #include <netdb.h>
+
+    #define closesocket close
+    #define WSACleanup() ((void)0)
+#endif
 
 // #pragma comment(lib, "ws2_32.lib")
 
@@ -26,10 +42,21 @@
 static void printErr(const char *err_string)
 {
 	printf("\n\nERROR: %s.\n\n", err_string);
-	system("PAUSE");
+	#ifdef WINOS
+	    system("PAUSE");
+	#endif
 	exit(EXIT_FAILURE);
 	return;
 }
+
+#ifndef WINOS
+    inline void itoa(const int val, char string[], int base)
+    {
+	#pragma unused(base)
+        sprintf(string, "%d", val);
+        return;
+    }       
+#endif    
 
 static char getAddressInfo(char *string, struct sockaddr * addr, socklen_t len)
 {
@@ -60,12 +87,14 @@ int main(int argc, char *argv[])
 	printf("Welcome to mathSuite v10 Client Version.\n");
 	printf("Type an existing command or write \"info\" to see Commands List.\n\n");
 	
-	WSADATA wsaData;
+	#ifdef WINOS
+	    WSADATA wsaData;
+	    (void) WSAStartup(MAKEWORD(2, 2), &wsaData);	
+	#endif
+
 	char buf[MAX_BUFLEN];
 	int sockfd;
 	int n;
-	
-	(void) WSAStartup(MAKEWORD(2, 2), &wsaData);
 	
 	// SOCKADDR_STORAGE addr = { 0 };
 	
@@ -95,7 +124,7 @@ int main(int argc, char *argv[])
 	if(getaddrinfo(address, port, &hints, &res))
 	{
 		printErr("getaddrinfo()");
-		return;
+		return 1;
 	}
 	
 	for (p = res; p != NULL ; p = p->ai_next)
@@ -179,6 +208,8 @@ int main(int argc, char *argv[])
 	freeaddrinfo(res);
 	closesocket(sockfd);
 	WSACleanup();
-	system("PAUSE");
+	#ifdef WINOS
+	    system("PAUSE");
+	#endif
 	return EXIT_SUCCESS;
 }

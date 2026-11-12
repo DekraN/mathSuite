@@ -238,9 +238,6 @@ enum
         #define SOCKET_ERROR (-1)
     #endif
 
-    #ifndef WSACleanup
-        #define WSACleanup() ((void)0)
-    #endif
 #endif
 
 #define EXIT_HASHMAPERROR 1
