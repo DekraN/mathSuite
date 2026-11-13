@@ -488,25 +488,34 @@ sprog multiuser_prog[MAX_MULTIUSER_PROGS] =
 		bool connected = false; //regola la gestione della connessione col client
 		int result;
 		// const struct timeval * const inftime = calloc(1, sizeof(struct timeval));
-	
+
 		while (!quit) 
 		{
 			// perform select()
 			rset = allset;
-			ityp maxlsock, maxaccptcon;
-			_MAX(&maxlsock, nListeningSockets, (ityp*)lsock);
-			_MAX(&maxaccptcon, nAcceptableConnections, (ityp*)conn_set);
+		
+			int maxFd = -1;
+			for (i = 0; i < nListeningSockets; ++i)
+				if (lsock[i] > maxFd)
+        				maxFd = lsock[i];
+  
+			for (i = 0; i < nAcceptableConnections; ++i)
+				if (conn_set[i] > maxFd)
+        				maxFd = conn_set[i];
+		
 			const bool identifierMode = access(curLayout)->database.identifierMode;
 			const char * identifierString = suite_c.identifier_names[identifierMode];
-			const register int maxFd = MAX(maxlsock, maxaccptcon); // _MAX(totalSocketsSize, totalSockets);
-			
+
 			if ((result = select(maxFd+1, &rset, NULL, NULL, NULL)) == SOCKET_ERROR)
 			{
 				printErr(ERROR_RESOURCETEMPORARYUNAVAILABLE, "select()");
 				continue;
 			}
 			else if (!result) // timeout on select(), should never get here
+			{
+				printf("should never get here\n");
 				continue;
+			}
 				
 			char socketString[MAX_SOCKETLENGTH];
 				
@@ -520,6 +529,7 @@ sprog multiuser_prog[MAX_MULTIUSER_PROGS] =
 					{
 						bool is_registered = false;
 						char clientaddr[INET_ADDRSTRLEN] = "";
+			
 						if(!getAddressInfo(clientaddr, (struct sockaddr *)&peer_addr, sizeof(peer_addr)))
 							return;
 						

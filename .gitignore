@@ -7,4 +7,5 @@ settings.xml.bak*
 .settings.xml
 mathSuite.exe
 mathSuite
+mathsuiteClient/mathsuiteClient
 mathsuiteClient/obj/

@@ -4891,6 +4891,7 @@ __MATHSUITE bool  _lfCreate(const char path[static MAX_PATH_LENGTH])
 	    if(GetConsoleScreenBufferInfo(hStdOut, &csbi))
 	        SetConsoleTextAttribute(hStdOut, (csbi.wAttributes & 0xF0) + (ForgC & 0x0F));
 	#else
+
 		static const char xcolors[MAX_COLORS][SIGN_STRING] =
         {
 	        "\e[0;30m",
@@ -4910,7 +4911,13 @@ __MATHSUITE bool  _lfCreate(const char path[static MAX_PATH_LENGTH])
 	        "\e[0;93m",
 	        "\e[0;97m"
         };
-        printf(xcolors[ForgC]);
+
+	if (ForgC >= 0 && ForgC < MAX_COLORS)
+            fputs(xcolors[ForgC], stdout);
+        else
+	    printf(xcolors[ForgC]-COLOR_LINUX_OFFSET);
+            fputs("\e[0m", stdout);
+        
 	#endif
 
     return;
