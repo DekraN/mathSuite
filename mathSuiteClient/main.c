@@ -121,15 +121,11 @@ int main(int argc, char *argv[])
 	else
 		itoa(WELLKNOWN_PORT, port, 10);
 	
-	printf("before getaddrinfo\n");
-
 	if(getaddrinfo(address, port, &hints, &res))
 	{
 		printErr("getaddrinfo()");
 		return 1;
 	}
-	
-	printf("before socket loop\n");
 
 	for (p = res; p != NULL ; p = p->ai_next)
 	{
@@ -151,8 +147,6 @@ int main(int argc, char *argv[])
 		break;
 	}
 
-	printf("before setsockopt\n");
-
 	/*
 	int flag;
 	(void) setsockopt(sockfd, IPPROTO_TCP, TCP_NODELAY, (char *) &flag, sizeof(int));
@@ -166,10 +160,10 @@ int main(int argc, char *argv[])
 		flag = 0;
 		(void) setsockopt(sockfd, IPPROTO_TCP, TCP_NODELAY, (char *) &flag, sizeof(int));
 		*/
-		printf("before send\n");
+	
 		if((n = send(sockfd, buf, strlen(buf), 0)) == -1)
 			printErr("send() error");
-		printf("after send\n");
+	
 		/*
 		flag = 1;
 		(void) setsockopt(sockfd, IPPROTO_TCP, TCP_NODELAY, (char *) &flag, sizeof(int));
@@ -197,7 +191,6 @@ int main(int argc, char *argv[])
 		}
 		*/
 		
-		printf("before recv\n");
 		if((n = recv(sockfd, buf, MAX_BUFLEN-1, 0)) == -1)
 			printErr("recv() error");
 		else if(!n)
