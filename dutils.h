@@ -24,6 +24,33 @@ I do not assume any responsibilities about the use with any other code-scripts.
 #include <search.h>
 #include <dirent.h>
 
+static inline char *safe_gets(char *buf, size_t size)
+{
+    if (!buf || size == 0 || fgets(buf, (int)size, stdin) == NULL)
+        return NULL;
+
+    // Rimuove '\n' (e '\r' in caso di input redirect da file CRLF)
+    size_t len = strcspn(buf, "\r\n");
+    if (buf[len] == '\0') {
+        // La riga superava la capienza del buffer: scarta i caratteri residui fino a '\n'
+        int ch;
+        while ((ch = getchar()) != '\n' && ch != EOF);
+    } else {
+        buf[len] = '\0';
+    }
+
+    return buf;
+}
+
+#undef gets
+// La verifica con __builtin_types_compatible_p blocca la compilazione (array negativo)
+// se viene passato un puntatore (char *) invece di un array statico (char buf[N]),
+// evitando che sizeof(buf) restituisca 8 byte invece della reale capienza.
+#define gets(buf) ( \
+    (void)sizeof(char[1 - 2 * __builtin_types_compatible_p(__typeof__(buf), __typeof__(&(buf)[0]))]), \
+    safe_gets((buf), sizeof(buf)) \
+)
+
 #include <sys/time.h>
 
 #include <signal.h>

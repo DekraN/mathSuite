@@ -1089,14 +1089,17 @@ __MSSHELL_WRAPPER_ static void  matrixAdd(const sel_typ argc, char ** argv)
 			
             while(requires(tmp, NULL, NULL_CHAR, NULL_CHAR, PARSER_NOSETTINGS) || isNullVal(tmp) || mpfr_cmp_ui(tmp, (tdim = mpfr_get_ui(tmp, MPFR_RNDN))) || tdim < 1)
             {
-				mpfr_clear(tmp);
                 CLEARBUFFER();
                 if(isNullVal(tmp) && exitHandleCheck)
-					return;
+		{
+			mpfr_clear(tmp);
+			return;
+		}
+		mpfr_clear(tmp);
                 printErr(1, "Invalid inserted Value.\nTensor Dimension must be a non-negative and >= 1 integer");
             }
-
         }
+        mpfr_clear(tmp); 
 
     }
 
@@ -1105,14 +1108,15 @@ __MSSHELL_WRAPPER_ static void  matrixAdd(const sel_typ argc, char ** argv)
     strcpy(matrix_type, INVERSE_OPS ? "Difference":"Sum");
     matrix1 = malloc(sizeof(mpfr_t**)*tdim);
     errMem(matrix1, VSPACE);
-    mpfr_clear(tmp);
+    
+    // mpfr_clear(tmp);
 
     for(i=0; i<tdim; ++i)
     {
         matrix1[i] = malloc(sizeof(mpfr_t*)*algebra_units);
         if(checkErrMem(matrix1[i]))
         {
-        	#pragma omp parallel for
+            #pragma omp parallel for
             for(j=0; j<i; ++j)
                 free(matrix1[j]);
             free(matrix1);
@@ -1129,11 +1133,11 @@ __MSSHELL_WRAPPER_ static void  matrixAdd(const sel_typ argc, char ** argv)
 
         if(argc > argv_pos)
         {
-        	if(argv[argv_pos][strlen(argv[argv_pos])-1] != TERMINATING_CHAR)
+            if(argv[argv_pos][strlen(argv[argv_pos])-1] != TERMINATING_CHAR)
             	strcat(argv[argv_pos], TERMINATING_STRING);
             if(!matrixToken(argv[argv_pos], matrix1[k], dim, &dim[COLUMNS]))
             {
-	       		#pragma omp parallel for num_threads(tdim)
+	       	    #pragma omp parallel for num_threads(tdim)
 	            for(i=0; i<tdim; ++i)
 	                free(matrix1[i]);
                 free(matrix1);
@@ -1142,7 +1146,7 @@ __MSSHELL_WRAPPER_ static void  matrixAdd(const sel_typ argc, char ** argv)
         }
         else if(!enterMatrix(matrix1[k], dim, &dim[COLUMNS], false, !complex_entries))
         {
-        	#pragma omp parallel for num_threads(tdim)
+            #pragma omp parallel for num_threads(tdim)
             for(i=0; i<tdim; ++i)
                 free(matrix1[i]);
             free(matrix1);
@@ -1160,8 +1164,7 @@ __MSSHELL_WRAPPER_ static void  matrixAdd(const sel_typ argc, char ** argv)
             	if(argv[argv_pos][strlen(argv[argv_pos])-1] != TERMINATING_CHAR)
             		strcat(argv[argv_pos], TERMINATING_STRING);
                 if((!matrixToken(argv[argv_pos], &matrix1[k][i], cdim, &cdim[COLUMNS])) || cdim[ROWS] != dim[ROWS] || cdim[COLUMNS] != dim[COLUMNS])
-                {
-                        
+                { 
 	                #pragma omp parallel for num_threads(algebra_units)
 	                for(j=0; j<algebra_units; ++j)
 	                    matrixFree(&matrix1[k][j], cdim);
