@@ -618,7 +618,7 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteTab`(_tabName VARCHAR(255))
 BEGIN
-DELETE FROM tab WHERE tab.name_tabName;
+DELETE FROM tab WHERE tab.name=tabName;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -1072,7 +1072,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `selectUserTabFromUserTabTabByTabNameAndIdUser`(_tabName VARCHAR(255), idUser INT(11))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `selectUserTabFromUserTabTabByTabNameAndIdUser`(_tabName VARCHAR(255), _idUser INT(11))
 BEGIN
 SELECT * FROM usertab JOIN tab ON tab.idtab=usertab.idtab WHERE tab.name=_tabName AND usertab.iduser=_idUser; 
 END ;;
@@ -1150,7 +1150,7 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `selectVarNameAndVarValFromVarTabVarTabUserTabByTabNameAndIdUser`(_tabName VARCHAR(255), _idUser INT(11))
 BEGIN
-SELECT var_name, var_val FROM var_tabvar_tab_usertab WHERE tab_name=_tabName AND iduser=_idUser;
+SELECT var_name, var_val FROM var_tabvar_tab_usertab WHERE tab_name=_tabName AND usertab_iduser=_idUser;
 
 END ;;
 DELIMITER ;
