@@ -3,12 +3,12 @@
 <!-- Program colors Selection File -->
 <colors>
 
-    <defaultColor>58</defaultColor>
-    <errorsColor>60</errorsColor>
-    <creditsColor>57</creditsColor>
-    <userColor>58</userColor>
-    <systemColor>59</systemColor>
-    <authorColor>60</authorColor>
+    <defaultColor>10</defaultColor>
+    <errorsColor>12</errorsColor>
+    <creditsColor>13</creditsColor>
+    <userColor>10</userColor>
+    <systemColor>43</systemColor>
+    <authorColor>12</authorColor>
 
 
     <!-- Lists of known Selectable Colors -->

@@ -4970,7 +4970,7 @@ __MATHSUITE __JBURKARDT  void *  _cumnor ( void * data)
     static ityp zero = 0.0e0;
     static dim_typ K1 = 1;
     static dim_typ K2 = 2;
-    static dim_typ i;
+    dim_typ i;
     static ityp del,eps,temp,x,xden,xnum,y,xsq,MIN;
     //  Machine dependent constants
     eps = dpmpar(&K1)*0.5e0;
@@ -5726,7 +5726,7 @@ __MATHSUITE __JBURKARDT  void *  _dt1 ( void * data)
         5
     };
     static ityp dt1,denpow,sum,term,x,xp,xx;
-    static dim_typ i;
+    dim_typ i;
 
     x = fabs(dinvnr(p,q));
     xx = x*x;
@@ -7436,7 +7436,7 @@ __MATHSUITE __JBURKARDT  void *   _gamma_x ( void * data)
     static dim_typ K2 = 3;
     static dim_typ K3 = 0;
     static ityp Xgamm,bot,g,lnx,s,t,top,w,x,z;
-    static dim_typ i,j,m,n,T1;
+    dim_typ i,j,m,n,T1;
 
     Xgamm = 0.0e0;
     x = *a;
@@ -8011,7 +8011,7 @@ __MATHSUITE __JBURKARDT  void *   _psi ( void * data)
     static int K1 = 3;
     static dim_typ K2 = 1;
     static ityp psi,aug,den,sgn,upper,w,x,xmax1,xmx0,xsmall,z;
-    static dim_typ i,m,n,nq;
+    dim_typ i,m,n,nq;
     //     MACHINE DEPENDENT CONSTANTS ...
     //        XMAX1  = THE SMALLEST POSITIVE FLOATING POINT CONSTANT
     //                 WITH ENTIRELY INTEGER REPRESENTATION.  ALSO USED

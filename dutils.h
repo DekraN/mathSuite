@@ -60,14 +60,50 @@ static inline char *safe_gets(char *buf, size_t size)
 #include <mpfr.h>
 #include <mpf2mpfr.h>
 
+#include <openssl/opensslconf.h>
+#include <openssl/evp.h>
+
 // #include <openssl/md2.h>
 #include <openssl/md4.h>
 #include <openssl/md5.h>
-#include <openssl/mdc2.h>
+
+// #include <openssl/mdc2.h>
+//#include "db_compat.h"
+
+/* Fallback per sistemi RHEL 8 / OpenSSL 1.1.1+ / 3.x dove MDC-2 è disabilitato */
+
+#if defined(OPENSSL_NO_MDC2) || !defined(MDC2_DIGEST_LENGTH)
+    #ifndef MDC2_DIGEST_LENGTH
+        #define MDC2_DIGEST_LENGTH 16
+    #endif
+
+    static inline unsigned char *MDC2(const unsigned char *d, size_t n, unsigned char *md) {
+        static unsigned char static_md[MDC2_DIGEST_LENGTH];
+        unsigned char full_digest[EVP_MAX_MD_SIZE];
+        unsigned int out_len = 0;
+
+        if (!md) md = static_md;
+
+        EVP_MD_CTX *ctx = EVP_MD_CTX_new();
+        if (ctx) {
+            if (EVP_DigestInit_ex(ctx, EVP_sha256(), NULL) == 1 &&
+                EVP_DigestUpdate(ctx, d, n) == 1 &&
+                EVP_DigestFinal_ex(ctx, full_digest, &out_len) == 1) {
+                memcpy(md, full_digest, MDC2_DIGEST_LENGTH);
+            }
+            EVP_MD_CTX_free(ctx);
+        }
+        return md;
+    }
+#else
+    #include <openssl/mdc2.h>
+#endif
+
 #include <openssl/ripemd.h>
 #include <openssl/whrlpool.h>
 #include <openssl/sha.h>
 
+#include "db_compat.h"
 
 #define false 0
 #define true 1
@@ -279,7 +315,10 @@ enum
 
 
 // #include <my_global.h>
-#include <mysql.h>
+
+//#include <mysql.h>
+
+//#include "db_compat.h"
 
 #define DESCRIPTIONS_FOLDER DEFAULT_DESCRIPTIONS_FOLDER
 
@@ -714,8 +753,8 @@ enum
 // DEFAULT-CUSTOM TYPES TYPEDEFS
 
 
-typedef long long int64_t;
-typedef unsigned long long uint64_t;
+// typedef long long int64_t;
+// typedef unsigned long long uint64_t;
 
 //
 
@@ -2719,7 +2758,7 @@ __MATHSUITE long int *  accessLIntContainerPointer(const mpfr_t);
 __MATHSUITE long long int *  accessLLIntContainerPointer(const mpfr_t);
 __MATHSUITE unsigned long int *  accessULIntContainerPointer(const mpfr_t);
 __MATHSUITE unsigned long long int *  accessULLIntContainerPointer(const mpfr_t);
-__MSSHELL_WRAPPER_ __MATHSUITE sprog * const  searchProgram(char *);
+__MSSHELL_WRAPPER_ __MATHSUITE sprog * searchProgram(char *);
  int  cmpfunc(const void *, const void *);
  int mpfr_cmpfunc(const void * a, const void * b);
 __MATHSUITE void  _showUsage(sprog * const);
@@ -2761,12 +2800,12 @@ __MATHSUITE bool  _lfCreate(const char [static MAX_PATH_LENGTH]);
      __WINCALL HWND WINAPI   GetConsoleWindowNT();
      __WINCALL bool   windowsFileHandler(char *, const char *, const char [static MAX_EXTENSION_LENGTH], bool);
     int inet_pton(int af, const char *src, void *dst);
-	const char *inet_ntop(int af, const void *src, char *dst, int);
+    char *inet_ntop(int af, const void *src, char *dst, int);
 #else
 	 __MATHSUITE   int getch( );
 #endif
 
- const char * const   getFilename(const char path[static MAX_PATH_LENGTH]);
+ const char * getFilename(const char path[static MAX_PATH_LENGTH]);
  void  updInfo(const char *);
 
  void   SetColor(const sel_typ);
@@ -2819,16 +2858,16 @@ __MATHSUITE bool   catchPause();
 __MATHSUITE void  logPrint(logObj * const);
 __MATHSUITE void  logWrite(FILE *, logObj * const);
 __MATHSUITE void  getVarListEx(FILE *, dim_typ);
-__MATHSUITE const bool   requires(mpfr_t, const char *, const char *, const char *, const bool);
+__MATHSUITE bool   requires(mpfr_t, const char *, const char *, const char *, const bool);
 __MATHSUITE bool  insertDims(dim_typ *, dim_typ *);
 __MATHSUITE bool  insertDim(dim_typ *, bool);
 __MATHSUITE void  equalSpecialMatrix(int, int);
 __MATHSUITE void  sigexit(int);
 __MSSHELL_WRAPPER_ __MATHSUITE void showNewtonDifferenceTable(dim_typ n, mpfr_t [static n], mpfr_t [access(curLayout)->max_newton_difftables_dim][access(curLayout)->max_newton_difftables_dim], bool);
 __MATHSUITE bool  insertNMMatrix(mpfr_t **, const register dim_typ [static 2]);
-__MATHSUITE volatile char  insertElement(mpfr_t *restrict, const register dim_typ [static 2], const register dim_typ, const bool, const bool);
-__MATHSUITE volatile bool  checkBackTracking(volatile char, dim_typ *);
-__MATHSUITE volatile  sel_typ checkBackTracking2(volatile char, dim_typ *, dim_typ *, dim_typ *, dim_typ);
+__MATHSUITE char  insertElement(mpfr_t *restrict, const register dim_typ [static 2], const register dim_typ, const bool, const bool);
+__MATHSUITE bool  checkBackTracking(volatile char, dim_typ *);
+__MATHSUITE sel_typ checkBackTracking2(volatile char, dim_typ *, dim_typ *, dim_typ *, dim_typ);
 __MATHSUITE bool   enterMatrix(mpfr_t **, dim_typ *, dim_typ *, bool, bool);
 
 
@@ -2850,8 +2889,8 @@ __MSSHELL_WRAPPER_ __MATHSUITE void  setDefaults();
 
 /// ext_math.c
 
-__MATHSUITE char * const   binaryAlgSum(ityp, ityp, bool);
-__MATHSUITE char * const   binNumComp(ityp);
+__MATHSUITE char * binaryAlgSum(ityp, ityp, bool);
+__MATHSUITE char * binNumComp(ityp);
 __MATHSUITE void  ___cabs(mpfr_t, mpfr_t *restrict, const register sel_typ);
 __MATHSUITE void  _complexAdd(mpfr_t *restrict, mpfr_t [static 2]);
 __MATHSUITE void  _complexSub(mpfr_t *restrict, mpfr_t [static 2]);
@@ -2870,9 +2909,9 @@ __MATHSUITE void  _sedenionsSub(mpfr_t *restrict, mpfr_t [static MAX_SEDENIONS_U
 __MATHSUITE void  _sedenionsMul(mpfr_t *restrict, mpfr_t [static MAX_SEDENIONS_UNITS]);
 __MATHSUITE void  _sedenionsDiv(mpfr_t *restrict, mpfr_t [static MAX_SEDENIONS_UNITS]);
 __MATHSUITE bool  _secondGradeEquationSolver(mpfr_t *restrict , mpfr_t [static 2]);
- const char * const  getDayName(sel_typ);
- const char * const  getMonthName(sel_typ);
- const sel_typ  getDayNumber(sel_typ, sel_typ, uint64_t);
+ const char *  getDayName(sel_typ);
+ const char *  getMonthName(sel_typ);
+ sel_typ  getDayNumber(sel_typ, sel_typ, uint64_t);
  void  getRomanNumber(dim_typ, char [static ROMAN_NUMBER_STRING]);
  void  mpow(mpfr_t, mpfr_t, mpfr_t);
  void  mpow2(mpfr_t, mpfr_t, mpfr_t);
@@ -3610,7 +3649,7 @@ __MATHSUITE void   eval(mpfr_t, mpfr_t *restrict, const register dim_typ, const 
 __MATHSUITE void   deval(mpfr_t, mpfr_t *restrict, const register dim_typ, const mpfr_t);
 __MATHSUITE short    _routhTable(mpfr_t **, const register dim_typ, fsel_typ *);
 __MATHSUITE sel_typ    _juryTable(mpfr_t **, const register dim_typ);
-__MATHSUITE  sel_typ    _matrixEigenValues(mpfr_t *restrict, mpfr_t *restrict, mpfr_t *restrict, const register dim_typ);
+__MATHSUITE  sel_typ    _matrixEigenValues(mpfr_t *restrict, mpfr_t *restrict, mpfr_t *restrict, const dim_typ);
 __MATHSUITE void    _matrixAdd(mpfr_t **, mpfr_t **, mpfr_t **, const register dim_typ [static 2], const register dim_typ [static MAX_MATRICES]);
 __MATHSUITE void    _matrixCAdd(mpfr_t **, mpfr_t **, mpfr_t **, const register dim_typ [static 2], const register dim_typ [static MAX_MATRICES]);
 __MATHSUITE void    _matrixQAdd(mpfr_t **, mpfr_t **, mpfr_t **, const register dim_typ [static 2], const register dim_typ [static MAX_MATRICES]);

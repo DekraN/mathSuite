@@ -2994,7 +2994,7 @@ static inline int stringcmp (const void *a, const void *b)
 	return strcmp((const char*)a, (const char*)b);
 }
 
-__MSSHELL_WRAPPER_ __MATHSUITE sprog * const  searchProgram(char *cmdname)
+__MSSHELL_WRAPPER_ __MATHSUITE sprog * searchProgram(char *cmdname)
 {
 	static map_t cmdmap = NULL;
 	
@@ -4851,7 +4851,7 @@ __MATHSUITE bool  _lfCreate(const char path[static MAX_PATH_LENGTH])
     }
 #endif
 
- inline const char * const   getFilename(const char path[static MAX_PATH_LENGTH])
+ inline const char * getFilename(const char path[static MAX_PATH_LENGTH])
 {
     const char * const stkr = strrchr(path, '\\');
     return stkr ? stkr+1 : path;
@@ -4915,9 +4915,11 @@ __MATHSUITE bool  _lfCreate(const char path[static MAX_PATH_LENGTH])
 	if (ForgC >= 0 && ForgC < MAX_COLORS)
             fputs(xcolors[ForgC], stdout);
         else
-	    printf(xcolors[ForgC]-COLOR_LINUX_OFFSET);
-            fputs("\e[0m", stdout);
-        
+	{
+	    const int idx = (int)ForgC - COLOR_LINUX_OFFSET;
+            fputs(idx >= 0 && idx < MAX_COLORS ? xcolors[idx] : "\e[0m", stdout);
+	}
+
 	#endif
 
     return;
@@ -6436,7 +6438,7 @@ __MATHSUITE void  viewProgramSettings(dim_typ which_layout)
 	#endif
     
     #ifndef __DISABLE_DATABASE
-		msyprintf(COLOR_SYSTEM, "MySQL client version: %s\n", mysql_get_client_info());
+		//msyprintf(COLOR_SYSTEM, "MySQL client version: %s\n", mysql_get_client_info());
 	    msyprintf(COLOR_SYSTEM, "- DB Server: %s;\n", cur_layout->database.server);
 	    msyprintf(COLOR_SYSTEM, "- DB Username: %s;\n", cur_layout->database.username);
 	    strcpy(password, cur_layout->database.password);
@@ -6608,7 +6610,7 @@ __MATHSUITE void  getVarListEx(FILE *fpnt, dim_typ which_env)
     return;
 }
 
-__MATHSUITE const bool   requires(mpfr_t val, const char *cmd_string, const char *string, const char *res_string, const bool options)
+__MATHSUITE bool   requires(mpfr_t val, const char *cmd_string, const char *string, const char *res_string, const bool options)
 {
 	mpfr_t fake_val;
     char buf[MAX_BUFSIZ];
@@ -6746,7 +6748,7 @@ __MATHSUITE bool  insertDims(dim_typ *righe, dim_typ *colonne)
 
 	mpfr_t tmp, tmp2;
 
-    msprintf(COLOR_CREDITS, "\nEnter ROWS and COLUMNS as expected:\n\[ROWS]\n[COLUMNS].\n");
+    msprintf(COLOR_CREDITS, "\nEnter ROWS and COLUMNS as expected:\n\n[ROWS]\n[COLUMNS].\n");
     PRINTHOWTOBACKMESSAGE();
 
     while(requires(tmp, NULL, NULL_CHAR, "Inserted ROWS", PARSER_SHOWRESULT) || isNullVal(tmp) || mpfr_cmp_ui(tmp, ((*righe) = mpfr_get_ui(tmp, MPFR_RNDN))) ||
@@ -6830,7 +6832,7 @@ static inline matrixObj * const getMatrixType(int type)
 }
 */
 
-static inline matrixObj * const getMatrixType(int type)
+static inline matrixObj * getMatrixType(int type)
 {
 	
 	if(type == SPECIALMATRIX_CURRENTMATRIX)
@@ -7100,7 +7102,7 @@ __MATHSUITE bool  insertNMMatrix(mpfr_t **matrix, const register dim_typ dim[sta
     return true;
 }
 
-__MATHSUITE volatile char  insertElement(mpfr_t *restrict matrix, const register dim_typ dim[static 2], const register dim_typ columns, const bool square, const bool mpfr_init_elements)
+__MATHSUITE char  insertElement(mpfr_t *restrict matrix, const register dim_typ dim[static 2], const register dim_typ columns, const bool square, const bool mpfr_init_elements)
 {
 
     if(square && (dim[ROWS] == MAX_RIGHE_PER_COLONNE || dim[COLUMNS] == MAX_RIGHE_PER_COLONNE))
@@ -7169,7 +7171,7 @@ __MATHSUITE volatile char  insertElement(mpfr_t *restrict matrix, const register
     return tmp;
 }
 
-__MATHSUITE inline volatile bool  checkBackTracking(volatile char tmp, dim_typ *colonna)
+__MATHSUITE inline bool checkBackTracking(volatile char tmp, dim_typ *colonna)
 {
     if(tmp < -1)
     {
@@ -7181,7 +7183,7 @@ __MATHSUITE inline volatile bool  checkBackTracking(volatile char tmp, dim_typ *
     return true;
 }
 
-__MATHSUITE inline volatile  sel_typ checkBackTracking2(volatile char tmp, dim_typ *riga, dim_typ *colonna, dim_typ *start_col_index, dim_typ colonne)
+__MATHSUITE inline sel_typ checkBackTracking2(volatile char tmp, dim_typ *riga, dim_typ *colonna, dim_typ *start_col_index, dim_typ colonne)
 {
     if(tmp == -2)
     {

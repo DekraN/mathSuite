@@ -1387,7 +1387,7 @@ __MSSHELL_WRAPPER_ static void  straightLineFitting(const sel_typ argc, char ** 
     mpfr_init_set_ui(sum_x2, 0, MPFR_RNDN);
     mpfr_init_set_ui(sum_y, 0, MPFR_RNDN);
 
-    const register dim_typ cache[2] =
+    const dim_typ cache[2] =
     {
     	dim*XROW,
     	dim*YROW
@@ -1504,7 +1504,7 @@ __MSSHELL_WRAPPER_ static void  parabolicCurveFitting(const sel_typ argc, char *
 	mpfr_set_ui(*matrix, dim, MPFR_RNDN);
     dim_typ i;
 
-    const register dim_typ cache[2] =
+    const dim_typ cache[2] =
     {
     	dim*XROW,
     	dim*YROW

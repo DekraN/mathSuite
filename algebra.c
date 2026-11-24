@@ -996,7 +996,7 @@ __MSSHELL_WRAPPER_ static void  matrixCoFactor(const sel_typ argc, char ** argv)
         msprintf(COLOR_SYSTEM, "Average Time: %.*f;\n", SHOWTIME_PRECISION, getDiffTime(&tvBegin));
 	}
 	
-	msprintf(COLOR_SYSTEM, "\%s MATRIX of Inserted Matrix is:\n\n", which_prog?"ADJOINT":"COFACTOR");
+	msprintf(COLOR_SYSTEM, "\n%s MATRIX of Inserted Matrix is:\n\n", which_prog?"ADJOINT":"COFACTOR");
     printMatrix(stdout, which_prog?&matrix:&matrix2, ((dim_typ2){dim[ROWS], dim[ROWS]}));
 
     matrixFree(&matrix, dim);

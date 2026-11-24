@@ -648,7 +648,7 @@ const struct ext_math_type ext_math =
 /// visit: http://www.Planet-Source-Code.com/vb/scripts/ShowCode.asp?txtCodeId=13861&lngWId=3
 /// for further informations about the Original Code from which I taken the Core Part.
 
-__MATHSUITE char * const   binaryAlgSum(ityp a, ityp b, bool mode)
+__MATHSUITE char *   binaryAlgSum(ityp a, ityp b, bool mode)
 {
     int num1, num2;
     char *c, *d, *e;
@@ -743,7 +743,7 @@ __MATHSUITE char * const   binaryAlgSum(ityp a, ityp b, bool mode)
     return c;
 }
 
-__MATHSUITE char * const   binNumComp(ityp a)
+__MATHSUITE char * binNumComp(ityp a)
 {
     int num;
     num = (int) a;
@@ -2799,19 +2799,19 @@ __MATHSUITE bool  _secondGradeEquationSolver(mpfr_t *restrict abc, mpfr_t root[s
 /// thanks to Bibek Subedi for these two functions,
 /// which I renamed, modified and adapted to this program. Link at:
 /// http://www.programming-technique.blogspot.it/2013/02/cc-program-to-ditermine-day-of-week.html
- inline const char * const  getDayName(sel_typ dd)
+ inline const char * getDayName(sel_typ dd)
 {
     return ext_math.days_week_names[dd];
 }
 
 /// by Me (DekraN)
- inline const char * const  getMonthName(sel_typ mm)
+ inline const char * getMonthName(sel_typ mm)
 {
     return ext_math.months_names[mm-1];
 }
 
 // returns the number of the day correspondent to the given INPUT date
- inline const sel_typ  getDayNumber(sel_typ dd, sel_typ mm, uint64_t yyyy)
+ inline sel_typ getDayNumber(sel_typ dd, sel_typ mm, uint64_t yyyy)
 {
     return ((yyyy -= mm < 3) + yyyy/4 - yyyy/100 + yyyy/400 + ext_math.getdaynum_map[mm-1] + dd) % MAX_DAYSWEEK;
 }
@@ -7370,7 +7370,7 @@ __MATHSUITE sel_typ    _juryTable(mpfr_t **table, const register dim_typ dim)
 	return jtest == mpfr_deg-1 && sec_test ? JURYTABLE_SATISFIED : JURYTABLE_NOTSATISFIED;
 }
 
-__MATHSUITE  sel_typ    _matrixEigenValues(mpfr_t *restrict m, mpfr_t *restrict l, mpfr_t *restrict vc, const register dim_typ n)
+__MATHSUITE  sel_typ    _matrixEigenValues(mpfr_t *restrict m, mpfr_t *restrict l, mpfr_t *restrict vc, const dim_typ n)
 {
 	mpfr_t *m2 = NULL;
 	if(!matrixAlloc(&m2, (dim_typ2){n,n}))
@@ -7395,9 +7395,9 @@ __MATHSUITE  sel_typ    _matrixEigenValues(mpfr_t *restrict m, mpfr_t *restrict 
 		mpfr_t mod, q;
 		mpfr_init(q);
 		mpfr_init_set_ui(mod, 0, MPFR_RNDN);
-		register dim_typ i=0, j=0;
+		dim_typ i=0, j=0;
 		{
-			register dim_typ k=n;
+			dim_typ k=n;
 			while(k--)
 			{
 				register dim_typ m=n;
@@ -7432,7 +7432,7 @@ __MATHSUITE  sel_typ    _matrixEigenValues(mpfr_t *restrict m, mpfr_t *restrict 
 			{
 			    mpfr_t t;
 			    mpfr_init(t);
-				register dim_typ k=n;
+				dim_typ k=n;
 				while(k--)
 				{
 					mpfr_mul(t, *(m + n*i + k), c, MPFR_RNDN);
@@ -7447,7 +7447,7 @@ __MATHSUITE  sel_typ    _matrixEigenValues(mpfr_t *restrict m, mpfr_t *restrict 
 				mpfr_clear(t);
 			}
 			{
-				register dim_typ k=n;
+				dim_typ k=n;
 				mpfr_t t;
 				mpfr_init(t);
 				while(k--)
@@ -7479,7 +7479,7 @@ __MATHSUITE  sel_typ    _matrixEigenValues(mpfr_t *restrict m, mpfr_t *restrict 
 __MATHSUITE inline void    _matrixSub(mpfr_t **matrix1, mpfr_t **matrix2, mpfr_t **matrix_sum, const register dim_typ dim[static 2], const register dim_typ pitch[static MAX_MATRICES])
 {
 	dim_typ i, j, k;
-	register dim_typ idx[MAX_MATRICES];
+	dim_typ idx[MAX_MATRICES];
 
 	#pragma omp parallel for
     for(i=0; i<dim[ROWS]; ++i)
@@ -7498,7 +7498,7 @@ __MATHSUITE inline void    _matrixSub(mpfr_t **matrix1, mpfr_t **matrix2, mpfr_t
 __MATHSUITE void    _matrixCSub(mpfr_t **matrix1, mpfr_t **matrix2, mpfr_t **matrix_sum, const register dim_typ dim[static 2], const register dim_typ pitch[static MAX_MATRICES])
 {
 	dim_typ i, j, k;
-	register dim_typ idx[MAX_MATRICES];
+	dim_typ idx[MAX_MATRICES];
 
 	#pragma omp parallel for
     for(i=0; i<dim[ROWS]; ++i)
@@ -7524,7 +7524,7 @@ __MATHSUITE void    _matrixCSub(mpfr_t **matrix1, mpfr_t **matrix2, mpfr_t **mat
 __MATHSUITE void    _matrixQSub(mpfr_t **matrix1, mpfr_t **matrix2, mpfr_t **matrix_sum, const register dim_typ dim[static 2], const register dim_typ pitch[static MAX_MATRICES])
 {
 	dim_typ i, j, k;
-	register dim_typ idx[MAX_MATRICES];
+	dim_typ idx[MAX_MATRICES];
 
 
 	#pragma omp parallel for
@@ -7554,7 +7554,7 @@ __MATHSUITE void    _matrixQSub(mpfr_t **matrix1, mpfr_t **matrix2, mpfr_t **mat
 __MATHSUITE void    _matrixOSub(mpfr_t **matrix1, mpfr_t **matrix2, mpfr_t **matrix_sum, const register dim_typ dim[static 2], const register dim_typ pitch[static MAX_MATRICES])
 {
 	dim_typ i, j, k;
-	register dim_typ idx[MAX_MATRICES];
+	dim_typ idx[MAX_MATRICES];
 
 	#pragma omp parallel for
     for(i=0; i<dim[ROWS]; ++i)
@@ -7591,7 +7591,7 @@ __MATHSUITE void    _matrixOSub(mpfr_t **matrix1, mpfr_t **matrix2, mpfr_t **mat
 __MATHSUITE void    _matrixSSub(mpfr_t **matrix1, mpfr_t **matrix2, mpfr_t **matrix_sum, const register dim_typ dim[static 2], const register dim_typ pitch[static MAX_MATRICES])
 {
 	dim_typ i, j, k;
-	register dim_typ idx[MAX_MATRICES];
+	dim_typ idx[MAX_MATRICES];
 
 	#pragma omp parallel for
     for(i=0; i<dim[ROWS]; ++i)
@@ -7644,7 +7644,7 @@ __MATHSUITE void    _matrixSSub(mpfr_t **matrix1, mpfr_t **matrix2, mpfr_t **mat
 __MATHSUITE inline void    _matrixAdd(mpfr_t **matrix1, mpfr_t **matrix2, mpfr_t **matrix_sum, const register dim_typ dim[static 2], const register dim_typ pitch[static MAX_MATRICES])
 {
 	dim_typ i, j, k;
-	register dim_typ idx[MAX_MATRICES];
+	dim_typ idx[MAX_MATRICES];
 
 	#pragma omp parallel for
     for(i=0; i<dim[ROWS]; ++i)
@@ -7663,7 +7663,7 @@ __MATHSUITE inline void    _matrixAdd(mpfr_t **matrix1, mpfr_t **matrix2, mpfr_t
 __MATHSUITE void    _matrixCAdd(mpfr_t **matrix1, mpfr_t **matrix2, mpfr_t **matrix_sum, const register dim_typ dim[static 2], const register dim_typ pitch[static MAX_MATRICES])
 {
 	dim_typ i, j, k;
-	register dim_typ idx[MAX_MATRICES];
+	dim_typ idx[MAX_MATRICES];
 
 	#pragma omp parallel for
     for(i=0; i<dim[ROWS]; ++i)
@@ -7689,7 +7689,7 @@ __MATHSUITE void    _matrixCAdd(mpfr_t **matrix1, mpfr_t **matrix2, mpfr_t **mat
 __MATHSUITE void    _matrixQAdd(mpfr_t **matrix1, mpfr_t **matrix2, mpfr_t **matrix_sum, const register dim_typ dim[static 2], const register dim_typ pitch[static MAX_MATRICES])
 {
 	dim_typ i, j, k;
-	register dim_typ idx[MAX_MATRICES];
+	dim_typ idx[MAX_MATRICES];
 
 
 	#pragma omp parallel for
@@ -7719,7 +7719,7 @@ __MATHSUITE void    _matrixQAdd(mpfr_t **matrix1, mpfr_t **matrix2, mpfr_t **mat
 __MATHSUITE void    _matrixOAdd(mpfr_t **matrix1, mpfr_t **matrix2, mpfr_t **matrix_sum, const register dim_typ dim[static 2], const register dim_typ pitch[static MAX_MATRICES])
 {
 	dim_typ i, j, k;
-	register dim_typ idx[MAX_MATRICES];
+	dim_typ idx[MAX_MATRICES];
 
 	#pragma omp parallel for
     for(i=0; i<dim[ROWS]; ++i)
@@ -7756,7 +7756,7 @@ __MATHSUITE void    _matrixOAdd(mpfr_t **matrix1, mpfr_t **matrix2, mpfr_t **mat
 __MATHSUITE void    _matrixSAdd(mpfr_t **matrix1, mpfr_t **matrix2, mpfr_t **matrix_sum, const register dim_typ dim[static 2], const register dim_typ pitch[static MAX_MATRICES])
 {
 	dim_typ i, j, k;
-	register dim_typ idx[MAX_MATRICES];
+	dim_typ idx[MAX_MATRICES];
 
 	#pragma omp parallel for
     for(i=0; i<dim[ROWS]; ++i)
@@ -8125,7 +8125,7 @@ __MATHSUITE  void   mmult_fast(const register dim_typ N, const register dim_typ 
 __MATHSUITE inline void    _matrixMultiplication(mpfr_t **matrix1, mpfr_t **matrix2, mpfr_t **matrix_product, const register dim_typ dim[static MAX_MATRICES], const register dim_typ pitch[static MAX_MATRICES]) // dim_typ righe, dim_typ colonne, dim_typ colonne2)
 {
     dim_typ i, j, k;
-    register dim_typ idx[MAX_MATRICES];
+    dim_typ idx[MAX_MATRICES];
     mpfr_t tmp;
 
     mpfr_init(tmp);
@@ -9119,7 +9119,7 @@ __MATHSUITE inline void    _matrixKProduct(mpfr_t **matrix1, mpfr_t **matrix2, m
 __MATHSUITE void    _matrixKCProduct(mpfr_t **matrix1, mpfr_t **matrix2, mpfr_t **matrix_product, register dim_typ dim[static 2][2])
 {
     dim_typ i, j, k, l;
-    register dim_typ idx[MAX_MATRICES];
+    dim_typ idx[MAX_MATRICES];
     const register dim_typ pdim = dim[FIRST_MATRIX][COLUMNS]*dim[SECOND_MATRIX][COLUMNS];
 
 	#pragma omp parallel for
@@ -9150,7 +9150,7 @@ __MATHSUITE void    _matrixKCProduct(mpfr_t **matrix1, mpfr_t **matrix2, mpfr_t 
 __MATHSUITE void    _matrixKQProduct(mpfr_t **matrix1, mpfr_t **matrix2, mpfr_t **matrix_product, register dim_typ dim[static 2][2])
 {
     dim_typ i, j, k, l;
-    register dim_typ idx[MAX_MATRICES];
+    dim_typ idx[MAX_MATRICES];
     const register dim_typ pdim = dim[FIRST_MATRIX][COLUMNS]*dim[SECOND_MATRIX][COLUMNS];
 
 	#pragma omp parallel for
@@ -9235,7 +9235,7 @@ __MATHSUITE void    _matrixKQProduct(mpfr_t **matrix1, mpfr_t **matrix2, mpfr_t 
 __MATHSUITE void    _matrixKOProduct(mpfr_t **matrix1, mpfr_t **matrix2, mpfr_t **matrix_product, register dim_typ dim[static 2][2])
 {
     dim_typ i, j, k, l;
-    register dim_typ idx[MAX_MATRICES];
+    dim_typ idx[MAX_MATRICES];
     const register dim_typ pdim = dim[FIRST_MATRIX][COLUMNS]*dim[SECOND_MATRIX][COLUMNS];
 
     #pragma omp parallel for
@@ -9440,7 +9440,7 @@ __MATHSUITE void    _matrixKSProduct(mpfr_t **matrix1, mpfr_t **matrix2, mpfr_t 
 {
 
     dim_typ i, j, k, l;
-    register dim_typ idx[MAX_MATRICES];
+    dim_typ idx[MAX_MATRICES];
     const register dim_typ pdim = dim[FIRST_MATRIX][COLUMNS]*dim[SECOND_MATRIX][COLUMNS];
 
 	#pragma omp parallel for
