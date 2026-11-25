@@ -17,8 +17,8 @@ OBJ      = obj/Release/main.o obj/Release/adv_calc.o obj/Release/algebra.o obj/R
 LINKOBJ  = $(OBJ)
 
 BIN      = mathSuite
-CFLAGS   = $(INCS) -O2 -std=c99 -pipe -fopenmp
-CXXFLAGS = $(INCS) -O2 -std=c11 -fopenmp
+CFLAGS   = $(INCS) -O2 -std=c99 -pipe -DOPENSSL_SUPPRESS_DEPRECATED -fopenmp -DUSE_MYSQL
+CXXFLAGS = $(INCS) -O2 -std=c11 -DOPENSSL_SUPPRESS_DEPRECATED -fopenmp -DUSE_MYSQL
 
 .PHONY: all all-before all-after clean clean-custom
 
