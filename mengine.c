@@ -2167,7 +2167,7 @@ __MATHSUITE void  msyprintf(const sel_typ col, const char *format, ...)
 	{
 	#endif
 		SetColor(col);   
-    	printf(str);
+    	printf("%s", str);
     	SetDefaultColor();   
     #ifndef __DISABLE_SERVER
 	}
@@ -2210,7 +2210,7 @@ __MATHSUITE void  fprintf2(FILE *fp, const char *format, ...)
 		{
 		#endif
 			SetColor(COLOR_USER);
-    		printf(str);
+    		printf("%s", str);
     		SetDefaultColor();
     	#ifndef __DISABLE_SERVER
     	}
@@ -2227,7 +2227,7 @@ __MATHSUITE void  fprintf2(FILE *fp, const char *format, ...)
 		#endif
 	}
 	else
-    	fprintf(fp, str);
+    	fprintf(fp, "%s", str);
         
     if(getItemsListNo(LOGS) != STARTING_LOGSNO)
     {
@@ -2254,7 +2254,7 @@ __MATHSUITE void  msprintf(const sel_typ col, const char *format, ...)
     {
     #endif
 		SetColor(col);
-    	printf(str);
+    	printf("%s", str);
     	SetDefaultColor();
     #ifndef __DISABLE_SERVER
     }
@@ -2959,6 +2959,11 @@ __MATHSUITE inline int *  accessIntContainerPointer(const mpfr_t a)
 	return _accessContainer(a).pnt;
 }
 
+__MATHSUITE inline unsigned int *  accessUIntContainerPointer(const mpfr_t a)
+{
+        return _accessContainer(a).pnt;
+}
+
 __MATHSUITE inline int **  accessDIntContainerPointer(const mpfr_t a)
 {       
         return _accessContainer(a).pnt;
@@ -3188,14 +3193,18 @@ __MATHSUITE void  printUsage(sprog * const prog)
 __MATHSUITE void  prepareToExit(void)
 {
 	if(isSett(BOOLS_EXITAFTERMUTCODEXEC))
+	{
 		if(file_exists(PHONY_FILE))
 		{
 			remove(PHONY_FILE);
 			return;
 		}
 		else
+		{
 			(void) checkForFHErrors(PHONY_FILE, "w");
-			
+		}
+	}
+
 	session * const currentSession = accessCurrentSession();
 	
 	if(currentSession->MLSystem.list)
@@ -3315,7 +3324,7 @@ __MATHSUITE inline void resetLmpMatrix()
 	}
 #endif
 
-__MATHSUITE void removeDirEnt(const char *dirname, const register dim_typ extNo, char extensions[static extNo][MAX_EXTENSION_LENGTH])
+__MATHSUITE void removeDirEnt(const char *dirname, const register dim_typ extNo, char extensions[extNo][MAX_EXTENSION_LENGTH])
 {
 	dim_typ i;
 	DIR *dir;
@@ -3822,7 +3831,7 @@ __MATHSUITE void  _handleCmdLine(char * str)
 						fprintf(fp, "#include <%s>\n", headers[i]);
 				}
 				fprintf(fp, "int main(int argc, char *argv[]) {\n");
-				fprintf(fp, command);
+				fprintf(fp, "%s", command);
 				fprintf(fp, "\nreturn 0;\n}");
 				fclose(fp);
 				msyprintf(COLOR_SYSTEM, "\nExecuting Inline Code.\n");
@@ -3889,7 +3898,7 @@ __MATHSUITE void  _handleCmdLine(char * str)
 			return;
 		}
 		
-		unsigned char hashRep[HEXHASH_LEN+1] = NULL_CHAR;
+		char hashRep[HEXHASH_LEN+1] = NULL_CHAR;
     	hexhashSHA512(cmdtab[0], hashRep);
     
 	    #ifndef __DISABLE_DATABASE
@@ -4126,7 +4135,14 @@ __MATHSUITE bool  _lfCreate(const char path[static MAX_PATH_LENGTH])
 		xmlXPathFreeObject((*xpathObj));
 		if(node)
 		{
-			(*value) = atoi(xmlNodeGetContent(node));
+			xmlChar *content = xmlNodeGetContent(node);
+			if (content != NULL)
+			{
+				(*value) = atoi((const char *)content);
+    				xmlFree(content);
+			}
+
+			// (*value) = atoi(xmlNodeGetContent(node));
 			return true;
 		}
 		return false;
@@ -4144,7 +4160,13 @@ __MATHSUITE bool  _lfCreate(const char path[static MAX_PATH_LENGTH])
 		xmlXPathFreeObject((*xpathObj));
 		if(node)
 		{
-			(*value) = strcmp(xmlNodeGetContent(node), bools_identifiers[false]);
+			xmlChar *content = xmlNodeGetContent(node);
+                        if (content != NULL)
+                        {
+                                (*value) = strcmp((const char *) content, bools_identifiers[false]);
+                                xmlFree(content);
+                        }
+			// (*value) = strcmp(xmlNodeGetContent(node), bools_identifiers[false]);
 			return true;
 		}
 		return false;
@@ -4157,7 +4179,14 @@ __MATHSUITE bool  _lfCreate(const char path[static MAX_PATH_LENGTH])
 		xmlXPathFreeObject((*xpathObj));
 		if(node)
 		{
-			(*value) = atof(xmlNodeGetContent(node));
+			xmlChar *content = xmlNodeGetContent(node);
+			if (content != NULL)
+			{
+    				(*value) = atof((const char *)content);
+    				xmlFree(content);
+			}
+
+			// (*value) = atof(xmlNodeGetContent(node));
 			return true;
 		}
 		return false;
@@ -4170,7 +4199,14 @@ __MATHSUITE bool  _lfCreate(const char path[static MAX_PATH_LENGTH])
 		xmlXPathFreeObject((*xpathObj));
 		if(node)
 		{
-			strcpy(string, xmlNodeGetContent(node));
+			xmlChar *content = xmlNodeGetContent(node);
+                        if (content != NULL)
+                        {
+                                strcpy(string, (const char *)content);
+				xmlFree(content);
+                        }
+
+			// strcpy(string, xmlNodeGetContent(node));
 			return true;
 		}
 		return false;
@@ -6342,7 +6378,7 @@ __MATHSUITE inline session * accessCurrentSession()
 }
 
 
-__MATHSUITE void dbEstablishConnection(const sel_typ argc, char *argv[static 4])
+__MATHSUITE void dbEstablishConnection(const sel_typ argc, char *argv[4])
 {
 	if(access(curLayout)->database.con)
 	{
@@ -7139,15 +7175,17 @@ __MATHSUITE char  insertElement(mpfr_t *restrict matrix, const register dim_typ 
     	requires(mpftmp, NULL, NULL_CHAR, str, PARSER_SHOWRESULT);
     	
 		if(tmp)
-	    	if(mpfr_init_elements && !once_executed)
-	    	{
-	    		once_executed = true;
-	    		mpfr_init_set(*(matrix + columns*dim[ROWS] + dim[COLUMNS]), mpftmp, MPFR_RNDN);
-	    	}
+		{
+	    		if(mpfr_init_elements && !once_executed)
+	    		{
+	    			once_executed = true;
+	    			mpfr_init_set(*(matrix + columns*dim[ROWS] + dim[COLUMNS]), mpftmp, MPFR_RNDN);
+	    		}
 			else
 				mpfr_set(*(matrix + columns*dim[ROWS] + dim[COLUMNS]), mpftmp, MPFR_RNDN);
-				
-		if((tmp = !isNullVal(mpftmp)))
+		}
+
+		if((tmp = !(isNullVal(mpftmp))))
 			mpfr_clear(mpftmp);
         CLEARBUFFER();
 

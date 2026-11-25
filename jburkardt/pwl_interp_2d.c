@@ -104,7 +104,7 @@ __MATHSUITE __JBURKARDT  void   * _pwl_interp_2d ( void * data)
     ityp dyb;
     ityp dyi;
     ityp gamma;
-    dim_typ i, j, k;
+    int i, j, k;
     ityp *zi;
 
     zi = ( ityp * ) malloc ( ni * sizeof ( ityp ) );

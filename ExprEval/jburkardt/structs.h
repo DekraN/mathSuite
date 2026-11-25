@@ -192,6 +192,7 @@
 #define C_2PITPB(a,b,c) (&((_2pitpb){(a),(b),(c)}))
 #define C_DT4PDT(a,b,c,d,e) (&((dt4pdt){(a),(b),(c),(d),(e)}))
 #define C_4DT4PDT(a,b,c,d,e,f,g,h) (&((_4dt4pdt){(a),(b),(c),(d),(e),(f),(g),(h)}))
+#define C_4DTPI3PDT(a,b,c,d,e,f,g,h) (&((_4dtpi3pdt){(a),(b),(c),(d),(e),(f),(g),(h)}))
 #define C_PDTPI3DTPI(a,b,c,d,e,f) (&((pdtpi3dtpi){(a),(b),(c),(d),(e),(f)}))
 #define C_DT7PIT(a,b,c,d,e,f,g,h) (&((dt7pit){(a),(b),(c),(d),(e),(f),(g),(h)}))
 #define C_DT4PITDT3PIT(a,b,c,d,e,f,g,h,i) (&((dt4pitdt3pit){(a),(b),(c),(d),(e),(f),(g),(h),(i)}))
@@ -2334,6 +2335,18 @@ typedef struct
 	dim_typ * a6;
 	dim_typ * a7;
 } _4dt4pdt;
+
+typedef struct
+{
+        dim_typ a0;
+        dim_typ a1;
+        dim_typ a2;
+        dim_typ a3;
+	int * a4;
+        dim_typ * a5;
+        dim_typ * a6;
+        dim_typ * a7;
+} _4dtpi3pdt;
 
 typedef struct
 {
@@ -5261,6 +5274,7 @@ __MATHSUITE __JBURKARDT void * H_PIT3ITPDTPIT (EXPRTYPE, exprObj *, exprNode *, 
 __MATHSUITE __JBURKARDT void * H_2PITPB (EXPRTYPE, exprObj *, exprNode *, EXPRERRTYPE *, EXPRTYPE []);
 __MATHSUITE __JBURKARDT void * H_DT4PDT (EXPRTYPE, exprObj *, exprNode *, EXPRERRTYPE *, EXPRTYPE []);
 __MATHSUITE __JBURKARDT void * H_4DT4PDT (EXPRTYPE, exprObj *, exprNode *, EXPRERRTYPE *, EXPRTYPE []);
+__MATHSUITE __JBURKARDT void * H_4DTPI3PDT (EXPRTYPE, exprObj *, exprNode *, EXPRERRTYPE *, EXPRTYPE []);
 __MATHSUITE __JBURKARDT void * H_PDTPI3DTPI (EXPRTYPE, exprObj *, exprNode *, EXPRERRTYPE *, EXPRTYPE []);
 __MATHSUITE __JBURKARDT void * H_DT7PIT (EXPRTYPE, exprObj *, exprNode *, EXPRERRTYPE *, EXPRTYPE []);
 __MATHSUITE __JBURKARDT void * H_DT4PITDT3PIT (EXPRTYPE, exprObj *, exprNode *, EXPRERRTYPE *, EXPRTYPE []);

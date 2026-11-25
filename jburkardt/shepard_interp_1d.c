@@ -56,7 +56,7 @@ __MATHSUITE __JBURKARDT  void   * _shepard_basis_1d ( void * data)
             z = -1;
             for ( j = 0; j < nd; ++j )
             {
-                w[j] = abs ( xi[i] - xd[j] );
+                w[j] = fabs ( xi[i] - xd[j] );
                 if ( w[j] == 0.00 )
                 {
                     z = j;
@@ -142,7 +142,7 @@ __MATHSUITE __JBURKARDT  void   * _shepard_value_1d ( void * data)
             z = -1;
             for ( j = 0; j < nd; ++j)
             {
-                w[j] = abs ( xi[i] - xd[j] );
+                w[j] = fabs ( xi[i] - xd[j] );
                 if ( w[j] == 0.0 )
                 {
                     z = j;

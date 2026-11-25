@@ -2623,7 +2623,7 @@ __MSSHELL_WRAPPER_ static void  perScalarMultiplication(const sel_typ argc, char
         }
     }
     else
-        while(requires(scal, NULL, "Enter a double floating-point Scalar Number.\n", "Inserted Scalar", PARSER_SHOWRESULT) || (dcheck && INVERSE_OPS && !scal))
+        while(requires(scal, NULL, "Enter a double floating-point Scalar Number.\n", "Inserted Scalar", PARSER_SHOWRESULT) || (dcheck && INVERSE_OPS && mpfr_zero_p(scal)))
         {
         	printErr(22, "Invalid inserted Value");
         	mpfr_clear(scal);

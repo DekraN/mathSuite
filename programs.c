@@ -430,7 +430,7 @@ __MSSHELL_WRAPPER_ __MATHSUITE void  progInfo(sel_typ skip)
     if(err)
         {
 
-        if(err != -1)
+        // if(err != -1)
             msyprintf(COLOR_SYSTEM, "Error: %d\n", err);
 
         return;

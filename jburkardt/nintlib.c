@@ -440,7 +440,7 @@ __MATHSUITE __JBURKARDT  ityp   romberg_nd ( ityp func ( dim_typ dim_num, ityp x
         /*
         Terminate successfully if the estimated error is acceptable.
         */
-        if ( abs ( result - result_old ) <= abs ( result * ( tol + rnderr ) ) )
+        if ( fabs ( result - result_old ) <= fabs ( result * ( tol + rnderr ) ) )
         {
             *ind = 1;
             break;

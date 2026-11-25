@@ -37,7 +37,7 @@ __MATHSUITE __JBURKARDT  void *   _differ_backward ( void * data)
 	
     ityp *b;
     dim_typ i;
-    dim_typ info;
+    short info;
     dim_typ job;
     dim_typ n = o+p;
     ityp t;
@@ -102,7 +102,7 @@ __MATHSUITE __JBURKARDT  void *  _differ_central ( void * data)
 	
     ityp *b;
     dim_typ i;
-    dim_typ info;
+    short info;
     dim_typ job;
     dim_typ n = o+p;
     ityp t;
@@ -164,7 +164,7 @@ __MATHSUITE __JBURKARDT  void *   _differ_forward ( void * data)
 	
     ityp *b; 
     dim_typ i;
-    dim_typ info;
+    short info;
     dim_typ job;
     dim_typ n = o+p;
     ityp t;
@@ -384,7 +384,7 @@ __MATHSUITE __JBURKARDT  void *   _differ_stencil (void * data)
     ityp *b;
     ityp *dx;
     dim_typ i;
-    dim_typ info;
+    short info;
     dim_typ job;
     dim_typ n = o+p;
     ityp t;
@@ -507,13 +507,13 @@ __MATHSUITE __JBURKARDT  void   * _r8mat_fs_new ( void * data)
     /*
     Find the maximum element in column I.
     */
-        piv = abs ( a2[jcol-1+(jcol-1)*n] );
+        piv = fabs ( a2[jcol-1+(jcol-1)*n] );
         ipiv = jcol;
         for ( i = jcol+1; i <= n; ++i)
         {
-            if ( piv < abs ( a2[i-1+(jcol-1)*n] ) )
+            if ( piv < fabs ( a2[i-1+(jcol-1)*n] ) )
             {
-                piv = abs ( a2[i-1+(jcol-1)*n] );
+                piv = fabs ( a2[i-1+(jcol-1)*n] );
                 ipiv = i;
             }
         }

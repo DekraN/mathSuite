@@ -1567,7 +1567,7 @@ __MATHSUITE __JBURKARDT  void *   _l1pp_eigen ( void * data)
     for ( j = 0; j < n; ++j)
     {
         j_r8 = ( ityp ) ( j + 1 );
-        theta = M_PI * ((j%2) == 0)?( j_r8 - 1.0 ) / ( 2.0 * n_r8 ) : j_r8         / ( 2.0 * n_r8 );
+        theta = M_PI * (((j%2) == 0)?( j_r8 - 1.0 ) / ( 2.0 * n_r8 ) : j_r8         / ( 2.0 * n_r8 ));
         lambda[j] = pow ( 2.00 * sin ( theta ) / h, 2 );
 
         if ( ( j % 2 ) == 0 )

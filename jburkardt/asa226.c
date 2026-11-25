@@ -95,7 +95,7 @@ __MATHSUITE __JBURKARDT  void *   _betanc ( void * data)
 		ax = temp * q;
 		value += ax;
 		//  Check for convergence and act accordingly.
-		errbd = abs ( ( temp - gx ) * sumq );
+		errbd = fabs ( ( temp - gx ) * sumq );
 
 		if ( errbd <= 1.0E-07 )
 			break;

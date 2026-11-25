@@ -268,7 +268,7 @@ __MATHSUITE __JBURKARDT  void *   _laplace_pdf ( void * data)
 	const register ityp a = a_data[1];
 	const register ityp b = a_data[2];
 	
-	result = exp ( - abs ( x - a ) / b ) / ( 2.00 * b );
+	result = exp ( - fabs ( x - a ) / b ) / ( 2.00 * b );
     return &result;
 }
 
@@ -887,7 +887,7 @@ __MATHSUITE __JBURKARDT  void *   _bessel_i0 ( void * data)
 	const ityp xsmall = 2.98E-08;
 	ityp xx;
 	
-	x = abs ( arg );
+	x = fabs ( arg );
 	
 	if ( x < xsmall )
 		value = 1.00;
@@ -1010,8 +1010,8 @@ __MATHSUITE __JBURKARDT  void *   _weibull_pdf ( void * data)
 	const register ityp b = a_data[2];
 	const register ityp c = a_data[3];
 	
-    ityp y;
-    result = 0.00 + (x>=a)*(( c / b ) * pow ( y = ( x - a ) / b, ( c - 1.0 ) )  / exp ( pow ( y, c ) )); 
+    ityp y = ( x - a ) / b;
+    result = 0.00 + (x>=a)*(( c / b ) * pow ( y, ( c - 1.0 ) )  / exp ( pow ( y, c ) )); 
     return &result;
 }
 

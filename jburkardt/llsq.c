@@ -48,7 +48,7 @@ __MATHSUITE __JBURKARDT  void *   _llsq ( void * data)
     /*
     Average X and Y.
     */
-    ybar = ybar = 0.00;
+    ybar = 0.00;
     for ( i = 0; i < n; ++i )
     {
         xbar += x[i];

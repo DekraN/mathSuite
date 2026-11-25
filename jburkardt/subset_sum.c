@@ -311,7 +311,7 @@ __MATHSUITE __JBURKARDT  void *  _gen_laguerre_root ( void * data)
 		d = p2 / ( *dp2 );
 		*x -= d;
 		
-		if ( abs ( d ) <= eps * ( abs ( *x ) + 1.0 ) )
+		if ( fabs ( d ) <= eps * ( fabs ( *x ) + 1.0 ) )
 			break;
 	}
 	
@@ -366,7 +366,7 @@ __MATHSUITE __JBURKARDT  void *   _hermite_root ( void * data)
 		d = p2 / ( *dp2 );
 		*x -= d;
 		
-		if ( abs ( d ) <= eps * ( abs ( *x ) + 1.0 ) )
+		if ( fabs ( d ) <= eps * ( fabs ( *x ) + 1.0 ) )
 			return NULL;
 	}
 	
@@ -427,7 +427,7 @@ __MATHSUITE __JBURKARDT  void *   _jacobi_root ( void * data)
 		d = p2 / ( *dp2 );
 		*x -= d;
 		
-		if ( abs ( d ) <= eps * ( abs ( *x ) + 1.0 ) )
+		if ( fabs ( d ) <= eps * ( fabs ( *x ) + 1.0 ) )
 			return NULL;
 	}
 	return NULL;
@@ -484,7 +484,7 @@ __MATHSUITE __JBURKARDT  void *   _laguerre_root ( void * data)
 		d = p2 / ( *dp2 );
 		*x -= d;
 	
-		if ( abs ( d ) <= eps * ( abs ( *x ) + 1.0 ) )
+		if ( fabs ( d ) <= eps * ( fabs ( *x ) + 1.0 ) )
 			break;
 	}
 	
@@ -858,7 +858,7 @@ __MATHSUITE __JBURKARDT  void *   _i4_sqrt ( void * data)
 	int * q = s_data->a1;
 	int * r = s_data->a2;
 	
-	n = abs ( n );
+	// n = fabs ( n );
 	*q = n;
 	
 	while ( ( n / *q ) < *q )

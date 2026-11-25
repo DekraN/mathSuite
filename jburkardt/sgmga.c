@@ -268,7 +268,7 @@ __MATHSUITE __JBURKARDT  void *   _point_unique_index ( void * data)
 	{
 		diff = 0.0;
 		for ( k = 0; k < m; ++k )
-			diff = MAX ( diff, abs ( a[k+indx[i]*m] - a[k+undx[j]*m] ) );
+			diff = MAX ( diff, fabs ( a[k+indx[i]*m] - a[k+undx[j]*m] ) );
 		if ( 0.00 < diff )
 		{
 			++ j;
@@ -2401,7 +2401,7 @@ __MATHSUITE __JBURKARDT  void *   _jacobi_compute ( void * data)
 		{
 			r1 = ( 4.10 + alpha ) / 	( ( 1.00 + alpha ) * ( 1.00 + 0.156 * alpha ) );
 			r2 = 1.00 + 0.06 * ( ( ityp ) ( order ) - 8.00 ) * ( 1.00 + 0.12 * alpha ) / ( ityp ) ( order );
-			r3 = 1.00 + 0.012 * beta * ( 1.00 + 0.25 * abs ( alpha ) ) / ( ityp ) ( order );
+			r3 = 1.00 + 0.012 * beta * ( 1.00 + 0.25 * fabs ( alpha ) ) / ( ityp ) ( order );
 			x0 = x0 - r1 * r2 * r3 * ( 1.00 - x0 );
 		}
 		else if ( i == 3 )

@@ -173,7 +173,7 @@ __MATHSUITE __JBURKARDT  void   * _moments_legendre ( void * data)
 
     ityp *w = ( ityp * ) malloc ( m * sizeof ( ityp ) );
 
-    bk = bk = 1.00;
+    bk = 1.00;
     for (dim_typ k = 0; k < m; ++k )
     {
         bk *= b;

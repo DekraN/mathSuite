@@ -84,7 +84,8 @@ EXPRERRTYPE exprEvalNode(exprObj *obj, exprNode *nodes, int curnode, EXPRTYPE va
             {
             /* Addition */
             if(!(err = exprEvalNode(obj, nodes->data.oper.nodes, 0, d1, EXPREVAL_ALLOC)))
-	            if(!(err = exprEvalNode(obj, nodes->data.oper.nodes, 1, d2, EXPREVAL_ALLOC)))
+	    {
+	     	    if(!(err = exprEvalNode(obj, nodes->data.oper.nodes, 1, d2, EXPREVAL_ALLOC)))
 	            {
 	            	mpfr_add(val, d1, d2, MPFR_RNDN);
 					mpfr_clears(d1, d2, NULL);       
@@ -94,7 +95,7 @@ EXPRERRTYPE exprEvalNode(exprObj *obj, exprNode *nodes, int curnode, EXPRTYPE va
 	  				mpfr_clears(d1, d2, NULL);      
 	                return err;
 	        	}	
-
+	    }
             break;
             }
 
@@ -102,7 +103,8 @@ EXPRERRTYPE exprEvalNode(exprObj *obj, exprNode *nodes, int curnode, EXPRTYPE va
             {
             /* Subtraction */
             if(!(err = exprEvalNode(obj, nodes->data.oper.nodes, 0, d1, EXPREVAL_ALLOC)))
-	            if(!(err = exprEvalNode(obj, nodes->data.oper.nodes, 1, d2, EXPREVAL_ALLOC)))
+	    {
+	    	    if(!(err = exprEvalNode(obj, nodes->data.oper.nodes, 1, d2, EXPREVAL_ALLOC)))
 	        	{
 	            	mpfr_sub(val, d1, d2, MPFR_RNDN);
 					mpfr_clears(d1, d2, NULL); 
@@ -112,7 +114,7 @@ EXPRERRTYPE exprEvalNode(exprObj *obj, exprNode *nodes, int curnode, EXPRTYPE va
 					mpfr_clears(d1, d2, NULL); 
 	                return err;
 	        	}
-
+	    }
             break;
             }
 
@@ -120,7 +122,8 @@ EXPRERRTYPE exprEvalNode(exprObj *obj, exprNode *nodes, int curnode, EXPRTYPE va
             {
             /* Multiplication */
             if(!(err = exprEvalNode(obj, nodes->data.oper.nodes, 0, d1, EXPREVAL_ALLOC)))
-	            if(!(err = exprEvalNode(obj, nodes->data.oper.nodes, 1, d2, EXPREVAL_ALLOC)))
+	    {
+	     	    if(!(err = exprEvalNode(obj, nodes->data.oper.nodes, 1, d2, EXPREVAL_ALLOC)))
 	            {
 	            	mpfr_mul(val, d1, d2, MPFR_RNDN);
 					mpfr_clears(d1, d2, NULL); 
@@ -130,7 +133,7 @@ EXPRERRTYPE exprEvalNode(exprObj *obj, exprNode *nodes, int curnode, EXPRTYPE va
 					mpfr_clears(d1, d2, NULL); 
 	                return err;
 	        	}
-
+	    }
             break;
             }
 
@@ -138,7 +141,8 @@ EXPRERRTYPE exprEvalNode(exprObj *obj, exprNode *nodes, int curnode, EXPRTYPE va
             {
             /* Division */
             if(!(err = exprEvalNode(obj, nodes->data.oper.nodes, 0, d1, EXPREVAL_ALLOC)))
-	            if(!(err = exprEvalNode(obj, nodes->data.oper.nodes, 1, d2, EXPREVAL_ALLOC)))
+	    {
+	    	    if(!(err = exprEvalNode(obj, nodes->data.oper.nodes, 1, d2, EXPREVAL_ALLOC)))
 	                {
 	                if(mpfr_zero_p(d2) == 0)
 	                {
@@ -161,7 +165,7 @@ EXPRERRTYPE exprEvalNode(exprObj *obj, exprNode *nodes, int curnode, EXPRTYPE va
 	            	mpfr_clears(d1, d2, NULL); 
 	                return err;
 	            }
-
+	    }
             break;
             }
 
@@ -169,7 +173,8 @@ EXPRERRTYPE exprEvalNode(exprObj *obj, exprNode *nodes, int curnode, EXPRTYPE va
             {
             /* Exponent */
             if(!(err = exprEvalNode(obj, nodes->data.oper.nodes, 0, d1, EXPREVAL_ALLOC)))
-	            if(!(err = exprEvalNode(obj, nodes->data.oper.nodes, 1, d2, EXPREVAL_ALLOC)))
+	    {
+	     	    if(!(err = exprEvalNode(obj, nodes->data.oper.nodes, 1, d2, EXPREVAL_ALLOC)))
 	                {
 	                EXPR_RESET_ERR();
 	                mpfr_pow(val, d1, d2, MPFR_RNDN);
@@ -181,7 +186,7 @@ EXPRERRTYPE exprEvalNode(exprObj *obj, exprNode *nodes, int curnode, EXPRTYPE va
 					mpfr_clears(d1, d2, NULL); 
 	                return err;
 	      	  	}		
-
+	    }
             break;
             }
 

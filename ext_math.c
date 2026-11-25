@@ -705,7 +705,7 @@ __MATHSUITE char *   binaryAlgSum(ityp a, ityp b, bool mode)
             toBinary(a,c);
         else
         {
-            toBinary(abs(a),c);
+            toBinary(fabs(a),c);
             rComplement(c);
         }
         if(b>=0)
@@ -715,12 +715,12 @@ __MATHSUITE char *   binaryAlgSum(ityp a, ityp b, bool mode)
                 rComplement(d);
         }
         else
-            toBinary(abs(b),d);
+            toBinary(fabs(b),d);
 
         binaryAdd(c,d,e);
         msprintf(COLOR_USER, "\t %s\t %d\n",c,a);
         if(b<0)
-            msprintf(COLOR_USER, "\t+%s\t+%d\n ",d,abs(b));
+            msprintf(COLOR_USER, "\t+%s\t+%d\n ",d,fabs(b));
         else
             msprintf(COLOR_USER, "\t+%s\t-%d\n ",d,b);
 
@@ -2813,7 +2813,8 @@ __MATHSUITE bool  _secondGradeEquationSolver(mpfr_t *restrict abc, mpfr_t root[s
 // returns the number of the day correspondent to the given INPUT date
  inline sel_typ getDayNumber(sel_typ dd, sel_typ mm, uint64_t yyyy)
 {
-    return ((yyyy -= mm < 3) + yyyy/4 - yyyy/100 + yyyy/400 + ext_math.getdaynum_map[mm-1] + dd) % MAX_DAYSWEEK;
+    yyyy -= mm;
+    return ((yyyy < 3) + yyyy/4 - yyyy/100 + yyyy/400 + ext_math.getdaynum_map[mm-1] + dd) % MAX_DAYSWEEK;
 }
 
 /// thanks to Bibek Subedi for this function,
@@ -2833,7 +2834,7 @@ __MATHSUITE bool  _secondGradeEquationSolver(mpfr_t *restrict abc, mpfr_t root[s
 
  void  mpow(mpfr_t rop, mpfr_t b, mpfr_t exp)
 {
-   if (mpfLZero(exp) < 0)
+   if (mpfLZero(exp))
    {
       mpfr_pow_si(b, b, -1, MPFR_RNDN);
       mpfr_mul_si(exp, exp, -1, MPFR_RNDN);
@@ -7225,14 +7226,17 @@ __MATHSUITE short    _routhTable(mpfr_t **table, const register dim_typ dim, fse
 	for(i=2; i<dim; ++i)
 	{
 	    if(mpfr_zero_p(*((*table) + columns*(i-1))))
+	    {
 			for(j=1; j<columns; ++j)
                 if(!mpfr_zero_p(*((*table) + columns*(i-1) + j)))
 				{
 					mpfr_set_d(*((*table) + columns*(i-1)), ROUTHTABLE_EPSILON, MPFR_RNDN); // 0.0000000001;
 					break;
 				}
-				else if(j == columns-1)
+				else
 				{
+				    if(j == columns-1)
+				    {
 					if(nullrow)
 						(*nullrow) = i-1;
 
@@ -7245,8 +7249,9 @@ __MATHSUITE short    _routhTable(mpfr_t **table, const register dim_typ dim, fse
 						// shifting derivative of the [i-2] polynom into the substaying nullrow
 						// by indexing the polynoms terms with the k variable
 					}
+				    }
 				}
-
+	    }
         mpfr_neg(pivot, pivot, MPFR_RNDN);
         mpfr_set(pivot, (*((*table) + columns*(i-1))), MPFR_RNDN);
         mpfr_pow_si(pivot, pivot, -1, MPFR_RNDN);
@@ -7370,6 +7375,25 @@ __MATHSUITE sel_typ    _juryTable(mpfr_t **table, const register dim_typ dim)
 	return jtest == mpfr_deg-1 && sec_test ? JURYTABLE_SATISFIED : JURYTABLE_NOTSATISFIED;
 }
 
+static inline void twst(mpfr_t *restrict m, mpfr_t *restrict q, mpfr_t *restrict c, mpfr_t *restrict s, mpfr_t *restrict tmp, const dim_typ n, const register dim_typ i, const register dim_typ j)
+{
+	mpfr_t t;
+        mpfr_init(t);
+        dim_typ k=n;
+        while(k--)
+        {
+        	mpfr_mul(t, *(m + n*i + k), *c, MPFR_RNDN);
+                mpfr_mul(*q, *(m+ n*j + k), *s, MPFR_RNDN);
+                mpfr_add(t, t, *q, MPFR_RNDN);
+                mpfr_mul(*q, *(m + n*i + k), *s, MPFR_RNDN);
+                mpfr_mul(*tmp, *(m + n*j + k), *c, MPFR_RNDN);
+                mpfr_neg(*q, *q, MPFR_RNDN);
+                mpfr_add(*(m + n*j + k), *q, *tmp, MPFR_RNDN);
+                mpfr_set(*(m + n*i + k), t, MPFR_RNDN);
+	}
+        mpfr_clear(t);
+}
+
 __MATHSUITE  sel_typ    _matrixEigenValues(mpfr_t *restrict m, mpfr_t *restrict l, mpfr_t *restrict vc, const dim_typ n)
 {
 	mpfr_t *m2 = NULL;
@@ -7428,7 +7452,8 @@ __MATHSUITE  sel_typ    _matrixEigenValues(mpfr_t *restrict m, mpfr_t *restrict 
 		    mpfr_inits(c, s, NULL); 
 		    mpfr_cos(c, th, MPFR_RNDN);
 		    mpfr_sin(s, th, MPFR_RNDN);
-			inline void twst(mpfr_t *restrict m)
+			/*
+		    	inline void twst(mpfr_t *restrict m)
 			{
 			    mpfr_t t;
 			    mpfr_init(t);
@@ -7446,6 +7471,7 @@ __MATHSUITE  sel_typ    _matrixEigenValues(mpfr_t *restrict m, mpfr_t *restrict 
 				}
 				mpfr_clear(t);
 			}
+			*/
 			{
 				dim_typ k=n;
 				mpfr_t t;
@@ -7463,8 +7489,8 @@ __MATHSUITE  sel_typ    _matrixEigenValues(mpfr_t *restrict m, mpfr_t *restrict 
 				}
 				mpfr_clear(t);
 			}
-			twst(m2);
-			twst(vc);
+			twst(m2, &q, &c, &s, &tmp, n, i, j);
+			twst(vc, &q, &c, &s, &tmp, n, i, j);
 			mpfr_clears(c, s, NULL); 
 		}
 		mpfr_clears(q, tmp, th, mod, NULL); 

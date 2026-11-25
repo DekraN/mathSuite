@@ -50,7 +50,7 @@ __MATHSUITE __JBURKARDT  void *   _line01_monomial_integral ( void * data)
 {
 	static ityp result = MAX_VAL;
 	
-	const register dim_typ e = *(dim_typ *) data;
+	const register int e = *(int *) data;
 	
 	result = e == -1 ? MAX_VAL : 1.00 / ( ityp ) ( e + 1 );
     return &result;

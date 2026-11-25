@@ -187,7 +187,7 @@ __MATHSUITE __JBURKARDT  void *   _simplex_volume ( void * data)
             a[i+j*n] -= x[i+n*n];
 
     det = r8mat_det ( n, a );
-    volume = abs ( det );
+    volume = fabs ( det );
     for ( i = 1; i <= n; ++i )
         volume /= ( ityp ) ( i );
     free ( a );

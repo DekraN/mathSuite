@@ -939,8 +939,9 @@ __MATHSUITE __JBURKARDT  void   * _sphere_grid_q4 ( void * data)
             rectangle_num = rectangle_num + 1;
 
             sw = se;
-            nw = ne = ne == n_max ? n_min:ne+1;
-            se == se == s_max ? s_min:se+1;
+            nw = ne;
+            se = se == s_max ? s_min:se+1;
+	    ne = ne == n_max ? n_min:ne+1;
         }
     }
     /*
@@ -962,7 +963,8 @@ __MATHSUITE __JBURKARDT  void   * _sphere_grid_q4 ( void * data)
         rectangle_node[3+rectangle_num*4] = s;
         rectangle_num = rectangle_num + 1;
 
-        nw = ne = ne == n_max ? n_min:ne+1;
+        nw = ne;
+	ne = ne == n_max ? n_min:ne+1;
     }
     return rectangle_node;
 }
@@ -1728,14 +1730,14 @@ __MATHSUITE __JBURKARDT  void *   _sphere_line_project ( void * data)
                 If the angle is at least THETAMIN, (or it's the last point),
                 then we will draw a line segment.
                 */
-                if ( thetamin < abs ( ang3d ) || i == n )
+                if ( thetamin < fabs ( ang3d ) || i == n )
                 {
                     /*
                     Now we check to see if the line segment is too long.
                     */
-                    if ( thetamax < abs ( ang3d ) )
+                    if ( thetamax < fabs ( ang3d ) )
                     {
-                        nfill = ( dim_typ ) ( abs ( ang3d ) / thetamax );
+                        nfill = ( dim_typ ) ( fabs ( ang3d ) / thetamax );
 
                         for ( j = 1; j < nfill; ++j )
                         {

@@ -185,7 +185,7 @@ __MSSHELL_WRAPPER_ static void  mdc2(const sel_typ argc, char ** argv)
 		printErr(ERROR_INPUTOUTPUT, "Invalid string. You have to insert a String whose length is between 0 and " STR(MAX_BUFSIZ) " characters");
 	else
 	{
-		unsigned char hashRep[MDC2_HASHREPLENGTH+1];
+		char hashRep[MDC2_HASHREPLENGTH+1];
 		hexhashMDC2(buf, hashRep);	
 		msyprintf(COLOR_USER, "\n\nMDC-2 hash:\n%s\n\n", hashRep);
 	}
@@ -238,7 +238,7 @@ __MSSHELL_WRAPPER_ static void  md4(const sel_typ argc, char ** argv)
 		printErr(ERROR_INPUTOUTPUT, "Invalid string. You have to insert a String whose length is between 0 and " STR(MAX_BUFSIZ) " characters");
 	else
 	{
-		unsigned char hashRep[MD4_HASHREPLENGTH+1];
+		char hashRep[MD4_HASHREPLENGTH+1];
 		hexhashMD4(buf, hashRep);	
 		msyprintf(COLOR_USER, "\n\nMD-4 hash:\n%s\n\n", hashRep);
 	}
@@ -264,7 +264,7 @@ __MSSHELL_WRAPPER_ static void  md5(const sel_typ argc, char ** argv)
 		printErr(ERROR_INPUTOUTPUT, "Invalid string. You have to insert a String whose length is between 0 and " STR(MAX_BUFSIZ) " characters");
 	else
 	{
-		unsigned char hashRep[MD5_HASHREPLENGTH+1];
+		char hashRep[MD5_HASHREPLENGTH+1];
 		hexhashMD5(buf, hashRep);	
 		msyprintf(COLOR_USER, "\n\nMD-5 hash:\n%s\n\n", hashRep);
 	}
@@ -291,7 +291,7 @@ __MSSHELL_WRAPPER_ static void  ripemd160(const sel_typ argc, char ** argv)
 		printErr(ERROR_INPUTOUTPUT, "Invalid string. You have to insert a String whose length is between 0 and " STR(MAX_BUFSIZ) " characters");
 	else
 	{
-		unsigned char hashRep[RIPEMD160_HASHREPLENGTH+1];
+		char hashRep[RIPEMD160_HASHREPLENGTH+1];
 		hexhashRIPEMD160(buf, hashRep);	
 		msyprintf(COLOR_USER, "\n\nRIPEMD-160 hash:\n%s\n\n", hashRep);
 	}
@@ -316,7 +316,7 @@ __MSSHELL_WRAPPER_ static void  whirlpool(const sel_typ argc, char ** argv)
 		printErr(ERROR_INPUTOUTPUT, "Invalid string. You have to insert a String whose length is between 0 and " STR(MAX_BUFSIZ) " characters");
 	else
 	{
-		unsigned char hashRep[WHIRLPOOL_HASHREPLENGTH+1];
+		char hashRep[WHIRLPOOL_HASHREPLENGTH+1];
 		hexhashWHIRLPOOL(buf, hashRep);	
 		msyprintf(COLOR_USER, "\n\nWHIRLPOOL hash:\n%s\n\n", hashRep);
 	}
@@ -342,7 +342,7 @@ __MSSHELL_WRAPPER_ static void  sha1(const sel_typ argc, char ** argv)
 		printErr(ERROR_INPUTOUTPUT, "Invalid string. You have to insert a String whose length is between 0 and " STR(MAX_BUFSIZ) " characters");
 	else
 	{
-		unsigned char hashRep[SHA1_HASHREPLENGTH+1];
+		char hashRep[SHA1_HASHREPLENGTH+1];
 		hexhashSHA1(buf, hashRep);	
 		msyprintf(COLOR_USER, "\n\nSHA-1 hash:\n%s\n\n", hashRep);
 	}
@@ -369,7 +369,7 @@ __MSSHELL_WRAPPER_ static void  sha224(const sel_typ argc, char ** argv)
 		printErr(ERROR_INPUTOUTPUT, "Invalid string. You have to insert a String whose length is between 0 and " STR(MAX_BUFSIZ) " characters");
 	else
 	{
-		unsigned char hashRep[SHA224_HASHREPLENGTH+1];
+		char hashRep[SHA224_HASHREPLENGTH+1];
 		hexhashSHA224(buf, hashRep);	
 		msyprintf(COLOR_USER, "\n\nSHA-224 hash:\n%s\n\n", hashRep);
 	}
@@ -396,7 +396,7 @@ __MSSHELL_WRAPPER_ static void  sha256(const sel_typ argc, char ** argv)
 		printErr(ERROR_INPUTOUTPUT, "Invalid string. You have to insert a String whose length is between 0 and " STR(MAX_BUFSIZ) " characters");
 	else
 	{
-		unsigned char hashRep[SHA256_HASHREPLENGTH+1];
+		char hashRep[SHA256_HASHREPLENGTH+1];
 		hexhashSHA256(buf, hashRep);	
 		msyprintf(COLOR_USER, "\n\nSHA-256 hash:\n%s\n\n", hashRep);
 	}
@@ -423,7 +423,7 @@ __MSSHELL_WRAPPER_ static void  sha384(const sel_typ argc, char ** argv)
 		printErr(ERROR_INPUTOUTPUT, "Invalid string. You have to insert a String whose length is between 0 and " STR(MAX_BUFSIZ) " characters");
 	else
 	{
-		unsigned char hashRep[SHA384_HASHREPLENGTH+1];
+		char hashRep[SHA384_HASHREPLENGTH+1];
 		hexhashSHA384(buf, hashRep);	
 		msyprintf(COLOR_USER, "\n\nSHA-384 hash:\n%s\n\n", hashRep);
 	}
@@ -450,7 +450,7 @@ __MSSHELL_WRAPPER_ static void  sha512(const sel_typ argc, char ** argv)
 		printErr(ERROR_INPUTOUTPUT, "Invalid string. You have to insert a String whose length is between 0 and " STR(MAX_BUFSIZ) " characters");
 	else
 	{
-		unsigned char hashRep[SHA512_HASHREPLENGTH+1];
+		char hashRep[SHA512_HASHREPLENGTH+1];
 		hexhashSHA512(buf, hashRep);	
 		msyprintf(COLOR_USER, "\n\nSHA-512 hash:\n%s\n\n", hashRep);
 	}	

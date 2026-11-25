@@ -211,7 +211,7 @@ __MATHSUITE __JBURKARDT  void *  _alpha_measure ( void * data)
         c_x = z[0+((c_index-1)<<1)];
         c_y = z[1+((c_index-1)<<1)];
 
-        area = 0.50 * abs ( a_x * ( b_y - c_y )
+        area = 0.50 * fabs ( a_x * ( b_y - c_y )
         + b_x * ( c_y - a_y )
         + c_x * ( a_y - b_y ) );
 
@@ -324,7 +324,7 @@ __MATHSUITE __JBURKARDT  void *   _area_measure ( void * data)
         x3 = z[0+((triangle_node[2+triangle*triangle_order]-1)<<1)];
         y3 = z[1+((triangle_node[2+triangle*triangle_order]-1)<<1)];
 
-        area = 0.50 * abs ( x1 * ( y2 - y3 )+ x2 * ( y3 - y1 )+ x3 * ( y1 - y2 ) );
+        area = 0.50 * fabs ( x1 * ( y2 - y3 )+ x2 * ( y3 - y1 )+ x3 * ( y1 - y2 ) );
 
         *area_min = MIN ( *area_min, area );
         *area_max = MAX ( *area_max, area );
@@ -342,7 +342,7 @@ __MATHSUITE __JBURKARDT  void *   _area_measure ( void * data)
         x3 = z[0+((triangle_node[2+triangle*triangle_order]-1)<<1)];
         y3 = z[1+((triangle_node[2+triangle*triangle_order]-1)<<1)];
 
-        area = 0.50 * abs ( x1 * ( y2 - y3 )+ x2 * ( y3 - y1 )+ x3 * ( y1 - y2 ) );
+        area = 0.50 * fabs ( x1 * ( y2 - y3 )+ x2 * ( y3 - y1 )+ x3 * ( y1 - y2 ) );
 
         *area_std += pow ( area - *area_ave, 2 );
     }
@@ -1467,7 +1467,7 @@ __MATHSUITE __JBURKARDT  void *   _q_measure ( void * data)
         x3 = z[0+((triangle_node[2+triangle*triangle_order]-1)<<1)];
         y3 = z[1+((triangle_node[2+triangle*triangle_order]-1)<<1)];
 
-        area = 0.50 * abs ( x1 * ( y2 - y3 )+ x2 * ( y3 - y1 )+ x3 * ( y1 - y2 ) );
+        area = 0.50 * fabs ( x1 * ( y2 - y3 )+ x2 * ( y3 - y1 )+ x3 * ( y1 - y2 ) );
 
         *q_min = MIN ( *q_min, q );
         *q_max = MAX ( *q_max, q );

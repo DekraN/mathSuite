@@ -232,7 +232,7 @@ __MATHSUITE __JBURKARDT  void *   _dnrm2 ( void * data)
     if ( n < 1 || incx < 1 )
         norm = 0.00;
     else if ( n == 1 )
-        norm = abs ( x[0] );
+        norm = fabs ( x[0] );
     else
     {
         scale = 0.00;
@@ -243,7 +243,7 @@ __MATHSUITE __JBURKARDT  void *   _dnrm2 ( void * data)
         {
             if ( x[ix] != 0.00 )
             {
-                absxi = abs ( x[ix] );
+                absxi = fabs ( x[ix] );
                 if ( scale < absxi )
                 {
                     ssq = 1.00 + ssq * ( scale / absxi ) * ( scale / absxi );
@@ -399,8 +399,8 @@ __MATHSUITE __JBURKARDT  void *  _drotg ( void * data)
     ityp scale;
     ityp z;
 
-    roe = abs ( *sb ) < abs ( *sa ) ? *sa : *sb;
-    scale = abs ( *sa ) + abs ( *sb );
+    roe = fabs ( *sb ) < fabs ( *sa ) ? *sa : *sb;
+    scale = fabs ( *sa ) + fabs ( *sb );
 
     if ( scale == 0.00 )
     {
@@ -415,7 +415,7 @@ __MATHSUITE __JBURKARDT  void *  _drotg ( void * data)
         *s = *sb / r;
     }
 
-    z = 0.00 < abs ( *c ) && abs ( *c ) <= *s ? 1.00/ *c : *s;
+    z = 0.00 < fabs ( *c ) && fabs ( *c ) <= *s ? 1.00/ *c : *s;
     *sa = r;
     *sb = z;
     return NULL;

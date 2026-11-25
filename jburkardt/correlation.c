@@ -35,7 +35,7 @@ __MATHSUITE __JBURKARDT  void   * _correlation_besselj ( void * data)
 
     for (dim_typ i = 0; i < n; ++i )
     {
-        rhohat = abs ( rho[i] ) / rho0;
+        rhohat = fabs ( rho[i] ) / rho0;
         c[i] = r8_besj0 ( rhohat );
     }
 
@@ -79,7 +79,7 @@ __MATHSUITE __JBURKARDT  void   * _correlation_besselk ( void * data)
             c[i] = 1.00;
         else
         {
-            rhohat = abs ( rho[i] ) / rho0;
+            rhohat = fabs ( rho[i] ) / rho0;
             c[i] = rhohat * r8_besk1 ( rhohat );
         }
     }
@@ -154,7 +154,7 @@ __MATHSUITE __JBURKARDT  void   * _correlation_cubic ( void * data)
 
     for (dim_typ i = 0; i < n; ++i )
     {
-        rhohat = MIN ( abs ( rho[i] ) / rho0, 1.00 );
+        rhohat = MIN ( fabs ( rho[i] ) / rho0, 1.00 );
         c[i] = 1.00 - 7.00  * pow ( rhohat, 2 ) + 8.75 * pow ( rhohat, 3 )- 3.50  * pow ( rhohat, 5 )+ 0.750 * pow ( rhohat, 7 );
     }
 
@@ -191,7 +191,7 @@ __MATHSUITE __JBURKARDT  void   * _correlation_damped_cosine ( void * data)
 	
     ityp *c = ( ityp * ) malloc ( n * sizeof ( ityp ) );
     for (dim_typ i = 0; i < n; ++i )
-        c[i] = exp ( - abs ( rho[i] ) / rho0 ) * cos ( abs ( rho[i] ) / rho0 );
+        c[i] = exp ( - fabs ( rho[i] ) / rho0 ) * cos ( fabs ( rho[i] ) / rho0 );
     return c;
 }
 
@@ -232,7 +232,7 @@ __MATHSUITE __JBURKARDT  void   * _correlation_damped_sine ( void * data)
             c[i] = 1.00;
         else
         {
-            rhohat = abs ( rho[i] ) / rho0;
+            rhohat = fabs ( rho[i] ) / rho0;
             c[i] = sin ( rhohat ) / rhohat;
         }
     }
@@ -269,7 +269,7 @@ __MATHSUITE __JBURKARDT  void   * _correlation_exponential ( void * data)
 	
     ityp *c = ( ityp * ) malloc ( n * sizeof ( ityp ) );
     for (dim_typ i = 0; i < n; ++i)
-        c[i] = exp ( - abs ( rho[i] ) / rho0 );
+        c[i] = exp ( - fabs ( rho[i] ) / rho0 );
     return c;
 }
 
@@ -334,7 +334,7 @@ __MATHSUITE __JBURKARDT  void   * _correlation_hole ( void * data)
 	
     ityp *c = ( ityp * ) malloc ( n * sizeof ( ityp ) );
     for (dim_typ i = 0; i < n; ++i)
-        c[i] = ( 1.00 - abs ( rho[i] ) / rho0 ) * exp ( - abs ( rho[i] ) / rho0 );
+        c[i] = ( 1.00 - fabs ( rho[i] ) / rho0 ) * exp ( - fabs ( rho[i] ) / rho0 );
     return c;
 }
 
@@ -368,7 +368,7 @@ __MATHSUITE __JBURKARDT  void   * _correlation_linear ( void * data)
 	
     ityp *c = ( ityp * ) malloc ( n * sizeof ( ityp ) );
     for (dim_typ i = 0; i < n; ++i )
-        c[i] = rho0 < abs ( rho[i]) ? 0.0 : ( rho0 - abs ( rho[i] ) ) / rho0;
+        c[i] = rho0 < fabs ( rho[i]) ? 0.0 : ( rho0 - fabs ( rho[i] ) ) / rho0;
     return c;
 }
 
@@ -417,7 +417,7 @@ __MATHSUITE __JBURKARDT  void   * _correlation_matern ( void * data)
 	
     for (dim_typ i = 0; i < n; ++i )
     {
-        rho1 = 2.00 * sqrt ( nu ) * abs ( rho[i] ) / rho0;
+        rho1 = 2.00 * sqrt ( nu ) * fabs ( rho[i] ) / rho0;
         c[i] = rho1 == 0.00 ? 1.00 : pow ( rho1, nu ) * r8_besk ( nu, rho1 ) / r8_gamma ( nu ) / pow ( 2.00, nu - 1.00 );
     }
     return c;
@@ -458,7 +458,7 @@ __MATHSUITE __JBURKARDT  void   * _correlation_pentaspherical ( void * data)
     ityp rhohat;
     for (dim_typ i = 0; i < n; ++i )
     {
-        rhohat = MIN ( abs ( rho[i] ) / rho0, 1.0 );
+        rhohat = MIN ( fabs ( rho[i] ) / rho0, 1.0 );
         c[i] = 1.0 - 1.875 * rhohat + 1.25 * pow ( rhohat, 3 )- 0.375 * pow ( rhohat, 5 );
     }
     return c;
@@ -505,7 +505,7 @@ __MATHSUITE __JBURKARDT  void   * _correlation_power ( void * data)
     ityp rhohat;
     for (dim_typ i = 0; i < n; ++i )
     {
-        rhohat = abs ( rho[i] ) / rho0;
+        rhohat = fabs ( rho[i] ) / rho0;
         c[i] = 0.00 + (rhohat<=1.00)*pow ( 1.0 - rhohat, e );
     }
     return c;
@@ -580,7 +580,7 @@ __MATHSUITE __JBURKARDT  void   * _correlation_spherical ( void * data)
     ityp rhohat;
     for (dim_typ i = 0; i < n; ++i)
     {
-        rhohat = MIN ( abs ( rho[i] ) / rho0, 1.00 );
+        rhohat = MIN ( fabs ( rho[i] ) / rho0, 1.00 );
         c[i] = 1.00 - 1.50 * rhohat + 0.50 * pow ( rhohat, 3 );
     }
     return c;
@@ -926,7 +926,7 @@ __MATHSUITE __JBURKARDT  void *   _r8_besi1 ( void * data)
 		xmax = log ( r8_mach ( 2 ) );
 	}
 	
-	y = abs ( x );
+	y = fabs ( x );
 	
 	if ( y <= xmin )
 		value = 0.00;
@@ -1138,7 +1138,7 @@ __MATHSUITE __JBURKARDT  void *   _r8_besi1e ( void * data)
         xsml = sqrt ( 8.00 * r8_mach ( 3 ) );
     }
 
-    y = abs ( x );
+    y = fabs ( x );
 
     if ( y <= xmin )
         value = 0.00;
@@ -1229,7 +1229,7 @@ __MATHSUITE __JBURKARDT  void *   _r8_besj0 ( void * data)
         xsml = sqrt ( 4.00 * r8_mach ( 3 ) );
     }
 
-    y = abs ( x );
+    y = fabs ( x );
 
     if ( y <= xsml )
         value = 1.00;
@@ -1599,7 +1599,7 @@ __MATHSUITE __JBURKARDT  void   * _r8_beskes ( void * data)
 	const register ityp x = a_data[1];
 	const register ityp nin = a_data[2];
 	
-    ityp *bke = ( ityp * ) malloc ( abs ( nin ) * sizeof ( ityp ) );
+    ityp *bke = ( ityp * ) malloc ( fabs ( nin ) * sizeof ( ityp ) );
     ityp bknu1;
     ityp direct;
     dim_typ i;
@@ -1608,7 +1608,7 @@ __MATHSUITE __JBURKARDT  void   * _r8_beskes ( void * data)
     ityp vend;
     ityp vincr;
 
-    v = abs ( xnu );
+    v = fabs ( xnu );
     n = i4_abs ( nin );
 
     if ( 1.00 <= v || x <= 0.00 || !n)
@@ -1624,12 +1624,12 @@ __MATHSUITE __JBURKARDT  void   * _r8_beskes ( void * data)
     bke[1] = bknu1;
 
     if ( direct < 0.00 )
-        r8_knus ( abs ( xnu + vincr ), x, &bke[1], &bknu1, &iswtch );
+        r8_knus ( fabs ( xnu + vincr ), x, &bke[1], &bknu1, &iswtch );
 
     if ( n == 2 )
         return bke;
 
-    vend = abs ( xnu + ( ityp ) ( nin ) ) - 1.00;
+    vend = fabs ( xnu + ( ityp ) ( nin ) ) - 1.00;
 
     v = xnu;
     for ( i = 3; i <= n; ++i )
@@ -1807,7 +1807,7 @@ __MATHSUITE __JBURKARDT  void * _r8_gaml ( void * data)
         xln = log ( *xmin );
         *xmin -=*xmin * ( ( *xmin + 0.50 ) * xln - *xmin - 0.2258 + alnsml ) / ( *xmin * xln + 0.50 );
 
-        if ( abs ( *xmin - xold ) < 0.005 )
+        if ( fabs ( *xmin - xold ) < 0.005 )
         {
             *xmin = - *xmin + 0.01;
 
@@ -1820,7 +1820,7 @@ __MATHSUITE __JBURKARDT  void * _r8_gaml ( void * data)
                 xln = log ( *xmax );
                 *xmax -= *xmax * ( ( *xmax - 0.5 ) * xln - *xmax + 0.9189 - alnbig ) / ( *xmax * xln - 0.5 );
 
-                if ( abs ( *xmax - xold ) < 0.005 )
+                if ( fabs ( *xmax - xold ) < 0.005 )
                 {
                     *xmax -= 0.01;
                     *xmin = MAX ( *xmin, - *xmax + 1.00 );
@@ -1881,7 +1881,7 @@ __MATHSUITE __JBURKARDT  void *   _r8_inits ( void * data)
 
     for ( i = nos - 1; 0 <= i; --i )
     {
-        err += abs ( dos[i] );
+        err += fabs ( dos[i] );
         if ( eta < err )
         {
             value = i + 1;
@@ -2152,7 +2152,7 @@ __MATHSUITE __JBURKARDT  void *   _r8_knus ( void * data)
 
         #pragma omp parallel for num_threads(2)
         for ( inu = 1; inu <= 2; ++inu )
-            xmu = inu == 1 ? xnu<=xnusml ? 0.00 : (4.00*xnu)*xnu : 4.00 * ( abs ( xnu ) + 1.00 ) * ( abs ( xnu ) + 1.00 );
+            xmu = inu == 1 ? xnu<=xnusml ? 0.00 : (4.00*xnu)*xnu : 4.00 * ( fabs ( xnu ) + 1.00 ) * ( fabs ( xnu ) + 1.00 );
 
         a[0] = 1.00 - xmu;
         a[1] = 9.00 - xmu;

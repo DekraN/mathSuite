@@ -305,7 +305,7 @@ __MATHSUITE __JBURKARDT  void *   _imtqlx ( void * data)
 				if (m == n)
 					break;
 
-				if ( abs ( e[m-1] ) <= prec * ( abs ( d[m-1] ) + abs ( d[m] ) ) )
+				if ( fabs ( e[m-1] ) <= prec * ( fabs ( d[m-1] ) + fabs ( d[m] ) ) )
 					break;
 			}
 			p = d[l-1];
@@ -320,7 +320,7 @@ __MATHSUITE __JBURKARDT  void *   _imtqlx ( void * data)
 			++ j;
 			g = ( d[l] - p ) / ( 2.00 * e[l-1] );
 			r =  sqrt ( g * g + 1.00 );
-			g = d[m-1] - p + e[l-1] / ( g + abs ( r ) * r8_sign ( g ) );
+			g = d[m-1] - p + e[l-1] / ( g + fabs ( r ) * r8_sign ( g ) );
 			s = 1.00;
 			c = 1.00;
 			p = 0.00;
@@ -332,7 +332,7 @@ __MATHSUITE __JBURKARDT  void *   _imtqlx ( void * data)
 				f = s * e[i-1];
 				b = c * e[i-1];
 
-				if (abs (g) <= abs (f))
+				if (fabs (g) <= fabs (f))
 				{
 					c = g / f;
 					r =  sqrt (c*c + 1.00);

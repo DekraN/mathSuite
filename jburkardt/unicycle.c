@@ -145,10 +145,10 @@ __MATHSUITE __JBURKARDT  void *   _perm_lex_next ( void * data)
     case the output value of RANK is 0.
 */
 {
-	const dtpipdt * const s_data = data;
+	const dt2pi * const s_data = data;
 	const register dim_typ n = s_data->a0;
 	int * p = s_data->a1;
-	dim_typ * rank = s_data->a2;
+	int * rank = s_data->a2;
 	
     dim_typ i;
     dim_typ j;
@@ -475,10 +475,10 @@ __MATHSUITE __JBURKARDT  void *   _unicycle_next ( void * data)
     case the output value of RANK is -1.
 */
 {
-	const dtpipdt * const s_data = data;
+	const dt2pi * const s_data = data;
 	const register dim_typ n = s_data->a0;
 	int * u = s_data->a1;
-	dim_typ * rank = s_data->a2;
+	int * rank = s_data->a2;
 	
     dim_typ i;
     int *p = ( int * ) malloc ( ( n - 1 ) * sizeof ( int ) );

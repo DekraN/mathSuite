@@ -127,7 +127,7 @@ __MATHSUITE __JBURKARDT  void *   _dasum ( void * data)
 	
 	for ( i = j = 0; i < n; ++i )
 	{
-		value += abs ( x[j] );
+		value += fabs ( x[j] );
 		j += incx;
 	}
 	
@@ -196,29 +196,29 @@ __MATHSUITE __JBURKARDT  void *   _idamax ( void * data)
 	
 	if ( incx == 1 )
 	{
-		dmax = abs ( dx[0] );
+		dmax = fabs ( dx[0] );
 		
 		for ( i = 1; i < n; ++i )
 		{
-			if ( dmax < abs ( dx[i] ) )
+			if ( dmax < fabs ( dx[i] ) )
 			{
 				value = i + 1;
-				dmax = abs ( dx[i] );
+				dmax = fabs ( dx[i] );
 			}
 		}
 	}
 	else
 	{
 		ix = 0;
-		dmax = abs ( dx[0] );
+		dmax = fabs ( dx[0] );
 		ix += incx;
 		
 		for ( i = 1; i < n; ++i )
 		{
-			if ( dmax < abs ( dx[ix] ) )
+			if ( dmax < fabs ( dx[ix] ) )
 			{
 				value = i + 1;
-				dmax = abs ( dx[ix] );
+				dmax = fabs ( dx[ix] );
 			}
 			ix += incx;
 		}
@@ -611,7 +611,7 @@ __MATHSUITE __JBURKARDT  void *   _dchdd ( void * data)
     for ( ii = 1; ii <= p; ++ii )
     {
         i = p - ii + 1;
-        scale = alpha + abs ( s[i-1] );
+        scale = alpha + fabs ( s[i-1] );
         a = alpha / scale;
         b = s[i-1] / scale;
         norm = sqrt ( a * a + b * b );
@@ -645,7 +645,7 @@ __MATHSUITE __JBURKARDT  void *   _dchdd ( void * data)
             zeta = c[i-1] * zeta - s[i-1] * z[i-1+(j-1)*ldz];
         }
 
-        azeta = abs ( zeta );
+        azeta = fabs ( zeta );
 
         if ( rho[j-1] < azeta )
         {
@@ -1026,7 +1026,7 @@ __MATHSUITE __JBURKARDT  void *   _dchud ( void * data)
             z[i-1+(j-1)*ldz] = t;
         }
 
-        azeta = abs ( zeta );
+        azeta = fabs ( zeta );
 
         if ( azeta != 0.00 && 0.00 <= rho[j-1] )
         {
@@ -1202,9 +1202,9 @@ __MATHSUITE __JBURKARDT  void *   _dgbco ( void * data)
         if ( z[k-1] != 0.00 )
             ek *= r8_sign ( -z[k-1] );
 
-        if ( abs ( abd[m-1+(k-1)*lda] ) < abs ( ek - z[k-1] ) )
+        if ( fabs ( abd[m-1+(k-1)*lda] ) < fabs ( ek - z[k-1] ) )
         {
-            s = abs ( abd[m-1+(k-1)*lda] ) / abs ( ek - z[k-1] );
+            s = fabs ( abd[m-1+(k-1)*lda] ) / fabs ( ek - z[k-1] );
             for ( i = 1; i <= n; ++i )
                 z[i-1] = s * z[i-1];
         ek = s * ek;
@@ -1212,8 +1212,8 @@ __MATHSUITE __JBURKARDT  void *   _dgbco ( void * data)
 
         wk = ek - z[k-1];
         wkm = -ek - z[k-1];
-        s = abs ( wk );
-        sm = abs ( wkm );
+        s = fabs ( wk );
+        sm = fabs ( wkm );
 
         if ( abd[m-1+(k-1)*lda] != 0.00 )
         {
@@ -1231,9 +1231,9 @@ __MATHSUITE __JBURKARDT  void *   _dgbco ( void * data)
             for ( j = k+1; j <= ju; ++j )
             {
                 -- mm ;
-                sm += abs ( z[j-1] + wkm * abd[mm-1+(j-1)*lda] );
+                sm += fabs ( z[j-1] + wkm * abd[mm-1+(j-1)*lda] );
                 z[j-1] = z[j-1] + wk * abd[mm-1+(j-1)*lda];
-                s = s + abs ( z[j-1] );
+                s = s + fabs ( z[j-1] );
             }
 
             if ( s < sm )
@@ -1265,9 +1265,9 @@ __MATHSUITE __JBURKARDT  void *   _dgbco ( void * data)
         if ( k < m )
             z[k-1] += ddot ( lm, abd+m+(k-1)*lda, 1, z+k, 1 );
 
-        if ( 1.00 < abs ( z[k-1] ) )
+        if ( 1.00 < fabs ( z[k-1] ) )
         {
-            s = 1.00 / abs ( z[k-1] );
+            s = 1.00 / fabs ( z[k-1] );
             for ( i = 1; i <= n; ++i )
                 z[i-1] = s * z[i-1];
         }
@@ -1295,9 +1295,9 @@ __MATHSUITE __JBURKARDT  void *   _dgbco ( void * data)
         if ( k < n )
             daxpy ( lm, t, abd+m+(k-1)*lda, 1, z+k, 1 );
 
-        if ( 1.00 < abs ( z[k-1] ) )
+        if ( 1.00 < fabs ( z[k-1] ) )
         {
-            s = 1.00 / abs ( z[k-1] );
+            s = 1.00 / fabs ( z[k-1] );
             for ( i = 1; i <= n; ++i )
                 z[i-1] = s * z[i-1];
             ynorm *= s;
@@ -1312,9 +1312,9 @@ __MATHSUITE __JBURKARDT  void *   _dgbco ( void * data)
     */
     for ( k = n; 1 <= k; --k )
     {
-        if ( abs ( abd[m-1+(k-1)*lda] ) < abs ( z[k-1] ) )
+        if ( fabs ( abd[m-1+(k-1)*lda] ) < fabs ( z[k-1] ) )
         {
-            s = abs ( abd[m-1+(k-1)*lda] ) / abs ( z[k-1] );
+            s = fabs ( abd[m-1+(k-1)*lda] ) / fabs ( z[k-1] );
             for ( i = 1; i <= n; ++i )
                 z[i-1] *= s;
             ynorm *= s;
@@ -1401,13 +1401,13 @@ __MATHSUITE __JBURKARDT  void *   _dgbdi ( void * data)
             if ( det[0] == 0.00 )
                 return NULL;
 
-            while ( abs ( det[0] ) < 1.00 )
+            while ( fabs ( det[0] ) < 1.00 )
             {
                 det[0] *= 10.00;
                 -- det[1];
             }
 
-        while ( 10.00 <= abs ( det[0] ) )
+        while ( 10.00 <= fabs ( det[0] ) )
         {
             det[0] /= 10.00;
             ++ det[1];
@@ -1823,9 +1823,9 @@ __MATHSUITE __JBURKARDT  void *   _dgeco ( void * data)
         if ( z[k-1] != 0.00 )
             ek *= r8_sign ( -z[k-1] );
 
-        if ( abs ( a[k-1+(k-1)*lda] ) < abs ( ek - z[k-1] ) )
+        if ( fabs ( a[k-1+(k-1)*lda] ) < fabs ( ek - z[k-1] ) )
         {
-            s = abs ( a[k-1+(k-1)*lda] ) / abs ( ek - z[k-1] );
+            s = fabs ( a[k-1+(k-1)*lda] ) / fabs ( ek - z[k-1] );
             for ( i = 1; i <= n; ++i )
                 z[i-1] *= s;
             ek *= s;
@@ -1833,8 +1833,8 @@ __MATHSUITE __JBURKARDT  void *   _dgeco ( void * data)
 
         wk = ek - z[k-1];
         wkm = -ek - z[k-1];
-        s = abs ( wk );
-        sm = abs ( wkm );
+        s = fabs ( wk );
+        sm = fabs ( wkm );
 
         if ( a[k-1+(k-1)*lda] != 0.00 )
         {
@@ -1849,9 +1849,9 @@ __MATHSUITE __JBURKARDT  void *   _dgeco ( void * data)
         {
             for ( j = k+1; j <= n; ++j)
             {
-                sm += abs ( z[j-1] + wkm * a[k-1+(j-1)*lda] );
+                sm += fabs ( z[j-1] + wkm * a[k-1+(j-1)*lda] );
                 z[j-1] = z[j-1] + wk * a[k-1+(j-1)*lda];
-                s += abs ( z[j-1] );
+                s += fabs ( z[j-1] );
             }
 
             if ( s < sm )
@@ -1875,9 +1875,9 @@ __MATHSUITE __JBURKARDT  void *   _dgeco ( void * data)
     {
         z[k-1] += ddot ( n - k, a+k+(k-1)*lda, 1, z+k, 1 );
 
-        if ( 1.00 < abs ( z[k-1] ) )
+        if ( 1.00 < fabs ( z[k-1] ) )
         {
-            t = abs ( z[k-1] );
+            t = fabs ( z[k-1] );
             for ( i = 1; i <= n; ++i )
                 z[i-1] /= t;
         }
@@ -1907,10 +1907,10 @@ __MATHSUITE __JBURKARDT  void *   _dgeco ( void * data)
         for ( i = k+1; i <= n; ++i )
             z[i-1] += t * a[i-1+(k-1)*lda];
 
-        if ( 1.0 < abs ( z[k-1] ) )
+        if ( 1.0 < fabs ( z[k-1] ) )
         {
-            ynorm /= abs ( z[k-1] );
-            t = abs ( z[k-1] );
+            ynorm /= fabs ( z[k-1] );
+            t = fabs ( z[k-1] );
             for ( i = 1; i <= n; ++i )
                 z[i-1] /= t;
         }
@@ -1924,9 +1924,9 @@ __MATHSUITE __JBURKARDT  void *   _dgeco ( void * data)
     */
     for ( k = n; 1 <= k; --k )
     {
-        if ( abs ( a[k-1+(k-1)*lda] ) < abs ( z[k-1] ) )
+        if ( fabs ( a[k-1+(k-1)*lda] ) < fabs ( z[k-1] ) )
         {
-            s = abs ( a[k-1+(k-1)*lda] ) / abs ( z[k-1] );
+            s = fabs ( a[k-1+(k-1)*lda] ) / fabs ( z[k-1] );
             for ( i = 1; i <= n; ++i )
                 z[i-1] *= s;
             ynorm *= s;
@@ -2024,12 +2024,12 @@ __MATHSUITE __JBURKARDT  void *   _dgedi ( void * data)
             if ( det[0] == 0.00 )
                 break;
 
-            while ( abs ( det[0] ) < 1.00 )
+            while ( fabs ( det[0] ) < 1.00 )
             {
                 det[0] *= 10.00;
                 det[1] -= 1.00;
             }
-            while ( 10.0 <= abs ( det[0] ) )
+            while ( 10.0 <= fabs ( det[0] ) )
             {
                 det[0] /= 10.00;
                 det[1] += 1.00;
@@ -2357,7 +2357,7 @@ __MATHSUITE __JBURKARDT  void *  _dgtsl ( void * data)
             /*
             Find the larger of the two rows.
             */
-            if ( abs ( c[k-1] ) <= abs ( c[k] ) )
+            if ( fabs ( c[k-1] ) <= fabs ( c[k] ) )
             {
                 /*
                 Interchange rows.
@@ -2532,7 +2532,7 @@ __MATHSUITE __JBURKARDT  void *   _dpbco ( void * data)
         for ( i = mu; i <= m; ++i )
         {
             ++ k;
-            z[k-1] = z[k-1] + abs ( abd[i-1+(j-1)*lda] );
+            z[k-1] = z[k-1] + fabs ( abd[i-1+(j-1)*lda] );
         }
     }
     anorm = 0.00;
@@ -2569,17 +2569,17 @@ __MATHSUITE __JBURKARDT  void *   _dpbco ( void * data)
         if ( z[k-1] != 0.00 )
             ek *= r8_sign ( -z[k-1] );
 
-        if ( abd[m+(k-1)*lda] < abs ( ek - z[k-1] ) )
+        if ( abd[m+(k-1)*lda] < fabs ( ek - z[k-1] ) )
         {
-            s = abd[m+(k-1)*lda] / abs ( ek - z[k-1] );
+            s = abd[m+(k-1)*lda] / fabs ( ek - z[k-1] );
             for ( i = 1; i <= n; ++i )
                 z[i-1] *= s;
             ek *= s;
         }
         wk = ek - z[k-1];
         wkm = -ek - z[k-1];
-        s = abs ( wk );
-        sm = abs ( wkm );
+        s = fabs ( wk );
+        sm = fabs ( wkm );
         wk = wk / abd[m+(k-1)*lda];
         wkm = wkm / abd[m+(k-1)*lda];
         j2 = MIN ( k+m, n );
@@ -2590,9 +2590,9 @@ __MATHSUITE __JBURKARDT  void *   _dpbco ( void * data)
             for ( j = k+1; j <= j2; ++j )
             {
                 -- i;
-                sm = sm + abs ( z[j-1] + wkm * abd[i-1+(j-1)*lda] );
+                sm = sm + fabs ( z[j-1] + wkm * abd[i-1+(j-1)*lda] );
                 z[j-1] += wk * abd[i-1+(j-1)*lda];
-                s += abs ( z[j-1] );
+                s += fabs ( z[j-1] );
             }
 
             if ( s < sm )
@@ -2618,9 +2618,9 @@ __MATHSUITE __JBURKARDT  void *   _dpbco ( void * data)
     */
     for ( k = n; 1 <= k; --k)
     {
-        if ( abd[m+(k-1)*lda] < abs ( z[k-1] ) )
+        if ( abd[m+(k-1)*lda] < fabs ( z[k-1] ) )
         {
-            s = abd[m+(k-1)*lda] / abs ( z[k-1] );
+            s = abd[m+(k-1)*lda] / fabs ( z[k-1] );
             for ( i = 1; i <= n; ++i )
                 z[i-1] *= s;
         }
@@ -2646,9 +2646,9 @@ __MATHSUITE __JBURKARDT  void *   _dpbco ( void * data)
 
         z[k-1] = z[k-1] - ddot ( lm, abd+la-1+(k-1)*lda, 1, z+lb-1, 1 );
 
-        if ( abd[m+(k-1)*lda] < abs ( z[k-1] ) )
+        if ( abd[m+(k-1)*lda] < fabs ( z[k-1] ) )
         {
-            s = abd[m+(k-1)*lda] / abs ( z[k-1] );
+            s = abd[m+(k-1)*lda] / fabs ( z[k-1] );
             for ( i = 1; i <= n; ++i )
                 z[i-1] *= s;
             ynorm *= s;
@@ -2664,9 +2664,9 @@ __MATHSUITE __JBURKARDT  void *   _dpbco ( void * data)
     */
     for ( k = n; 1 <= k; --k )
     {
-        if ( abd[m+(k-1)*lda] < abs ( z[k-1] ) )
+        if ( abd[m+(k-1)*lda] < fabs ( z[k-1] ) )
         {
-            s = abd[m+(k-1)*lda] / abs ( z[k-1] );
+            s = abd[m+(k-1)*lda] / fabs ( z[k-1] );
             for ( i = 1; i <= n; ++i )
                 z[i-1] *= s;
             ynorm *= s;
@@ -3023,7 +3023,7 @@ __MATHSUITE __JBURKARDT  void *   _dpoco ( void * data)
     {
         z[j-1] = dasum ( j, a+0+(j-1)*lda, 1 );
         for ( i = 1; i <= j-1; ++i )
-            z[i-1] += abs ( a[i-1+(j-1)*lda] );
+            z[i-1] += fabs ( a[i-1+(j-1)*lda] );
     }
 
     anorm = 0.00;
@@ -3060,9 +3060,9 @@ __MATHSUITE __JBURKARDT  void *   _dpoco ( void * data)
         if ( z[k-1] != 0.00 )
             ek *= r8_sign ( -z[k-1] );
 
-        if ( a[k-1+(k-1)*lda] < abs ( ek - z[k-1] ) )
+        if ( a[k-1+(k-1)*lda] < fabs ( ek - z[k-1] ) )
         {
-            s = a[k-1+(k-1)*lda] / abs ( ek - z[k-1] );
+            s = a[k-1+(k-1)*lda] / fabs ( ek - z[k-1] );
             for ( i = 1; i <= n; ++i )
                 z[i-1] *= s;
             ek *= s;
@@ -3070,8 +3070,8 @@ __MATHSUITE __JBURKARDT  void *   _dpoco ( void * data)
 
         wk = ek - z[k-1];
         wkm = -ek - z[k-1];
-        s = abs ( wk );
-        sm = abs ( wkm );
+        s = fabs ( wk );
+        sm = fabs ( wkm );
         wk /= a[k-1+(k-1)*lda];
         wkm /= a[k-1+(k-1)*lda];
 
@@ -3079,9 +3079,9 @@ __MATHSUITE __JBURKARDT  void *   _dpoco ( void * data)
         {
             for ( j = k+1; j <= n; ++j )
             {
-                sm += abs ( z[j-1] + wkm * a[k-1+(j-1)*lda] );
+                sm += fabs ( z[j-1] + wkm * a[k-1+(j-1)*lda] );
                 z[j-1] = z[j-1] + wk * a[k-1+(j-1)*lda];
-                s += abs ( z[j-1] );
+                s += fabs ( z[j-1] );
             }
 
             if ( s < sm )
@@ -3103,9 +3103,9 @@ __MATHSUITE __JBURKARDT  void *   _dpoco ( void * data)
     */
     for ( k = n; 1 <= k; --k)
     {
-        if ( a[k-1+(k-1)*lda] < abs ( z[k-1] ) )
+        if ( a[k-1+(k-1)*lda] < fabs ( z[k-1] ) )
         {
-            s = a[k-1+(k-1)*lda] / abs ( z[k-1] );
+            s = a[k-1+(k-1)*lda] / fabs ( z[k-1] );
             for ( i = 1; i <= n; ++i )
                 z[i-1] *= s;
         }
@@ -3124,9 +3124,9 @@ __MATHSUITE __JBURKARDT  void *   _dpoco ( void * data)
     {
         z[k-1] -= ddot ( k-1, a+0+(k-1)*lda, 1, z, 1 );
 
-        if ( a[k-1+(k-1)*lda] < abs ( z[k-1] ) )
+        if ( a[k-1+(k-1)*lda] < fabs ( z[k-1] ) )
         {
-            s = a[k-1+(k-1)*lda] / abs ( z[k-1] );
+            s = a[k-1+(k-1)*lda] / fabs ( z[k-1] );
             for ( i = 1; i <= n; ++i )
                 z[i-1] *= s;
             ynorm *= s;
@@ -3142,9 +3142,9 @@ __MATHSUITE __JBURKARDT  void *   _dpoco ( void * data)
     */
     for ( k = n; 1 <= k; --k )
     {
-        if ( a[k-1+(k-1)*lda] < abs ( z[k-1] ) )
+        if ( a[k-1+(k-1)*lda] < fabs ( z[k-1] ) )
         {
-            s = a[k-1+(k-1)*lda] / abs ( z[k-1] );
+            s = a[k-1+(k-1)*lda] / fabs ( z[k-1] );
             for ( i = 1; i <= n; ++i)
                 z[i-1] *= s;
             ynorm *= s;
@@ -3535,7 +3535,7 @@ __MATHSUITE __JBURKARDT  void *   _dppco ( void * data)
         j1 = j1 + j;
         for ( i = 1; i <= j-1; ++i )
         {
-            z[i-1] += abs ( ap[ij-1] );
+            z[i-1] += fabs ( ap[ij-1] );
             ++ ij;
         }
     }
@@ -3577,17 +3577,17 @@ __MATHSUITE __JBURKARDT  void *   _dppco ( void * data)
         if ( z[k-1] != 0.00 )
         ek *= r8_sign ( -z[k-1] );
 
-        if ( ap[kk-1] < abs ( ek - z[k-1] ) )
+        if ( ap[kk-1] < fabs ( ek - z[k-1] ) )
         {
-            s = ap[kk-1] / abs ( ek - z[k-1] );
+            s = ap[kk-1] / fabs ( ek - z[k-1] );
             for ( i = 1; i <= n; ++i )
                 z[i-1] *= s;
             ek *= s;
         }
         wk = ek - z[k-1];
         wkm = -ek - z[k-1];
-        s = abs ( wk );
-        sm = abs ( wkm );
+        s = fabs ( wk );
+        sm = fabs ( wkm );
         wk = wk / ap[kk-1];
         wkm = wkm / ap[kk-1];
         kj = kk + k;
@@ -3596,9 +3596,9 @@ __MATHSUITE __JBURKARDT  void *   _dppco ( void * data)
         {
             for ( j = k + 1; j <= n; ++j )
             {
-                sm += abs ( z[j-1] + wkm * ap[kj-1] );
+                sm += fabs ( z[j-1] + wkm * ap[kj-1] );
                 z[j-1] += wk * ap[kj-1];
-                s += abs ( z[j-1] );
+                s += fabs ( z[j-1] );
                 kj += j;
             }
 
@@ -3626,9 +3626,9 @@ __MATHSUITE __JBURKARDT  void *   _dppco ( void * data)
     */
     for ( k = n; 1 <= k; --k )
     {
-        if ( ap[kk-1] < abs ( z[k-1] ) )
+        if ( ap[kk-1] < fabs ( z[k-1] ) )
         {
-            s = ap[kk-1] / abs ( z[k-1] );
+            s = ap[kk-1] / fabs ( z[k-1] );
             for ( i = 1; i <= n; ++i )
                 z[i-1] *= s;
         }
@@ -3649,9 +3649,9 @@ __MATHSUITE __JBURKARDT  void *   _dppco ( void * data)
         z[k-1] -= ddot ( k-1, ap+kk, 1, z, 1 );
         kk += k;
 
-        if ( ap[kk-1] < abs ( z[k-1] ) )
+        if ( ap[kk-1] < fabs ( z[k-1] ) )
         {
-            s = ap[kk-1] / abs ( z[k-1] );
+            s = ap[kk-1] / fabs ( z[k-1] );
             for ( i = 1; i <= n; ++i )
                 z[i-1] *= s;
             ynorm *= s;
@@ -3668,9 +3668,9 @@ __MATHSUITE __JBURKARDT  void *   _dppco ( void * data)
     */
     for ( k = n; 1 <= k; --k )
     {
-        if ( ap[kk-1] < abs ( z[k-1] ) )
+        if ( ap[kk-1] < fabs ( z[k-1] ) )
         {
-            s = ap[kk-1] / abs ( z[k-1] );
+            s = ap[kk-1] / fabs ( z[k-1] );
             for ( i = 1; i <= n; ++i )
                 z[i-1] *= s;
             ynorm  *= s;
@@ -4303,7 +4303,7 @@ __MATHSUITE __JBURKARDT  void *   _dqrdc ( void * data)
                     {
                         if ( qraux[j-1] != 0.00 )
                         {
-                            tt = 1.0 - pow ( abs ( a[l-1+(j-1)*lda] ) / qraux[j-1], 2 );
+                            tt = 1.0 - pow ( fabs ( a[l-1+(j-1)*lda] ) / qraux[j-1], 2 );
                             tt = MAX ( tt, 0.00 );
                             t = tt;
                             tt = 1.0 + 0.05 * tt * pow ( qraux[j-1] / work[j-1], 2 );
@@ -4483,10 +4483,13 @@ __MATHSUITE __JBURKARDT  void *   _dqrsl ( void * data)
             ab[0] = y[0];
 
         if ( cb )
+	{
             if ( a[0+0*lda] == 0.00 )
                 info = 1;
             else
-                b[0] = y[0] / a[0+0*lda];
+	        b[0] = y[0] / a[0+0*lda];
+	}
+
         if ( cr )
             rsd[0] = 0.0;
             
@@ -4708,7 +4711,7 @@ __MATHSUITE __JBURKARDT  void *   _dsico ( void * data)
     {
         z[j-1] = dasum ( j, a+0+(j-1)*lda, 1 );
         for ( i = 1; i <= j-1; ++i )
-            z[i-1] += abs ( a[i-1+(j-1)*lda] );
+            z[i-1] += fabs ( a[i-1+(j-1)*lda] );
     }
 
     anorm = 0.00;
@@ -4734,8 +4737,9 @@ __MATHSUITE __JBURKARDT  void *   _dsico ( void * data)
     while ( k != 0 )
     {
         ks = 1 + kpvt[k-1]<0;
-        kp = abs ( kpvt[k-1] );
-        kps = k + 1 - ks;
+        //kp = fabs ( kpvt[k-1] );
+        kp = kpvt[k-1];
+	kps = k + 1 - ks;
 
         if ( kp != kps )
         {
@@ -4764,9 +4768,9 @@ __MATHSUITE __JBURKARDT  void *   _dsico ( void * data)
 
         if ( ks != 2 )
         {
-            if ( abs ( a[k-1+(k-1)*lda] ) < abs ( z[k-1] ) )
+            if ( fabs ( a[k-1+(k-1)*lda] ) < fabs ( z[k-1] ) )
             {
-                s = abs ( a[k-1+(k-1)*lda] ) / abs ( z[k-1] );
+                s = fabs ( a[k-1+(k-1)*lda] ) / fabs ( z[k-1] );
                 for ( i = 1; i <= n; ++i )
                 {
                     z[i-1] *= s;
@@ -4806,7 +4810,8 @@ __MATHSUITE __JBURKARDT  void *   _dsico ( void * data)
             if ( ks == 2 )
                 z[k] += ddot ( k-1, a+0+k*lda, 1, z, 1 );
 
-            kp = abs ( kpvt[k-1] );
+            // kp = fabs ( kpvt[k-1] );
+	    kp = kpvt[k-1];
 
             if ( kp != k )
             {
@@ -4831,8 +4836,9 @@ __MATHSUITE __JBURKARDT  void *   _dsico ( void * data)
         ks = 1 + kpvt[k-1]<0;
         if ( k != ks )
         {
-            kp = abs ( kpvt[k-1] );
-            kps = k + 1 - ks;
+            // kp = fabs ( kpvt[k-1] );
+            kp = kpvt[k-1];
+	    kps = k + 1 - ks;
 
             if ( kp != kps )
             {
@@ -4849,9 +4855,9 @@ __MATHSUITE __JBURKARDT  void *   _dsico ( void * data)
 
         if ( ks != 2 )
         {
-            if ( abs ( a[k-1+(k-1)*lda] ) < abs ( z[k-1] ) )
+            if ( fabs ( a[k-1+(k-1)*lda] ) < fabs ( z[k-1] ) )
             {
-                s = abs ( a[k-1+(k-1)*lda] ) / abs ( z[k-1] );
+                s = fabs ( a[k-1+(k-1)*lda] ) / fabs ( z[k-1] );
                 for ( i = 1; i <= n; ++i )
                     z[i-1] *= s;
                 ynorm *= s;
@@ -4888,8 +4894,9 @@ __MATHSUITE __JBURKARDT  void *   _dsico ( void * data)
             z[k-1] += ddot ( k-1, a+0+(k-1)*lda, 1, z, 1 );
             if ( ks == 2 )
                 z[k] +=  ddot ( k-1, a+0+k*lda, 1, z, 1 );
-            kp = abs ( kpvt[k-1] );
-            if ( kp != k )
+            // kp = fabs ( kpvt[k-1] );
+            kp = kpvt[k-1];
+	    if ( kp != k )
             {
                 t = z[k-1];
                 z[k-1] = z[kp-1];
@@ -5019,7 +5026,7 @@ __MATHSUITE __JBURKARDT  void *   _dsidi ( void * data)
             {
                 if ( t == 0.00 )
                 {
-                    t = abs ( a[k-1+k*lda] );
+                    t = fabs ( a[k-1+k*lda] );
                     d = ( d / t ) * a[k+k*lda] - t;
                 }
                 else
@@ -5045,13 +5052,13 @@ __MATHSUITE __JBURKARDT  void *   _dsidi ( void * data)
 
                 if ( det[0] != 0.00 )
                 {
-                    while ( abs ( det[0] ) < 1.00 )
+                    while ( fabs ( det[0] ) < 1.00 )
                     {
                         det[0] *= 10.00;
                         -- det[1];
                     }
 
-                    while ( 10.0 <= abs ( det[0] ) )
+                    while ( 10.0 <= fabs ( det[0] ) )
                     {
                         det[0] /= 10.00;
                         ++ det[1];
@@ -5094,7 +5101,7 @@ __MATHSUITE __JBURKARDT  void *   _dsidi ( void * data)
             */
             else
             {
-                t = abs ( a[k-1+k*lda] );
+                t = fabs ( a[k-1+k*lda] );
                 ak = a[k-1+(k-1)*lda] / t;
                 akp1 = a[k+k*lda] / t;
                 akkp1 = a[k-1+k*lda] / t;
@@ -5258,12 +5265,12 @@ __MATHSUITE __JBURKARDT  void *   _dsifa ( void * data)
         SWAP will be set to .true. if an interchange is required.
         */
         km1 = k - 1;
-        absakk = abs ( a[k-1+(k-1)*lda] );
+        absakk = fabs ( a[k-1+(k-1)*lda] );
         /*
         Determine the largest off-diagonal element in column K.
         */
         imax = idamax ( k-1, a+0+(k-1)*lda, 1 );
-        colmax = abs ( a[imax-1+(k-1)*lda] );
+        colmax = fabs ( a[imax-1+(k-1)*lda] );
 
         if ( alpha * colmax <= absakk )
         {
@@ -5278,14 +5285,14 @@ __MATHSUITE __JBURKARDT  void *   _dsifa ( void * data)
             rowmax = 0.0;
             imaxp1 = imax + 1;
             for ( j = imaxp1; j <= k; ++j )
-                rowmax = MAX ( rowmax, abs ( a[imax-1+(j-1)*lda] ) );
+                rowmax = MAX ( rowmax, fabs ( a[imax-1+(j-1)*lda] ) );
             if ( imax != 1 )
             {
                 jmax = idamax ( imax-1, a+0+(imax-1)*lda, 1 );
-                rowmax = MAX ( rowmax, abs ( a[jmax-1+(imax-1)*lda] ) );
+                rowmax = MAX ( rowmax, fabs ( a[jmax-1+(imax-1)*lda] ) );
             }
 
-            if ( alpha * rowmax <= abs ( a[imax-1+(imax-1)*lda] ) )
+            if ( alpha * rowmax <= fabs ( a[imax-1+(imax-1)*lda] ) )
                 kstep = swap = 1;
             else if ( alpha * colmax * ( colmax / rowmax ) <= absakk )
             {
@@ -5699,7 +5706,7 @@ __MATHSUITE __JBURKARDT  void *  _dspco ( void * data)
         ++ j1;
         for ( i = 1; i <= j-1; ++i )
         {
-            z[i-1] = z[i-1] + abs ( ap[ij-1] );
+            z[i-1] = z[i-1] + fabs ( ap[ij-1] );
             ++ ij;
         }
     }
@@ -5735,8 +5742,9 @@ __MATHSUITE __JBURKARDT  void *  _dspco ( void * data)
         ikm1 = ik - ( k - 1 );
         ks = 1+ kpvt[k-1]<0;
 
-        kp = abs ( kpvt[k-1] );
-        kps = k + 1 - ks;
+        // kp = fabs ( kpvt[k-1] );
+        kp = kpvt[k-1];
+	kps = k + 1 - ks;
 
         if ( kp != kps )
         {
@@ -5761,10 +5769,10 @@ __MATHSUITE __JBURKARDT  void *  _dspco ( void * data)
 
         if ( ks != 2 )
         {
-            if ( abs ( ap[kk-1] ) < abs ( z[k-1] ) )
+            if ( fabs ( ap[kk-1] ) < fabs ( z[k-1] ) )
             {
-                s = abs ( ap[kk-1] ) / abs ( z[k-1] );
-                for ( i = 1; i <= n; i++ )
+                s = fabs ( ap[kk-1] ) / fabs ( z[k-1] );
+                for ( i = 1; i <= n; ++i )
                 {
                     z[i-1] *= s;
                 }
@@ -5813,7 +5821,8 @@ __MATHSUITE __JBURKARDT  void *  _dspco ( void * data)
             if ( ks == 2 )
                 z[k] += ddot ( k-1, ap+ikp1, 1, z, 1 );
 
-            kp = abs ( kpvt[k-1] );
+            // kp = fabs ( kpvt[k-1] );
+	    kp = kpvt[k-1];
 
             if ( kp != k )
             {
@@ -5845,8 +5854,9 @@ __MATHSUITE __JBURKARDT  void *  _dspco ( void * data)
         ks = 1 + kpvt[k-1]<0;
         if ( k != ks )
         {
-            kp = abs ( kpvt[k-1] );
-            kps = k + 1 - ks;
+            // kp = fabs ( kpvt[k-1] );
+            kp = kpvt[k-1];
+	    kps = k + 1 - ks;
 
             if ( kp != kps )
             {
@@ -5863,9 +5873,9 @@ __MATHSUITE __JBURKARDT  void *  _dspco ( void * data)
 
         if ( ks != 2 )
         {
-            if ( abs ( ap[kk-1] ) < abs ( z[k-1] ) )
+            if ( fabs ( ap[kk-1] ) < fabs ( z[k-1] ) )
             {
-                s = abs ( ap[kk-1] ) / abs ( z[k-1] );
+                s = fabs ( ap[kk-1] ) / fabs ( z[k-1] );
                 for ( i = 1; i <= n; ++i)
                     z[i-1] *= s;
                 ynorm  *= s;
@@ -5912,7 +5922,8 @@ __MATHSUITE __JBURKARDT  void *  _dspco ( void * data)
             if ( ks == 2 )
                 z[k] += ddot ( k-1, ap+ikp1, 1, z, 1 );
 
-            kp = abs ( kpvt[k-1] );
+            // kp = fabs ( kpvt[k-1] );
+	    kp = kpvt[k-1];
 
             if ( kp != k )
             {
@@ -6062,7 +6073,7 @@ __MATHSUITE __JBURKARDT  void *   _dspdi ( void * data)
                 {
                     ikp1 = ik + k;
                     kkp1 = ikp1 + k;
-                    t = abs ( ap[kkp1-1] );
+                    t = fabs ( ap[kkp1-1] );
                     d = ( d / t ) * ap[kkp1] - t;
                 }
                 else
@@ -6088,13 +6099,13 @@ __MATHSUITE __JBURKARDT  void *   _dspdi ( void * data)
 
                 if ( det[0] != 0.0 )
                 {
-                    while ( abs ( det[0] ) < 1.00 )
+                    while ( fabs ( det[0] ) < 1.00 )
                     {
                         det[0] *= 10.0;
                         -- det[1];
                     }
 
-                    while ( 10.00 <= abs ( det[0] ) )
+                    while ( 10.00 <= fabs ( det[0] ) )
                     {
                         det[0] /= 10.0;
                         ++ det[1];
@@ -6147,7 +6158,7 @@ __MATHSUITE __JBURKARDT  void *   _dspdi ( void * data)
                 /*
                 2 by 2.
                 */
-                t = abs ( ap[kkp1-1] );
+                t = fabs ( ap[kkp1-1] );
                 ak = ap[kk-1] / t;
                 akp1 = ap[kkp1] / t;
                 akkp1 = ap[kkp1-1] / t;
@@ -6356,13 +6367,13 @@ __MATHSUITE __JBURKARDT  void *   _dspfa ( void * data)
         */
         km1 = k - 1;
         kk = ik + k;
-        absakk = abs ( ap[kk-1] );
+        absakk = fabs ( ap[kk-1] );
         /*
         Determine the largest off-diagonal element in column K.
         */
         imax = idamax ( k-1, ap+ik, 1 );
         imk = ik + imax;
-        colmax = abs ( ap[imk-1] );
+        colmax = fabs ( ap[imk-1] );
 
         if ( alpha * colmax <= absakk )
         {
@@ -6381,7 +6392,7 @@ __MATHSUITE __JBURKARDT  void *   _dspfa ( void * data)
 
             for ( j = imaxp1; j <= k; ++j )
             {
-                rowmax = MAX ( rowmax, abs ( ap[imj-1] ) );
+                rowmax = MAX ( rowmax, fabs ( ap[imj-1] ) );
                 imj += j;
             }
 
@@ -6389,12 +6400,12 @@ __MATHSUITE __JBURKARDT  void *   _dspfa ( void * data)
             {
                 jmax = idamax ( imax-1, ap+im, 1 );
                 jmim = jmax + im;
-                rowmax = MAX ( rowmax, abs ( ap[jmim-1] ) );
+                rowmax = MAX ( rowmax, fabs ( ap[jmim-1] ) );
             }
 
             imim = imax + im;
 
-            if ( alpha * rowmax <= abs ( ap[imim-1] ) )
+            if ( alpha * rowmax <= fabs ( ap[imim-1] ) )
                 kstep = swap = 1;
             else if ( alpha * colmax * ( colmax / rowmax ) <= absakk )
             {
@@ -6903,7 +6914,7 @@ __MATHSUITE __JBURKARDT  void *   _dsvdc ( void * data)
             if ( s[l-1] != 0.00 )
             {
                 if ( a[l-1+(l-1)*lda] != 0.00 )
-                    s[l-1] = r8_sign ( a[l-1+(l-1)*lda] ) * abs ( s[l-1] );
+                    s[l-1] = r8_sign ( a[l-1+(l-1)*lda] ) * fabs ( s[l-1] );
                 dscal ( m-l+1, 1.00 / s[l-1], a+l-1+(l-1)*lda, 1 );
                 a[l-1+(l-1)*lda] = 1.00 + a[l-1+(l-1)*lda];
             }
@@ -6944,7 +6955,7 @@ __MATHSUITE __JBURKARDT  void *   _dsvdc ( void * data)
             if ( e[l-1] != 0.00 )
             {
                 if ( e[l] != 0.00 )
-                    e[l-1] = r8_sign ( e[l] ) * abs ( e[l-1] );
+                    e[l-1] = r8_sign ( e[l] ) * fabs ( e[l-1] );
                 dscal ( n-l, 1.00 / e[l-1], e+l, 1 );
                 e[l] = 1.00 + e[l];
             }
@@ -7079,8 +7090,8 @@ __MATHSUITE __JBURKARDT  void *   _dsvdc ( void * data)
             if ( l == 0 )
                 break;
 
-            test = abs ( s[l-1] ) + abs ( s[l] );
-            ztest = test + abs ( e[l-1] );
+            test = fabs ( s[l-1] ) + fabs ( s[l] );
+            ztest = test + fabs ( e[l-1] );
 
             if ( ztest == test )
             {
@@ -7104,13 +7115,13 @@ __MATHSUITE __JBURKARDT  void *   _dsvdc ( void * data)
 
                     test = 0.00;
                 if ( ls != mn )
-                    test += abs ( e[ls-1] );
+                    test += fabs ( e[ls-1] );
 
                 if ( ls != l + 1 )
-                    test += abs ( e[ls-2] );
+                    test += fabs ( e[ls-2] );
 
 
-                ztest = test + abs ( s[ls-1] );
+                ztest = test + fabs ( s[ls-1] );
 
                 if ( ztest == test )
                 {
@@ -7185,10 +7196,10 @@ __MATHSUITE __JBURKARDT  void *   _dsvdc ( void * data)
             /*
             Calculate the shift.
             */
-            scale = MAX ( abs ( s[mn-1] ),
-            MAX ( abs ( s[mn-2] ),
-            MAX ( abs ( e[mn-2] ),
-            MAX ( abs ( s[l-1] ), abs ( e[l-1] ) ) ) ) );
+            scale = MAX ( fabs ( s[mn-1] ),
+            MAX ( fabs ( s[mn-2] ),
+            MAX ( fabs ( e[mn-2] ),
+            MAX ( fabs ( s[l-1] ), fabs ( e[l-1] ) ) ) ) );
 
             sm = s[mn-1] / scale;
             smm1 = s[mn-2] / scale;
@@ -7401,9 +7412,9 @@ __MATHSUITE __JBURKARDT  void *   _dtrco ( void * data)
         if ( z[k-1] != 0.00 )
             ek = r8_sign ( -z[k-1] ) * ek;
 
-        if ( abs ( t[k-1+(k-1)*ldt] ) < abs ( ek - z[k-1] ) )
+        if ( fabs ( t[k-1+(k-1)*ldt] ) < fabs ( ek - z[k-1] ) )
         {
-            s = abs ( t[k-1+(k-1)*ldt] ) / abs ( ek - z[k-1] );
+            s = fabs ( t[k-1+(k-1)*ldt] ) / fabs ( ek - z[k-1] );
             for ( i = 1; i <= n; ++i )
                 z[i-1] *= s;
             ek *= s;
@@ -7411,8 +7422,8 @@ __MATHSUITE __JBURKARDT  void *   _dtrco ( void * data)
 
         wk = ek - z[k-1];
         wkm = -ek - z[k-1];
-        s = abs ( wk );
-        sm = abs ( wkm );
+        s = fabs ( wk );
+        sm = fabs ( wkm );
 
         if ( t[k-1+(k-1)*ldt] != 0.00 )
         {
@@ -7437,9 +7448,9 @@ __MATHSUITE __JBURKARDT  void *   _dtrco ( void * data)
 
             for ( j = j1; j <= j2; ++j )
             {
-                sm = sm + abs ( z[j-1] + wkm * t[k-1+(j-1)*ldt] );
+                sm = sm + fabs ( z[j-1] + wkm * t[k-1+(j-1)*ldt] );
                 z[j-1] = z[j-1] + wk * t[k-1+(j-1)*ldt];
-                s += abs ( z[j-1] );
+                s += fabs ( z[j-1] );
             }
 
             if ( s < sm )
@@ -7466,9 +7477,9 @@ __MATHSUITE __JBURKARDT  void *   _dtrco ( void * data)
     {
         k = lower ? kk:n+1-kk;
 
-        if ( abs ( t[k-1+(k-1)*ldt] ) < abs ( z[k-1] ) )
+        if ( fabs ( t[k-1+(k-1)*ldt] ) < fabs ( z[k-1] ) )
         {
-            s = abs ( t[k-1+(k-1)*ldt] ) / abs ( z[k-1] );
+            s = fabs ( t[k-1+(k-1)*ldt] ) / fabs ( z[k-1] );
             for ( i = 1; i <= n; ++i)
                 z[i-1] *= s;
             ynorm *= s;
@@ -7570,13 +7581,13 @@ __MATHSUITE __JBURKARDT  void *   _dtrdi ( void * data)
             if ( det[0] == 0.00 )
                 break;
 
-            while ( abs ( det[0] ) < 1.00 )
+            while ( fabs ( det[0] ) < 1.00 )
             {
                 det[0] *= 10.00;
                 -- det[1];
             }
 
-            while ( 10.00 <= abs ( det[0] ) )
+            while ( 10.00 <= fabs ( det[0] ) )
             {
                 det[0] /= 10.00;
                 ++ det[1];

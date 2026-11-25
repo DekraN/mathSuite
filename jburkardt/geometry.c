@@ -26784,8 +26784,8 @@ __MATHSUITE __JBURKARDT  void   * _triangle_barycentric_2d ( void * data)
 
     c = ( ityp * ) malloc ( 3 * sizeof ( ityp ) );
 
-    c[0] = a[0+(N<<2)];
-    c[1] = a[1+(N<<2)];
+    c[0] = a[0+(N<<1)];
+    c[1] = a[1+(N<<1)];
     c[2] = 1.00 - c[0] - c[1];
 
     return c;
@@ -29850,7 +29850,7 @@ __MATHSUITE __JBURKARDT  void *  _voxels_dist_l1_nd ( void * data)
     dim_typ value = 0;
     #pragma omp parallel for num_threads(dim_num)
     for ( i = 0; i < dim_num; ++i )
-        value += abs ( v1[i] - v2[i] );
+        value += fabs ( v1[i] - v2[i] );
         
     result = value;
     return &result;
@@ -30022,12 +30022,12 @@ __MATHSUITE __JBURKARDT  void *   _voxels_region_3d ( void * data)
     Z directions.
 */
 {
-	const _4dt4pdt * const s_data = data;
+	const _4dtpi3pdt * const s_data = data;
 	dim_typ list_max = s_data->a0;
 	dim_typ nx = s_data->a1;
 	dim_typ ny = s_data->a2;
 	dim_typ nz = s_data->a3;
-	dim_typ * ishow = s_data->a4;
+	int * ishow = s_data->a4;
 	dim_typ * list_num = s_data->a5;
 	dim_typ * list = s_data->a6;
 	dim_typ * region_num = s_data->a7;

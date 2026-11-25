@@ -222,7 +222,7 @@ __MATHSUITE __JBURKARDT  void *   _class_matrix ( void * data)
     temp = r8_epsilon ( );
     temp2 = 0.50;
 
-    if ( 500.0 * temp < abs ( pow ( r8_gamma ( temp2 ), 2 ) - M_PI ) )
+    if ( 500.0 * temp < fabs ( pow ( r8_gamma ( temp2 ), 2 ) - M_PI ) )
     {
     	result = MAX_VAL;
         return &result;

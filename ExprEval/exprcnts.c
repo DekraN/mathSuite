@@ -959,7 +959,10 @@ __MATHSUITE __JBURKARDT void * FUNCNAME_FMATPRM(EXPRTYPE val, exprObj *obj, expr
 		EXPRTYPE *mtx = mtobj->matrix;
 		for(i=0; i<dim[ROWS]; ++i)
 			for(j=0; j<dim[COLUMNS]; ++j)
-				*((ityp*)(accessContainer(PRM_mid).pnt) + (idx = i*dim[COLUMNS] + j)) = mpfr_get_d(mtx[idx], MPFR_RNDN); 
+			{
+				idx = i*dim[COLUMNS] + j;
+				*((ityp*)(accessContainer(PRM_mid).pnt) + idx) = mpfr_get_d(mtx[idx], MPFR_RNDN); 
+			}
 	}
 	
 	return (*err = EXPR_ERROR_NOERROR), NULL;
@@ -986,7 +989,10 @@ __MATHSUITE __JBURKARDT void * FUNCNAME_BMATPRM(EXPRTYPE val, exprObj *obj, expr
 		EXPRTYPE *mtx = mtobj->matrix;
 		for(i=0; i<dim[ROWS]; ++i)
 			for(j=0; j<dim[COLUMNS]; ++j)
-				*((bool*)(accessContainer(PRM_mid).pnt) + (idx = i*dim[COLUMNS] + j)) = (bool) mpfr_get_ui(mtx[idx], MPFR_RNDN);
+			{
+				idx = i*dim[COLUMNS] + j;
+				*((bool*)(accessContainer(PRM_mid).pnt) + idx) = (bool) mpfr_get_ui(mtx[idx], MPFR_RNDN);
+			}
 	}
 	
 	return (*err = EXPR_ERROR_NOERROR), NULL;
@@ -1013,7 +1019,10 @@ __MATHSUITE __JBURKARDT void * FUNCNAME_UMATPRM(EXPRTYPE val, exprObj *obj, expr
 		EXPRTYPE *mtx = mtobj->matrix;
 		for(i=0; i<dim[ROWS]; ++i)
 			for(j=0; j<dim[COLUMNS]; ++j)
-				*((dim_typ*)(accessContainer(PRM_mid).pnt) + (idx = i*dim[COLUMNS] + j)) = (dim_typ) mpfr_get_ui(mtx[idx], MPFR_RNDN);
+			{
+				idx = i*dim[COLUMNS] + j;
+				*((dim_typ*)(accessContainer(PRM_mid).pnt) + idx) = (dim_typ) mpfr_get_ui(mtx[idx], MPFR_RNDN);
+			}
 	}
 	
 	return (*err = EXPR_ERROR_NOERROR), NULL;
@@ -1040,7 +1049,10 @@ __MATHSUITE __JBURKARDT void * FUNCNAME_SMATPRM(EXPRTYPE val, exprObj *obj, expr
 		EXPRTYPE *mtx = mtobj->matrix;
 		for(i=0; i<dim[ROWS]; ++i)
 			for(j=0; j<dim[COLUMNS]; ++j)
-				*((short*)(accessContainer(PRM_mid).pnt) + (idx = i*dim[COLUMNS] + j)) = (short) mpfr_get_si(mtx[idx], MPFR_RNDN);
+			{
+				idx = i*dim[COLUMNS] + j;
+				*((short*)(accessContainer(PRM_mid).pnt) + idx) = (short) mpfr_get_si(mtx[idx], MPFR_RNDN);
+			}
 	}
 	
 	return (*err = EXPR_ERROR_NOERROR), NULL;
@@ -1067,7 +1079,10 @@ __MATHSUITE __JBURKARDT void * FUNCNAME_IMATPRM(EXPRTYPE val, exprObj *obj, expr
 		EXPRTYPE *mtx = mtobj->matrix;
 		for(i=0; i<dim[ROWS]; ++i)
 			for(j=0; j<dim[COLUMNS]; ++j)
-				*((int*)(accessContainer(PRM_mid).pnt) + (idx = i*dim[COLUMNS] + j)) = (int) mpfr_get_si(mtx[idx], MPFR_RNDN);
+			{
+				idx = i*dim[COLUMNS] + j;
+				*((int*)(accessContainer(PRM_mid).pnt) + idx) = (int) mpfr_get_si(mtx[idx], MPFR_RNDN);
+			}
 	}
 	
 	return (*err = EXPR_ERROR_NOERROR), NULL;
@@ -1097,27 +1112,42 @@ __MATHSUITE __JBURKARDT void * FUNCNAME_MATPRM(EXPRTYPE val, exprObj *obj, exprN
 			case TYPID_FLOAT:
 				for(i=0; i<dim[ROWS]; ++i)
 					for(j=0; j<dim[COLUMNS]; ++j)
-						*((ityp*)(accessContainer(PRM_mid).pnt) + (idx = i*dim[COLUMNS] + j)) = mpfr_get_d(mtx[idx], MPFR_RNDN); 
+					{
+						idx = i*dim[COLUMNS] + j;
+						*((ityp*)(accessContainer(PRM_mid).pnt) + idx) = mpfr_get_d(mtx[idx], MPFR_RNDN); 
+					}
 				break;
 			case TYPID_BOOL:
 				for(i=0; i<dim[ROWS]; ++i)
 					for(j=0; j<dim[COLUMNS]; ++j)
-						*((bool*)(accessContainer(PRM_mid).pnt) + (idx = i*dim[COLUMNS] + j)) = (bool) mpfr_get_ui(mtx[idx], MPFR_RNDN);
+					{
+						idx = i*dim[COLUMNS] + j;
+						*((bool*)(accessContainer(PRM_mid).pnt) + idx) = (bool) mpfr_get_ui(mtx[idx], MPFR_RNDN);
+					}
 				break;
 			case TYPID_USHRT:
 				for(i=0; i<dim[ROWS]; ++i)
 					for(j=0; j<dim[COLUMNS]; ++j)
-						*((dim_typ*)(accessContainer(PRM_mid).pnt) + (idx = i*dim[COLUMNS] + j)) = (dim_typ) mpfr_get_ui(mtx[idx], MPFR_RNDN); 	
+					{
+						idx = i*dim[COLUMNS] + j;
+						*((dim_typ*)(accessContainer(PRM_mid).pnt) + idx) = (dim_typ) mpfr_get_ui(mtx[idx], MPFR_RNDN); 	
+					}
 				break;
 			case TYPID_SHRT:
 				for(i=0; i<dim[ROWS]; ++i)
 					for(j=0; j<dim[COLUMNS]; ++j)
-						*((short*)(accessContainer(PRM_mid).pnt) + (idx = i*dim[COLUMNS] + j)) = (short) mpfr_get_ui(mtx[idx], MPFR_RNDN);
+					{
+						idx = i*dim[COLUMNS] + j;
+						*((short*)(accessContainer(PRM_mid).pnt) + idx) = (short) mpfr_get_ui(mtx[idx], MPFR_RNDN);
+					}
 				break;
 			case TYPID_INT:
 				for(i=0; i<dim[ROWS]; ++i)
 					for(j=0; j<dim[COLUMNS]; ++j)
-						*((int*)(accessContainer(PRM_mid).pnt) + (idx = i*dim[COLUMNS] + j)) = (int) mpfr_get_ui(mtx[idx], MPFR_RNDN); 
+					{
+						idx = i*dim[COLUMNS] + j;
+						*((int*)(accessContainer(PRM_mid).pnt) + idx) = (int) mpfr_get_ui(mtx[idx], MPFR_RNDN); 
+					}
 				break;
 			default:
 				mpfr_set_ui(val, false, MPFR_RNDN);
@@ -1148,7 +1178,10 @@ __MATHSUITE __JBURKARDT void * FUNCNAME_FPRMMAT(EXPRTYPE val, exprObj *obj, expr
 		EXPRTYPE *mtx = mtobj->matrix;
 		for(i=0; i<dim[ROWS]; ++i)
 			for(j=0; j<dim[COLUMNS]; ++j)
-				mpfr_set_d(mtx[(idx = i*dim[COLUMNS] + j)], *((ityp*)(accessContainer(PRM_mid).pnt) + idx), MPFR_RNDN);
+			{
+				idx = i*dim[COLUMNS] + j;
+				mpfr_set_d(mtx[idx], *((ityp*)(accessContainer(PRM_mid).pnt) + idx), MPFR_RNDN);
+			}
 	}
 	
 	return (*err = EXPR_ERROR_NOERROR), NULL;
@@ -1175,7 +1208,10 @@ __MATHSUITE __JBURKARDT void * FUNCNAME_BPRMMAT(EXPRTYPE val, exprObj *obj, expr
 		EXPRTYPE *mtx = mtobj->matrix;
 		for(i=0; i<dim[ROWS]; ++i)
 			for(j=0; j<dim[COLUMNS]; ++j)
-				mpfr_set_ui(mtx[(idx = i*dim[COLUMNS] + j)], *((bool*)(accessContainer(PRM_mid).pnt) + idx), MPFR_RNDN);
+			{
+				idx = i*dim[COLUMNS] + j;
+				mpfr_set_ui(mtx[idx], *((bool*)(accessContainer(PRM_mid).pnt) + idx), MPFR_RNDN);
+			}
 	}
 	
 	return (*err = EXPR_ERROR_NOERROR), NULL;
@@ -1202,7 +1238,10 @@ __MATHSUITE __JBURKARDT void * FUNCNAME_UPRMMAT(EXPRTYPE val, exprObj *obj, expr
 		EXPRTYPE *mtx = mtobj->matrix;
 		for(i=0; i<dim[ROWS]; ++i)
 			for(j=0; j<dim[COLUMNS]; ++j)
-				mpfr_set_ui(mtx[(idx = i*dim[COLUMNS] + j)], *((dim_typ*)(accessContainer(PRM_mid).pnt) + idx), MPFR_RNDN);
+			{
+				idx = i*dim[COLUMNS] + j;
+				mpfr_set_ui(mtx[idx], *((dim_typ*)(accessContainer(PRM_mid).pnt) + idx), MPFR_RNDN);
+			}
 	}
 	
 	return (*err = EXPR_ERROR_NOERROR), NULL;
@@ -1229,7 +1268,10 @@ __MATHSUITE __JBURKARDT void * FUNCNAME_SPRMMAT(EXPRTYPE val, exprObj *obj, expr
 		EXPRTYPE *mtx = mtobj->matrix;
 		for(i=0; i<dim[ROWS]; ++i)
 			for(j=0; j<dim[COLUMNS]; ++j)
-				mpfr_set_si(mtx[(idx = i*dim[COLUMNS] + j)], *((short*)(accessContainer(PRM_mid).pnt) + idx), MPFR_RNDN);
+			{
+				idx = i*dim[COLUMNS] + j;
+				mpfr_set_si(mtx[idx], *((short*)(accessContainer(PRM_mid).pnt) + idx), MPFR_RNDN);
+			}
 	}
 	
 	return (*err = EXPR_ERROR_NOERROR), NULL;
@@ -1256,7 +1298,10 @@ __MATHSUITE __JBURKARDT void * FUNCNAME_IPRMMAT(EXPRTYPE val, exprObj *obj, expr
 		EXPRTYPE *mtx = mtobj->matrix;
 		for(i=0; i<dim[ROWS]; ++i)
 			for(j=0; j<dim[COLUMNS]; ++j)
-				mpfr_set_si(mtx[(idx = i*dim[COLUMNS] + j)], *((int*)(accessContainer(PRM_mid).pnt) + idx), MPFR_RNDN);
+			{
+				idx = i*dim[COLUMNS] + j;
+				mpfr_set_si(mtx[idx], *((int*)(accessContainer(PRM_mid).pnt) + idx), MPFR_RNDN);
+			}
 	}
 	
 	return (*err = EXPR_ERROR_NOERROR), NULL;
@@ -1286,27 +1331,42 @@ __MATHSUITE __JBURKARDT void * FUNCNAME_PRMMAT(EXPRTYPE val, exprObj *obj, exprN
 			case TYPID_FLOAT:
 				for(i=0; i<dim[ROWS]; ++i)
 					for(j=0; j<dim[COLUMNS]; ++j)
-						mpfr_set_d(mtx[(idx = i*dim[COLUMNS] + j)], *((ityp*)(accessContainer(PRM_mid).pnt) + idx), MPFR_RNDN);
+					{
+						idx = i*dim[COLUMNS] +j;
+						mpfr_set_d(mtx[idx], *((ityp*)(accessContainer(PRM_mid).pnt) + idx), MPFR_RNDN);
+					}
 				break;
 			case TYPID_BOOL:
 				for(i=0; i<dim[ROWS]; ++i)
 					for(j=0; j<dim[COLUMNS]; ++j)
-						mpfr_set_ui(mtx[(idx = i*dim[COLUMNS] + j)],  *((bool*)(accessContainer(PRM_mid).pnt) + idx), MPFR_RNDN); 
+					{
+						idx = i*dim[COLUMNS] + j;
+						mpfr_set_ui(mtx[idx],  *((bool*)(accessContainer(PRM_mid).pnt) + idx), MPFR_RNDN); 
+					}
 				break;
 			case TYPID_USHRT:
 				for(i=0; i<dim[ROWS]; ++i)
 					for(j=0; j<dim[COLUMNS]; ++j)
-						mpfr_set_ui(mtx[(idx = i*dim[COLUMNS] + j)], *((dim_typ*)(accessContainer(PRM_mid).pnt) + idx), MPFR_RNDN);
+					{
+						idx = i*dim[COLUMNS] + j;
+						mpfr_set_ui(mtx[idx], *((dim_typ*)(accessContainer(PRM_mid).pnt) + idx), MPFR_RNDN);
+					}
 				break;
 			case TYPID_SHRT:
 				for(i=0; i<dim[ROWS]; ++i)
 					for(j=0; j<dim[COLUMNS]; ++j)
-						mpfr_set_si(mtx[(idx = i*dim[COLUMNS] + j)], *((short*)(accessContainer(PRM_mid).pnt) + idx), MPFR_RNDN);
+					{
+						idx = i*dim[COLUMNS] + j;
+						mpfr_set_si(mtx[idx], *((short*)(accessContainer(PRM_mid).pnt) + idx), MPFR_RNDN);
+					}
 				break;
 			case TYPID_INT:
 				for(i=0; i<dim[ROWS]; ++i)
 					for(j=0; j<dim[COLUMNS]; ++j)
-						mpfr_set_si(mtx[(idx = i*dim[COLUMNS] + j)], *((int*)(accessContainer(PRM_mid).pnt) + idx), MPFR_RNDN);
+					{
+						idx = i*dim[COLUMNS] + j;
+						mpfr_set_si(mtx[idx], *((int*)(accessContainer(PRM_mid).pnt) + idx), MPFR_RNDN);
+					}
 				break;
 			default:
 				mpfr_set_ui(val, false, MPFR_RNDN);

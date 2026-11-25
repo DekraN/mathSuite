@@ -82,7 +82,7 @@ __MATHSUITE __JBURKARDT  void *   _r8_fractional ( void * data)
 	
 	const register ityp x = *(ityp *) data;
 	
-	result = abs ( x ) - ( ityp ) ( ( int ) abs ( x ) );
+	result = fabs ( x ) - ( ityp ) ( ( int ) fabs ( x ) );
     return &result;
 }
 
@@ -524,8 +524,8 @@ __MATHSUITE __JBURKARDT  void *    _r8_pythag ( void * data)
     ityp b_abs;
     ityp value;
 
-    a_abs = abs ( a );
-    b_abs = abs ( b );
+    a_abs = fabs ( a );
+    b_abs = fabs ( b );
 
     if ( b_abs < a_abs )
         value = a_abs * sqrt ( 1.00 + pow ( b_abs / a_abs, 2 ) );
@@ -830,7 +830,7 @@ __MATHSUITE __JBURKARDT  void *   _r8_roundb ( void * data)
     */
     l = 0;
 
-    while ( abs ( r8_base ) <= abs ( xtemp ) )
+    while ( fabs ( r8_base ) <= fabs ( xtemp ) )
     {
         xtemp /= r8_base;
 
@@ -842,7 +842,7 @@ __MATHSUITE __JBURKARDT  void *   _r8_roundb ( void * data)
         ++ l;
     }
 
-    while ( abs ( xtemp ) < 1.00 )
+    while ( fabs ( xtemp ) < 1.00 )
     {
         xtemp *= r8_base;
 
@@ -1568,6 +1568,7 @@ __MATHSUITE __JBURKARDT  void *   _r82vec_order_type ( void * data)
             }
         }
         else if ( order == 4 )
+	{
             if ( a[0+((i-1)<<1)] < a[0+(i<<1)] ||( a[0+((i-1)<<1)] == a[0+(i<<1)] && a[1+((i-1)<<1)] < a[1+(i<<1)] ) )
             {
                 order = -1;
@@ -1575,6 +1576,7 @@ __MATHSUITE __JBURKARDT  void *   _r82vec_order_type ( void * data)
             }
             else if ( a[0+(i<<1)] == a[0+((i-1)<<1)] && a[1+(i<<1)] == a[1+((i-1)<<1)] )
                 order = 3;
+    	}
     }
     
     result = order;
@@ -2125,7 +2127,7 @@ __MATHSUITE __JBURKARDT  void   * _r8col_first_index ( void * data)
             {
                 diff = 0.00;
                 for ( i = 0; i < m; ++i )
-                    diff = MAX ( diff, abs ( a[i+j1*m] - a[i+j2*m] ) );
+                    diff = MAX ( diff, fabs ( a[i+j1*m] - a[i+j2*m] ) );
                 if ( diff <= tol )
                     first_index[j2] = j1;
             }
@@ -2385,7 +2387,7 @@ __MATHSUITE __JBURKARDT  void *  _r8col_max_one ( void * data)
     {
         i_big = 0;
         for ( i = 1; i < m; ++i )
-            if ( abs ( a[i_big+j*m] ) < abs ( a[i+j*m] ) )
+            if ( fabs ( a[i_big+j*m] ) < fabs ( a[i+j*m] ) )
                 i_big = i;
         temp = a[i_big+j*m];
 
@@ -2685,7 +2687,7 @@ __MATHSUITE __JBURKARDT  void *   _r8col_permute ( void * data)
                 a_temp[i] = a[i+(istart-1)*m];
             iget = istart;
             /*
-            Copy the new value into the vacated entry.
+            ggCopy the new value into the vacated entry.
             */
             for ( ; ; )
             {
@@ -3119,7 +3121,7 @@ __MATHSUITE __JBURKARDT  void *   _r8col_sorted_tol_undex ( void * data)
             i2 = undx[j];
             diff = 0.00;
             for ( i3 = 0; i3 < m; ++i3 )
-                diff = MAX ( diff, abs ( a[i3+i*m] - a[i3+i2*m] ) );
+                diff = MAX ( diff, fabs ( a[i3+i*m] - a[i3+i2*m] ) );
             if ( diff <= tol )
             {
                 unique = 0;
@@ -3190,7 +3192,7 @@ __MATHSUITE __JBURKARDT  void *   _r8col_sorted_tol_unique ( void * data)
         {
             diff = 0.00;
             for ( k = 0; k < m; ++k )
-                diff = MAX ( diff, abs ( a[k+i*m] - a[k+j*m] ) );
+                diff = MAX ( diff, fabs ( a[k+i*m] - a[k+j*m] ) );
             if ( diff < tol )
             {
                 unique = false;
@@ -3287,7 +3289,7 @@ __MATHSUITE __JBURKARDT  void *   _r8col_sorted_tol_unique_count ( void * data)
             i2 = undx[j];
             diff = 0.00;
             for ( i3 = 0; i3 < m; ++i3 )
-                diff = MAX ( diff, abs ( a[i3+i*m] - a[i3+i2*m] ) );
+                diff = MAX ( diff, fabs ( a[i3+i*m] - a[i3+i2*m] ) );
             if ( diff <= tol )
             {
                 unique = false;
@@ -3855,7 +3857,7 @@ __MATHSUITE __JBURKARDT  void *  _r8col_tol_undex ( void * data)
         {
             diff = 0.00;
             for ( i2 = 0; i2 < m; ++i2 )
-                diff = MAX ( diff, abs ( a[i2+indx[i]*m] - a[i2+undx[j]*m] ) );
+                diff = MAX ( diff, fabs ( a[i2+indx[i]*m] - a[i2+undx[j]*m] ) );
             if ( diff <= tol )
             {
                 unique = false;
@@ -3997,7 +3999,7 @@ __MATHSUITE __JBURKARDT  void *   _r8mat_det ( void * data)
     {
         m = k;
         for ( kk = k+1; kk <= n; kk++ )
-            if ( abs ( b[m-1+(k-1)*n] ) < abs ( b[kk-1+(k-1)*n] ) )
+            if ( fabs ( b[m-1+(k-1)*n] ) < fabs ( b[kk-1+(k-1)*n] ) )
                 m = kk;
 
         if ( m != k )
@@ -5029,7 +5031,7 @@ __MATHSUITE __JBURKARDT  void *   _r8mat_norm_eis ( void * data)
     in column-major order.
     The EISPACK norm is defined as:
       r8MAT_NORM_EIS =
-        sum ( 1 <= I <= M ) sum ( 1 <= J <= N ) abs ( A(I,J) )
+        sum ( 1 <= I <= M ) sum ( 1 <= J <= N ) fabs ( A(I,J) )
   Licensing:
     This code is distributed under the GNU LGPL license.
   Modified:
@@ -5054,7 +5056,7 @@ __MATHSUITE __JBURKARDT  void *   _r8mat_norm_eis ( void * data)
     ityp value = 0.00;
     for ( j = 0; j < n; ++j )
         for ( i = 0; i < m; ++i )
-            value += abs ( a[i+j*m] );
+            value += fabs ( a[i+j*m] );
 
 	result = value;
     return &result;
@@ -5637,11 +5639,11 @@ __MATHSUITE __JBURKARDT  void *   _r8mat_symm_jacobi ( void * data)
         for ( i = 0; i < n; ++i )
             for ( j = 0; j < i; ++j )
 
-        if ( eps * norm_fro < abs ( a[i+j*n] ) + abs ( a[j+i*n] ) )
+        if ( eps * norm_fro < fabs ( a[i+j*n] ) + fabs ( a[j+i*n] ) )
         {
             u = ( a[j+j*n] - a[i+i*n] ) / ( a[i+j*n] + a[j+i*n] );
 
-            t = r8_sign ( u ) / ( abs ( u ) + sqrt ( u * u + 1.00 ) );
+            t = r8_sign ( u ) / ( fabs ( u ) + sqrt ( u * u + 1.00 ) );
             c = 1.00 / sqrt ( t * t + 1.00 );
             s = t * c;
             /*
@@ -5671,7 +5673,7 @@ __MATHSUITE __JBURKARDT  void *   _r8mat_symm_jacobi ( void * data)
         sum2 = 0.00;
         for ( i = 0; i < n; ++i )
             for ( j = 0; j < i; ++j )
-                sum2 += abs ( a[i+j*n] );
+                sum2 += fabs ( a[i+j*n] );
 
 		if ( sum2 <= eps * ( norm_fro + 1.00 ) || 100 <= it )
 		    break;
@@ -5744,7 +5746,7 @@ __MATHSUITE __JBURKARDT  void *   _r8mat_to_r8plu ( void * data)
         */
         l = k;
         for ( i = k+1; i <= n; ++i )
-            if ( abs ( lu[l-1+(k-1)*n] ) < abs ( lu[i-1+(k-1)*n] ) )
+            if ( fabs ( lu[l-1+(k-1)*n] ) < fabs ( lu[i-1+(k-1)*n] ) )
                 l = i;
 
         pivot[k-1] = l;
@@ -6619,8 +6621,8 @@ __MATHSUITE __JBURKARDT  void *   _r8vec_amax ( void * data)
 	
     ityp amax = 0.00;
     for (dim_typ i = 0; i < n; ++i )
-        if ( amax < abs ( a[i] ) )
-            amax = abs ( a[i] );
+        if ( amax < fabs ( a[i] ) )
+            amax = fabs ( a[i] );
             
     result = amax;
     return &result;
@@ -6660,14 +6662,14 @@ __MATHSUITE __JBURKARDT  void *   _r8vec_amax_index ( void * data)
     else
     {
         amax_index = 1;
-        amax = abs ( a[0] );
+        amax = fabs ( a[0] );
 
         for (dim_typ i = 2; i <= n; ++i)
         {
-            if ( amax < abs ( a[i-1] ) )
+            if ( amax < fabs ( a[i-1] ) )
             {
                 amax_index = i;
-                amax = abs ( a[i-1] );
+                amax = fabs ( a[i-1] );
             }
         }
     }
@@ -6705,8 +6707,8 @@ __MATHSUITE __JBURKARDT  void *   _r8vec_amin ( void * data)
 	
     ityp amin = r8_huge;
     for (dim_typ i = 0; i < n; ++i )
-        if ( abs ( a[i] ) < amin )
-            amin = abs ( a[i] );
+        if ( fabs ( a[i] ) < amin )
+            amin = fabs ( a[i] );
 
 	result = amin;
     return &result;
@@ -6746,13 +6748,13 @@ __MATHSUITE __JBURKARDT  void *   _r8vec_amin_index ( void * data)
     else
     {
         amin_index = 1;
-        amin = abs ( a[0] );
+        amin = fabs ( a[0] );
 
         for (dim_typ i = 2; i <= n; ++i )
-            if ( abs ( a[i-1] ) < amin )
+            if ( fabs ( a[i-1] ) < amin )
             {
                 amin_index = i;
-                amin = abs ( a[i-1] );
+                amin = fabs ( a[i-1] );
             }
 
     }
@@ -6790,7 +6792,7 @@ __MATHSUITE __JBURKARDT  void   * _r8vec_any_normal ( void * data)
 	const register dim_typ dim_num = s_data->a0;
 	ityp * v1 = s_data->a1;
 	
-    dim_typ i, j, k;
+    int i, j, k;
     ityp *v2;
     ityp vj;
     ityp vk;
@@ -6817,9 +6819,9 @@ __MATHSUITE __JBURKARDT  void   * _r8vec_any_normal ( void * data)
     vj = vk = 0.00;
 
     for ( i = 0; i < dim_num; ++i )
-        if ( abs ( vk ) < abs ( v1[i] ) || k == -1 )
+        if ( fabs ( vk ) < fabs ( v1[i] ) || k == -1 )
         {
-            if ( abs ( vj ) < abs ( v1[i] ) || j == -1 )
+            if ( fabs ( vj ) < fabs ( v1[i] ) || j == -1 )
             {
                 k = j;
                 vk = vj;
@@ -7350,7 +7352,7 @@ __MATHSUITE __JBURKARDT  void *   _r8vec_diff_norm_l1 ( void * data)
   Discussion:
     An r8VEC is a vector of r8's.
     The vector L1 norm is defined as:
-      r8VEC_NORM_L1 = sum ( 1 <= I <= N ) abs ( A(I) ).
+      r8VEC_NORM_L1 = sum ( 1 <= I <= N ) fabs ( A(I) ).
   Licensing:
     This code is distributed under the GNU LGPL license.
   Modified:
@@ -7372,7 +7374,7 @@ __MATHSUITE __JBURKARDT  void *   _r8vec_diff_norm_l1 ( void * data)
 	
     ityp value = 0.00;
     for (dim_typ i = 0; i < n; ++i )
-        value += abs ( a[i] - b[i] );
+        value += fabs ( a[i] - b[i] );
         
     result = value; 
     return &result;
@@ -7424,7 +7426,7 @@ __MATHSUITE __JBURKARDT  void *   _r8vec_diff_norm_li ( void * data)
   Discussion:
     An r8VEC is a vector of r8's.
     The vector L-oo norm is defined as:
-      r8VEC_NORM_LI = MAX ( 1 <= I <= N ) abs ( A(I) ).
+      r8VEC_NORM_LI = MAX ( 1 <= I <= N ) fabs ( A(I) ).
   Licensing:
     This code is distributed under the GNU LGPL license.
   Modified:
@@ -7446,7 +7448,7 @@ __MATHSUITE __JBURKARDT  void *   _r8vec_diff_norm_li ( void * data)
 	
     ityp value = 0.00;
     for (dim_typ i = 0; i < n; ++i)
-        value = MAX ( value, abs ( a[i] - b[i] ) );
+        value = MAX ( value, fabs ( a[i] - b[i] ) );
         
     result = value; 
     return &result;
@@ -7861,7 +7863,7 @@ __MATHSUITE __JBURKARDT  void *  _r8vec_even3 ( void * data)
     ityp xlentot;
     ityp xlen = 0.00;
     for ( i = 1; i <= nold - 1; ++i )
-        xlen += abs ( xold[i] - xold[i-1] );
+        xlen += fabs ( xold[i] - xold[i-1] );
 
     ntemp = nval - nold;
     density = ( ityp ) ( ntemp ) / xlen;
@@ -7872,7 +7874,7 @@ __MATHSUITE __JBURKARDT  void *  _r8vec_even3 ( void * data)
 
     for ( i = 1; i <= nold - 1; ++i )
     {
-        xleni = abs ( xold[i] - xold[i-1] );
+        xleni = fabs ( xold[i] - xold[i-1] );
         npts = ( int ) ( density * xleni );
         ntot += npts;
         /*
@@ -7988,7 +7990,7 @@ __MATHSUITE __JBURKARDT  void   * _r8vec_first_index ( void * data)
         {
             first_index[i] = i;
             for ( j = i + 1; j < n; ++j )
-                if ( abs ( a[i] - a[j] ) <= tol )
+                if ( fabs ( a[i] - a[j] ) <= tol )
                     first_index[j] = i;
         }
     return first_index;
@@ -8132,7 +8134,7 @@ __MATHSUITE __JBURKARDT  void   * _r8vec_fraction ( void * data)
 	
     ityp *fraction = ( ityp * ) malloc ( n * sizeof ( ityp ) );
     for (dim_typ i = 0; i < n; ++i )
-        fraction[i] = abs ( x[i] ) - ( ityp ) ( ( int ) ( abs ( x[i] ) ) );
+        fraction[i] = fabs ( x[i] ) - ( ityp ) ( ( int ) ( fabs ( x[i] ) ) );
     return fraction;
 }
 
@@ -8531,7 +8533,7 @@ __MATHSUITE __JBURKARDT  void   * _r8vec_house_column ( void * data)
     if ( s == 0.00 )
         return v;
 
-    v[k-1] = a[k-1] + abs ( s ) * r8_sign ( a[k-1] );
+    v[k-1] = a[k-1] + fabs ( s ) * r8_sign ( a[k-1] );
     r8vec_copy ( n-k, a+k, v+k );
     s = r8vec_norm_l2 ( n-k+1, v+k-1 );
 
@@ -10217,7 +10219,7 @@ __MATHSUITE __JBURKARDT  void   * _r8vec_nint ( void * data)
     for ( i = 0; i < n; ++i )
     {
         s = 1 - ((a[i]<0.00)<<1);
-        b[i] = ( ityp ) ( s * ( int ) ( abs ( a[i] ) + 0.50 ) );
+        b[i] = ( ityp ) ( s * ( int ) ( fabs ( a[i] ) + 0.50 ) );
     }
 
     return b;
@@ -10305,7 +10307,7 @@ __MATHSUITE __JBURKARDT  void *   _r8vec_norm_l1 ( void * data)
   Discussion:
     An r8VEC is a vector of r8's.
     The vector L1 norm is defined as:
-      r8VEC_NORM_L1 = sum ( 1 <= I <= N ) abs ( A(I) ).
+      r8VEC_NORM_L1 = sum ( 1 <= I <= N ) fabs ( A(I) ).
   Licensing:
     This code is distributed under the GNU LGPL license.
   Modified:
@@ -10326,7 +10328,7 @@ __MATHSUITE __JBURKARDT  void *   _r8vec_norm_l1 ( void * data)
 	
     ityp v = 0.00;
     for (dim_typ i = 0; i < n; ++i )
-        v += abs ( a[i] );
+        v += fabs ( a[i] );
         
     result = v;
     return &result;
@@ -10376,7 +10378,7 @@ __MATHSUITE __JBURKARDT  void *   _r8vec_norm_li ( void * data)
   Discussion:
     An r8VEC is a vector of r8's.
     The vector L-oo norm is defined as:
-      r8VEC_NORM_LI = MAX ( 1 <= I <= N ) abs ( A(I) ).
+      r8VEC_NORM_LI = MAX ( 1 <= I <= N ) fabs ( A(I) ).
   Licensing:
     This code is distributed under the GNU LGPL license.
   Modified:
@@ -10400,7 +10402,7 @@ __MATHSUITE __JBURKARDT  void *   _r8vec_norm_li ( void * data)
 
     for (dim_typ i = 0; i < n; ++i)
     {
-        v2 = abs ( a[i] );
+        v2 = fabs ( a[i] );
         if ( v1 < v2 )
             v1 = v2;
     }
@@ -10418,7 +10420,7 @@ __MATHSUITE __JBURKARDT  void *   _r8vec_norm_lp ( void * data)
   Discussion:
     An r8VEC is a vector of r8's.
     The vector LP norm is defined as:
-      r8VEC_NORM_LP = ( sum ( 1 <= I <= N ) ( abs ( A(I) ) )^P )^(1/P).
+      r8VEC_NORM_LP = ( sum ( 1 <= I <= N ) ( fabs ( A(I) ) )^P )^(1/P).
   Licensing:
     This code is distributed under the GNU LGPL license.
   Modified:
@@ -10444,7 +10446,7 @@ __MATHSUITE __JBURKARDT  void *   _r8vec_norm_lp ( void * data)
 
     if ( p == 1.0 )
         for ( i = 0; i < n; ++i )
-            v += abs ( a[i] );
+            v += fabs ( a[i] );
     else if ( p == 2.0 )
     {
         for ( i = 0; i < n; ++i )
@@ -10454,7 +10456,7 @@ __MATHSUITE __JBURKARDT  void *   _r8vec_norm_lp ( void * data)
     else
     {
         for ( i = 0; i < n; ++i )
-            v += pow ( abs ( a[i] ), p );
+            v += pow ( fabs ( a[i] ), p );
         v = pow ( ( ityp ) v, 1.0 / p );
     }
 
@@ -11216,8 +11218,8 @@ __MATHSUITE __JBURKARDT  void *   _r8vec_range_2 ( void * data)
 	ityp max_a, min_a;
 	_MAX ( &max_a, n, a );
 	_MIN ( &min_a, n, a);
-    MAX ( *amax, max_a );
-    MIN ( *amin, min_a );
+    *amax = MAX ( *amax, max_a );
+    *amin = MIN ( *amin, min_a );
     return NULL;
 }
 
@@ -12814,7 +12816,7 @@ __MATHSUITE __JBURKARDT  void *   _r8vec_sorted_nearest ( void * data)
     /*
     Take the nearest.
     */
-    if ( abs ( value - a[lo-1] ) < abs ( value - a[hi-1] ) )
+    if ( fabs ( value - a[lo-1] ) < fabs ( value - a[hi-1] ) )
     {
     	result = lo;
         return &result;
@@ -12863,7 +12865,7 @@ __MATHSUITE __JBURKARDT  void *   _r8vec_sorted_nearest ( void * data)
         /*
         Take the nearest.
         */
-        if ( abs ( value - a[lo-1] ) < abs ( value - a[hi-1] ) )
+        if ( fabs ( value - a[lo-1] ) < fabs ( value - a[hi-1] ) )
         {
         	result = lo;
             return &result;
@@ -13214,7 +13216,7 @@ __MATHSUITE __JBURKARDT  void *   _r8vec_sorted_undex ( void * data)
 
     for ( i = 1; i < x_num; ++i)
     {
-        if ( tol < abs ( x_val[i] - x_val[undx[j]] ) )
+        if ( tol < fabs ( x_val[i] - x_val[undx[j]] ) )
         {
             ++ j;
             undx[j] = i;
@@ -13270,7 +13272,7 @@ __MATHSUITE __JBURKARDT  void   * _r8vec_sorted_unique ( void * data)
     *unique_num = 1;
 
     for ( i = 1; i < n; ++i )
-        if ( tol < abs ( a[i] - a[iuniq] ) )
+        if ( tol < fabs ( a[i] - a[iuniq] ) )
         {
             iuniq = i;
             ++ *unique_num;
@@ -13288,7 +13290,7 @@ __MATHSUITE __JBURKARDT  void   * _r8vec_sorted_unique ( void * data)
     *unique_num = 1;
 
     for ( i = 1; i < n; ++i )
-        if ( tol < abs ( a[i] - a_unique[*unique_num-1] ) )
+        if ( tol < fabs ( a[i] - a_unique[*unique_num-1] ) )
         {
             a_unique[*unique_num] = a[i];
             ++ *unique_num;
@@ -13338,7 +13340,7 @@ __MATHSUITE __JBURKARDT  void *   _r8vec_sorted_unique_count ( void * data)
     unique_num = 1;
 
     for ( i = 1; i < n; ++i)
-        if ( tol < abs ( a[i-1] - a[i] ) )
+        if ( tol < fabs ( a[i-1] - a[i] ) )
             ++ unique_num;
 
 	result = unique_num;
@@ -13397,7 +13399,7 @@ __MATHSUITE __JBURKARDT  void *   _r8vec_sorted_unique_hist ( void * data)
             auniq[index] = a[0];
             acount[index] = 1;
         }
-        else if ( abs ( a[i] - auniq[index] ) <= tol )
+        else if ( fabs ( a[i] - auniq[index] ) <= tol )
             ++ acount[index];
         else if ( index + 1 < maxuniq )
         {
@@ -13701,7 +13703,7 @@ __MATHSUITE __JBURKARDT  void *   _r8vec_undex ( void * data)
 
     for ( i = 1; i < x_num; ++i )
     {
-        if ( tol < abs ( x_val[indx[i]] - x_val[undx[j]] ) )
+        if ( tol < fabs ( x_val[indx[i]] - x_val[undx[j]] ) )
         {
             ++ j;
             undx[j] = indx[i];
@@ -13824,7 +13826,7 @@ __MATHSUITE __JBURKARDT  void *  _r8vec_unique_count ( void * data)
         ++ unique_num;
 
         for ( j = 0; j < i; ++j )
-            if ( abs ( a[i] - a[j] ) <= tol )
+            if ( fabs ( a[i] - a[j] ) <= tol )
             {
                 -- unique_num;
                 break;
@@ -13879,7 +13881,7 @@ __MATHSUITE __JBURKARDT  void   * _r8vec_unique_index ( void * data)
         {
             unique_index[i] = unique_num;
             for ( j = i + 1; j < n; ++j)
-                if ( abs ( a[i] - a[j] ) <= tol )
+                if ( fabs ( a[i] - a[j] ) <= tol )
                     unique_index[j] = unique_num;
             ++ unique_num;
         }

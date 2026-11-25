@@ -483,7 +483,8 @@ sprog multiuser_prog[MAX_MULTIUSER_PROGS] =
 		int peerfd;
 		mpfr_t response;
 		SOCKADDR_STORAGE peer_addr;
-		int len = sizeof(peer_addr);
+		//int len = sizeof(peer_addr);
+		socklen_t len = sizeof(peer_addr);
 		bool quit = false; //regola il loop infinito nel server
 		bool connected = false; //regola la gestione della connessione col client
 		int result;
@@ -697,7 +698,7 @@ __MSSHELL_WRAPPER_ static void login(const sel_typ argc, char ** argv)
     }
     
     
-    unsigned char hashRep[HEXHASH_LEN+1] = NULL_CHAR;
+    char hashRep[HEXHASH_LEN+1] = NULL_CHAR;
     hexhashSHA512(argv[1], hashRep);
 	
 	if(!strcmp(hashRep, user->password))
@@ -846,7 +847,7 @@ __MSSHELL_WRAPPER_ static void _register(const sel_typ argc, char ** argv)
     user = calloc(1, sizeof(userObj));
     errMem(user, VSPACE);
     const char * identifierString = suite_c.identifier_names[access(curLayout)->database.identifierMode];
-    unsigned char hashRep[HEXHASH_LEN+1] = NULL_CHAR;
+    char hashRep[HEXHASH_LEN+1] = NULL_CHAR;
     
     hexhashSHA512(argv[2], hashRep);
     strcpy(user->name, argc > 4 ? argv[4] : NULL_CHAR);
@@ -942,7 +943,7 @@ __MSSHELL_WRAPPER_ static void editUser(const sel_typ argc, char ** argv)
     	return;
     }
     
-    unsigned char hashRep[HEXHASH_LEN+1] = NULL_CHAR;
+    char hashRep[HEXHASH_LEN+1] = NULL_CHAR;
     hexhashSHA512(argv[2], hashRep);
     
     if(strcmp(hashRep, user->password))

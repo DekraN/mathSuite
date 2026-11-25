@@ -201,7 +201,7 @@ __MATHSUITE __JBURKARDT  void *   _high_card_simulation ( void * data)
     dim_typ choice;
     dim_typ correct;
     ityp p;
-    dim_typ skip_max;
+    int skip_max;
     dim_typ trial;
     dim_typ true_max;
     /*

@@ -134,7 +134,7 @@ __MATHSUITE __JBURKARDT  void *   _piecewise_linear_product_integral ( void * da
         Form the linear polynomials for F(X) and G(X) over [XL,XR],
         then the product H(X), integrate H(X) and add to the running total.
         */
-        if ( r8_epsilon ( ) <= abs ( xr - xl ) )
+        if ( r8_epsilon ( ) <= fabs ( xr - xl ) )
         {
             f1 = fl - fr;
             f0 = fr * xl - fl * xr;

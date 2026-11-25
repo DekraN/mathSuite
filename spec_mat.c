@@ -122,9 +122,11 @@ __MSSHELL_WRAPPER_ static void  printMatrixList(const sel_typ argc, char ** argv
 	matrixObj * currentMLMatrix = NULL;
 	
 	if(accessCurrentSession()->MLSystem.list && accessCurrentSession()->MLSystem.itemsno)
+	{
 		for(dim_typ i=0; i<accessCurrentSession()->MLSystem.itemsno; ++i)
 			if((currentMLMatrix = getMatrixFromMatrixList(i)) && currentMLMatrix->matrix)
 				printMatrix(stdout, &(currentMLMatrix->matrix), currentMLMatrix->dim);
+	}
 	else
 		printErr(ERROR_RESOURCETEMPORARYUNAVAILABLE, "No MatrixList Available");
 	return;

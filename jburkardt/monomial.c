@@ -546,7 +546,7 @@ __MATHSUITE __JBURKARDT  void *   _mono_rank_grlex ( void * data)
     */
     rank = 1;
 
-    for ( i = 1; i <= ks; +i )
+    for ( i = 1; i <= ks; ++i )
     {
         tim1 = 0 +(i!=1)*xs[i-2];
 

@@ -1169,7 +1169,8 @@ __MSSHELL_WRAPPER_ static void  funcIntegration(const sel_typ argc, char ** argv
         mode -= 'A';
     }
 
-    dim_typ i, n;
+    dim_typ i;
+    int n;
 
     if(argc > 1)
         if(argc == 4)

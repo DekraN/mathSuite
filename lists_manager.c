@@ -808,7 +808,7 @@ __MATHSUITE dim_typ   getItemID(char *string, sprog * const prog, sel_typ mode)
     return which_item;
 }
 
-__MATHSUITE void   relItem(const dim_typ itemID, bool mode)
+__MATHSUITE void   relItem(const dim_typ itemID, sel_typ mode)
 {
     const dim_typ which_item = itemID == NULL_ITEM(mode) ? itemSelect(mode) : itemID;
 

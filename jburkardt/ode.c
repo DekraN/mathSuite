@@ -165,7 +165,7 @@ __MATHSUITE __JBURKARDT  void   ode_de
     subroutine STEP.
     */
     del = tout - *t;
-    absdel = abs ( del );
+    absdel = fabs ( del );
 
     tend = isn<0? tout : *t + 10.00 * del;
 
@@ -183,14 +183,14 @@ __MATHSUITE __JBURKARDT  void   ode_de
         for ( l = 1; l <= neqn; ++l )
             yy[l-1] = y[l-1];
         *delsgn = r8_sign ( del );
-        *h = MAX ( abs ( tout - *x ), fouru * abs ( *x ) ) * r8_sign ( tout - *x );
+        *h = MAX ( fabs ( tout - *x ), fouru * fabs ( *x ) ) * r8_sign ( tout - *x );
     }
     /*
     If already past the output point, then interpolate and return.
     */
     for ( ; ; )
     {
-        if ( absdel <= abs ( *x - *t ) )
+        if ( absdel <= fabs ( *x - *t ) )
         {
             ode_intrp ( *x, yy, tout, y, ypout, neqn, *kold, phi, psi );
             *iflag = 2;
@@ -203,7 +203,7 @@ __MATHSUITE __JBURKARDT  void   ode_de
         If we cannot go past the output point, and we are sufficiently
         close to it, then extrapolate and return.
         */
-        if ( isn <= 0 && abs ( tout - *x ) < fouru * abs ( *x ) )
+        if ( isn <= 0 && fabs ( tout - *x ) < fouru * fabs ( *x ) )
         {
             *h = tout - *x;
             f ( *x, yy, yp );
@@ -233,10 +233,10 @@ __MATHSUITE __JBURKARDT  void   ode_de
         /*
         Limit the step size, set the weight vector and take a step.
         */
-        *h = MIN ( abs ( *h ), abs ( tend - *x ) ) * r8_sign ( *h );
+        *h = MIN ( fabs ( *h ), fabs ( tend - *x ) ) * r8_sign ( *h );
 
         for ( l = 1; l <= neqn; ++l)
-            wt[l-1] = releps * abs ( yy[l-1] ) + abseps;
+            wt[l-1] = releps * fabs ( yy[l-1] ) + abseps;
 
         ode_step ( x, yy, f, neqn, h, &eps, wt, start,
         hold, (dim_typ*)k, kold, &crash, phi, p, yp, psi,
@@ -767,9 +767,9 @@ __MATHSUITE __JBURKARDT  void   ode_step
     */
     *crash = 1;
 
-    if ( abs ( *h ) < fouru * abs ( *x ) )
+    if ( fabs ( *h ) < fouru * fabs ( *x ) )
     {
-        *h = fouru * abs ( *x ) * r8_sign ( *h );
+        *h = fouru * fabs ( *x ) * r8_sign ( *h );
         return;
     }
 
@@ -806,10 +806,10 @@ __MATHSUITE __JBURKARDT  void   ode_step
         for ( l = 1; l <= neqn; ++l )
             total += pow ( yp[l-1] / wt[l-1], 2 );
         total = sqrt ( total );
-        absh = abs ( *h );
+        absh = fabs ( *h );
         if ( *eps < 16.0 * total * *h * *h )
             absh = 0.25 * sqrt ( *eps / total );
-        *h = MAX ( absh, fouru * abs ( *x ) ) * r8_sign ( *h );
+        *h = MAX ( absh, fouru * fabs ( *x ) ) * r8_sign ( *h );
         *hold = 0.00;
         *k = *phase1 = *nornd = 1;
         *kold = *start = 0;
@@ -953,7 +953,7 @@ __MATHSUITE __JBURKARDT  void   ode_step
         }
         xold = *x;
         *x += *h;
-        absh = abs ( *h );
+        absh = fabs ( *h );
         f ( *x, p, yp );
         /*
         Estimate the errors at orders K, K-1 and K-2.
@@ -1023,10 +1023,10 @@ __MATHSUITE __JBURKARDT  void   ode_step
         *h = temp2 * *h;
         *k = knew;
 
-        if ( abs ( *h ) < fouru * abs ( *x ) )
+        if ( fabs ( *h ) < fouru * fabs ( *x ) )
         {
             *crash = 1;
-            *h = abs ( fouru * abs ( *x ) ) * r8_sign ( *h );
+            *h = fabs ( fouru * fabs ( *x ) ) * r8_sign ( *h );
             *eps += *eps;
             return;
         }
@@ -1132,7 +1132,7 @@ __MATHSUITE __JBURKARDT  void   ode_step
                 temp2 = ( ityp ) ( *k + 1 );
                 r = pow ( p5eps / erk, 1.00 / temp2 );
                 hnew = absh * MAX ( 0.50, MIN ( 0.90, r ) );
-                hnew = abs ( MAX ( hnew, fouru * abs ( *x ) ) ) * r8_sign ( *h );
+                hnew = fabs ( MAX ( hnew, fouru * fabs ( *x ) ) ) * r8_sign ( *h );
             }
         }
     }

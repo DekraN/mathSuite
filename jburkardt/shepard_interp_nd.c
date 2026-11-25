@@ -46,7 +46,7 @@ __MATHSUITE __JBURKARDT  void   * _shepard_interp_nd ( void * data)
 	ityp s;
 	ityp t;
 	ityp *w;
-	dim_typ z;
+	int z;
 	ityp *zi;
 	
 	w = ( ityp * ) malloc ( nd * sizeof ( ityp ) );

@@ -120,7 +120,7 @@ __MATHSUITE __JBURKARDT  void *   _power_method ( void * data)
             for ( i = 0; i < n;++i )
             y[i] *= -1;
 
-        val_dif = abs ( *lambda - lambda_old );
+        val_dif = fabs ( *lambda - lambda_old );
         cos_y1y2 = r8vec_dot_product ( n, y, y_old );
         sin_y1y2 = sqrt ( ( 1.00 - cos_y1y2 ) * ( 1.00 + cos_y1y2 ) );
 

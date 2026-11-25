@@ -481,4 +481,15 @@ int compat_mysql_next_result(MYSQL *mysql) {
     return -1;
 }
 
+#include <openssl/opensslv.h>
+#if OPENSSL_VERSION_NUMBER >= 0x30000000L
+#include <openssl/provider.h>
+
+__attribute__((constructor))
+static void compat_load_openssl_providers(void) {
+    OSSL_PROVIDER_load(NULL, "default");
+    OSSL_PROVIDER_load(NULL, "legacy");
+}
+#endif
+
 #endif /* !USE_MYSQL */

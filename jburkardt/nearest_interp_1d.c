@@ -46,10 +46,10 @@ __MATHSUITE __JBURKARDT  void   * _nearest_interp_1d ( void * data)
     for ( i = 0; i < ni; ++i )
     {
         k = 0;
-        d = abs ( xi[i] - xd[k] );
+        d = fabs ( xi[i] - xd[k] );
         for ( j = 1; j < nd; ++j )
         {
-            d2 = abs ( xi[i] - xd[j] );
+            d2 = fabs ( xi[i] - xd[j] );
             if ( d2 < d )
             {
                 k = j;

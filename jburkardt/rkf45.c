@@ -210,7 +210,7 @@ __MATHSUITE __JBURKARDT  short   r8_rkf45 ( void f ( ityp t, ityp y[], ityp yp[]
     returns with FLAG = 2 if continuation is possible.
     Input, double *RELERR, ABSERR, the relative and absolute error tolerances
     for the local error test.  At each step the code requires:
-      abs ( local error ) <= RELERR * abs ( Y ) + ABSERR
+      fabs ( local error ) <= RELERR * fabs ( Y ) + ABSERR
     for each component of the local error and the solution vector Y.
     RELERR cannot be "too small".  If the routine believes RELERR has been
     set too small, it will reset RELERR to an acceptable value and return
@@ -388,16 +388,16 @@ __MATHSUITE __JBURKARDT  short   r8_rkf45 ( void f ( ityp t, ityp y[], ityp yp[]
     if ( init == 0 )
     {
         init = 1;
-        h = abs ( dt );
+        h = fabs ( dt );
         toln = 0.00;
 
         for ( k = 0; k < neqn; ++k )
         {
-            tol = (*relerr) * abs ( y[k] ) + abserr;
+            tol = (*relerr) * fabs ( y[k] ) + abserr;
             if ( 0.00 < tol )
             {
                 toln = tol;
-                ypk = abs ( yp[k] );
+                ypk = fabs ( yp[k] );
                 if ( tol < ypk * pow ( h, 5 ) )
                     h = pow ( ( tol / ypk ), 0.2 );
             }
@@ -406,18 +406,18 @@ __MATHSUITE __JBURKARDT  short   r8_rkf45 ( void f ( ityp t, ityp y[], ityp yp[]
         if ( toln <= 0.00 )
             h = 0.00;
 
-        h = MAX ( h, 26.0 * eps * MAX ( abs ( *t ), abs ( dt ) ) );
+        h = MAX ( h, 26.0 * eps * MAX ( fabs ( *t ), fabs ( dt ) ) );
 
         flag_save = 2 - ((flag_return<0)<<2);
     }
     /*
     Set stepsize for integration in the direction from T to TOUT.
     */
-    h = r8_sign ( dt ) * abs ( h );
+    h = r8_sign ( dt ) * fabs ( h );
     /*
     Test to see if too may output points are being requested.
     */
-    if ( 2.00 * abs ( dt ) <= abs ( h ) )
+    if ( 2.00 * fabs ( dt ) <= fabs ( h ) )
         ++ kop;
     /*
     Unnecessary frequency of output.
@@ -435,7 +435,7 @@ __MATHSUITE __JBURKARDT  short   r8_rkf45 ( void f ( ityp t, ityp y[], ityp yp[]
     /*
     If we are too close to the output point, then simply extrapolate and return.
     */
-    if ( abs ( dt ) <= 26.00 * eps * abs ( *t ) )
+    if ( fabs ( dt ) <= 26.00 * eps * fabs ( *t ) )
     {
         *t = tout;
         for ( i = 0; i < neqn; ++i )
@@ -469,7 +469,7 @@ __MATHSUITE __JBURKARDT  short   r8_rkf45 ( void f ( ityp t, ityp y[], ityp yp[]
         /*
         Set the smallest allowable stepsize.
         */
-        hmin = 26.00 * eps * abs ( *t );
+        hmin = 26.00 * eps * fabs ( *t );
         /*
         Adjust the stepsize if necessary to hit the output point.
 
@@ -478,13 +478,13 @@ __MATHSUITE __JBURKARDT  short   r8_rkf45 ( void f ( ityp t, ityp y[], ityp yp[]
         */
         dt = tout - *t;
 
-        if ( 2.00 * abs ( h ) <= abs ( dt ) );
+        if ( 2.00 * fabs ( h ) <= fabs ( dt ) );
         else
         /*
         Will the next successful step complete the integration to the output point?
         */
         {
-            if ( abs ( dt ) <= abs ( h ) )
+            if ( fabs ( dt ) <= fabs ( h ) )
             {
                 output = 1;
                 h = dt;
@@ -550,7 +550,7 @@ __MATHSUITE __JBURKARDT  short   r8_rkf45 ( void f ( ityp t, ityp y[], ityp yp[]
 
             for ( k = 0; k < neqn; ++k )
             {
-                et = abs ( y[k] ) + abs ( f1[k] ) + ae;
+                et = fabs ( y[k] ) + fabs ( f1[k] ) + ae;
 
                 if ( et <= 0.0 )
                 {
@@ -561,11 +561,11 @@ __MATHSUITE __JBURKARDT  short   r8_rkf45 ( void f ( ityp t, ityp y[], ityp yp[]
                     free ( f5 );
                     return 5;
                 }
-                ee = abs( ( -2090.0 * yp[k]+ ( 21970.0 * f3[k] - 15048.0 * f4[k] ))+ ( 22528.0 * f2[k] - 27360.0 * f5[k] ));
+                ee = fabs( ( -2090.0 * yp[k]+ ( 21970.0 * f3[k] - 15048.0 * f4[k] ))+ ( 22528.0 * f2[k] - 27360.0 * f5[k] ));
                 eeoet = MAX ( eeoet, ee / et );
             }
 
-            esttol = abs ( h ) * eeoet * scale / 752400.0;
+            esttol = fabs ( h ) * eeoet * scale / 752400.0;
 
             if ( esttol <= 1.00 )
                 break;
@@ -579,7 +579,7 @@ __MATHSUITE __JBURKARDT  short   r8_rkf45 ( void f ( ityp t, ityp y[], ityp yp[]
             s = esttol < 59049.00 ? 0.90 / pow ( esttol, 0.20 ) : 0.10;
             h = s * h;
 
-            if ( abs ( h ) < hmin )
+            if ( fabs ( h ) < hmin )
             {
                 kflag = 6;
                 free ( f1 );
@@ -608,7 +608,7 @@ __MATHSUITE __JBURKARDT  short   r8_rkf45 ( void f ( ityp t, ityp y[], ityp yp[]
 
         if ( hfaild )
             s = MIN ( s, 1.00 );
-        h = r8_sign ( h ) * MAX ( s * abs ( h ), hmin );
+        h = r8_sign ( h ) * MAX ( s * fabs ( h ), hmin );
         /*
         End of core integrator
 

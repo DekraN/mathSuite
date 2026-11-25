@@ -55,13 +55,13 @@ __MATHSUITE __JBURKARDT  void *   _r8mat_fs ( void * data)
 		/*
 		Find the maximum element in column I.
 		*/
-		piv = abs ( a2[jcol-1+(jcol-1)*n] );
+		piv = fabs ( a2[jcol-1+(jcol-1)*n] );
 		ipiv = jcol;
 		for ( i = jcol+1; i <= n; ++i )
 		{
-			if ( piv < abs ( a2[i-1+(jcol-1)*n] ) )
+			if ( piv < fabs ( a2[i-1+(jcol-1)*n] ) )
 			{
-				piv = abs ( a2[i-1+(jcol-1)*n] );
+				piv = fabs ( a2[i-1+(jcol-1)*n] );
 				ipiv = i;
 			}
 		}
@@ -179,7 +179,7 @@ __MATHSUITE __JBURKARDT  void *   _root_rc ( void * data)
         return &result;
     }
 
-    *ferr = abs ( fx );
+    *ferr = fabs ( fx );
     /*
     If this is the first time, initialize, estimate the first root, and exit.
     */
@@ -229,7 +229,7 @@ __MATHSUITE __JBURKARDT  void *   _root_rc ( void * data)
     /*
     Calculate XERR.
     */
-    *xerr = q[6] != 0.00 ? abs ( q[7] - q[1] ) : r8_huge;
+    *xerr = q[6] != 0.00 ? fabs ( q[7] - q[1] ) : r8_huge;
     /*
     If more than 30 iterations, and we have change-in-sign interval, bisect.
     */
@@ -276,8 +276,8 @@ __MATHSUITE __JBURKARDT  void *   _root_rc ( void * data)
             return &result;
         }
         decr = q[0] / v;
-        if ( abs ( decr ) * 4.6E+18 < abs ( q[1] ) )
-            decr = 1.74E-18 * abs ( q[1] ) * r8_sign ( decr );
+        if ( fabs ( decr ) * 4.6E+18 < fabs ( q[1] ) )
+            decr = 1.74E-18 * fabs ( q[1] ) * r8_sign ( decr );
         xnew = q[1] - decr;
         if ( q[6] == 0.00 || ( q[1] < xnew && xnew < q[7] ) || ( q[7] < xnew && xnew < q[1] ) )
         {
@@ -346,7 +346,7 @@ __MATHSUITE __JBURKARDT  void *  _roots_rc ( void * data)
 
     *ferr = 0.00;
     for ( i = 0; i < n; ++i )
-        *ferr += abs ( fx[i] );
+        *ferr += fabs ( fx[i] );
     /*
     Initialization if Q(2*N+1,1) = 0.0.
     */
@@ -433,7 +433,7 @@ __MATHSUITE __JBURKARDT  void *  _roots_rc ( void * data)
     for ( i = 1; i <= n; ++i )
         sump += q[i-1+(n+1)*lda];
 
-    if ( abs ( 1.0 - sump ) <= 1.0E-10 )
+    if ( fabs ( 1.0 - sump ) <= 1.0E-10 )
         return NULL;
 
     for ( i = 1; i <= n; ++i )

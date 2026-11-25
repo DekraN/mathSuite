@@ -3385,8 +3385,8 @@ __MATHSUITE __JBURKARDT  void *   _plane_partition_num ( void * data)
     }
 
     pp = ( int * ) malloc ( ( n + 1 ) * sizeof ( int ) );
-    nn = 0;
-    pp[nn] = nn = 1;
+    // nn = 0;
+    pp[0] = 1;
 
     nn = 1;
     if ( nn <= n )
@@ -5217,7 +5217,8 @@ __MATHSUITE __JBURKARDT  void *  _i4_factor ( void * data)
     if ( n == 0 )
         return NULL;
 
-    if ( abs ( n ) == 1 )
+    // if ( abs ( n ) == 1 )
+    if(n == 1)
     {
         *nfactor = factor[0] = power[0] = 1;
         return NULL;

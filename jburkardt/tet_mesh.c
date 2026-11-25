@@ -553,7 +553,7 @@ __MATHSUITE __JBURKARDT  void *   _tet_mesh_order4_boundary_face_count ( void * 
     /*
     Determine the number of interior and boundary faces.
     */
-    boundary_face_num = (tetra_num<<1) - ((tetra_num<<2) - i4col_sorted_unique_count ( m, face_num, face )<<1);
+    boundary_face_num = (tetra_num<<1) - ((tetra_num<<2) - (i4col_sorted_unique_count ( m, face_num, face )<<1));
 
     free ( face );
     
@@ -1525,7 +1525,7 @@ __MATHSUITE __JBURKARDT  void   * _tet_mesh_order10_adj_set ( void * data)
 
 /******************************************************************************/
 __MATHSUITE __JBURKARDT  void *  _tetrahedron_order4_physical_to_reference ( void * data)
-/*****************************************************************************80
+/******************************************************************************/
 /*
   Purpose:
     TETRAHEDRON_ORDER4_PHYSICAL_TO_REFERENCE maps physical points to reference points.

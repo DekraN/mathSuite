@@ -343,7 +343,7 @@ __MATHSUITE __JBURKARDT  void *   _simplex_unit_monomial_quadrature ( void * dat
     Error:
     */
     
-    result = abs ( quad - exact );
+    result = fabs ( quad - exact );
     return &result;
 }
 

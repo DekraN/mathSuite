@@ -263,7 +263,7 @@ __MATHSUITE __JBURKARDT  void   * _cawiq ( void * data)
             tmp = t[i-1];
             l = i + 1;
             for ( j = l; j <= nt; ++j )
-                if ( abs ( tmp - t[j-1] ) <= prec )
+                if ( fabs ( tmp - t[j-1] ) <= prec )
                     return NULL;
         }
     }
@@ -272,7 +272,8 @@ __MATHSUITE __JBURKARDT  void   * _cawiq ( void * data)
     Set up various useful parameters and
     set up or check pointers to WTS array.
     */
-    l = abs ( key );
+    // l = fabs ( key );
+    l = key;
 
     if ( l < 1 || 4 < l )
         return NULL;
@@ -307,8 +308,9 @@ __MATHSUITE __JBURKARDT  void   * _cawiq ( void * data)
             if ( ndx[i-1] < 0 && l == 3 )
                 continue;
 
-            ndx[i-1] = abs ( k ) * i4_sign ( ndx[i-1] );
-            k += mlt[i-1];
+            //ndx[i-1] = fabs ( k ) * i4_sign ( ndx[i-1] );
+            ndx[i-1] = k * i4_sign ( ndx[i-1] );
+	    k += mlt[i-1];
         }
 
         if ( nwts + 1 < k )
@@ -841,7 +843,7 @@ __MATHSUITE __JBURKARDT  void *   _chkqf ( void * data)
     {
         izero = 0;
         chkqfs ( t, wts, mlt, nt, nwts, ndx, key, w, mop, mex, izero,
-        alpha, beta, - abs ( lo ) );
+        alpha, beta, -  lo );
     }
 
     if ( 0 <= lo )
@@ -1003,7 +1005,7 @@ __MATHSUITE __JBURKARDT  void *   _chkqfs ( void * data)
         if ( l == 0 )
             continue;
 
-        erest += abs ( wts[l-1] );
+        erest += fabs ( wts[l-1] );
         for ( j = 1; j <= mex; ++j )
         {
             qm[j-1] = qm[j-1] + tmp * wts[l-1];
@@ -1024,28 +1026,28 @@ __MATHSUITE __JBURKARDT  void *   _chkqfs ( void * data)
     for ( j = 0; j < mex; j++ )
     {
         e[j] = w[j] - qm[j];
-        er[j] = e[j] / ( abs ( w[j] ) + 1.00 );
+        er[j] = e[j] / ( fabs ( w[j] ) + 1.00 );
     }
     /*
     For some strange weight functions W(1) may vanish.
     */
-    erest /= ( abs ( w[0] ) + 1.00 );
+    erest /= ( fabs ( w[0] ) + 1.00 );
 
     if ( 0 < lo )
     {
         m = mop + 1;
         mx = MIN ( mop, mex );
 
-        emx = abs ( e[0] );
+        emx = fabs ( e[0] );
         emn = emx;
-        erx = abs ( er[0] );
+        erx = fabs ( er[0] );
         ern = erx;
         for ( k = 1; k < mx; ++k )
         {
-            emx = MAX ( abs ( e[k] ), emx );
-            emn = MIN ( abs ( e[k] ), emn );
-            erx = MAX ( abs ( er[k] ), erx );
-            ern = MIN ( abs ( er[k] ), ern );
+            emx = MAX ( fabs ( e[k] ), emx );
+            emn = MIN ( fabs ( e[k] ), emn );
+            erx = MAX ( fabs ( er[k] ), erx );
+            ern = MIN ( fabs ( er[k] ), ern );
         }
 
         if ( m <= mex )
@@ -1147,7 +1149,8 @@ __MATHSUITE __JBURKARDT  void   * _ciqf ( void * data)
     ityp *wts;
 
     m = 1;
-    l = abs ( key );
+    //l = fabs ( key );
+    l = key;
 
     for ( j = 0; j < nt; ++j )
     if ( l == 1 || abs ( ndx[j] ) != 0 )
@@ -1266,7 +1269,8 @@ __MATHSUITE __JBURKARDT  void   * _ciqfs ( void * data)
     ityp zemu;
 
     jdf = n = 0;
-    l = abs ( key );
+    // l = fabs ( key );
+    l = key;
 
     for ( j = 0; j < nt; ++j)
         if ( l == 1 || abs ( ndx[j] ) != 0 )
@@ -1668,7 +1672,8 @@ __MATHSUITE __JBURKARDT  ityp   eiqf ( const register dim_typ nt, ityp t[static 
     ityp p;
     ityp qfsum;
 
-    l = abs ( key );
+    // l = fabs ( key );
+    l = key;
 
     if ( l < 1 || 4 < l )
         return MAX_VAL;
@@ -2085,13 +2090,13 @@ __MATHSUITE __JBURKARDT  void   * _wtfn ( void * data)
                 w[i] = exp ( - t[i] * t[i] );
         else
             for ( i = 0; i < nt; ++i )
-                w[i] = exp ( - t[i] * t[i] ) * pow ( abs ( t[i] ), alpha );
+                w[i] = exp ( - t[i] * t[i] ) * pow ( fabs ( t[i] ), alpha );
     }
     else if ( kind == 7 )
     {
         if ( alpha != 0.00 )
             for ( i = 0; i < nt; ++i )
-                w[i] = pow ( abs ( t[i] ), alpha );
+                w[i] = pow ( fabs ( t[i] ), alpha );
         else
             for ( i = 0; i < nt; ++i )
                 w[i] = 1.0;

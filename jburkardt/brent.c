@@ -62,7 +62,7 @@ __MATHSUITE __JBURKARDT  void *   _glomin ( void * data)
 	ityp d1;
 	ityp d2;
 	ityp h;
-	dim_typ k;
+	size_t k;
 	ityp m2;
 	ityp p;
 	ityp q;
@@ -181,7 +181,7 @@ __MATHSUITE __JBURKARDT  void *   _glomin ( void * data)
 		q = q + 0.50 * qs;
 		r = - 0.50 * ( d0 + ( z0 + 2.01 * e ) / ( d0 * m2 ) );
 
-		r = a2 + ( r < s || d0 < 0.00 ) ? s:r;
+		r = a2 + (( r < s || d0 < 0.00 ) ? s:r);
 		a3 = (0.0 < p * q) ? a2+p/q : r;
 
 		for ( ; ; )

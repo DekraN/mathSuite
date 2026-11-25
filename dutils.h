@@ -185,8 +185,8 @@ enum
 #define MPFR_MIN(a,b) mpfr_less_p(a,b) ? a : b
 #define MPFR_MAX(a,b) mpfr_greater_p(a,b) ? a : b
 
-#define MIN(a,b) b<a?b:a
-#define MAX(a,b) b<a?a:b
+#define MIN(a,b) (b<a?b:a)
+#define MAX(a,b) (b<a?a:b)
 
 #define _MIN(a,b,c) MINMAX(a, NULL, b,c,NULL,NULL)
 #define _MAX(a,b,c) MINMAX(NULL, a, b,c,NULL,NULL)
@@ -782,10 +782,10 @@ typedef tipo_predefinito ityp;
 
 // MPFR MACROS
 
-#define mpfGZero(a) mpfr_sgn(a) > 0
-#define mpfLZero(a) mpfr_sgn(a) < 0
-#define mpfGeZero(a) mpfGZero(a) > 0 || mpfr_zero_p(a)
-#define mpfLeZero(a) mpfLZero(a) < 0 || mpfr_zero_p(a)
+#define mpfGZero(a) (mpfr_sgn(a) > 0)
+#define mpfLZero(a) (mpfr_sgn(a) < 0)
+#define mpfGeZero(a) (mpfGZero(a) || mpfr_zero_p(a))
+#define mpfLeZero(a) (mpfLZero(a) || mpfr_zero_p(a))
 
 enum
 {
@@ -2573,7 +2573,7 @@ struct program
     #ifndef __DISABLE_SERVER
 		int lastSessionSocket;
 	#endif
-    fsel_typ random_seed;
+    tipo_random_seed random_seed;
     sel_typ colors[MAX_COLOR_TYPES];
     sel_typ mode;
     volatile sel_typ exitHandle;
@@ -2752,6 +2752,7 @@ __MATHSUITE bool *  accessBoolContainerPointer(const mpfr_t);
 __MATHSUITE dim_typ *  accessUShortContainerPointer(const mpfr_t);
 __MATHSUITE short *  accessShortContainerPointer(const mpfr_t);
 __MATHSUITE int *  accessIntContainerPointer(const mpfr_t);
+__MATHSUITE unsigned int *  accessUIntContainerPointer(const mpfr_t);
 __MATHSUITE int **  accessDIntContainerPointer(const mpfr_t);
 __MATHSUITE int ***  accessTIntContainerPointer(const mpfr_t);
 __MATHSUITE long int *  accessLIntContainerPointer(const mpfr_t);
@@ -2771,7 +2772,7 @@ __MATHSUITE void resetLmpMatrix();
 	__MATHSUITE void closeUnsetSocket(fd_set *, int *);
 	__MATHSUITE sel_typ getFamily(const register sel_typ family);
 #endif
-__MATHSUITE void removeDirEnt(const char *, const register dim_typ extNo, char [static extNo][MAX_EXTENSION_LENGTH]);
+__MATHSUITE void removeDirEnt(const char *, const register dim_typ extNo, char [extNo][MAX_EXTENSION_LENGTH]);
 __MATHSUITE void removeCriticalFiles(const bool);
 __MATHSUITE void  _handleCmdLine(char *);
 __MATHSUITE bool  _execScriptFiles(const char [static MAX_PATH_LENGTH]);
@@ -2848,7 +2849,7 @@ __MATHSUITE dim_typ   selectListItem(dim_typ dim, bool, const char *, const char
 	__MATHSUITE void delAllMatrixFromMatrixList(void);	
 	__MATHSUITE void delTailMatrixList(void);
 	__MATHSUITE session * accessCurrentSession();
-	__MATHSUITE void dbEstablishConnection(const sel_typ, char *[static 4]);
+	__MATHSUITE void dbEstablishConnection(const sel_typ, char *[4]);
 	
 #endif
 
@@ -3698,7 +3699,7 @@ __MATHSUITE void   updItem(sel_typ);
 __MATHSUITE void   updAll(sel_typ);
 __MATHSUITE void   delItem(const dim_typ, sel_typ);
 __MATHSUITE dim_typ   getItemID(char *, sprog * const, sel_typ);
-__MATHSUITE void   relItem(const dim_typ, bool);
+__MATHSUITE void   relItem(const dim_typ, sel_typ);
 __MATHSUITE void   renItem(const char *, const dim_typ, sel_typ);
 
 /// logs_manager.c

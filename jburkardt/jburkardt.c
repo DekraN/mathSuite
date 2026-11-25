@@ -1608,14 +1608,14 @@ __MATHSUITE __JBURKARDT  void *  _c4_cos ( void * data)
     Output, complex C4_COS, the cosine of Z.
 */
 {
-	static complex result = I;
+	static complex double result = I;
 	
-	const register complex z = *(complex *) data;
+	const register complex double z = *(complex double*) data;
 	
     ityp x = creal ( z );
     ityp y = cimag ( z );
     
-    result = ( complex ) ( cos ( x ) * cosh ( y ), - sin ( x ) * sinh ( y ) );
+    result = ( complex double ) ( cos ( x ) * cosh ( y ) - sin ( x ) * sinh ( y ) * I );
     return &result;
 }
 
@@ -1646,14 +1646,14 @@ __MATHSUITE __JBURKARDT  void *   _c4_sin ( void * data)
     Output, complex C4_SIN, the sine of Z.
 */
 {
-	static complex result = I;
+	static complex double result = I;
 	
-	const register complex z = *(complex *) data;
+	const register complex double z = *(complex double*) data;
 	
     ityp x = creal ( z );
     ityp y = cimag ( z );
     
-    result = ( complex ) ( sin ( x ) * cosh ( y ), cos ( x ) * sinh ( y ) );
+    result = ( complex double ) ( sin ( x ) * cosh ( y ) + cos ( x ) * sinh ( y ) * I );
     return &result;
 }
 
@@ -2394,7 +2394,7 @@ __MATHSUITE __JBURKARDT  void *   _r8_ai ( void * data)
         r8_aimp ( x, &xm, &theta );
         value = xm * cos ( theta );
     }
-    else if ( abs ( x ) <= x3sml )
+    else if ( fabs ( x ) <= x3sml )
     {
         z = 0.00;
         value = 0.375 + ( r8_csevl ( z, aifcs, naif )- x * ( 0.25 + r8_csevl ( z, aigcs, naig ) ) );
@@ -2502,12 +2502,12 @@ __MATHSUITE __JBURKARDT  void *   _r8_aid ( void * data)
         r8_admp ( x, &xn, &phi );
         value = xn * cos ( phi );
     }
-    else if ( abs ( x ) <= x2sml )
+    else if ( fabs ( x ) <= x2sml )
     {
         x2 = x3 = 0.00;
         value = ( x2 * ( 0.125 + r8_csevl ( x3, aifcs, naif ) )- r8_csevl ( x3, aigcs, naig ) ) - 0.25;
     }
-    else if ( abs ( x ) <= x3sml )
+    else if ( fabs ( x ) <= x3sml )
     {
         x2 = x * x;
         x3 = 0.00;
@@ -2732,14 +2732,14 @@ __MATHSUITE __JBURKARDT  void *   _r8_aide ( void * data)
         r8_admp ( x, &xn, &phi );
         value = xn * cos ( phi );
     }
-    else if ( abs ( x ) < x2sml )
+    else if ( fabs ( x ) < x2sml )
     {
         x2 = x3 = 0.00;
         value = ( x2 * ( 0.125 + r8_csevl ( x3, aifcs, naif ) )- r8_csevl ( x3, aigcs, naig ) ) - 0.25;
         if ( x32sml < x )
             value *= exp ( 2.0 * x * sqrt ( x ) / 3.0 );
     }
-    else if ( abs ( x ) < x3sml )
+    else if ( fabs ( x ) < x3sml )
     {
         x2 = x * x;
         x3 = 0.00;
@@ -2984,7 +2984,7 @@ __MATHSUITE __JBURKARDT  void *   _r8_aie ( void * data)
         z = 0.00;
         value = 0.3750 + ( r8_csevl ( z, aifcs, naif )- x * ( 0.25 + r8_csevl ( z, aigcs, naig ) ) );
     }
-    else if ( abs ( x ) <= x3sml )
+    else if ( fabs ( x ) <= x3sml )
     {
         z = 0.00;
         value = 0.3750 + ( r8_csevl ( z, aifcs, naif )- x * ( 0.25 + r8_csevl ( z, aigcs, naig ) ) );
@@ -3522,7 +3522,7 @@ __MATHSUITE __JBURKARDT  void *   _r8_aint ( void * data)
 	
 	const register ityp x = *(ityp *) data;
 	
-	result = x<0.0E+00 ? - ( ityp ) ( ( dim_typ ) ( abs ( x ) ) ) : ( ityp ) ( ( dim_typ ) ( abs ( x ) ) );
+	result = x<0.0E+00 ? - ( ityp ) ( ( dim_typ ) ( fabs ( x ) ) ) : ( ityp ) ( ( dim_typ ) ( fabs ( x ) ) );
     return &result;
 }
 
@@ -3613,7 +3613,7 @@ __MATHSUITE __JBURKARDT  void *   _r8_asinh ( void * data)
         xmax = 1.00 / sqeps;
     }
 
-    y = abs ( x );
+    y = fabs ( x );
 
     if ( y <= sqeps )
         value = x;
@@ -4003,7 +4003,7 @@ __MATHSUITE __JBURKARDT  void *   _r8_bi ( void * data)
         r8_aimp ( x, &xm, &theta );
         value = xm * sin ( theta );
     }
-    else if ( abs ( x ) <= x3sml )
+    else if ( fabs ( x ) <= x3sml )
     {
         z = 0.00;
         value = 0.625 + r8_csevl ( z, bifcs, nbif )+ x * ( 0.4375 + r8_csevl ( z, bigcs, nbig ) );
@@ -4157,12 +4157,12 @@ __MATHSUITE __JBURKARDT  void *   _r8_bid ( void * data)
         r8_admp ( x, &xn, &phi );
         value = xn * sin ( phi );
     }
-    else if ( abs ( x ) <= x2sml )
+    else if ( fabs ( x ) <= x2sml )
     {
         x2 = x3 = 0.00;
         value = x2 * ( r8_csevl ( x3, bifcs, nbif ) + 0.25 )+ r8_csevl ( x3, bigcs, nbig ) + 0.50;
     }
-    else if ( abs ( x ) <= x3sml )
+    else if ( fabs ( x ) <= x3sml )
     {
         x2 = x * x;
         x3 = 0.00;
@@ -4474,14 +4474,14 @@ __MATHSUITE __JBURKARDT  void *   _r8_bide ( void * data)
         r8_admp ( x, &xn, &phi );
         value = xn * sin ( phi );
     }
-    else if ( abs ( x ) <= x2sml )
+    else if ( fabs ( x ) <= x2sml )
     {
         x2 = x3 = 0.00;
         value = x2 * ( r8_csevl ( x3, bifcs, nbif )+ 0.25 ) + r8_csevl ( x3, bigcs, nbig ) + 0.50;
         if ( x32sml < x )
             value *= exp ( - 2.00 * x * sqrt ( x ) / 3.00 );
     }
-    else if ( abs ( x ) <= x3sml )
+    else if ( fabs ( x ) <= x3sml )
     {
         x2 = x * x;
         x3 = 0.00;
@@ -4802,7 +4802,7 @@ __MATHSUITE __JBURKARDT  void *   _r8_bie ( void * data)
         r8_aimp ( x, &xm, &theta );
         value = xm * sin ( theta );
     }
-    else if ( abs ( x ) <= x3sml )
+    else if ( fabs ( x ) <= x3sml )
     {
         z = 0.00;
         value = 0.625 + r8_csevl ( z, bifcs, nbif )+ x * ( 0.4375 + r8_csevl ( z, bigcs, nbig ) );
@@ -5060,7 +5060,7 @@ __MATHSUITE __JBURKARDT  void *   _r8_chu ( void * data)
         return &result;
     }
 
-    if ( MAX ( abs ( a ), 1.00 )* MAX ( abs ( 1.00 + a - b ), 1.00 ) < 0.99 * abs ( x ) )
+    if ( MAX ( fabs ( a ), 1.00 )* MAX ( fabs ( 1.00 + a - b ), 1.00 ) < 0.99 * fabs ( x ) )
     {
     	result = pow ( x, - a ) * r8_chu_scaled ( a, b, x );
         return &result;
@@ -5131,7 +5131,7 @@ __MATHSUITE __JBURKARDT  void *   _r8_chu ( void * data)
     x^(-beps) is close to 1.0, so we must be careful in evaluating the
     differences.
     */
-    if ( abs ( xtoeps - 1.00 ) <= 0.50 )
+    if ( fabs ( xtoeps - 1.00 ) <= 0.50 )
     {
         pch1ai = r8_poch1 ( a + xi, -beps );
         pch1i = r8_poch1 ( xi + 1.00 - beps, beps );
@@ -5152,7 +5152,7 @@ __MATHSUITE __JBURKARDT  void *   _r8_chu ( void * data)
             c0 = ( a + xi1 ) * c0 * x / ( ( b + xi1) * xi )- ( ( a - 1.0 ) * ( xn + 2.0 * xi - 1.0 )+ xi * ( xi - beps ) ) * b0/ ( xi * ( b + xi1 ) * ( a + xi1 - beps ) );
             t = c0 + xeps1 * b0;
             value += t;
-            if ( abs ( t ) < eps * abs ( value ) )
+            if ( fabs ( t ) < eps * fabs ( value ) )
             {
             	result = value;
             }
@@ -5179,7 +5179,7 @@ __MATHSUITE __JBURKARDT  void *   _r8_chu ( void * data)
         b0 = ( a + xi1 - beps ) * b0 * x/ ( ( aintb + xi1 ) * ( xi - beps ) );
         t = a0 - b0;
         value += t;
-        if ( abs ( t ) < eps * abs ( value ) )
+        if ( fabs ( t ) < eps * fabs ( value ) )
         {
         	result = value;
             return &result;
@@ -5291,7 +5291,7 @@ __MATHSUITE __JBURKARDT  void *   _r8_chu_scaled ( void * data)
 
         value = aa[3] / bb[3];
 
-        if ( abs ( value - aa[0] / bb[0] ) < eps * abs ( value ) )
+        if ( fabs ( value - aa[0] / bb[0] ) < eps * fabs ( value ) )
         {
         	result = value;
             return &result;
@@ -5475,7 +5475,7 @@ __MATHSUITE __JBURKARDT  void *   _r8_cin ( void * data)
         xmin = sqrt ( r8_mach ( 1 ) );
     }
 
-    absx = abs ( x );
+    absx = fabs ( x );
 
 
     if ( absx <= xmin )
@@ -5566,7 +5566,7 @@ __MATHSUITE __JBURKARDT  void *   _r8_cinh ( void * data)
         xmin = 2.00 * sqrt ( r8_mach ( 1 ) );
     }
 
-    absx = abs ( x );
+    absx = fabs ( x );
 
     if ( x == 0.00  || absx <= xmin)
         value = 0.00;
@@ -5624,7 +5624,7 @@ __MATHSUITE __JBURKARDT  void *   _r8_cos_deg ( void * data)
 
     if ( fmod ( x, 90.00 ) == 0.00 )
     {
-        n = ( dim_typ ) ( abs ( x ) / 90.00 + 0.50 );
+        n = ( dim_typ ) ( fabs ( x ) / 90.00 + 0.50 );
         n = ( n % 2 );
 
         if ( n == 1 )
@@ -5842,7 +5842,7 @@ __MATHSUITE __JBURKARDT  void *   _r8_dawson ( void * data)
         log ( r8_mach ( 2 ) ) ) - 0.01 );
     }
 
-    y = abs ( x );
+    y = fabs ( x );
 
     if ( y <= xsml )
         value = x;
@@ -6271,7 +6271,7 @@ __MATHSUITE __JBURKARDT  void *   _r8_e1 ( void * data)
         return &result;
     }
     else if ( x <= 1.00 )
-        value = ( - log ( abs ( x ) ) - 0.6875 + x )+ r8_csevl ( x, e12cs, nte12 );
+        value = ( - log ( fabs ( x ) ) - 0.6875 + x )+ r8_csevl ( x, e12cs, nte12 );
     else if ( x <= 4.00 )
         value = exp ( - x ) / x * ( 1.00+ r8_csevl ( ( 8.00 / x - 5.00 ) / 3.00, ae13cs, ntae13 ) );
     else if ( x <= xmax )
@@ -6387,7 +6387,7 @@ __MATHSUITE __JBURKARDT  void *   _r8_erf ( void * data)
         sqeps = sqrt ( 2.00 * r8_mach ( 3 ) );
     }
 
-    y = abs ( x );
+    y = fabs ( x );
 
     if ( y <= sqeps )
         value = 2.00 * x / sqrtpi;
@@ -6615,7 +6615,7 @@ __MATHSUITE __JBURKARDT  void *   _r8_erfc ( void * data)
         return &result;
     }
 
-    y = abs ( x );
+    y = fabs ( x );
 
     if ( y < sqeps )
     {
@@ -6629,7 +6629,7 @@ __MATHSUITE __JBURKARDT  void *   _r8_erfc ( void * data)
 	}
 
     y = y * y;
-    value = y<=4.00 ? exp ( - y ) / abs ( x ) * ( 0.50+ r8_csevl ( ( 8.00 / y - 5.00 ) / 3.00, erc2cs, nterc2 ) ) : exp ( - y ) / abs ( x ) * ( 0.5+ r8_csevl ( 8.0 / y - 1.0, erfccs, nterfc ) );
+    value = y<=4.00 ? exp ( - y ) / fabs ( x ) * ( 0.50+ r8_csevl ( ( 8.00 / y - 5.00 ) / 3.00, erc2cs, nterc2 ) ) : exp ( - y ) / fabs ( x ) * ( 0.5+ r8_csevl ( 8.0 / y - 1.0, erfccs, nterfc ) );
 
     if ( x < 0.00 )
         value = 2.00 - value;
@@ -6690,7 +6690,7 @@ __MATHSUITE __JBURKARDT  void *   _r8_exprel ( void * data)
         xbnd = r8_mach ( 3 );
     }
 
-    absx = abs ( x );
+    absx = fabs ( x );
 
     if ( absx < xbnd )
     value = 1.00;
@@ -6958,11 +6958,11 @@ __MATHSUITE __JBURKARDT  void *   _r8_gamic ( void * data)
 
     if ( x < 1.00 )
     {
-        if ( a <= 0.50 && abs ( aeps ) <= 0.001 )
+        if ( a <= 0.50 && fabs ( aeps ) <= 0.001 )
         {
             e = -ainta<=1.00 ? 2.00 : 2.00 * ( - ainta + 2.00 ) / ( ainta * ainta - 1.00 );
             e -= alx * pow ( x, - 0.001 );
-            if ( e * abs ( aeps ) <= eps )
+            if ( e * fabs ( aeps ) <= eps )
             {
             	result = r8_gmic ( a, x, alx );
                 return &result;
@@ -6976,7 +6976,7 @@ __MATHSUITE __JBURKARDT  void *   _r8_gamic ( void * data)
             izero = 1;
         else
         {
-            alngs = log ( abs ( gstar ) );
+            alngs = log ( fabs ( gstar ) );
             sgngs = r8_sign ( gstar );
         }
     }
@@ -7003,7 +7003,7 @@ __MATHSUITE __JBURKARDT  void *   _r8_gamic ( void * data)
         if ( alneps < t )
         {
             sgng = - sgngs * sga * sgngam;
-            result = sgng * exp ( t + algap1 - log ( abs ( a ) ) );
+            result = sgng * exp ( t + algap1 - log ( fabs ( a ) ) );
             return &result;
         }
 
@@ -7011,7 +7011,7 @@ __MATHSUITE __JBURKARDT  void *   _r8_gamic ( void * data)
             h = 1.00 - sgngs * exp ( t );
     }
     
-    result = r8_sign ( h ) * sga * sgngam * exp ( log ( abs ( h ) ) + algap1 - log ( abs ( a ) ));
+    result = r8_sign ( h ) * sga * sgngam * exp ( log ( fabs ( h ) ) + algap1 - log ( fabs ( a ) ));
     return &result;
 }
 
@@ -7129,7 +7129,7 @@ __MATHSUITE __JBURKARDT  void *   _r8_gamit ( void * data)
     if ( aeps != 0.00 || 0.00 < ainta )
     {
         r8_lgams ( a + 1.00, &algap1, &sgngam );
-        t = log ( abs ( a ) ) + alng - algap1;
+        t = log ( fabs ( a ) ) + alng - algap1;
 
         if ( alneps < t )
         {
@@ -7140,7 +7140,7 @@ __MATHSUITE __JBURKARDT  void *   _r8_gamit ( void * data)
         if ( - alneps < t )
             h = 1.00 - sga * sgngam * exp ( t );
     }
-    t = - a * alx + log ( abs ( h ) );
+    t = - a * alx + log ( fabs ( h ) );
     
     result =h<0.00 ? -exp(t):exp(t);
     return &result;
@@ -7184,7 +7184,7 @@ __MATHSUITE __JBURKARDT  void *   _r8_gamr ( void * data)
 
     if ( x <= 0.00 && r8_aint ( x ) == x )
         value = 0.00;
-    else if ( abs ( x ) <= 10.00 )
+    else if ( fabs ( x ) <= 10.00 )
         value = 1.00 / r8_gamma ( x );
     else
     {
@@ -7276,7 +7276,7 @@ __MATHSUITE __JBURKARDT  void *   _r8_gmic ( void * data)
         te = - x * te / ( fm + fkp1 );
         t = te / fkp1;
         s += t;
-        if ( abs ( t ) < eps * s )
+        if ( fabs ( t ) < eps * s )
         {
             converged = true;
             break;
@@ -7313,7 +7313,7 @@ __MATHSUITE __JBURKARDT  void *   _r8_gmic ( void * data)
         te = - x * te / fk;
         t = te / ( fm - fk );
         s += t;
-        if ( abs ( t ) < eps * abs ( s ) )
+        if ( fabs ( t ) < eps * fabs ( s ) )
             break;
     }
 
@@ -7326,7 +7326,7 @@ __MATHSUITE __JBURKARDT  void *   _r8_gmic ( void * data)
     value = 0.00 + (bot<alng)*sgng*exp(alng);
 
     if ( s != 0.00 )
-        value += r8_sign ( s ) * exp ( - fm * alx + log ( abs ( s ) / fm ) );
+        value += r8_sign ( s ) * exp ( - fm * alx + log ( fabs ( s ) / fm ) );
 
 	result = value;
     return &result;
@@ -7415,7 +7415,7 @@ __MATHSUITE __JBURKARDT  void *   _r8_gmit ( void * data)
         te = - x * te / fk;
         t = te / ( ae + fk );
         s += t;
-        if ( abs ( t ) < eps * abs ( s ) )
+        if ( fabs ( t ) < eps * fabs ( s ) )
         {
             converged = true;
             break;
@@ -7442,7 +7442,7 @@ __MATHSUITE __JBURKARDT  void *   _r8_gmit ( void * data)
     {
         t = x * t / ( aeps - ( ityp ) ( m + 1 - k ) );
         s += t;
-        if ( abs ( t ) < eps * abs ( s ) )
+        if ( fabs ( t ) < eps * fabs ( s ) )
             break;
     }
 
@@ -7456,7 +7456,7 @@ __MATHSUITE __JBURKARDT  void *   _r8_gmit ( void * data)
     }
 
     sgng2 = sgngam * r8_sign ( s );
-    alg2 = - x - algap1 + log ( abs ( s ) );
+    alg2 = - x - algap1 + log ( fabs ( s ) );
 
     if ( bot < alg2 )
         value = sgng2 * exp ( alg2 );
@@ -7748,7 +7748,7 @@ __MATHSUITE __JBURKARDT  void *   _r8_lgic ( void * data)
         r = - t / ( ( xma + 2.00 * fk ) * ( xpa + 2.00 * fk ) + t );
         p = r * p;
         s += p;
-        if ( abs ( p ) < eps * s )
+        if ( fabs ( p ) < eps * s )
         {
         	result = a * alx - x + log ( s / xpa );
             return &result;
@@ -7835,7 +7835,7 @@ __MATHSUITE __JBURKARDT  void *   _r8_lgit ( void * data)
         r = t / ( ( ax + fk ) * ( a1x + fk ) - t );
         p = r * p;
         s += p;
-        if ( abs ( p ) < eps * s )
+        if ( fabs ( p ) < eps * s )
         {
         	result = - x - algap1 - log ( 1.00 - x * s / a1x );
             return &result;
@@ -7941,11 +7941,11 @@ __MATHSUITE __JBURKARDT  void *   _r8_lngam ( void * data)
         dxrel = sqrt ( r8_mach ( 4 ) );
     }
 
-    y = abs ( x );
+    y = fabs ( x );
 
     if ( y <= 10.00 )
     {
-    	result = log ( abs ( r8_gamma ( x ) ) );
+    	result = log ( fabs ( r8_gamma ( x ) ) );
         return &result;
     }
 
@@ -7961,7 +7961,7 @@ __MATHSUITE __JBURKARDT  void *   _r8_lngam ( void * data)
         return &result;
     }
 
-    sinpiy = abs ( sin ( M_PI * y ) );
+    sinpiy = fabs ( sin ( M_PI * y ) );
 
     if ( sinpiy == 0.00 )
     {
@@ -8066,7 +8066,7 @@ __MATHSUITE __JBURKARDT  void *   _r8_lnrel ( void * data)
         return &result;
     }
 
-	result = abs ( x ) <= 0.375 ? x * ( 1.00 - x * r8_csevl ( x / 0.375, alnrcs, nlnrel ) ) : log ( 1.0 + x );
+	result = fabs ( x ) <= 0.375 ? x * ( 1.00 - x * r8_csevl ( x / 0.375, alnrcs, nlnrel ) ) : log ( 1.0 + x );
     return &result;
 }
 
@@ -8082,7 +8082,7 @@ __MATHSUITE __JBURKARDT  void *   _r8_mod ( void * data)
       RMULT = ( X - REM ) / Y
     then
       X = Y * RMULT + REM
-    where REM has the same sign as X, and abs ( REM ) < Y.
+    where REM has the same sign as X, and fabs ( REM ) < Y.
   Example:
         X         Y     R8_MOD   R8_MOD  Factorization
       107        50       7     107 =  2 *  50 + 7
@@ -8116,7 +8116,7 @@ __MATHSUITE __JBURKARDT  void *   _r8_mod ( void * data)
     
     value = x - ( ( ityp ) ( ( dim_typ ) ( x / y ) ) ) * y;
     
-    result = value + (x < 0.00 && 0.00 < value) ? -abs(y):abs(y);
+    result = value + ((x < 0.00 && 0.00 < value) ? -fabs(y):fabs(y));
     return &result;
 }
 
@@ -8160,7 +8160,7 @@ __MATHSUITE __JBURKARDT  void *   _r8_pak ( void * data)
     if ( nmin == 0 )
     {
         aln2b = 1.00;
-        if ( i4_mach ( 10 ) != 2 );
+        if ( i4_mach ( 10 ) != 2 )
             aln2b = r8_mach ( 5 ) * aln210;
         nmin = aln2b * ( ityp ) ( i4_mach ( 15 ) );
         nmax = aln2b * ( ityp ) ( i4_mach ( 16 ) );
@@ -8292,7 +8292,7 @@ __MATHSUITE __JBURKARDT  void *   _r8_poch ( void * data)
         return &result;
     }
 
-    n = abs ( x );
+    n = fabs ( x );
     /*
     X is a small non-positive integer, presummably a common case.
     */
@@ -8306,8 +8306,8 @@ __MATHSUITE __JBURKARDT  void *   _r8_poch ( void * data)
         return &result;
     }
 
-    absax = abs ( a + x );
-    absa = abs ( a );
+    absax = fabs ( a + x );
+    absa = fabs ( a );
 
     if ( MAX ( absax, absa ) <= 20.00 )
     {
@@ -8315,7 +8315,7 @@ __MATHSUITE __JBURKARDT  void *   _r8_poch ( void * data)
         return &result;
     }
 
-    if ( 0.50 * absa < abs ( x ) )
+    if ( 0.50 * absa < fabs ( x ) )
     {
         r8_lgams ( a + x, &alngax, &sgngax );
         r8_lgams ( a, &alnga, &sgnga );
@@ -8342,8 +8342,8 @@ __MATHSUITE __JBURKARDT  void *   _r8_poch ( void * data)
     cospia = cos ( M_PI * a );
     sinpia = sin ( M_PI * a );
 
-    err = ( abs ( x ) * ( abs ( sinpix )+ abs ( cospia * cospix / sinpia ) )+ abs ( a * sinpix ) / sinpia / sinpia ) * M_PI;
-    err = abs ( x ) * ( 1.00 + log ( b ) ) + err / abs ( den );
+    err = ( fabs ( x ) * ( fabs ( sinpix )+ fabs ( cospia * cospix / sinpia ) )+ fabs ( a * sinpix ) / sinpia / sinpia ) * M_PI;
+    err = fabs ( x ) * ( 1.00 + log ( b ) ) + err / fabs ( den );
     
     result = value / cospix + cospia * sinpix / sinpia;
     return &result;
@@ -8579,8 +8579,8 @@ __MATHSUITE __JBURKARDT  void *   _r8_poch1 ( void * data)
         return &result;
     }
 
-    absx = abs ( x );
-    absa = abs ( a );
+    absx = fabs ( x );
+    absa = fabs ( a );
 
     if ( 0.10 * absa < absx || 0.10 < absx * log ( MAX ( absa, 2.00 ) ) )
     {
@@ -8747,7 +8747,7 @@ __MATHSUITE __JBURKARDT  void *   _r8_shi ( void * data)
         xsml = sqrt ( r8_mach ( 3 ) );
     }
 
-    absx = abs ( x );
+    absx = fabs ( x );
 
     if ( absx <= xsml )
         value = x;
@@ -8826,7 +8826,7 @@ __MATHSUITE __JBURKARDT  void *   _r8_si ( void * data)
         xsml = sqrt ( r8_mach ( 3 ) );
     }
 
-    absx = abs ( x );
+    absx = fabs ( x );
 
     if ( absx < xsml )
         value = x;
@@ -9265,7 +9265,7 @@ __MATHSUITE __JBURKARDT  void *   _r8_sin_deg ( void * data)
 
     if ( r8_mod ( x, 90.0E+00 ) == 0.0E+00 )
     {
-        n = ( int ) ( abs ( x ) / 90.0E+00 + 0.5E+00 );
+        n = ( int ) ( fabs ( x ) / 90.0E+00 + 0.5E+00 );
         n = ( n % 2 );
         if ( n == 0 )
             value = 0.0E+00;
@@ -9287,7 +9287,7 @@ __MATHSUITE __JBURKARDT  void *   _r8_spence ( void * data)
     R8_SPENCE evaluates a form of Spence's function for an R8 argument.
   Discussion:
     This function evaluates a form of Spence's function defined by
-      f(x) = Integral ( 0 <= y <= x ) - log ( abs ( 1 - y ) ) / y dy
+      f(x) = Integral ( 0 <= y <= x ) - log ( fabs ( 1 - y ) ) / y dy
   Licensing:
     This code is distributed under the GNU LGPL license.
   Modified:
@@ -9550,7 +9550,7 @@ __MATHSUITE __JBURKARDT  void *  _r8_tan ( void * data)
         sqeps = sqrt ( r8_mach ( 4 ) );
     }
 
-    y = abs ( x );
+    y = fabs ( x );
 
     if ( xmax < y )
     {
@@ -9601,7 +9601,7 @@ __MATHSUITE __JBURKARDT  void *  _r8_tan ( void * data)
         value = 2.00 * value / ( 1.00 - value * value );
     }
 
-    value = x<0.00 ? -abs(value):abs(value);
+    value = x<0.00 ? -fabs(value):fabs(value);
 
     if ( ifn == 1 )
         value *= -1;
@@ -9689,7 +9689,7 @@ __MATHSUITE __JBURKARDT  void *   _r8_tanh ( void * data)
         xmax = - 0.50 * log ( r8_mach ( 3 ) );
     }
 
-    y = abs ( x );
+    y = fabs ( x );
 
     if ( y <= sqeps )
         value = x;
@@ -9721,7 +9721,7 @@ __MATHSUITE __JBURKARDT  void *  _r8_upak ( void * data)
     This function unpacks a floating point number x so that
       x = y * 2.0^n
     where
-      0.5 <= abs ( y ) < 1.0 .
+      0.5 <= fabs ( y ) < 1.0 .
   Licensing:
     This code is distributed under the GNU LGPL license.
   Modified:
@@ -9741,7 +9741,7 @@ __MATHSUITE __JBURKARDT  void *  _r8_upak ( void * data)
 	
     ityp absx;
 
-    absx = abs ( x );
+    absx = fabs ( x );
     *n = 0;
     *y = 0.00;
 
@@ -9921,7 +9921,7 @@ __MATHSUITE __JBURKARDT  void *   _r8vec_sorted_nearest0 ( void * data)
         /*
         Take the nearest.
         */
-        if ( abs ( value - a[lo-1] ) < abs ( value - a[hi-1] ) )
+        if ( fabs ( value - a[lo-1] ) < fabs ( value - a[hi-1] ) )
         {
         	result = lo -1;
         	return &result;
@@ -9971,7 +9971,7 @@ __MATHSUITE __JBURKARDT  void *   _r8vec_sorted_nearest0 ( void * data)
         Take the nearest.
         */
         
-        result = abs ( value - a[lo-1] ) < abs ( value - a[hi-1] ) ? lo-1:hi-1;
+        result = fabs ( value - a[lo-1] ) < fabs ( value - a[hi-1] ) ? lo-1:hi-1;
         return &result;
     }
 }
@@ -10516,7 +10516,7 @@ __MATHSUITE __JBURKARDT  void *   _r8_machar ( void * data)
         a = z * one;
         tmp = z * t;
 
-        if ( ( a + a == zero ) || ( abs ( z ) > y ) )
+        if ( ( a + a == zero ) || ( fabs ( z ) > y ) )
             break;
 
         tmp1 = tmp * betainx;
@@ -10559,7 +10559,7 @@ __MATHSUITE __JBURKARDT  void *   _r8_machar ( void * data)
         tmp = y * t;
         tmp1 = a + a;
 
-        if ( ( tmp1 == zero ) || ( abs ( y ) >= ( *xmin ) ) )
+        if ( ( tmp1 == zero ) || ( fabs ( y ) >= ( *xmin ) ) )
             break;
 
         ++ k;
@@ -11432,7 +11432,7 @@ __MATHSUITE __JBURKARDT  void *   _r8tris2 ( void * data)
     dim_typ i;
     int *indx;
     dim_typ j;
-    dim_typ k;
+    int k;
     dim_typ l;
     int ledg;
     int lr;
@@ -18130,7 +18130,8 @@ __MATHSUITE __JBURKARDT  void *  _rat_farey ( void * data)
     }
 
     a[k] = 0;
-    b[k] = k = 1;
+    k = 1;
+    b[k] = k;
 
     if ( max_frac <= 1 )
     {

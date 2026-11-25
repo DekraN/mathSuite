@@ -104,7 +104,7 @@ __MATHSUITE __JBURKARDT  void   * _sine_transform_function ( void * data)
     {
         s[i] = 0.00;
 
-        for ( j = 0; j < n; +j )
+        for ( j = 0; j < n; ++j )
         {
             angle = M_PI * ( ityp ) ( ( i + 1 ) * ( j + 1 ) ) / ( ityp ) ( n + 1 );
             s[i] = s[i] + sin ( angle ) * f2[j];

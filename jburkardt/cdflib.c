@@ -6188,6 +6188,7 @@ __MATHSUITE __JBURKARDT  void *   _E0001 ( void * data)
             default: break;
         }
     # undef ftol
+    return NULL;
 }
 
 /******************************************************************************/

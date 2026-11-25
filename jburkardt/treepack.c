@@ -1100,12 +1100,14 @@ __MATHSUITE __JBURKARDT  void *   _tree_arc_diam ( void * data)
     */
     *n1 = *n2 = 0;
 
-    for ( i = 1; i <= nnode; ++i );
+    for ( i = 1; i <= nnode; ++i )
         if ( degree[i-1] == 1)
+	{
             if ( *n1 == 0 )
                 *n1 = label[i-1];
             else if ( *n2 == 0 )
                 *n2 = label[i-1];
+   	}
     /*
     Set the labels of the interior node (if any) and nodes marked
     N1 and N2 to 1, and all others to 0.  This will label the nodes on the path.

@@ -2600,7 +2600,7 @@ __MATHSUITE __JBURKARDT  void *   _i4_walsh_1d ( void * data)
     /*
     Hide the effect of the sign of X.
     */
-    x = abs ( x );
+    x = fabs ( x );
     /*
     If DIGIT is positive, divide by 2 DIGIT times.
     If DIGIT is negative, multiply by 2 (-DIGIT) times.
@@ -3359,23 +3359,23 @@ __MATHSUITE __JBURKARDT  void   * _i4col_first_index ( void * data)
 	int * a = s_data->a2;
 	
     dim_typ diff;
-    dim_typ *first_index;
+    int *first_index;
     dim_typ i, j1, j2;
-    first_index = ( dim_typ * ) malloc ( n * sizeof ( dim_typ ) );
+    first_index = ( int * ) malloc ( n * sizeof ( int ) );
 
-    for ( j1 = 0; j1 < n; j1++ )
+    for ( j1 = 0; j1 < n; ++j1 )
         first_index[j1] = -1;
 
-    for ( j1 = 0; j1 < n; j1++ )
+    for ( j1 = 0; j1 < n; ++j1 )
     {
         if ( first_index[j1] == -1 )
         {
             first_index[j1] = j1;
 
-            for ( j2 = j1 + 1; j2 < n; j2++ )
+            for ( j2 = j1 + 1; j2 < n; ++j2 )
             {
                 diff = 0;
-                for ( i = 0; i < m; i++ )
+                for ( i = 0; i < m; ++i )
                     diff += abs ( a[i+j1*m] - a[i+j2*m] );
 
                 if ( diff == 0 )
@@ -6461,7 +6461,7 @@ __MATHSUITE __JBURKARDT  void   * _i4vec_ascend_sub ( void * data)
 	
     dim_typ i;
     short j;
-    dim_typ k;
+    int k;
     int *sub;
     int *top;
     int *top_prev;
@@ -12880,7 +12880,7 @@ __MATHSUITE __JBURKARDT  void *   _prime ( void * data)
 {
 	static int result = INT_MAX;
 	
-	const register dim_typ n = *(dim_typ *) data;
+	const register int n = *(int *) data;
 	
     # define PRIME_MAX 1600
 

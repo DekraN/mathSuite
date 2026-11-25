@@ -117,7 +117,7 @@ __MATHSUITE __JBURKARDT  void *   _abwe1 ( void * data)
         if ( ka == 1 )
             break;
 
-        if ( abs ( delta ) <= eps )
+        if ( fabs ( delta ) <= eps )
             ka = 1;
     }
     /*
@@ -216,7 +216,7 @@ __MATHSUITE __JBURKARDT  void *   _abwe2 ( void * data)
         */
         if ( n <= 1 )
         {
-            if ( r8_epsilon ( ) < abs ( *x ) )
+            if ( r8_epsilon ( ) < fabs ( *x ) )
             {
                 p2 = ( 3.00 * ( *x ) * ( *x ) - 1.00 ) / 2.00;
                 pd2 = 3.0 * ( *x );
@@ -248,7 +248,7 @@ __MATHSUITE __JBURKARDT  void *   _abwe2 ( void * data)
     if ( ka == 1 )
         break;
 
-    if ( abs ( delta ) <= eps )
+    if ( fabs ( delta ) <= eps )
         ka = 1;
     }
     /*
